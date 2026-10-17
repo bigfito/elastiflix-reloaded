@@ -11,7 +11,7 @@
 >    interrumpirse a mitad de una tarea.
 > 2. Lee `AGENTS.md` (Claude Code lo carga desde `CLAUDE.md`) y `docs/convenciones-java.md` completos
 >    antes de tocar código.
-> 3. **Diseña antes de codificar:** cada fase con código empieza por su tarea `.0`
+> 3. **Diseña antes de codificar:** cada fase con código (de la 1 a la 5) empieza por su tarea `.0`
 >    (`docs/diseno/<fase>.md`). En las fases con 🔒, **detente** hasta que el usuario apruebe el diseño.
 > 4. Ejecuta las **fases en orden** (Fase 0 → Fase 6). No adelantes fases ni tareas.
 > 5. Cada tarea tiene rutas, comandos y **criterio de aceptación**. No la marques hecha si el criterio
@@ -84,8 +84,16 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 | `About.dc.html` y `Ingest.dc.html` › reglas de validación | «vectores con 256, 512 y 1024 números» | Quitar los vectores de las reglas de validación |
 | `About.dc.html` › Formas de carga › Archivo .csv | «con encabezado» | Aclarar que un CSV sin encabezado se rechaza |
 | `Ingest.dc.html` › casilla «La primera fila contiene los nombres de columna» | — | Si se desmarca, el archivo se rechaza con su código `EFX-ING-*` |
+| `Ingest.dc.html` › texto de importación | «Los vectores del archivo se usan tal cual.» | «Los vectores de la sinopsis se generan para cada película con el servicio de inferencia de Elasticsearch.» |
+| `Ingest.dc.html` › comprobaciones superadas (JSON y CSV) | «Vectores en todos los registros/filas: 256, 512 y 1024 números válidos con norma 1; no hace falta generarlos.» | Se elimina esa comprobación. Si el archivo trae columnas de vector, se agrega la advertencia «El archivo trae plot_256, plot_512 y plot_1024: se ignorarán y se generarán con el servicio de inferencia.» |
+| `Ingest.dc.html` › correspondencia de columnas, fila `plot_1024` | «Vector JSON de 1024 números · Asignada» | «Se ignora · se generará desde plot» (y lo mismo para `plot_256` y `plot_512`) |
+| `Ingest.dc.html` › ejemplo de error | `plot_512` «Una lista de 384 números» | Los ejemplos de error son solo del escenario de diseño; los errores reales salen de la validación |
+| `Ingest.dc.html` › progreso | «índice temporal elastiflix-reloaded-import-[fecha]» | El nombre real del índice temporal: `<alias>-<AAAAMMDD-HHMMSS>` |
+| `Ingest.dc.html` › paso 5 «Publicación» y texto de importación | «El alias elastiflix-reloaded pasa al índice nuevo en una sola operación.» | «El alias elastiflix-reloaded pasa al índice nuevo y el índice anterior se borra, en una sola operación.» |
+| `Ingest.dc.html` › ayuda del archivo CSV y `About.dc.html` › Archivo .csv | «Las listas, los objetos anidados y los vectores van como JSON dentro de la celda.» | «Las listas y los objetos anidados van como JSON dentro de la celda.» |
 | Pie de **todas** las páginas | — | Agregar el aviso de atribución de TMDB, solo texto: «This product uses the TMDB API but is not endorsed or certified by TMDB.» |
-| `About.dc.html` › nueva sección final «Créditos» | — | Aviso de atribución de TMDB («This product uses the TMDB API but is not endorsed or certified by TMDB.», con su traducción al español debajo) y un logo **aprobado** de TMDB, menos prominente que el logo de la demo |
+| `About.dc.html` › nueva sección final «Créditos» | — | Aviso de atribución de TMDB «This product uses the TMDB API but is not endorsed or certified by TMDB.», debajo su traducción «Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.» y un logo **aprobado** de TMDB, menos prominente que el logo de la demo |
+| `Main.dc.html` › etiquetas de las sugerencias («OR: 40 resultados», «Titanic: 4.º lugar»…) | — | Se mantienen fijas, tal como en el mockup: describen el catálogo original de 4 322 películas |
 
 ## 2. Arquitectura
 
@@ -100,14 +108,14 @@ flowchart LR
   core --> inf["Inferencia<br/>.jina-embeddings-v5-omni-small"]
 ```
 
-El diagrama completo, con el flujo numerado de búsqueda (1–7) y de carga (A–F), está en
+El diagrama completo, con el flujo numerado de búsqueda (1–7) y de carga (A–G), está en
 [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid).
 
 **Notas de implementación**
 
 - **Un solo ejecutable:** `elastiflix-web` (Spring Boot). `core`, `search` e `ingest` son librerías.
 - **Alias como punto de lectura:** todas las búsquedas van al alias `elastiflix-reloaded`. El índice
-  real se llama `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` (UTC). Una importación de archivo escribe en un
+  real se llama `<alias>-<AAAAMMDD-HHMMSS>` (UTC), por ejemplo `elastiflix-reloaded-20261020-153000`. Una importación de archivo escribe en un
   índice nuevo y publica con **una sola llamada atómica a `_aliases`**: `add` del alias al índice nuevo
   y `remove_index` del índice anterior (el anterior se borra; decisión del usuario). El registro
   individual se escribe directamente en el índice vigente a través del alias.
@@ -124,8 +132,9 @@ El diagrama completo, con el flujo numerado de búsqueda (1–7) y de carga (A�
      usuario): no hay búsquedas, registros individuales ni importaciones simultáneas que puedan cruzarse
      con el swap, así que no se agregan controles de concurrencia.
   4. Si el borrado no se completara por un error ajeno, el alias ya apunta al índice nuevo; los índices
-     `elastiflix-reloaded-*` que no estén detrás del alias ni en uso por una importación se limpian al
-     inicio de la siguiente importación y se registran en `WARN`.
+     `<alias>-<AAAAMMDD-HHMMSS>` de **ese mismo alias** que no estén detrás de él se limpian al inicio de
+     la siguiente importación y se registran en `WARN`. Nunca se borran índices de otro alias (por
+     ejemplo, las pruebas con `elastiflix-it-*` no pueden tocar `elastiflix-reloaded-*`).
   5. No queda respaldo del catálogo anterior dentro de Elasticsearch: el respaldo es el archivo de
      exportación del usuario.
 - **Serverless:** no hay `_cluster/health`; el indicador de salud consulta el alias y su conteo
@@ -153,10 +162,10 @@ Versiones verificadas en la web el 2026-10-17.
 | JSON | Jackson 3 (`tools.jackson`), `Jackson3JsonpMapper` | **3.1.5** (gestionada por Boot) |
 | Motor | Elasticsearch Serverless | — |
 | Modelo de embeddings | `jina-embeddings-v5-omni-small` (endpoint `.jina-embeddings-v5-omni-small`) | 1024 dims nativas |
-| Pruebas | JUnit 5, AssertJ, Mockito (`spring-boot-starter-test`) | gestionadas por Boot |
+| Pruebas | JUnit Jupiter 6, AssertJ, Mockito (`spring-boot-starter-test`); MockMvc (`spring-boot-starter-webmvc-test`); Failsafe para `*IT` | gestionadas por Boot |
 | Estilo | Checkstyle (`maven-checkstyle-plugin` 3.6.0) | **14.3.0** |
 | Análisis estático | PMD (`maven-pmd-plugin` 3.28.0) | **7.28.0** |
-| Arquitectura | ArchUnit (`archunit-junit5`) | **1.5.1** |
+| Arquitectura | ArchUnit (`com.tngtech.archunit:archunit-junit6`, por JUnit 6) | **1.5.1** |
 
 - No se usa Spring Data Elasticsearch, Lombok ni Jackson 2 en el código propio (Jackson 2 queda como
   dependencia transitiva, sin uso).
@@ -240,7 +249,9 @@ elastiflix-reloaded/
 | `GET /cargar/trabajos/{jobId}/informe.csv` | Informe completo de errores (CSV UTF-8) |
 
 **Actuator:** `GET /actuator/health` con el componente `elastiflixCatalog` (`alias`, `index`,
-`documents`). Alimenta el indicador «Conectado · Elasticsearch Serverless» del header y el pie
+`documents`): un `HealthIndicator` de Spring Boot 4 (`org.springframework.boot.health.contributor`)
+registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoint.health.show-details=always`
+(§7). Alimenta el indicador «Conectado · Elasticsearch Serverless» del header y el pie
 «Índice: elastiflix-reloaded · 4 322 películas».
 
 **Límites entre módulos** (interfaces que define el diseño de la Fase 1 y consumen las demás):
@@ -276,9 +287,9 @@ elastiflix-reloaded/
   `Query: ` en consultas (`input_type: search`) y `Document: ` en sinopsis.
 - **En cada carga (archivo o registro individual), `plot_256`, `plot_512` y `plot_1024` se llenan en
   tiempo de ejecución** llamando al modelo de embeddings a través del servicio de inferencia de
-  Elasticsearch. Los archivos de importación **no traen** esos campos y el formulario **no los
-  captura**. Si un archivo los trajera (por ejemplo, una exportación del índice), se ignoran con una
-  advertencia y no se validan.
+  Elasticsearch. Los archivos de importación **no necesitan** traer esos campos y el formulario **no los
+  captura**. Si un archivo los trae (por ejemplo, una exportación del índice como los fixtures), se
+  ignoran con una advertencia y no se validan.
 - **Coherencia con el catálogo:** los vectores del catálogo se generaron en una carga previa con el
   mismo modelo y el mismo servicio de inferencia, pero no está documentado con qué `input_type` ni con
   qué prefijo. La tarea **1.9** lo determina midiendo contra los vectores guardados y fija la
@@ -316,13 +327,43 @@ elastiflix-reloaded/
 
 - **Idioma:** interfaz, mensajes, logs, Javadoc y documentación en español; identificadores en inglés.
 - **Fechas:** UTC; `release_date` en `yyyy-MM-dd`.
-- **Configuración:** por variables de entorno o `.env` en la raíz (importado con
-  `spring.config.import=optional:file:.env[.properties]` y la ruta relativa al módulo web, la que
-  decida el diseño de la Fase 1). Prefijo propio `elastiflix.*`.
+- **Configuración:** el usuario pone sus valores en `.env` (raíz del repo) o en variables de entorno.
+  `.env` se importa como archivo de propiedades y **cada propiedad se declara con un marcador
+  `${VARIABLE:valor por defecto}`** (las claves en mayúsculas de un archivo importado no se enlazan solas
+  a `elastiflix.*`). Configuración de `elastiflix-web/src/main/resources/application.yml`:
+
+  | Propiedad | Valor |
+  |---|---|
+  | `spring.config.import` | `optional:file:.env[.properties],optional:file:../.env[.properties]` (raíz al ejecutar el jar; carpeta del módulo con `spring-boot:run` y Failsafe) |
+  | `elastiflix.elasticsearch.url` | `${ELASTICSEARCH_URL:}` (obligatoria: si está vacía, la aplicación no arranca y muestra `EFX-CFG-001`) |
+  | `elastiflix.elasticsearch.api-key` | `${ELASTICSEARCH_API_KEY:}` (obligatoria: `EFX-CFG-002`) |
+  | `spring.elasticsearch.uris` | `${elastiflix.elasticsearch.url}` |
+  | `spring.elasticsearch.api-key` | `${elastiflix.elasticsearch.api-key}` (propiedad de Spring Boot 4.1.1) |
+  | `elastiflix.index.alias` | `${ELASTIFLIX_INDEX_ALIAS:elastiflix-reloaded}` |
+  | `elastiflix.inference.id` | `${ELASTIFLIX_INFERENCE_ID:.jina-embeddings-v5-omni-small}` |
+  | `elastiflix.ingest.max-file-size` | `${ELASTIFLIX_INGEST_MAX_FILE_SIZE:150MB}` |
+  | `elastiflix.ingest.batch-size` | `${ELASTIFLIX_INGEST_BATCH_SIZE:100}` |
+  | `elastiflix.poster.base-url` | `${ELASTIFLIX_POSTER_BASE_URL:https://image.tmdb.org/t/p/w342}` |
+  | `elastiflix.bootstrap.enabled` | `false` (se activa solo por línea de comandos en la tarea 1.8) |
+  | `server.port` | `${SERVER_PORT:8080}` |
+  | `spring.servlet.multipart.max-file-size` | `${elastiflix.ingest.max-file-size}` |
+  | `spring.servlet.multipart.max-request-size` | `151MB` (el archivo más los campos del formulario) |
+  | `server.tomcat.max-swallow-size` | `-1` (para responder con `EFX-ING-*` en lugar de cortar la conexión) |
+  | `spring.threads.virtual.enabled` | `true` |
+  | `management.endpoints.web.exposure.include` | `health` |
+  | `management.endpoint.health.show-details` | `always` |
+  | `management.health.elasticsearch.enabled` | `false` (el indicador de Boot usa `_cluster/health`, que Serverless no tiene) |
+
+  Los valores de embeddings de documento (`elastiflix.embedding.*`) **no** van en el YAML: son los
+  valores por defecto (`@DefaultValue`) del `record` de propiedades de `elastiflix-core`, fijados por la
+  calibración de la tarea 1.9, para que todos los módulos y pruebas usen los mismos.
 - **Secretos:** solo en `.env` (excluido por `.gitignore`). Nunca en código, YAML, pruebas, logs ni
   commits.
 - **Integración contra Elasticsearch:** las pruebas de lectura usan `elastiflix-reloaded` sin
   modificarlo; las de escritura usan su propio alias `elastiflix-it-<aleatorio>` y lo borran al terminar.
+- **Nombres de índice:** siempre derivados del alias configurado: `<alias>-<AAAAMMDD-HHMMSS>` (UTC). Con
+  el alias por defecto, `elastiflix-reloaded-20261020-153000`; en una prueba,
+  `elastiflix-it-x7k2-20261020-153000`. Nada se nombra con `elastiflix-reloaded` escrito en el código.
 - **Textos de la interfaz:** los de los mockups, palabra por palabra, salvo los ajustes autorizados de §1.
 - **Git:** un commit **y un push** por tarea, con el estado actualizado; documentación del proyecto
   actualizada al cerrar cada fase.
@@ -344,17 +385,20 @@ aprobación del usuario** (🔒) — el agente se detiene con el estado `esperan
 
 En las fases 4 y 5 el diseño se escribe y se hace commit, pero no requiere aprobación previa.
 
-**Matriz de dependencias** (verificada con ArchUnit y PMD `JM-DEP-02`):
+**Matriz de dependencias.** ArchUnit (y PMD `JM-DEP-02`) verifican la columna **«No puede depender
+de»**: son listas de prohibición. La columna «Uso esperado» es orientativa; cualquier otra librería
+gestionada por el POM padre (por ejemplo `jakarta.validation`, `jakarta.json`,
+`org.springframework.stereotype`) está permitida mientras no esté prohibida.
 
-| Módulo / paquete | Puede depender de | No puede depender de |
+| Módulo (paquete) | Uso esperado | No puede depender de |
 |---|---|---|
-| `...core..` | JDK, `co.elastic.clients..`, `tools.jackson..`, `org.slf4j..`, `org.springframework.context/beans/boot` (sin web) | `search`, `ingest`, `web`, Spring MVC, Thymeleaf |
-| `...search..` | `core`, `co.elastic.clients..`, `tools.jackson..`, `org.slf4j..`, Spring (sin web) | `ingest`, `web`, Spring MVC, Thymeleaf |
-| `...ingest..` | `core`, `co.elastic.clients..`, `tools.jackson..`, `org.slf4j..`, Spring (sin web) | `search`, `web`, Spring MVC, Thymeleaf |
-| `...web..` | `core` (solo errores y estado del catálogo), fachadas y `record` de `search` e `ingest`, Spring MVC, Thymeleaf, Actuator | `co.elastic.clients..`, clases internas de `search` e `ingest` |
+| `elastiflix-core` (`com.bigfito.elastiflix.core..`) | Cliente de Elasticsearch, Jackson 3, SLF4J, Spring sin web | `..search..`, `..ingest..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
+| `elastiflix-search` (`com.bigfito.elastiflix.search..`) | `core`, cliente de Elasticsearch, Spring sin web | `..ingest..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
+| `elastiflix-ingest` (`com.bigfito.elastiflix.ingest..`) | `core`, cliente de Elasticsearch, Jackson 3, Spring sin web | `..search..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
+| `elastiflix-web` (`com.bigfito.elastiflix.web..`) | Fachadas y `record` de `search`, `ingest` y `core` (modelo, errores, estado, propiedades), Spring MVC, Thymeleaf, Actuator | `co.elastic.clients..` |
 
-Además: sin ciclos entre paquetes; los controladores solo en `...web..` y con nombre `*Controller`;
-ninguna clase usa `System.out`/`System.err`.
+Además: sin ciclos entre módulos (`slices().matching("com.bigfito.elastiflix.(*)..")`); los
+controladores solo en `..web..` y con nombre `*Controller`; ninguna clase usa `System.out`/`System.err`.
 
 **Verificación automática.**
 
@@ -364,7 +408,7 @@ ninguna clase usa `System.out`/`System.err`.
 | `./mvnw verify` | Unitarias + arquitectura (ArchUnit) + Checkstyle + PMD. Sin red. **Lo corren todas las fases** |
 | `./mvnw verify -Pit` | Lo anterior + pruebas de integración (`*IT`) contra Elasticsearch Serverless (requiere `.env`) |
 
-En Windows usa `mvnw.cmd` en lugar de `./mvnw`.
+En Windows, ejecuta los comandos en **Git Bash** (`./mvnw`); ver `AGENTS.md`.
 
 **Cierre de fase.** El agente escribe en `progreso/<fase>.md` el **Resumen de diseño** y responde la
 **Revisión de convenciones** (lista de `docs/convenciones-java.md` §16). El usuario la confirma al
@@ -425,67 +469,125 @@ Se versionan en git; `.gitignore` nunca los excluye.
 
 ### Fase 0 — Andamiaje y calidad
 
-**Objetivo:** un mono-repo Maven que compila con Java 25 y cuyo build falla ante cualquier violación de
-estilo, análisis estático o arquitectura.
+**Objetivo:** un mono-repo Maven que compila con Java 25, cuyo build falla ante cualquier violación de
+estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de integración con `-Pit`.
+
+> La Fase 0 no tiene tarea `.0` de diseño: solo crea andamiaje y configuración, sin lógica de negocio.
+> En Windows, ejecuta los comandos en **Git Bash** (ver `AGENTS.md`, "Comandos").
 
 - [ ] **0.1** Crea `progreso/0.md` desde `progreso/_PLANTILLA.md`; marca la Fase 0 `en curso` en
   `progreso/INDICE.md`. Comprueba que git no ignora el estado ni versiona secretos, y que
   `.gitattributes` conserva los fixtures byte a byte (en Windows, `core.autocrlf` no debe alterar las
   celdas multilínea del CSV).
   - Criterio: `git check-ignore -q progreso/INDICE.md` devuelve **1** (no ignorado),
-    `git check-ignore -q .env` devuelve **0** (ignorado) y `git check-attr text elasticsearch/fixtures/movies-sample.csv`
-    muestra `text: unset`. En Windows, ejecuta los comandos de verificación en Git Bash.
-- [ ] **0.2** Genera el Maven Wrapper 3.10.0 en la raíz: `mvn -N wrapper:wrapper -Dmaven=3.10.0`
-  (requiere un Maven local ≥ 3.6.3 solo para este paso). Versiona `mvnw`, `mvnw.cmd` y `.mvn/wrapper/`.
-  - Criterio: `./mvnw -v` muestra `Apache Maven 3.10.0` y `Java version: 25`.
+    `git check-ignore -q .env` devuelve **0** (ignorado) y
+    `git check-attr text elasticsearch/fixtures/movies-sample.csv` muestra `text: unset`.
+- [ ] **0.2** Genera el Maven Wrapper 3.10.0 en la raíz (no requiere `pom.xml`; sí un Maven local
+  ≥ 3.6.3 solo para este paso):
+  `mvn -N org.apache.maven.plugins:maven-wrapper-plugin:3.3.4:wrapper -Dmaven=3.10.0`.
+  Versiona `mvnw`, `mvnw.cmd` y `.mvn/wrapper/maven-wrapper.properties`, y marca el script como
+  ejecutable en git: `git add mvnw && git update-index --chmod=+x mvnw`.
+  - Criterio: `./mvnw -v` muestra `Apache Maven 3.10.0` y `Java version: 25`; `git ls-files -s mvnw`
+    empieza con `100755`.
 - [ ] **0.3** Crea el POM padre `pom.xml`: padre `org.springframework.boot:spring-boot-starter-parent:4.1.1`;
   `com.bigfito:elastiflix-reloaded:0.1.0-SNAPSHOT`, `packaging pom`; módulos `elastiflix-core`,
-  `elastiflix-search`, `elastiflix-ingest`, `elastiflix-web`; `java.version` 25; propiedades de versión
-  de §3 (Checkstyle, PMD, ArchUnit y sus plugins); `maven-enforcer-plugin` con
+  `elastiflix-search`, `elastiflix-ingest`, `elastiflix-web`; `java.version` 25; propiedades de versión:
+  `checkstyle.version` 14.3.0, `maven-checkstyle-plugin.version` 3.6.0, `pmd.version` 7.28.0,
+  `maven-pmd-plugin.version` 3.28.0, `archunit.version` 1.5.1; `maven-enforcer-plugin` con
   `requireJavaVersion [25,)` y `requireMavenVersion [3.6.3,)`.
   - Criterio: `./mvnw -q validate` termina en 0.
-- [ ] **0.4** Crea los cuatro módulos con su `pom.xml` (sin versiones propias) y las dependencias de la
-  matriz de §8: `core` (cliente `elasticsearch-java`, Jackson 3, `spring-boot-starter`), `search` y
-  `ingest` (`core`), `web` (`core`, `search`, `ingest`, starter de Spring MVC de Boot 4, Thymeleaf,
-  Actuator, Validation, `spring-boot-maven-plugin`). Agrega un `package-info.java` por paquete base
-  (`com.bigfito.elastiflix.{core,search,ingest,web}`) y la clase `ElastiflixApplication`
-  (`@SpringBootApplication`) en `web`.
-  - Criterio: `./mvnw -q -DskipTests package` termina en 0 y genera `elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar`.
-- [ ] **0.5** Configura Checkstyle (con `config/checkstyle/checkstyle.xml`) y PMD (con
-  `config/pmd/pmd-ruleset.xml`, `targetJdk` 25, `printFailingErrors`) en el POM padre, ligados a la fase
-  `verify`, con `failOnViolation` y solo sobre `src/main/java`. Sobrescribe la versión de Checkstyle
-  (14.3.0) y de PMD (7.28.0) dentro de cada plugin. **No modifiques los archivos de `config/`.**
+- [ ] **0.4** Crea los cuatro módulos con su `pom.xml` (sin versiones propias; todo gestionado por Boot
+  o por el POM padre) y estas dependencias (nombres de starters de Spring Boot 4):
+
+  | Módulo | Dependencias | Pruebas (scope `test`) |
+  |---|---|---|
+  | `elastiflix-core` | `spring-boot-starter`, `spring-boot-starter-elasticsearch` (cliente `elasticsearch-java` y su autoconfiguración), `spring-boot-starter-validation`, Jackson 3 (`tools.jackson.core:jackson-databind`) | `spring-boot-starter-test` |
+  | `elastiflix-search` | `elastiflix-core` | `spring-boot-starter-test` |
+  | `elastiflix-ingest` | `elastiflix-core` | `spring-boot-starter-test` |
+  | `elastiflix-web` | `elastiflix-core`, `elastiflix-search`, `elastiflix-ingest`, `spring-boot-starter-webmvc`, `spring-boot-starter-thymeleaf`, `spring-boot-starter-actuator`; plugin `spring-boot-maven-plugin` | `spring-boot-starter-test`, `spring-boot-starter-webmvc-test`, `com.tngtech.archunit:archunit-junit6` |
+
+  Agrega un `package-info.java` por paquete base (`com.bigfito.elastiflix.{core,search,ingest,web}`) y
+  la clase `com.bigfito.elastiflix.web.ElastiflixApplication` exactamente como el ejemplo de
+  `docs/convenciones-java.md` §6 (`scanBasePackages = "com.bigfito.elastiflix"` y
+  `@ConfigurationPropertiesScan("com.bigfito.elastiflix")`, para que Spring encuentre los beans de los
+  cuatro módulos). Crea `elastiflix-web/src/main/resources/application.yml` con la configuración de §7.
+  - Criterio: `./mvnw -q -DskipTests package` termina en 0 y genera
+    `elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar`.
+- [ ] **0.5** Configura en el POM padre (`<build><plugins>`, Checkstyle declarado **antes** que PMD,
+  ambos ligados a la fase `verify`, con `failOnViolation` y solo sobre `src/main/java`):
+  - **Checkstyle:** `maven-checkstyle-plugin` con
+    `<configLocation>${maven.multiModuleProjectDirectory}/config/checkstyle/checkstyle.xml</configLocation>`,
+    `consoleOutput` y la dependencia `com.puppycrawl.tools:checkstyle:${checkstyle.version}` dentro del
+    plugin.
+  - **PMD:** `maven-pmd-plugin` con
+    `<rulesets><ruleset>${maven.multiModuleProjectDirectory}/config/pmd/pmd-ruleset.xml</ruleset></rulesets>`,
+    `targetJdk` 25, `printFailingErrors`, y las dependencias `net.sourceforge.pmd:pmd-core`, `pmd-java`,
+    `pmd-javascript` y `pmd-jsp`, todas en `${pmd.version}`, dentro del plugin.
+  - Pon la configuración **a nivel de plugin** (no dentro de `<execution>`), para que `checkstyle:check`
+    y `pmd:check` la usen también desde la línea de comandos (tarea 0.8).
+  - **No modifiques los archivos de `config/`.**
   - Criterio: `./mvnw verify` termina en 0 con 0 violaciones.
-- [ ] **0.6** Agrega ArchUnit (`archunit-junit5`, scope test) y crea
-  `elastiflix-web/src/test/java/com/bigfito/elastiflix/architecture/ArchitectureTest.java` con las
-  reglas de la matriz de §8 (incluida "sin ciclos" y "web no depende de `co.elastic.clients..`").
-  Importa las clases de producción de los cuatro módulos (`ImportOption.DoNotIncludeTests`).
+- [ ] **0.6** Infraestructura de pruebas de integración:
+  - Perfil **de Maven** `it` en el POM padre que activa `maven-failsafe-plugin` (goals
+    `integration-test` y `verify`, clases `**/*IT.java`). Sin `-Pit`, las `*IT` no corren. «Perfil
+    `it`» en este plan siempre significa este perfil de Maven; no hay perfil de Spring `it`.
+  - En **cada** módulo, una configuración de prueba propia en `src/test/java/.../<módulo>/TestApplication.java`
+    (`@SpringBootConfiguration` + `@EnableAutoConfiguration` + `@ConfigurationPropertiesScan` y
+    `@ComponentScan` del paquete del módulo y de `com.bigfito.elastiflix.core`) para usar
+    `@SpringBootTest` sin depender de `elastiflix-web`.
+  - En cada módulo, `src/test/resources/application.yml` con la parte de §7 que necesita (al menos
+    `spring.config.import`, `elastiflix.elasticsearch.*`, `spring.elasticsearch.*`, `elastiflix.index.alias`
+    y `elastiflix.inference.id`). La importación `optional:file:../.env[.properties]` encuentra el `.env`
+    de la raíz porque Failsafe y `spring-boot:run` trabajan desde la carpeta del módulo.
+  - `elastiflix-core/src/test/java/com/bigfito/elastiflix/core/EnvironmentIT.java`: arranca el contexto
+    de prueba y afirma que `elastiflix.elasticsearch.url` y `elastiflix.elasticsearch.api-key` no están
+    vacías (sin imprimir sus valores).
+  - Criterio: `./mvnw verify -Pit -pl elastiflix-core -am` muestra `Tests run: 1` en Failsafe para
+    `EnvironmentIT` y termina en 0; `./mvnw verify` (sin `-Pit`) no ejecuta ninguna `*IT`.
+- [ ] **0.7** Pruebas de arquitectura: agrega
+  `elastiflix-web/src/test/java/com/bigfito/elastiflix/architecture/ArchitectureTest.java`
+  (`archunit-junit6`, porque Spring Boot 4 usa JUnit 6) con las reglas de §8, que son **listas de
+  prohibición**, más "sin ciclos entre los módulos" (`slices().matching("com.bigfito.elastiflix.(*)..")`)
+  y "los controladores solo en `..web..` y con nombre `*Controller`". Importa las clases de producción
+  de los cuatro módulos (`ImportOption.DoNotIncludeTests`). Como en la Fase 0 los paquetes aún están
+  vacíos, crea `elastiflix-web/src/test/resources/archunit.properties` con
+  `archRule.failOnEmptyShould=false` (decisión registrada en `progreso/0.md`).
   - Criterio: `./mvnw verify` ejecuta `ArchitectureTest` y queda en verde.
-- [ ] **0.7** **Prueba negativa** de las compuertas: en una rama temporal, agrega a `web` una clase
-  que importe `co.elastic.clients.elasticsearch.ElasticsearchClient` y use `System.out.println`; corre
-  `./mvnw verify`; confirma que falla por `JM-LOG-01` (Checkstyle), `JM-DEP-02` (PMD) y ArchUnit;
-  **revierte** y borra la rama (nunca hagas push de esa rama). Registra la salida resumida como evidencia.
-  - Criterio: el build falla con los tres mensajes; tras revertir, `./mvnw verify` vuelve a 0 y
-    `git status` queda limpio.
-- [ ] **0.8** Confirma que `.env.example` contiene todas las variables de la sección
+- [ ] **0.8** **Prueba negativa** de las compuertas, en una rama temporal (nunca hagas push de ella):
+  agrega a `web` una clase que importe `co.elastic.clients.elasticsearch.ElasticsearchClient` y use
+  `System.out.println`, y ejecuta cada compuerta **por separado** (el build se detiene en la primera
+  falla, así que un solo `verify` no muestra las tres):
+  ```bash
+  ./mvnw -q install -DskipTests -Dcheckstyle.skip -Dpmd.skip
+  ./mvnw -pl elastiflix-web checkstyle:check        # debe fallar con JM-LOG-01
+  ./mvnw -pl elastiflix-web pmd:check               # debe fallar con JM-DEP-02
+  ./mvnw -pl elastiflix-web test -Dtest=ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false   # debe fallar
+  ```
+  Registra la salida resumida como evidencia, **revierte**, vuelve a `main` y borra la rama.
+  - Criterio: cada uno de los tres comandos falla con su mensaje; tras revertir, `./mvnw verify` vuelve
+    a 0 y `git status` queda limpio.
+- [ ] **0.9** Confirma que `.env.example` contiene todas las variables de la sección
   [Variables de entorno](#variables-de-entorno-envexample) y ningún valor real.
   - Criterio: `grep -E '=.+' .env.example` solo muestra valores por defecto no secretos (alias, endpoint
     de inferencia, tamaños, URL de pósters, puerto).
-- [ ] **0.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
-  fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
+- [ ] **0.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases
+  y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/0.md` qué se
   actualizó.
-  - Criterio: el README describe el estado real al cierre de la Fase 0; commit y push.
+  - Criterio: en `README.md`, la fila de la Fase 0 dice `✅ terminado`, la insignia dice `fases-1/7` y la
+    sección «Puesta en marcha» solo lista comandos que ya se ejecutaron con éxito en esta fase; commit y
+    push.
 
 **Verificación de fase 0:**
 ```bash
 ./mvnw -v
 ./mvnw verify
+./mvnw verify -Pit -pl elastiflix-core -am
 git check-ignore -q progreso/INDICE.md; echo $?   # 1
 git check-ignore -q .env; echo $?                 # 0
 ```
 Criterio: Maven 3.10.0 y Java 25; `verify` en verde con 0 violaciones y `ArchitectureTest` en verde;
-prueba negativa (0.7) documentada en `progreso/0.md`.
+`EnvironmentIT` en verde con `-Pit`; prueba negativa (0.8) documentada en `progreso/0.md`.
 
 ---
 
@@ -496,64 +598,84 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 
 - [ ] **1.0** 🔒 Diseño: `docs/diseno/1.md` desde `docs/diseno/_PLANTILLA.md` (clases, contratos de
   `CatalogIndex`, `EmbeddingService`, `IndexMapping`, `CatalogStatusService`, catálogo de errores,
-  configuración, secuencia de la migración a alias). Commit y **detente** hasta la aprobación del usuario.
-  Incluye en "Dudas" si la autoconfiguración de Spring Boot 4.1.1 para el cliente cubre URL + API key +
-  `Jackson3JsonpMapper` o si se declara el bean a mano.
+  configuración, secuencia de la migración a alias, calibración de embeddings). Commit y **detente**
+  hasta la aprobación del usuario.
 - [ ] **1.1** Catálogo de errores en `core/.../core/error/`: `ErrorCode` y la jerarquía de
   `ElastiflixException` (`docs/convenciones-java.md` §7).
   - Criterio: pruebas unitarias verifican el formato `<código> · <qué pasó>. Causa probable: … Acción
     sugerida: …` y que los códigos son únicos.
-- [ ] **1.2** Configuración tipada (`@ConfigurationProperties` + `@Validated`) para
-  `ELASTICSEARCH_URL`, `ELASTICSEARCH_API_KEY` y `elastiflix.*` (alias, id del endpoint de inferencia,
-  tamaño máximo de archivo, tamaño de lote). Importación de `.env` desde `application.yml` de `web`.
-  - Criterio: sin `ELASTICSEARCH_URL` la aplicación no arranca y muestra `EFX-CFG-001` con la acción
-    sugerida (prueba unitaria del binder).
-- [ ] **1.3** Bean `ElasticsearchClient` con autenticación por API key y `Jackson3JsonpMapper`
-  (autoconfiguración de Boot o bean propio, según el diseño aprobado). Desactiva el indicador de salud
-  de Elasticsearch de Boot (usa `_cluster/health`, que Serverless no ofrece).
-  - Criterio: prueba unitaria confirma que el mapper es `Jackson3JsonpMapper`; `ElasticsearchClientIT`
-    (perfil `it`) ejecuta `info()` sin error.
+- [ ] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
+  las propiedades `elastiflix.*` de §7: `elasticsearch.url`, `elasticsearch.api-key`, `index.alias`,
+  `inference.id`, `ingest.max-file-size`, `ingest.batch-size`, `poster.base-url`, `bootstrap.enabled` y
+  `embedding.*`. Un `FailureAnalyzer` traduce la falla de validación a `EFX-CFG-001` (URL vacía) y
+  `EFX-CFG-002` (API key vacía) con su acción sugerida, sin mostrar valores.
+  - Criterio: prueba unitaria con `ApplicationContextRunner`: sin `elastiflix.elasticsearch.url` el
+    contexto no arranca y el análisis de la falla contiene `EFX-CFG-001` y «Revisa ELASTICSEARCH_URL».
+- [ ] **1.3** `ElasticsearchClient` con la **autoconfiguración de Spring Boot 4.1.1**
+  (`spring-boot-starter-elasticsearch`: cliente sobre `Rest5Client`, `spring.elasticsearch.uris` y
+  `spring.elasticsearch.api-key` de §7, `Jackson3JsonpMapper`). Personalizaciones solo con
+  `Rest5ClientBuilderCustomizer`. El indicador de salud de Boot queda desactivado
+  (`management.health.elasticsearch.enabled=false`).
+  - Criterio: prueba con `ApplicationContextRunner` confirma que el mapper del cliente es
+    `Jackson3JsonpMapper`; `ElasticsearchClientIT` (`-Pit`) ejecuta `info()` sin error.
 - [ ] **1.4** Modelo de dominio en `core/.../core/model/`: `Movie` (los 33 campos del mapping),
   `MovieCollection`, `MovieKeyword`; serialización con Jackson 3 (`snake_case`), `release_date` como
-  `LocalDate`, vectores como `float[]`.
-  - Criterio: `MovieJsonTest` lee las 4 películas de `elasticsearch/fixtures/movies-sample.json`, las
+  `LocalDate`, vectores como `float[]`; los campos opcionales pueden faltar o venir en `null` (en la
+  exportación real faltan o son `null`, por ejemplo, `rating`, `poster_path` y `user_score`); el metadato
+  `_id` no es campo del modelo.
+  - Criterio: `MovieJsonTest` lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` (las
+    pruebas leen los fixtures desde `../elasticsearch/fixtures/`, relativo a la carpeta del módulo), las
     vuelve a escribir y obtiene los mismos valores (incluida `belongs_to_collection` de `345887`).
 - [ ] **1.5** `IndexMapping`: carga `elasticsearch/elastiflix-reloaded-mapping.json` como recurso del
-  jar (empaquetado desde la ruta de la raíz, sin copiarlo) y expone el tipo de cada campo, los
+  jar (en el `pom.xml` de core, un `<resource>` adicional con `<directory>${project.basedir}/../elasticsearch</directory>`,
+  `<includes>` solo de ese archivo y `<targetPath>elasticsearch</targetPath>`, sin copiarlo) y expone el tipo de cada campo, los
   subcampos de los `nested` y las dimensiones de los vectores.
   - Criterio: prueba unitaria verifica 33 campos, `release_date` con formato `yyyy-MM-dd` y
     `plot_512` con 512 dimensiones.
 - [ ] **1.6** `CatalogIndex` (gateway): resolver el índice detrás del alias, crear un índice con el
-  mapping, `_reindex` de un índice a otro, `refresh`, `_count`, swap atómico de alias (`remove` + `add`
-  en una sola llamada a `_aliases`), borrar índice, comprobar si un nombre es alias o índice.
-  - Criterio: `CatalogIndexIT` crea `elastiflix-it-<aleatorio>-a`, lo reindexa a `-b` y, en **una sola
-    llamada** a `_aliases`, mueve un alias de prueba a `-b` con `add` y borra `-a` con `remove_index`;
-    verifica que el alias apunta solo a `-b`, que `-a` ya no existe y que el conteo se conserva. Borra todo
-    al terminar, aun si la prueba falla. (Confirma en el proyecto Serverless real el mecanismo que usan
-    1.8 y 3.6.)
+  mapping, `_reindex` de un índice a otro, `refresh`, `_count`, publicar (en una sola llamada a
+  `_aliases`: `add` del alias al índice nuevo y `remove_index` del anterior), borrar índice, comprobar si
+  un nombre es alias o índice, listar índices `<alias>-*`, y leer documentos **con** sus vectores (en
+  Serverless los `dense_vector` se excluyen de `_source` por defecto: usa `"_source": {"exclude_vectors": false}`).
+  - Criterio: `CatalogIndexIT` crea `elastiflix-it-<aleatorio>-a` con el mapping y las 4 películas del
+    fixture, lo reindexa a `-b` y, en **una sola llamada** a `_aliases`, publica un alias de prueba en `-b`
+    con `add` y borra `-a` con `remove_index`; verifica que el alias apunta solo a `-b`, que `-a` ya no
+    existe, que el conteo se conserva y que los vectores leídos de `-b` tienen coseno ≥ 0.9999 con los del
+    fixture (el reindex los conserva). Borra todo al terminar, aun si la prueba falla. (Confirma en el
+    proyecto Serverless real el mecanismo que usan 1.8 y 3.6.)
 - [ ] **1.7** `CatalogStatusService`: devuelve alias, índice vigente, conteo y estado (conectado / sin
-  conexión) con el código de error correspondiente.
+  conexión) con el código de error correspondiente. Funciona tanto si `elastiflix-reloaded` todavía es
+  un índice concreto (antes de 1.8) como si ya es alias.
   - Criterio: `CatalogStatusServiceIT` devuelve `documents = 4322` para `elastiflix-reloaded`.
 - [ ] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
   `elastiflix.bootstrap.enabled=true` (no requiere aprobación previa del usuario; decisión del 2026-10-17):
   1. Si `elastiflix-reloaded` ya es alias → no hace nada y lo registra.
-  2. Si es índice concreto → crea `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` con el mapping, reindexa y
-     verifica que el conteo coincida. Si no coincide, borra el índice nuevo y se detiene con su código.
-  3. En una sola llamada a `_aliases`: `add` del alias `elastiflix-reloaded` al índice nuevo y
-     `remove_index` del índice original.
+  2. Si es índice concreto → crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, reindexa y verifica que
+     el conteo coincida. Si no coincide, borra el índice nuevo y se detiene con su código.
+  3. En una sola llamada a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice
+     original.
+  4. Al terminar, cierra el contexto de Spring y la aplicación sale con código 0 (o distinto de 0 si
+     falló), para que el comando no quede esperando.
+  - Ejecución real (desde la raíz, en Git Bash):
+    ```bash
+    ./mvnw -q install -DskipTests
+    ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
+    ```
   - Criterio: `CatalogBootstrapTest` (con dobles) cubre los tres caminos, incluido el conteo que no
-    coincide; tras ejecutarla en el clúster real, `GET _alias/elastiflix-reloaded` apunta a
-    `elastiflix-reloaded-…` con 4 322 documentos y una segunda ejecución no cambia nada.
+    coincide; tras la ejecución real, `CatalogStatusServiceIT` confirma que `elastiflix-reloaded` es un
+    alias que apunta a `elastiflix-reloaded-…` con 4 322 documentos, y una segunda ejecución termina en 0
+    sin cambiar nada.
 - [ ] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
   `ELASTIFLIX_INFERENCE_ID`, en lotes; `VectorProjector` recorta a 512 y 256 y renormaliza. Consultas:
   `input_type: search` y prefijo `Query: `. Documentos: la combinación que determine la calibración:
   1. **Calibración** (`DocumentEmbeddingCalibrationIT`): para las películas `597`, `27205`, `10681`,
-     `345887` y `134`, lee `plot` y `plot_1024` del catálogo y genera el vector de `plot` con cada
+     `345887` y `134`, lee `plot` y `plot_1024` del catálogo (con `exclude_vectors: false`) y genera el vector de `plot` con cada
      combinación: `input_type` ∈ {`ingest`, `search`, sin `input_type`} × prefijo ∈ {`Document: `,
      sin prefijo}. Calcula el coseno contra `plot_1024` y registra la tabla completa en
      `docs/diseno/1.md` y en `progreso/1.md`.
-  2. Fija en `application.yml` (`elastiflix.embedding.document-input-type` y
-     `elastiflix.embedding.document-prefix`) la combinación con coseno ≥ 0.999 en las cinco películas.
+  2. Fija como valores por defecto (`@DefaultValue`) del `record` de propiedades
+     (`elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix`) la combinación
+     con coseno ≥ 0.999 en las cinco películas.
   3. Si ninguna llega a 0.999, marca la tarea `bloqueado` con la tabla y pregunta al usuario: sin esa
      coherencia, las películas cargadas quedarían mal ubicadas en la búsqueda vectorial.
   - Criterio: `VectorProjectorTest` (norma 1 ± 1e-6; el recorte de un `plot_1024` del fixture
@@ -565,7 +687,8 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/1.md` qué se
   actualizó.
-  - Criterio: el README describe el estado real al cierre de la Fase 1; commit y push.
+  - Criterio: en `README.md`, la fila de la Fase 1 dice `✅ terminado`, la insignia dice `fases-2/7`
+    y «Puesta en marcha» solo lista comandos que ya se ejecutaron con éxito; commit y push.
 
 **Verificación de fase 1:**
 ```bash
@@ -589,16 +712,19 @@ puntuaciones, y reproduce los datos de verificación de §6.
   (`FullTextSettings`, `KnnSettings`), filtros, página y tamaño; validación con códigos `EFX-SRCH-*`:
   texto vacío, `k < 1`, `num_candidates < k` o `> 10000`, `campo` con `multi_match`, `tamano` fuera de
   {25, 50, 100}, `desde > hasta`, full-text con `from + size > 10000`.
-  - Criterio: una prueba unitaria por regla, con el mensaje exacto de los mockups cuando existe
-    («num_candidates debe ser mayor o igual que k.», etc.).
+  - Criterio: una prueba unitaria por regla, que verifica el código `EFX-SRCH-*`. Cuando el mockup tiene
+    un mensaje para esa regla, el «qué pasó» del código es ese texto (por ejemplo «num_candidates debe ser
+    mayor o igual que k»): la interfaz lo muestra junto al campo, tal como en el mockup, y el código
+    completo va al log y a la página de error (tarea 4.6).
 - [ ] **2.2** `SearchFilters` → cláusulas de filtro: entre filtros distintos AND; dentro de un filtro OR
   (`terms`); `release_date` como `range` con `gte`/`lte`; `adult` booleano.
   - Criterio: pruebas unitarias comparan el JSON generado con el esperado para cada filtro y su
     combinación.
 - [ ] **2.3** Estrategia Full-text: `match` (campo elegido, operador) o `multi_match` `best_fields`
   sobre `title` y `original_title` (operador); filtros en contexto `filter`; `from`/`size`;
-  `track_total_hits: true`; agregaciones `terms` de `genres`, `spoken_languages`, `rating`, `adult` y
-  `min`/`max` de `release_date`; `_source` sin vectores.
+  `track_total_hits: true`; agregaciones `terms` de `genres`, `spoken_languages`, `rating` y `adult` con
+  `size: 100` (el catálogo tiene 19 géneros, 64 idiomas y 6 clasificaciones; la interfaz muestra los
+  primeros y «Ver todos») y `min`/`max` de `release_date`; `_source` sin vectores.
   - Criterio: prueba unitaria del JSON de la petición; `FullTextSearchIT` reproduce las 8 filas
     full-text de §6 (totales exactos).
 - [ ] **2.4** Estrategia Vectorial: vector de la consulta (`EmbeddingService`) recortado a las
@@ -609,6 +735,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
 - [ ] **2.5** Estrategia Híbrida: `_msearch` con (a) retriever `rrf` (`standard` con la consulta
   full-text + `knn`), `rank_constant: 60`, `rank_window_size: k`, `filter` del `rrf`, `size = k`;
   (b) componente full-text solo; (c) componente k-NN solo, ambos con los mismos filtros y `size = k`.
+  Las tres búsquedas llevan el mismo valor de `preference` para que lean las mismas réplicas.
   Cada resultado lleva BM25 y similitud (si aparece en esa lista), su posición en cada lista y la
   puntuación RRF.
   - Criterio: `HybridSearchIT`: para cada resultado, `RRF = Σ 1 / (60 + posición)` con tolerancia 1e-6
@@ -629,7 +756,8 @@ puntuaciones, y reproduce los datos de verificación de §6.
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/2.md` qué se
   actualizó.
-  - Criterio: el README describe el estado real al cierre de la Fase 2; commit y push.
+  - Criterio: en `README.md`, la fila de la Fase 2 dice `✅ terminado`, la insignia dice `fases-3/7`
+    y «Puesta en marcha» solo lista comandos que ya se ejecutaron con éxito; commit y push.
 
 **Verificación de fase 2:**
 ```bash
@@ -657,7 +785,9 @@ nunca el catálogo a medias.
     inferencia; los vectores que traiga el archivo se ignoran.
 - [ ] **3.1** Comprobaciones del archivo (las mismas que hace el navegador, repetidas en el servidor):
   solo `.json`/`.csv`, sin dobles extensiones, máximo 150 MB, contenido UTF-8 válido (con o sin BOM).
-  Límite de multipart de Spring alineado a 150 MB.
+  Límites de multipart y de Tomcat según §7 (`max-file-size` 150 MB, `max-request-size` 151 MB,
+  `max-swallow-size` -1), para que un archivo de más de 150 MB reciba su `EFX-ING-*` y no un corte de
+  conexión.
   - Criterio: pruebas unitarias aceptan `elastiflix-reloaded.json`, `peliculas_2026.csv` y rechazan
     `peliculas.txt`, `peliculas`, `peliculas.csv.exe`, `peliculas.exe.csv`, `peliculas.json.csv`, un
     archivo de 150 MB + 1 byte y uno con bytes no UTF-8, cada uno con su código `EFX-ING-*`.
@@ -667,14 +797,18 @@ nunca el catálogo a medias.
     convertidas a arreglo y a NDJSON en las pruebas.
 - [ ] **3.3** `CsvMovieReader`: BOM opcional, separador elegido (coma por defecto, `;`, tabulador),
   **encabezado obligatorio**, celdas multilínea entre comillas, JSON dentro de celdas; tabla de
-  correspondencia columna → campo (columnas desconocidas = error). Se rechaza (`EFX-ING-*`) si la casilla
-  de encabezado viene desmarcada o si la primera fila no son nombres de campo del mapping (debe incluir
-  `id`, `title` y `plot`).
-  - Criterio: lee `elasticsearch/fixtures/movies-sample.csv` y produce los mismos valores que el
-    JSON para las 4 películas; el mismo archivo sin su primera fila se rechaza con su código.
+  correspondencia columna → campo (columnas desconocidas = error). Columnas válidas: los campos del
+  mapping, el metadato `_id` y las columnas `plot_256`, `plot_512` y `plot_1024` (que se ignoran con
+  advertencia). Se rechaza (`EFX-ING-*`) si la casilla de encabezado viene desmarcada o si la primera
+  fila no son nombres de columna válidos (debe incluir `id`, `title` y `plot`).
+  - Criterio: lee `elasticsearch/fixtures/movies-sample.csv` (con `_id` y columnas de vector) con 0
+    errores y una advertencia de vectores ignorados, y produce los mismos valores que el JSON para las 4
+    películas; el mismo archivo sin su primera fila se rechaza con su código; una columna `director` se
+    rechaza como columna desconocida.
 - [ ] **3.4** `MappingValidator`: cada campo existe y tiene su tipo (`keyword` texto o lista de textos,
   `text`, `boolean`, `integer`/`long`, `float`, `date` `yyyy-MM-dd` estricto, `nested` con sus
-  subcampos); `id`, `title` y `plot` obligatorios; `id` no se repite; `_id` igual a `id`. Los campos
+  subcampos); `id`, `title` y `plot` obligatorios; los demás campos pueden faltar o venir en `null`
+  (se guardan sin valor); `id` no se repite; `_id` igual a `id`. Los campos
   `plot_256`, `plot_512` y `plot_1024` **no se validan**: si vienen, se ignoran. Advertencias que no
   detienen: valores vacíos dentro de listas (se omiten), textos vacíos (se guardan sin valor), vectores
   del archivo ignorados («se generarán con el servicio de inferencia»). Cuenta cuántos `id` ya existen en el catálogo (reemplazarán).
@@ -688,38 +822,49 @@ nunca el catálogo a medias.
   atrás. El progreso informa los registros vectorizados.
   - Criterio: prueba unitaria con `EmbeddingService` simulado verifica que se llama para todos los
     registros, incluso los que traen vectores, y que un fallo detiene la importación sin publicar.
-- [ ] **3.6** `ImportJob`: crea `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` con el mapping, copia el
+- [ ] **3.6** `ImportJob`: crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, copia el
   índice vigente (`_reindex`), escribe en lotes de 100 (`_id` = `id`, reemplaza si existe), revisa
   cada respuesta `bulk`, `refresh`, verifica el conteo esperado (anterior + nuevos) y publica en **una
   sola llamada** a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice anterior.
   Ante un lote rechazado, un conteo que no cuadra, un fallo de inferencia o una cancelación: borra el
-  índice temporal y deja el alias y el índice anterior intactos. Al iniciar, limpia (con `WARN`) los índices
-  `elastiflix-reloaded-*` huérfanos: los que no están detrás del alias ni en uso. Publica el progreso por
-  el listener (paso 1–5 del mockup, lote actual, registros vectorizados y escritos).
+  índice temporal y deja el alias y el índice anterior intactos. Al iniciar, limpia (con `WARN`) los
+  índices huérfanos **de su propio alias**: los que cumplen exactamente `<alias>-<AAAAMMDD-HHMMSS>` y no
+  están detrás del alias. Nunca toca índices con otro prefijo. Publica el progreso por el listener (paso
+  1–5 del mockup, lote actual, registros vectorizados y escritos).
   - Criterio: pruebas unitarias con `CatalogIndex` simulado cubren éxito (el anterior se borra en la
     misma llamada del swap), lote rechazado, conteo que no cuadra, fallo de inferencia, cancelación y
-    limpieza de huérfanos (nunca toca el índice detrás del alias).
+    limpieza de huérfanos; la limpieza con el alias `elastiflix-it-x7k2` nunca borra
+    `elastiflix-reloaded-20261020-153000` ni el índice detrás de su alias.
 - [ ] **3.7** Registro individual: valida los campos del formulario (`id`, `title` y `plot`
   obligatorios) con el mismo `MappingValidator`, genera los vectores y lo escribe **directamente en el
   catálogo** (a través del alias, `_id` = `id`, reemplaza si existe) con `refresh=wait_for` para que se
   vea en la siguiente búsqueda.
-  - Criterio: prueba unitaria del flujo completo con dobles; `IngestIT` (3.8) escribe un registro en el
-    alias de prueba y lo encuentra con una búsqueda inmediata.
-- [ ] **3.8** `IngestService` (fachada) y pruebas de integración: `IngestIT` crea un alias propio
-  `elastiflix-it-<aleatorio>` con un índice copiado de un subconjunto pequeño, importa
-  `movies-sample.json` **sin los campos de vector** (una película modificada para probar el reemplazo) y
-  verifica conteo, reemplazo, swap, **borrado del índice anterior** y vectores regenerados (coseno ≥ 0.999
-  con los del catálogo para `plot_1024` y ≥ 0.995 para `plot_512` y `plot_256`); una búsqueda vectorial en el alias de
-  prueba con la consulta de Titanic devuelve `597` en el mismo lugar relativo que en el catálogo;
-  otra prueba cancela a mitad y verifica que el alias no cambió, el índice anterior sigue y el temporal
-  no existe.
+  - Criterio: prueba unitaria del flujo completo con dobles (la prueba contra Elasticsearch está en
+    3.8).
+- [ ] **3.8** `IngestService` (fachada) y pruebas de integración. `IngestIT` usa su propio alias
+  `elastiflix-it-<aleatorio>` (configurado como `elastiflix.index.alias` de la prueba):
+  1. **Preparación:** crea `<alias>-<marca de tiempo>` con el mapping, carga las 4 películas de
+     `movies-sample.json` **con** sus vectores y apunta el alias a ese índice. Guarda el orden de esas 4
+     películas en una búsqueda vectorial (`plot_1024`) con la consulta de Titanic.
+  2. **Importación:** importa un archivo generado en la prueba a partir de `movies-sample.json` **sin**
+     campos de vector, con el `title` de `597` modificado y una quinta película (copia de `10681` con
+     `id` `990000001`). Verifica: conteo 5, título reemplazado, alias en el índice nuevo, índice anterior
+     borrado, y vectores regenerados con coseno ≥ 0.999 con los del fixture para `plot_1024` y ≥ 0.995
+     para `plot_512` y `plot_256`; la misma búsqueda vectorial devuelve las 4 películas originales en el
+     mismo orden relativo que en la preparación.
+  3. **Registro individual:** guarda una película con `IngestService` y la encuentra por `id` en una
+     búsqueda inmediata.
+  4. **Cancelación:** otra prueba cancela a mitad y verifica que el alias no cambió, el índice anterior
+     sigue y el temporal no existe.
+  Todas borran sus índices y su alias al terminar, pasen o fallen.
   - Criterio: `./mvnw verify -Pit -pl elastiflix-ingest -am` en verde; **ninguna** prueba toca
     `elastiflix-reloaded`.
 - [ ] **3.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/3.md` qué se
   actualizó.
-  - Criterio: el README describe el estado real al cierre de la Fase 3; commit y push.
+  - Criterio: en `README.md`, la fila de la Fase 3 dice `✅ terminado`, la insignia dice `fases-4/7`
+    y «Puesta en marcha» solo lista comandos que ya se ejecutaron con éxito; commit y push.
 
 **Verificación de fase 3:**
 ```bash
@@ -750,7 +895,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   (Full-text: tipo de consulta, campo solo con `match`, operador y textos de ayuda; Vectorial: campo de
   vector con sus dimensiones, `k` y `num_candidates` con sus validaciones; Híbrida: ambos y la
   explicación RRF), y las **sugerencias dinámicas por modo y ajustes** exactamente como en
-  `Main.dc.html` (textos, emojis y etiquetas).
+  `Main.dc.html` (textos, emojis y etiquetas fijas; ver §1).
   - Criterio: pruebas MockMvc verifican los textos clave y que cada sugerencia lleva a `/buscar` con
     los parámetros de su modo.
 - [ ] **4.3** Resultados (`GET /buscar`): caja de consulta, chip del modo y ajustes con «Cambiar
@@ -784,7 +929,8 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/4.md` qué se
   actualizó.
-  - Criterio: el README describe el estado real al cierre de la Fase 4; commit y push.
+  - Criterio: en `README.md`, la fila de la Fase 4 dice `✅ terminado`, la insignia dice `fases-5/7`
+    y «Puesta en marcha» solo lista comandos que ya se ejecutaron con éxito; commit y push.
 
 **Verificación de fase 4:**
 ```bash
@@ -803,10 +949,11 @@ arquitectura en verde; resumen de diseño y revisión de convenciones en `progre
 
 - [ ] **5.0** Diseño: `docs/diseno/5.md` (alcance del smoke test, datos y limpieza). Commit antes del
   código.
-- [ ] **5.1** `SmokeIT` en `web` (`@SpringBootTest(webEnvironment = RANDOM_PORT)`, perfil `it`):
+- [ ] **5.1** `SmokeIT` en `web` (`@SpringBootTest(webEnvironment = RANDOM_PORT)`, corre con `-Pit`):
   `GET /actuator/health` `UP` con 4 322 documentos; `GET /`, `/acerca`, `/cargar` responden 200; una
   búsqueda por modo con una sugerencia del mockup devuelve resultados; subir
-  `elasticsearch/fixtures/movies-sample.csv` llega a «listo para importar» sin errores (no importa).
+  `elasticsearch/fixtures/movies-sample.csv` deja el paso 4 en «listo para empezar» con 0 errores y la
+  advertencia de vectores ignorados (no importa).
   - Criterio: `./mvnw verify -Pit` en verde.
 - [ ] **5.2** Revisión de cobertura funcional: tabla en `progreso/5.md` que enlaza cada capacidad de §1
   y cada fila de datos de verificación de §6 con la prueba que la cubre.
@@ -814,7 +961,8 @@ arquitectura en verde; resumen de diseño y revisión de convenciones en `progre
 - [ ] **5.3** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases,
   cómo correr las pruebas de integración y el smoke test) y los documentos afectados; registra en
   `progreso/5.md` qué se actualizó.
-  - Criterio: el README describe el estado real al cierre de la Fase 5; commit y push.
+  - Criterio: en `README.md`, la fila de la Fase 5 dice `✅ terminado`, la insignia dice `fases-6/7`
+    y «Puesta en marcha» solo lista comandos que ya se ejecutaron con éxito; commit y push.
 
 **Verificación de fase 5:**
 ```bash
@@ -831,12 +979,14 @@ resumen de diseño y revisión de convenciones en `progreso/5.md`.
 
 - [ ] **6.1** Actualiza `README.md` con los comandos reales verificados (compilar, configurar `.env`,
   migrar a alias, arrancar, pruebas) y una captura de cada página en `docs/capturas/`.
-  - Criterio: siguiendo solo el README en un clon limpio se compila y arranca la aplicación.
+  - Criterio: en una carpeta temporal, `git clone` del repo, copia de `.env`, y solo los comandos de
+    «Puesta en marcha» del README: `./mvnw verify` termina en 0 y la aplicación arranca y responde 200 en
+    `http://localhost:8080/`.
 - [ ] **6.2** Recorre la [Definición de Hecho](#definición-de-hecho-global) y marca cada punto con su
   evidencia en `progreso/6.md`.
   - Criterio: todos los puntos marcados.
-- [ ] **6.3** Cierra `progreso/INDICE.md` (todas las fases `terminado`) y pide al usuario la revisión
-  final.
+- [ ] **6.3** Cierra `progreso/INDICE.md` (todas las fases `terminado`), deja en `README.md` la
+  insignia `fases-7/7` y la de estado en `terminado`, y pide al usuario la revisión final.
   - Criterio: `git status -sb` limpio, sin commits pendientes de push, y todo en `origin/main`.
 
 **Verificación de fase 6:**
@@ -859,7 +1009,9 @@ Criterio: Definición de Hecho completa.
 - [ ] 0 violaciones de Checkstyle y PMD; ArchUnit en verde; supresiones justificadas y registradas.
 - [ ] Cada fase con código tiene su diseño (aprobado en las fases 🔒), su resumen de diseño y su revisión
   de convenciones.
-- [ ] Ningún secreto en el repositorio (`git grep -i -E "api[_-]?key\s*[:=]\s*[A-Za-z0-9]{12,}"` vacío).
+- [ ] Ningún secreto en el repositorio: estos dos comandos no devuelven nada:
+  `git grep -n -i -P "api[_-]?key\s*[:=]\s*[\"']?[A-Za-z0-9_=+/-]{16,}"` y
+  `git grep -n -i -P "\.es\.[a-z0-9-]+\.(gcp|aws|azure)\.elastic\.cloud"`.
 - [ ] `README.md` actualizado al cierre de cada fase y con los comandos reales.
 - [ ] Cada tarea tiene su commit `<id>: …` publicado en `origin/main`, con su estado actualizado.
 - [ ] Todos los archivos de `progreso/` en `terminado`, sin cambios sin commit, e `INDICE.md` con todas

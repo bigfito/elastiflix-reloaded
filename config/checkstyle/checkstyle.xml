@@ -115,7 +115,10 @@
       <property name="ignoreFieldDeclaration" value="true"/>
     </module>
     <module name="FinalClass"/>
-    <module name="HideUtilityClassConstructor"/>
+    <!-- La clase principal de Spring Boot no es una clase de utilidades -->
+    <module name="HideUtilityClassConstructor">
+      <property name="ignoreAnnotatedBy" value="SpringBootApplication"/>
+    </module>
     <module name="VisibilityModifier">
       <property name="protectedAllowed" value="false"/>
     </module>
@@ -136,7 +139,7 @@
     <module name="MissingJavadocMethod">
       <property name="scope" value="public"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
-      <property name="minLineCount" value="1"/>
+      <property name="minLineCount" value="-1"/>
       <property name="ignoreMethodNamesRegex" value="^(main|toString|equals|hashCode)$"/>
     </module>
     <module name="JavadocMethod">

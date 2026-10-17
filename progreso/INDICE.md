@@ -1,7 +1,8 @@
 # 📍 Índice de estado del plan
 
 > Punto de entrada para retomar el trabajo. Lo mantiene el agente que ejecuta `PLAN.md`.
-> Actualízalo al empezar y al cerrar cada fase, **en el mismo commit** que el archivo de la fase.
+> Actualízalo **al terminar cada tarea** (y al empezar y cerrar cada fase), en el mismo commit que el
+> archivo de la fase, y haz push.
 > Reglas completas: `PLAN.md` §9 "Estado del trabajo y reanudación".
 
 ## Punto de reanudación
@@ -9,7 +10,7 @@
 - **Fase actual:** 0
 - **Estado de la fase:** no iniciado
 - **Herramienta prevista:** agente de Cursor (con el entorno ya preparado por el usuario).
-- **Próximo paso:** Esperar el visto bueno del usuario sobre `PLAN.md`. Con su aprobación: crear `progreso/0.md` desde `progreso/_PLANTILLA.md`, marcar la Fase 0 `en curso` aquí y ejecutar la tarea 0.1.
+- **Próximo paso:** Tarea 0.1: crear `progreso/0.md` desde `progreso/_PLANTILLA.md`, marcar la Fase 0 `en curso` aquí y hacer las comprobaciones de git de la tarea. El plan queda aprobado cuando el usuario pide iniciar la Fase 0 (regístralo en «Aprobaciones del usuario»).
 - **Última actualización:** 2026-10-17 22:00 UTC
 
 ## Fases

@@ -78,7 +78,13 @@
   <rule ref="category/java/bestpractices.xml/UnusedLocalVariable"/>
   <rule ref="category/java/bestpractices.xml/UnusedFormalParameter"/>
   <rule ref="category/java/bestpractices.xml/UnusedAssignment"/>
-  <rule ref="category/java/bestpractices.xml/GuardLogStatement"/>
+  <!-- Solo exige guardas en trace y debug: info, warn y error se registran siempre -->
+  <rule ref="category/java/bestpractices.xml/GuardLogStatement">
+    <properties>
+      <property name="logLevels" value="trace,debug"/>
+      <property name="guardsMethods" value="isTraceEnabled,isDebugEnabled"/>
+    </properties>
+  </rule>
   <rule ref="category/java/bestpractices.xml/LooseCoupling"/>
   <rule ref="category/java/bestpractices.xml/MissingOverride"/>
   <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty"/>

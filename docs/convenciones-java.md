@@ -148,6 +148,37 @@ Abreviaturas permitidas en nombres: `RRF`, `BM25`, `KNN`, `CSV`, `JSON`, `NDJSON
 - **Hilos virtuales:** `spring.threads.virtual.enabled=true`.
 - **Actuator:** `health` expuesto, con un indicador propio de Elasticsearch que alimenta el
   indicador «Conectado · Elasticsearch Serverless» del header.
+- **Starters de Spring Boot 4:** `spring-boot-starter-webmvc` (no `-web`), `spring-boot-starter-thymeleaf`,
+  `spring-boot-starter-actuator`, `spring-boot-starter-validation`, `spring-boot-starter-elasticsearch`;
+  para MockMvc, `spring-boot-starter-webmvc-test`. `HealthIndicator` está en
+  `org.springframework.boot.health.contributor`.
+- **Clase principal:** escanea los cuatro módulos y no es una clase de utilidades (Checkstyle la exime
+  por `@SpringBootApplication`). Pasa la verificación automática tal cual:
+
+```java
+package com.bigfito.elastiflix.web;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+
+/**
+ * Punto de entrada de Elastiflix-Movies Java.
+ */
+@SpringBootApplication(scanBasePackages = "com.bigfito.elastiflix")
+@ConfigurationPropertiesScan("com.bigfito.elastiflix")
+public class ElastiflixApplication {
+
+    /**
+     * Arranca la aplicación.
+     *
+     * @param args argumentos de la línea de comandos
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(ElastiflixApplication.class, args);
+    }
+}
+```
 
 ## 7. Errores
 
@@ -191,10 +222,14 @@ SLF4J con un `private static final Logger LOG` por clase.
 - **Prohibido registrar:** API key, cabecera `Authorization`, vectores completos, documentos
   completos, contenido de archivos subidos.
 - Mensajes parametrizados (`LOG.info("… {}", valor)`), nunca concatenados.
+- En `TRACE` y `DEBUG`, si un argumento es una llamada a método o una expresión, envuelve el log en
+  `if (LOG.isDebugEnabled())` / `isTraceEnabled()` (regla PMD `GuardLogStatement`). En `INFO`, `WARN` y
+  `ERROR` no hace falta.
 
 ## 9. Documentación en código
 
-- Javadoc en **toda clase y método público** (verificado), con primera frase terminada en punto,
+- Javadoc en **toda clase y método público, incluidos los de una línea** (verificado), con primera
+  frase terminada en punto,
   `@param`, `@return` y `@throws` cuando aplique.
 - Comenta el **por qué**, no el qué. Ejemplo: por qué las facetas de Vectorial e Híbrida se
   calculan en la aplicación y no con agregaciones.
@@ -202,13 +237,16 @@ SLF4J con un `private static final Logger LOG` por clase.
 
 ## 10. Pruebas
 
-- JUnit 5, AssertJ y Mockito (de `spring-boot-starter-test`).
+- JUnit Jupiter (JUnit 6 en Spring Boot 4), AssertJ y Mockito (de `spring-boot-starter-test`).
 - **Nombres:** método en inglés `should<Resultado>When<Condición>` y `@DisplayName` en español.
 - Estructura con comentarios `// given`, `// when`, `// then`.
 - **Unitarias** (`*Test`, Surefire): sin red ni Elasticsearch; el cliente y la inferencia se sustituyen
   por dobles.
-- **Integración** (`*IT`, Failsafe, perfil `it`): contra el proyecto Elasticsearch Serverless
-  configurado en `.env`.
+- **Integración** (`*IT`, Failsafe, **perfil de Maven** `it`: `./mvnw verify -Pit`): contra el proyecto
+  Elasticsearch Serverless configurado en `.env`. Cada módulo tiene su `TestApplication`
+  (`@SpringBootConfiguration`) y su `src/test/resources/application.yml`, que importa
+  `optional:file:../.env[.properties]` (ver `PLAN.md` tarea 0.6).
+  - Los fixtures se leen desde `../elasticsearch/fixtures/`, relativo a la carpeta del módulo.
   - Las de **lectura** usan el alias `elastiflix-reloaded` y no lo modifican.
   - Las de **escritura** crean su propio alias `elastiflix-it-<aleatorio>` y lo borran al terminar,
     pase o falle la prueba. **Nunca** escriben en `elastiflix-reloaded`.
@@ -223,14 +261,17 @@ SLF4J con un `private static final Logger LOG` por clase.
   formato `yyyy-MM-dd`. Prohibidos `Date`, `Calendar`, `SimpleDateFormat` (regla `JM-TIME-01`).
 - **Vectores:** `float[]`; 512 y 256 son los primeros N valores del vector de 1024, **renormalizados
   (L2)**. Consultas: `input_type: search` y prefijo `Query: `. Documentos: el `input_type` y el prefijo
-  calibrados en la tarea 1.9 (`elastiflix.embedding.*`), nunca valores escritos en el código. En las
-  cargas, los tres vectores **siempre** se generan con el servicio de inferencia; los archivos no los
-  traen y el formulario no los captura.
+  calibrados en la tarea 1.9, que viven **solo** como valores por defecto (`@DefaultValue`) del `record`
+  de propiedades `elastiflix.embedding.*`. En las cargas, los tres vectores **siempre** se generan con el
+  servicio de inferencia; los archivos no los necesitan (si los traen, se ignoran con advertencia) y el
+  formulario no los captura. Para leer vectores guardados, pide `"_source": {"exclude_vectors": false}`
+  (Serverless los excluye de `_source` por defecto).
 - **Límites:** `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`; full-text `from + size ≤ 10 000`
   (`index.max_result_window`); híbrida `rank_window_size = k` y `rank_constant = 60`.
 - **Puntuaciones:** BM25 tal cual; k-NN `(1 + coseno) / 2`; RRF `Σ 1 / (60 + posición)`.
-- **Alias:** el nombre `elastiflix-reloaded` es configurable (`elastiflix.index.alias`); el código
-  nunca lo escribe como literal fuera de la configuración por defecto.
+- **Alias e índices:** el nombre `elastiflix-reloaded` es configurable (`elastiflix.index.alias`); el
+  código nunca lo escribe como literal fuera de la configuración por defecto. Los índices se nombran
+  `<alias>-<AAAAMMDD-HHMMSS>` (UTC) y la limpieza de huérfanos solo toca los de su propio alias.
 - **Un solo usuario:** la demo la usa una persona a la vez (fines académicos y demostrativos); no se
   agregan bloqueos ni controles de concurrencia entre búsquedas, registros e importaciones. El estado
   del trabajo de importación es inmutable (`record`) y se publica por el listener de progreso.
@@ -240,7 +281,7 @@ SLF4J con un `private static final Logger LOG` por clase.
 
 ## 12. Build y dependencias
 
-- Maven **solo mediante el wrapper** (`./mvnw`, o `mvnw.cmd` en Windows).
+- Maven **solo mediante el wrapper** (`./mvnw`; en Windows, desde Git Bash).
 - Versiones en el POM padre (`<properties>` o `dependencyManagement`); los POM hijos no declaran
   versiones.
 - **JSON con Jackson 3** (`tools.jackson.*`). Prohibido importar `com.fasterxml.jackson.databind`
@@ -273,10 +314,20 @@ public enum ErrorCode {
             "La URL o la API key no son válidas, o el proyecto Serverless no responde",
             "Revisa ELASTICSEARCH_URL y ELASTICSEARCH_API_KEY en .env y vuelve a intentarlo"),
 
+    KNN_K_BELOW_ONE("EFX-SRCH-002",
+            "k debe ser un entero mayor o igual que 1",
+            "Se pidió una búsqueda vectorial sin resultados",
+            "Usa un k de 1 o más (100 por defecto)"),
+
     KNN_CANDIDATES_BELOW_K("EFX-SRCH-003",
-            "num_candidates es menor que k",
+            "num_candidates debe ser mayor o igual que k",
             "Se pidió evaluar menos candidatos que los resultados solicitados",
-            "Usa un num_candidates mayor o igual que k (máximo 10 000)");
+            "Usa un num_candidates mayor o igual que k"),
+
+    KNN_CANDIDATES_ABOVE_MAX("EFX-SRCH-004",
+            "num_candidates debe ser un entero de máximo 10 000",
+            "Elasticsearch no evalúa más de 10 000 candidatos por shard",
+            "Usa un num_candidates de 10 000 o menos (200 por defecto)");
 
     private final String code;
     private final String what;
@@ -387,9 +438,12 @@ public record KnnSettings(VectorField vectorField, int k, int numCandidates) {
      */
     public KnnSettings {
         if (k < 1) {
-            throw new ElastiflixException(ErrorCode.KNN_CANDIDATES_BELOW_K);
+            throw new ElastiflixException(ErrorCode.KNN_K_BELOW_ONE);
         }
-        if (numCandidates < k || numCandidates > MAX_NUM_CANDIDATES) {
+        if (numCandidates > MAX_NUM_CANDIDATES) {
+            throw new ElastiflixException(ErrorCode.KNN_CANDIDATES_ABOVE_MAX);
+        }
+        if (numCandidates < k) {
             throw new ElastiflixException(ErrorCode.KNN_CANDIDATES_BELOW_K);
         }
     }
@@ -528,6 +582,10 @@ violación.
 | Jackson 2 databind | Checkstyle `JM-DEP-01` | Prohibido |
 | Cliente de Elasticsearch en web | PMD `JM-DEP-02` + ArchUnit | Prohibido |
 | Matriz de dependencias | ArchUnit | `PLAN.md` §8 |
+
+**Falso positivo conocido:** `JM-SEC-01` marca constantes como `"ELASTICSEARCH_API_KEY"` asignadas a un
+nombre que contiene `api_key`. Evítalo: los nombres de variables de entorno solo aparecen en
+`application.yml`, nunca en el código.
 
 **Supresiones:** solo con `@SuppressWarnings("checkstyle:<Regla>")` o `@SuppressWarnings("PMD.<Regla>")`
 en el elemento más pequeño posible, con un comentario que explique el motivo, y registradas en la

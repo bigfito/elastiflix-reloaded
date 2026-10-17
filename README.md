@@ -186,7 +186,7 @@ Diagrama completo con los flujos numerados: [`docs/arquitectura.mermaid`](docs/a
 | 🔍 | Cliente Java de Elasticsearch | 9.4.5 (gestionado por Spring Boot) |
 | 🧩 | Jackson 3 (`Jackson3JsonpMapper`) | 3.1.5 |
 | 🧠 | jina-embeddings-v5-omni-small | endpoint `.jina-embeddings-v5-omni-small` |
-| 🧹 | Checkstyle · PMD · ArchUnit | 14.3.0 · 7.28.0 · 1.5.1 |
+| 🧹 | Checkstyle · PMD · ArchUnit (`archunit-junit6`) | 14.3.0 · 7.28.0 · 1.5.1 |
 
 ## 📁 Estructura del repositorio
 
@@ -214,7 +214,7 @@ elastiflix-reloaded/
 
 **Prerrequisitos**
 
-- ☕ JDK 25 · 🐙 Git · 📦 Maven ≥ 3.6.3 solo para generar el wrapper la primera vez
+- ☕ JDK 25 · 🐙 Git (en Windows, con **Git Bash**) · 📦 Maven ≥ 3.6.3 solo para generar el wrapper la primera vez
 - 🔑 Un proyecto **Elasticsearch Serverless** con el índice `elastiflix-reloaded` y una API key
 
 **Configuración**
@@ -235,7 +235,7 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 ./mvnw -pl elastiflix-web spring-boot:run       # 👉 http://localhost:8080
 ```
 
-En Windows usa `mvnw.cmd`.
+En Windows, ejecuta estos comandos en **Git Bash** (ver `AGENTS.md` › Comandos).
 
 ## 🤖 Desarrollo con agentes de IA
 
@@ -252,8 +252,8 @@ El plan está preparado para que **cualquiera de estos agentes** lo ejecute o lo
 
 Abre la carpeta del repositorio en tu herramienta y pide:
 
-> Lee `PLAN.md`, `AGENTS.md` y `docs/convenciones-java.md`, aplica el protocolo de reanudación y
-> ejecuta las fases en orden desde la Fase 0.
+> Apruebo el plan. Lee `PLAN.md`, `AGENTS.md` y `docs/convenciones-java.md`, aplica el protocolo de
+> reanudación y ejecuta las fases en orden desde la Fase 0.
 
 ### 🔁 Si una sesión se interrumpe
 

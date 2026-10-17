@@ -52,7 +52,8 @@ flowchart LR
   validator --> mapping
   validator -->|"C si todo coincide"| job
   job -->|"D copia + lotes"| tmp
-  job -->|"E vectores faltantes"| emb
+  job -->|"E vectores de todos los registros"| emb
   job -->|"F swap atómico y borrado del anterior"| catalog
   catalog --> alias
   health -.-> catalog
+  facade_i -->|"G registro individual directo"| catalog

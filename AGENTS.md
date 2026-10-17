@@ -57,13 +57,18 @@ Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de Elasticsearch 9.x, Maven mono-repo 
 ```bash
 ./mvnw -q test                                   # pruebas unitarias
 ./mvnw verify                                    # unitarias + ArchUnit + Checkstyle + PMD (sin red)
-./mvnw verify -Pit                               # + integración contra Elasticsearch (requiere .env)
-./mvnw -q install -DskipTests && ./mvnw -pl elastiflix-web spring-boot:run   # http://localhost:8080
-# Migración del índice concreto a alias (tarea 1.8):
-./mvnw -pl elastiflix-web spring-boot:run -Dspring-boot.run.arguments="--elastiflix.bootstrap.enabled=true"
+./mvnw verify -Pit                               # + integración (perfil de Maven `it`, Failsafe; requiere .env)
+./mvnw -q install -DskipTests
+./mvnw -pl elastiflix-web spring-boot:run        # http://localhost:8080
+# Migración del índice concreto a alias (tarea 1.8; termina sola):
+./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
 ```
 
-En Windows usa `mvnw.cmd`.
+**Windows:** ejecuta **todos** los comandos del plan en **Git Bash** (viene con Git for Windows), donde
+`./mvnw`, `&&`, `echo $?`, `grep` y `cp` funcionan igual que en Linux y macOS. Si tu terminal es
+PowerShell, abre Git Bash (en Cursor: terminal «Git Bash»). Solo si no hay otra opción, en PowerShell:
+`.\mvnw.cmd`, entrecomilla cada `-D...` completo (`"-Dspring-boot.run.arguments=..."`), usa `;` en lugar
+de `&&` y `$LASTEXITCODE` en lugar de `$?`.
 
 ## Estructura del repo
 
@@ -108,18 +113,21 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 ## Reglas del dominio
 
 - Lectura siempre por el alias `elastiflix-reloaded` (configurable). Importación de archivo: índice
-  temporal `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` y publicación en una sola llamada a `_aliases`
-  (`add` al nuevo + `remove_index` del anterior); si algo falla, se borra el temporal y nada más cambia.
+  temporal `<alias>-<AAAAMMDD-HHMMSS>` y publicación en una sola llamada a `_aliases` (`add` al nuevo +
+  `remove_index` del anterior); si algo falla, se borra el temporal y nada más cambia. La limpieza de
+  huérfanos solo toca índices `<alias>-<AAAAMMDD-HHMMSS>` de su propio alias.
 - Registro individual: directo al catálogo por el alias.
 - Un solo usuario a la vez (demo académica): sin controles de concurrencia.
 - Validación de cargas **todo o nada** contra `elasticsearch/elastiflix-reloaded-mapping.json`;
   `id`, `title` y `plot` obligatorios; `.json`/`.csv`, sin dobles extensiones, ≤ 150 MB, UTF-8; CSV
   **sin encabezado se rechaza**. Sin análisis de malware (lo hace el proveedor del servidor).
 - `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución con el servicio de
-  inferencia de Elasticsearch; los del archivo se ignoran.
-- Pósters desde el CDN de TMDB (`ELASTIFLIX_POSTER_BASE_URL` + `poster_path`).
-- Vectores: 1024 del modelo; 512 y 256 = primeros N valores renormalizados; prefijos `Query: ` y
-  `Document: `. k-NN: `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`. RRF: `rank_constant 60`,
+  inferencia de Elasticsearch; los archivos no los necesitan (si los traen, se ignoran con advertencia)
+  y el formulario no los captura.
+- Pósters desde el CDN de TMDB (`elastiflix.poster.base-url` + `poster_path`); atribución de TMDB en el
+  pie (solo texto) y en «Acerca de» › «Créditos» (texto + logo aprobado), ver `PLAN.md` §1.
+- Vectores: 1024 del modelo; 512 y 256 = primeros N valores renormalizados. Consultas: `input_type:
+  search` y prefijo `Query: `. Documentos: `input_type` y prefijo calibrados en la tarea 1.9. k-NN: `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`. RRF: `rank_constant 60`,
   `rank_window_size = k`. Full-text: `from + size ≤ 10 000`.
 - Facetas de Vectorial e Híbrida se calculan en la aplicación sobre los resultados devueltos.
 - Fechas en UTC; `release_date` `yyyy-MM-dd`. Interfaz en español, con los textos de los mockups.

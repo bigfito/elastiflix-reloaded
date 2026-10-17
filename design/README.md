@@ -29,18 +29,19 @@ componentes y comportamiento. No se rediseñan.
 | Texto | IBM Plex Sans | 400, 500, 600 |
 | Código, etiquetas y cifras | IBM Plex Mono | 400, 500 |
 
-**Colores base**
+**Colores base** (cuando hay dos valores, el primero es el token principal y el segundo su variante, con
+el nombre indicado; úsalos donde los usa el mockup)
 
 | Token | Hex | Uso |
 |---|---|---|
 | `--bg` | `#FBF7F1` | Fondo de página |
 | `--surface` | `#FFFFFF` | Tarjetas y paneles |
-| `--surface-muted` | `#F3ECE2` / `#F6F0E8` | Bloques secundarios |
-| `--border` | `#E2D8CA` / `#EFE7DC` | Bordes y separadores |
+| `--surface-muted` / `--surface-muted-2` | `#F3ECE2` / `#F6F0E8` | Bloques secundarios |
+| `--border` / `--border-soft` | `#E2D8CA` / `#EFE7DC` | Bordes / separadores y fondos deshabilitados |
 | `--ink` | `#2E2A3B` | Texto principal |
 | `--ink-2` | `#3A3548` | Texto y enlaces |
-| `--ink-3` | `#4F4A5E` / `#585266` | Texto secundario |
-| `--muted` | `#6B6578` / `#8C8597` | Ayudas y marcadores |
+| `--ink-3` / `--ink-4` | `#4F4A5E` / `#585266` | Texto secundario |
+| `--muted` / `--muted-2` | `#6B6578` / `#8C8597` | Ayudas y marcadores |
 | `--accent-ink` | `#A9502A` | Hover, foco y elemento activo |
 | `--error` | `#B9472A` | Mensajes de error |
 
@@ -50,7 +51,7 @@ componentes y comportamiento. No se rediseñan.
 |---|---|---|
 | `--peach` | `#FFCDB2` (acento por defecto) | `#A9502A` |
 | `--butter` | `#FBE7A1` | — |
-| `--mint` | `#BDE8D7` | `#1E7A5C` / `#2E8B6E` |
+| `--mint` | `#BDE8D7` | `--mint-ink` `#1E7A5C` / `--mint-ink-2` `#2E8B6E` |
 | `--sky` | `#BFE0F6` | `#1F6FA8` |
 | `--lavender` | `#CDBDF6` | `#6A50C8` |
 | `--rose` | `#F7C1D9` | `#A8336B` |
