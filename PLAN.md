@@ -84,6 +84,8 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 | `About.dc.html` y `Ingest.dc.html` › reglas de validación | «vectores con 256, 512 y 1024 números» | Quitar los vectores de las reglas de validación |
 | `About.dc.html` › Formas de carga › Archivo .csv | «con encabezado» | Aclarar que un CSV sin encabezado se rechaza |
 | `Ingest.dc.html` › casilla «La primera fila contiene los nombres de columna» | — | Si se desmarca, el archivo se rechaza con su código `EFX-ING-*` |
+| Pie de **todas** las páginas | — | Agregar el aviso de atribución de TMDB, solo texto: «This product uses the TMDB API but is not endorsed or certified by TMDB.» |
+| `About.dc.html` › nueva sección final «Créditos» | — | Aviso de atribución de TMDB («This product uses the TMDB API but is not endorsed or certified by TMDB.», con su traducción al español debajo) y un logo **aprobado** de TMDB, menos prominente que el logo de la demo |
 
 ## 2. Arquitectura
 
@@ -274,8 +276,17 @@ elastiflix-reloaded/
   `Query: ` en consultas (`input_type: search`) y `Document: ` en sinopsis.
 - **En cada carga (archivo o registro individual), `plot_256`, `plot_512` y `plot_1024` se llenan en
   tiempo de ejecución** llamando al modelo de embeddings a través del servicio de inferencia de
-  Elasticsearch. Si el archivo trae esas columnas, se ignoran (una advertencia lo indica) y no se
-  validan.
+  Elasticsearch. Los archivos de importación **no traen** esos campos y el formulario **no los
+  captura**. Si un archivo los trajera (por ejemplo, una exportación del índice), se ignoran con una
+  advertencia y no se validan.
+- **Coherencia con el catálogo:** los vectores del catálogo se generaron en una carga previa con el
+  mismo modelo y el mismo servicio de inferencia, pero no está documentado con qué `input_type` ni con
+  qué prefijo. La tarea **1.9** lo determina midiendo contra los vectores guardados y fija la
+  combinación en la configuración (`elastiflix.embedding.*`); las cargas usan exactamente esa
+  combinación. Hechos ya comprobados: las consultas con `input_type: search` y prefijo `Query: `
+  reproducen el vector de `elasticsearch/fixtures/query-vector-titanic.json`, y `plot_512`/`plot_256`
+  del catálogo son el recorte renormalizado de `plot_1024` (verificado en las 4 322 películas de la
+  exportación: coseno ≥ 0.9999999 en todas; ninguna película sin vectores ni con `plot` vacío).
 - **Formatos de carga** (muestras reales en `elasticsearch/fixtures/`):
   - **JSON:** objeto de exportación `{index, exported_at, document_count, csv_file, load_notes, mapping, documents[]}`,
     un arreglo de películas o NDJSON. Si trae `document_count`, debe coincidir con `documents`.
@@ -534,14 +545,22 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     coincide; tras ejecutarla en el clúster real, `GET _alias/elastiflix-reloaded` apunta a
     `elastiflix-reloaded-…` con 4 322 documentos y una segunda ejecución no cambia nada.
 - [ ] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
-  `ELASTIFLIX_INFERENCE_ID`: consulta con `input_type: search` y prefijo `Query: `; documentos con el
-  prefijo `Document: ` en lotes; `VectorProjector` recorta a 512 y 256 y renormaliza.
-  - Criterio: `VectorProjectorTest` (norma 1 ± 1e-6, primeros N valores proporcionales);
-    `EmbeddingServiceIT`: el vector de `elasticsearch/fixtures/query-vector-titanic.json` y el generado
-    tienen coseno ≥ 0.999; el vector de documento regenerado para la película `597` tiene coseno ≥ 0.99
-    con su `plot_1024` almacenado. **Si este último no se cumple**, marca la tarea `bloqueado` y pregunta
-    al usuario cómo se generaron los vectores del catálogo (`input_type` y prefijo): las cargas
-    regeneran siempre los vectores y deben quedar coherentes con los del catálogo.
+  `ELASTIFLIX_INFERENCE_ID`, en lotes; `VectorProjector` recorta a 512 y 256 y renormaliza. Consultas:
+  `input_type: search` y prefijo `Query: `. Documentos: la combinación que determine la calibración:
+  1. **Calibración** (`DocumentEmbeddingCalibrationIT`): para las películas `597`, `27205`, `10681`,
+     `345887` y `134`, lee `plot` y `plot_1024` del catálogo y genera el vector de `plot` con cada
+     combinación: `input_type` ∈ {`ingest`, `search`, sin `input_type`} × prefijo ∈ {`Document: `,
+     sin prefijo}. Calcula el coseno contra `plot_1024` y registra la tabla completa en
+     `docs/diseno/1.md` y en `progreso/1.md`.
+  2. Fija en `application.yml` (`elastiflix.embedding.document-input-type` y
+     `elastiflix.embedding.document-prefix`) la combinación con coseno ≥ 0.999 en las cinco películas.
+  3. Si ninguna llega a 0.999, marca la tarea `bloqueado` con la tabla y pregunta al usuario: sin esa
+     coherencia, las películas cargadas quedarían mal ubicadas en la búsqueda vectorial.
+  - Criterio: `VectorProjectorTest` (norma 1 ± 1e-6; el recorte de un `plot_1024` del fixture
+    reproduce su `plot_512` y `plot_256` con coseno ≥ 0.9999); `EmbeddingServiceIT`: el vector de
+    consulta generado y el de `elasticsearch/fixtures/query-vector-titanic.json` tienen coseno ≥ 0.999,
+    y con la combinación fijada, los vectores de documento regenerados para las cinco películas tienen
+    coseno ≥ 0.999 con su `plot_1024` y ≥ 0.995 con su `plot_512` y su `plot_256`.
 - [ ] **1.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/1.md` qué se
@@ -663,8 +682,8 @@ nunca el catálogo a medias.
   - Criterio: pruebas con variantes inválidas de los fixtures (creadas en `src/test/resources`) producen
     exactamente los errores esperados; los fixtures válidos producen 0 errores.
 - [ ] **3.5** Vectores: para **cada** registro (archivo o formulario), `plot_1024` se genera desde
-  `plot` con `EmbeddingService` (servicio de inferencia de Elasticsearch, prefijo `Document: `), en
-  lotes, y `plot_512` y `plot_256` se derivan con `VectorProjector`. Los vectores del archivo se
+  `plot` con `EmbeddingService` (servicio de inferencia de Elasticsearch, con el `input_type` y el
+  prefijo calibrados en 1.9), en lotes, y `plot_512` y `plot_256` se derivan con `VectorProjector`. Los vectores del archivo se
   descartan. Si la inferencia falla, la importación se detiene con `EFX-EMB-*` y se aplica la vuelta
   atrás. El progreso informa los registros vectorizados.
   - Criterio: prueba unitaria con `EmbeddingService` simulado verifica que se llama para todos los
@@ -688,8 +707,10 @@ nunca el catálogo a medias.
     alias de prueba y lo encuentra con una búsqueda inmediata.
 - [ ] **3.8** `IngestService` (fachada) y pruebas de integración: `IngestIT` crea un alias propio
   `elastiflix-it-<aleatorio>` con un índice copiado de un subconjunto pequeño, importa
-  `movies-sample.json` (una película modificada para probar el reemplazo) y verifica conteo, reemplazo,
-  swap, **borrado del índice anterior** y vectores regenerados (coseno ≥ 0.99 con los del fixture);
+  `movies-sample.json` **sin los campos de vector** (una película modificada para probar el reemplazo) y
+  verifica conteo, reemplazo, swap, **borrado del índice anterior** y vectores regenerados (coseno ≥ 0.999
+  con los del catálogo para `plot_1024` y ≥ 0.995 para `plot_512` y `plot_256`); una búsqueda vectorial en el alias de
+  prueba con la consulta de Titanic devuelve `597` en el mismo lugar relativo que en el catálogo;
   otra prueba cancela a mitad y verifica que el alias no cambió, el índice anterior sigue y el temporal
   no existe.
   - Criterio: `./mvnw verify -Pit -pl elastiflix-ingest -am` en verde; **ninguna** prueba toca
@@ -716,14 +737,15 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
 
 - [ ] **4.0** Diseño: `docs/diseno/4.md` (plantillas y fragmentos, controladores, modelo de cada vista,
   JavaScript mínimo, CSS con los tokens de `design/README.md`). Commit antes del código. Los pósters se
-  cargan del CDN de TMDB (decisión del usuario; ver §5). Lleva a "Dudas", para que el usuario decida, si
-  se agrega el aviso de atribución que piden los términos de TMDB y dónde (pie o «Acerca de»).
+  cargan del CDN de TMDB (decisión del usuario; ver §5) y la atribución de TMDB va en el pie y en
+  «Acerca de» (ver §1).
 - [ ] **4.1** Layout común: `templates/fragments/` (franja pastel, header con logo, navegación Buscar ·
   Cargar datos · Acerca de la demo y estado de conexión; pie con alias y conteo), CSS con los tokens y
-  las fuentes Bricolage Grotesque, IBM Plex Sans e IBM Plex Mono. `CatalogHealthIndicator`
-  (`elastiflixCatalog`) en Actuator.
+  las fuentes Bricolage Grotesque, IBM Plex Sans e IBM Plex Mono; aviso de atribución de TMDB en el pie
+  (solo texto). `CatalogHealthIndicator` (`elastiflixCatalog`) en Actuator.
   - Criterio: `GET /actuator/health` → `UP` con `alias`, `index` y `documents`; el header muestra
-    «Conectado · Elasticsearch Serverless» y el pie «Índice: elastiflix-reloaded · 4 322 películas».
+    «Conectado · Elasticsearch Serverless» y el pie «Índice: elastiflix-reloaded · 4 322 películas» y
+    «This product uses the TMDB API but is not endorsed or certified by TMDB.» en todas las páginas.
 - [ ] **4.2** Inicio (`GET /`): caja de búsqueda con su validación, selector de modo y paneles
   (Full-text: tipo de consulta, campo solo con `match`, operador y textos de ayuda; Vectorial: campo de
   vector con sus dimensiones, `k` y `num_candidates` con sus validaciones; Híbrida: ambos y la
@@ -750,8 +772,11 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
 - [ ] **4.5** Acerca de (`GET /acerca`): contenido de `About.dc.html` (tres modos, BM25, k-NN, tabla de
   precisión por dimensión, RRF, resultados y filtros, carga de datos, catálogo) con alias y conteo
   reales, los enlaces a la documentación oficial y los ajustes de texto autorizados en §1 (vectores
-  siempre generados, borrado del índice anterior, CSV con encabezado obligatorio).
-  - Criterio: prueba MockMvc verifica las secciones y la tabla de precisión.
+  siempre generados, borrado del índice anterior, CSV con encabezado obligatorio) y la sección
+  «Créditos» con la atribución de TMDB y uno de sus logos aprobados (descargado de
+  https://www.themoviedb.org/about/logos-attribution sin modificar color, proporción ni orientación,
+  guardado en `elastiflix-web/src/main/resources/static/img/tmdb/`, más pequeño que el logo de la demo).
+  - Criterio: prueba MockMvc verifica las secciones, la tabla de precisión y la sección «Créditos».
 - [ ] **4.6** Errores: `@ControllerAdvice` muestra una página con el código `EFX-*` y el mensaje del
   catálogo; 404 propio con navegación.
   - Criterio: pruebas MockMvc para `ElastiflixException` y ruta inexistente.

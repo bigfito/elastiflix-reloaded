@@ -128,7 +128,8 @@ RRF: `Σ 1 / (60 + posición)`.
 - **Valores dinámicos:** cada filtro muestra solo los valores presentes en los resultados, con su conteo.
 - **Sin resultados:** la página sugiere ajustes según el modo, o quitar filtros si estos vaciaron la
   lista.
-- **Pósters:** se cargan del CDN de imágenes de TMDB a partir de `poster_path`.
+- **Pósters:** se cargan del CDN de imágenes de TMDB a partir de `poster_path`. La atribución de TMDB
+  aparece en el pie de cada página y en la sección «Créditos» de «Acerca de».
 
 ## 📥 Carga de datos
 
@@ -152,8 +153,9 @@ flowchart LR
 - **Contra el mapping:** se revisa el archivo completo; si algo no coincide, se muestra cada error
   (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución desde
-  `plot`, con el modelo de embeddings a través del servicio de inferencia de Elasticsearch; si el archivo
-  los trae, se ignoran.
+  `plot`, con el modelo de embeddings a través del servicio de inferencia de Elasticsearch, con la misma
+  configuración que produjo los vectores del catálogo (calibrada en la tarea 1.9). Los archivos no los
+  traen y el formulario no los captura.
 - **Publicación:** en una sola operación, el alias `elastiflix-reloaded` pasa al índice nuevo y el
   índice anterior se borra; si algo falla antes, el catálogo queda exactamente como estaba.
 - **Un solo usuario:** la demo tiene fines académicos y demostrativos y la usa una persona a la vez.
@@ -241,8 +243,8 @@ El plan está preparado para que **cualquiera de estos agentes** lo ejecute o lo
 
 | Herramienta | Qué lee | Archivo en este repo |
 |---|---|---|
+| 🟣 **Cursor** *(agente elegido para programar)* | `AGENTS.md` en la raíz + reglas `.mdc` | `AGENTS.md`, `.cursor/rules/elastiflix-java.mdc` |
 | 🟠 **Claude Code** | `CLAUDE.md`, que importa `AGENTS.md` | `CLAUDE.md` → `@AGENTS.md` |
-| 🟣 **Cursor** | `AGENTS.md` en la raíz + reglas `.mdc` | `AGENTS.md`, `.cursor/rules/elastiflix-java.mdc` |
 | 🔵 **Google Antigravity** | `AGENTS.md` en la raíz (máx. 12 000 caracteres) | `AGENTS.md` |
 | 🟢 **JetBrains Junie** | `AGENTS.md` en la raíz | `AGENTS.md` |
 
