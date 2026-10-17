@@ -482,7 +482,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   - Criterio: `git check-ignore -q progreso/INDICE.md` devuelve **1** (no ignorado),
     `git check-ignore -q .env` devuelve **0** (ignorado) y
     `git check-attr text elasticsearch/fixtures/movies-sample.csv` muestra `text: unset`.
-- [ ] **0.2** Genera el Maven Wrapper 3.10.0 en la raíz (no requiere `pom.xml`; sí un Maven local
+- [x] **0.2** Genera el Maven Wrapper 3.10.0 en la raíz (no requiere `pom.xml`; sí un Maven local
   ≥ 3.6.3 solo para este paso):
   `mvn -N org.apache.maven.plugins:maven-wrapper-plugin:3.3.4:wrapper -Dmaven=3.10.0`.
   Versiona `mvnw`, `mvnw.cmd` y `.mvn/wrapper/maven-wrapper.properties`, y marca el script como

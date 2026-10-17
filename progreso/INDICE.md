@@ -10,8 +10,8 @@
 - **Fase actual:** 0
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-0-andamiaje-29a6`)
-- **Próximo paso:** Tarea 0.2: generar el Maven Wrapper 3.10.0 (`mvn -N org.apache.maven.plugins:maven-wrapper-plugin:3.3.4:wrapper -Dmaven=3.10.0`), versionar `mvnw`, `mvnw.cmd` y `.mvn/wrapper/maven-wrapper.properties`, y dejar `mvnw` ejecutable (`100755`).
-- **Última actualización:** 2026-10-17 23:31 UTC
+- **Próximo paso:** Tarea 0.3: crear el POM padre (`spring-boot-starter-parent` 4.1.1, Java 25, enforcer) y un POM mínimo por módulo para que `./mvnw -q validate` termine en 0.
+- **Última actualización:** 2026-10-17 23:33 UTC
 
 ## Fases
 
