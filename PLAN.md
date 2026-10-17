@@ -563,7 +563,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   vacíos, crea `elastiflix-web/src/test/resources/archunit.properties` con
   `archRule.failOnEmptyShould=false` (decisión registrada en `progreso/0.md`; la tarea 4.7 lo revierte).
   - Criterio: `./mvnw verify` ejecuta `ArchitectureTest` y queda en verde.
-- [ ] **0.8** **Prueba negativa** de las compuertas, en una rama temporal (nunca hagas push de ella):
+- [x] **0.8** **Prueba negativa** de las compuertas, en una rama temporal (nunca hagas push de ella):
   agrega a `web` una clase que importe `co.elastic.clients.elasticsearch.ElasticsearchClient` y use
   `System.out.println`, y ejecuta cada compuerta **por separado** (el build se detiene en la primera
   falla, así que un solo `verify` no muestra las tres):

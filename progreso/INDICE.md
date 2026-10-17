@@ -10,8 +10,8 @@
 - **Fase actual:** 0
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-0-andamiaje-29a6`)
-- **Próximo paso:** Tarea 0.8: prueba negativa de Checkstyle, PMD y ArchUnit en una rama local que no se publica. Después, `./mvnw verify` debe volver a 0.
-- **Última actualización:** 2026-10-17 23:47 UTC
+- **Próximo paso:** Tarea 0.9: comprobar `.env.example` con `grep -E '=.+' .env.example`. Solo deben aparecer valores por defecto no secretos.
+- **Última actualización:** 2026-10-17 23:49 UTC
 
 ## Fases
 
@@ -34,6 +34,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify -pl elastiflix-web -am`
-- **Resultado:** en verde. `ArchitectureTest`: `Tests run: 7, Failures: 0`.
-- **Fecha:** 2026-10-17 23:47 UTC
+- **Comando:** `./mvnw -q verify` tras revertir la prueba negativa
+- **Resultado:** en verde (código 0) y `git status` limpio.
+- **Fecha:** 2026-10-17 23:49 UTC
