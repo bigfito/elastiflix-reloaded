@@ -1,6 +1,6 @@
 # Estado de trabajo — <unidad>
 
-> Archivo de estado para retomar el trabajo en otra sesión sin perder avance. Cópialo como `progreso/<unidad>.md` al empezar la unidad. Actualízalo al empezar y al terminar cada tarea, y súbelo en el mismo commit que el código. Reglas completas en la sección "Estado del trabajo y reanudación" de `PLAN.md`.
+> Archivo de estado para retomar el trabajo en otra sesión sin perder avance. Cópialo como `progreso/<unidad>.md` al empezar la unidad. Actualízalo al empezar y al terminar **cada** tarea, súbelo en el mismo commit que el código y haz `git push` al terminar la tarea (también actualiza `progreso/INDICE.md`). Reglas completas en la sección "Estado del trabajo y reanudación" de `PLAN.md`.
 
 ## Identificación
 

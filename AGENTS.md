@@ -12,7 +12,8 @@ cerrada, cambio de agente). **Al iniciar cualquier sesión, antes de escribir c�
 1. Revisa rama (`git branch --show-current`) y carpeta.
 2. Lee `progreso/INDICE.md` y `progreso/<fase actual>.md` (si no existe, créalo desde
    `progreso/_PLANTILLA.md`: la fase no ha empezado).
-3. Ejecuta `git status` y `git log --oneline -10`.
+3. Ejecuta `git status -sb`, `git log --oneline -10` y `git fetch`. Si hay commits sin push, haz push
+   antes de seguir.
 4. Contrasta:
    - estado `esperando aprobación de diseño` → **no escribas código**; pregunta al usuario si aprueba
      `docs/diseno/<fase>.md` y registra la respuesta;
@@ -27,11 +28,15 @@ cerrada, cambio de agente). **Al iniciar cualquier sesión, antes de escribir c�
 
 - **Al empezar una tarea:** márcala `en curso` y escribe el próximo paso como una acción concreta.
 - **Durante:** actualiza subpaso y "Cambios sin commit" tras cada archivo y antes de comandos largos.
-- **Al terminar:** márcala `terminada` con evidencia (comando y resultado) y haz **un commit con el
-  código y el archivo de estado**: `<id>: <resumen>` (por ejemplo `2.3: estrategia full-text`).
-- Nunca empieces una tarea con cambios sin commit de la anterior.
-- Si te bloqueas: estado `bloqueado`, descríbelo, commit y detente.
-- Al cerrar una fase: actualiza `progreso/INDICE.md` en el mismo commit.
+- **Al terminar — siempre, en cada tarea:** márcala `terminada` con evidencia (comando y resultado) en
+  `progreso/<fase>.md`, actualiza el próximo paso ahí **y** en `progreso/INDICE.md`, marca `- [x]` en
+  `PLAN.md`, haz **un commit** con el código y el estado (`<id>: <resumen>`, por ejemplo
+  `2.3: estrategia full-text`) y **`git push`**. Así otro agente puede retomar si se acaban los tokens.
+- Si el push falla: anota «push pendiente» en "Bloqueos y solicitudes" y reintenta en la siguiente tarea.
+- Nunca empieces una tarea con cambios sin commit ni commits sin push de la anterior.
+- Si te bloqueas: estado `bloqueado`, descríbelo, commit, push y detente.
+- Al cerrar una fase: su última tarea **actualiza la documentación del proyecto** (`README.md` y lo que
+  cambió); luego `progreso/INDICE.md`, commit y push.
 
 ## Qué es este proyecto
 
@@ -54,7 +59,7 @@ Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de Elasticsearch 9.x, Maven mono-repo 
 ./mvnw verify                                    # unitarias + ArchUnit + Checkstyle + PMD (sin red)
 ./mvnw verify -Pit                               # + integración contra Elasticsearch (requiere .env)
 ./mvnw -q install -DskipTests && ./mvnw -pl elastiflix-web spring-boot:run   # http://localhost:8080
-# Migración del índice a alias (tarea 1.8; el borrado del original exige aprobación del usuario):
+# Migración del índice concreto a alias (tarea 1.8):
 ./mvnw -pl elastiflix-web spring-boot:run -Dspring-boot.run.arguments="--elastiflix.bootstrap.enabled=true"
 ```
 
@@ -70,7 +75,7 @@ En Windows usa `mvnw.cmd`.
 - `design/mockups/` — pantallas aprobadas; `design/README.md` — tokens de diseño.
 - `elasticsearch/` — mapping del índice y fixtures reales (4 películas en .json y .csv, vector de consulta).
 - `progreso/` — estado del desarrollo para retomar sesiones (versionado; no es estado de la aplicación).
-- Paquete base: `io.github.bigfito.elastiflix.<core|search|ingest|web>`.
+- Paquete base: `com.bigfito.elastiflix.<core|search|ingest|web>`.
 
 ## Reglas de código
 
@@ -102,11 +107,16 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 
 ## Reglas del dominio
 
-- Lectura siempre por el alias `elastiflix-reloaded` (configurable); cargas en índice temporal
-  `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` + swap atómico; si algo falla, se borra el temporal.
+- Lectura siempre por el alias `elastiflix-reloaded` (configurable). Importación de archivo: índice
+  temporal `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` y publicación en una sola llamada a `_aliases`
+  (`add` al nuevo + `remove_index` del anterior); si algo falla, se borra el temporal y nada más cambia.
+- Registro individual: directo al catálogo por el alias; se rechaza mientras haya una importación.
 - Validación de cargas **todo o nada** contra `elasticsearch/elastiflix-reloaded-mapping.json`;
-  `id`, `title` y `plot` obligatorios; `.json`/`.csv`, sin dobles extensiones, ≤ 150 MB, UTF-8.
-  Sin análisis de malware (lo hace el proveedor del servidor).
+  `id`, `title` y `plot` obligatorios; `.json`/`.csv`, sin dobles extensiones, ≤ 150 MB, UTF-8; CSV
+  **sin encabezado se rechaza**. Sin análisis de malware (lo hace el proveedor del servidor).
+- `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución con el servicio de
+  inferencia de Elasticsearch; los del archivo se ignoran.
+- Pósters desde el CDN de TMDB (`ELASTIFLIX_POSTER_BASE_URL` + `poster_path`).
 - Vectores: 1024 del modelo; 512 y 256 = primeros N valores renormalizados; prefijos `Query: ` y
   `Document: `. k-NN: `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`. RRF: `rank_constant 60`,
   `rank_window_size = k`. Full-text: `from + size ≤ 10 000`.
@@ -114,8 +124,8 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 - Fechas en UTC; `release_date` `yyyy-MM-dd`. Interfaz en español, con los textos de los mockups.
 - **Pruebas de integración:** lectura sobre `elastiflix-reloaded` sin modificarlo; escritura solo sobre
   alias propios `elastiflix-it-<aleatorio>` que se borran al terminar.
-- **Acciones irreversibles en el clúster** (borrar el índice original en la tarea 1.8, borrar índices
-  que no creó la prueba): pide aprobación explícita al usuario antes de ejecutarlas.
+- Las pruebas **nunca** borran índices que no crearon. La migración de la tarea 1.8 y el borrado del
+  índice anterior al publicar están aprobados por el usuario y no requieren nueva confirmación.
 
 ## Seguridad y secretos
 

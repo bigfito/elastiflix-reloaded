@@ -53,6 +53,6 @@ flowchart LR
   validator -->|"C si todo coincide"| job
   job -->|"D copia + lotes"| tmp
   job -->|"E vectores faltantes"| emb
-  job -->|"F swap atómico"| catalog
+  job -->|"F swap atómico y borrado del anterior"| catalog
   catalog --> alias
   health -.-> catalog

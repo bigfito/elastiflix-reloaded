@@ -128,6 +128,7 @@ RRF: `Σ 1 / (60 + posición)`.
 - **Valores dinámicos:** cada filtro muestra solo los valores presentes en los resultados, con su conteo.
 - **Sin resultados:** la página sugiere ajustes según el modo, o quitar filtros si estos vaciaron la
   lista.
+- **Pósters:** se cargan del CDN de imágenes de TMDB a partir de `poster_path`.
 
 ## 📥 Carga de datos
 
@@ -137,23 +138,25 @@ flowchart LR
   B --> C["3 · Validación<br/>contra el mapping"]
   C -->|"todo coincide"| D["4 · Importación<br/>índice temporal · lotes de 100"]
   C -->|"un solo error"| X["⛔ Se detiene<br/>no se importa nada"]
-  D --> E["5 · Publicación<br/>swap atómico del alias"]
+  D --> E["5 · Publicación<br/>swap atómico del alias<br/>y borrado del índice anterior"]
   D -->|"falla"| Y["↩️ Se borra el temporal<br/>catálogo intacto"]
 ```
 
 | Forma | Formato |
 |---|---|
-| ✍️ Registro individual | Formulario con los campos del mapping (`id`, `title` y `plot` obligatorios) |
+| ✍️ Registro individual | Formulario con los campos del mapping (`id`, `title` y `plot` obligatorios); se escribe **directamente en el catálogo** |
 | 🧾 `.json` | Exportación del índice (`documents`, `mapping`, `document_count`), arreglo de películas o NDJSON |
-| 📊 `.csv` | UTF-8 con o sin BOM, coma, encabezado; listas, anidados y vectores como JSON en la celda |
+| 📊 `.csv` | UTF-8 con o sin BOM, coma, **encabezado obligatorio** (sin encabezado se rechaza); listas y anidados como JSON en la celda |
 
 - **Antes de subir:** solo `.json` o `.csv`, sin dobles extensiones, máximo **150 MB**, UTF-8.
 - **Contra el mapping:** se revisa el archivo completo; si algo no coincide, se muestra cada error
   (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe.
-- **Vectores:** si el archivo trae `plot_256`, `plot_512` y `plot_1024` válidos se usan; si no, se generan
-  desde `plot`.
-- **Publicación:** el alias `elastiflix-reloaded` pasa al índice nuevo en una sola operación; si algo
-  falla, el catálogo queda exactamente como estaba.
+- **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución desde
+  `plot`, con el modelo de embeddings a través del servicio de inferencia de Elasticsearch; si el archivo
+  los trae, se ignoran.
+- **Publicación:** en una sola operación, el alias `elastiflix-reloaded` pasa al índice nuevo y el
+  índice anterior se borra; si algo falla antes, el catálogo queda exactamente como estaba.
+- **Una carga a la vez:** mientras se importa un archivo, el registro individual espera a que termine.
 
 ## 🏗️ Arquitectura
 
@@ -252,8 +255,9 @@ Abre la carpeta del repositorio en tu herramienta y pide:
 
 ### 🔁 Si una sesión se interrumpe
 
-Sin tokens, contexto lleno, herramienta cerrada o cambio de agente — no se pierde el avance: vive en
-`progreso/` y en un commit por tarea. Pide:
+Sin tokens, contexto lleno, herramienta cerrada o cambio de agente — no se pierde el avance: al terminar
+**cada tarea** el agente actualiza `progreso/`, hace un commit y lo publica con `git push`. Al cerrar
+cada fase actualiza también esta documentación. Pide:
 
 > Retoma el trabajo: aplica el protocolo de reanudación de `AGENTS.md` y continúa desde el próximo
 > paso registrado en tu archivo de `progreso/`.

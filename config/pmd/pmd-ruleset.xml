@@ -98,7 +98,7 @@
     <properties>
       <property name="xpath">
         <value><![CDATA[
-//CompilationUnit[PackageDeclaration[starts-with(@Name, 'io.github.bigfito.elastiflix.web')]]
+//CompilationUnit[PackageDeclaration[starts-with(@Name, 'com.bigfito.elastiflix.web')]]
   /ImportDeclaration[starts-with(@ImportedName, 'co.elastic.clients')]
 ]]></value>
       </property>

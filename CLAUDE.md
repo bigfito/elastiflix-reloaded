@@ -19,7 +19,7 @@
 - Aplica el protocolo de reanudación también tras `/clear`, tras una **compactación automática** o al
   retomar una conversación: tu memoria de la sesión puede estar incompleta; `progreso/` y git son la
   fuente de verdad.
-- Aborda **una fase por sesión** cuando sea posible; **un commit por tarea** con su archivo de
+- Aborda **una fase por sesión** cuando sea posible; **un commit y un push por tarea** con su archivo de
   `progreso/` actualizado.
 - Si la conversación ya es muy larga, detente en un **punto seguro** (tarea con commit o estado
   actualizado) antes de empezar trabajo nuevo.
@@ -27,7 +27,8 @@
   deja la fase en `esperando aprobación de diseño` y espera la respuesta del usuario.
 - Usa la lista de tareas de `PLAN.md`; marca `- [x]` cuando pase el criterio.
 - Si una verificación falla, **detente y corrige** antes de continuar.
-- Antes de cualquier acción irreversible en Elasticsearch (tarea 1.8), pide aprobación explícita.
+- Al terminar **cada** tarea: estado actualizado (`progreso/<fase>.md` e `INDICE.md`), commit y `git push`.
+- Al cerrar cada fase: actualiza la documentación del proyecto (`README.md` y lo que cambió).
 
 ## Definición de Hecho
 

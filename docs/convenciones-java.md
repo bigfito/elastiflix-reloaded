@@ -119,7 +119,7 @@ genéricas (usa clases con nombre de responsabilidad), Visitor, reflexión.
 
 | Elemento | Convención | Ejemplo |
 |---|---|---|
-| Paquete | `io.github.bigfito.elastiflix.<módulo>.<área>` | `io.github.bigfito.elastiflix.search.facet` |
+| Paquete | `com.bigfito.elastiflix.<módulo>.<área>` | `com.bigfito.elastiflix.search.facet` |
 | Clase | Sustantivo en PascalCase | `HybridSearchStrategy`, `MappingValidator` |
 | Interfaz | Capacidad, sin prefijo `I` | `EmbeddingService`, `MovieFileReader` |
 | Implementación | Calificador + interfaz | `InferenceEmbeddingService` |
@@ -222,14 +222,19 @@ SLF4J con un `private static final Logger LOG` por clase.
 - **Tiempo:** `java.time` y UTC (`Instant`, `Clock` inyectable). `release_date` es `LocalDate` con
   formato `yyyy-MM-dd`. Prohibidos `Date`, `Calendar`, `SimpleDateFormat` (regla `JM-TIME-01`).
 - **Vectores:** `float[]`; 512 y 256 son los primeros N valores del vector de 1024, **renormalizados
-  (L2)**. Prefijos del modelo: `Query: ` en consultas, `Document: ` en sinopsis.
+  (L2)**. Prefijos del modelo: `Query: ` en consultas, `Document: ` en sinopsis. En las cargas, los tres
+  vectores **siempre** se generan con el servicio de inferencia; los del archivo se ignoran.
 - **Límites:** `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`; full-text `from + size ≤ 10 000`
   (`index.max_result_window`); híbrida `rank_window_size = k` y `rank_constant = 60`.
 - **Puntuaciones:** BM25 tal cual; k-NN `(1 + coseno) / 2`; RRF `Σ 1 / (60 + posición)`.
 - **Alias:** el nombre `elastiflix-reloaded` es configurable (`elastiflix.index.alias`); el código
   nunca lo escribe como literal fuera de la configuración por defecto.
-- **Concurrencia:** una sola importación a la vez; el estado del trabajo es inmutable (`record`) y se
-  publica por el listener de progreso.
+- **Concurrencia:** una sola importación a la vez; mientras corre, los registros individuales se
+  rechazan (se escribirían en el índice que se va a borrar). El estado del trabajo es inmutable
+  (`record`) y se publica por el listener de progreso. Una búsqueda que recibe `index_not_found` (swap
+  en curso) reintenta una vez contra el alias.
+- **Publicación:** `add` del alias al índice nuevo y `remove_index` del anterior en una sola llamada a
+  `_aliases`; nunca en dos llamadas.
 - **Texto de interfaz** en español, igual al de los mockups de `design/mockups/`.
 
 ## 12. Build y dependencias
@@ -252,7 +257,7 @@ Estos ejemplos pasan Checkstyle 14.3.0 y PMD 7.28.0 con las configuraciones de `
 **Catálogo de códigos de error**
 
 ```java
-package io.github.bigfito.elastiflix.core.error;
+package com.bigfito.elastiflix.core.error;
 
 /**
  * Catálogo de códigos de error de Elastiflix.
@@ -308,7 +313,7 @@ public enum ErrorCode {
 **Excepción base**
 
 ```java
-package io.github.bigfito.elastiflix.core.error;
+package com.bigfito.elastiflix.core.error;
 
 import java.io.Serial;
 
@@ -357,10 +362,10 @@ public class ElastiflixException extends RuntimeException {
 **`record` con validación en el constructor compacto**
 
 ```java
-package io.github.bigfito.elastiflix.search.query;
+package com.bigfito.elastiflix.search.query;
 
-import io.github.bigfito.elastiflix.core.error.ElastiflixException;
-import io.github.bigfito.elastiflix.core.error.ErrorCode;
+import com.bigfito.elastiflix.core.error.ElastiflixException;
+import com.bigfito.elastiflix.core.error.ErrorCode;
 
 /**
  * Ajustes del componente vectorial (k-NN) elegidos por el usuario.
@@ -402,7 +407,7 @@ public record KnnSettings(VectorField vectorField, int k, int numCandidates) {
 **Jerarquía sellada + `switch` con patrones + logging**
 
 ```java
-package io.github.bigfito.elastiflix.search.query;
+package com.bigfito.elastiflix.search.query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

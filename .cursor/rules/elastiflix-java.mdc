@@ -9,6 +9,6 @@ Antes de crear o modificar código Java o un `pom.xml`:
 2. Lee `docs/convenciones-java.md` completo: manda sobre las preferencias por defecto de Cursor.
 3. Comprueba que existe `docs/diseno/<fase>.md` en un commit previo y, en las fases 1, 2 y 3, que el usuario lo aprobó.
 4. Respeta la matriz de dependencias de `PLAN.md` §8: Spring MVC y Thymeleaf solo en `elastiflix-web`; la web no usa `co.elastic.clients`.
-5. Al terminar la tarea: `./mvnw verify` con 0 violaciones y un commit `<id>: <resumen>` que incluya `progreso/<fase>.md`.
+5. Al terminar la tarea: `./mvnw verify` con 0 violaciones; actualiza `progreso/<fase>.md` y `progreso/INDICE.md`; commit `<id>: <resumen>` y `git push`.
 
 No modifiques `config/checkstyle/checkstyle.xml` ni `config/pmd/pmd-ruleset.xml`.

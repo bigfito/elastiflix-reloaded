@@ -16,9 +16,12 @@
 > 4. Ejecuta las **fases en orden** (Fase 0 → Fase 6). No adelantes fases ni tareas.
 > 5. Cada tarea tiene rutas, comandos y **criterio de aceptación**. No la marques hecha si el criterio
 >    no pasa.
-> 6. **Un commit por tarea terminada**, con el código y `progreso/<fase>.md` actualizado, con el id como
->    prefijo (`2.3: estrategia full-text`). Nunca empieces una tarea con cambios sin commit.
-> 7. Al terminar una fase, corre su **"Verificación de fase"**; no continúes si falla.
+> 6. **Al terminar cada tarea:** actualiza el estado (`progreso/<fase>.md` **y** `progreso/INDICE.md`),
+>    haz **un commit** con el código y el estado, con el id como prefijo (`2.3: estrategia full-text`), y
+>    **`git push`** al remoto. Así, si se acaban los tokens, otro agente retoma desde lo publicado.
+>    Nunca empieces una tarea con cambios sin commit o commits sin push de la anterior.
+> 7. Al terminar una fase, corre su **"Verificación de fase"** (no continúes si falla) y **actualiza la
+>    documentación del proyecto** (tarea final de cada fase).
 > 8. Nunca escribas secretos en el código ni en git. Todo secreto va por `.env`.
 > 9. **No agregues funciones que este plan no pide.** Si algo no está definido, pregúntalo al usuario.
 
@@ -62,7 +65,7 @@ cargar nuevas películas sin dejar nunca el catálogo a medias.
 | 🔀 Híbrida | Retriever `rrf` con el componente full-text y el vectorial; `rank_constant = 60`, `rank_window_size = k`; muestra BM25, k-NN, sus posiciones y la puntuación RRF |
 | 🎛️ Filtros | `adult`, `genres`, `release_date` (desde–hasta), `spoken_languages`, `rating`, con conteos calculados sobre los resultados |
 | 📄 Paginación | 25 · 50 · 100 por página |
-| 📥 Carga de datos | Registro individual, `.json` o `.csv` (≤ 150 MB, UTF-8); validación completa contra el mapping; importación en índice temporal y swap atómico de alias; vuelta atrás si algo falla |
+| 📥 Carga de datos | Registro individual (directo al catálogo), `.json` o `.csv` con encabezado (≤ 150 MB, UTF-8); validación completa contra el mapping; vectores siempre generados con el servicio de inferencia; importación en índice temporal, swap atómico de alias y borrado del índice anterior; vuelta atrás si algo falla |
 | ℹ️ Acerca de | Documentación de la demo dentro de la aplicación |
 
 **Fuera de alcance** (no implementar sin que el usuario lo pida): autenticación, comparación lado a
@@ -71,7 +74,15 @@ servidor de aplicaciones), despliegue en la nube, CI/CD.
 
 **Diseño visual aprobado:** los mockups de `design/mockups/` (ver `design/README.md`). La interfaz
 real **reproduce fielmente** esos mockups: paleta, tipografías, textos, componentes y comportamiento.
-No los rediseñes.
+No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usuario del 2026-10-17):
+
+| Mockup | Texto actual | Ajuste |
+|---|---|---|
+| `About.dc.html` › Carga de datos › Vectores | «Si el archivo trae plot_256, plot_512 y plot_1024 válidos, se usan tal cual. Si no, se generan…» | Los tres vectores **siempre** se generan desde `plot` con el servicio de inferencia de Elasticsearch; si el archivo los trae, se ignoran |
+| `About.dc.html` › Carga de datos › Índice temporal / Publicación | — | Agregar que, al publicar, el índice anterior se borra |
+| `About.dc.html` y `Ingest.dc.html` › reglas de validación | «vectores con 256, 512 y 1024 números» | Quitar los vectores de las reglas de validación |
+| `About.dc.html` › Formas de carga › Archivo .csv | «con encabezado» | Aclarar que un CSV sin encabezado se rechaza |
+| `Ingest.dc.html` › casilla «La primera fila contiene los nombres de columna» | — | Si se desmarca, el archivo se rechaza con su código `EFX-ING-*` |
 
 ## 2. Arquitectura
 
@@ -93,11 +104,29 @@ El diagrama completo, con el flujo numerado de búsqueda (1–7) y de carga (A�
 
 - **Un solo ejecutable:** `elastiflix-web` (Spring Boot). `core`, `search` e `ingest` son librerías.
 - **Alias como punto de lectura:** todas las búsquedas van al alias `elastiflix-reloaded`. El índice
-  real se llama `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` (UTC). Una carga escribe en un índice nuevo y
-  publica con un swap atómico de alias.
+  real se llama `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` (UTC). Una importación de archivo escribe en un
+  índice nuevo y publica con **una sola llamada atómica a `_aliases`**: `add` del alias al índice nuevo
+  y `remove_index` del índice anterior (el anterior se borra; decisión del usuario). El registro
+  individual se escribe directamente en el índice vigente a través del alias.
 - **Estado actual del clúster:** hoy `elastiflix-reloaded` es un **índice concreto**, no un alias. La
-  tarea **1.8** lo migra a alias; el borrado del índice original requiere la **aprobación explícita del
-  usuario** en la conversación.
+  tarea **1.8** lo migra a alias con el mismo mecanismo (`add` + `remove_index`), sin pedir aprobación
+  (decisión del usuario).
+- **Por qué borrar el índice anterior es seguro** (validado al redactar el plan; la tarea 1.6 lo
+  demuestra en el proyecto real):
+  1. `add` + `remove_index` en una sola llamada es atómico: nunca hay un momento sin alias ni con el
+     alias apuntando a dos índices.
+  2. Solo se ejecuta después de verificar el conteo del índice nuevo; si la verificación falla, se borra
+     el temporal y el anterior queda intacto.
+  3. Una búsqueda que ya estaba en curso contra el índice anterior puede fallar con
+     `index_not_found` en el instante del swap: la capa de búsqueda **reintenta una vez** contra el alias.
+  4. Un registro individual escrito en el índice anterior *durante* una importación se perdería al
+     borrarlo: por eso **no se aceptan registros individuales mientras hay una importación en curso**
+     (`EFX-IMP-*`, «hay una carga en curso; vuelve a intentarlo al terminar»).
+  5. Si el borrado no se completara por un error ajeno, el alias ya apunta al índice nuevo; los índices
+     `elastiflix-reloaded-*` que no estén detrás del alias ni en uso por una importación se limpian al
+     inicio de la siguiente importación y se registran en `WARN`.
+  6. No queda respaldo del catálogo anterior dentro de Elasticsearch: el respaldo es el archivo de
+     exportación del usuario.
 - **Serverless:** no hay `_cluster/health`; el indicador de salud consulta el alias y su conteo
   (`_count`). No se configuran shards ni réplicas.
 - **Vectores fuera de las respuestas:** las búsquedas excluyen `plot_256`, `plot_512` y `plot_1024`
@@ -130,7 +159,7 @@ Versiones verificadas en la web el 2026-10-17.
 
 - No se usa Spring Data Elasticsearch, Lombok ni Jackson 2 en el código propio (Jackson 2 queda como
   dependencia transitiva, sin uso).
-- Zona horaria: **UTC**. Paquete base: `io.github.bigfito.elastiflix`. `groupId`: `io.github.bigfito`.
+- Zona horaria: **UTC**. Paquete base: `com.bigfito.elastiflix`. `groupId`: `com.bigfito`.
 
 ## 4. Estructura del repositorio
 
@@ -202,10 +231,10 @@ elastiflix-reloaded/
 
 | Método y ruta | Uso |
 |---|---|
-| `POST /cargar/registro` | Guarda una película desde el formulario (redirige a `/cargar` con el resultado) |
-| `POST /cargar/archivo` (multipart: `archivo`, `separador`, `encabezado`) | Sube el archivo, repite las comprobaciones de tipo, tamaño y UTF-8, y lanza la validación; devuelve `jobId` |
+| `POST /cargar/registro` | Guarda una película desde el formulario **directamente en el catálogo** (índice vigente a través del alias); se rechaza si hay una importación en curso. Redirige a `/cargar` con el resultado |
+| `POST /cargar/archivo` (multipart: `archivo`, `separador`, `encabezado`) | Sube el archivo, repite las comprobaciones de tipo, tamaño y UTF-8 (y, en CSV, que traiga encabezado), y lanza la validación; devuelve `jobId` |
 | `GET /cargar/trabajos/{jobId}` | Estado del trabajo: paso del proceso (1–5), conteos, errores (primeros 6), advertencias, comprobaciones, progreso |
-| `POST /cargar/trabajos/{jobId}/importar` | Inicia la importación de un archivo ya validado |
+| `POST /cargar/trabajos/{jobId}/importar` | Inicia la importación de un archivo ya validado (genera los vectores, escribe en el índice temporal, publica y borra el índice anterior) |
 | `POST /cargar/trabajos/{jobId}/cancelar` | Cancela la importación y borra el índice temporal |
 | `GET /cargar/trabajos/{jobId}/informe.csv` | Informe completo de errores (CSV UTF-8) |
 
@@ -217,6 +246,10 @@ elastiflix-reloaded/
 `CatalogIndex`, `EmbeddingService`, `IndexMapping`, `CatalogStatusService` (en `core`);
 `SearchService` (en `search`); `IngestService` (en `ingest`). La web solo conoce estas fachadas y sus
 `record` de entrada y salida.
+
+**Pósters:** cada resultado muestra su póster desde el CDN de imágenes de TMDB:
+`<ELASTIFLIX_POSTER_BASE_URL><poster_path>` (por defecto `https://image.tmdb.org/t/p/w342`). Si
+`poster_path` está vacío o la imagen no carga, se muestra el marcador del mockup.
 
 ## 6. Modelo de datos
 
@@ -240,12 +273,16 @@ elastiflix-reloaded/
 
 - **Vectores:** 512 y 256 son los primeros N valores del vector de 1024, renormalizados (L2). Prefijos:
   `Query: ` en consultas (`input_type: search`) y `Document: ` en sinopsis.
+- **En cada carga (archivo o registro individual), `plot_256`, `plot_512` y `plot_1024` se llenan en
+  tiempo de ejecución** llamando al modelo de embeddings a través del servicio de inferencia de
+  Elasticsearch. Si el archivo trae esas columnas, se ignoran (una advertencia lo indica) y no se
+  validan.
 - **Formatos de carga** (muestras reales en `elasticsearch/fixtures/`):
   - **JSON:** objeto de exportación `{index, exported_at, document_count, csv_file, load_notes, mapping, documents[]}`,
     un arreglo de películas o NDJSON. Si trae `document_count`, debe coincidir con `documents`.
-  - **CSV:** UTF-8 con o sin BOM, separador coma (o `;` / tabulador si el usuario lo elige), encabezado,
-    fin de línea `\r\n` o `\n`, celdas multilínea entre comillas; listas, objetos anidados y vectores
-    como JSON dentro de la celda.
+  - **CSV:** UTF-8 con o sin BOM, separador coma (o `;` / tabulador si el usuario lo elige), **encabezado
+    obligatorio** (un CSV sin encabezado se rechaza), fin de línea `\r\n` o `\n`, celdas multilínea
+    entre comillas; listas y objetos anidados como JSON dentro de la celda.
   - En ambos formatos puede venir el metadato `_id`; si viene, debe ser igual a `id`. `id` puede llegar
     como número y se guarda como texto.
 - **Datos de verificación** (catálogo intacto de 4 322 películas, `k = 100`, `num_candidates = 200`):
@@ -276,7 +313,9 @@ elastiflix-reloaded/
   commits.
 - **Integración contra Elasticsearch:** las pruebas de lectura usan `elastiflix-reloaded` sin
   modificarlo; las de escritura usan su propio alias `elastiflix-it-<aleatorio>` y lo borran al terminar.
-- **Textos de la interfaz:** los de los mockups, palabra por palabra.
+- **Textos de la interfaz:** los de los mockups, palabra por palabra, salvo los ajustes autorizados de §1.
+- **Git:** un commit **y un push** por tarea, con el estado actualizado; documentación del proyecto
+  actualizada al cerrar cada fase.
 
 ## 8. Calidad de código
 
@@ -336,20 +375,28 @@ Se versionan en git; `.gitignore` nunca los excluye.
    acción concreta que otro agente pueda ejecutar sin contexto, y anota el hash del commit anterior.
 2. **Durante:** actualiza subpaso y "Cambios sin commit" tras cada archivo terminado y antes de cada
    comando largo (suite completa, `-Pit`, refactorizaciones amplias).
-3. **Al pasar el criterio:** márcala `terminada` con evidencia (comando y resultado), vacía "Cambios sin
-   commit", escribe el nuevo próximo paso y haz **un commit con el código y el archivo de estado**:
-   `<id>: <resumen>`.
-4. **Nunca** empieces una tarea con cambios sin commit de la anterior.
-5. **Si te bloqueas:** estado `bloqueado`, descríbelo en "Bloqueos y solicitudes", commit y detente.
-6. **Al terminar la fase:** estado `terminado`, última verificación, resumen de diseño, revisión de
-   convenciones; actualiza `progreso/INDICE.md` en el mismo commit.
+3. **Al pasar el criterio — siempre, en cada tarea, sin excepción:**
+   1. marca la tarea `terminada` con evidencia (comando y resultado) en `progreso/<fase>.md`, vacía
+      "Cambios sin commit" y escribe el nuevo **próximo paso**;
+   2. actualiza `progreso/INDICE.md` (próximo paso global y fecha UTC);
+   3. marca `- [x]` en `PLAN.md`;
+   4. haz **un commit** con el código y los archivos de estado: `<id>: <resumen>`;
+   5. haz **`git push`** a `origin`. Si el push falla (red o credenciales), anota «push pendiente» en
+      "Bloqueos y solicitudes", reintenta al empezar la siguiente tarea y avisa al usuario si sigue fallando.
+4. **Nunca** empieces una tarea con cambios sin commit ni con commits sin push de la anterior.
+5. **Si te bloqueas:** estado `bloqueado`, descríbelo en "Bloqueos y solicitudes", commit, push y detente.
+6. **Al terminar la fase:** última tarea de documentación (actualiza `README.md` y los documentos que
+   cambiaron), estado `terminado`, última verificación, resumen de diseño, revisión de convenciones;
+   `progreso/INDICE.md` en el mismo commit; push.
 
 **Protocolo de reanudación** (toda sesión, nueva o reanudada, tras `/clear` o compactación):
 
 1. **Ubícate:** rama (`git branch --show-current`) y carpeta.
 2. **Lee el estado:** `progreso/INDICE.md` y `progreso/<fase actual>.md`. Si la fase no tiene archivo,
    no ha empezado: créalo desde `progreso/_PLANTILLA.md`.
-3. **Revisa git:** `git status` y `git log --oneline -10`.
+3. **Revisa git:** `git status -sb` (muestra si hay commits sin push), `git log --oneline -10` y
+   `git fetch` para ver si el remoto tiene trabajo de otro agente; si hay commits locales sin push, haz
+   push antes de seguir.
 4. **Contrasta:**
    - `esperando aprobación de diseño` → no escribas código; pregunta al usuario si aprueba
      `docs/diseno/<fase>.md` y registra la respuesta;
@@ -379,7 +426,7 @@ estilo, análisis estático o arquitectura.
   (requiere un Maven local ≥ 3.6.3 solo para este paso). Versiona `mvnw`, `mvnw.cmd` y `.mvn/wrapper/`.
   - Criterio: `./mvnw -v` muestra `Apache Maven 3.10.0` y `Java version: 25`.
 - [ ] **0.3** Crea el POM padre `pom.xml`: padre `org.springframework.boot:spring-boot-starter-parent:4.1.1`;
-  `io.github.bigfito:elastiflix-reloaded:0.1.0-SNAPSHOT`, `packaging pom`; módulos `elastiflix-core`,
+  `com.bigfito:elastiflix-reloaded:0.1.0-SNAPSHOT`, `packaging pom`; módulos `elastiflix-core`,
   `elastiflix-search`, `elastiflix-ingest`, `elastiflix-web`; `java.version` 25; propiedades de versión
   de §3 (Checkstyle, PMD, ArchUnit y sus plugins); `maven-enforcer-plugin` con
   `requireJavaVersion [25,)` y `requireMavenVersion [3.6.3,)`.
@@ -388,7 +435,7 @@ estilo, análisis estático o arquitectura.
   matriz de §8: `core` (cliente `elasticsearch-java`, Jackson 3, `spring-boot-starter`), `search` y
   `ingest` (`core`), `web` (`core`, `search`, `ingest`, starter de Spring MVC de Boot 4, Thymeleaf,
   Actuator, Validation, `spring-boot-maven-plugin`). Agrega un `package-info.java` por paquete base
-  (`io.github.bigfito.elastiflix.{core,search,ingest,web}`) y la clase `ElastiflixApplication`
+  (`com.bigfito.elastiflix.{core,search,ingest,web}`) y la clase `ElastiflixApplication`
   (`@SpringBootApplication`) en `web`.
   - Criterio: `./mvnw -q -DskipTests package` termina en 0 y genera `elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar`.
 - [ ] **0.5** Configura Checkstyle (con `config/checkstyle/checkstyle.xml`) y PMD (con
@@ -397,20 +444,25 @@ estilo, análisis estático o arquitectura.
   (14.3.0) y de PMD (7.28.0) dentro de cada plugin. **No modifiques los archivos de `config/`.**
   - Criterio: `./mvnw verify` termina en 0 con 0 violaciones.
 - [ ] **0.6** Agrega ArchUnit (`archunit-junit5`, scope test) y crea
-  `elastiflix-web/src/test/java/io/github/bigfito/elastiflix/architecture/ArchitectureTest.java` con las
+  `elastiflix-web/src/test/java/com/bigfito/elastiflix/architecture/ArchitectureTest.java` con las
   reglas de la matriz de §8 (incluida "sin ciclos" y "web no depende de `co.elastic.clients..`").
   Importa las clases de producción de los cuatro módulos (`ImportOption.DoNotIncludeTests`).
   - Criterio: `./mvnw verify` ejecuta `ArchitectureTest` y queda en verde.
 - [ ] **0.7** **Prueba negativa** de las compuertas: en una rama temporal, agrega a `web` una clase
   que importe `co.elastic.clients.elasticsearch.ElasticsearchClient` y use `System.out.println`; corre
   `./mvnw verify`; confirma que falla por `JM-LOG-01` (Checkstyle), `JM-DEP-02` (PMD) y ArchUnit;
-  **revierte** y borra la rama. Registra la salida resumida como evidencia.
+  **revierte** y borra la rama (nunca hagas push de esa rama). Registra la salida resumida como evidencia.
   - Criterio: el build falla con los tres mensajes; tras revertir, `./mvnw verify` vuelve a 0 y
     `git status` queda limpio.
 - [ ] **0.8** Confirma que `.env.example` contiene todas las variables de la sección
   [Variables de entorno](#variables-de-entorno-envexample) y ningún valor real.
   - Criterio: `grep -E '=.+' .env.example` solo muestra valores por defecto no secretos (alias, endpoint
-    de inferencia, tamaños, puerto).
+    de inferencia, tamaños, URL de pósters, puerto).
+- [ ] **0.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+  fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
+  (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/0.md` qué se
+  actualizó.
+  - Criterio: el README describe el estado real al cierre de la Fase 0; commit y push.
 
 **Verificación de fase 0:**
 ```bash
@@ -461,24 +513,24 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 - [ ] **1.6** `CatalogIndex` (gateway): resolver el índice detrás del alias, crear un índice con el
   mapping, `_reindex` de un índice a otro, `refresh`, `_count`, swap atómico de alias (`remove` + `add`
   en una sola llamada a `_aliases`), borrar índice, comprobar si un nombre es alias o índice.
-  - Criterio: `CatalogIndexIT` crea `elastiflix-it-<aleatorio>-a`, lo reindexa a `-b`, cambia un alias
-    de prueba de `-a` a `-b` atómicamente y borra todo al terminar, aun si la prueba falla.
+  - Criterio: `CatalogIndexIT` crea `elastiflix-it-<aleatorio>-a`, lo reindexa a `-b` y, en **una sola
+    llamada** a `_aliases`, mueve un alias de prueba a `-b` con `add` y borra `-a` con `remove_index`;
+    verifica que el alias apunta solo a `-b`, que `-a` ya no existe y que el conteo se conserva. Borra todo
+    al terminar, aun si la prueba falla. (Confirma en el proyecto Serverless real el mecanismo que usan
+    1.8 y 3.6.)
 - [ ] **1.7** `CatalogStatusService`: devuelve alias, índice vigente, conteo y estado (conectado / sin
   conexión) con el código de error correspondiente.
   - Criterio: `CatalogStatusServiceIT` devuelve `documents = 4322` para `elastiflix-reloaded`.
-- [ ] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que solo corre
-  con `elastiflix.bootstrap.enabled=true`:
+- [ ] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
+  `elastiflix.bootstrap.enabled=true` (no requiere aprobación previa del usuario; decisión del 2026-10-17):
   1. Si `elastiflix-reloaded` ya es alias → no hace nada y lo registra.
   2. Si es índice concreto → crea `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` con el mapping, reindexa y
-     verifica que el conteo coincida.
-  3. Solo con `elastiflix.bootstrap.confirm-delete-original=true`: en una sola llamada a `_aliases`
-     agrega el alias al índice nuevo y elimina el índice original (`remove_index`). Sin esa bandera se
-     detiene después del paso 2 y explica cómo continuar.
-  - **Antes de ejecutar el paso 3 contra el clúster real, pide la aprobación explícita del usuario en
-    la conversación** (borra el índice original) y regístrala en "Decisiones".
-  - Criterio: `CatalogBootstrapTest` (con dobles) cubre los tres caminos; tras la ejecución real,
-    `GET _alias/elastiflix-reloaded` apunta a `elastiflix-reloaded-…` con 4 322 documentos y una segunda
-    ejecución no cambia nada.
+     verifica que el conteo coincida. Si no coincide, borra el índice nuevo y se detiene con su código.
+  3. En una sola llamada a `_aliases`: `add` del alias `elastiflix-reloaded` al índice nuevo y
+     `remove_index` del índice original.
+  - Criterio: `CatalogBootstrapTest` (con dobles) cubre los tres caminos, incluido el conteo que no
+    coincide; tras ejecutarla en el clúster real, `GET _alias/elastiflix-reloaded` apunta a
+    `elastiflix-reloaded-…` con 4 322 documentos y una segunda ejecución no cambia nada.
 - [ ] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
   `ELASTIFLIX_INFERENCE_ID`: consulta con `input_type: search` y prefijo `Query: `; documentos con el
   prefijo `Document: ` en lotes; `VectorProjector` recorta a 512 y 256 y renormaliza.
@@ -486,7 +538,13 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     `EmbeddingServiceIT`: el vector de `elasticsearch/fixtures/query-vector-titanic.json` y el generado
     tienen coseno ≥ 0.999; el vector de documento regenerado para la película `597` tiene coseno ≥ 0.99
     con su `plot_1024` almacenado. **Si este último no se cumple**, marca la tarea `bloqueado` y pregunta
-    al usuario cómo se generaron los vectores del catálogo (`input_type` y prefijo).
+    al usuario cómo se generaron los vectores del catálogo (`input_type` y prefijo): las cargas
+    regeneran siempre los vectores y deben quedar coherentes con los del catálogo.
+- [ ] **1.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+  fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
+  (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/1.md` qué se
+  actualizó.
+  - Criterio: el README describe el estado real al cierre de la Fase 1; commit y push.
 
 **Verificación de fase 1:**
 ```bash
@@ -544,8 +602,15 @@ puntuaciones, y reproduce los datos de verificación de §6.
 - [ ] **2.8** `SearchService` (fachada): elige la estrategia, mide el tiempo, registra en `INFO` (modo,
   total, ms), devuelve `SearchResult` (resultados de la página, total, facetas, paginación, descripción
   de ajustes) y distingue los estados vacíos «sin resultados» y «sin resultados con estos filtros»
-  (este último confirma con un conteo sin filtros).
-  - Criterio: pruebas unitarias con estrategias simuladas cubren los tres modos y los dos estados vacíos.
+  (este último confirma con un conteo sin filtros). Si Elasticsearch responde `index_not_found` (swap de
+  alias en curso al publicar una carga), reintenta **una vez** contra el alias.
+  - Criterio: pruebas unitarias con estrategias simuladas cubren los tres modos, los dos estados vacíos
+    y el reintento único.
+- [ ] **2.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+  fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
+  (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/2.md` qué se
+  actualizó.
+  - Criterio: el README describe el estado real al cierre de la Fase 2; commit y push.
 
 **Verificación de fase 2:**
 ```bash
@@ -564,12 +629,13 @@ nunca el catálogo a medias.
 
 - [ ] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura en streaming de 150 MB, dos pasadas validación →
   importación, estado del trabajo, cancelación, swap y vuelta atrás). Commit y **detente** hasta la
-  aprobación del usuario. Lleva a "Dudas", para que el usuario decida:
-  - qué hacer con el índice anterior después de publicar (borrarlo o conservarlo como respaldo);
-  - si el registro individual se escribe directamente en el índice vigente o pasa por el índice temporal;
-  - qué hacer si el CSV no trae encabezado (la casilla «La primera fila contiene los nombres de
-    columna» desmarcada);
-  - qué hacer si un registro trae solo algunos de los tres vectores.
+  aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
+  - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
+  - el registro individual se escribe **directamente en el catálogo** (rechazado si hay una importación
+    en curso);
+  - un CSV **sin encabezado se rechaza**;
+  - `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución con el servicio de
+    inferencia; los vectores que traiga el archivo se ignoran.
 - [ ] **3.1** Comprobaciones del archivo (las mismas que hace el navegador, repetidas en el servidor):
   solo `.json`/`.csv`, sin dobles extensiones, máximo 150 MB, contenido UTF-8 válido (con o sin BOM).
   Límite de multipart de Spring alineado a 150 MB.
@@ -581,40 +647,60 @@ nunca el catálogo a medias.
   - Criterio: lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` y las mismas
     convertidas a arreglo y a NDJSON en las pruebas.
 - [ ] **3.3** `CsvMovieReader`: BOM opcional, separador elegido (coma por defecto, `;`, tabulador),
-  encabezado, celdas multilínea entre comillas, JSON dentro de celdas; tabla de correspondencia
-  columna → campo (columnas desconocidas = error).
+  **encabezado obligatorio**, celdas multilínea entre comillas, JSON dentro de celdas; tabla de
+  correspondencia columna → campo (columnas desconocidas = error). Se rechaza (`EFX-ING-*`) si la casilla
+  de encabezado viene desmarcada o si la primera fila no son nombres de campo del mapping (debe incluir
+  `id`, `title` y `plot`).
   - Criterio: lee `elasticsearch/fixtures/movies-sample.csv` y produce los mismos valores que el
-    JSON para las 4 películas.
+    JSON para las 4 películas; el mismo archivo sin su primera fila se rechaza con su código.
 - [ ] **3.4** `MappingValidator`: cada campo existe y tiene su tipo (`keyword` texto o lista de textos,
   `text`, `boolean`, `integer`/`long`, `float`, `date` `yyyy-MM-dd` estricto, `nested` con sus
-  subcampos, `dense_vector` con N números finitos); `id`, `title` y `plot` obligatorios; `id` no se
-  repite; `_id` igual a `id`. Advertencias que no detienen: valores vacíos dentro de listas (se omiten),
-  textos vacíos (se guardan sin valor). Cuenta cuántos `id` ya existen en el catálogo (reemplazarán).
+  subcampos); `id`, `title` y `plot` obligatorios; `id` no se repite; `_id` igual a `id`. Los campos
+  `plot_256`, `plot_512` y `plot_1024` **no se validan**: si vienen, se ignoran. Advertencias que no
+  detienen: valores vacíos dentro de listas (se omiten), textos vacíos (se guardan sin valor), vectores
+  del archivo ignorados («se generarán con el servicio de inferencia»). Cuenta cuántos `id` ya existen en el catálogo (reemplazarán).
   Informe completo exportable a CSV (registro, id, campo, recibido, esperado).
   - Criterio: pruebas con variantes inválidas de los fixtures (creadas en `src/test/resources`) producen
     exactamente los errores esperados; los fixtures válidos producen 0 errores.
-- [ ] **3.5** Vectores: si un registro trae `plot_256`, `plot_512` y `plot_1024` válidos se usan tal
-  cual; si no los trae, se generan desde `plot` con `EmbeddingService` (prefijo `Document: `), según la
-  decisión de 3.0 para los casos parciales.
-  - Criterio: prueba unitaria con `EmbeddingService` simulado verifica cuándo se llama y cuándo no.
+- [ ] **3.5** Vectores: para **cada** registro (archivo o formulario), `plot_1024` se genera desde
+  `plot` con `EmbeddingService` (servicio de inferencia de Elasticsearch, prefijo `Document: `), en
+  lotes, y `plot_512` y `plot_256` se derivan con `VectorProjector`. Los vectores del archivo se
+  descartan. Si la inferencia falla, la importación se detiene con `EFX-EMB-*` y se aplica la vuelta
+  atrás. El progreso informa los registros vectorizados.
+  - Criterio: prueba unitaria con `EmbeddingService` simulado verifica que se llama para todos los
+    registros, incluso los que traen vectores, y que un fallo detiene la importación sin publicar.
 - [ ] **3.6** `ImportJob`: crea `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` con el mapping, copia el
   índice vigente (`_reindex`), escribe en lotes de 100 (`_id` = `id`, reemplaza si existe), revisa
-  cada respuesta `bulk`, `refresh`, verifica el conteo esperado (anterior + nuevos), y hace el swap
-  atómico del alias. Ante un lote rechazado, un conteo que no cuadra o una cancelación: borra el índice
-  temporal y deja el alias intacto. Una sola importación a la vez. Publica el progreso por el listener
-  (paso 1–5 del mockup, lote actual, registros escritos).
-  - Criterio: pruebas unitarias con `CatalogIndex` simulado cubren éxito, lote rechazado, conteo que no
-    cuadra, cancelación y segunda importación simultánea rechazada.
+  cada respuesta `bulk`, `refresh`, verifica el conteo esperado (anterior + nuevos) y publica en **una
+  sola llamada** a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice anterior.
+  Ante un lote rechazado, un conteo que no cuadra, un fallo de inferencia o una cancelación: borra el
+  índice temporal y deja el alias y el índice anterior intactos. Una sola importación a la vez; mientras
+  corre, los registros individuales se rechazan. Al iniciar, limpia (con `WARN`) los índices
+  `elastiflix-reloaded-*` huérfanos: los que no están detrás del alias ni en uso. Publica el progreso por
+  el listener (paso 1–5 del mockup, lote actual, registros vectorizados y escritos).
+  - Criterio: pruebas unitarias con `CatalogIndex` simulado cubren éxito (el anterior se borra en la
+    misma llamada del swap), lote rechazado, conteo que no cuadra, fallo de inferencia, cancelación,
+    segunda importación simultánea rechazada, registro individual rechazado durante una importación y
+    limpieza de huérfanos (nunca toca el índice detrás del alias).
 - [ ] **3.7** Registro individual: valida los campos del formulario (`id`, `title` y `plot`
-  obligatorios) con el mismo `MappingValidator`, genera los vectores y lo guarda según la decisión de 3.0.
-  - Criterio: prueba unitaria del flujo completo con dobles.
+  obligatorios) con el mismo `MappingValidator`, genera los vectores y lo escribe **directamente en el
+  catálogo** (a través del alias, `_id` = `id`, reemplaza si existe) con `refresh=wait_for` para que se
+  vea en la siguiente búsqueda. Se rechaza si hay una importación en curso.
+  - Criterio: prueba unitaria del flujo completo con dobles; `IngestIT` (3.8) escribe un registro en el
+    alias de prueba y lo encuentra con una búsqueda inmediata.
 - [ ] **3.8** `IngestService` (fachada) y pruebas de integración: `IngestIT` crea un alias propio
   `elastiflix-it-<aleatorio>` con un índice copiado de un subconjunto pequeño, importa
   `movies-sample.json` (una película modificada para probar el reemplazo) y verifica conteo, reemplazo,
-  swap y limpieza; otra prueba cancela a mitad y verifica que el alias no cambió y el índice temporal no
-  existe.
+  swap, **borrado del índice anterior** y vectores regenerados (coseno ≥ 0.99 con los del fixture);
+  otra prueba cancela a mitad y verifica que el alias no cambió, el índice anterior sigue y el temporal
+  no existe.
   - Criterio: `./mvnw verify -Pit -pl elastiflix-ingest -am` en verde; **ninguna** prueba toca
     `elastiflix-reloaded`.
+- [ ] **3.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+  fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
+  (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/3.md` qué se
+  actualizó.
+  - Criterio: el README describe el estado real al cierre de la Fase 3; commit y push.
 
 **Verificación de fase 3:**
 ```bash
@@ -631,9 +717,9 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
 **Objetivo:** las cuatro páginas de los mockups, servidas por Thymeleaf, cableadas a las fachadas.
 
 - [ ] **4.0** Diseño: `docs/diseno/4.md` (plantillas y fragmentos, controladores, modelo de cada vista,
-  JavaScript mínimo, CSS con los tokens de `design/README.md`). Commit antes del código. Lleva a
-  "Dudas", para que el usuario decida, si las imágenes de `poster_path` se muestran desde un CDN externo
-  o se deja el marcador del mockup.
+  JavaScript mínimo, CSS con los tokens de `design/README.md`). Commit antes del código. Los pósters se
+  cargan del CDN de TMDB (decisión del usuario; ver §5). Lleva a "Dudas", para que el usuario decida, si
+  se agrega el aviso de atribución que piden los términos de TMDB y dónde (pie o «Acerca de»).
 - [ ] **4.1** Layout común: `templates/fragments/` (franja pastel, header con logo, navegación Buscar ·
   Cargar datos · Acerca de la demo y estado de conexión; pie con alias y conteo), CSS con los tokens y
   las fuentes Bricolage Grotesque, IBM Plex Sans e IBM Plex Mono. `CatalogHealthIndicator`
@@ -648,7 +734,8 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   - Criterio: pruebas MockMvc verifican los textos clave y que cada sugerencia lleva a `/buscar` con
     los parámetros de su modo.
 - [ ] **4.3** Resultados (`GET /buscar`): caja de consulta, chip del modo y ajustes con «Cambiar
-  ajustes», tarjetas de resultado (posición, póster, título, original_title · fecha · duración · géneros,
+  ajustes», tarjetas de resultado (posición, póster de TMDB con `alt` = título y marcador si falta,
+  título, original_title · fecha · duración · géneros,
   sinopsis en 3 líneas, calificación y votos, panel de puntuación por modo), selector 25 · 50 · 100,
   paginación Anterior · números · Siguiente, filtros con conteos («Ver todos», «Tienes cambios sin
   aplicar», APLICAR, Limpiar, rango de fechas de los resultados), estados vacíos y leyenda por modo.
@@ -658,16 +745,23 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
 - [ ] **4.4** Cargar datos (`GET /cargar` y endpoints de §5): pestañas, formulario completo del mockup,
   zona de arrastre con las comprobaciones del navegador, opciones de CSV, proceso en 5 pasos, tarjetas
   de conteo, tabla de errores (6 primeros + descarga del informe), comprobaciones superadas,
-  advertencias, botón de importar, progreso y cancelación (consulta periódica del estado del trabajo).
+  advertencias, botón de importar, progreso y cancelación (consulta periódica del estado del trabajo),
+  con los ajustes de texto autorizados en §1 (casilla de encabezado, vectores fuera de las reglas).
   - Criterio: pruebas MockMvc del flujo validar → importar → estado → cancelar con `IngestService`
     simulado; un archivo `.txt` se rechaza con su código.
 - [ ] **4.5** Acerca de (`GET /acerca`): contenido de `About.dc.html` (tres modos, BM25, k-NN, tabla de
   precisión por dimensión, RRF, resultados y filtros, carga de datos, catálogo) con alias y conteo
-  reales y los enlaces a la documentación oficial.
+  reales, los enlaces a la documentación oficial y los ajustes de texto autorizados en §1 (vectores
+  siempre generados, borrado del índice anterior, CSV con encabezado obligatorio).
   - Criterio: prueba MockMvc verifica las secciones y la tabla de precisión.
 - [ ] **4.6** Errores: `@ControllerAdvice` muestra una página con el código `EFX-*` y el mensaje del
   catálogo; 404 propio con navegación.
   - Criterio: pruebas MockMvc para `ElastiflixException` y ruta inexistente.
+- [ ] **4.7** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+  fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
+  (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/4.md` qué se
+  actualizó.
+  - Criterio: el README describe el estado real al cierre de la Fase 4; commit y push.
 
 **Verificación de fase 4:**
 ```bash
@@ -694,6 +788,10 @@ arquitectura en verde; resumen de diseño y revisión de convenciones en `progre
 - [ ] **5.2** Revisión de cobertura funcional: tabla en `progreso/5.md` que enlaza cada capacidad de §1
   y cada fila de datos de verificación de §6 con la prueba que la cubre.
   - Criterio: ninguna capacidad sin prueba.
+- [ ] **5.3** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases,
+  cómo correr las pruebas de integración y el smoke test) y los documentos afectados; registra en
+  `progreso/5.md` qué se actualizó.
+  - Criterio: el README describe el estado real al cierre de la Fase 5; commit y push.
 
 **Verificación de fase 5:**
 ```bash
@@ -716,7 +814,7 @@ resumen de diseño y revisión de convenciones en `progreso/5.md`.
   - Criterio: todos los puntos marcados.
 - [ ] **6.3** Cierra `progreso/INDICE.md` (todas las fases `terminado`) y pide al usuario la revisión
   final.
-  - Criterio: `git status` limpio y todo en `main`.
+  - Criterio: `git status -sb` limpio, sin commits pendientes de push, y todo en `origin/main`.
 
 **Verificación de fase 6:**
 ```bash
@@ -732,14 +830,15 @@ Criterio: Definición de Hecho completa.
 - [ ] Los tres modos de búsqueda, los filtros, la paginación y la carga de datos funcionan como describe
   §1 y los mockups.
 - [ ] Todos los datos de verificación de §6 pasan en las pruebas de integración.
-- [ ] `elastiflix-reloaded` es un alias; una carga publica con swap atómico y una falla deja el catálogo
-  intacto (demostrado en pruebas).
+- [ ] `elastiflix-reloaded` es un alias; una carga publica con swap atómico y borra el índice anterior;
+  una falla deja el catálogo intacto (demostrado en pruebas).
 - [ ] `./mvnw verify -Pit` en verde: unitarias, arquitectura, integración y smoke.
 - [ ] 0 violaciones de Checkstyle y PMD; ArchUnit en verde; supresiones justificadas y registradas.
 - [ ] Cada fase con código tiene su diseño (aprobado en las fases 🔒), su resumen de diseño y su revisión
   de convenciones.
 - [ ] Ningún secreto en el repositorio (`git grep -i -E "api[_-]?key\s*[:=]\s*[A-Za-z0-9]{12,}"` vacío).
-- [ ] `README.md` actualizado con los comandos reales.
+- [ ] `README.md` actualizado al cierre de cada fase y con los comandos reales.
+- [ ] Cada tarea tiene su commit `<id>: …` publicado en `origin/main`, con su estado actualizado.
 - [ ] Todos los archivos de `progreso/` en `terminado`, sin cambios sin commit, e `INDICE.md` con todas
   las fases cerradas.
 
@@ -757,6 +856,9 @@ ELASTIFLIX_INFERENCE_ID=.jina-embeddings-v5-omni-small
 # Carga de datos
 ELASTIFLIX_INGEST_MAX_FILE_SIZE=150MB
 ELASTIFLIX_INGEST_BATCH_SIZE=100
+
+# Pósters (CDN de imágenes de TMDB)
+ELASTIFLIX_POSTER_BASE_URL=https://image.tmdb.org/t/p/w342
 
 # Servidor web
 SERVER_PORT=8080
