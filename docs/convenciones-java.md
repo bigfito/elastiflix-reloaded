@@ -229,10 +229,9 @@ SLF4J con un `private static final Logger LOG` por clase.
 - **Puntuaciones:** BM25 tal cual; k-NN `(1 + coseno) / 2`; RRF `Σ 1 / (60 + posición)`.
 - **Alias:** el nombre `elastiflix-reloaded` es configurable (`elastiflix.index.alias`); el código
   nunca lo escribe como literal fuera de la configuración por defecto.
-- **Concurrencia:** una sola importación a la vez; mientras corre, los registros individuales se
-  rechazan (se escribirían en el índice que se va a borrar). El estado del trabajo es inmutable
-  (`record`) y se publica por el listener de progreso. Una búsqueda que recibe `index_not_found` (swap
-  en curso) reintenta una vez contra el alias.
+- **Un solo usuario:** la demo la usa una persona a la vez (fines académicos y demostrativos); no se
+  agregan bloqueos ni controles de concurrencia entre búsquedas, registros e importaciones. El estado
+  del trabajo de importación es inmutable (`record`) y se publica por el listener de progreso.
 - **Publicación:** `add` del alias al índice nuevo y `remove_index` del anterior en una sola llamada a
   `_aliases`; nunca en dos llamadas.
 - **Texto de interfaz** en español, igual al de los mockups de `design/mockups/`.

@@ -70,7 +70,8 @@ cargar nuevas películas sin dejar nunca el catálogo a medias.
 
 **Fuera de alcance** (no implementar sin que el usuario lo pida): autenticación, comparación lado a
 lado, subselectores de fusión, antivirus o análisis de malware de archivos (lo hace el proveedor del
-servidor de aplicaciones), despliegue en la nube, CI/CD.
+servidor de aplicaciones), despliegue en la nube, CI/CD, controles de concurrencia (la demo tiene fines
+académicos y demostrativos y la usa una sola persona a la vez).
 
 **Diseño visual aprobado:** los mockups de `design/mockups/` (ver `design/README.md`). La interfaz
 real **reproduce fielmente** esos mockups: paleta, tipografías, textos, componentes y comportamiento.
@@ -117,15 +118,13 @@ El diagrama completo, con el flujo numerado de búsqueda (1–7) y de carga (A�
      alias apuntando a dos índices.
   2. Solo se ejecuta después de verificar el conteo del índice nuevo; si la verificación falla, se borra
      el temporal y el anterior queda intacto.
-  3. Una búsqueda que ya estaba en curso contra el índice anterior puede fallar con
-     `index_not_found` en el instante del swap: la capa de búsqueda **reintenta una vez** contra el alias.
-  4. Un registro individual escrito en el índice anterior *durante* una importación se perdería al
-     borrarlo: por eso **no se aceptan registros individuales mientras hay una importación en curso**
-     (`EFX-IMP-*`, «hay una carga en curso; vuelve a intentarlo al terminar»).
-  5. Si el borrado no se completara por un error ajeno, el alias ya apunta al índice nuevo; los índices
+  3. La aplicación la usa **una sola persona a la vez** (fines académicos y demostrativos; decisión del
+     usuario): no hay búsquedas, registros individuales ni importaciones simultáneas que puedan cruzarse
+     con el swap, así que no se agregan controles de concurrencia.
+  4. Si el borrado no se completara por un error ajeno, el alias ya apunta al índice nuevo; los índices
      `elastiflix-reloaded-*` que no estén detrás del alias ni en uso por una importación se limpian al
      inicio de la siguiente importación y se registran en `WARN`.
-  6. No queda respaldo del catálogo anterior dentro de Elasticsearch: el respaldo es el archivo de
+  5. No queda respaldo del catálogo anterior dentro de Elasticsearch: el respaldo es el archivo de
      exportación del usuario.
 - **Serverless:** no hay `_cluster/health`; el indicador de salud consulta el alias y su conteo
   (`_count`). No se configuran shards ni réplicas.
@@ -231,7 +230,7 @@ elastiflix-reloaded/
 
 | Método y ruta | Uso |
 |---|---|
-| `POST /cargar/registro` | Guarda una película desde el formulario **directamente en el catálogo** (índice vigente a través del alias); se rechaza si hay una importación en curso. Redirige a `/cargar` con el resultado |
+| `POST /cargar/registro` | Guarda una película desde el formulario **directamente en el catálogo** (índice vigente a través del alias). Redirige a `/cargar` con el resultado |
 | `POST /cargar/archivo` (multipart: `archivo`, `separador`, `encabezado`) | Sube el archivo, repite las comprobaciones de tipo, tamaño y UTF-8 (y, en CSV, que traiga encabezado), y lanza la validación; devuelve `jobId` |
 | `GET /cargar/trabajos/{jobId}` | Estado del trabajo: paso del proceso (1–5), conteos, errores (primeros 6), advertencias, comprobaciones, progreso |
 | `POST /cargar/trabajos/{jobId}/importar` | Inicia la importación de un archivo ya validado (genera los vectores, escribe en el índice temporal, publica y borra el índice anterior) |
@@ -602,10 +601,8 @@ puntuaciones, y reproduce los datos de verificación de §6.
 - [ ] **2.8** `SearchService` (fachada): elige la estrategia, mide el tiempo, registra en `INFO` (modo,
   total, ms), devuelve `SearchResult` (resultados de la página, total, facetas, paginación, descripción
   de ajustes) y distingue los estados vacíos «sin resultados» y «sin resultados con estos filtros»
-  (este último confirma con un conteo sin filtros). Si Elasticsearch responde `index_not_found` (swap de
-  alias en curso al publicar una carga), reintenta **una vez** contra el alias.
-  - Criterio: pruebas unitarias con estrategias simuladas cubren los tres modos, los dos estados vacíos
-    y el reintento único.
+  (este último confirma con un conteo sin filtros).
+  - Criterio: pruebas unitarias con estrategias simuladas cubren los tres modos y los dos estados vacíos.
 - [ ] **2.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/2.md` qué se
@@ -631,8 +628,8 @@ nunca el catálogo a medias.
   importación, estado del trabajo, cancelación, swap y vuelta atrás). Commit y **detente** hasta la
   aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
   - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
-  - el registro individual se escribe **directamente en el catálogo** (rechazado si hay una importación
-    en curso);
+  - el registro individual se escribe **directamente en el catálogo**;
+  - un solo usuario a la vez: **sin controles de concurrencia** entre búsquedas, registros e importaciones;
   - un CSV **sin encabezado se rechaza**;
   - `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución con el servicio de
     inferencia; los vectores que traiga el archivo se ignoran.
@@ -674,18 +671,16 @@ nunca el catálogo a medias.
   cada respuesta `bulk`, `refresh`, verifica el conteo esperado (anterior + nuevos) y publica en **una
   sola llamada** a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice anterior.
   Ante un lote rechazado, un conteo que no cuadra, un fallo de inferencia o una cancelación: borra el
-  índice temporal y deja el alias y el índice anterior intactos. Una sola importación a la vez; mientras
-  corre, los registros individuales se rechazan. Al iniciar, limpia (con `WARN`) los índices
+  índice temporal y deja el alias y el índice anterior intactos. Al iniciar, limpia (con `WARN`) los índices
   `elastiflix-reloaded-*` huérfanos: los que no están detrás del alias ni en uso. Publica el progreso por
   el listener (paso 1–5 del mockup, lote actual, registros vectorizados y escritos).
   - Criterio: pruebas unitarias con `CatalogIndex` simulado cubren éxito (el anterior se borra en la
-    misma llamada del swap), lote rechazado, conteo que no cuadra, fallo de inferencia, cancelación,
-    segunda importación simultánea rechazada, registro individual rechazado durante una importación y
+    misma llamada del swap), lote rechazado, conteo que no cuadra, fallo de inferencia, cancelación y
     limpieza de huérfanos (nunca toca el índice detrás del alias).
 - [ ] **3.7** Registro individual: valida los campos del formulario (`id`, `title` y `plot`
   obligatorios) con el mismo `MappingValidator`, genera los vectores y lo escribe **directamente en el
   catálogo** (a través del alias, `_id` = `id`, reemplaza si existe) con `refresh=wait_for` para que se
-  vea en la siguiente búsqueda. Se rechaza si hay una importación en curso.
+  vea en la siguiente búsqueda.
   - Criterio: prueba unitaria del flujo completo con dobles; `IngestIT` (3.8) escribe un registro en el
     alias de prueba y lo encuentra con una búsqueda inmediata.
 - [ ] **3.8** `IngestService` (fachada) y pruebas de integración: `IngestIT` crea un alias propio

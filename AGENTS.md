@@ -110,7 +110,8 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 - Lectura siempre por el alias `elastiflix-reloaded` (configurable). Importación de archivo: índice
   temporal `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` y publicación en una sola llamada a `_aliases`
   (`add` al nuevo + `remove_index` del anterior); si algo falla, se borra el temporal y nada más cambia.
-- Registro individual: directo al catálogo por el alias; se rechaza mientras haya una importación.
+- Registro individual: directo al catálogo por el alias.
+- Un solo usuario a la vez (demo académica): sin controles de concurrencia.
 - Validación de cargas **todo o nada** contra `elasticsearch/elastiflix-reloaded-mapping.json`;
   `id`, `title` y `plot` obligatorios; `.json`/`.csv`, sin dobles extensiones, ≤ 150 MB, UTF-8; CSV
   **sin encabezado se rechaza**. Sin análisis de malware (lo hace el proveedor del servidor).

@@ -156,7 +156,7 @@ flowchart LR
   los trae, se ignoran.
 - **Publicación:** en una sola operación, el alias `elastiflix-reloaded` pasa al índice nuevo y el
   índice anterior se borra; si algo falla antes, el catálogo queda exactamente como estaba.
-- **Una carga a la vez:** mientras se importa un archivo, el registro individual espera a que termine.
+- **Un solo usuario:** la demo tiene fines académicos y demostrativos y la usa una persona a la vez.
 
 ## 🏗️ Arquitectura
 
