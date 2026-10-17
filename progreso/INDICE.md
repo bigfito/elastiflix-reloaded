@@ -10,8 +10,8 @@
 - **Fase actual:** 0
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-0-andamiaje-29a6`)
-- **Próximo paso:** Tarea 0.3: crear el POM padre (`spring-boot-starter-parent` 4.1.1, Java 25, enforcer) y un POM mínimo por módulo para que `./mvnw -q validate` termine en 0.
-- **Última actualización:** 2026-10-17 23:33 UTC
+- **Próximo paso:** Tarea 0.4: dependencias de los cuatro módulos, `package-info.java`, `ElastiflixApplication` y `application.yml`. Criterio: `./mvnw -q -DskipTests package` genera `elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar`.
+- **Última actualización:** 2026-10-17 23:34 UTC
 
 ## Fases
 

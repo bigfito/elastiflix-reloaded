@@ -489,7 +489,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   ejecutable en git: `git add mvnw && git update-index --chmod=+x mvnw`.
   - Criterio: `./mvnw -v` muestra `Apache Maven 3.10.0` y `Java version: 25`; `git ls-files -s mvnw`
     empieza con `100755`.
-- [ ] **0.3** Crea el POM padre `pom.xml`: padre `org.springframework.boot:spring-boot-starter-parent:4.1.1`;
+- [x] **0.3** Crea el POM padre `pom.xml`: padre `org.springframework.boot:spring-boot-starter-parent:4.1.1`;
   `com.bigfito:elastiflix-reloaded:0.1.0-SNAPSHOT`, `packaging pom`; módulos `elastiflix-core`,
   `elastiflix-search`, `elastiflix-ingest`, `elastiflix-web`; `java.version` 25; propiedades de versión:
   `checkstyle.version` 14.3.0, `maven-checkstyle-plugin.version` 3.6.0, `pmd.version` 7.28.0,
