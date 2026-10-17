@@ -243,9 +243,12 @@ SLF4J con un `private static final Logger LOG` por clase.
 - **Unitarias** (`*Test`, Surefire): sin red ni Elasticsearch; el cliente y la inferencia se sustituyen
   por dobles.
 - **Integración** (`*IT`, Failsafe, **perfil de Maven** `it`: `./mvnw verify -Pit`): contra el proyecto
-  Elasticsearch Serverless configurado en `.env`. Cada módulo tiene su `TestApplication`
-  (`@SpringBootConfiguration`) y su `src/test/resources/application.yml`, que importa
-  `optional:file:../.env[.properties]` (ver `PLAN.md` tarea 0.6).
+  Elasticsearch Serverless configurado en `.env`. `core`, `search` e `ingest` tienen su
+  `TestApplication` (`@SpringBootConfiguration`) y su `src/test/resources/application.yml`, que importa
+  `optional:file:../.env[.properties]`; `web` **no**: usa `ElastiflixApplication` y su `application.yml`
+  principal (ver `PLAN.md` tarea 0.6).
+  - Las unitarias no necesitan `.env` ni red: JUnit puro o `ApplicationContextRunner`; las de web con
+    contexto (`@WebMvcTest`) pasan URL y API key ficticias en `properties` y simulan las fachadas.
   - Los fixtures se leen desde `../elasticsearch/fixtures/`, relativo a la carpeta del módulo.
   - Las de **lectura** usan el alias `elastiflix-reloaded` y no lo modifican.
   - Las de **escritura** crean su propio alias `elastiflix-it-<aleatorio>` y lo borran al terminar,

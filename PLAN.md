@@ -531,14 +531,24 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   - Perfil **de Maven** `it` en el POM padre que activa `maven-failsafe-plugin` (goals
     `integration-test` y `verify`, clases `**/*IT.java`). Sin `-Pit`, las `*IT` no corren. «Perfil
     `it`» en este plan siempre significa este perfil de Maven; no hay perfil de Spring `it`.
-  - En **cada** módulo, una configuración de prueba propia en `src/test/java/.../<módulo>/TestApplication.java`
+  - **Solo en `elastiflix-core`, `elastiflix-search` y `elastiflix-ingest`**: una configuración de
+    prueba propia en `src/test/java/com/bigfito/elastiflix/<módulo>/TestApplication.java`
     (`@SpringBootConfiguration` + `@EnableAutoConfiguration` + `@ConfigurationPropertiesScan` y
     `@ComponentScan` del paquete del módulo y de `com.bigfito.elastiflix.core`) para usar
-    `@SpringBootTest` sin depender de `elastiflix-web`.
-  - En cada módulo, `src/test/resources/application.yml` con la parte de §7 que necesita (al menos
-    `spring.config.import`, `elastiflix.elasticsearch.*`, `spring.elasticsearch.*`, `elastiflix.index.alias`
-    y `elastiflix.inference.id`). La importación `optional:file:../.env[.properties]` encuentra el `.env`
-    de la raíz porque Failsafe y `spring-boot:run` trabajan desde la carpeta del módulo.
+    `@SpringBootTest` sin depender de `elastiflix-web`, y `src/test/resources/application.yml` con la
+    parte de §7 que necesitan (al menos `spring.config.import`, `elastiflix.elasticsearch.*`,
+    `spring.elasticsearch.*`, `elastiflix.index.alias` y `elastiflix.inference.id`). La importación
+    `optional:file:../.env[.properties]` encuentra el `.env` de la raíz porque Failsafe y
+    `spring-boot:run` trabajan desde la carpeta del módulo.
+  - **En `elastiflix-web` no:** sus pruebas usan `ElastiflixApplication` y el `application.yml`
+    principal (que ya importa `../.env`). Un segundo `@SpringBootConfiguration` o un `application.yml`
+    de prueba en web romperían `@SpringBootTest` / `@WebMvcTest` u ocultarían la configuración real.
+  - Las **pruebas unitarias** (`*Test`) no necesitan `.env` ni red: usan JUnit puro o
+    `ApplicationContextRunner` (la única que arranca `TestApplication` es la de 1.2, con la URL vacía a
+    propósito y sin conectarse); las de web que levantan un contexto (`@WebMvcTest`) pasan valores
+    ficticios con `properties = {"elastiflix.elasticsearch.url=http://localhost:9200",
+    "elastiflix.elasticsearch.api-key=test"}` y simulan las fachadas. Así `./mvnw verify` corre sin red
+    y sin credenciales.
   - `elastiflix-core/src/test/java/com/bigfito/elastiflix/core/EnvironmentIT.java`: arranca el contexto
     de prueba y afirma que `elastiflix.elasticsearch.url` y `elastiflix.elasticsearch.api-key` no están
     vacías (sin imprimir sus valores).
@@ -551,7 +561,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   y "los controladores solo en `..web..` y con nombre `*Controller`". Importa las clases de producción
   de los cuatro módulos (`ImportOption.DoNotIncludeTests`). Como en la Fase 0 los paquetes aún están
   vacíos, crea `elastiflix-web/src/test/resources/archunit.properties` con
-  `archRule.failOnEmptyShould=false` (decisión registrada en `progreso/0.md`).
+  `archRule.failOnEmptyShould=false` (decisión registrada en `progreso/0.md`; la tarea 4.7 lo revierte).
   - Criterio: `./mvnw verify` ejecuta `ArchitectureTest` y queda en verde.
 - [ ] **0.8** **Prueba negativa** de las compuertas, en una rama temporal (nunca hagas push de ella):
   agrega a `web` una clase que importe `co.elastic.clients.elasticsearch.ElasticsearchClient` y use
@@ -607,10 +617,17 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 - [ ] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
   las propiedades `elastiflix.*` de §7: `elasticsearch.url`, `elasticsearch.api-key`, `index.alias`,
   `inference.id`, `ingest.max-file-size`, `ingest.batch-size`, `poster.base-url`, `bootstrap.enabled` y
-  `embedding.*`. Un `FailureAnalyzer` traduce la falla de validación a `EFX-CFG-001` (URL vacía) y
-  `EFX-CFG-002` (API key vacía) con su acción sugerida, sin mostrar valores.
-  - Criterio: prueba unitaria con `ApplicationContextRunner`: sin `elastiflix.elasticsearch.url` el
-    contexto no arranca y el análisis de la falla contiene `EFX-CFG-001` y «Revisa ELASTICSEARCH_URL».
+  `embedding.*` (valores por defecto provisionales `document-input-type: ingest` y
+  `document-prefix: "Document: "`, que la tarea 1.9 confirma o reemplaza). Un `EnvironmentPostProcessor`
+  de core (registrado en `META-INF/spring.factories` con la clave de la interfaz en Spring Boot 4,
+  `org.springframework.boot.EnvironmentPostProcessor`; verifícala en la documentación de 4.1.1) comprueba **antes de crear cualquier bean**, incluido
+  el cliente de Elasticsearch, que `elastiflix.elasticsearch.url` y `elastiflix.elasticsearch.api-key` no
+  estén vacías y, si lo están, lanza `ConfigurationException` con `EFX-CFG-001` (URL) o `EFX-CFG-002`
+  (API key); un `FailureAnalyzer` la muestra con su acción sugerida, sin valores.
+  - Criterio: prueba unitaria que arranca `SpringApplication` con `TestApplication` de core,
+    `web-application-type=none` y `elastiflix.elasticsearch.url` vacía: no arranca, no intenta conectarse
+    y el análisis de la falla contiene `EFX-CFG-001` y «Revisa ELASTICSEARCH_URL»; lo mismo con la API key
+    vacía y `EFX-CFG-002`.
 - [ ] **1.3** `ElasticsearchClient` con la **autoconfiguración de Spring Boot 4.1.1**
   (`spring-boot-starter-elasticsearch`: cliente sobre `Rest5Client`, `spring.elasticsearch.uris` y
   `spring.elasticsearch.api-key` de §7, `Jackson3JsonpMapper`). Personalizaciones solo con
@@ -628,7 +645,9 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     vuelve a escribir y obtiene los mismos valores (incluida `belongs_to_collection` de `345887`).
 - [ ] **1.5** `IndexMapping`: carga `elasticsearch/elastiflix-reloaded-mapping.json` como recurso del
   jar (en el `pom.xml` de core, un `<resource>` adicional con `<directory>${project.basedir}/../elasticsearch</directory>`,
-  `<includes>` solo de ese archivo y `<targetPath>elasticsearch</targetPath>`, sin copiarlo) y expone el tipo de cada campo, los
+  `<includes>` solo de ese archivo y `<targetPath>elasticsearch</targetPath>`, sin copiarlo; al declarar
+  `<resources>` hay que **volver a declarar `src/main/resources`**, o core pierde sus propios recursos,
+  como `META-INF/spring.factories`) y expone el tipo de cada campo, los
   subcampos de los `nested` y las dimensiones de los vectores.
   - Criterio: prueba unitaria verifica 33 campos, `release_date` con formato `yyyy-MM-dd` y
     `plot_512` con 512 dimensiones.
@@ -662,9 +681,9 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
     ```
   - Criterio: `CatalogBootstrapTest` (con dobles) cubre los tres caminos, incluido el conteo que no
-    coincide; tras la ejecución real, `CatalogStatusServiceIT` confirma que `elastiflix-reloaded` es un
-    alias que apunta a `elastiflix-reloaded-…` con 4 322 documentos, y una segunda ejecución termina en 0
-    sin cambiar nada.
+    coincide; después de la ejecución real, agrega a `CatalogStatusServiceIT` la aserción de que
+    `elastiflix-reloaded` es un alias que apunta a `elastiflix-reloaded-…` con 4 322 documentos (hasta 1.7
+    solo se comprobaba el conteo); una segunda ejecución termina en 0 sin cambiar nada.
 - [ ] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
   `ELASTIFLIX_INFERENCE_ID`, en lotes; `VectorProjector` recorta a 512 y 256 y renormaliza. Consultas:
   `input_type: search` y prefijo `Query: `. Documentos: la combinación que determine la calibración:
@@ -802,7 +821,7 @@ nunca el catálogo a medias.
   advertencia). Se rechaza (`EFX-ING-*`) si la casilla de encabezado viene desmarcada o si la primera
   fila no son nombres de columna válidos (debe incluir `id`, `title` y `plot`).
   - Criterio: lee `elasticsearch/fixtures/movies-sample.csv` (con `_id` y columnas de vector) con 0
-    errores y una advertencia de vectores ignorados, y produce los mismos valores que el JSON para las 4
+    errores y, entre sus advertencias, la de vectores ignorados, y produce los mismos valores que el JSON para las 4
     películas; el mismo archivo sin su primera fila se rechaza con su código; una columna `director` se
     rechaza como columna desconocida.
 - [ ] **3.4** `MappingValidator`: cada campo existe y tiene su tipo (`keyword` texto o lista de textos,
@@ -925,7 +944,11 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
 - [ ] **4.6** Errores: `@ControllerAdvice` muestra una página con el código `EFX-*` y el mensaje del
   catálogo; 404 propio con navegación.
   - Criterio: pruebas MockMvc para `ElastiflixException` y ruta inexistente.
-- [ ] **4.7** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [ ] **4.7** Ya hay clases en los cuatro módulos: borra
+  `elastiflix-web/src/test/resources/archunit.properties` (vuelve `archRule.failOnEmptyShould=true`) para
+  que una regla con un patrón de paquete mal escrito no pase en silencio.
+  - Criterio: `./mvnw verify` sigue en verde con `ArchitectureTest` y sin `archunit.properties`.
+- [ ] **4.8** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/4.md` qué se
   actualizó.
