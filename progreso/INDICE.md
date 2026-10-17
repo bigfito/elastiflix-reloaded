@@ -7,17 +7,17 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 0
-- **Estado de la fase:** en curso
+- **Fase actual:** 0 (cerrada)
+- **Estado de la fase:** terminado
 - **Herramienta prevista:** Cursor (rama `cursor/fase-0-andamiaje-29a6`)
-- **Próximo paso:** Tarea 0.10: cerrar la Fase 0 en `README.md` (fila `✅ terminado`, insignia `fases-1/7`, «Puesta en marcha» solo con comandos ya ejecutados) y en `progreso/0.md`.
-- **Última actualización:** 2026-10-17 23:50 UTC
+- **Próximo paso:** Tarea 1.0, diseño de la Fase 1 en `docs/diseno/1.md`. Tiene compuerta: al terminar el diseño, detenerse hasta la aprobación. No está empezada.
+- **Última actualización:** 2026-10-17 23:52 UTC
 
 ## Fases
 
 | Fase | Nombre | Compuerta | Estado | Archivo de estado | Verificación de fase |
 |---|---|---|---|---|---|
-| 0 | Andamiaje y calidad | — | en curso | `progreso/0.md` | — |
+| 0 | Andamiaje y calidad | — | terminado | `progreso/0.md` | 2026-10-17 en verde |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | no iniciado | `progreso/1.md` | — |
 | 2 | Búsqueda | 🔒 | no iniciado | `progreso/2.md` | — |
 | 3 | Carga de datos | 🔒 | no iniciado | `progreso/3.md` | — |
@@ -34,6 +34,6 @@
 
 ## Última verificación
 
-- **Comando:** `grep -E '=.+' .env.example`
-- **Resultado:** solo valores por defecto no secretos (alias, inferencia, tamaños, pósters, puerto).
-- **Fecha:** 2026-10-17 23:50 UTC
+- **Comando:** `./mvnw -v`; `./mvnw verify`; `./mvnw verify -Pit -pl elastiflix-core -am`; `git check-ignore -q progreso/INDICE.md`; `git check-ignore -q .env`
+- **Resultado:** Maven 3.10.0 y Java 25.0.4.1. `verify` en verde (código 0), Checkstyle con 0 violaciones y `ArchitectureTest` con 7 pruebas y 0 fallos. `EnvironmentIT`: `Tests run: 1, Failures: 0, Errors: 0`. Índice no ignorado (salida 1). `.env` ignorado (salida 0).
+- **Fecha:** 2026-10-17 23:52 UTC

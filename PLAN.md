@@ -580,7 +580,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   [Variables de entorno](#variables-de-entorno-envexample) y ningún valor real.
   - Criterio: `grep -E '=.+' .env.example` solo muestra valores por defecto no secretos (alias, endpoint
     de inferencia, tamaños, URL de pósters, puerto).
-- [ ] **0.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases
+- [x] **0.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases
   y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/0.md` qué se
   actualizó.
