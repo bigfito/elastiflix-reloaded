@@ -576,7 +576,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   Registra la salida resumida como evidencia, **revierte**, vuelve a `main` y borra la rama.
   - Criterio: cada uno de los tres comandos falla con su mensaje; tras revertir, `./mvnw verify` vuelve
     a 0 y `git status` queda limpio.
-- [ ] **0.9** Confirma que `.env.example` contiene todas las variables de la sección
+- [x] **0.9** Confirma que `.env.example` contiene todas las variables de la sección
   [Variables de entorno](#variables-de-entorno-envexample) y ningún valor real.
   - Criterio: `grep -E '=.+' .env.example` solo muestra valores por defecto no secretos (alias, endpoint
     de inferencia, tamaños, URL de pósters, puerto).
