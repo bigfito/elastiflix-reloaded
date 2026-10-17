@@ -13,16 +13,17 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
-![Estado](https://img.shields.io/badge/estado-plan_en_revisi%C3%B3n-F7C1D9?style=flat-square&labelColor=3A3548)
-![Fases](https://img.shields.io/badge/fases-0%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
+![Estado](https://img.shields.io/badge/estado-fase_0_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
+![Fases](https://img.shields.io/badge/fases-1%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
 </div>
 
 > [!NOTE]
-> 🚧 **Estado actual:** requerimientos, mockups y plan de implementación listos. El código se construye
-> siguiendo [`PLAN.md`](PLAN.md) fase por fase; el avance real está en
-> [`progreso/INDICE.md`](progreso/INDICE.md).
+> 🚧 **Estado actual:** la Fase 0 (andamiaje y calidad) está terminada. El reactor compila con Java 25,
+> `./mvnw verify` aplica Checkstyle, PMD y ArchUnit, y `EnvironmentIT` comprueba la configuración de
+> Elasticsearch cuando hay un `.env` local. El catálogo, la búsqueda y las páginas siguen el plan.
+> El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
 
 ---
 
@@ -209,8 +210,8 @@ elastiflix-reloaded/
 ## 🚀 Puesta en marcha
 
 > [!IMPORTANT]
-> Estos comandos estarán disponibles al terminar la Fase 0 (compilación) y la Fase 4 (aplicación).
-> La Fase 6 los vuelve a verificar y actualiza esta sección.
+> Comandos ejecutados con éxito al cerrar la Fase 0. La Fase 4 documentará el arranque de la
+> aplicación. La Fase 6 vuelve a verificar esta sección.
 
 **Prerrequisitos**
 
@@ -229,10 +230,11 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 **Comandos**
 
 ```bash
-./mvnw verify                                   # pruebas unitarias + arquitectura + estilo + análisis
-./mvnw verify -Pit                              # + integración contra Elasticsearch (usa .env)
-./mvnw -q install -DskipTests
-./mvnw -pl elastiflix-web spring-boot:run       # 👉 http://localhost:8080
+./mvnw -v                                        # Maven 3.10.0 y Java 25
+./mvnw -q validate                               # enforcer de Java y Maven
+./mvnw -q -DskipTests package                    # jar de elastiflix-web
+./mvnw verify                                    # unitarias, ArchUnit, Checkstyle y PMD
+./mvnw verify -Pit -pl elastiflix-core -am       # EnvironmentIT (requiere .env local)
 ```
 
 En Windows, ejecuta estos comandos en **Git Bash** (ver `AGENTS.md` › Comandos).
@@ -277,7 +279,7 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 
 | Fase | Nombre | 🔒 Aprobación de diseño | Estado |
 |---|---|---|---|
-| 0 | 🏗️ Andamiaje y calidad | — | ⏳ no iniciado |
+| 0 | 🏗️ Andamiaje y calidad | — | ✅ terminado |
 | 1 | ⚙️ Núcleo: conexión, catálogo y embeddings | 🔒 | ⏳ no iniciado |
 | 2 | 🔎 Búsqueda | 🔒 | ⏳ no iniciado |
 | 3 | 📥 Carga de datos | 🔒 | ⏳ no iniciado |

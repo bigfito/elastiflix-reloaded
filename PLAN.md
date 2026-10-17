@@ -475,28 +475,28 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
 > La Fase 0 no tiene tarea `.0` de diseño: solo crea andamiaje y configuración, sin lógica de negocio.
 > En Windows, ejecuta los comandos en **Git Bash** (ver `AGENTS.md`, "Comandos").
 
-- [ ] **0.1** Crea `progreso/0.md` desde `progreso/_PLANTILLA.md`; marca la Fase 0 `en curso` en
+- [x] **0.1** Crea `progreso/0.md` desde `progreso/_PLANTILLA.md`; marca la Fase 0 `en curso` en
   `progreso/INDICE.md`. Comprueba que git no ignora el estado ni versiona secretos, y que
   `.gitattributes` conserva los fixtures byte a byte (en Windows, `core.autocrlf` no debe alterar las
   celdas multilínea del CSV).
   - Criterio: `git check-ignore -q progreso/INDICE.md` devuelve **1** (no ignorado),
     `git check-ignore -q .env` devuelve **0** (ignorado) y
     `git check-attr text elasticsearch/fixtures/movies-sample.csv` muestra `text: unset`.
-- [ ] **0.2** Genera el Maven Wrapper 3.10.0 en la raíz (no requiere `pom.xml`; sí un Maven local
+- [x] **0.2** Genera el Maven Wrapper 3.10.0 en la raíz (no requiere `pom.xml`; sí un Maven local
   ≥ 3.6.3 solo para este paso):
   `mvn -N org.apache.maven.plugins:maven-wrapper-plugin:3.3.4:wrapper -Dmaven=3.10.0`.
   Versiona `mvnw`, `mvnw.cmd` y `.mvn/wrapper/maven-wrapper.properties`, y marca el script como
   ejecutable en git: `git add mvnw && git update-index --chmod=+x mvnw`.
   - Criterio: `./mvnw -v` muestra `Apache Maven 3.10.0` y `Java version: 25`; `git ls-files -s mvnw`
     empieza con `100755`.
-- [ ] **0.3** Crea el POM padre `pom.xml`: padre `org.springframework.boot:spring-boot-starter-parent:4.1.1`;
+- [x] **0.3** Crea el POM padre `pom.xml`: padre `org.springframework.boot:spring-boot-starter-parent:4.1.1`;
   `com.bigfito:elastiflix-reloaded:0.1.0-SNAPSHOT`, `packaging pom`; módulos `elastiflix-core`,
   `elastiflix-search`, `elastiflix-ingest`, `elastiflix-web`; `java.version` 25; propiedades de versión:
   `checkstyle.version` 14.3.0, `maven-checkstyle-plugin.version` 3.6.0, `pmd.version` 7.28.0,
   `maven-pmd-plugin.version` 3.28.0, `archunit.version` 1.5.1; `maven-enforcer-plugin` con
   `requireJavaVersion [25,)` y `requireMavenVersion [3.6.3,)`.
   - Criterio: `./mvnw -q validate` termina en 0.
-- [ ] **0.4** Crea los cuatro módulos con su `pom.xml` (sin versiones propias; todo gestionado por Boot
+- [x] **0.4** Crea los cuatro módulos con su `pom.xml` (sin versiones propias; todo gestionado por Boot
   o por el POM padre) y estas dependencias (nombres de starters de Spring Boot 4):
 
   | Módulo | Dependencias | Pruebas (scope `test`) |
@@ -513,7 +513,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   cuatro módulos). Crea `elastiflix-web/src/main/resources/application.yml` con la configuración de §7.
   - Criterio: `./mvnw -q -DskipTests package` termina en 0 y genera
     `elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar`.
-- [ ] **0.5** Configura en el POM padre (`<build><plugins>`, Checkstyle declarado **antes** que PMD,
+- [x] **0.5** Configura en el POM padre (`<build><plugins>`, Checkstyle declarado **antes** que PMD,
   ambos ligados a la fase `verify`, con `failOnViolation` y solo sobre `src/main/java`):
   - **Checkstyle:** `maven-checkstyle-plugin` con
     `<configLocation>${maven.multiModuleProjectDirectory}/config/checkstyle/checkstyle.xml</configLocation>`,
@@ -527,7 +527,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
     y `pmd:check` la usen también desde la línea de comandos (tarea 0.8).
   - **No modifiques los archivos de `config/`.**
   - Criterio: `./mvnw verify` termina en 0 con 0 violaciones.
-- [ ] **0.6** Infraestructura de pruebas de integración:
+- [x] **0.6** Infraestructura de pruebas de integración:
   - Perfil **de Maven** `it` en el POM padre que activa `maven-failsafe-plugin` (goals
     `integration-test` y `verify`, clases `**/*IT.java`). Sin `-Pit`, las `*IT` no corren. «Perfil
     `it`» en este plan siempre significa este perfil de Maven; no hay perfil de Spring `it`.
@@ -554,7 +554,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
     vacías (sin imprimir sus valores).
   - Criterio: `./mvnw verify -Pit -pl elastiflix-core -am` muestra `Tests run: 1` en Failsafe para
     `EnvironmentIT` y termina en 0; `./mvnw verify` (sin `-Pit`) no ejecuta ninguna `*IT`.
-- [ ] **0.7** Pruebas de arquitectura: agrega
+- [x] **0.7** Pruebas de arquitectura: agrega
   `elastiflix-web/src/test/java/com/bigfito/elastiflix/architecture/ArchitectureTest.java`
   (`archunit-junit6`, porque Spring Boot 4 usa JUnit 6) con las reglas de §8, que son **listas de
   prohibición**, más "sin ciclos entre los módulos" (`slices().matching("com.bigfito.elastiflix.(*)..")`)
@@ -563,7 +563,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   vacíos, crea `elastiflix-web/src/test/resources/archunit.properties` con
   `archRule.failOnEmptyShould=false` (decisión registrada en `progreso/0.md`; la tarea 4.7 lo revierte).
   - Criterio: `./mvnw verify` ejecuta `ArchitectureTest` y queda en verde.
-- [ ] **0.8** **Prueba negativa** de las compuertas, en una rama temporal (nunca hagas push de ella):
+- [x] **0.8** **Prueba negativa** de las compuertas, en una rama temporal (nunca hagas push de ella):
   agrega a `web` una clase que importe `co.elastic.clients.elasticsearch.ElasticsearchClient` y use
   `System.out.println`, y ejecuta cada compuerta **por separado** (el build se detiene en la primera
   falla, así que un solo `verify` no muestra las tres):
@@ -576,11 +576,11 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   Registra la salida resumida como evidencia, **revierte**, vuelve a `main` y borra la rama.
   - Criterio: cada uno de los tres comandos falla con su mensaje; tras revertir, `./mvnw verify` vuelve
     a 0 y `git status` queda limpio.
-- [ ] **0.9** Confirma que `.env.example` contiene todas las variables de la sección
+- [x] **0.9** Confirma que `.env.example` contiene todas las variables de la sección
   [Variables de entorno](#variables-de-entorno-envexample) y ningún valor real.
   - Criterio: `grep -E '=.+' .env.example` solo muestra valores por defecto no secretos (alias, endpoint
     de inferencia, tamaños, URL de pósters, puerto).
-- [ ] **0.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases
+- [x] **0.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases
   y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/0.md` qué se
   actualizó.
