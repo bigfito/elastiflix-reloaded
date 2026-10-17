@@ -13,4 +13,16 @@
     <artifactId>elastiflix-ingest</artifactId>
     <name>elastiflix-ingest</name>
     <description>Validación de archivos e importación al catálogo.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.bigfito</groupId>
+            <artifactId>elastiflix-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

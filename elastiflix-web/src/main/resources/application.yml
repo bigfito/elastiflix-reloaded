@@ -1,0 +1,47 @@
+# Configuración de la demo. Los secretos llegan por .env (ver .env.example), nunca por este archivo.
+spring:
+  config:
+    import: optional:file:.env[.properties],optional:file:../.env[.properties]
+  elasticsearch:
+    uris: ${elastiflix.elasticsearch.url}
+    api-key: ${elastiflix.elasticsearch.api-key}
+  servlet:
+    multipart:
+      max-file-size: ${elastiflix.ingest.max-file-size}
+      max-request-size: 151MB
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: ${SERVER_PORT:8080}
+  tomcat:
+    max-swallow-size: -1
+
+elastiflix:
+  elasticsearch:
+    url: ${ELASTICSEARCH_URL:}
+    api-key: ${ELASTICSEARCH_API_KEY:}
+  index:
+    alias: ${ELASTIFLIX_INDEX_ALIAS:elastiflix-reloaded}
+  inference:
+    id: ${ELASTIFLIX_INFERENCE_ID:.jina-embeddings-v5-omni-small}
+  ingest:
+    max-file-size: ${ELASTIFLIX_INGEST_MAX_FILE_SIZE:150MB}
+    batch-size: ${ELASTIFLIX_INGEST_BATCH_SIZE:100}
+  poster:
+    base-url: ${ELASTIFLIX_POSTER_BASE_URL:https://image.tmdb.org/t/p/w342}
+  bootstrap:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+  health:
+    elasticsearch:
+      enabled: false

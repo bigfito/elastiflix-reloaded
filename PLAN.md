@@ -496,7 +496,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   `maven-pmd-plugin.version` 3.28.0, `archunit.version` 1.5.1; `maven-enforcer-plugin` con
   `requireJavaVersion [25,)` y `requireMavenVersion [3.6.3,)`.
   - Criterio: `./mvnw -q validate` termina en 0.
-- [ ] **0.4** Crea los cuatro módulos con su `pom.xml` (sin versiones propias; todo gestionado por Boot
+- [x] **0.4** Crea los cuatro módulos con su `pom.xml` (sin versiones propias; todo gestionado por Boot
   o por el POM padre) y estas dependencias (nombres de starters de Spring Boot 4):
 
   | Módulo | Dependencias | Pruebas (scope `test`) |
