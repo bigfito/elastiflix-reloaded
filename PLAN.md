@@ -527,7 +527,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
     y `pmd:check` la usen también desde la línea de comandos (tarea 0.8).
   - **No modifiques los archivos de `config/`.**
   - Criterio: `./mvnw verify` termina en 0 con 0 violaciones.
-- [ ] **0.6** Infraestructura de pruebas de integración:
+- [x] **0.6** Infraestructura de pruebas de integración:
   - Perfil **de Maven** `it` en el POM padre que activa `maven-failsafe-plugin` (goals
     `integration-test` y `verify`, clases `**/*IT.java`). Sin `-Pit`, las `*IT` no corren. «Perfil
     `it`» en este plan siempre significa este perfil de Maven; no hay perfil de Spring `it`.

@@ -8,16 +8,16 @@
 ## Punto de reanudación
 
 - **Fase actual:** 0
-- **Estado de la fase:** bloqueado
+- **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-0-andamiaje-29a6`)
-- **Próximo paso:** Crear `.env` en la raíz con `ELASTICSEARCH_URL` y `ELASTICSEARCH_API_KEY` (no van en git). Volver a correr `./mvnw verify -Pit -pl elastiflix-core -am`. Si `EnvironmentIT` queda en verde, marcar la tarea 0.6 `terminada` y seguir con la 0.7. No empezar la Fase 1.
-- **Última actualización:** 2026-10-17 23:40 UTC
+- **Próximo paso:** Tarea 0.7: `ArchitectureTest` con las reglas de `PLAN.md` §8 y `archunit.properties` (`archRule.failOnEmptyShould=false`). Criterio: `./mvnw verify` en verde.
+- **Última actualización:** 2026-10-17 23:46 UTC
 
 ## Fases
 
 | Fase | Nombre | Compuerta | Estado | Archivo de estado | Verificación de fase |
 |---|---|---|---|---|---|
-| 0 | Andamiaje y calidad | — | bloqueado | `progreso/0.md` | `./mvnw verify -Pit -pl elastiflix-core -am` falló: falta `.env` |
+| 0 | Andamiaje y calidad | — | en curso | `progreso/0.md` | — |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | no iniciado | `progreso/1.md` | — |
 | 2 | Búsqueda | 🔒 | no iniciado | `progreso/2.md` | — |
 | 3 | Carga de datos | 🔒 | no iniciado | `progreso/3.md` | — |
@@ -35,5 +35,5 @@
 ## Última verificación
 
 - **Comando:** `./mvnw verify -Pit -pl elastiflix-core -am`
-- **Resultado:** falló. Failsafe ejecutó `EnvironmentIT` (`Tests run: 1, Errors: 1`). El contexto no arranca: `hosts must not be null nor empty` porque no hay `ELASTICSEARCH_URL`.
-- **Fecha:** 2026-10-17 23:39 UTC
+- **Resultado:** en verde. Failsafe: `Tests run: 1, Failures: 0, Errors: 0` en `EnvironmentIT`.
+- **Fecha:** 2026-10-17 23:46 UTC
