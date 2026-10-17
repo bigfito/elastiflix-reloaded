@@ -513,7 +513,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
   cuatro módulos). Crea `elastiflix-web/src/main/resources/application.yml` con la configuración de §7.
   - Criterio: `./mvnw -q -DskipTests package` termina en 0 y genera
     `elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar`.
-- [ ] **0.5** Configura en el POM padre (`<build><plugins>`, Checkstyle declarado **antes** que PMD,
+- [x] **0.5** Configura en el POM padre (`<build><plugins>`, Checkstyle declarado **antes** que PMD,
   ambos ligados a la fase `verify`, con `failOnViolation` y solo sobre `src/main/java`):
   - **Checkstyle:** `maven-checkstyle-plugin` con
     `<configLocation>${maven.multiModuleProjectDirectory}/config/checkstyle/checkstyle.xml</configLocation>`,

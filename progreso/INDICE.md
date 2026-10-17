@@ -10,8 +10,8 @@
 - **Fase actual:** 0
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-0-andamiaje-29a6`)
-- **Próximo paso:** Tarea 0.5: ligar Checkstyle y PMD a `verify` en el POM padre. Criterio: `./mvnw verify` en 0 con 0 violaciones.
-- **Última actualización:** 2026-10-17 23:36 UTC
+- **Próximo paso:** Tarea 0.6: perfil Maven `it`, `TestApplication` en core/search/ingest y `EnvironmentIT`. Requiere `.env` para el criterio con `-Pit`.
+- **Última actualización:** 2026-10-17 23:37 UTC
 
 ## Fases
 
