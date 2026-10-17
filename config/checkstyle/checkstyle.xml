@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+  Elastiflix-Movies Java · Checkstyle (versión 14.3.0)
+  Congelado: no relajes umbrales desde una fase. Cambios solo por solicitud aprobada.
+  Reglas propias con prefijo JM-xxx-nn (ver docs/convenciones-java.md, sección 14).
+-->
+<module name="Checker">
+  <property name="charset" value="UTF-8"/>
+  <property name="severity" value="error"/>
+  <property name="fileExtensions" value="java"/>
+
+  <!-- Supresiones puntuales con @SuppressWarnings("checkstyle:<regla>") justificadas en el código -->
+  <module name="SuppressWarningsFilter"/>
+
+  <module name="FileLength">
+    <property name="max" value="400"/>
+  </module>
+  <module name="LineLength">
+    <property name="max" value="120"/>
+    <property name="ignorePattern" value="^(package|import) .*$|https?://"/>
+  </module>
+  <module name="FileTabCharacter"/>
+  <module name="NewlineAtEndOfFile"/>
+
+  <module name="TreeWalker">
+    <module name="SuppressWarningsHolder"/>
+
+    <!-- Nombres -->
+    <module name="PackageName">
+      <property name="format" value="^io\.github\.bigfito\.elastiflix(\.[a-z][a-z0-9]*)*$"/>
+    </module>
+    <module name="TypeName"/>
+    <module name="MethodName"/>
+    <module name="MemberName"/>
+    <module name="ParameterName"/>
+    <module name="LocalVariableName"/>
+    <module name="LambdaParameterName"/>
+    <module name="PatternVariableName"/>
+    <module name="RecordComponentName"/>
+    <module name="ConstantName"/>
+    <module name="StaticVariableName"/>
+    <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="3"/>
+      <property name="allowedAbbreviations" value="RRF,BM25,KNN,CSV,JSON,UTF,API,URL,HTTP,NDJSON,IMDB"/>
+    </module>
+
+    <!-- Importaciones -->
+    <module name="AvoidStarImport"/>
+    <module name="RedundantImport"/>
+    <module name="UnusedImports"/>
+    <module name="IllegalImport">
+      <property name="illegalPkgs" value="com.fasterxml.jackson.databind, org.apache.commons.logging"/>
+      <message key="import.illegal"
+               value="JM-DEP-01: importación prohibida ''{0}''. Usa Jackson 3 (tools.jackson) y SLF4J."/>
+    </module>
+
+    <!-- Tamaño y complejidad -->
+    <module name="MethodLength">
+      <property name="max" value="30"/>
+      <property name="countEmpty" value="false"/>
+    </module>
+    <module name="ParameterNumber">
+      <property name="max" value="5"/>
+      <property name="ignoreOverriddenMethods" value="true"/>
+    </module>
+    <!-- Permite que el documento de película refleje los 33 campos del mapping -->
+    <module name="RecordComponentNumber">
+      <property name="max" value="35"/>
+    </module>
+    <module name="CyclomaticComplexity">
+      <property name="max" value="10"/>
+      <property name="switchBlockAsSingleDecisionPoint" value="true"/>
+    </module>
+    <module name="NestedIfDepth">
+      <property name="max" value="2"/>
+    </module>
+    <module name="NestedForDepth">
+      <property name="max" value="1"/>
+    </module>
+    <module name="NestedTryDepth">
+      <property name="max" value="1"/>
+    </module>
+    <module name="ReturnCount">
+      <property name="max" value="3"/>
+      <property name="maxForVoid" value="2"/>
+    </module>
+
+    <!-- Bloques y estilo -->
+    <module name="NeedBraces"/>
+    <module name="LeftCurly"/>
+    <module name="RightCurly"/>
+    <module name="EmptyBlock">
+      <property name="option" value="text"/>
+    </module>
+    <module name="EmptyCatchBlock">
+      <property name="exceptionVariableName" value="^$"/>
+      <property name="commentFormat" value="^$"/>
+    </module>
+    <module name="OneStatementPerLine"/>
+    <module name="MultipleVariableDeclarations"/>
+    <module name="MissingSwitchDefault"/>
+    <module name="FallThrough"/>
+    <module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="EqualsHashCode"/>
+    <module name="StringLiteralEquality"/>
+    <module name="MagicNumber">
+      <property name="ignoreNumbers" value="-1, 0, 1, 2"/>
+      <property name="ignoreHashCodeMethod" value="true"/>
+      <property name="ignoreAnnotation" value="true"/>
+      <property name="ignoreFieldDeclaration" value="true"/>
+    </module>
+    <module name="FinalClass"/>
+    <module name="HideUtilityClassConstructor"/>
+    <module name="VisibilityModifier">
+      <property name="protectedAllowed" value="false"/>
+    </module>
+    <module name="IllegalCatch">
+      <property name="illegalClassNames" value="Exception, Throwable, RuntimeException, Error"/>
+      <message key="illegal.catch"
+               value="JM-ERR-01: no captures ''{0}''. Captura la excepción concreta o deja que la maneje el ControllerAdvice."/>
+    </module>
+    <module name="IllegalThrows">
+      <property name="illegalClassNames" value="Exception, Throwable, RuntimeException, Error"/>
+    </module>
+
+    <!-- Javadoc en API pública -->
+    <module name="MissingJavadocType">
+      <property name="scope" value="public"/>
+      <property name="skipAnnotations" value="Generated"/>
+    </module>
+    <module name="MissingJavadocMethod">
+      <property name="scope" value="public"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+      <property name="minLineCount" value="1"/>
+      <property name="ignoreMethodNamesRegex" value="^(main|toString|equals|hashCode)$"/>
+    </module>
+    <module name="JavadocMethod">
+      <property name="accessModifiers" value="public"/>
+      <property name="validateThrows" value="false"/>
+    </module>
+    <module name="JavadocType">
+      <property name="scope" value="public"/>
+    </module>
+    <module name="NonEmptyAtclauseDescription"/>
+    <module name="InvalidJavadocPosition"/>
+    <module name="SummaryJavadoc">
+      <property name="period" value="."/>
+    </module>
+
+    <!-- Reglas propias por expresión regular -->
+    <module name="RegexpSinglelineJava">
+      <property name="id" value="JM-LOG-01"/>
+      <property name="format" value="System\.(out|err)\.print|\.printStackTrace\(\)"/>
+      <property name="ignoreComments" value="true"/>
+      <property name="message" value="JM-LOG-01: usa un Logger de SLF4J en lugar de System.out/err o printStackTrace()."/>
+    </module>
+    <module name="RegexpSinglelineJava">
+      <property name="id" value="JM-SPR-01"/>
+      <property name="format" value="^\s*@Autowired\s*$|@Autowired\s+(private|protected|public)?\s*[A-Z]\w*(&lt;.*&gt;)?\s+\w+\s*;"/>
+      <property name="ignoreComments" value="true"/>
+      <property name="message" value="JM-SPR-01: no inyectes por campo con @Autowired. Usa inyección por constructor."/>
+    </module>
+    <module name="RegexpSinglelineJava">
+      <property name="id" value="JM-TIME-01"/>
+      <property name="format" value="\bnew\s+Date\s*\(|\bCalendar\.getInstance\(|\bnew\s+SimpleDateFormat\s*\("/>
+      <property name="ignoreComments" value="true"/>
+      <property name="message" value="JM-TIME-01: usa java.time (Instant, LocalDate, DateTimeFormatter) en UTC; no Date, Calendar ni SimpleDateFormat."/>
+    </module>
+    <module name="RegexpSinglelineJava">
+      <property name="id" value="JM-SEC-01"/>
+      <property name="format" value="(?i)(api[_-]?key|password|secret)\s*=\s*&quot;[^&quot;$\{]+&quot;"/>
+      <property name="ignoreComments" value="true"/>
+      <property name="message" value="JM-SEC-01: no escribas secretos en el código. Léelos de la configuración (variables de entorno o .env)."/>
+    </module>
+  </module>
+</module>

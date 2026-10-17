@@ -1,0 +1,58 @@
+flowchart LR
+  user(["Usuario en el navegador"])
+
+  subgraph app["Elastiflix-Movies Java · Spring Boot 4.1.1 · Java 25"]
+    direction TB
+    subgraph web["elastiflix-web"]
+      pages["Páginas Thymeleaf<br/>Inicio · Resultados · Cargar datos · Acerca de"]
+      ctrl["Controladores MVC<br/>y ControllerAdvice"]
+      health["Actuator /health<br/>indicador del catálogo"]
+    end
+    subgraph search["elastiflix-search"]
+      facade_s["SearchService"]
+      strat["Estrategias<br/>Full-text BM25 · Vectorial k-NN · Híbrida RRF"]
+      facets["Filtros, facetas<br/>y paginación"]
+    end
+    subgraph ingest["elastiflix-ingest"]
+      facade_i["IngestService"]
+      readers["Validación de archivo<br/>lectores JSON / CSV"]
+      validator["Validación contra<br/>el mapping"]
+      job["Trabajo de importación<br/>lotes de 100 · índice temporal · swap de alias"]
+    end
+    subgraph core["elastiflix-core"]
+      client["Cliente Java de Elasticsearch 9.x<br/>Jackson3JsonpMapper"]
+      catalog["CatalogIndex<br/>alias, índices, reindex, conteo"]
+      emb["EmbeddingService<br/>prefijos Query / Document · recorte 512 y 256"]
+      mapping["IndexMapping<br/>elastiflix-reloaded-mapping.json"]
+    end
+  end
+
+  subgraph es["Elasticsearch Serverless"]
+    alias[("Alias elastiflix-reloaded")]
+    idx[("Índice vigente<br/>elastiflix-reloaded-AAAAMMDD-HHMMSS")]
+    tmp[("Índice temporal<br/>durante una carga")]
+    inf["Endpoint de inferencia<br/>.jina-embeddings-v5-omni-small"]
+  end
+
+  user -->|"1 consulta"| pages
+  pages --> ctrl
+  ctrl -->|"2"| facade_s
+  facade_s --> strat
+  strat -->|"3 vector de la consulta"| emb
+  emb -->|"4 _inference"| inf
+  strat -->|"5 _search / _msearch"| client
+  client --> alias
+  alias --> idx
+  idx -.->|"6 resultados"| facets
+  facets -.->|"7 página de resultados"| pages
+
+  user -->|"A archivo .json / .csv"| pages
+  ctrl -->|"B"| facade_i
+  facade_i --> readers --> validator
+  validator --> mapping
+  validator -->|"C si todo coincide"| job
+  job -->|"D copia + lotes"| tmp
+  job -->|"E vectores faltantes"| emb
+  job -->|"F swap atómico"| catalog
+  catalog --> alias
+  health -.-> catalog

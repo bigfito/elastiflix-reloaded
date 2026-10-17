@@ -1,0 +1,555 @@
+# 📐 Convenciones de código Java — Elastiflix-Movies Java
+
+> **Lectura obligatoria** antes de escribir código, para cualquier agente (Claude Code, Cursor,
+> Google Antigravity, Junie) o persona.
+>
+> - Este documento **manda sobre las preferencias por defecto de tu herramienta** y sobre cualquier
+>   skill de convenciones instalada (por ejemplo `java-developer`), porque incluye umbrales y
+>   decisiones propias del proyecto.
+> - En temas de dominio (búsqueda, ingesta, Elasticsearch) mandan `PLAN.md` y
+>   `elasticsearch/elastiflix-reloaded-mapping.json`.
+> - Está **congelado**: si una regla parece incorrecta, regístrala en "Bloqueos y solicitudes" de tu
+>   archivo de `progreso/` y pregunta. Nunca relajes un umbral de `config/` por tu cuenta.
+
+## Índice
+
+1. [Principios de trabajo](#1-principios-de-trabajo)
+2. [Flujo por unidad de trabajo](#2-flujo-por-unidad-de-trabajo)
+3. [Java 25 con mesura](#3-java-25-con-mesura)
+4. [Diseño: SOLID y patrones permitidos](#4-diseño-solid-y-patrones-permitidos)
+5. [Estilo y nombres](#5-estilo-y-nombres)
+6. [Spring Boot](#6-spring-boot)
+7. [Errores](#7-errores)
+8. [Logging](#8-logging)
+9. [Documentación en código](#9-documentación-en-código)
+10. [Pruebas](#10-pruebas)
+11. [Reglas de dominio que afectan el código](#11-reglas-de-dominio-que-afectan-el-código)
+12. [Build y dependencias](#12-build-y-dependencias)
+13. [Ejemplos de referencia](#13-ejemplos-de-referencia)
+14. [Qué se verifica automáticamente](#14-qué-se-verifica-automáticamente)
+15. [Desviaciones declaradas](#15-desviaciones-declaradas)
+16. [Lista de revisión de cierre](#16-lista-de-revisión-de-cierre)
+
+---
+
+## 1. Principios de trabajo
+
+El estilo es el de **JavaMentor** (Java 25 LTS, Spring Boot, Maven):
+
+1. **Claridad antes que ingenio.** Un código legible vale más que uno "elegante" pero críptico.
+2. **SOLID y patrones al servicio del problema**, nunca al revés.
+3. **Errores que hablan:** toda falla explica qué pasó, la causa probable y qué hacer.
+4. **Todo se registra:** una aplicación sin logging es una caja negra.
+5. **Documentar es parte de programar.**
+6. **Si un programador Junior no lo entiende, se puede escribir mejor.**
+7. **Pregunta antes de asumir:** si el plan no define algo, pregunta al usuario; no lo inventes.
+
+## 2. Flujo por unidad de trabajo
+
+1. **Requerimientos:** lee las tareas de tu fase en `PLAN.md` y anota dudas en el diseño.
+2. **Diseño:** tarea `<fase>.0` → `docs/diseno/<fase>.md` desde `docs/diseno/_PLANTILLA.md`, con
+   diagramas Mermaid. Commit **antes** del código. En las fases con compuerta (ver `PLAN.md` §8),
+   **detente** hasta que el usuario apruebe.
+3. **Implementación:** tarea por tarea, un commit por tarea con su archivo de `progreso/`.
+4. **Explicación:** al cerrar la fase, "Resumen de diseño" y "Revisión de convenciones" en
+   `progreso/<fase>.md`.
+
+## 3. Java 25 con mesura
+
+| Característica | Úsala cuando… | Evítala cuando… |
+|---|---|---|
+| `record` | Datos inmutables: DTO, ajustes de búsqueda, resultados, errores de validación | La clase tiene comportamiento con estado mutable |
+| `sealed` + `switch` con patrones | Jerarquías cerradas: modos de búsqueda, resultados de validación, eventos de importación | La jerarquía debe ser extensible por terceros |
+| `var` | El tipo es evidente a la derecha (`var page = new PageRequest(…)`) | Oculta el tipo (`var x = service.run()`) |
+| Bloques de texto `"""` | Plantillas largas en pruebas (JSON de ejemplo) | Textos cortos |
+| Hilos virtuales | Tareas de E/S: importación en segundo plano, llamadas a Elasticsearch | Cálculo intensivo de CPU |
+| `Stream` | Transformaciones simples y legibles (≤ 4 operaciones encadenadas) | Lógica con efectos secundarios o ramas complejas: usa un `for` |
+| `Optional` | Valor de retorno que puede faltar | Campos, parámetros o colecciones |
+| Características en *preview* | **Nunca** | — |
+
+## 4. Diseño: SOLID y patrones permitidos
+
+**SOLID aplicado al proyecto:**
+
+- **S** — Una clase, una razón para cambiar: `CsvMovieReader` solo lee CSV; `MappingValidator` solo
+  valida contra el mapping; `AliasPublisher` solo cambia el alias.
+- **O** — Agregar un modo de búsqueda = agregar una estrategia, sin tocar las existentes.
+- **L** — Toda implementación de `MovieFileReader` se puede usar donde se espera la interfaz.
+- **I** — Interfaces pequeñas: `EmbeddingService` no expone métodos de índice.
+- **D** — `search` e `ingest` dependen de interfaces de `core` (`CatalogIndex`, `EmbeddingService`),
+  no de detalles del cliente.
+
+**Lista cerrada de patrones** (usar otro exige justificarlo en el diseño y aprobación):
+
+| Patrón | Dónde | Por qué |
+|---|---|---|
+| Strategy | `elastiflix-search`: una estrategia por modo (full-text, vectorial, híbrida) | Cada modo construye su petición de forma distinta; agregar uno no toca los demás |
+| Facade | `SearchService` e `IngestService` | La capa web ve una sola entrada por caso de uso |
+| Factory (método estático o clase pequeña) | Elegir lector por tipo de archivo (`.json` / `.csv`) | Oculta qué lector se usa |
+| Gateway / Adapter | `core`: envoltura del cliente de Elasticsearch y del endpoint de inferencia | Aísla el cliente; facilita las pruebas con dobles |
+| Observer (listener simple) | Progreso de la importación hacia la página de carga | Desacopla el trabajo en segundo plano de la interfaz |
+| Builder | Solo el del propio cliente de Elasticsearch; en clases propias prefiere `record` o métodos de fábrica | Evita boilerplate |
+
+**Prohibido:** Singleton manual, herencia de más de 2 niveles en clases propias, clases `*Utils`
+genéricas (usa clases con nombre de responsabilidad), Visitor, reflexión.
+
+## 5. Estilo y nombres
+
+**Idioma:** identificadores en **inglés** (coinciden con los campos del índice: `release_date`,
+`spoken_languages`); Javadoc, comentarios, mensajes de log y textos de interfaz en **español**.
+
+**Umbrales** (verificados automáticamente, ver §14):
+
+| Medida | Límite |
+|---|---|
+| Líneas por método (sin vacías) | 30 |
+| Sentencias por método (NCSS) | 25 |
+| Parámetros por método | 5 |
+| Complejidad ciclomática por método | 10 |
+| Complejidad cognitiva por método | 15 |
+| Anidamiento de `if` | 2 niveles |
+| Anidamiento de `for` / `try` | 1 nivel |
+| `return` por método | 3 (2 en `void`) |
+| Líneas por archivo | 400 |
+| Métodos por clase | 20 |
+| Longitud de línea | 120 |
+| Componentes por `record` | 35 (solo el documento de película se acerca) |
+
+**Nombres:**
+
+| Elemento | Convención | Ejemplo |
+|---|---|---|
+| Paquete | `io.github.bigfito.elastiflix.<módulo>.<área>` | `io.github.bigfito.elastiflix.search.facet` |
+| Clase | Sustantivo en PascalCase | `HybridSearchStrategy`, `MappingValidator` |
+| Interfaz | Capacidad, sin prefijo `I` | `EmbeddingService`, `MovieFileReader` |
+| Implementación | Calificador + interfaz | `InferenceEmbeddingService` |
+| Método | Verbo en camelCase | `buildRequest`, `validateRecord` |
+| Booleano | `is`/`has`/`can` | `isAdult`, `hasValidVectors` |
+| Constante | MAYÚSCULAS | `MAX_NUM_CANDIDATES` |
+| Excepción | Termina en `Exception` | `IngestValidationException` |
+| Prueba | Clase + `Test` / `IT` | `KnnSettingsTest`, `FullTextSearchIT` |
+
+Abreviaturas permitidas en nombres: `RRF`, `BM25`, `KNN`, `CSV`, `JSON`, `NDJSON`, `UTF`, `API`,
+`URL`, `HTTP`, `IMDB`.
+
+## 6. Spring Boot
+
+- **Inyección solo por constructor.** Nada de `@Autowired` en campos (regla `JM-SPR-01`).
+- **Configuración tipada:** `@ConfigurationProperties` sobre `record` con `@Validated`; prohibido
+  `@Value` disperso. Prefijo `elastiflix.*` para lo propio y `spring.*` para lo de Boot.
+- **Secretos** solo por variables de entorno o `.env` (importado con `spring.config.import`); nunca en
+  `application.yml` ni en el código (regla `JM-SEC-01`).
+- **Dónde va Spring:** `core`, `search` e `ingest` pueden usar `spring-context` (`@Service`,
+  `@Configuration`) pero **no** Spring MVC ni Thymeleaf; eso solo vive en `elastiflix-web`.
+- **Controladores delgados:** validan la entrada, llaman a un servicio y eligen la vista. Sin lógica
+  de búsqueda ni de ingesta.
+- **Manejo global de errores:** un `@ControllerAdvice` traduce `ElastiflixException` a una página o
+  respuesta con el código y el mensaje del catálogo.
+- **Hilos virtuales:** `spring.threads.virtual.enabled=true`.
+- **Actuator:** `health` expuesto, con un indicador propio de Elasticsearch que alimenta el
+  indicador «Conectado · Elasticsearch Serverless» del header.
+
+## 7. Errores
+
+- Jerarquía: `ElastiflixException` (base, `RuntimeException`, siempre con `ErrorCode`) →
+  `ConfigurationException`, `ElasticsearchAccessException`, `EmbeddingException`,
+  `SearchValidationException`, `IngestValidationException`, `ImportException`.
+- **Códigos** con forma `EFX-<ÁREA>-<NNN>`:
+
+| Área | Prefijo | Ejemplos |
+|---|---|---|
+| Configuración | `EFX-CFG` | falta `ELASTICSEARCH_URL` |
+| Conexión e índice | `EFX-ES` | sin conexión, alias inexistente |
+| Embeddings | `EFX-EMB` | endpoint de inferencia no disponible, dimensión inesperada |
+| Búsqueda | `EFX-SRCH` | `num_candidates < k`, `from + size > 10 000`, consulta vacía |
+| Validación de archivo | `EFX-ING` | extensión no permitida, más de 150 MB, no es UTF-8, no coincide con el mapping |
+| Importación | `EFX-IMP` | lote rechazado, conteo no cuadra, alias no cambiado |
+| Web | `EFX-WEB` | parámetro inválido |
+
+- **Formato del mensaje:** `<código> · <qué pasó>. Causa probable: <…>. Acción sugerida: <…>.`
+- **Nunca** silencies excepciones ni dejes un `catch` vacío; al envolver, conserva la causa.
+- No captures `Exception`, `RuntimeException` ni `Throwable` (regla `JM-ERR-01`); el
+  `@ControllerAdvice` usa `@ExceptionHandler`, no `catch`.
+- Los errores de validación de la ingesta **no son excepciones por registro**: se acumulan como
+  `record ValidationError(int recordNumber, String id, String field, String received, String expected)`
+  y se lanzan juntos al final.
+
+## 8. Logging
+
+SLF4J con un `private static final Logger LOG` por clase.
+
+| Nivel | Cuándo | Ejemplo |
+|---|---|---|
+| `ERROR` | Falla que el usuario ve, con su código | `EFX-IMP-002 · Elasticsearch rechazó el lote 7 de 44; se borró el índice temporal` |
+| `WARN` | Situación anómala recuperable | `Ingesta con 62 advertencias (valores vacíos omitidos en spoken_languages)` |
+| `INFO` | Eventos de negocio | `Búsqueda híbrida: 100 resultados en 182 ms`; `Alias elastiflix-reloaded → elastiflix-reloaded-20261020-153000` |
+| `DEBUG` | Detalle para diagnosticar | Texto de la consulta y ajustes elegidos |
+| `TRACE` | Peticiones a Elasticsearch | JSON de la petición **sin** vectores |
+
+- Contexto obligatorio: modo de búsqueda; en importaciones, `jobId` en el MDC, archivo, lote y
+  conteos.
+- **Prohibido registrar:** API key, cabecera `Authorization`, vectores completos, documentos
+  completos, contenido de archivos subidos.
+- Mensajes parametrizados (`LOG.info("… {}", valor)`), nunca concatenados.
+
+## 9. Documentación en código
+
+- Javadoc en **toda clase y método público** (verificado), con primera frase terminada en punto,
+  `@param`, `@return` y `@throws` cuando aplique.
+- Comenta el **por qué**, no el qué. Ejemplo: por qué las facetas de Vectorial e Híbrida se
+  calculan en la aplicación y no con agregaciones.
+- `package-info.java` en cada paquete con su responsabilidad en una frase.
+
+## 10. Pruebas
+
+- JUnit 5, AssertJ y Mockito (de `spring-boot-starter-test`).
+- **Nombres:** método en inglés `should<Resultado>When<Condición>` y `@DisplayName` en español.
+- Estructura con comentarios `// given`, `// when`, `// then`.
+- **Unitarias** (`*Test`, Surefire): sin red ni Elasticsearch; el cliente y la inferencia se sustituyen
+  por dobles.
+- **Integración** (`*IT`, Failsafe, perfil `it`): contra el proyecto Elasticsearch Serverless
+  configurado en `.env`.
+  - Las de **lectura** usan el alias `elastiflix-reloaded` y no lo modifican.
+  - Las de **escritura** crean su propio alias `elastiflix-it-<aleatorio>` y lo borran al terminar,
+    pase o falle la prueba. **Nunca** escriben en `elastiflix-reloaded`.
+- **Prohibido:** `Thread.sleep` (usa espera con condición), pruebas que dependan del orden,
+  `@Disabled` sin motivo, aserciones vacías, datos reales de credenciales en recursos de prueba.
+- Las pruebas de arquitectura (ArchUnit) viven en `elastiflix-web/src/test/java/.../architecture/`
+  y corren en `./mvnw verify`.
+
+## 11. Reglas de dominio que afectan el código
+
+- **Tiempo:** `java.time` y UTC (`Instant`, `Clock` inyectable). `release_date` es `LocalDate` con
+  formato `yyyy-MM-dd`. Prohibidos `Date`, `Calendar`, `SimpleDateFormat` (regla `JM-TIME-01`).
+- **Vectores:** `float[]`; 512 y 256 son los primeros N valores del vector de 1024, **renormalizados
+  (L2)**. Prefijos del modelo: `Query: ` en consultas, `Document: ` en sinopsis.
+- **Límites:** `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`; full-text `from + size ≤ 10 000`
+  (`index.max_result_window`); híbrida `rank_window_size = k` y `rank_constant = 60`.
+- **Puntuaciones:** BM25 tal cual; k-NN `(1 + coseno) / 2`; RRF `Σ 1 / (60 + posición)`.
+- **Alias:** el nombre `elastiflix-reloaded` es configurable (`elastiflix.index.alias`); el código
+  nunca lo escribe como literal fuera de la configuración por defecto.
+- **Concurrencia:** una sola importación a la vez; el estado del trabajo es inmutable (`record`) y se
+  publica por el listener de progreso.
+- **Texto de interfaz** en español, igual al de los mockups de `design/mockups/`.
+
+## 12. Build y dependencias
+
+- Maven **solo mediante el wrapper** (`./mvnw`, o `mvnw.cmd` en Windows).
+- Versiones en el POM padre (`<properties>` o `dependencyManagement`); los POM hijos no declaran
+  versiones.
+- **JSON con Jackson 3** (`tools.jackson.*`). Prohibido importar `com.fasterxml.jackson.databind`
+  (regla `JM-DEP-01`); las anotaciones `com.fasterxml.jackson.annotation` sí están permitidas porque
+  Jackson 3 las conserva.
+- Sin Spring Data Elasticsearch, sin Lombok, sin librerías de CSV/JSON adicionales salvo que el diseño
+  de la fase lo justifique y el usuario lo apruebe.
+- Ninguna dependencia nueva sin anotarla en el diseño de la fase.
+
+## 13. Ejemplos de referencia
+
+Estos ejemplos pasan Checkstyle 14.3.0 y PMD 7.28.0 con las configuraciones de `config/`
+(verificado al redactar este documento).
+
+**Catálogo de códigos de error**
+
+```java
+package io.github.bigfito.elastiflix.core.error;
+
+/**
+ * Catálogo de códigos de error de Elastiflix.
+ *
+ * <p>Cada código explica qué pasó, la causa probable y la acción sugerida, para que el usuario
+ * final sepa cómo resolver o reportar la falla.</p>
+ */
+public enum ErrorCode {
+
+    ES_UNAVAILABLE("EFX-ES-001",
+            "No se pudo conectar con Elasticsearch",
+            "La URL o la API key no son válidas, o el proyecto Serverless no responde",
+            "Revisa ELASTICSEARCH_URL y ELASTICSEARCH_API_KEY en .env y vuelve a intentarlo"),
+
+    KNN_CANDIDATES_BELOW_K("EFX-SRCH-003",
+            "num_candidates es menor que k",
+            "Se pidió evaluar menos candidatos que los resultados solicitados",
+            "Usa un num_candidates mayor o igual que k (máximo 10 000)");
+
+    private final String code;
+    private final String what;
+    private final String probableCause;
+    private final String suggestedAction;
+
+    ErrorCode(String code, String what, String probableCause, String suggestedAction) {
+        this.code = code;
+        this.what = what;
+        this.probableCause = probableCause;
+        this.suggestedAction = suggestedAction;
+    }
+
+    /**
+     * Devuelve el código visible para el usuario, por ejemplo {@code EFX-ES-001}.
+     *
+     * @return el código del error
+     */
+    public String code() {
+        return code;
+    }
+
+    /**
+     * Compone el mensaje completo en el formato del proyecto.
+     *
+     * @return mensaje con qué pasó, causa probable y acción sugerida
+     */
+    public String userMessage() {
+        return "%s · %s. Causa probable: %s. Acción sugerida: %s."
+                .formatted(code, what, probableCause, suggestedAction);
+    }
+}
+```
+
+**Excepción base**
+
+```java
+package io.github.bigfito.elastiflix.core.error;
+
+import java.io.Serial;
+
+/**
+ * Excepción base de Elastiflix. Siempre lleva un {@link ErrorCode}.
+ */
+public class ElastiflixException extends RuntimeException {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private final ErrorCode errorCode;
+
+    /**
+     * Crea la excepción con su código y la causa técnica original.
+     *
+     * @param errorCode código del catálogo
+     * @param cause     excepción original; nunca se descarta
+     */
+    public ElastiflixException(ErrorCode errorCode, Throwable cause) {
+        super(errorCode.userMessage(), cause);
+        this.errorCode = errorCode;
+    }
+
+    /**
+     * Crea la excepción con su código, sin causa técnica (errores de validación).
+     *
+     * @param errorCode código del catálogo
+     */
+    public ElastiflixException(ErrorCode errorCode) {
+        super(errorCode.userMessage());
+        this.errorCode = errorCode;
+    }
+
+    /**
+     * Devuelve el código de error asociado.
+     *
+     * @return el código de error
+     */
+    public ErrorCode errorCode() {
+        return errorCode;
+    }
+}
+```
+
+**`record` con validación en el constructor compacto**
+
+```java
+package io.github.bigfito.elastiflix.search.query;
+
+import io.github.bigfito.elastiflix.core.error.ElastiflixException;
+import io.github.bigfito.elastiflix.core.error.ErrorCode;
+
+/**
+ * Ajustes del componente vectorial (k-NN) elegidos por el usuario.
+ *
+ * @param vectorField   campo de vector sobre el que se busca
+ * @param k             número máximo de resultados
+ * @param numCandidates candidatos evaluados por shard
+ */
+public record KnnSettings(VectorField vectorField, int k, int numCandidates) {
+
+    /** Máximo de candidatos que admite Elasticsearch. */
+    public static final int MAX_NUM_CANDIDATES = 10_000;
+
+    /**
+     * Valida los ajustes al construir el registro.
+     *
+     * @throws ElastiflixException si k o num_candidates están fuera de rango
+     */
+    public KnnSettings {
+        if (k < 1) {
+            throw new ElastiflixException(ErrorCode.KNN_CANDIDATES_BELOW_K);
+        }
+        if (numCandidates < k || numCandidates > MAX_NUM_CANDIDATES) {
+            throw new ElastiflixException(ErrorCode.KNN_CANDIDATES_BELOW_K);
+        }
+    }
+
+    /**
+     * Describe los ajustes para la cabecera de resultados.
+     *
+     * @return texto legible, por ejemplo {@code plot_512 · k 100 · num_candidates 200}
+     */
+    public String describe() {
+        return "%s · k %d · num_candidates %d".formatted(vectorField.fieldName(), k, numCandidates);
+    }
+}
+```
+
+**Jerarquía sellada + `switch` con patrones + logging**
+
+```java
+package io.github.bigfito.elastiflix.search.query;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+/**
+ * Describe en texto los ajustes de una búsqueda, según su modo.
+ *
+ * <p>Usa {@code switch} con patrones sobre la jerarquía sellada {@link SearchMode}: el compilador
+ * avisa si se agrega un modo y no se describe aquí.</p>
+ */
+@Component
+public class SearchRequestDescriber {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SearchRequestDescriber.class);
+
+    /**
+     * Devuelve la descripción de los ajustes que se muestra sobre los resultados.
+     *
+     * @param mode modo de búsqueda con sus ajustes
+     * @return descripción legible para la interfaz
+     */
+    public String describe(SearchMode mode) {
+        String description = switch (mode) {
+            case SearchMode.FullText fullText -> "Full-text · " + fullText.describe();
+            case SearchMode.Vector vector -> "Vectorial · " + vector.knn().describe();
+            case SearchMode.Hybrid hybrid -> "Híbrida · " + hybrid.fullText().describe()
+                    + " + " + hybrid.knn().describe();
+        };
+        LOG.debug("Ajustes de búsqueda descritos: {}", description);
+        return description;
+    }
+
+    /**
+     * Modos de búsqueda soportados por la demo.
+     */
+    public sealed interface SearchMode {
+
+        /**
+         * Búsqueda léxica BM25.
+         *
+         * @param queryType tipo de consulta
+         * @param operator  operador entre palabras
+         */
+        record FullText(String queryType, String operator) implements SearchMode {
+
+            /**
+             * Describe los ajustes léxicos.
+             *
+             * @return texto legible
+             */
+            public String describe() {
+                return queryType + " · " + operator;
+            }
+        }
+
+        /**
+         * Búsqueda vectorial k-NN.
+         *
+         * @param knn ajustes del componente vectorial
+         */
+        record Vector(KnnSettings knn) implements SearchMode {
+        }
+
+        /**
+         * Búsqueda híbrida con fusión RRF.
+         *
+         * @param fullText componente léxico
+         * @param knn      componente vectorial
+         */
+        record Hybrid(FullText fullText, KnnSettings knn) implements SearchMode {
+        }
+    }
+}
+```
+
+**Prueba unitaria**
+
+```java
+@DisplayName("KnnSettings")
+class KnnSettingsTest {
+
+    @Test
+    @DisplayName("rechaza num_candidates menor que k con el código EFX-SRCH-003")
+    void shouldRejectWhenNumCandidatesBelowK() {
+        // when
+        var thrown = catchThrowableOfType(ElastiflixException.class,
+                () -> new KnnSettings(VectorField.PLOT_512, 100, 50));
+
+        // then
+        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.KNN_CANDIDATES_BELOW_K);
+    }
+}
+```
+
+## 14. Qué se verifica automáticamente
+
+`./mvnw verify` ejecuta todo lo siguiente sobre `src/main/java` de cada módulo y falla ante la primera
+violación.
+
+| Regla | Herramienta | Umbral o patrón |
+|---|---|---|
+| Longitud de método | Checkstyle `MethodLength` | 30 líneas |
+| Parámetros | Checkstyle `ParameterNumber` / PMD `ExcessiveParameterList` | 5 |
+| Complejidad ciclomática | Checkstyle `CyclomaticComplexity` / PMD | 10 por método |
+| Complejidad cognitiva | PMD `CognitiveComplexity` | 15 |
+| Sentencias por método / clase | PMD `NcssCount` | 25 / 250 |
+| Anidamiento | Checkstyle `NestedIfDepth`, `NestedForDepth`, `NestedTryDepth` | 2 / 1 / 1 |
+| Tamaño de archivo y línea | Checkstyle `FileLength`, `LineLength` | 400 / 120 |
+| Clases dios / demasiados métodos | PMD `GodClass`, `TooManyMethods` | 20 métodos |
+| Javadoc en API pública | Checkstyle `MissingJavadocType`, `MissingJavadocMethod`, `JavadocMethod`, `SummaryJavadoc` | Obligatorio |
+| `catch` vacío o genérico | Checkstyle `EmptyCatchBlock`, `IllegalCatch` (`JM-ERR-01`) / PMD | Prohibido |
+| Consola y `printStackTrace` | Checkstyle `JM-LOG-01` / PMD `SystemPrintln`, `AvoidPrintStackTrace` | Prohibido |
+| Inyección por campo | Checkstyle `JM-SPR-01` | Prohibido |
+| `Date`, `Calendar`, `SimpleDateFormat` | Checkstyle `JM-TIME-01` | Prohibido |
+| Secretos literales | Checkstyle `JM-SEC-01` | Prohibido |
+| Jackson 2 databind | Checkstyle `JM-DEP-01` | Prohibido |
+| Cliente de Elasticsearch en web | PMD `JM-DEP-02` + ArchUnit | Prohibido |
+| Matriz de dependencias | ArchUnit | `PLAN.md` §8 |
+
+**Supresiones:** solo con `@SuppressWarnings("checkstyle:<Regla>")` o `@SuppressWarnings("PMD.<Regla>")`
+en el elemento más pequeño posible, con un comentario que explique el motivo, y registradas en la
+sección "Supresiones" de `docs/diseno/<fase>.md`.
+
+## 15. Desviaciones declaradas
+
+Diferencias deliberadas respecto a la skill `java-developer`. **No las "corrijas".**
+
+| Desviación | Motivo |
+|---|---|
+| Sin Spring Data Elasticsearch | El proyecto usa directamente el cliente Java de Elasticsearch 9.x para controlar retrievers (`knn`, `rrf`), alias e inferencia |
+| `record` de hasta 35 componentes | El documento de película refleja los 33 campos del mapping |
+| Identificadores en inglés, textos en español | Coinciden con los nombres de campo del índice; la interfaz es en español |
+| Validación de ingesta sin excepciones por registro | Se deben reportar **todos** los errores del archivo de una vez |
+| JavaScript mínimo en las páginas Thymeleaf | La interactividad de los mockups (selectores, progreso de importación) no justifica un framework de frontend |
+
+## 16. Lista de revisión de cierre
+
+Responde cada punto en la sección "Revisión de convenciones" de `progreso/<fase>.md`:
+
+- [ ] ¿Hay un diseño en `docs/diseno/<fase>.md`, en commit previo al código, y aprobado si la fase tenía compuerta?
+- [ ] ¿El código final coincide con el diseño? Si no, ¿se actualizó la sección "Cambios respecto al diseño aprobado"?
+- [ ] ¿`./mvnw verify` termina con 0 violaciones y las pruebas de arquitectura en verde?
+- [ ] ¿Cada clase tiene una sola responsabilidad que puedes decir en una frase?
+- [ ] ¿Solo se usaron patrones de la lista cerrada (§4)?
+- [ ] ¿Cada error nuevo tiene código `EFX-…` con qué pasó, causa probable y acción sugerida?
+- [ ] ¿Ningún log contiene secretos, vectores completos ni documentos completos?
+- [ ] ¿Toda supresión está justificada en el código y registrada en el diseño?
+- [ ] ¿Las pruebas de integración de escritura usan su propio alias y lo borran al terminar?
+- [ ] ¿Un programador Junior entendería las clases principales sin explicación adicional?

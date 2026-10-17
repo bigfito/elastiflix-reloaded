@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Elastiflix-Movies Java · PMD (versión 7.28.0)
+  Congelado: no relajes umbrales desde una fase. Cambios solo por solicitud aprobada.
+  Ver docs/convenciones-java.md, sección 14.
+-->
+<ruleset name="elastiflix"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+  <description>Reglas de análisis estático de Elastiflix-Movies Java (estilo JavaMentor).</description>
+
+  <!-- Complejidad y tamaño -->
+  <rule ref="category/java/design.xml/CognitiveComplexity">
+    <properties>
+      <property name="reportLevel" value="15"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/CyclomaticComplexity">
+    <properties>
+      <property name="methodReportLevel" value="10"/>
+      <property name="classReportLevel" value="60"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/NcssCount">
+    <properties>
+      <property name="methodReportLevel" value="25"/>
+      <property name="classReportLevel" value="250"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/ExcessiveParameterList">
+    <properties>
+      <property name="minimum" value="6"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/GodClass"/>
+  <rule ref="category/java/design.xml/TooManyMethods">
+    <properties>
+      <property name="maxmethods" value="20"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/SimplifyBooleanReturns"/>
+  <rule ref="category/java/design.xml/SingularField"/>
+  <rule ref="category/java/design.xml/ImmutableField"/>
+  <rule ref="category/java/design.xml/AvoidThrowingRawExceptionTypes"/>
+  <rule ref="category/java/design.xml/AvoidThrowingNullPointerException"/>
+  <rule ref="category/java/design.xml/ExceptionAsFlowControl"/>
+  <rule ref="category/java/design.xml/SignatureDeclareThrowsException"/>
+  <rule ref="category/java/design.xml/AvoidRethrowingException"/>
+  <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
+    <properties>
+      <property name="problemDepth" value="3"/>
+    </properties>
+  </rule>
+
+  <!-- Errores probables -->
+  <rule ref="category/java/errorprone.xml/EmptyCatchBlock"/>
+  <rule ref="category/java/errorprone.xml/AvoidCatchingGenericException"/>
+  <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
+    <properties>
+      <property name="maxDuplicateLiterals" value="4"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals"/>
+  <rule ref="category/java/errorprone.xml/ReturnEmptyCollectionRatherThanNull"/>
+  <rule ref="category/java/errorprone.xml/CloseResource"/>
+  <rule ref="category/java/errorprone.xml/MoreThanOneLogger"/>
+  <rule ref="category/java/errorprone.xml/ProperLogger"/>
+  <rule ref="category/java/errorprone.xml/UseLocaleWithCaseConversions"/>
+
+  <!-- Buenas prácticas -->
+  <rule ref="category/java/bestpractices.xml/SystemPrintln"/>
+  <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace"/>
+  <rule ref="category/java/bestpractices.xml/PreserveStackTrace"/>
+  <rule ref="category/java/bestpractices.xml/UnusedPrivateField"/>
+  <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod"/>
+  <rule ref="category/java/bestpractices.xml/UnusedLocalVariable"/>
+  <rule ref="category/java/bestpractices.xml/UnusedFormalParameter"/>
+  <rule ref="category/java/bestpractices.xml/UnusedAssignment"/>
+  <rule ref="category/java/bestpractices.xml/GuardLogStatement"/>
+  <rule ref="category/java/bestpractices.xml/LooseCoupling"/>
+  <rule ref="category/java/bestpractices.xml/MissingOverride"/>
+  <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty"/>
+
+  <!-- Estilo -->
+  <rule ref="category/java/codestyle.xml/FieldDeclarationsShouldBeAtStartOfClass"/>
+  <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
+  <rule ref="category/java/codestyle.xml/UselessParentheses"/>
+
+  <!-- Reglas propias -->
+  <rule name="JmNoRestClientInWeb"
+        language="java"
+        message="JM-DEP-02: el módulo web no usa el cliente de Elasticsearch; consume los servicios de search e ingest."
+        class="net.sourceforge.pmd.lang.rule.xpath.XPathRule">
+    <description>Las clases del paquete web no importan co.elastic.clients (la matriz de dependencias también lo verifica con ArchUnit).</description>
+    <priority>1</priority>
+    <properties>
+      <property name="xpath">
+        <value><![CDATA[
+//CompilationUnit[PackageDeclaration[starts-with(@Name, 'io.github.bigfito.elastiflix.web')]]
+  /ImportDeclaration[starts-with(@ImportedName, 'co.elastic.clients')]
+]]></value>
+      </property>
+    </properties>
+  </rule>
+</ruleset>

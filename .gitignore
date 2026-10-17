@@ -1,0 +1,25 @@
+# Secretos y configuración local (nunca a git)
+.env
+.env.*
+!.env.example
+CLAUDE.local.md
+*.p12
+*.jks
+
+# Maven
+target/
+
+# IDE y herramientas
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.DS_Store
+
+# Archivos temporales de carga de datos
+uploads-tmp/
+*.log
+
+# progreso/ SE VERSIONA: no lo agregues aquí

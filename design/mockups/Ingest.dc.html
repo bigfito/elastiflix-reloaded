@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Elastiflix-Movies Java · Cargar datos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF7F1}
+a{color:#3A3548}a:hover{color:#A9502A}
+input::placeholder,textarea::placeholder{color:#A39DAD}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;font-size:14px;color:#3A3548}
+.lbl code{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#6B6578}
+.req{color:#A9502A}
+.inp{box-sizing:border-box;width:100%;min-height:44px;padding:10px 12px;background:#FBF7F1;border:1px solid #E2D8CA;border-radius:10px;color:#2E2A3B;font-family:inherit;font-size:15px}
+.inp:focus{outline:none;border-color:#A9502A}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 18px}
+.card{padding:20px 22px;background:#FFFFFF;border:1px solid #E2D8CA;border-radius:16px;display:flex;flex-direction:column;gap:16px}
+.h3{margin:0;display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#6A50C8}
+.hint{margin:0;font-size:13px;line-height:1.5;color:#6B6578}
+.chk{display:flex;align-items:center;gap:10px;min-height:44px;font-size:15px;color:#3A3548}
+.chk input{width:20px;height:20px;margin:0;accent-color:#A9502A}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #FBF7F1; color: #2E2A3B; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<div aria-hidden="true" style="height: 10px; margin: 14px 0 0; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 32px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
+<div aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: {{accent}}; display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="#2E2A3B" stroke="none"><path d="M8 5.5v13l10.5-6.5z"></path></svg>
+</div>
+<nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 24px; font-size: 15px">
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14z M20 20l-3.5-3.5"></path></svg>Buscar</a>
+<a href="#" aria-current="page" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; color: #2E2A3B; border-bottom: 2px solid #A9502A; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>Cargar datos</a>
+<a href="About.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M12 11v5 M12 8h.01"></path></svg>Acerca de la demo</a>
+</nav>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid #E2D8CA; border-radius: 999px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #4F4A5E">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #2E8B6E"></span>
+<span>Conectado · Elasticsearch Serverless</span>
+</div>
+</header>
+
+<main style="flex: 1; width: 100%; max-width: 1040px; box-sizing: border-box; margin: 0 auto; padding: 32px 20px 72px; display: flex; flex-direction: column; gap: 24px">
+
+<section style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #A9502A"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>Índice elastiflix-reloaded</p>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(34px, 5vw, 52px); line-height: 1.05; letter-spacing: -0.02em">Cargar datos</h1>
+<p style="margin: 0; max-width: 720px; font-size: 17px; line-height: 1.6; color: #585266">Agrega películas al catálogo una por una o importa un archivo. Los tres vectores de la sinopsis (<code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_512</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_1024</code>) se generan automáticamente a partir de <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot</code> con jina-embeddings-v5-omni-small.</p>
+</section>
+
+<div role="tablist" aria-label="Forma de carga" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: #FFFFFF; border: 1px solid #E2D8CA; border-radius: 14px; align-self: flex-start">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+<button type="button" role="tab" aria-selected="{{t.selected}}" onClick="{{t.pick}}" style="{{t.style}}"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{t.icon}}"></path></svg><span>{{t.label}}</span></button>
+</sc-for>
+</div>
+
+<sc-if value="{{isSingle}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{onSubmit}}" style="display: flex; flex-direction: column; gap: 16px">
+
+<div class="card">
+<h2 class="h3">Identificación y títulos</h2>
+<div class="grid">
+<label class="fld"><span class="lbl">ID <span class="req">*</span><code>id</code></span><input class="inp" type="text" required><span class="hint">Si el id ya existe, la película se reemplaza.</span></label>
+<label class="fld"><span class="lbl">ID de IMDb <code>imdb_id</code></span><input class="inp" type="text"></label>
+<label class="fld"><span class="lbl">Título <span class="req">*</span><code>title</code></span><input class="inp" type="text" required></label>
+<label class="fld"><span class="lbl">Título original <code>original_title</code></span><input class="inp" type="text"></label>
+<label class="fld"><span class="lbl">Idioma original <code>original_language</code></span><input class="inp" type="text" placeholder="es, en, ja…"></label>
+</div>
+</div>
+
+<div class="card">
+<h2 class="h3">Sinopsis y textos</h2>
+<label class="fld"><span class="lbl">Sinopsis <span class="req">*</span><code>plot</code></span><textarea class="inp" rows="4" required style="resize: vertical"></textarea><span class="hint">Obligatoria: de aquí se generan los tres vectores de la búsqueda vectorial.</span></label>
+<label class="fld"><span class="lbl">Resumen <code>overview</code></span><textarea class="inp" rows="3" style="resize: vertical"></textarea></label>
+<label class="fld"><span class="lbl">Frase promocional <code>tagline</code></span><input class="inp" type="text"></label>
+</div>
+
+<div class="card">
+<h2 class="h3">Clasificación, fecha y estado</h2>
+<div class="grid">
+<label class="fld"><span class="lbl">Géneros <code>genres</code></span><input class="inp" type="text" placeholder="Separados por comas"></label>
+<label class="fld"><span class="lbl">Palabras clave <code>keywords.name</code></span><input class="inp" type="text" placeholder="Separadas por comas"></label>
+<label class="fld"><span class="lbl">Clasificación <code>rating</code></span><select class="inp"><option value="">Sin clasificación</option><option>G</option><option>PG</option><option>PG-13</option><option>R</option><option>NC-17</option><option>NR</option></select></label>
+<label class="fld"><span class="lbl">Fecha de estreno <code>release_date</code></span><input class="inp" type="date"></label>
+<label class="fld"><span class="lbl">Duración (min) <code>runtime</code></span><input class="inp" type="number" min="0" step="1"></label>
+<label class="fld"><span class="lbl">Estado <code>status</code></span><input class="inp" type="text" list="status-list" placeholder="Released"><datalist id="status-list"><option value="Released"></option><option value="Post Production"></option><option value="In Production"></option></datalist></label>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 28px">
+<label class="chk"><input type="checkbox">Contenido para adultos <code style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">adult</code></label>
+<label class="chk"><input type="checkbox">Es un video <code style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">video</code></label>
+</div>
+</div>
+
+<div class="card">
+<h2 class="h3">Métricas</h2>
+<div class="grid">
+<label class="fld"><span class="lbl">Popularidad <code>popularity</code></span><input class="inp" type="number" step="any"></label>
+<label class="fld"><span class="lbl">Calificación promedio <code>vote_average</code></span><input class="inp" type="number" step="any"></label>
+<label class="fld"><span class="lbl">Número de votos <code>vote_count</code></span><input class="inp" type="number" min="0" step="1"></label>
+<label class="fld"><span class="lbl">Puntuación de usuarios <code>user_score</code></span><input class="inp" type="number" step="any"></label>
+<label class="fld"><span class="lbl">Presupuesto <code>budget</code></span><input class="inp" type="number" step="any"></label>
+<label class="fld"><span class="lbl">Recaudación <code>revenue</code></span><input class="inp" type="number" step="any"></label>
+</div>
+</div>
+
+<div class="card">
+<h2 class="h3">Reparto, producción y medios</h2>
+<div class="grid">
+<label class="fld"><span class="lbl">Reparto <code>cast</code></span><input class="inp" type="text" placeholder="Separado por comas"></label>
+<label class="fld"><span class="lbl">Productoras <code>production_companies</code></span><input class="inp" type="text" placeholder="Separadas por comas"></label>
+<label class="fld"><span class="lbl">Países <code>production_countries</code></span><input class="inp" type="text" placeholder="Separados por comas"></label>
+<label class="fld"><span class="lbl">Idiomas hablados <code>spoken_languages</code></span><input class="inp" type="text" placeholder="p. ej. English, Español"></label>
+<label class="fld"><span class="lbl">Póster <code>poster_path</code></span><input class="inp" type="text"></label>
+<label class="fld"><span class="lbl">Imagen de fondo <code>backdrop_path</code></span><input class="inp" type="text"></label>
+<label class="fld"><span class="lbl">Sitio web <code>homepage</code></span><input class="inp" type="url"></label>
+<label class="fld"><span class="lbl">Colección <code>belongs_to_collection.name</code></span><input class="inp" type="text"></label>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px">
+<p class="hint"><span class="req">*</span> Campos obligatorios.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button type="reset" style="min-height: 46px; padding: 0 20px; border: 1px solid #E2D8CA; border-radius: 12px; background: transparent; color: #3A3548; font-family: inherit; font-size: 15px; cursor: pointer">Limpiar</button>
+<button type="submit" style="display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 22px; border: none; border-radius: 12px; background: {{accent}}; color: #2E2A3B; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l9-10"></path></svg>Guardar película</button>
+</div>
+</div>
+</form>
+</sc-if>
+
+<sc-if value="{{isFile}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+
+<div class="card">
+<h2 class="h3">{{fileTitle}}</h2>
+<label for="file" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 150px; padding: 24px; border: 2px dashed #D3C6B4; border-radius: 14px; background: #FBF7F1; text-align: center; cursor: pointer">
+<svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>
+<span style="font-size: 16px; font-weight: 600; color: #2E2A3B">Arrastra tu archivo {{ext}} aquí o haz clic para elegirlo</span>
+<span style="display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px">
+<span style="padding: 4px 10px; border-radius: 999px; background: #FFF1E8; border: 1px solid #FFCDB2; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A9502A">Solo {{ext}}</span>
+<span style="padding: 4px 10px; border-radius: 999px; background: #FFF1E8; border: 1px solid #FFCDB2; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A9502A">Máximo 150 MB</span>
+<span style="padding: 4px 10px; border-radius: 999px; background: #FFF1E8; border: 1px solid #FFCDB2; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A9502A">Texto UTF-8</span>
+</span>
+<span class="hint" style="max-width: 640px">{{fileHint}}</span>
+</label>
+<input id="file" type="file" accept="{{accept}}" style="position: absolute; width: 1px; height: 1px; opacity: 0">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 14px; background: #FFFFFF; border: 1px solid {{chipBorder}}; border-radius: 12px">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F4A5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z M14 3v4h4"></path></svg>
+<span style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #2E2A3B">{{fileName}}</span><span style="font-size: 13px; color: #6B6578">{{fileMeta}}</span></span>
+<label for="file" style="font-size: 14px; text-decoration: underline; cursor: pointer">Cambiar archivo</label>
+</div>
+<sc-if value="{{csvOptions}}" hint-placeholder-val="{{ false }}">
+<div class="grid">
+<label class="fld"><span class="lbl">Separador</span>
+<select class="inp"><option>Coma ( , ) · detectado</option><option>Punto y coma ( ; )</option><option>Tabulador</option></select></label>
+<label class="fld"><span class="lbl">Codificación</span>
+<select class="inp"><option>UTF-8 con BOM · detectada</option><option>UTF-8</option></select></label>
+<label class="chk" style="align-self: end"><input type="checkbox" checked>La primera fila contiene los nombres de columna</label>
+</div>
+</sc-if>
+</div>
+
+<div class="card">
+<h2 class="h3">Proceso de carga</h2>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{steps}}" as="st" hint-placeholder-count="6">
+<li style="display: flex; align-items: flex-start; gap: 12px">
+<span aria-hidden="true" style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{st.bg}}; border: 1px solid {{st.bd}}; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: {{st.ink}}">{{st.mark}}</span>
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-size: 15px; font-weight: 600; color: #2E2A3B">{{st.label}} <span style="font-weight: 500; font-size: 13px; color: {{st.ink}}">· {{st.stateLabel}}</span></span>
+<span style="font-size: 13px; line-height: 1.5; color: #6B6578">{{st.detail}}</span>
+</span>
+</li>
+</sc-for>
+</ol>
+</div>
+
+<sc-if value="{{isBlocked}}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="padding: 20px 22px; background: #FDEEF5; border: 1px solid #F7C1D9; border-radius: 16px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; display: flex; align-items: flex-start; gap: 10px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px; color: #2E2A3B"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B9472A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M9 9l6 6 M15 9l-6 6"></path></svg>{{blockTitle}}</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3548">{{blockText}}</p>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 1.5; color: #3A3548">
+<sc-for list="{{rejectReasons}}" as="r" hint-placeholder-count="1"><li>{{r}}</li></sc-for>
+</ul>
+<p class="hint">{{blockHint}}</p>
+</div>
+</sc-if>
+
+<sc-if value="{{isAccepted}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+
+
+<sc-if value="{{isCsv}}" hint-placeholder-val="{{ false }}">
+<div class="card">
+<h2 class="h3">Correspondencia de columnas</h2>
+<p class="hint">{{mappingNote}}</p>
+<div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 12px">
+<table style="width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px">
+<thead><tr style="background: #FBF7F1; text-align: left">
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Columna del CSV</th>
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Campo del índice</th>
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Contenido de la celda</th>
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Estado</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{mapping}}" as="m" hint-placeholder-count="6">
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 10px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">{{m.col}}</td>
+<td style="padding: 10px 16px"><select class="inp" aria-label="Campo para {{m.col}}" style="min-height: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 13px"><option>{{m.field}}</option></select></td>
+<td style="padding: 10px 16px; font-size: 13px; color: #4F4A5E">{{m.kind}}</td>
+<td style="padding: 10px 16px; font-size: 13px; font-weight: 600; color: {{m.color}}">{{m.status}}</td>
+</tr>
+</sc-for>
+<tr style="border-top: 1px solid #EFE7DC"><td colspan="4" style="padding: 10px 16px; font-size: 13px; color: #6B6578">… y las demás columnas, asignadas a su campo del mismo nombre.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</sc-if>
+
+<div class="card">
+<h2 class="h3">Validación contra el mapping del índice</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<div style="flex: 1 1 150px; padding: 14px 16px; background: #EEF6FD; border: 1px solid #BFE0F6; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Registros leídos</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #2E2A3B">{{readCount}}</p></div>
+<div style="flex: 1 1 150px; padding: 14px 16px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Válidos</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #2E8B6E">{{validCount}}</p></div>
+<div style="flex: 1 1 150px; padding: 14px 16px; background: #FFF9E3; border: 1px solid #FBE7A1; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Reemplazarán existentes</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #8A6A12">{{replaceCount}}</p></div>
+<div style="flex: 1 1 150px; padding: 14px 16px; background: #FDEEF5; border: 1px solid #F7C1D9; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Errores</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #B9472A">{{errorCount}}</p></div>
+</div>
+
+<sc-if value="{{isMismatch}}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="padding: 18px 20px; background: #FDEEF5; border: 1px solid #F7C1D9; border-radius: 14px; display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; display: flex; align-items: flex-start; gap: 10px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px; color: #2E2A3B"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B9472A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M9 9l6 6 M15 9l-6 6"></path></svg>La carga se detuvo: los datos no coinciden con el mapping del índice</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3548">Se revisó el archivo completo y se encontraron <strong>23 errores en 17 registros</strong>. <strong>No se importó ningún registro.</strong> Corrige el archivo y vuelve a cargarlo; la carga solo continúa cuando todo el archivo coincide con el mapping.</p>
+<div style="overflow-x: auto; background: #FFFFFF; border: 1px solid #F7C1D9; border-radius: 12px">
+<table style="width: 100%; min-width: 760px; border-collapse: collapse; font-size: 14px">
+<thead><tr style="text-align: left">
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">{{locLabel}}</th>
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">id</th>
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Campo</th>
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Se recibió</th>
+<th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">El mapping espera</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{errors}}" as="e" hint-placeholder-count="5">
+<tr style="border-top: 1px solid #F7C1D9; vertical-align: top">
+<td style="padding: 10px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">{{e.loc}}</td>
+<td style="padding: 10px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">{{e.id}}</td>
+<td style="padding: 10px 16px; font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: #B9472A">{{e.field}}</td>
+<td style="padding: 10px 16px; color: #3A3548">{{e.got}}</td>
+<td style="padding: 10px 16px; color: #3A3548">{{e.expected}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px">
+<p class="hint">Mostrando 6 de 23 errores.</p>
+<button type="button" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid #F7C1D9; border-radius: 12px; background: #FFFFFF; color: #A8336B; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12 M7 11l5 5l5-5 M4 20h16"></path></svg>Descargar informe completo (.csv)</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isValid}}" hint-placeholder-val="{{ true }}">
+<h3 style="margin: 4px 0 0; font-size: 15px; font-weight: 600; color: #2E2A3B">Comprobaciones superadas</h3>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{checks}}" as="c" hint-placeholder-count="6">
+<li style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: #3A3548"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E8B6E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M8 12l3 3l5-6"></path></svg><span>{{c}}</span></li>
+</sc-for>
+</ul>
+<h3 style="margin: 4px 0 0; font-size: 15px; font-weight: 600; color: #2E2A3B">Advertencias · no detienen la carga</h3>
+<ul style="margin: 0; padding: 14px 16px; list-style: none; display: flex; flex-direction: column; gap: 10px; background: #FFF9E3; border: 1px solid #FBE7A1; border-radius: 12px">
+<sc-for list="{{warnings}}" as="w" hint-placeholder-count="3">
+<li style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: #3A3548"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><path d="M12 4l9 16H3z M12 10v4 M12 17h.01"></path></svg><span>{{w}}</span></li>
+</sc-for>
+</ul>
+</sc-if>
+
+<p class="hint">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">release_date</code> en yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">adult</code> booleano, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">keywords</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">belongs_to_collection</code> como objetos anidados, vectores con 256, 512 y 1024 números); <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">plot</code> son obligatorios y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> no se puede repetir. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. Si un <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> ya existe en el índice, el registro reemplaza a la película existente.</p>
+</div>
+
+<div class="card">
+<h2 class="h3">Importación</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3548">{{importText}}</p>
+<div role="progressbar" aria-label="Progreso de la importación" aria-valuemin="0" aria-valuemax="4322" aria-valuenow="0" style="height: 12px; background: #F3ECE2; border-radius: 999px; overflow: hidden"><div style="width: 0%; height: 100%; background: {{accent}}"></div></div>
+<p class="hint">{{progressText}}</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px">
+<button type="button" disabled style="min-height: 46px; padding: 0 20px; border: 1px solid #E2D8CA; border-radius: 12px; background: transparent; color: #6B6578; font-family: inherit; font-size: 15px; cursor: not-allowed">Cancelar importación</button>
+<button type="button" disabled="{{importDisabled}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 22px; border: none; border-radius: 12px; background: {{importBg}}; color: {{importColor}}; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>{{importLabel}}</button>
+</div>
+</div>
+
+</div>
+</sc-if>
+
+</div>
+</sc-if>
+
+</main>
+
+<footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">
+<span>Elastiflix-Movies Java · demo de búsqueda</span>
+<span>Índice: elastiflix-reloaded · 4 322 películas</span>
+</footer>
+
+<div aria-hidden="true" style="height: 10px; margin: 0 0 14px; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFCDB2","options":["#FFCDB2","#CDBDF6","#BDE8D7","#BFE0F6"]},"escenario":{"editor":"enum","options":["Archivo válido","No coincide con el mapping","Archivo rechazado"],"default":"Archivo válido"},"$preview":{"width":1440,"height":3000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'single' };
+  }
+  renderVals() {
+    const s = this.state;
+    const base = 'display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: none; border-radius: 10px; font-family: inherit; font-size: 15px; cursor: pointer; ';
+    const on = base + 'background: #2E2A3B; color: #FBF7F1; font-weight: 600';
+    const off = base + 'background: transparent; color: #4F4A5E; font-weight: 500';
+    const defs = [
+      { id: 'single', bg: '#FFCDB2', label: 'Registro individual', icon: 'M12 5v14 M5 12h14' },
+      { id: 'json', bg: '#FBE7A1', label: 'Importar .json', icon: 'M8 4H6a2 2 0 0 0-2 2v4l-1 2l1 2v4a2 2 0 0 0 2 2h2 M16 4h2a2 2 0 0 1 2 2v4l1 2l-1 2v4a2 2 0 0 1-2 2h-2' },
+      { id: 'csv', bg: '#BDE8D7', label: 'Importar .csv', icon: 'M4 4h16v16H4z M4 10h16 M4 15h16 M10 4v16' }
+    ];
+    const tabs = defs.map((d) => ({
+      label: d.label,
+      icon: d.icon,
+      selected: s.tab === d.id ? 'true' : 'false',
+      style: s.tab === d.id ? base + 'background: ' + d.bg + '; color: #2E2A3B; font-weight: 600' : off,
+      pick: () => this.setState({ tab: d.id })
+    }));
+    const isCsv = s.tab === 'csv';
+    const scen = { 'Archivo válido': 'valid', 'No coincide con el mapping': 'mismatch', 'Archivo rechazado': 'rejected' }[this.props.escenario ?? 'Archivo válido'];
+    const ST = {
+      done: { bg: '#ECF8F3', bd: '#BDE8D7', ink: '#1E7A5C', label: 'completado' },
+      current: { bg: '#EEF6FD', bd: '#BFE0F6', ink: '#1F6FA8', label: 'en curso' },
+      failed: { bg: '#FDEEF5', bd: '#F7C1D9', ink: '#B9472A', label: 'detenido' },
+      ready: { bg: '#FFF1E8', bd: '#FFCDB2', ink: '#A9502A', label: 'listo para empezar' },
+      pending: { bg: '#FBF7F1', bd: '#E2D8CA', ink: '#6B6578', label: 'pendiente' }
+    };
+    const stepDefs = [
+      ['Comprobación en el navegador', 'Extensión, tipo y tamaño (máximo 150 MB) antes de subir nada.'],
+      ['Subida al servidor', 'El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.'],
+      ['Validación contra el mapping', 'Tipo de cada campo de cada registro; si algo no coincide, se detiene todo.'],
+      ['Importación en un índice temporal', 'Copia del catálogo actual más los registros del archivo, en lotes de 100.'],
+      ['Publicación', 'El alias elastiflix-reloaded pasa al índice nuevo en una sola operación.']
+    ];
+    const stateSeq = {
+      rejected: ['failed', 'pending', 'pending', 'pending', 'pending'],
+      mismatch: ['done', 'done', 'failed', 'pending', 'pending'],
+      valid: ['done', 'done', 'done', 'ready', 'pending']
+    }[scen];
+    const steps = stepDefs.map((d, i) => {
+      const st = ST[stateSeq[i]];
+      const mark = { done: '✓', failed: '✕', current: '…' }[stateSeq[i]] || String(i + 1);
+      return { label: d[0], detail: d[1], mark, stateLabel: st.label, bg: st.bg, bd: st.bd, ink: st.ink };
+    });
+    const fileName = scen === 'rejected'
+      ? (isCsv ? 'peliculas.csv' : 'catalogo-2026.json')
+      : scen === 'mismatch' ? (isCsv ? 'peliculas-nuevas.csv' : 'peliculas-nuevas.json')
+      : (isCsv ? 'elastiflix-reloaded.csv' : 'elastiflix-reloaded.json');
+    const fileMeta = scen === 'rejected'
+      ? (isCsv ? '2.1 MB · rechazado' : '182.4 MB · rechazado')
+      : scen === 'mismatch' ? (isCsv ? '12.4 MB · CSV · 35 columnas · 512 filas' : '12.4 MB · 512 documentos')
+      : (isCsv ? '106.0 MB · CSV · 34 columnas · 4 322 filas' : '107.3 MB · exportación de elastiflix-reloaded del 2026-10-17 · 4 322 documentos');
+    return {
+      accent: this.props.accent ?? '#FFCDB2',
+      tabs,
+      isSingle: s.tab === 'single',
+      isFile: s.tab !== 'single',
+      isCsv,
+      fileTitle: isCsv ? 'Archivo CSV' : 'Archivo JSON',
+      ext: isCsv ? '.csv' : '.json',
+      accept: isCsv ? '.csv,text/csv' : '.json,.ndjson,application/json',
+      fileHint: isCsv
+        ? 'Texto UTF-8 (con o sin BOM), una película por fila y la primera fila con los nombres de columna. Las listas, los objetos anidados y los vectores van como JSON dentro de la celda; los textos pueden tener saltos de línea entre comillas.'
+        : 'El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.',
+      fileName,
+      steps,
+      fileMeta,
+      chipBorder: scen === 'rejected' ? '#F7C1D9' : '#E2D8CA',
+      csvOptions: isCsv && (scen === 'valid' || scen === 'mismatch'),
+      isBlocked: scen === 'rejected',
+      isAccepted: scen === 'valid' || scen === 'mismatch',
+      blockTitle: 'No se puede cargar este archivo',
+      blockText: 'El archivo se rechazó en el navegador, antes de subirlo, así que no salió de tu equipo ni se importó nada.',
+      blockHint: 'Antes de subir se comprueba la extensión y el tipo (.json o .csv, sin dobles extensiones), el tamaño (máximo 150 MB) y que el contenido sea texto UTF-8. El servidor repite estas comprobaciones al recibirlo.',
+      rejectReasons: isCsv
+        ? ['El contenido no es texto CSV: el archivo es un comprimido ZIP con extensión .csv. Solo se aceptan archivos de texto UTF-8.']
+        : ['El archivo pesa 182.4 MB y el máximo permitido es 150 MB.'],
+      mappingNote: scen === 'mismatch'
+        ? '33 de 34 columnas asignadas. La columna director no existe en el mapping del índice, así que la carga no puede continuar.'
+        : '34 de 34 columnas reconocidas: todas tienen el mismo nombre que un campo del índice y se asignaron automáticamente.',
+      readCount: scen === 'mismatch' ? '512' : '4 322',
+      validCount: scen === 'mismatch' ? '495' : '4 322',
+      replaceCount: '[N]',
+      errorCount: scen === 'mismatch' ? '23' : '0',
+      locLabel: isCsv ? 'Fila' : 'Registro',
+      errors: [
+        { loc: isCsv ? 'encabezado' : 'todos', id: '—', field: 'director', got: isCsv ? 'Una columna llamada director' : 'El campo director en 512 registros', expected: 'Ese campo no existe en el mapping del índice' },
+        { loc: isCsv ? '38' : '37', id: '27205', field: 'plot_512', got: 'Una lista de 384 números', expected: 'dense_vector de 512 dimensiones' },
+        { loc: isCsv ? '103' : '102', id: '603', field: 'release_date', got: '"16/07/1999"', expected: 'date con formato yyyy-MM-dd, por ejemplo 1999-07-16' },
+        { loc: isCsv ? '216' : '215', id: '155', field: 'keywords', got: isCsv ? '"batman, joker" (texto, no JSON)' : 'Una lista de textos ["batman", "joker"]', expected: 'nested: lista de objetos {id, name}' },
+        { loc: isCsv ? '389' : '388', id: '680', field: 'adult', got: '"yes"', expected: 'boolean: true o false' },
+        { loc: isCsv ? '402' : '401', id: '13', field: 'vote_count', got: '12.5', expected: 'integer' }
+      ],
+      importText: scen === 'mismatch'
+        ? 'La importación está bloqueada: el archivo no coincide con el mapping del índice y no se escribió ningún registro.'
+        : 'Se importarán 4 322 películas en 44 lotes de 100 dentro de un índice temporal que empieza como copia del catálogo actual. Al terminar se comprueba el conteo y el alias elastiflix-reloaded pasa al índice nuevo en una sola operación. Si Elasticsearch rechaza un lote o la comprobación falla, el índice temporal se borra y el catálogo queda exactamente como estaba. Los vectores del archivo se usan tal cual.',
+      progressText: scen === 'mismatch' ? '0 de 512 importadas' : '0 de 4 322 importadas · lote 0 de 44 · índice temporal elastiflix-reloaded-import-[fecha]',
+      importDisabled: scen === 'mismatch',
+      importBg: scen === 'mismatch' ? '#EFE7DC' : (this.props.accent ?? '#FFCDB2'),
+      importColor: scen === 'mismatch' ? '#6B6578' : '#2E2A3B',
+      importLabel: scen === 'mismatch' ? 'Importación bloqueada' : 'Importar 4 322 registros',
+      mapping: (scen === 'mismatch' ? [{ col: 'director', field: '— Sin campo en el índice —', kind: 'Texto', status: 'No existe en el mapping', color: '#B9472A' }] : []).concat([
+        { col: '_id', field: '(id del documento)', kind: 'Igual a id en todas las filas', status: 'Asignada', color: '#2E8B6E' },
+        { col: 'id', field: 'id', kind: 'Número, se guarda como texto (keyword)', status: 'Asignada', color: '#2E8B6E' },
+        { col: 'plot', field: 'plot', kind: 'Texto con saltos de línea', status: 'Asignada', color: '#2E8B6E' },
+        { col: 'genres', field: 'genres', kind: 'Lista JSON de textos', status: 'Asignada', color: '#2E8B6E' },
+        { col: 'keywords', field: 'keywords', kind: 'Lista JSON de objetos anidados', status: 'Asignada', color: '#2E8B6E' },
+        { col: 'belongs_to_collection', field: 'belongs_to_collection', kind: 'Objeto JSON anidado · vacía en 3 091 filas', status: 'Asignada', color: '#2E8B6E' },
+        { col: 'plot_1024', field: 'plot_1024', kind: 'Vector JSON de 1024 números', status: 'Asignada', color: '#2E8B6E' },
+        { col: 'user_score', field: 'user_score', kind: 'Vacía en todas las filas', status: 'Sin datos', color: '#8A6A12' },
+        { col: 'rating', field: 'rating', kind: 'Texto · vacía en 417 filas', status: 'Asignada', color: '#2E8B6E' }
+      ]),
+      checks: isCsv ? [
+        'Archivo .csv de 106.0 MB, dentro del máximo de 150 MB, con contenido de texto UTF-8.',
+        'Codificación UTF-8 con BOM, separador coma y encabezado con 34 columnas reconocidas.',
+        '4 322 filas leídas; 4 307 tienen celdas con saltos de línea entre comillas y se leyeron completas.',
+        'Listas, objetos anidados y vectores en JSON decodificados sin errores en todas las celdas.',
+        '_id igual a id en todas las filas y ningún id repetido.',
+        'id, title y plot presentes y no vacíos en todas las filas.',
+        'release_date en formato yyyy-MM-dd en todas las filas (de 1902-04-17 a 2023-07-19).',
+        'Vectores en todas las filas: 256, 512 y 1024 números válidos con norma 1; no hace falta generarlos.'
+      ] : [
+        'Archivo .json de 107.3 MB, dentro del máximo de 150 MB, con contenido JSON en UTF-8.',
+        'Exportación reconocida: lista documents con 4 322 películas, igual a document_count.',
+        'Índice de origen elastiflix-reloaded; el mapping del archivo coincide con el del índice (vectores hnsw, m 16, ef_construction 100, cosine).',
+        '_id igual a id en todos los registros y ningún id repetido.',
+        'id, title y plot presentes y no vacíos en todos los registros.',
+        'release_date en formato yyyy-MM-dd en todos los registros (de 1902-04-17 a 2023-07-19).',
+        'Vectores en todos los registros: 256, 512 y 1024 números válidos con norma 1; no hace falta generarlos.'
+      ],
+      warnings: isCsv ? [
+        '62 películas tienen un idioma vacío dentro de spoken_languages: ese valor se omitirá para que no aparezca como opción de filtro.',
+        'Las celdas vacías se guardan sin valor: rating (417), imdb_id (11), belongs_to_collection (3 091), tagline (811) y homepage (1 975).',
+        'La columna user_score está vacía en todas las filas.'
+      ] : [
+        '62 películas tienen un idioma vacío dentro de spoken_languages: ese valor se omitirá para que no aparezca como opción de filtro.',
+        'Los textos vacíos se guardan sin valor: tagline (811), homepage (1 975) e imdb_id (2).',
+        'Campos ausentes o nulos: rating (417), imdb_id (9), backdrop_path (16), poster_path (1) y user_score (todos).'
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
