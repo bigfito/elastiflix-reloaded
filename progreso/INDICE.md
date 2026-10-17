@@ -10,8 +10,8 @@
 - **Fase actual:** 0
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-0-andamiaje-29a6`)
-- **Próximo paso:** Tarea 0.7: `ArchitectureTest` con las reglas de `PLAN.md` §8 y `archunit.properties` (`archRule.failOnEmptyShould=false`). Criterio: `./mvnw verify` en verde.
-- **Última actualización:** 2026-10-17 23:46 UTC
+- **Próximo paso:** Tarea 0.8: prueba negativa de Checkstyle, PMD y ArchUnit en una rama local que no se publica. Después, `./mvnw verify` debe volver a 0.
+- **Última actualización:** 2026-10-17 23:47 UTC
 
 ## Fases
 
@@ -34,6 +34,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify -Pit -pl elastiflix-core -am`
-- **Resultado:** en verde. Failsafe: `Tests run: 1, Failures: 0, Errors: 0` en `EnvironmentIT`.
-- **Fecha:** 2026-10-17 23:46 UTC
+- **Comando:** `./mvnw verify -pl elastiflix-web -am`
+- **Resultado:** en verde. `ArchitectureTest`: `Tests run: 7, Failures: 0`.
+- **Fecha:** 2026-10-17 23:47 UTC

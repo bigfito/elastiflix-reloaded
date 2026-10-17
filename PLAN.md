@@ -554,7 +554,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
     vacías (sin imprimir sus valores).
   - Criterio: `./mvnw verify -Pit -pl elastiflix-core -am` muestra `Tests run: 1` en Failsafe para
     `EnvironmentIT` y termina en 0; `./mvnw verify` (sin `-Pit`) no ejecuta ninguna `*IT`.
-- [ ] **0.7** Pruebas de arquitectura: agrega
+- [x] **0.7** Pruebas de arquitectura: agrega
   `elastiflix-web/src/test/java/com/bigfito/elastiflix/architecture/ArchitectureTest.java`
   (`archunit-junit6`, porque Spring Boot 4 usa JUnit 6) con las reglas de §8, que son **listas de
   prohibición**, más "sin ciclos entre los módulos" (`slices().matching("com.bigfito.elastiflix.(*)..")`)
