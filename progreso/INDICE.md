@@ -8,16 +8,16 @@
 ## Punto de reanudación
 
 - **Fase actual:** 0
-- **Estado de la fase:** no iniciado
-- **Herramienta prevista:** agente de Cursor (con el entorno ya preparado por el usuario).
-- **Próximo paso:** Tarea 0.1: crear `progreso/0.md` desde `progreso/_PLANTILLA.md`, marcar la Fase 0 `en curso` aquí y hacer las comprobaciones de git de la tarea. El plan queda aprobado cuando el usuario pide iniciar la Fase 0 (regístralo en «Aprobaciones del usuario»).
-- **Última actualización:** 2026-10-17 22:00 UTC
+- **Estado de la fase:** en curso
+- **Herramienta prevista:** Cursor (rama `cursor/fase-0-andamiaje-29a6`)
+- **Próximo paso:** Tarea 0.2: generar el Maven Wrapper 3.10.0 (`mvn -N org.apache.maven.plugins:maven-wrapper-plugin:3.3.4:wrapper -Dmaven=3.10.0`), versionar `mvnw`, `mvnw.cmd` y `.mvn/wrapper/maven-wrapper.properties`, y dejar `mvnw` ejecutable (`100755`).
+- **Última actualización:** 2026-10-17 23:31 UTC
 
 ## Fases
 
 | Fase | Nombre | Compuerta | Estado | Archivo de estado | Verificación de fase |
 |---|---|---|---|---|---|
-| 0 | Andamiaje y calidad | — | no iniciado | `progreso/0.md` | — |
+| 0 | Andamiaje y calidad | — | en curso | `progreso/0.md` | — |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | no iniciado | `progreso/1.md` | — |
 | 2 | Búsqueda | 🔒 | no iniciado | `progreso/2.md` | — |
 | 3 | Carga de datos | 🔒 | no iniciado | `progreso/3.md` | — |
@@ -30,6 +30,7 @@
 | Fecha UTC | Qué se aprobó | Comentarios |
 |---|---|---|
 | 2026-10-17 | Decisiones sobre el plan (no es aún el visto bueno para programar) | Paquete `com.bigfito.elastiflix`; migración a alias sin aprobación previa; rutas en español; híbrida con `_msearch`; pruebas de integración contra Serverless; sin autenticación; borrar el índice anterior al publicar; registro individual directo al catálogo; CSV sin encabezado se rechaza; vectores siempre generados con inferencia; pósters de TMDB; commit + push por tarea; documentación al cerrar cada fase; estado actualizado en cada tarea; un solo usuario a la vez, sin controles de concurrencia; programa un agente de Cursor; vectores de documento con la combinación calibrada en 1.9 (los archivos no traen vectores y el formulario no los captura); atribución de TMDB en el pie y en «Acerca de»; sin restricción por costo de inferencia |
+| 2026-10-17 | Visto bueno del plan e inicio de la Fase 0 | Adolfo (bigfito) pidió explícitamente ejecutar la Fase 0. El agente de Cursor arranca por la tarea 0.1. |
 
 ## Última verificación
 

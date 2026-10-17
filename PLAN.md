@@ -475,7 +475,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
 > La Fase 0 no tiene tarea `.0` de diseño: solo crea andamiaje y configuración, sin lógica de negocio.
 > En Windows, ejecuta los comandos en **Git Bash** (ver `AGENTS.md`, "Comandos").
 
-- [ ] **0.1** Crea `progreso/0.md` desde `progreso/_PLANTILLA.md`; marca la Fase 0 `en curso` en
+- [x] **0.1** Crea `progreso/0.md` desde `progreso/_PLANTILLA.md`; marca la Fase 0 `en curso` en
   `progreso/INDICE.md`. Comprueba que git no ignora el estado ni versiona secretos, y que
   `.gitattributes` conserva los fixtures byte a byte (en Windows, `core.autocrlf` no debe alterar las
   celdas multilínea del CSV).
