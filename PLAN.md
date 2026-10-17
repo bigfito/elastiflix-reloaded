@@ -418,9 +418,12 @@ Se versionan en git; `.gitignore` nunca los excluye.
 estilo, análisis estático o arquitectura.
 
 - [ ] **0.1** Crea `progreso/0.md` desde `progreso/_PLANTILLA.md`; marca la Fase 0 `en curso` en
-  `progreso/INDICE.md`. Comprueba que git no ignora el estado ni versiona secretos.
-  - Criterio: `git check-ignore -q progreso/INDICE.md` devuelve **1** (no ignorado) y
-    `git check-ignore -q .env` devuelve **0** (ignorado).
+  `progreso/INDICE.md`. Comprueba que git no ignora el estado ni versiona secretos, y que
+  `.gitattributes` conserva los fixtures byte a byte (en Windows, `core.autocrlf` no debe alterar las
+  celdas multilínea del CSV).
+  - Criterio: `git check-ignore -q progreso/INDICE.md` devuelve **1** (no ignorado),
+    `git check-ignore -q .env` devuelve **0** (ignorado) y `git check-attr text elasticsearch/fixtures/movies-sample.csv`
+    muestra `text: unset`. En Windows, ejecuta los comandos de verificación en Git Bash.
 - [ ] **0.2** Genera el Maven Wrapper 3.10.0 en la raíz: `mvn -N wrapper:wrapper -Dmaven=3.10.0`
   (requiere un Maven local ≥ 3.6.3 solo para este paso). Versiona `mvnw`, `mvnw.cmd` y `.mvn/wrapper/`.
   - Criterio: `./mvnw -v` muestra `Apache Maven 3.10.0` y `Java version: 25`.
