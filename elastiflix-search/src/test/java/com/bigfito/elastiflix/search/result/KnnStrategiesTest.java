@@ -8,6 +8,7 @@ import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.embedding.EmbeddingService;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
+import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.search.facet.FacetCalculator;
 import com.bigfito.elastiflix.search.filter.FilterQueryBuilder;
@@ -105,7 +106,9 @@ class KnnStrategiesTest {
         when(transport.msearch(any(MsearchRequest.class), eq(Movie.class))).thenReturn(msearch(ok(1), failed, ok(1)));
 
         assertThatThrownBy(() -> service.search(query(SearchMode.HYBRID, SearchFilters.none())))
-                .isInstanceOf(ElasticsearchAccessException.class);
+                .isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(thrown -> ((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
     }
 
     @Test

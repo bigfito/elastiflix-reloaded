@@ -18,12 +18,13 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** S-18
+- **Tarea actual:** S-21
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** S-18 necesita el catálogo real (capturas con datos) y la aprobación de Adolfo, y S-19 un
-  proyecto Serverless sin el índice: las dos esperan el `.env`. Mientras tanto se avanza con S-20 a S-27 y
-  S-18/S-19 quedan para el final. Siguiente: S-20, 401/403 → `EFX-ES-001` y `codeFor` en la híbrida.
-- **Última actualización:** 2026-10-19 02:00 UTC
+- **Próximo paso:** S-21: textos de error neutros entre importación y migración (`REINDEX_COUNT_MISMATCH`,
+  `REINDEX_FAILED`, `PUBLISH_UNCERTAIN`, `ALIAS_PUBLISH_FAILED`), Javadoc de `ElasticsearchAccessException`,
+  y `EFX-ING-013`/`EFX-ING-015` según `FileKind` en `FileGate.open` y `MovieDocuments.fromNode`. S-18 y S-19
+  esperan el `.env` y quedan para el final.
+- **Última actualización:** 2026-10-19 02:10 UTC
 
 ## Tareas
 
@@ -48,10 +49,10 @@ en curso
 | S-14 | terminada | `fe4a9e2` | Una prueba por fila, cada una comprobada con una mutación (una a la vez, revertida): `ResultsPageTest.shouldKeepTheFiltersInEveryPageLink` (Anterior, Siguiente, «4» y tamaño 50 con `genero` y `desde`; se quitó la aserción de «Tienes cambios sin aplicar.») ← `SearchLinks.page` sin filtros; `HomePageTest` con `href` completos vectorial e híbrido ← sugerencia sin `candidatos`; `IngestPageTest`: `encabezado=false` e `importar` de `importando` a `publicado` (hechas en S-03); `ServedPagesTest` (nuevo, Tomcat real con fachadas simuladas): pie con TMDB en Resultados, Cargar, Acerca y 404, y `/error` real con 400 (`/buscar?q=%zz`) y 405 (DELETE `/acerca`) ← pie sin TMDB y `h1` vacío; `IndividualRecordTest` con `eq("demo")` y `ArgumentCaptor<Movie>` de 1024/512/256 ← indexar sin vectores; `ImportJobTest` verifica `createWithMapping(temp)` y `writeAll(eq(temp), anyList())` ← escribir en el índice anterior; `InferenceEmbeddingServiceTest.shouldRejectAShortBatchFromTheClient` con `ElasticsearchClient` simulado ← sin exigir el tamaño; `KnnStrategiesTest` (nuevo, estrategias reales con `SearchTransport` simulado): `embedQuery` `times(1)` en el vacío con filtros (vectorial e híbrida), ítem fallido del `_msearch` y 2 partes ← volver a vectorizar / ítem fallido como vacío; `CatalogIndexIT.shouldListOnlyTheDatedIndexesOfTheAlias` (y `shouldNotCreateAnIndexWhenTheAliasIsMissing` para `require_alias` de S-04; pendientes de correr con `-Pit`); `MappingValidatorTest.shouldAcceptTheJsonFixture` afirma que los nodos crudos traen vectores y las películas validadas no ← dejar pasar vectores en `DocumentChecker` y `MovieDocuments`; `PlotVectorizerTest.shouldRejectAnIncompleteBatch` reemplaza la tautología ← sin exigir el tamaño; `JsonDocumentsTest` y `CsvMovieReaderTest` comparan a través de `MappingValidator`. Cambios de código que pedían las pruebas: `ErrorPageController` titula «Error <estado>» un error sin código EFX (parte de S-22) y `PlotVectorizer.attach` usa `EFX-EMB-004` (parte de S-21). `./mvnw verify`: BUILD SUCCESS, 254 unitarias (core 49, search 62, ingest 92, web 51), 0 fallos. |
 | S-15 | terminada | `cf177a4` | «Aprobaciones» de `progreso/INDICE.md` tiene una fila para D1, D2, D3 y el cambio del mockup de B-05. Cada una dice lo que consta: las tomó el agente y Adolfo las aceptó al fusionar el PR #10 (`dc9a315`) o el #12 (`41c1188`); no se inventa una aprobación explícita. `progreso/revision-1.md`: R-04, R-09, R-11, R-12, R-15, R-16, R-18, R-19 y R-21 pasan a `incompleta` con «Incompleta: continúa en S-NN (revisión 2).» (9 filas). PLAN 3.0 y 3.2 y `docs/diseno/3.md` (supuesto 9, «Lectores», «Alternativas descartadas», «Cambios» con D2 y la nota de `EFX-ES-007`) describen la ingesta en memoria; `grep -n -i streaming PLAN.md docs/diseno/3.md` solo lo muestra como alternativa descartada o como el supuesto reemplazado. |
 | S-16 | terminada | `62c089d` | PLAN §1: encabezado «decisiones del usuario del 2026-10-17 y 2026-10-18»; filas nuevas del prefijo de las sinopsis (R-10 y el mockup editado en B-05) y de «Medido en el catálogo original de 4 322 películas» (R-30, D3). Comparación de textos visibles de los mockups con las páginas servidas (script `textdiff.py` sobre el HTML; en Resultados, el HTML de MockMvc de los tres modos, y cada texto que arma el script del mockup buscado palabra por palabra en su fuente): Inicio sin diferencias (las sugerencias salen del script del mockup); Resultados: leyendas, notas de límite, «Ordenados por…», títulos de puntuación, «Todos», «Solo no adultos», «Géneros: » y «Mostrando » están en el mockup; Cargar datos: las diferencias son las filas de §1 de S-03; Acerca de: las de D3 y un punto de más en «25 · 50 · 100 por página.», corregido (vuelve a ser `dt`/`dd` como en el mockup). Lo demás es dinámico (conexión, conteo). El texto sin conexión «El conteo no está disponible.» se registra con el pie en S-22. `./mvnw verify`: BUILD SUCCESS. |
-| S-17 | terminada | se anota en S-18 | `README.md`, `PLAN.md` (nota del catálogo), `AGENTS.md` (línea del catálogo; 11 617 caracteres), `docs/diseno/1.md` (l. 23 y tabla de pruebas), `docs/diseno/5.md` (nota, punto 1 y tabla) y `progreso/5.md` (l. 88 y 112) dicen que las pruebas afirman los 6 899 documentos y los valores de §6 y se omiten con `assumeTrue` si el conteo cambió. `diseno/5.md` registra R-05/D1 en «Cambios». `grep -rn` del criterio sobre `README.md PLAN.md AGENTS.md docs progreso` solo encuentra la propia especificación (`docs/revisiones/revision-2.md`, que no se edita). |
+| S-17 | terminada | `fed7249` | `README.md`, `PLAN.md` (nota del catálogo), `AGENTS.md` (línea del catálogo; 11 617 caracteres), `docs/diseno/1.md` (l. 23 y tabla de pruebas), `docs/diseno/5.md` (nota, punto 1 y tabla) y `progreso/5.md` (l. 88 y 112) dicen que las pruebas afirman los 6 899 documentos y los valores de §6 y se omiten con `assumeTrue` si el conteo cambió. `diseno/5.md` registra R-05/D1 en «Cambios». `grep -rn` del criterio sobre `README.md PLAN.md AGENTS.md docs progreso` solo encuentra la propia especificación (`docs/revisiones/revision-2.md`, que no se edita). |
 | S-18 | pendiente | — | Las capturas y la comparación de R-21 no reflejan la interfaz real |
 | S-19 | pendiente | — | Con solo el README todavía no se puede preparar el catálogo |
-| S-20 | pendiente | — | Una API key inválida aparece como «corrige la petición» |
+| S-20 | terminada | se anota en S-21 | `ElasticsearchDiagnostics.codeFor`: 401 y 403 → `EFX-ES-001` («La URL o la API key no son válidas…»), igual que el pie; el resto de los 4xx → `EFX-ES-007`. `HybridSearchStrategy.rejected` usa `codeFor(status del ítem)`. `docs/diseno/2.md` actualizado (errores y log). Pruebas: `ElasticsearchDiagnosticsTest.shouldTreatBadCredentialsAsUnavailable` (401, 403, 500, 400) y `KnnStrategiesTest.shouldFailWhenAPartOfTheMultiSearchFails` (ítem 500 → `EFX-ES-001`). Mutaciones, una a la vez y revertidas: 401 tratado como 4xx → la primera; híbrida con `EFX-ES-007` fijo → la segunda. `./mvnw verify`: BUILD SUCCESS. |
 | S-21 | pendiente | — | Códigos y textos de error que no corresponden al contexto |
 | S-22 | pendiente | — | Mensajes y página de error genérica |
 | S-23 | pendiente | — | Errores JSON de la carga con alcance incompleto |
@@ -112,6 +113,11 @@ Vacío.
 
 - 2026-10-19, S-14: al probar el `/error` real apareció un fallo fuera de la lista: `/buscar?k=abc`
   responde 500 en lugar de rechazar con `EFX-SRCH-002`. Se corrige en S-22 (mensajes y página de error).
+
+- 2026-10-19 (decisión del agente): S-18 (capturas con datos reales y nueva aprobación de Adolfo) y S-19
+  (corrida del README en un proyecto Serverless sin el índice) necesitan el `.env`, que esta máquina no tiene.
+  En lugar de detener la unidad, se atienden S-20 a S-27, que no dependen de ellas, y S-18 y S-19 se hacen
+  al final. Es el único desvío del orden de la lista.
 
 ## Resumen de diseño
 

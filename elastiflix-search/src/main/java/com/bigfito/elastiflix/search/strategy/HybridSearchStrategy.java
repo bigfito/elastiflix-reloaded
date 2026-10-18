@@ -6,6 +6,7 @@ import java.util.Map;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.embedding.EmbeddingService;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
+import com.bigfito.elastiflix.core.error.ElasticsearchDiagnostics;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.search.query.SearchMode;
@@ -91,7 +92,7 @@ public class HybridSearchStrategy implements SearchStrategy {
     private List<RankedHit> join(SearchQuery query, MsearchResponse<Movie> response) {
         List<MultiSearchResponseItem<Movie>> parts = response.responses();
         if (parts.size() != PARTS) {
-            throw rejected("respuesta");
+            throw rejected("respuesta", 0);
         }
         List<RankedHit> fused = HitReader.hits(part(parts.get(FUSED)));
         List<RankedHit> lexical = HitReader.ids(part(parts.get(LEXICAL)));
@@ -101,7 +102,7 @@ public class HybridSearchStrategy implements SearchStrategy {
 
     private MultiSearchItem<Movie> part(MultiSearchResponseItem<Movie> item) {
         if (item.isFailure()) {
-            throw rejected(failureType(item.failure()));
+            throw rejected(failureType(item.failure()), statusOf(item.failure()));
         }
         return item.result();
     }
@@ -114,8 +115,14 @@ public class HybridSearchStrategy implements SearchStrategy {
         return failure.error().type();
     }
 
-    private ElasticsearchAccessException rejected(String type) {
-        LOG.error("{} en {} tipo={}", ErrorCode.ELASTICSEARCH_REJECTED.code(), properties.index().alias(), type);
-        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_REJECTED);
+    /** El código sale del estado del ítem, igual que en el resto del catálogo: un 5xx no es «corrige la petición». */
+    private ElasticsearchAccessException rejected(String type, int status) {
+        ErrorCode code = ElasticsearchDiagnostics.codeFor(status);
+        LOG.error("{} en {} tipo={}", code.code(), properties.index().alias(), type);
+        return new ElasticsearchAccessException(code);
+    }
+
+    private static int statusOf(ErrorResponse failure) {
+        return failure == null ? 0 : failure.status();
     }
 }

@@ -17,6 +17,15 @@ class ElasticsearchDiagnosticsTest {
     void shouldSeparateAClientErrorFromANetworkFailure() {
         assertThat(ElasticsearchDiagnostics.codeFor(413)).isEqualTo(ErrorCode.ELASTICSEARCH_REJECTED);
         assertThat(ElasticsearchDiagnostics.codeFor(0)).isEqualTo(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+    }
+
+    @Test
+    @DisplayName("401 y 403 son una URL o API key no válidas: EFX-ES-001, como en el pie")
+    void shouldTreatBadCredentialsAsUnavailable() {
+        assertThat(ElasticsearchDiagnostics.codeFor(401)).isEqualTo(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+        assertThat(ElasticsearchDiagnostics.codeFor(403)).isEqualTo(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+        assertThat(ElasticsearchDiagnostics.codeFor(500)).isEqualTo(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+        assertThat(ElasticsearchDiagnostics.codeFor(400)).isEqualTo(ErrorCode.ELASTICSEARCH_REJECTED);
         assertThat(ElasticsearchDiagnostics.typeOf(new IOException("red"))).isEqualTo("IOException");
     }
 }
