@@ -39,6 +39,16 @@ final class CsvHeader {
     }
 
     /**
+     * Dice si la columna es un campo del mapping o el metadato {@code _id}.
+     *
+     * @param column nombre de la primera fila
+     * @return {@code false} para una columna desconocida
+     */
+    boolean knows(String column) {
+        return allowed.contains(column);
+    }
+
+    /**
      * Errores y advertencias del encabezado. No mira las filas de datos.
      *
      * @param columns nombres de la primera fila

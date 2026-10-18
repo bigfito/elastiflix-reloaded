@@ -54,7 +54,7 @@ final class BatchWriter {
         ensureRunning(context);
         List<Movie> ready = vectorizer.apply(movies);
         WriteTotals done = advanced(totals, ready.size(), replacements(context.temp(), ready));
-        context.listener().onProgress(done.notice(IMPORT_STEP));
+        context.listener().onProgress(done.notice(IMPORT_STEP, context.temp()));
         catalog.writeAll(context.temp(), ready);
         logBatch(done);
         return done;

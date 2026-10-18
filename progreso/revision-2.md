@@ -18,12 +18,12 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** S-03
+- **Tarea actual:** S-04
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** S-03: ampliar `JobView` (`fileCount` en `invalido`, `validCount` por registros con error,
-  `invalidRecords`, `tempIndex`, `batchSize`, columnas del CSV, `replaceCount` fijo) y pintar en `ingest.js`
-  los textos del mockup para los tres escenarios.
-- **Última actualización:** 2026-10-18 20:40 UTC
+- **Próximo paso:** S-04: en `ImportJob`, bandera `published` y `finally` que solo borra el temporal si no se
+  publicó; borrar el nuevo solo ante un 4xx confirmado por `describe` (también en `CatalogBootstrap`);
+  `masterTimeout`/`timeout` de 10 s en `_aliases`; `require_alias=true` en `indexOne`.
+- **Última actualización:** 2026-10-18 21:30 UTC
 
 ## Tareas
 
@@ -33,8 +33,8 @@ en curso
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
 | S-01 | terminada | `fc984de` | `ReindexTasks` espera en un bucle de lecturas `_tasks` de 20 s con plazo total de 30 min (`Clock`), revisa `error`/`failures`/`timed_out`, falla con `EFX-ES-006` sin id de tarea, y cancela la tarea (`_tasks/<id>/_cancel`) antes de lanzar si vence el plazo, se corta la conexión o la persona cancela. `CatalogIndex.reindex` recibe `stop`. Confirmado en el jar: `spring.elasticsearch.socket-timeout` vale 30 s. `./mvnw verify`: BUILD SUCCESS, 200 unitarias, 0 fallos, Checkstyle y PMD en 0. `ReindexTasksTest` (10) cubre los seis casos del criterio más la lectura de 20 s, `completed=false`, el error de la tarea y la cancelación de la persona. Mutaciones, una a la vez y revertidas: sin cancelar al vencer el plazo → falla `shouldCancelWhenTheDeadlinePasses`; sin cancelar ante `IOException` → `shouldCancelWhenTheConnectionFails`; `timeout_exception` como error → `shouldKeepWaitingAfterATimeoutException`; sin `failures` → `shouldFailWhenTheTaskReportsFailures`; sin `timed_out` → `shouldFailWhenTheTaskTimedOut`; id vacío como copia terminada → `shouldFailWhenThereIsNoTaskId`; `ImportJob` sin pasar la señal de cancelación → `ImportJobTest.shouldCancelTheCopyBeforeDeletingTheTemp`. `CatalogIndexIT` e `IngestIT` no se corrieron: no hay `.env` (ver «Bloqueos»). |
-| S-02 | terminada | se anota en S-03 | `ingest.html` y el bloque `.ingest` de `elastiflix.css` siguen las medidas de `Ingest.dc.html`: contenedor `max-width:1040px`, `margin:0 auto`, `padding:32px 20px 72px`; etiqueta superior con icono y sin margen extra; pestañas con su pastel (`#FFCDB2`/`#FBE7A1`/`#BDE8D7`), `border-radius:10px` e icono; campos y zona de arrastre en `#FBF7F1`; botones «Limpiar», «Guardar película», «Validar archivo», «Importar…» y «Cancelar importación» con estilo, iconos y estado deshabilitado `#EFE7DC`/`#6B6578`; pasos con título, estado en la tinta de su color (sin cursiva) y detalle en otra línea; alerta `#job-stopped` (`#FDEEF5`, `h3` Bricolage 21 px con icono); bloque «No se puede cargar» con `h2` 22 px e icono; tablas con `th` mono en mayúsculas; comprobaciones con icono verde; advertencias en caja `#FFF9E3` con icono; «Importación» en su propia tarjeta. También: el chip «Solo .json» pasa a «Solo .csv» en la pestaña CSV. Evidencia: capturas de página completa con Playwright (Chromium 131) sobre la app local, con las respuestas del trabajo simuladas (sin `.env`): registro individual, CSV válido (paso 4 «listo para empezar») y CSV inválido. `./mvnw verify`: BUILD SUCCESS. Las capturas finales con datos reales y la aprobación de Adolfo quedan en S-18; los textos y datos del trabajo, en S-03. |
-| S-03 | pendiente | — | «Cargar datos»: faltan datos y textos del trabajo de carga |
+| S-02 | terminada | `09fe15e` | `ingest.html` y el bloque `.ingest` de `elastiflix.css` siguen las medidas de `Ingest.dc.html`: contenedor `max-width:1040px`, `margin:0 auto`, `padding:32px 20px 72px`; etiqueta superior con icono y sin margen extra; pestañas con su pastel (`#FFCDB2`/`#FBE7A1`/`#BDE8D7`), `border-radius:10px` e icono; campos y zona de arrastre en `#FBF7F1`; botones «Limpiar», «Guardar película», «Validar archivo», «Importar…» y «Cancelar importación» con estilo, iconos y estado deshabilitado `#EFE7DC`/`#6B6578`; pasos con título, estado en la tinta de su color (sin cursiva) y detalle en otra línea; alerta `#job-stopped` (`#FDEEF5`, `h3` Bricolage 21 px con icono); bloque «No se puede cargar» con `h2` 22 px e icono; tablas con `th` mono en mayúsculas; comprobaciones con icono verde; advertencias en caja `#FFF9E3` con icono; «Importación» en su propia tarjeta. También: el chip «Solo .json» pasa a «Solo .csv» en la pestaña CSV. Evidencia: capturas de página completa con Playwright (Chromium 131) sobre la app local, con las respuestas del trabajo simuladas (sin `.env`): registro individual, CSV válido (paso 4 «listo para empezar») y CSV inválido. `./mvnw verify`: BUILD SUCCESS. Las capturas finales con datos reales y la aprobación de Adolfo quedan en S-18; los textos y datos del trabajo, en S-03. |
+| S-03 | terminada | se anota en S-04 | `JobView` trae `fileCount` también en `invalido`, `validCount` = leídos menos registros distintos con error, `invalidRecords`, `tempIndex` (por `ImportProgress`), `batchSize` configurado, `kind`, `fileSize` y la tabla de columnas del CSV (`CsvColumnRows`: «Asignada», «Se ignora», «Sin datos», «No existe en el mapping»); `replaceCount` ya no cambia con el avance; `checks` sin la comprobación de vectores; `failureMessage` = `summary()` (sin código duplicado). Una columna desconocida ya no corta la lectura del CSV. Los textos los arma `JobTexts` en la web (`GET /cargar/trabajos/{id}` responde `{job, texts}`) con espacio de miles; `ingest.js` reescrito: paso 1 al elegir archivo, ficha con «Cambiar archivo», bloque de rechazo con su texto y motivos después de «Proceso de carga», `cancelado` deja el paso «detenido», una sola cadena de consulta, botones deshabilitados al hacer clic, 404/409 y fallos de red en una alerta propia, «Cancelar importación» solo en `importando`, `aria-valuemax` ≥ 1. Tamaño máximo y lote configurados en la plantilla (`IngestLimits`). `encabezado=false` se rechaza en el navegador y en la subida (400 `EFX-ING-005`). Textos fuera del mockup registrados en PLAN §1 (ver «Decisiones»). `./mvnw verify`: BUILD SUCCESS, 211 unitarias (core 45, search 58, ingest 70, web 38), 0 fallos, Checkstyle y PMD en 0. Pruebas: `JobFiguresTest` (512 leídos, 23 errores en 17 registros → 495 válidos), `CsvColumnRowsTest`, `IngestPageTest` (textos exactos de los escenarios «Archivo válido», «No coincide con el mapping» y «Archivo rechazado»; `encabezado=false`; `importar` pasa de `importando` a `publicado`). Mutaciones, una a la vez y revertidas: válidos mal contados → `JobFiguresTest.shouldCountValidRecordsWhenSomeHaveErrors`; `fileCount` solo en `ready` → la misma; el avance pisa `replaceCount` → `JobThreadFailureTest.shouldKeepProgressOnTheJobThatMoved`; vuelve la comprobación de vectores → `shouldLeaveOutTheVectorCheck`; lote fijo → `shouldUseTheConfiguredBatchSize`; mensaje con código → `shouldGiveTheSummaryWithoutTheCode`; sin rechazo de encabezado → `IngestPageTest.shouldRejectACsvWithoutHeader`; Registro/Fila al revés → `shouldGiveTheMismatchTexts`; cifras sin miles → `shouldGiveTheValidFileTexts`. JS comprobado con Playwright sobre la app local (respuestas simuladas): rechazo UTF-8, CSV sin encabezado, válido (Cancelar deshabilitado), importando (Importar deshabilitado al clic, `aria-valuemax=4322`) e inválido. |
 | S-04 | pendiente | — | Publicación: proteger el temporal ya publicado y no borrar ante un fallo que no es 4xx |
 | S-05 | pendiente | — | El `input_type` y el prefijo de documento siguen con dos fuentes |
 | S-06 | pendiente | — | Memoria de la ingesta: los vectores se quitan tarde y los trabajos nunca se expulsan |
@@ -87,6 +87,14 @@ Vacío.
   «revision-2: las pruebas web corren sin .env» agrega a cada `@WebMvcTest`
   `properties = {"elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"}`.
   No cambia código de producción.
+
+- 2026-10-18, S-03 (textos fuera del mockup, decisión del agente): se queda el botón «Validar archivo»,
+  porque el separador y la casilla de encabezado se eligen antes de subir; se agrega a PLAN §1. Se
+  quitan «· detectado»/«· detectada» (no hay detección), la nota CSV «Si se desmarca, el archivo se
+  rechaza…» (la regla ya está en el rechazo con `EFX-ING-005`) y «Elige un archivo .json o .csv.» («Validar
+  archivo» queda deshabilitado sin archivo). El aviso de guardado individual pasa a verde (`notice-ok`).
+  Los mensajes de error del servidor y de red se agregan a PLAN §1. `encabezado=false` se rechaza en las
+  dos capas: navegador y subida (400 JSON `EFX-ING-005`).
 
 ## Resumen de diseño
 

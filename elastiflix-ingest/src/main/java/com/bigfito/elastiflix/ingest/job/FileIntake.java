@@ -76,7 +76,8 @@ public final class FileIntake {
 
     private void finish(String jobId, ImportWork work) {
         LoadedDocuments loaded = gate.open(work);
-        if (!loaded.report().accepted()) {
+        store.fileRead(jobId, loaded.recordCount(), loaded.columns());
+        if (loaded.documents().isEmpty() && !loaded.report().accepted()) {
             store.invalid(jobId, loaded.report());
             return;
         }

@@ -3,13 +3,11 @@ package com.bigfito.elastiflix.web.ingest;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.bigfito.elastiflix.core.config.ElastiflixProperties;
+import com.bigfito.elastiflix.ingest.file.CheckedFile;
 import com.bigfito.elastiflix.ingest.file.FileCandidate;
 import com.bigfito.elastiflix.ingest.file.FileChecker;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
-import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -19,32 +17,28 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadCheck {
 
     private final FileChecker checker = new FileChecker();
-    private final DataSize maxFileSize;
+    private final IngestLimits limits;
 
     /**
-     * Usa el tamaño máximo configurado, o 150 MB.
+     * Usa el tamaño máximo configurado.
      *
-     * @param properties configuración, si el contexto la creó
+     * @param limits tamaño máximo del archivo
      */
-    public UploadCheck(ObjectProvider<ElastiflixProperties> properties) {
-        ElastiflixProperties found = properties.getIfAvailable();
-        if (found == null) {
-            this.maxFileSize = ElastiflixProperties.Ingest.fallback().maxFileSize();
-        } else {
-            this.maxFileSize = found.ingest().maxFileSize();
-        }
+    public UploadCheck(IngestLimits limits) {
+        this.limits = limits;
     }
 
     /**
-     * Rechaza el archivo con el código de la carga si no es .json o .csv válido.
+     * Comprueba nombre, tamaño y UTF-8. Si algo no cumple, lanza su {@code EFX-ING-*}.
      *
      * @param file archivo subido
-     * @throws IOException si no se puede abrir
+     * @return nombre y tipo, json o csv
+     * @throws IOException si no se puede leer el contenido
      */
-    public void requireAccepted(MultipartFile file) throws IOException {
+    public CheckedFile requireAccepted(MultipartFile file) throws IOException {
         try (InputStream content = file.getInputStream()) {
             FileCandidate candidate = new FileCandidate(file.getOriginalFilename(), file.getSize(), content);
-            checker.check(candidate, maxFileSize);
+            return checker.check(candidate, limits.maxFileSize());
         }
     }
 }

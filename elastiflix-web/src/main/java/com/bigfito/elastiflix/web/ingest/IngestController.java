@@ -21,27 +21,33 @@ public class IngestController implements HtmlPage {
 
     private final IngestService ingest;
     private final MovieForms forms;
+    private final IngestLimits limits;
 
     /**
      * Crea la página con la fachada de carga.
      *
      * @param ingest fachada
      * @param forms  formulario a película
+     * @param limits tamaño máximo y lote configurados
      */
-    public IngestController(IngestService ingest, MovieForms forms) {
+    public IngestController(IngestService ingest, MovieForms forms, IngestLimits limits) {
         this.ingest = ingest;
         this.forms = forms;
+        this.limits = limits;
     }
 
     /**
      * Muestra las pestañas. Un guardado anterior llega por flash.
      *
-     * @param model navegación
+     * @param model navegación, tamaño máximo y lote
      * @return plantilla {@code ingest}
      */
     @GetMapping("/cargar")
     public String page(Model model) {
         model.addAttribute("nav", "cargar");
+        model.addAttribute("maxFileLabel", limits.maxFileLabel());
+        model.addAttribute("maxFileBytes", limits.maxFileSize().toBytes());
+        model.addAttribute("batchSize", limits.batchSize());
         return "ingest";
     }
 

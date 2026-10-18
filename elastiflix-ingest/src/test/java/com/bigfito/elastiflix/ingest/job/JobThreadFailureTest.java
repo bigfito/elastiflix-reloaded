@@ -32,7 +32,7 @@ class JobThreadFailureTest {
     @Test
     @DisplayName("si la lectura truena, el trabajo queda fallido con EFX-IMP-007")
     void shouldFailTheJobWhenValidationThrows() throws Exception {
-        JobStore store = new JobStore();
+        JobStore store = new JobStore(new ElastiflixProperties(null, null, null, null, null, null, null));
         String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader());
         FileGate gate = mock(FileGate.class);
         doThrow(new IllegalStateException("lectura")).when(gate).open(any());
@@ -47,7 +47,7 @@ class JobThreadFailureTest {
     @Test
     @DisplayName("si la importación truena, el trabajo no se queda importando")
     void shouldFailTheJobWhenImportThrows() throws Exception {
-        JobStore store = new JobStore();
+        JobStore store = new JobStore(new ElastiflixProperties(null, null, null, null, null, null, null));
         String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader());
         store.require(jobId).ready(new ValidatedMovies(List.of(), new ValidationReport(List.of()), 0));
         store.beginImport(jobId);
@@ -65,7 +65,7 @@ class JobThreadFailureTest {
     @Test
     @DisplayName("al cerrar el trabajo se sueltan las películas")
     void shouldReleaseMoviesWhenTheJobEnds() throws Exception {
-        JobStore store = new JobStore();
+        JobStore store = new JobStore(new ElastiflixProperties(null, null, null, null, null, null, null));
         String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader());
         ValidatedMovies checked = new MappingValidator().validate(
                 new JsonDocuments().read(Path.of("..", "elasticsearch", "fixtures", "movies-sample.json")),
@@ -81,14 +81,16 @@ class JobThreadFailureTest {
     @Test
     @DisplayName("el avance de un trabajo no se anota en otro")
     void shouldKeepProgressOnTheJobThatMoved() throws Exception {
-        JobStore store = new JobStore();
+        JobStore store = new JobStore(new ElastiflixProperties(null, null, null, null, null, null, null));
         String first = store.open("a.json", temp(), CsvSettings.withHeader());
         String second = store.open("b.json", temp(), CsvSettings.withHeader());
-        store.onProgress(first, new ImportProgress(4, 1, 3, 3, 1));
+        store.onProgress(first, new ImportProgress(4, 1, 3, 3, 1, "temporal"));
 
         assertThat(store.view(first).written()).isEqualTo(3);
         assertThat(store.view(first).vectorized()).isEqualTo(3);
-        assertThat(store.view(first).replaceCount()).isEqualTo(1);
+        assertThat(store.view(first).tempIndex()).isEqualTo("temporal");
+        // La cifra de «Reemplazarán existentes» es la de la validación: el avance no la mueve.
+        assertThat(store.view(first).replaceCount()).isZero();
         assertThat(store.view(second).written()).isZero();
     }
 

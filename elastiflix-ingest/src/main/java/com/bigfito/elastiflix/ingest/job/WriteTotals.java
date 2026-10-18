@@ -16,7 +16,7 @@ record WriteTotals(int batches, int vectorized, int written, int replaced) {
      * @param step paso del mockup
      * @return avance de este lote
      */
-    ImportProgress notice(int step) {
-        return new ImportProgress(step, batches, vectorized, written, replaced);
+    ImportProgress notice(int step, String tempIndex) {
+        return new ImportProgress(step, batches, vectorized, written, replaced, tempIndex);
     }
 }

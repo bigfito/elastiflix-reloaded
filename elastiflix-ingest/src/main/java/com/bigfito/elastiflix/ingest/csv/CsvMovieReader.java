@@ -23,11 +23,13 @@ import tools.jackson.databind.node.ObjectNode;
  * Lee un CSV de películas. La primera fila tiene que ser el encabezado.
  *
  * <p>Las listas y los objetos van como JSON dentro de la celda. Las columnas de vector se
- * aceptan y se ignoran, con una advertencia por columna.</p>
+ * aceptan y se ignoran, con una advertencia por columna. Una columna que no está en el mapping es
+ * un error del encabezado, pero las filas se leen igual sin esa columna: así el informe cuenta las
+ * filas y trae también los errores de los demás campos.</p>
  */
 public final class CsvMovieReader {
 
-    private static final char BOM = '\uFEFF';
+    private static final char BOM = '﻿';
 
     private final CsvHeader header;
 
@@ -45,7 +47,7 @@ public final class CsvMovieReader {
      *
      * @param path     archivo CSV
      * @param settings separador y casilla de encabezado
-     * @return objetos crudos, con {@code _id} y los subcampos, y el informe del encabezado
+     * @return objetos crudos, con {@code _id} y los subcampos, el informe y el conteo por columna
      */
     public CsvRead read(Path path, CsvSettings settings) {
         if (!settings.headerPresent()) {
@@ -66,33 +68,46 @@ public final class CsvMovieReader {
             return CsvRead.rejected(issue(ErrorCode.INVALID_HEADER));
         }
         List<ValidationIssue> issues = header.check(columns.get());
-        if (!new ValidationReport(issues).accepted()) {
-            return new CsvRead(List.of(), new ValidationReport(issues));
+        if (stopsReading(issues)) {
+            return new CsvRead(List.of(), new ValidationReport(issues), 0, List.of());
         }
-        return new CsvRead(documents(rows, columns.get(), issues), new ValidationReport(issues));
+        ColumnTally tally = new ColumnTally(columns.get());
+        List<JsonNode> documents = documents(rows, columns.get(), issues, tally);
+        return new CsvRead(documents, new ValidationReport(issues), tally.rows(), tally.columns());
     }
 
-    private static List<JsonNode> documents(CsvRows rows, List<String> columns, List<ValidationIssue> issues) {
+    /** Solo una columna desconocida deja seguir: el resto de los errores del encabezado impide leer. */
+    private static boolean stopsReading(List<ValidationIssue> issues) {
+        for (ValidationIssue issue : issues) {
+            if (!issue.warning() && !ErrorCode.UNKNOWN_FIELD.code().equals(issue.code())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<JsonNode> documents(
+            CsvRows rows, List<String> columns, List<ValidationIssue> issues, ColumnTally tally) {
         List<JsonNode> documents = new ArrayList<>();
         Optional<List<String>> row = rows.nextRow();
         int number = 2;
         while (row.isPresent()) {
-            addRow(documents, issues, columns, row.get(), number);
+            if (!blank(row.get())) {
+                tally.count(row.get());
+                addRow(documents, issues, columns, row.get(), number);
+            }
             number++;
             row = rows.nextRow();
         }
         return documents;
     }
 
-    private static void addRow(
+    private void addRow(
             List<JsonNode> documents,
             List<ValidationIssue> issues,
             List<String> columns,
             List<String> row,
             int number) {
-        if (blank(row)) {
-            return;
-        }
         if (row.size() != columns.size()) {
             issues.add(width(number, columns.size(), row.size()));
             return;
@@ -111,11 +126,13 @@ public final class CsvMovieReader {
                 false);
     }
 
-    private static ObjectNode document(List<String> columns, List<String> row) {
+    private ObjectNode document(List<String> columns, List<String> row) {
         ObjectNode object = CsvValues.newObject();
-        int fields = Math.min(columns.size(), row.size());
-        for (int index = 0; index < fields; index++) {
-            put(object, columns.get(index), row.get(index));
+        for (int index = 0; index < columns.size(); index++) {
+            String name = columns.get(index);
+            if (header.knows(name)) {
+                put(object, name, row.get(index));
+            }
         }
         return object;
     }

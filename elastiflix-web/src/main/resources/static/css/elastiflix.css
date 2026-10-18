@@ -479,5 +479,28 @@ h1 span { color: var(--accent-ink); }
 }
 .ingest #job-failure { margin: 0; font-size: 15px; }
 .ingest #progress { height: 12px; background: var(--surface-muted); border-radius: 999px; overflow: hidden; }
-.ingest #progress span { display: block; height: 100%; background: var(--peach); }
+.ingest #progress span { display: block; width: 0; height: 100%; background: var(--peach); }
 .ingest #archivo { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.ingest .notice-ok {
+  margin: 0; padding: 12px 16px; background: #ECF8F3; border: 1px solid var(--mint); border-radius: 12px;
+  font-size: 15px; color: var(--mint-ink);
+}
+.ingest .file-chip {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+}
+.ingest .file-chip.is-rejected { border-color: var(--rose); }
+.ingest .file-chip[hidden] { display: none; }
+.ingest .file-text { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ingest .file-name { font-family: var(--mono); font-size: 14px; color: var(--ink); overflow-wrap: anywhere; }
+.ingest .file-meta { font-size: 13px; color: var(--muted); }
+.ingest .change { font-size: 14px; text-decoration: underline; cursor: pointer; }
+.ingest #server-error { margin: 0; font-size: 15px; }
+.ingest .data-table.columns td:nth-child(3) { font-size: 13px; color: var(--ink-3); }
+.ingest .data-table.columns .inp { min-height: 40px; font-family: var(--mono); font-size: 13px; }
+.ingest .data-table .status-ok, .ingest .data-table .status-warn, .ingest .data-table .status-error {
+  font-size: 13px; font-weight: 600;
+}
+.ingest .data-table .status-ok { color: var(--mint-ink-2); }
+.ingest .data-table .status-warn { color: #8A6A12; }
+.ingest .data-table .status-error { color: var(--error); }

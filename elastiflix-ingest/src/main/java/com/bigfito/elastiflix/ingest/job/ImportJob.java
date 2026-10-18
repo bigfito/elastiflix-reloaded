@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 public final class ImportJob {
 
+    private static final int IMPORT_STEP = 4;
     private static final int PUBLISH_STEP = 5;
     private static final Logger LOG = LoggerFactory.getLogger(ImportJob.class);
 
@@ -76,6 +77,7 @@ public final class ImportJob {
         cleaner.clean(catalog, alias, found.concreteIndex());
         String temp = names.timestamped(alias, clock);
         catalog.createWithMapping(temp);
+        listener.onProgress(new ImportProgress(IMPORT_STEP, 0, 0, 0, 0, temp));
         importInto(new ImportContext(
                 alias, found.concreteIndex(), temp, source, counts, listener, cancelled));
     }
@@ -132,7 +134,7 @@ public final class ImportJob {
         }
         ensureRunning(context.cancelled());
         swap(context);
-        context.listener().onProgress(totals.notice(PUBLISH_STEP));
+        context.listener().onProgress(totals.notice(PUBLISH_STEP, context.temp()));
         LOG.info("La importación publicó {} en {} y borró {} ({} documentos)",
                 context.alias(), context.temp(), context.previous(), expected);
     }

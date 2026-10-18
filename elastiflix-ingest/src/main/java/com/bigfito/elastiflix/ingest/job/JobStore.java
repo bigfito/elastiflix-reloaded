@@ -3,6 +3,7 @@ package com.bigfito.elastiflix.ingest.job;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
+import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
@@ -27,6 +30,16 @@ public final class JobStore {
     private static final Logger LOG = LoggerFactory.getLogger(JobStore.class);
 
     private final Map<String, ImportWork> jobs = new ConcurrentHashMap<>();
+    private final ElastiflixProperties properties;
+
+    /**
+     * Crea el mapa de trabajos.
+     *
+     * @param properties tamaño de lote que muestra la página
+     */
+    public JobStore(ElastiflixProperties properties) {
+        this.properties = properties;
+    }
 
     /**
      * Crea el trabajo en {@code recibido}.
@@ -38,7 +51,7 @@ public final class JobStore {
      */
     public String open(String fileName, Path path, CsvSettings settings) {
         String id = UUID.randomUUID().toString();
-        jobs.put(id, new ImportWork(id, fileName, path, settings));
+        jobs.put(id, new ImportWork(id, fileName, path, settings, sizeOf(path)));
         LOG.debug("Llegó el archivo {}", fileName);
         return id;
     }
@@ -50,7 +63,7 @@ public final class JobStore {
      * @return copia que no cambia
      */
     public JobView view(String jobId) {
-        return require(jobId).view();
+        return require(jobId).view(properties.ingest().batchSize());
     }
 
     /**
@@ -101,6 +114,17 @@ public final class JobStore {
      */
     public void onProgress(String jobId, ImportProgress progress) {
         require(jobId).progress(progress);
+    }
+
+    /**
+     * Anota cuántos registros se leyeron y, en CSV, la tabla de correspondencia.
+     *
+     * @param jobId   identificador
+     * @param records registros o filas de datos
+     * @param columns tabla del CSV; vacía en JSON
+     */
+    public void fileRead(String jobId, int records, List<CsvColumnRow> columns) {
+        require(jobId).describe(records, columns);
     }
 
     /**
@@ -214,6 +238,15 @@ public final class JobStore {
             Files.deleteIfExists(work.path());
         } catch (IOException exception) {
             LOG.warn("No se pudo borrar el archivo local del trabajo {}", work.id());
+        }
+    }
+
+    private static long sizeOf(Path path) {
+        try {
+            return Files.size(path);
+        } catch (IOException exception) {
+            LOG.warn("No se pudo leer el tamaño del archivo subido tipo={}", exception.getClass().getSimpleName());
+            return 0;
         }
     }
 

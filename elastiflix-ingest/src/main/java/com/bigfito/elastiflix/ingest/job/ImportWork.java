@@ -1,12 +1,12 @@
 package com.bigfito.elastiflix.ingest.job;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
@@ -17,7 +17,6 @@ import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
  */
 final class ImportWork {
 
-    private static final int ERROR_PREVIEW = 6;
     private static final int UPLOAD_STEP = 2;
     private static final int VALIDATION_STEP = 3;
     private static final int IMPORT_STEP = 4;
@@ -27,11 +26,13 @@ final class ImportWork {
     private final Path path;
     private final String fileName;
     private final CsvSettings settings;
+    private final long fileSize;
     private final AtomicBoolean cancelled = new AtomicBoolean();
 
     private JobStatus status = JobStatus.RECEIVED;
     private ValidationReport report = ValidationReport.empty();
     private List<Movie> movies = List.of();
+    private List<CsvColumnRow> columns = List.of();
     private int fileCount;
     private int replaceCount;
     private int step = 1;
@@ -39,6 +40,7 @@ final class ImportWork {
     private int vectorized;
     private int written;
     private String failureCode = "";
+    private String tempIndex = "";
 
     /**
      * Abre el trabajo en {@code recibido}.
@@ -47,12 +49,14 @@ final class ImportWork {
      * @param fileName nombre original, sin ruta
      * @param path     archivo local
      * @param settings separador y encabezado; en JSON no se usan
+     * @param fileSize bytes del archivo subido
      */
-    ImportWork(String id, String fileName, Path path, CsvSettings settings) {
+    ImportWork(String id, String fileName, Path path, CsvSettings settings, long fileSize) {
         this.id = id;
         this.fileName = fileName;
         this.path = path;
         this.settings = settings;
+        this.fileSize = fileSize;
     }
 
     String id() {
@@ -109,6 +113,17 @@ final class ImportWork {
         step = UPLOAD_STEP;
     }
 
+    /**
+     * Anota lo que se leyó antes de validar: así la página tiene el conteo aunque el archivo sea inválido.
+     *
+     * @param records registros o filas leídos
+     * @param read    tabla de correspondencia del CSV; vacía en JSON
+     */
+    synchronized void describe(int records, List<CsvColumnRow> read) {
+        fileCount = records;
+        columns = List.copyOf(read);
+    }
+
     synchronized void ready(ValidatedMovies checked) {
         if (stopIfCancelled()) {
             return;
@@ -154,7 +169,7 @@ final class ImportWork {
         batch = progress.batch();
         vectorized = progress.vectorized();
         written = progress.written();
-        replaceCount = progress.replaced();
+        tempIndex = progress.tempIndex() == null ? "" : progress.tempIndex();
     }
 
     synchronized void become(JobStatus next) {
@@ -174,25 +189,22 @@ final class ImportWork {
         }
     }
 
-    synchronized JobView view() {
-        int errors = report.errors().size();
-        return new JobView(
-                id,
-                status.label(),
-                step,
-                batch,
-                vectorized,
-                written,
-                fileCount,
-                replaceCount,
-                preview(report.errors()),
-                report.groupedWarnings(),
-                failureCode,
-                JobFigures.failureMessage(failureCode),
-                JobFigures.checks(errors, fileCount),
-                JobFigures.validCount(errors, fileCount),
-                errors,
-                JobFigures.batches(fileCount));
+    /**
+     * Copia para la página. {@code replaceCount} es el de la validación: el avance no lo cambia.
+     *
+     * @param batchSize películas por lote configuradas
+     * @return copia que no cambia
+     */
+    synchronized JobView view(int batchSize) {
+        List<ValidationIssue> errors = report.errors();
+        int invalidRecords = JobFigures.invalidRecords(errors);
+        return new JobView(id, status.label(), JobFigures.kindOf(fileName), fileSize,
+                step, batch, vectorized, written,
+                fileCount, JobFigures.validCount(fileCount, invalidRecords), invalidRecords, replaceCount,
+                errors.size(), JobFigures.preview(errors), report.groupedWarnings(),
+                JobFigures.checks(errors.size(), fileCount), columns,
+                failureCode, JobFigures.failureMessage(failureCode),
+                batchSize, JobFigures.batches(fileCount, batchSize), tempIndex);
     }
 
     private boolean stopIfCancelled() {
@@ -201,12 +213,5 @@ final class ImportWork {
         }
         status = JobStatus.CANCELLED;
         return true;
-    }
-
-    private static List<ValidationIssue> preview(List<ValidationIssue> errors) {
-        if (errors.size() <= ERROR_PREVIEW) {
-            return errors;
-        }
-        return List.copyOf(new ArrayList<>(errors.subList(0, ERROR_PREVIEW)));
     }
 }

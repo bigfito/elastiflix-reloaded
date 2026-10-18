@@ -91,7 +91,8 @@ class ImportJobTest {
         verify(catalog, never()).deleteIndex(FOREIGN);
         verify(catalog, never()).deleteIndex(LIVE);
         verify(catalog, never()).deleteIndex(temp);
-        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 5);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4, 5);
+        assertThat(progress).extracting(ImportProgress::tempIndex).containsOnly(temp);
     }
 
     @Test
@@ -104,7 +105,7 @@ class ImportJobTest {
         when(catalog.count(LIVE)).thenReturn(4L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
         doAnswer(invocation -> {
-            assertThat(progress).singleElement()
+            assertThat(progress).last()
                     .extracting(ImportProgress::vectorized, ImportProgress::written)
                     .containsExactly(1, 1);
             return null;
@@ -224,7 +225,7 @@ class ImportJobTest {
         job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
 
         verify(catalog, never()).deleteIndex(temp);
-        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 5);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4, 5);
     }
 
     @Test
@@ -236,7 +237,7 @@ class ImportJobTest {
                 .extracting(error -> ((ElasticsearchAccessException) error).errorCode())
                 .isEqualTo(ErrorCode.ALIAS_PUBLISH_FAILED);
         verify(catalog).deleteIndex(temp);
-        assertThat(progress).extracting(ImportProgress::step).containsExactly(4);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4);
     }
 
     @Test

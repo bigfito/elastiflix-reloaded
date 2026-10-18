@@ -5,9 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
+import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
-import com.bigfito.elastiflix.ingest.csv.CsvSettings;
+import com.bigfito.elastiflix.ingest.file.CheckedFile;
+import com.bigfito.elastiflix.ingest.file.FileKind;
 import com.bigfito.elastiflix.ingest.job.JobView;
+import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 
 import org.slf4j.Logger;
@@ -34,21 +37,25 @@ public class IngestJobController {
 
     private final IngestService ingest;
     private final UploadCheck uploads;
+    private final IngestLimits limits;
     private final long maxFileBytes;
 
     /**
-     * Crea los endpoints con la fachada y el tope de Tomcat.
+     * Crea el controlador.
      *
      * @param ingest      fachada
      * @param uploads     extensión, tamaño y UTF-8
+     * @param limits      alias del catálogo para los textos
      * @param maxFileSize mismo tope que {@code spring.servlet.multipart.max-file-size}
      */
     public IngestJobController(
             IngestService ingest,
             UploadCheck uploads,
+            IngestLimits limits,
             @Value("${spring.servlet.multipart.max-file-size:150MB}") DataSize maxFileSize) {
         this.ingest = ingest;
         this.uploads = uploads;
+        this.limits = limits;
         this.maxFileBytes = maxFileSize.toBytes();
     }
 
@@ -68,7 +75,7 @@ public class IngestJobController {
             @RequestParam(name = "encabezado", defaultValue = "false") String header) throws IOException {
         rejectIfTooLarge(file);
         try {
-            uploads.requireAccepted(file);
+            requireHeader(uploads.requireAccepted(file), header);
         } catch (IngestValidationException exception) {
             return rejected(file, exception);
         }
@@ -80,11 +87,11 @@ public class IngestJobController {
      * Estado del trabajo.
      *
      * @param jobId identificador
-     * @return la copia que ve la página
+     * @return la copia que ve la página, con sus textos
      */
     @GetMapping("/cargar/trabajos/{jobId}")
-    public JobView job(@PathVariable String jobId) {
-        return ingest.job(jobId);
+    public JobScreen job(@PathVariable String jobId) {
+        return screen(jobId);
     }
 
     /**
@@ -94,9 +101,9 @@ public class IngestJobController {
      * @return el estado después de pedirla
      */
     @PostMapping("/cargar/trabajos/{jobId}/importar")
-    public JobView start(@PathVariable String jobId) {
+    public JobScreen start(@PathVariable String jobId) {
         ingest.importFile(jobId);
-        return ingest.job(jobId);
+        return screen(jobId);
     }
 
     /**
@@ -106,9 +113,9 @@ public class IngestJobController {
      * @return el estado después de pedirla
      */
     @PostMapping("/cargar/trabajos/{jobId}/cancelar")
-    public JobView cancel(@PathVariable String jobId) {
+    public JobScreen cancel(@PathVariable String jobId) {
         ingest.cancel(jobId);
-        return ingest.job(jobId);
+        return screen(jobId);
     }
 
     /**
@@ -137,6 +144,18 @@ public class IngestJobController {
             return "sin-nombre";
         }
         return name;
+    }
+
+    private JobScreen screen(String jobId) {
+        JobView view = ingest.job(jobId);
+        return new JobScreen(view, JobTexts.of(view, limits.alias()));
+    }
+
+    /** Un CSV sin encabezado se rechaza en la subida, antes de crear el trabajo (PLAN §5). */
+    private static void requireHeader(CheckedFile checked, String header) {
+        if (checked.kind() == FileKind.CSV && "false".equals(header)) {
+            throw new IngestValidationException(ErrorCode.HEADER_NOT_CONFIRMED);
+        }
     }
 
     private void rejectIfTooLarge(MultipartFile file) {

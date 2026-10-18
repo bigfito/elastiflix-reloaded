@@ -1,13 +1,16 @@
 package com.bigfito.elastiflix.web.ingest;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.job.SaveResult;
+import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 
@@ -23,8 +26,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,14 +42,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * La carga valida, importa, consulta y cancela con la fachada simulada.
+ * La carga valida, importa, consulta y cancela con la fachada simulada, con los textos del mockup.
  */
 @WebMvcTest(controllers = {IngestController.class, IngestJobController.class}, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
-@Import({LayoutAdvice.class, MovieForms.class, UploadCheck.class})
+@Import({LayoutAdvice.class, MovieForms.class, UploadCheck.class, IngestLimits.class})
 class IngestPageTest {
 
     private static final String JOB = "job-1";
+    private static final long MEGABYTE = 1024L * 1024L;
 
     @Autowired
     private MockMvc mvc;
@@ -57,7 +64,7 @@ class IngestPageTest {
     @BeforeEach
     void catalogAnswers() {
         when(catalog.status()).thenReturn(new CatalogStatus("elastiflix-reloaded", "idx", 4322L, true, null));
-        when(ingest.job(JOB)).thenReturn(view("valido"));
+        when(ingest.job(JOB)).thenReturn(validJson());
     }
 
     @Test
@@ -75,16 +82,89 @@ class IngestPageTest {
                 .andExpect(content().string(containsString("Comprobaciones superadas")))
                 .andExpect(content().string(containsString("Advertencias · no detienen la carga")))
                 .andExpect(content().string(containsString("Correspondencia de columnas")))
-                .andExpect(content().string(containsString("Importación bloqueada")))
                 .andExpect(content().string(containsString("Cancelar importación")))
-                .andExpect(content().string(containsString("No se puede cargar este archivo")))
                 .andExpect(content().string(containsString("Codificación")))
                 .andExpect(content().string(containsString("type=\"url\"")))
                 .andExpect(content().string(containsString("role=\"tab\"")))
-                .andExpect(content().string(containsString(
-                        "Los vectores de la sinopsis se generan para cada película "
-                                + "con el servicio de inferencia de Elasticsearch.")))
                 .andExpect(content().string(containsString("el índice anterior se borra")));
+    }
+
+    @Test
+    @DisplayName("escenario «Archivo rechazado»: el bloque del navegador trae los textos del mockup")
+    void shouldShowTheRejectedFileCopy() throws Exception {
+        mvc.perform(get("/cargar"))
+                .andExpect(content().string(containsString("No se puede cargar este archivo")))
+                .andExpect(content().string(containsString("El archivo se rechazó en el navegador, antes de subirlo, "
+                        + "así que no salió de tu equipo ni se importó nada.")))
+                .andExpect(content().string(containsString("Antes de subir se comprueba la extensión y el tipo "
+                        + "(.json o .csv, sin dobles extensiones), el tamaño (máximo 150 MB) y que el contenido sea "
+                        + "texto UTF-8. El servidor repite estas comprobaciones al recibirlo.")))
+                .andExpect(content().string(containsString("Máximo 150 MB")))
+                .andExpect(content().string(containsString("Cambiar archivo")))
+                .andExpect(content().string(containsString("en lotes de 100.")))
+                .andExpect(content().string(containsString("data-max-bytes=\"157286400\"")))
+                .andExpect(content().string(not(containsString("· detectad"))))
+                .andExpect(content().string(not(containsString("Si se desmarca"))))
+                .andExpect(content().string(not(containsString("Elige un archivo"))));
+    }
+
+    @Test
+    @DisplayName("escenario «Archivo válido»: cifras, texto de importación y progreso del mockup")
+    void shouldGiveTheValidFileTexts() throws Exception {
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.job.status").value("valido"))
+                .andExpect(jsonPath("$.texts.read").value("4 322"))
+                .andExpect(jsonPath("$.texts.valid").value("4 322"))
+                .andExpect(jsonPath("$.texts.errors").value("0"))
+                .andExpect(jsonPath("$.texts.locationLabel").value("Registro"))
+                .andExpect(jsonPath("$.texts.importLabel").value("Importar 4 322 registros"))
+                .andExpect(jsonPath("$.texts.importText").value("Se importarán 4 322 películas en 44 lotes de 100 "
+                        + "dentro de un índice temporal que empieza como copia del catálogo actual. Al terminar se "
+                        + "comprueba el conteo y el alias elastiflix-reloaded pasa al índice nuevo y el índice "
+                        + "anterior se borra, en una sola operación. Si Elasticsearch rechaza un lote o la "
+                        + "comprobación falla, el índice temporal se borra y el catálogo queda exactamente como "
+                        + "estaba. Los vectores de la sinopsis se generan para cada película con el servicio de "
+                        + "inferencia de Elasticsearch."))
+                .andExpect(jsonPath("$.texts.progressText").value(
+                        "0 de 4 322 importadas · lote 0 de 44 · índice temporal elastiflix-reloaded-AAAAMMDD-HHMMSS"))
+                .andExpect(jsonPath("$.texts.fileMeta").value("107.3 MB · 4 322 documentos"));
+    }
+
+    @Test
+    @DisplayName("escenario «No coincide con el mapping»: 23 errores en 17 registros e importación bloqueada")
+    void shouldGiveTheMismatchTexts() throws Exception {
+        when(ingest.job(JOB)).thenReturn(mismatchCsv());
+
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.texts.read").value("512"))
+                .andExpect(jsonPath("$.texts.valid").value("495"))
+                .andExpect(jsonPath("$.texts.errors").value("23"))
+                .andExpect(jsonPath("$.texts.errorSummary").value("23 errores en 17 registros"))
+                .andExpect(jsonPath("$.texts.errorRange").value("Mostrando 6 de 23 errores."))
+                .andExpect(jsonPath("$.texts.locationLabel").value("Fila"))
+                .andExpect(jsonPath("$.texts.importLabel").value("Importación bloqueada"))
+                .andExpect(jsonPath("$.texts.importText").value("La importación está bloqueada: el archivo no "
+                        + "coincide con el mapping del índice y no se escribió ningún registro."))
+                .andExpect(jsonPath("$.texts.progressText").value("0 de 512 importadas"))
+                .andExpect(jsonPath("$.texts.mappingNote").value("33 de 34 columnas asignadas. La columna director "
+                        + "no existe en el mapping del índice, así que la carga no puede continuar."))
+                .andExpect(jsonPath("$.texts.fileMeta").value("12.4 MB · CSV · 34 columnas · 512 filas"))
+                .andExpect(jsonPath("$.job.columns[0].status").value("No existe en el mapping"));
+        mvc.perform(get("/cargar"))
+                .andExpect(content().string(containsString("Se revisó el archivo completo y se encontraron "
+                        + "<strong id=\"error-summary\">0 errores</strong>. <strong>No se importó ningún registro."
+                        + "</strong> Corrige el archivo y vuelve a cargarlo; la carga solo continúa cuando todo el "
+                        + "archivo coincide con el mapping.")));
+    }
+
+    @Test
+    @DisplayName("un trabajo fallido muestra el código una sola vez")
+    void shouldShowTheFailureCodeOnce() throws Exception {
+        when(ingest.job(JOB)).thenReturn(job("fallido", "json", 4, 0, 0, List.of(), List.of(),
+                "EFX-IMP-007", "La importación se interrumpió"));
+
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.texts.failure").value("EFX-IMP-007 · La importación se interrumpió."));
     }
 
     @Test
@@ -92,6 +172,7 @@ class IngestPageTest {
     void shouldRunTheJobFlow() throws Exception {
         when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenReturn(JOB);
         when(ingest.errorReport(JOB)).thenReturn("codigo,campo\n");
+        when(ingest.job(JOB)).thenReturn(validJson(), inState("importando"), inState("publicado"));
         MockMultipartFile file = new MockMultipartFile(
                 "archivo", "peliculas.json", MediaType.APPLICATION_JSON_VALUE, "{}".getBytes(StandardCharsets.UTF_8));
 
@@ -99,15 +180,29 @@ class IngestPageTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.jobId").value(JOB));
         mvc.perform(get("/cargar/trabajos/" + JOB))
-                .andExpect(jsonPath("$.status").value("valido"));
+                .andExpect(jsonPath("$.job.status").value("valido"));
         mvc.perform(post("/cargar/trabajos/" + JOB + "/importar"))
-                .andExpect(jsonPath("$.status").value("valido"));
+                .andExpect(jsonPath("$.job.status").value("importando"));
         verify(ingest).importFile(JOB);
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.job.status").value("publicado"));
         mvc.perform(post("/cargar/trabajos/" + JOB + "/cancelar"))
                 .andExpect(status().isOk());
         verify(ingest).cancel(JOB);
         mvc.perform(get("/cargar/trabajos/" + JOB + "/informe.csv"))
                 .andExpect(content().string(containsString("codigo")));
+    }
+
+    @Test
+    @DisplayName("un CSV con encabezado=false se rechaza en la subida con EFX-ING-005")
+    void shouldRejectACsvWithoutHeader() throws Exception {
+        MockMultipartFile file = new MockMultipartFile(
+                "archivo", "peliculas.csv", "text/csv", "1,a,b\n".getBytes(StandardCharsets.UTF_8));
+
+        mvc.perform(multipart("/cargar/archivo").file(file).param("encabezado", "false"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("EFX-ING-005"));
+        verify(ingest, never()).acceptFile(anyString(), any(), any());
     }
 
     @Test
@@ -131,8 +226,36 @@ class IngestPageTest {
                 .andExpect(redirectedUrl("/cargar"));
     }
 
-    private static JobView view(String status) {
-        return new JobView(JOB, status, 4, 0, 0, 0, 2, 0, List.of(), List.of(), "", "", List.of(), 2, 0, 1);
+    private static JobView validJson() {
+        return job("valido", "json", 4322, 0, 0, List.of(), List.of(), "", "");
+    }
+
+    private static JobView inState(String status) {
+        return job(status, "json", 4322, 0, 0, List.of(), List.of(), "", "");
+    }
+
+    private static JobView mismatchCsv() {
+        List<ValidationIssue> errors = new ArrayList<>();
+        for (int index = 0; index < 6; index++) {
+            errors.add(new ValidationIssue("EFX-ING-010", Integer.toString(38 + index), "27205", "release_date",
+                    "\"16/07/1999\"", "date con formato yyyy-MM-dd", false));
+        }
+        List<CsvColumnRow> columns = new ArrayList<>();
+        columns.add(new CsvColumnRow("director", "— Sin campo en el índice —", "Texto", "No existe en el mapping"));
+        for (int index = 1; index < 34; index++) {
+            columns.add(new CsvColumnRow("c" + index, "c" + index, "Texto", "Asignada"));
+        }
+        return job("invalido", "csv", 512, 17, 23, errors, columns, "", "");
+    }
+
+    @SuppressWarnings("checkstyle:ParameterNumber") // Arma el record de 22 componentes en una sola llamada.
+    private static JobView job(String status, String kind, int read, int invalidRecords, int errorTotal,
+            List<ValidationIssue> errors, List<CsvColumnRow> columns, String failureCode, String failureMessage) {
+        long size = "csv".equals(kind) ? Math.round(12.4 * MEGABYTE) : Math.round(107.3 * MEGABYTE);
+        int batches = (read + 99) / 100;
+        return new JobView(JOB, status, kind, size, "valido".equals(status) ? 4 : 3, 0, 0, 0,
+                read, read - invalidRecords, invalidRecords, 0, errorTotal, errors, List.of(), List.of(), columns,
+                failureCode, failureMessage, 100, batches, "");
     }
 
     private static Movie saved() {
