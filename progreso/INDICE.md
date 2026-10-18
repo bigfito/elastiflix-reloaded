@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** ninguna. El proyecto está cerrado.
-- **Estado de la fase:** las fases 0 a 6 están en `terminado`
-- **Rama:** `main` (en `origin` solo queda esta rama; las `cursor/*` se borraron el 2026-10-18)
-- **Próximo paso:** ninguno
-- **Última actualización:** 2026-10-18 06:20 UTC
+- **Fase actual:** Revisión 1
+- **Estado de la fase:** en curso
+- **Rama:** `cursor/revision-1-29a6`
+- **Próximo paso:** R-02, publicación con resultado incierto
+- **Última actualización:** 2026-10-18 16:26 UTC
 
 ## Fases
 
@@ -24,6 +24,7 @@
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
 | 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
 | 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
+| — | Revisión 1 | — | en curso | `progreso/revision-1.md` | pendiente |
 
 ## Aprobaciones del usuario
 

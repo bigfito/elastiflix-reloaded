@@ -118,16 +118,16 @@ public enum ErrorCode {
             "Desde es posterior a Hasta",
             "Invierte las fechas o deja una sola"),
 
-    /** {@code from + size} pasa de 10 000. */
+    /** {@code from} llega a 10 000. */
     FULL_TEXT_WINDOW_EXCEEDED("EFX-SRCH-008",
             "La página se sale de las 10 000 coincidencias que se pueden recorrer",
-            "from + size pasa de 10 000",
+            "from es mayor o igual que 10 000",
             "Vuelve a una página anterior"),
 
-    /** {@code from + size} pasa de {@code k}. */
+    /** {@code from} llega a {@code k}. */
     KNN_WINDOW_EXCEEDED("EFX-SRCH-009",
             "La página se sale de los k resultados de este modo",
-            "from + size pasa de k",
+            "from es mayor o igual que k",
             "Vuelve a una página anterior o sube k"),
 
     /** El modo no trae sus ajustes. */

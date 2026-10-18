@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.search.strategy;
 
 import com.bigfito.elastiflix.search.filter.CatalogFields;
 import com.bigfito.elastiflix.search.query.SearchQuery;
+import com.bigfito.elastiflix.search.query.SearchQueryValidator;
 
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch.core.CountRequest;
@@ -52,7 +53,7 @@ public class FullTextRequestBuilder {
         return request
                 .index(alias)
                 .from(query.from())
-                .size(query.pageSize())
+                .size(requestedSize(query))
                 .trackTotalHits(track -> track.enabled(true))
                 .source(SearchSource.withoutVectors())
                 .query(lexical.withFilters(query));
@@ -72,6 +73,14 @@ public class FullTextRequestBuilder {
         return Aggregation.of(aggregation -> aggregation.terms(terms -> terms
                 .field(field)
                 .size(CatalogFields.TERMS_AGGREGATION_SIZE)));
+    }
+
+    private static int requestedSize(SearchQuery query) {
+        int remaining = SearchQueryValidator.MAX_WINDOW - query.from();
+        if (remaining < query.pageSize()) {
+            return Math.max(remaining, 0);
+        }
+        return query.pageSize();
     }
 
     private static Aggregation minimum() {

@@ -11,8 +11,8 @@ import com.bigfito.elastiflix.core.error.SearchValidationException;
  */
 public class SearchQueryValidator {
 
-    /** Tope de {@code num_candidates} y de {@code from + size} en full-text. */
-    static final int MAX_WINDOW = 10_000;
+    /** Tope de {@code num_candidates} y del primer resultado recorrible en full-text. */
+    public static final int MAX_WINDOW = 10_000;
 
     /**
      * Lanza {@link SearchValidationException} si la consulta no se puede ejecutar.
@@ -93,7 +93,7 @@ public class SearchQueryValidator {
             throw failure(ErrorCode.PAGE_TOO_SMALL);
         }
         long windowStart = (long) (query.page() - 1) * query.pageSize();
-        if (windowStart + query.pageSize() > windowOf(query)) {
+        if (windowStart >= windowOf(query)) {
             throw failure(windowCode(query.mode()));
         }
     }

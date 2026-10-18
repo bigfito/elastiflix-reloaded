@@ -83,6 +83,41 @@ class SearchServiceTest {
     }
 
     @Test
+    @DisplayName("k = 10 y tamaño 25 devuelve los 10 resultados de la primera página")
+    void shouldReturnEveryHitWhenKIsSmallerThanThePage() {
+        vector.next = new StrategyResult(hits(10), 10, Map.of());
+        SearchQuery query = vector("un barco", 10, 1, SearchQuery.PAGE_25);
+
+        SearchResult result = service.search(query);
+
+        assertThat(result.hits()).hasSize(10);
+        assertThat(result.pagination().pageCount()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("k = 150 y tamaño 100 dejan 50 resultados en la segunda página")
+    void shouldReturnThePartialSecondPageWhenKDoesNotFillIt() {
+        vector.next = new StrategyResult(hits(150), 150, Map.of());
+        SearchQuery query = vector("un barco", 150, 2, SearchQuery.PAGE_100);
+
+        SearchResult result = service.search(query);
+
+        assertThat(result.hits()).hasSize(50);
+        assertThat(result.hits().getFirst().id()).isEqualTo("100");
+        assertThat(result.pagination().pageCount()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("full-text no ofrece páginas más allá de 10000")
+    void shouldStopThePageCountAtTheFullTextWindow() {
+        fullText.next = new StrategyResult(List.of(hit("1", "Drama")), 12_000, Map.of());
+        SearchResult result = service.search(fullText("titanic", 400, SearchFilters.none()));
+
+        assertThat(result.pagination().pageCount()).isEqualTo(400);
+        assertThat(result.pagination().total()).isEqualTo(12_000);
+    }
+
+    @Test
     @DisplayName("vectorial recorta la página y cuenta las k películas, no solo la página")
     void shouldSliceThePageAndCountEveryMovieWhenTheModeIsVector() {
         vector.next = new StrategyResult(thirty(), 30, Map.of());
@@ -211,18 +246,30 @@ class SearchServiceTest {
     }
 
     private static SearchQuery vector(String text, int page) {
+        return vector(text, 100, page, SearchQuery.PAGE_25);
+    }
+
+    private static SearchQuery vector(String text, int k, int page, int pageSize) {
         return new SearchQuery(
                 text,
                 SearchMode.VECTOR,
                 null,
-                new KnnSettings(VectorField.PLOT_1024, 100, 200),
+                new KnnSettings(VectorField.PLOT_1024, k, Math.max(k, 200)),
                 SearchFilters.none(),
                 page,
-                SearchQuery.PAGE_25);
+                pageSize);
     }
 
     private static SearchFilters drama() {
         return new SearchFilters(List.of(), List.of("Drama"), List.of(), List.of(), null, null);
+    }
+
+    private static List<RankedHit> hits(int count) {
+        List<RankedHit> hits = new ArrayList<>();
+        for (int index = 0; index < count; index++) {
+            hits.add(hit(Integer.toString(index), "Action"));
+        }
+        return hits;
     }
 
     private static List<RankedHit> thirty() {

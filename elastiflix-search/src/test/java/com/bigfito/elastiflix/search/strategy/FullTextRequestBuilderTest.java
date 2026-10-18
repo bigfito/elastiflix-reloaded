@@ -78,6 +78,20 @@ class FullTextRequestBuilderTest {
     }
 
     @Test
+    @DisplayName("la última página de full-text no pide más allá de 10000")
+    void shouldShrinkThePageWhenItWouldPassTenThousand() {
+        SearchQuery aligned = new SearchQuery("titanic", SearchMode.FULL_TEXT,
+                new FullTextSettings(MatchType.MATCH, TextField.TITLE, TextOperator.OR),
+                null, SearchFilters.none(), 400, SearchQuery.PAGE_25);
+        SearchQuery partial = new SearchQuery("titanic", SearchMode.FULL_TEXT,
+                new FullTextSettings(MatchType.MATCH, TextField.TITLE, TextOperator.OR),
+                null, SearchFilters.none(), 334, 30);
+
+        assertThat(JsonDocuments.of(builder.build("catalogo", aligned))).contains("\"from\":9975", "\"size\":25");
+        assertThat(JsonDocuments.of(builder.build("catalogo", partial))).contains("\"from\":9990", "\"size\":10");
+    }
+
+    @Test
     @DisplayName("el conteo sin filtros no pide página ni agregaciones")
     void shouldCountTheTextQueryWhenConfirmingAnEmptyResult() {
         SearchQuery query = query("dark knight", MatchType.MATCH, TextField.TITLE, TextOperator.OR, 1,

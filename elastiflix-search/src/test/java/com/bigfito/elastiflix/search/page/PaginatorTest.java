@@ -63,6 +63,15 @@ class PaginatorTest {
     }
 
     @Test
+    @DisplayName("las páginas no pasan de la ventana aunque el total sea mayor")
+    void shouldCountPagesInsideTheWindowWhenTheTotalIsLarger() {
+        Pagination page = paginator.describe(12_000, 1, 25, 10_000);
+
+        assertThat(page.pageCount()).isEqualTo(400);
+        assertThat(page.total()).isEqualTo(12_000);
+    }
+
+    @Test
     @DisplayName("sin resultados hay cero páginas")
     void shouldReportZeroPagesWhenTheTotalIsZero() {
         Pagination page = paginator.describe(0, 1, 25);

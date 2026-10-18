@@ -97,7 +97,14 @@ public class SearchService {
     }
 
     private Pagination pagination(SearchQuery query, long total) {
-        return paginator.describe(total, query.page(), query.pageSize());
+        return paginator.describe(total, query.page(), query.pageSize(), window(query));
+    }
+
+    private static long window(SearchQuery query) {
+        if (query.mode() == SearchMode.FULL_TEXT) {
+            return SearchQueryValidator.MAX_WINDOW;
+        }
+        return query.knn().k();
     }
 
     private EmptyState empty(SearchQuery query, SearchStrategy strategy, long total) {

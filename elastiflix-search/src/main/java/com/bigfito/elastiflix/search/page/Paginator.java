@@ -21,8 +21,26 @@ public class Paginator {
      * @return la paginación
      */
     public Pagination describe(long total, int page, int pageSize) {
+        return describe(total, page, pageSize, total);
+    }
+
+    /**
+     * Igual que {@link #describe(long, int, int)}, pero las páginas no pasan de la ventana.
+     *
+     * <p>La ventana es 10 000 en full-text y {@code k} en vectorial e híbrida. El total que se
+     * muestra sigue siendo el real.</p>
+     *
+     * @param total    películas que cumplen la búsqueda
+     * @param page     página desde 1
+     * @param pageSize tamaño de página
+     * @param window   máximo de resultados que se pueden recorrer
+     * @return la paginación
+     */
+    public Pagination describe(long total, int page, int pageSize, long window) {
         long start = (long) (page - 1) * pageSize;
-        return new Pagination(page, pageCount(total, pageSize), total, pageSize, range(total, start, pageSize));
+        long visible = Math.min(total, window);
+        int pages = pageCount(visible, pageSize);
+        return new Pagination(page, pages, total, pageSize, range(total, start, pageSize));
     }
 
     /**
