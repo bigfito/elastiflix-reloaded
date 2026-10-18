@@ -301,6 +301,9 @@ Estos ejemplos pasan Checkstyle 14.3.0 y PMD 7.28.0 con las configuraciones de `
 
 **Catálogo de códigos de error**
 
+El enum real, con todos los códigos, está en `ErrorCode.java`. Este fragmento solo enseña la forma
+y copia cuatro textos vigentes. No es la lista completa.
+
 ```java
 package com.bigfito.elastiflix.core.error;
 
@@ -312,34 +315,34 @@ package com.bigfito.elastiflix.core.error;
  */
 public enum ErrorCode {
 
-    ES_UNAVAILABLE("EFX-ES-001",
+    ELASTICSEARCH_UNAVAILABLE("EFX-ES-001",
             "No se pudo conectar con Elasticsearch",
             "La URL o la API key no son válidas, o el proyecto Serverless no responde",
             "Revisa ELASTICSEARCH_URL y ELASTICSEARCH_API_KEY en .env y vuelve a intentarlo"),
 
-    KNN_K_BELOW_ONE("EFX-SRCH-002",
+    K_TOO_SMALL("EFX-SRCH-002",
             "k debe ser un entero mayor o igual que 1",
-            "Se pidió una búsqueda vectorial sin resultados",
-            "Usa un k de 1 o más (100 por defecto)"),
+            "k es menor que 1",
+            "Elige un entero a partir de 1"),
 
-    KNN_CANDIDATES_BELOW_K("EFX-SRCH-003",
+    CANDIDATES_BELOW_K("EFX-SRCH-003",
             "num_candidates debe ser mayor o igual que k",
-            "Se pidió evaluar menos candidatos que los resultados solicitados",
-            "Usa un num_candidates mayor o igual que k"),
+            "Hay menos candidatos que resultados pedidos",
+            "Sube num_candidates o baja k"),
 
-    KNN_CANDIDATES_ABOVE_MAX("EFX-SRCH-004",
+    CANDIDATES_TOO_LARGE("EFX-SRCH-004",
             "num_candidates debe ser un entero de máximo 10 000",
-            "Elasticsearch no evalúa más de 10 000 candidatos por shard",
-            "Usa un num_candidates de 10 000 o menos (200 por defecto)");
+            "num_candidates pasa de 10 000",
+            "Elige un entero entre k y 10 000");
 
     private final String code;
-    private final String what;
+    private final String whatHappened;
     private final String probableCause;
     private final String suggestedAction;
 
-    ErrorCode(String code, String what, String probableCause, String suggestedAction) {
+    ErrorCode(String code, String whatHappened, String probableCause, String suggestedAction) {
         this.code = code;
-        this.what = what;
+        this.whatHappened = whatHappened;
         this.probableCause = probableCause;
         this.suggestedAction = suggestedAction;
     }
@@ -360,7 +363,7 @@ public enum ErrorCode {
      */
     public String userMessage() {
         return "%s · %s. Causa probable: %s. Acción sugerida: %s."
-                .formatted(code, what, probableCause, suggestedAction);
+                .formatted(code, whatHappened, probableCause, suggestedAction);
     }
 }
 ```
@@ -394,7 +397,7 @@ public class ElastiflixException extends RuntimeException {
     }
 
     /**
-     * Crea la excepción con su código, sin causa técnica (errores de validación).
+     * Crea la excepción con su código, sin causa técnica.
      *
      * @param errorCode código del catálogo
      */

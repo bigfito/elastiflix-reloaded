@@ -4,6 +4,9 @@
 
 > Las reglas comunes están en `AGENTS.md` (importado arriba). La secuencia de trabajo está en
 > **`PLAN.md`**. Este archivo solo agrega lo específico de Claude Code.
+>
+> Las fases 0 a 6 y la revisión 1 ya están en `main`. Antes de abrir trabajo nuevo, lee
+> `progreso/INDICE.md`: ahí está el catálogo vigente y el próximo paso.
 
 ## Antes de empezar
 

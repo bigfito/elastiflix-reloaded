@@ -12,14 +12,14 @@
 
 ## Estado general
 
-en curso
+terminado
 
 ## Punto de reanudación
 
-- **Tarea actual:** cierre
-- **Subpaso en curso:** commit y push de capturas y verificación
-- **Próximo paso:** El PR #10 sigue en borrador.
-- **Última actualización:** 2026-10-18 18:32 UTC
+- **Tarea actual:** R-30
+- **Subpaso en curso:** cerrada
+- **Próximo paso:** Nada pendiente en esta unidad. El PR #10 se fusionó en `main` (`dc9a315`) y la rama remota se borró.
+- **Última actualización:** 2026-10-18 18:36 UTC
 
 ## Tareas
 
@@ -75,6 +75,7 @@ Vacío al cerrar la verificación.
 - Sesión reanudada 2026-10-18 18:13 UTC con Cursor: árbol limpio en `19f0557`, siguiente paso R-29.
 - R-29: el enlace «Resultados» del 404 se quita. `/buscar` sin `q` es `EFX-SRCH-001` y no se inventa una consulta.
 - 2026-10-18: Adolfo Orozco aprobó la fidelidad visual de las cinco capturas de R-21.
+- 2026-10-18: el PR #10 se fusionó en `main` (`dc9a315`). La rama remota `cursor/revision-1-29a6` se borró.
 
 ## Resumen de diseño
 
