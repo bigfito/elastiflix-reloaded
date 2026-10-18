@@ -10,8 +10,8 @@
 - **Fase actual:** 4
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (`cursor/fase-4-interfaz-29a6`)
-- **Próximo paso:** Tarea 4.1, layout común, CSS, health y pie de TMDB. El diseño 4.0 ya está escrito.
-- **Última actualización:** 2026-10-18 03:10 UTC
+- **Próximo paso:** Tarea 4.2, página de inicio con sugerencias.
+- **Última actualización:** 2026-10-18 03:07 UTC
 
 ## Fases
 

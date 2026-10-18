@@ -903,7 +903,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   JavaScript mínimo, CSS con los tokens de `design/README.md`). Commit antes del código. Los pósters se
   cargan del CDN de TMDB (decisión del usuario; ver §5) y la atribución de TMDB va en el pie y en
   «Acerca de» (ver §1).
-- [ ] **4.1** Layout común: `templates/fragments/` (franja pastel, header con logo, navegación Buscar ·
+- [x] **4.1** Layout común: `templates/fragments/` (franja pastel, header con logo, navegación Buscar ·
   Cargar datos · Acerca de la demo y estado de conexión; pie con alias y conteo), CSS con los tokens y
   las fuentes Bricolage Grotesque, IBM Plex Sans e IBM Plex Mono; aviso de atribución de TMDB en el pie
   (solo texto). `CatalogHealthIndicator` (`elastiflixCatalog`) en Actuator.
