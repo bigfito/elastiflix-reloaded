@@ -10,8 +10,8 @@
 - **Fase actual:** 2
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-2-diseno-29a6`)
-- **Próximo paso:** Tarea 2.4: estrategia vectorial y `VectorSearchIT`.
-- **Última actualización:** 2026-10-18 01:28 UTC
+- **Próximo paso:** Tarea 2.5: estrategia híbrida, `_msearch` y `HybridSearchIT`.
+- **Última actualización:** 2026-10-18 01:30 UTC
 
 ## Fases
 

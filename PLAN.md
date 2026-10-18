@@ -746,7 +746,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
   primeros y «Ver todos») y `min`/`max` de `release_date`; `_source` sin vectores.
   - Criterio: prueba unitaria del JSON de la petición; `FullTextSearchIT` reproduce las 8 filas
     full-text de §6 (totales exactos).
-- [ ] **2.4** Estrategia Vectorial: vector de la consulta (`EmbeddingService`) recortado a las
+- [x] **2.4** Estrategia Vectorial: vector de la consulta (`EmbeddingService`) recortado a las
   dimensiones del campo; retriever `knn` con `field`, `k`, `num_candidates` y `filter`; `size = k`;
   facetas y paginación sobre los `k` resultados.
   - Criterio: `VectorSearchIT` reproduce las 3 filas vectoriales de §6; sin filtros devuelve exactamente
