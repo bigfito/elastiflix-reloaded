@@ -1,6 +1,5 @@
 package com.bigfito.elastiflix.web.layout;
 
-import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,17 +29,6 @@ public class LayoutAdvice {
      */
     @ModelAttribute("shell")
     public PageShell shell() {
-        return from(catalog.status());
-    }
-
-    private static PageShell from(CatalogStatus status) {
-        String connection = CatalogTexts.CONNECTED;
-        if (!status.connected()) {
-            connection = CatalogTexts.disconnected(status.errorCode());
-        }
-        String index = CatalogTexts.indexLine(status.name(), status.documentCount());
-        String phrase = CatalogTexts.moviePhrase(status.documentCount());
-        return new PageShell(
-                connection, index, status.connected(), CatalogTexts.TMDB, CatalogTexts.TMDB_ES, status.name(), phrase);
+        return PageShells.from(catalog.status());
     }
 }

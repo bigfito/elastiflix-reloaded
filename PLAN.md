@@ -941,7 +941,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   https://www.themoviedb.org/about/logos-attribution sin modificar color, proporción ni orientación,
   guardado en `elastiflix-web/src/main/resources/static/img/tmdb/`, más pequeño que el logo de la demo).
   - Criterio: prueba MockMvc verifica las secciones, la tabla de precisión y la sección «Créditos».
-- [ ] **4.6** Errores: `@ControllerAdvice` muestra una página con el código `EFX-*` y el mensaje del
+- [x] **4.6** Errores: `@ControllerAdvice` muestra una página con el código `EFX-*` y el mensaje del
   catálogo; 404 propio con navegación.
   - Criterio: pruebas MockMvc para `ElastiflixException` y ruta inexistente.
 - [ ] **4.7** Ya hay clases en los cuatro módulos: borra

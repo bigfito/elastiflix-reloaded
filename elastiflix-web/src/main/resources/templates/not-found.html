@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragments/head :: head('Página no encontrada')}"></th:block>
+</head>
+<body>
+<div class="page">
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+  <header th:replace="~{fragments/chrome :: header}"></header>
+  <main class="notice">
+    <p class="eyebrow">404</p>
+    <h1>Esta página no existe</h1>
+    <p>La dirección no corresponde a ninguna pantalla de la demo.</p>
+    <nav aria-label="Páginas de la demo">
+      <a th:href="@{/}">Buscar</a>
+      <a th:href="@{/buscar}">Resultados</a>
+      <a th:href="@{/cargar}">Cargar datos</a>
+      <a th:href="@{/acerca}">Acerca de la demo</a>
+    </nav>
+  </main>
+  <footer th:replace="~{fragments/chrome :: footer}"></footer>
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+</div>
+</body>
+</html>
