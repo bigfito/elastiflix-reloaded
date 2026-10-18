@@ -312,7 +312,7 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
 |---|---|---|
 | `match` · `title` | `dark knight` | OR 40 · AND 3 |
 | `match` · `title` | `love story` | OR 65 · AND 1 |
-| `match` · `title` | `Kolejne 365 dni` | 0 |
+| `match` · `title` | `Kolejne 365 dni` | OR 1 · AND 0 |
 | `match` · `original_title` | `el secreto` | OR 16 · AND 1 |
 | `match` · `original_title` | `le fabuleux destin` | OR 14 · AND 1 |
 | `multi_match` | `heaven cielo` | OR 6 · AND 0 |
@@ -724,10 +724,10 @@ Criterio: todas las pruebas en verde; alias `elastiflix-reloaded` operativo con 
 **Objetivo:** `elastiflix-search` ejecuta los tres modos con filtros, facetas, paginación y
 puntuaciones, y reproduce los datos de verificación de §6.
 
-- [ ] **2.0** 🔒 Diseño: `docs/diseno/2.md` (estrategias por modo, construcción de peticiones,
+- [x] **2.0** 🔒 Diseño: `docs/diseno/2.md` (estrategias por modo, construcción de peticiones,
   `_msearch` de la híbrida, cálculo de facetas, paginación, estados vacíos). Commit y **detente** hasta
   la aprobación del usuario.
-- [ ] **2.1** Modelo de entrada en `search/.../search/query/`: `SearchQuery` con texto, modo y ajustes
+- [x] **2.1** Modelo de entrada en `search/.../search/query/`: `SearchQuery` con texto, modo y ajustes
   (`FullTextSettings`, `KnnSettings`), filtros, página y tamaño; validación con códigos `EFX-SRCH-*`:
   texto vacío, `k < 1`, `num_candidates < k` o `> 10000`, `campo` con `multi_match`, `tamano` fuera de
   {25, 50, 100}, `desde > hasta`, full-text con `from + size > 10000`.
@@ -735,23 +735,23 @@ puntuaciones, y reproduce los datos de verificación de §6.
     un mensaje para esa regla, el «qué pasó» del código es ese texto (por ejemplo «num_candidates debe ser
     mayor o igual que k»): la interfaz lo muestra junto al campo, tal como en el mockup, y el código
     completo va al log y a la página de error (tarea 4.6).
-- [ ] **2.2** `SearchFilters` → cláusulas de filtro: entre filtros distintos AND; dentro de un filtro OR
+- [x] **2.2** `SearchFilters` → cláusulas de filtro: entre filtros distintos AND; dentro de un filtro OR
   (`terms`); `release_date` como `range` con `gte`/`lte`; `adult` booleano.
   - Criterio: pruebas unitarias comparan el JSON generado con el esperado para cada filtro y su
     combinación.
-- [ ] **2.3** Estrategia Full-text: `match` (campo elegido, operador) o `multi_match` `best_fields`
+- [x] **2.3** Estrategia Full-text: `match` (campo elegido, operador) o `multi_match` `best_fields`
   sobre `title` y `original_title` (operador); filtros en contexto `filter`; `from`/`size`;
   `track_total_hits: true`; agregaciones `terms` de `genres`, `spoken_languages`, `rating` y `adult` con
   `size: 100` (el catálogo tiene 19 géneros, 64 idiomas y 6 clasificaciones; la interfaz muestra los
   primeros y «Ver todos») y `min`/`max` de `release_date`; `_source` sin vectores.
   - Criterio: prueba unitaria del JSON de la petición; `FullTextSearchIT` reproduce las 8 filas
     full-text de §6 (totales exactos).
-- [ ] **2.4** Estrategia Vectorial: vector de la consulta (`EmbeddingService`) recortado a las
+- [x] **2.4** Estrategia Vectorial: vector de la consulta (`EmbeddingService`) recortado a las
   dimensiones del campo; retriever `knn` con `field`, `k`, `num_candidates` y `filter`; `size = k`;
   facetas y paginación sobre los `k` resultados.
   - Criterio: `VectorSearchIT` reproduce las 3 filas vectoriales de §6; sin filtros devuelve exactamente
     `k` resultados; toda similitud está en (0, 1].
-- [ ] **2.5** Estrategia Híbrida: `_msearch` con (a) retriever `rrf` (`standard` con la consulta
+- [x] **2.5** Estrategia Híbrida: `_msearch` con (a) retriever `rrf` (`standard` con la consulta
   full-text + `knn`), `rank_constant: 60`, `rank_window_size: k`, `filter` del `rrf`, `size = k`;
   (b) componente full-text solo; (c) componente k-NN solo, ambos con los mismos filtros y `size = k`.
   Las tres búsquedas llevan el mismo valor de `preference` para que lean las mismas réplicas.
@@ -759,19 +759,19 @@ puntuaciones, y reproduce los datos de verificación de §6.
   puntuación RRF.
   - Criterio: `HybridSearchIT`: para cada resultado, `RRF = Σ 1 / (60 + posición)` con tolerancia 1e-6
     respecto a la puntuación de Elasticsearch; la fila híbrida de §6 se cumple.
-- [ ] **2.6** `FacetCalculator`: conteos por valor (orden: conteo desc, luego etiqueta), valores
+- [x] **2.6** `FacetCalculator`: conteos por valor (orden: conteo desc, luego etiqueta), valores
   seleccionados siempre visibles aunque tengan 0, rango de fechas de los resultados; desde agregaciones
   (Full-text) o desde los resultados (Vectorial e Híbrida).
   - Criterio: pruebas unitarias con listas de resultados construidas a mano.
-- [ ] **2.7** Paginación: página, total de páginas, rango («1–25 de 100»), límites por modo (Full-text
+- [x] **2.7** Paginación: página, total de páginas, rango («1–25 de 100»), límites por modo (Full-text
   hasta 10 000; Vectorial e Híbrida hasta `k`).
   - Criterio: pruebas unitarias de bordes (última página parcial, `k` no múltiplo del tamaño).
-- [ ] **2.8** `SearchService` (fachada): elige la estrategia, mide el tiempo, registra en `INFO` (modo,
+- [x] **2.8** `SearchService` (fachada): elige la estrategia, mide el tiempo, registra en `INFO` (modo,
   total, ms), devuelve `SearchResult` (resultados de la página, total, facetas, paginación, descripción
   de ajustes) y distingue los estados vacíos «sin resultados» y «sin resultados con estos filtros»
   (este último confirma con un conteo sin filtros).
   - Criterio: pruebas unitarias con estrategias simuladas cubren los tres modos y los dos estados vacíos.
-- [ ] **2.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [x] **2.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/2.md` qué se
   actualizó.
