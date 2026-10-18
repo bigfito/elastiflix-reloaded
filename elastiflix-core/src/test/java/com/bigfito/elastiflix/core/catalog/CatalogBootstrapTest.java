@@ -99,6 +99,51 @@ class CatalogBootstrapTest {
         assertThat(catalog.deleted).isEqualTo(NEW_INDEX);
     }
 
+    @Test
+    @DisplayName("si publicar falla y el alias ya apunta al índice nuevo, no lo borra")
+    void shouldTreatTheMoveAsPublishedWhenTheAliasPointsToTheNewIndex() {
+        // given
+        FakeCatalog catalog = new FakeCatalog(new CatalogName.ConcreteIndex(ALIAS), false, true);
+        catalog.afterPublish = new CatalogName.Alias(ALIAS, NEW_INDEX);
+
+        // when
+        bootstrap(catalog).migrate();
+
+        // then
+        assertThat(catalog.deleted).isNull();
+        assertThat(catalog.calls).contains("publish", "describe");
+    }
+
+    @Test
+    @DisplayName("si publicar falla y el alias no se puede leer, deja el índice nuevo con EFX-IMP-006")
+    void shouldKeepTheNewIndexWhenDescribeFailsAfterPublish() {
+        // given
+        FakeCatalog catalog = new FakeCatalog(new CatalogName.ConcreteIndex(ALIAS), false, true);
+        catalog.failDescribeAfterPublish = true;
+
+        // when / then
+        assertThatThrownBy(() -> bootstrap(catalog).migrate())
+                .isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(thrown -> ((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.PUBLISH_UNCERTAIN);
+        assertThat(catalog.deleted).isNull();
+    }
+
+    @Test
+    @DisplayName("si publicar falla y el nombre ya no está, deja el índice nuevo con EFX-IMP-006")
+    void shouldKeepTheNewIndexWhenTheAliasIsMissingAfterPublish() {
+        // given
+        FakeCatalog catalog = new FakeCatalog(new CatalogName.ConcreteIndex(ALIAS), false, true);
+        catalog.afterPublish = new CatalogName.Missing(ALIAS);
+
+        // when / then
+        assertThatThrownBy(() -> bootstrap(catalog).migrate())
+                .isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(thrown -> ((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.PUBLISH_UNCERTAIN);
+        assertThat(catalog.deleted).isNull();
+    }
+
     private static CatalogBootstrap bootstrap(FakeCatalog catalog) {
         ElastiflixProperties properties = new ElastiflixProperties(
                 null, new ElastiflixProperties.Index(ALIAS), null, null, null, null, null);
@@ -110,6 +155,8 @@ class CatalogBootstrapTest {
         private final boolean mismatch;
         private final boolean failPublish;
         private boolean failCount;
+        private boolean failDescribeAfterPublish;
+        private CatalogName afterPublish;
         private final List<String> calls = new ArrayList<>();
         private CatalogName described;
         private String created;
@@ -125,6 +172,12 @@ class CatalogBootstrapTest {
         @Override
         public CatalogName describe(String name) {
             calls.add("describe");
+            if (publishedPrevious != null && failDescribeAfterPublish) {
+                throw new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+            }
+            if (publishedPrevious != null && afterPublish != null) {
+                return afterPublish;
+            }
             return described;
         }
 

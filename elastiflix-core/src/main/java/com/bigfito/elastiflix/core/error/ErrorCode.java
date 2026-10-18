@@ -299,9 +299,10 @@ public enum ErrorCode {
             "Vuelve a subir el archivo"),
 
     /**
-     * La publicación no confirmó el resultado y no se pudo leer el alias.
+     * La publicación no confirmó el resultado.
      *
-     * <p>El índice temporal se deja: borrarlo podría vaciar el catálogo si el alias ya apunta a él.</p>
+     * <p>Lo usan la importación y la migración. El índice nuevo se deja: borrarlo podría vaciar
+     * el catálogo si el alias ya apunta a él.</p>
      */
     PUBLISH_UNCERTAIN("EFX-IMP-006",
             "No se sabe si el alias se publicó",

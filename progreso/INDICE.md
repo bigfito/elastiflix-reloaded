@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** sincronización de documentación (las fases 0 a 6 y la revisión 1 están cerradas)
+- **Fase actual:** corrección de los 5 bugs de la sincronización de documentación
 - **Estado de la fase:** en curso
-- **Rama:** `cursor/docs-sync-29a6` (desde `main` en `dc9a315`, fusión del PR #10)
-- **Próximo paso:** Revisar el PR en borrador de esta rama. No marcarlo listo ni fusionarlo.
-- **Última actualización:** 2026-10-18 18:49 UTC
+- **Rama:** `cursor/bugs-revision-29a6` (desde `main` en `2f6f9ed`, fusión del PR #11)
+- **Próximo paso:** B-02, código propio cuando un lote de inferencia trae menos vectores que textos.
+- **Última actualización:** 2026-10-18 19:05 UTC
 
 ## Fases
 
@@ -25,6 +25,8 @@
 | 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
 | 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
 | — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. |
+| — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
+| — | Bugs de la revisión de documentación | — | en curso | `progreso/bugs.md` | B-01 terminada. Siguiente: B-02. |
 
 ## Aprobaciones del usuario
 

@@ -121,7 +121,8 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
   se borra el temporal. Si `publish` no confirma, `describe` decide: alias en el anterior borra el
   temporal (`EFX-ES-004`); alias en el temporal se trata como publicado; si no se puede leer,
   `EFX-IMP-006` y el temporal se deja. Al empezar a importar se suelta la lista de películas. La
-  limpieza de huérfanos solo toca índices `<alias>-<AAAAMMDD-HHMMSS>` de su propio alias.
+  limpieza de huérfanos solo toca índices `<alias>-<AAAAMMDD-HHMMSS>` de su propio alias. La migración
+  a alias usa ese mismo criterio de `describe`.
 - Registro individual: directo al catálogo por el alias.
 - Un solo usuario a la vez (demo académica): sin controles de concurrencia.
 - Validación de cargas **todo o nada** contra `elasticsearch/elastiflix-reloaded-mapping.json`;
