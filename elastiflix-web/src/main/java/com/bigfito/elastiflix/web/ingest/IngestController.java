@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.web.ingest;
 
+import java.util.List;
+
 import com.bigfito.elastiflix.ingest.job.SaveResult;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 
@@ -61,7 +63,10 @@ public class IngestController implements HtmlPage {
     @PostMapping("/cargar/registro")
     public String save(
             @RequestParam MultiValueMap<String, String> form, RedirectAttributes redirect) {
-        remember(redirect, ingest.saveOne(forms.toMovie(form)));
+        switch (forms.read(form)) {
+            case MovieForm.Read read -> remember(redirect, ingest.saveOne(read.movie()));
+            case MovieForm.Invalid invalid -> redirect.addFlashAttribute("rejected", List.of(invalid.issue()));
+        }
         return "redirect:/cargar";
     }
 

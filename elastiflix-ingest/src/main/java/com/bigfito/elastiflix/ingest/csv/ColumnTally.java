@@ -21,7 +21,7 @@ final class ColumnTally {
         rows++;
         int cells = Math.min(row.size(), filled.length);
         for (int index = 0; index < cells; index++) {
-            if (!row.get(index).isEmpty()) {
+            if (!row.get(index).isBlank()) {
                 filled[index]++;
             }
         }

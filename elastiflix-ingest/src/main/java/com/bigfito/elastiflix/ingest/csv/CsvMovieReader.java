@@ -140,7 +140,7 @@ public final class CsvMovieReader {
     }
 
     private static void put(ObjectNode object, String name, String cell) {
-        if (cell.isEmpty()) {
+        if (cell.isBlank()) {
             return;
         }
         JsonNode value = CsvValues.read(name, cell);

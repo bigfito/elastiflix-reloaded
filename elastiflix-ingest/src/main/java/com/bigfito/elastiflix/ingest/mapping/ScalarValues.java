@@ -1,6 +1,5 @@
 package com.bigfito.elastiflix.ingest.mapping;
 
-import java.math.BigDecimal;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
 
@@ -31,7 +30,7 @@ final class ScalarValues {
 
     private static void keyword(String name, JsonNode value, CheckScope scope) {
         if (FieldNames.ID.equals(name) && value != null && value.isIntegralNumber()) {
-            scope.target().put(name, Long.toString(value.longValue()));
+            scope.target().put(name, IdTexts.of(value));
             return;
         }
         text(name, value, scope, FieldRules.required(name));
@@ -86,11 +85,11 @@ final class ScalarValues {
         if (value == null || value.isNull()) {
             return;
         }
-        if (value.isNumber()) {
+        if (value.isNumber() && Float.isFinite((float) value.doubleValue())) {
             scope.target().set(name, value);
             return;
         }
-        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "un número");
+        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "un número float finito");
     }
 
     private static void date(String name, JsonNode value, CheckScope scope) {
@@ -104,23 +103,8 @@ final class ScalarValues {
         scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "una fecha yyyy-MM-dd");
     }
 
+    /** Un entero de verdad (ni {@code 1e3} ni {@code 12.0}) que cabe en un {@code int}, sin llamar a longValue. */
     private static boolean fitsInt(JsonNode value) {
-        if (value.isBigDecimal()) {
-            return exactInt(value.decimalValue());
-        }
-        if (!value.isIntegralNumber()) {
-            return false;
-        }
-        long number = value.longValue();
-        return number >= Integer.MIN_VALUE && number <= Integer.MAX_VALUE;
-    }
-
-    private static boolean exactInt(BigDecimal value) {
-        try {
-            value.intValueExact();
-            return true;
-        } catch (ArithmeticException exception) {
-            return false;
-        }
+        return value.isIntegralNumber() && value.canConvertToInt();
     }
 }

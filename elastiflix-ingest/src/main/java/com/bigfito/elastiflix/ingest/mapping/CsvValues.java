@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.ingest.mapping;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 
@@ -40,15 +41,19 @@ public final class CsvValues {
      * @return valor JSON, o {@code null} si la columna es un vector y no se guarda
      */
     public static JsonNode read(String column, String cell) {
+        // Sin trim: el espacio es parte del valor (un id " 597" no es "597"). Quien llama ya descartó las
+        // celdas en blanco.
         FieldKind kind = FieldRules.kind(column);
-        String text = cell.trim();
-        if (kind == FieldKind.BOOLEAN) {
-            return bool(text);
+        if (kind == null) {
+            // _id no es un campo del mapping: llega como texto.
+            return MAPPER.valueToTree(cell);
         }
-        if (kind == FieldKind.INTEGER || kind == FieldKind.DECIMAL) {
-            return number(text);
-        }
-        return textOrStructure(kind, text);
+        return switch (kind) {
+            case BOOLEAN -> bool(cell);
+            case INTEGER -> integer(cell);
+            case DECIMAL -> number(cell);
+            default -> textOrStructure(kind, cell);
+        };
     }
 
     private static JsonNode textOrStructure(FieldKind kind, String text) {
@@ -70,6 +75,15 @@ public final class CsvValues {
             return MAPPER.valueToTree(Boolean.parseBoolean(text));
         }
         return MAPPER.valueToTree(text);
+    }
+
+    /** Solo dígitos: {@code 1e3} y {@code 12.0} quedan como texto y el validador los rechaza. */
+    private static JsonNode integer(String text) {
+        try {
+            return MAPPER.getNodeFactory().numberNode(new BigInteger(text));
+        } catch (NumberFormatException exception) {
+            return MAPPER.valueToTree(text);
+        }
     }
 
     private static JsonNode number(String text) {

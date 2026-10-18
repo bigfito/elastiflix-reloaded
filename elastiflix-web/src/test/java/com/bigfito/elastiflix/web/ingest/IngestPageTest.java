@@ -37,6 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -214,6 +215,23 @@ class IngestPageTest {
         mvc.perform(multipart("/cargar/archivo").file(file))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("EFX-ING-001"));
+    }
+
+    @Test
+    @DisplayName("vote_count=1e3 o un runtime de 11 dígitos vuelven con EFX-ING-012 y el campo, sin 500")
+    void shouldRejectAnOutOfRangeFormNumber() throws Exception {
+        mvc.perform(post("/cargar/registro").param("id", "1").param("title", "A").param("plot", "B")
+                        .param("vote_count", "1e3"))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/cargar"))
+                .andExpect(flash().attribute("rejected", List.of(new ValidationIssue("EFX-ING-012", "formulario",
+                        "1", "vote_count", "1e3", "un número entero", false))));
+        mvc.perform(post("/cargar/registro").param("id", "1").param("title", "A").param("plot", "B")
+                        .param("runtime", "12345678901"))
+                .andExpect(status().isFound())
+                .andExpect(flash().attribute("rejected", List.of(new ValidationIssue("EFX-ING-012", "formulario",
+                        "1", "runtime", "12345678901", "un número entero", false))));
+        verify(ingest, never()).saveOne(any(Movie.class));
     }
 
     @Test

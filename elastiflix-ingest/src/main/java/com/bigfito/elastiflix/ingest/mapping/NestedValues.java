@@ -124,7 +124,7 @@ final class NestedValues {
         if (value == null || value.isNull()) {
             return;
         }
-        if (!value.isIntegralNumber()) {
+        if (!value.isIntegralNumber() || !value.canConvertToLong()) {
             scope.error(ErrorCode.TYPE_MISMATCH, FieldNames.ID, IssueTexts.show(value), INTEGER);
             return;
         }
