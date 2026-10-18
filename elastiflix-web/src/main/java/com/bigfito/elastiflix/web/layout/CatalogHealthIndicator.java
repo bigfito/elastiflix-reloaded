@@ -25,8 +25,7 @@ public class CatalogHealthIndicator implements HealthIndicator {
     }
 
     /**
-     * {@code UP} si el alias respondió. Los detalles son {@code alias}, {@code index} y
-     * {@code documents}.
+     * {@code UP} si el alias respondió. Un detalle nulo no se publica: Actuator fallaría con 500.
      *
      * @return el estado para {@code GET /actuator/health}
      */
@@ -36,14 +35,17 @@ public class CatalogHealthIndicator implements HealthIndicator {
     }
 
     private static Health healthOf(CatalogStatus status) {
-        Health.Builder builder = Health.down();
-        if (status.connected()) {
-            builder = Health.up();
+        Health.Builder builder = status.connected() ? Health.up() : Health.down();
+        detail(builder, "alias", status.name());
+        detail(builder, "index", status.concreteIndex());
+        detail(builder, "documents", status.documentCount());
+        detail(builder, "errorCode", status.errorCode());
+        return builder.build();
+    }
+
+    private static void detail(Health.Builder builder, String key, Object value) {
+        if (value != null) {
+            builder.withDetail(key, value);
         }
-        return builder
-                .withDetail("alias", status.name())
-                .withDetail("index", status.concreteIndex())
-                .withDetail("documents", status.documentCount())
-                .build();
     }
 }

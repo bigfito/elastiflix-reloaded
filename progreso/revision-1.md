@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-07
+- **Tarea actual:** R-08
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-08. El indicador de salud responde DOWN si Elasticsearch no está.
-- **Última actualización:** 2026-10-18 17:19 UTC
+- **Próximo paso:** R-09. Consulta y documento leen input_type y prefijo del mismo sitio.
+- **Última actualización:** 2026-10-18 17:20 UTC
 
 ## Tareas
 
@@ -31,8 +31,8 @@ en curso
 | R-04 | terminada | `90b96ce` | MockMvc ve las tarjetas, la tabla «Se recibió / El mapping espera», «Archivo JSON», «Importación bloqueada» y el paso 4. `SmokeIT` espera el paso 4. Captura `docs/capturas/cargar.png`. Checkstyle y PMD en 0. |
 | R-05 | terminada | `46aeda4` | Tabla de §6 medida sobre 6 899: dark knight 57/5, love story 107/3, Kolejne 3/0, el secreto 35/2, le fabuleux 26/1, heaven 10/0, next 15/0, parasite 1/0. Titanic 36/7/4, Life of Pi 30/7/4, WALL·E 1/1/1. `assumeTrue(count == 6899)`. FullText 8, Vector 4, Hybrid 2, CatalogStatus 1 y Smoke 4, 0 omitidas. |
 | R-06 | terminada | `2793d22` | MockMvc: títulos Puntuación, Similitud y Puntuación en cada lista; «Mostrando 1–1 de 1 resultados»; chips «Géneros: Drama»; `<select id="page-size">`; fecha invertida con el texto del mockup y el formulario visible. Captura `docs/capturas/resultados.png`. Checkstyle y PMD en 0. |
-| R-07 | terminada | se anota en R-08 | `IngestJobErrorTest`: archivo de 64 B con tope 32 B responde 413 y `EFX-ING-003`. Trabajo desconocido responde 404 JSON `EFX-IMP-005`. Checkstyle y PMD en 0. |
-| R-08 | pendiente | | |
+| R-07 | terminada | `3614553` | `IngestJobErrorTest`: archivo de 64 B con tope 32 B responde 413 y `EFX-ING-003`. Trabajo desconocido responde 404 JSON `EFX-IMP-005`. Checkstyle y PMD en 0. |
+| R-08 | terminada | se anota en R-09 | `CatalogHealthIndicatorTest`: desconectado queda `DOWN`, `errorCode=EFX-ES-001` y ningún detalle nulo. Checkstyle y PMD en 0. |
 | R-09 | pendiente | | |
 | R-10 | pendiente | | |
 | R-11 | pendiente | | |

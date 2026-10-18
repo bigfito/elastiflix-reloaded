@@ -32,4 +32,18 @@ class CatalogHealthIndicatorTest {
                 .containsEntry("index", "elastiflix-reloaded-20261018-000000")
                 .containsEntry("documents", 4322L);
     }
+
+    @Test
+    @DisplayName("sin Elasticsearch el estado es DOWN, con errorCode y sin detalles nulos")
+    void shouldReportDownWithoutNullDetails() {
+        CatalogStatusService catalog = mock(CatalogStatusService.class);
+        when(catalog.status()).thenReturn(new CatalogStatus(
+                "elastiflix-reloaded", null, null, false, "EFX-ES-001"));
+
+        Health health = new CatalogHealthIndicator(catalog).health();
+
+        assertThat(health.getStatus()).isEqualTo(Status.DOWN);
+        assertThat(health.getDetails()).containsEntry("errorCode", "EFX-ES-001");
+        assertThat(health.getDetails().values()).doesNotContainNull();
+    }
 }
