@@ -48,7 +48,7 @@ class SmokeIT {
     private static final String VALIDATING = "validando";
     private static final String VECTORS_IGNORED = "EFX-ING-020";
     private static final String HIT = "class=\"hit\"";
-    private static final int VALIDATION_STEP = 3;
+    private static final int READY_STEP = 4;
     private static final int SAMPLE_MOVIES = 4;
     private static final int DEFAULT_K = 100;
     private static final int DEFAULT_CANDIDATES = 200;
@@ -196,7 +196,7 @@ class SmokeIT {
         assertThat(job.path("status").asString())
                 .withFailMessage("estado %s, errores %s", job.path("status"), job.path("errors"))
                 .isEqualTo(VALID);
-        assertThat(job.path("step").asInt()).isEqualTo(VALIDATION_STEP);
+        assertThat(job.path("step").asInt()).isEqualTo(READY_STEP);
         assertThat(job.path("errors")).isEmpty();
         assertThat(job.path("fileCount").asInt()).isEqualTo(SAMPLE_MOVIES);
         assertThat(ignoredVectorFields(job)).containsExactlyInAnyOrder("plot_256", "plot_512", "plot_1024");

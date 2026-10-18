@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-04, «Cargar datos» coincide con el mockup
-- **Última actualización:** 2026-10-18 16:41 UTC
+- **Próximo paso:** R-05, valores exactos de §6 sobre el catálogo vigente
+- **Última actualización:** 2026-10-18 16:57 UTC
 
 ## Fases
 

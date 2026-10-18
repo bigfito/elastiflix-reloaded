@@ -16,8 +16,13 @@ import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
  * @param fileCount    registros del archivo
  * @param replaceCount ids que reemplazan un documento ya copiado
  * @param errors       como mucho los primeros 6 errores
- * @param warnings     todas las advertencias
- * @param failureCode  código de la excepción, o vacío si no falló
+ * @param warnings        todas las advertencias
+ * @param failureCode     código de la excepción, o vacío si no falló
+ * @param failureMessage  mensaje de ese código, o vacío
+ * @param checks          comprobaciones superadas; vacío si la carga no está lista
+ * @param validCount      registros que pasaron el mapping
+ * @param errorTotal      errores del informe, no solo los seis que se muestran
+ * @param batches         lotes de 100 que harían falta para escribir el archivo
  */
 public record JobView(
         String id,
@@ -30,5 +35,10 @@ public record JobView(
         int replaceCount,
         List<ValidationIssue> errors,
         List<ValidationIssue> warnings,
-        String failureCode) {
+        String failureCode,
+        String failureMessage,
+        List<String> checks,
+        int validCount,
+        int errorTotal,
+        int batches) {
 }

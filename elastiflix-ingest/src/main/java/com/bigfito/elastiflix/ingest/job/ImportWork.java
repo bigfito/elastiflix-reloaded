@@ -111,7 +111,7 @@ final class ImportWork {
         fileCount = movies.size();
         replaceCount = checked.replaceCount();
         status = JobStatus.VALID;
-        step = VALIDATION_STEP;
+        step = IMPORT_STEP;
     }
 
     synchronized void invalid(ValidationReport issues) {
@@ -167,6 +167,7 @@ final class ImportWork {
     }
 
     synchronized JobView view() {
+        int errors = report.errors().size();
         return new JobView(
                 id,
                 status.label(),
@@ -178,7 +179,12 @@ final class ImportWork {
                 replaceCount,
                 preview(report.errors()),
                 report.warnings(),
-                failureCode);
+                failureCode,
+                JobFigures.failureMessage(failureCode),
+                JobFigures.checks(errors, fileCount),
+                JobFigures.validCount(errors, fileCount),
+                errors,
+                JobFigures.batches(fileCount));
     }
 
     private boolean stopIfCancelled() {

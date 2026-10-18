@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-03
+- **Tarea actual:** R-04
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-04. Rehacer «Cargar datos» para que coincida con el mockup.
-- **Última actualización:** 2026-10-18 16:41 UTC
+- **Próximo paso:** R-05. Recalcular la tabla de §6 sobre el catálogo vigente y afirmar los valores exactos.
+- **Última actualización:** 2026-10-18 16:57 UTC
 
 ## Tareas
 
@@ -27,8 +27,8 @@ en curso
 |---|---|---|---|
 | R-01 | terminada | `2f7df05` | `./mvnw -pl elastiflix-search,elastiflix-core test` código 0. Checkstyle y PMD de esos módulos en 0. `k=10, tamano=25, pagina=1` devuelve 10; `k=150, tamano=100, pagina=2` devuelve 50; full-text página 400 aceptada y el conteo de páginas se corta en 10 000. |
 | R-02 | terminada | `125d049` | `ImportJobTest` 11 pruebas, 0 fallos. Alias en el temporal: sin `deleteIndex(temp)` y paso 5. Alias en el anterior: `EFX-ES-004` y se borra el temporal. `describe` falla o el alias no existe: `EFX-IMP-006` y no se borra nada. Checkstyle y PMD de core e ingest en 0. |
-| R-03 | terminada | se anota en R-04 | Variantes CSV: `_id` ≠ `id` (`EFX-ING-010`), fecha `16/07/1999`, `adult=yes` y `genres=Drama` (`EFX-ING-012`), subcampo `extra` en keywords (`EFX-ING-007`). `[REC]` y `007` se conservan. `movies-sample.csv` con 0 errores. Checkstyle y PMD de ingest en 0. |
-| R-04 | pendiente | | |
+| R-03 | terminada | `f24bb4d` | Variantes CSV: `_id` ≠ `id` (`EFX-ING-010`), fecha `16/07/1999`, `adult=yes` y `genres=Drama` (`EFX-ING-012`), subcampo `extra` en keywords (`EFX-ING-007`). `[REC]` y `007` se conservan. `movies-sample.csv` con 0 errores. Checkstyle y PMD de ingest en 0. |
+| R-04 | terminada | se anota en R-05 | MockMvc ve las tarjetas, la tabla «Se recibió / El mapping espera», «Archivo JSON», «Importación bloqueada» y el paso 4. `SmokeIT` espera el paso 4. Captura `docs/capturas/cargar.png`. Checkstyle y PMD en 0. |
 | R-05 | pendiente | | |
 | R-06 | pendiente | | |
 | R-07 | pendiente | | |
@@ -58,13 +58,13 @@ en curso
 
 ## Cambios sin commit
 
-Vacío al cerrar R-03.
+Vacío al cerrar R-04.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-ingest -am test` y `checkstyle:check pmd:check`
+- **Comando:** `./mvnw -pl elastiflix-web,elastiflix-ingest -am test -Dtest=IngestPageTest,IngestServiceTest` y `checkstyle:check pmd:check`
 - **Resultado:** en verde
-- **Fecha:** 2026-10-18 16:40 UTC
+- **Fecha:** 2026-10-18 16:46 UTC
 
 ## Decisiones
 
