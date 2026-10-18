@@ -17,12 +17,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class InferenceEmbeddingServiceTest {
 
     @Test
-    @DisplayName("si faltan vectores, EFX-EMB-002")
+    @DisplayName("si faltan vectores, EFX-EMB-004")
     void shouldRejectWhenTheVectorCountDoesNotMatch() {
         assertThatThrownBy(() -> InferenceEmbeddingService.requireSameSize(List.of("una", "otra"), List.of(vector())))
                 .isInstanceOf(EmbeddingException.class)
                 .extracting(thrown -> ((EmbeddingException) thrown).errorCode())
-                .isEqualTo(ErrorCode.UNEXPECTED_VECTOR);
+                .isEqualTo(ErrorCode.INCOMPLETE_EMBEDDING_BATCH);
     }
 
     @Test

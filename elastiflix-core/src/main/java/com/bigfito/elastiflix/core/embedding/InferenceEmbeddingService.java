@@ -134,7 +134,7 @@ public class InferenceEmbeddingService implements EmbeddingService {
     }
 
     /**
-     * Exige un vector por cada texto del lote.
+     * Exige un vector por cada texto del lote. Si no coinciden, el código es {@code EFX-EMB-004}.
      *
      * @param prepared textos enviados
      * @param vectors  vectores recibidos
@@ -142,7 +142,7 @@ public class InferenceEmbeddingService implements EmbeddingService {
      */
     static List<float[]> requireSameSize(List<String> prepared, List<float[]> vectors) {
         if (vectors.size() != prepared.size()) {
-            throw new EmbeddingException(ErrorCode.UNEXPECTED_VECTOR);
+            throw new EmbeddingException(ErrorCode.INCOMPLETE_EMBEDDING_BATCH);
         }
         return vectors;
     }

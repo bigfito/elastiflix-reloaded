@@ -13,15 +13,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Copia un índice con {@code _reindex} en segundo plano y espera la tarea.
+ * Copia un índice con {@code _reindex} y espera la tarea.
  *
- * <p>{@code wait_for_completion: true} puede cortar la conexión en un catálogo grande. Aquí la
- * llamada vuelve enseguida y se consulta {@code _tasks} hasta que la copia termina.</p>
+ * <p>La copia pide {@code wait_for_completion: false}, porque una espera larga dentro de
+ * {@code _reindex} puede cortar la conexión. Después, una sola lectura de {@code _tasks} pide
+ * {@code wait_for_completion: true} con un tope de 30 minutos. Este código no duerme.</p>
  */
 final class ReindexTasks {
 
-    private static final long PAUSE_MILLIS = 500L;
-    private static final int MAX_POLLS = 3600;
+    /** Tope de la lectura de {@code _tasks}. El mismo margen que 3600 pausas de medio segundo. */
+    private static final String WAIT_LIMIT = "30m";
     private static final Logger LOG = LoggerFactory.getLogger(ReindexTasks.class);
 
     private final ElasticsearchClient client;
@@ -50,28 +51,15 @@ final class ReindexTasks {
             return;
         }
         LOG.info("Reindex de {} hacia {} en la tarea {}", source, target, taskId);
-        for (int poll = 0; poll < MAX_POLLS; poll++) {
-            if (finished(client.tasks().get(request -> request.taskId(taskId)))) {
-                return;
-            }
-            pause();
-        }
-        throw new ElasticsearchAccessException(ErrorCode.REINDEX_FAILED);
+        requireFinished(client.tasks().get(request -> request
+                .taskId(taskId)
+                .waitForCompletion(true)
+                .timeout(limit -> limit.time(WAIT_LIMIT))));
     }
 
-    private static boolean finished(GetTasksResponse task) {
-        if (task.error() != null) {
+    private static void requireFinished(GetTasksResponse task) {
+        if (task.error() != null || !task.completed()) {
             throw new ElasticsearchAccessException(ErrorCode.REINDEX_FAILED);
-        }
-        return task.completed();
-    }
-
-    private static void pause() {
-        try {
-            Thread.sleep(PAUSE_MILLIS);
-        } catch (InterruptedException exception) {
-            Thread.currentThread().interrupt();
-            throw new ElasticsearchAccessException(ErrorCode.REINDEX_FAILED, exception);
         }
     }
 }

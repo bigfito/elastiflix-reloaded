@@ -15,9 +15,9 @@ componentes y comportamiento. No se rediseñan.
 | `mockups/Ingest.dc.html` | Cargar datos | `GET /cargar` | escenario: Archivo válido · No coincide con el mapping · Archivo rechazado |
 | `mockups/About.dc.html` | Acerca de la demo | `GET /acerca` | — |
 
-En Cargar datos y en Acerca de, los vectores de la sinopsis se generan con el servicio de inferencia.
-Si el archivo los trae, se ignoran. Al publicar, el índice anterior se borra. Un CSV sin encabezado
-se rechaza.
+En Cargar datos y en Acerca de, los vectores de la sinopsis se generan con el servicio de inferencia
+(`input_type` `ingest`, sin prefijo). Si el archivo los trae, se ignoran. Al publicar, el índice
+anterior se borra. Un CSV sin encabezado se rechaza.
 
 > Los valores entre corchetes de los mockups (`[release_date]`, `[vote_count]`…) y las variables
 > `{{…}}` se sustituyen por datos reales. Los números de ejemplo de Resultados e Ingesta son reales

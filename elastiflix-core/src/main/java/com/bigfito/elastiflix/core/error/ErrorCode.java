@@ -94,6 +94,12 @@ public enum ErrorCode {
             "La consulta o la sinopsis no trae texto",
             "Escribe un texto antes de pedir el vector"),
 
+    /** El lote no trajo un vector por cada texto. */
+    INCOMPLETE_EMBEDDING_BATCH("EFX-EMB-004",
+            "La inferencia no devolvió un vector por cada texto",
+            "El número de vectores del lote no es el de textos enviados",
+            "Revisa el endpoint de inferencia y vuelve a intentar"),
+
     /** La caja de búsqueda llegó vacía. */
     EMPTY_SEARCH_TEXT("EFX-SRCH-001",
             "Escribe qué película buscas antes de pulsar Buscar",
@@ -299,9 +305,10 @@ public enum ErrorCode {
             "Vuelve a subir el archivo"),
 
     /**
-     * La publicación no confirmó el resultado y no se pudo leer el alias.
+     * La publicación no confirmó el resultado.
      *
-     * <p>El índice temporal se deja: borrarlo podría vaciar el catálogo si el alias ya apunta a él.</p>
+     * <p>Lo usan la importación y la migración. El índice nuevo se deja: borrarlo podría vaciar
+     * el catálogo si el alias ya apunta a él.</p>
      */
     PUBLISH_UNCERTAIN("EFX-IMP-006",
             "No se sabe si el alias se publicó",

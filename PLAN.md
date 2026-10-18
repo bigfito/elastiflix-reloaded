@@ -691,7 +691,9 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
      sigue por `_tasks`) y verifica que el conteo coincida. Si la tarea falla, se detiene con
      `EFX-ES-006`. Si el conteo no coincide, borra el índice nuevo y se detiene con `EFX-ES-003`.
   3. En una sola llamada a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice
-     original.
+     original. Si esa llamada falla, `describe` decide: alias en el índice nuevo cuenta como
+     publicada; el nombre sigue siendo índice concreto borra el nuevo y responde `EFX-ES-004`;
+     si no se puede leer, o el alias no quedó ahí, `EFX-IMP-006` y el índice nuevo se deja.
   4. Al terminar, cierra el contexto de Spring y la aplicación sale con código 0 (o distinto de 0 si
      falló), para que el comando no quede esperando.
   - Ejecución real (desde la raíz, en Git Bash):
@@ -1086,6 +1088,15 @@ La sincronización de documentación de 2026-10-18 volvió a medir:
 - `./mvnw verify` en BUILD SUCCESS el 2026-10-18 18:48 UTC (24 s): 187 unitarias, 0 fallos.
   Checkstyle y PMD en 0.
 - `./mvnw verify -Pit` en BUILD SUCCESS el 2026-10-18 18:49 UTC (1 min 8 s): 187 unitarias y 27 de
+  integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
+- Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con
+  6 899 documentos.
+
+La corrección de los cinco bugs (rama `cursor/bugs-revision-29a6`) volvió a medir:
+
+- `./mvnw verify` en BUILD SUCCESS el 2026-10-18 19:05 UTC (23 s): 193 unitarias, 0 fallos.
+  Checkstyle y PMD en 0.
+- `./mvnw verify -Pit` en BUILD SUCCESS el 2026-10-18 19:07 UTC (1 min 8 s): 193 unitarias y 27 de
   integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
 - Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con
   6 899 documentos.

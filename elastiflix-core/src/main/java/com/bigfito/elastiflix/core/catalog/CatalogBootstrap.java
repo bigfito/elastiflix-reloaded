@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 
 /**
  * Pasa el catálogo de un índice concreto a un alias, sin tocar nada si ya es alias.
+ *
+ * <p>Si publicar falla, lee el nombre otra vez. Alias en el índice nuevo: ya quedó publicado.
+ * Sigue siendo índice concreto: borra el nuevo y responde {@code EFX-ES-004}. Si no se puede
+ * leer, o no quedó en el índice nuevo: deja el nuevo y responde {@code EFX-IMP-006}.</p>
  */
 @Component
 public class CatalogBootstrap {
@@ -90,10 +94,41 @@ public class CatalogBootstrap {
         try {
             catalog.publish(alias, target, alias);
         } catch (ElasticsearchAccessException exception) {
-            deleteNewIfOriginalRemains(alias, target);
-            throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, exception);
+            confirmOrReject(alias, target, exception);
         }
         LOG.info("El alias {} quedó en {} con {} documentos", alias, target, documents);
+    }
+
+    private void confirmOrReject(String alias, String target, ElasticsearchAccessException failure) {
+        CatalogName described = readAlias(alias);
+        if (pointsTo(described, target)) {
+            return;
+        }
+        if (described instanceof CatalogName.ConcreteIndex) {
+            deleteNew(target);
+            throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, failure);
+        }
+        throw new ElasticsearchAccessException(ErrorCode.PUBLISH_UNCERTAIN, failure);
+    }
+
+    private CatalogName readAlias(String alias) {
+        try {
+            return catalog.describe(alias);
+        } catch (ElasticsearchAccessException exception) {
+            throw new ElasticsearchAccessException(ErrorCode.PUBLISH_UNCERTAIN, exception);
+        }
+    }
+
+    private static boolean pointsTo(CatalogName described, String index) {
+        return described instanceof CatalogName.Alias found && index.equals(found.concreteIndex());
+    }
+
+    private void deleteNew(String target) {
+        try {
+            catalog.deleteIndex(target);
+        } catch (ElasticsearchAccessException exception) {
+            LOG.warn("No se pudo borrar el índice nuevo {}", target);
+        }
     }
 
     private void logExisting(String alias, String concreteIndex) {
@@ -107,7 +142,7 @@ public class CatalogBootstrap {
     private void deleteNewIfOriginalRemains(String alias, String target) {
         try {
             if (catalog.describe(alias) instanceof CatalogName.ConcreteIndex) {
-                catalog.deleteIndex(target);
+                deleteNew(target);
             }
         } catch (ElasticsearchAccessException exception) {
             LOG.warn("No se pudo borrar el índice nuevo {}", target);
