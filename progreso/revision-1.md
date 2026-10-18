@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-17
+- **Tarea actual:** R-18
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-18. Completar las pruebas que quedaron flojas.
-- **Última actualización:** 2026-10-18 17:35 UTC
+- **Próximo paso:** R-19. El README describe los prerrequisitos y la puesta en marcha actuales.
+- **Última actualización:** 2026-10-18 17:36 UTC
 
 ## Tareas
 
@@ -40,9 +40,9 @@ en curso
 | R-13 | terminada | `11ce6d8` | `CsvMovieReaderTest`: fila 2 con 2 celdas y fila 3 con 4, frente a un encabezado de 3, dan `EFX-ING-014`. El fixture de 4 películas sigue con 0 errores. Checkstyle y PMD en 0. |
 | R-14 | terminada | `6e93147` | Se eliminó `JsonMovieReader`. `JsonDocumentsTest` cubre exportación, arreglo, NDJSON, conteo y JSON roto. Checkstyle y PMD en 0. |
 | R-15 | terminada | `83e7cea` | `ReindexTasksTest`: `wait_for_completion` queda en falso y la copia espera dos lecturas de `_tasks` hasta `completed`. Si la tarea falla, `EFX-ES-006`. Checkstyle y PMD en 0. |
-| R-16 | terminada | se anota en R-17 | `home.js` reescribe `k`, `candidatos` y `vector` de cada sugerencia con los valores del formulario antes de seguir el enlace. |
-| R-17 | terminada | se anota en R-18 | El `img` del póster trae `onerror` y `results.js` también sustituye una imagen que ya falló antes de enganchar el evento. |
-| R-18 | pendiente | | |
+| R-16 | terminada | `95f9996` | `home.js` reescribe `k`, `candidatos` y `vector` de cada sugerencia con los valores del formulario. |
+| R-17 | terminada | `4218be1` | El `img` del póster trae `onerror` y `results.js` también sustituye una imagen que ya falló antes de enganchar el evento. |
+| R-18 | terminada | se anota en R-19 | `SmokeIT` lee el alias de `ElastiflixProperties`, no de un literal. Compila con `test-compile`. Checkstyle y PMD en 0. |
 | R-19 | pendiente | | |
 | R-20 | pendiente | | |
 | R-21 | pendiente | | |

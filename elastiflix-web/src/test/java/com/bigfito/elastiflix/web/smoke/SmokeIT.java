@@ -8,6 +8,7 @@ import java.util.concurrent.locks.LockSupport;
 import java.util.regex.Pattern;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -41,7 +42,6 @@ class SmokeIT {
 
     private static final JsonMapper JSON = JsonMapper.builder().build();
     private static final Path SAMPLE = Path.of("..", "elasticsearch", "fixtures", "movies-sample.csv");
-    private static final String ALIAS = "elastiflix-reloaded";
     private static final String UP = "UP";
     private static final String VALID = "valido";
     private static final String RECEIVED = "recibido";
@@ -68,24 +68,27 @@ class SmokeIT {
 
     private final RestClient http;
     private final CatalogIndex catalog;
+    private final String alias;
 
     /**
      * Spring no inyecta el constructor de una prueba si no lleva {@code @Autowired}.
      *
-     * @param port    puerto aleatorio del servidor de esta prueba
-     * @param catalog {@code _count} del alias, solo lectura
+     * @param port       puerto aleatorio del servidor de esta prueba
+     * @param catalog    {@code _count} del alias, solo lectura
+     * @param properties alias configurado, no un literal
      */
     @Autowired
-    SmokeIT(@LocalServerPort int port, CatalogIndex catalog) {
+    SmokeIT(@LocalServerPort int port, CatalogIndex catalog, ElastiflixProperties properties) {
         this.http = RestClient.builder().baseUrl("http://localhost:" + port).build();
         this.catalog = catalog;
+        this.alias = properties.index().alias();
     }
 
     @Test
     @DisplayName("el catálogo responde UP con las 6899 películas de §6")
     void shouldReportTheLiveCatalogCount() {
         // given
-        long counted = catalog.count(ALIAS);
+        long counted = catalog.count(alias);
         Assumptions.assumeTrue(counted == CATALOG_COUNT, () ->
                 "El catálogo cambió: se esperaban " + CATALOG_COUNT + " películas y hay " + counted);
 
@@ -93,8 +96,8 @@ class SmokeIT {
         Catalog seen = readCatalog();
 
         // then
-        assertThat(seen.alias()).isEqualTo(ALIAS);
-        assertThat(seen.index()).matches(Pattern.quote(ALIAS) + "-\\d{8}-\\d{6}");
+        assertThat(seen.alias()).isEqualTo(alias);
+        assertThat(seen.index()).matches(Pattern.quote(alias) + "-\\d{8}-\\d{6}");
         assertThat(seen.documents()).isEqualTo(CATALOG_COUNT);
     }
 
