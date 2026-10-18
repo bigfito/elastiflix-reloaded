@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +118,7 @@ public class IndexMapping {
         for (String name : properties.propertyNames()) {
             parsed.put(name, toField(name, properties.get(name)));
         }
-        return Map.copyOf(parsed);
+        return Collections.unmodifiableMap(parsed);
     }
 
     private static FieldMapping toField(String name, JsonNode spec) {

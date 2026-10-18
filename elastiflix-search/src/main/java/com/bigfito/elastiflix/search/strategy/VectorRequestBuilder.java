@@ -44,21 +44,7 @@ public class VectorRequestBuilder {
     }
 
     /**
-     * Igual que {@link #build(String, SearchQuery, float[])}, con la misma {@code preference}
-     * que las otras partes de un {@code _msearch}.
-     *
-     * @param alias      nombre configurado del catálogo
-     * @param query      consulta ya validada
-     * @param vector     vector de consulta, ya recortado al campo
-     * @param preference valor compartido, o {@code null} si la búsqueda es sola
-     * @return petición de {@code _search}
-     */
-    public SearchRequest build(String alias, SearchQuery query, float[] vector, String preference) {
-        return build(alias, query, vector, preference, query.knn().k());
-    }
-
-    /**
-     * Igual que {@link #build(String, SearchQuery, float[], String)}, con otro {@code size}.
+     * Igual que {@link #build(String, SearchQuery, float[])}, con otro {@code size} y preferencia.
      *
      * <p>La confirmación de un resultado vacío pide un solo documento. {@code k} no cambia.</p>
      *

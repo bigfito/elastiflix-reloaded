@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-27, Javadoc y sobrecargas sin uso
-- **Última actualización:** 2026-10-18 17:58 UTC
+- **Próximo paso:** R-28, detalles de la ingesta
+- **Última actualización:** 2026-10-18 18:00 UTC
 
 ## Fases
 

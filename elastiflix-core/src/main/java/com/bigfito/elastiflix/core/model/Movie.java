@@ -9,7 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * Una película del catálogo, con los 33 campos del mapping.
  *
  * <p>El metadato {@code _id} no es un campo: si el JSON lo trae, se ignora. {@code id} puede llegar
- * como número y se guarda como texto. Los vectores no participan en {@code equals}.</p>
+ * como número y se guarda como texto. Los vectores participan en {@code equals} y {@code hashCode}
+ * como el resto de los campos; al ser arreglos, la comparación es por referencia.</p>
  *
  * @param id                    identificador, igual al {@code _id} del documento
  * @param imdbId                id de IMDB
