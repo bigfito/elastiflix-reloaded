@@ -814,7 +814,7 @@ nunca el catálogo a medias.
   verifica `document_count` si viene.
   - Criterio: lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` y las mismas
     convertidas a arreglo y a NDJSON en las pruebas.
-- [ ] **3.3** `CsvMovieReader`: BOM opcional, separador elegido (coma por defecto, `;`, tabulador),
+- [x] **3.3** `CsvMovieReader`: BOM opcional, separador elegido (coma por defecto, `;`, tabulador),
   **encabezado obligatorio**, celdas multilínea entre comillas, JSON dentro de celdas; tabla de
   correspondencia columna → campo (columnas desconocidas = error). Columnas válidas: los campos del
   mapping, el metadato `_id` y las columnas `plot_256`, `plot_512` y `plot_1024` (que se ignoran con

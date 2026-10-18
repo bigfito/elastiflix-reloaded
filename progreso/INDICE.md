@@ -10,8 +10,8 @@
 - **Fase actual:** 3
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-3-diseno-29a6`, PR #4)
-- **Próximo paso:** Tarea 3.3, `CsvMovieReader`.
-- **Última actualización:** 2026-10-18 02:14 UTC
+- **Próximo paso:** Tarea 3.4, `MappingValidator`.
+- **Última actualización:** 2026-10-18 02:21 UTC
 
 ## Fases
 
@@ -45,6 +45,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-ingest,elastiflix-web -am verify`
-- **Resultado:** BUILD SUCCESS. `FileCheckerTest` 8, `MultipartLimitsTest` 1, Checkstyle 0, PMD en verde. No se usó el perfil `it` ni el catálogo real.
-- **Fecha:** 2026-10-18 02:10 UTC
+- **Comando:** `./mvnw -pl elastiflix-ingest -am verify`
+- **Resultado:** BUILD SUCCESS. `CsvMovieReaderTest` 4, `JsonMovieReaderTest` 4, `FileCheckerTest` 8. Checkstyle 0, PMD en verde. No se usó el perfil `it` ni el catálogo real.
+- **Fecha:** 2026-10-18 02:21 UTC

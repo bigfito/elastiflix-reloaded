@@ -166,6 +166,30 @@ public enum ErrorCode {
             "Hay bytes que no decodifican como UTF-8",
             "Guarda el archivo como UTF-8 y vuelve a subirlo"),
 
+    /** La casilla de encabezado del CSV llegó desmarcada. */
+    HEADER_NOT_CONFIRMED("EFX-ING-005",
+            "El CSV no confirma que la primera fila sea el encabezado",
+            "La casilla de encabezado llegó desmarcada",
+            "Marca que la primera fila trae los nombres de columna"),
+
+    /** La primera fila no sirve como encabezado. */
+    INVALID_HEADER("EFX-ING-006",
+            "La primera fila no tiene nombres de columna válidos",
+            "Faltan id, title o plot, o hay un nombre vacío o repetido",
+            "Pon en la primera fila los nombres del mapping, con id, title y plot"),
+
+    /** Una columna o un campo no está en el mapping. */
+    UNKNOWN_FIELD("EFX-ING-007",
+            "Hay un campo que no existe en el mapping",
+            "La columna o el campo no está en el índice",
+            "Quita el campo o renómbralo a uno del mapping"),
+
+    /** El archivo trae vectores y se ignoran. */
+    VECTORS_IGNORED("EFX-ING-020",
+            "Los vectores del archivo se ignoran: se generarán con el servicio de inferencia",
+            "El archivo trae plot_256, plot_512 o plot_1024",
+            "No hace falta traer esos campos; la demo los calcula"),
+
     /** {@code document_count} no coincide con la lista {@code documents}. */
     DOCUMENT_COUNT_MISMATCH("EFX-ING-008",
             "document_count no coincide con los documentos",

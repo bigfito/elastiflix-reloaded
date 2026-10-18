@@ -1,5 +1,6 @@
 package com.bigfito.elastiflix.ingest.movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
@@ -27,6 +28,16 @@ public final class MovieDocuments {
     private MovieDocuments() {
     }
 
+    private static void dropBlankText(ObjectNode object) {
+        List<String> blank = new ArrayList<>();
+        object.forEachEntry((name, value) -> {
+            if (value.isString() && value.asString().isBlank()) {
+                blank.add(name);
+            }
+        });
+        object.remove(blank);
+    }
+
     /**
      * Lee el valor actual del parser como película.
      *
@@ -47,6 +58,7 @@ public final class MovieDocuments {
         if (!(node instanceof ObjectNode object)) {
             throw new IngestValidationException(ErrorCode.UNREADABLE_JSON);
         }
+        dropBlankText(object);
         object.remove(IGNORED);
         try {
             return MAPPER.treeToValue(object, Movie.class);
