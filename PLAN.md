@@ -56,6 +56,13 @@
 búsqueda sobre el mismo catálogo de **4 322 películas**, acotar los resultados con filtros dinámicos y
 cargar nuevas películas sin dejar nunca el catálogo a medias.
 
+> **Catálogo vigente (2026-10-18 05:49 UTC).** El alias `elastiflix-reloaded` apunta a
+> `elastiflix-reloaded-20261018-054429` y tiene **6 899** documentos. Lo dejó la importación de
+> `movies.json`, aprobada por Adolfo, que reemplazó y borró `elastiflix-reloaded-20261018-003535`
+> (4 322 documentos). Los conteos de 4 322 de este plan son los de las verificaciones anteriores a
+> esa carga. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y exigen que sea
+> mayor que cero.
+
 **Qué debe lograr.**
 
 | Capacidad | Resumen |
@@ -322,6 +329,10 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
 | Vectorial | `un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano` | Life of Pi (`87827`): 10.º · 3.º · 2.º |
 | Vectorial | `un robot solitario que limpia la Tierra` | WALL·E (`10681`): 1.º en los tres campos |
 | Híbrida · `match` `title` AND | `toy story juguetes que cobran vida` | componente léxico vacío; los `k` resultados vienen del vectorial |
+
+Esos totales y posiciones son del catálogo de 4 322 películas. En el de 6 899 cambian.
+`FullTextSearchIT` exige que OR sea mayor que cero y que AND no lo supere.
+`VectorSearchIT` exige que la película de la fila siga entre los `k` resultados.
 
 ## 7. Convenciones del proyecto
 
@@ -1041,7 +1052,8 @@ Criterio: Definición de Hecho completa.
   las fases cerradas.
 
 La evidencia de cada punto está en `progreso/6.md`. Las tareas de la Fase 6 están en `origin/main`
-(merge `eb309d9` del PR #7).
+(merge `eb309d9` del PR #7). El PR #8 (`22dac52`) registró esa fusión. Después se borraron las ramas
+remotas `cursor/*`. El catálogo vigente está en `progreso/INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 

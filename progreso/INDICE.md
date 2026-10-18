@@ -9,9 +9,9 @@
 
 - **Fase actual:** ninguna. El proyecto está cerrado.
 - **Estado de la fase:** las fases 0 a 6 están en `terminado`
-- **Rama:** `main`
+- **Rama:** `main` (en `origin` solo queda esta rama; las `cursor/*` se borraron el 2026-10-18)
 - **Próximo paso:** ninguno
-- **Última actualización:** 2026-10-18 05:34 UTC
+- **Última actualización:** 2026-10-18 06:20 UTC
 
 ## Fases
 
@@ -42,9 +42,19 @@
 | 2026-10-18 | Fase 4 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 4, incluida la interfaz de las capturas. El PR #5 quedó fusionado en `main` (merge commit `c64aa8a`). |
 | 2026-10-18 | Fase 5 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 5. El PR #6 quedó fusionado en `main` (merge commit `68c1a24`). |
 | 2026-10-18 | Fase 6 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 6. El PR #7 quedó fusionado en `main` (merge commit `eb309d9`). |
+| 2026-10-18 | Corrección de documentación fusionada en `main` | Adolfo aprobó el PR #8. Quedó fusionado en `main` (merge commit `22dac52`). Después se borraron las ramas remotas `cursor/*`. |
+| 2026-10-18 | Importación de `movies.json` al catálogo real | Adolfo eligió reemplazar el índice de `elastiflix-reloaded`. Arranque 05:44:29 UTC y publicación 05:49:22 UTC (unos 4 min 54 s). Arreglo JSON de 6899 registros, validación `valido`, 0 errores y 5055 advertencias (`EFX-ING-022`: 4960, `EFX-ING-021`: 95). Índice nuevo `elastiflix-reloaded-20261018-054429` con 6899 documentos. Se borró `elastiflix-reloaded-20261018-003535`. Una lectura posterior contó `title`, `plot`, `plot_256`, `plot_512` y `plot_1024` en 6899/6899. |
+
+## Catálogo vigente
+
+- **Alias:** `elastiflix-reloaded`
+- **Índice:** `elastiflix-reloaded-20261018-054429`
+- **Documentos:** 6899, con `title`, `plot` y los tres vectores en todos
+- **Índice anterior:** `elastiflix-reloaded-20261018-003535` (4322 documentos), borrado al publicar
+- **Pruebas:** `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y exigen que sea mayor que cero. No escriben en este alias.
 
 ## Última verificación
 
 - **Comando:** `./mvnw verify -Pit`
-- **Resultado:** BUILD SUCCESS. Checkstyle 0. `SmokeIT` 4/4. La escritura usó `elastiflix-it-34da60644e14`. El alias real siguió en `elastiflix-reloaded-20261018-003535` con 4322 documentos.
-- **Fecha:** 2026-10-18 04:52 UTC
+- **Resultado:** BUILD SUCCESS a las 06:20:36 UTC (1 min 4 s). 168 pruebas, 0 fallos: 141 unitarias y 27 de integración. Checkstyle 0. `SmokeIT` 4/4. La escritura usó `elastiflix-it-021b536192a8` y lo borró. El alias real siguió en `elastiflix-reloaded-20261018-054429` con 6899 documentos.
+- **Fecha:** 2026-10-18 06:20 UTC. La corrida anterior, de las 04:52 UTC, fue sobre `elastiflix-reloaded-20261018-003535` con 4322 documentos, antes de la importación de las 05:44 UTC.

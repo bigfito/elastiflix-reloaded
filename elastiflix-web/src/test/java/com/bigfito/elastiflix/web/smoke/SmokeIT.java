@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.concurrent.locks.LockSupport;
 import java.util.regex.Pattern;
 
+import com.bigfito.elastiflix.core.catalog.CatalogIndex;
+
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -28,6 +30,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Recorre la aplicación contra el catálogo real. Solo lee: no importa ni publica.
+ *
+ * <p>El conteo no está fijo, porque una carga cambia el número de películas. Al empezar se lee
+ * {@code _count} del alias y se exige que la salud diga lo mismo, y que sea mayor que cero. La
+ * validación del CSV compara alias, índice y conteo antes y después: si alguno cambia, la prueba
+ * falla.</p>
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SmokeIT {
@@ -41,7 +48,6 @@ class SmokeIT {
     private static final String VALIDATING = "validando";
     private static final String VECTORS_IGNORED = "EFX-ING-020";
     private static final String HIT = "class=\"hit\"";
-    private static final long CATALOG_DOCUMENTS = 4322L;
     private static final int VALIDATION_STEP = 3;
     private static final int SAMPLE_MOVIES = 4;
     private static final int DEFAULT_K = 100;
@@ -60,27 +66,34 @@ class SmokeIT {
             "/buscar?q={q}&modo=hibrida&tipo=match&campo=title&operador=and&vector=plot_256&k={k}&candidatos={c}";
 
     private final RestClient http;
+    private final CatalogIndex catalog;
 
     /**
      * Spring no inyecta el constructor de una prueba si no lleva {@code @Autowired}.
      *
-     * @param port puerto aleatorio del servidor de esta prueba
+     * @param port    puerto aleatorio del servidor de esta prueba
+     * @param catalog {@code _count} del alias, solo lectura
      */
     @Autowired
-    SmokeIT(@LocalServerPort int port) {
+    SmokeIT(@LocalServerPort int port, CatalogIndex catalog) {
         this.http = RestClient.builder().baseUrl("http://localhost:" + port).build();
+        this.catalog = catalog;
     }
 
     @Test
-    @DisplayName("el catálogo responde UP con 4322 películas")
-    void shouldReportFourThousandMovies() {
+    @DisplayName("el catálogo responde UP con el mismo conteo que _count")
+    void shouldReportTheLiveCatalogCount() {
+        // given
+        long counted = catalog.count(ALIAS);
+
         // when
-        Catalog catalog = readCatalog();
+        Catalog seen = readCatalog();
 
         // then
-        assertThat(catalog.alias()).isEqualTo(ALIAS);
-        assertThat(catalog.index()).matches(Pattern.quote(ALIAS) + "-\\d{8}-\\d{6}");
-        assertThat(catalog.documents()).isEqualTo(CATALOG_DOCUMENTS);
+        assertThat(counted).isPositive();
+        assertThat(seen.alias()).isEqualTo(ALIAS);
+        assertThat(seen.index()).matches(Pattern.quote(ALIAS) + "-\\d{8}-\\d{6}");
+        assertThat(seen.documents()).isEqualTo(counted);
     }
 
     @Test
