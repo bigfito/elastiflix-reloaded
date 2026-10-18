@@ -74,7 +74,73 @@ public enum ErrorCode {
     EMPTY_EMBEDDING_TEXT("EFX-EMB-003",
             "No hay texto para vectorizar",
             "La consulta o la sinopsis no trae texto",
-            "Escribe un texto antes de pedir el vector");
+            "Escribe un texto antes de pedir el vector"),
+
+    /** La caja de búsqueda llegó vacía. */
+    EMPTY_SEARCH_TEXT("EFX-SRCH-001",
+            "Escribe qué película buscas antes de pulsar Buscar",
+            "La caja de búsqueda llegó vacía",
+            "Escribe una consulta"),
+
+    /** {@code k} es menor que 1. */
+    K_TOO_SMALL("EFX-SRCH-002",
+            "k debe ser un entero mayor o igual que 1",
+            "k es menor que 1",
+            "Elige un entero a partir de 1"),
+
+    /** Hay menos candidatos que resultados pedidos. */
+    CANDIDATES_BELOW_K("EFX-SRCH-003",
+            "num_candidates debe ser mayor o igual que k",
+            "Hay menos candidatos que resultados pedidos",
+            "Sube num_candidates o baja k"),
+
+    /** {@code num_candidates} pasa de 10 000. */
+    CANDIDATES_TOO_LARGE("EFX-SRCH-004",
+            "num_candidates debe ser un entero de máximo 10 000",
+            "num_candidates pasa de 10 000",
+            "Elige un entero entre k y 10 000"),
+
+    /** Llegó un campo junto con {@code multi_match}. */
+    FIELD_WITH_MULTI_MATCH("EFX-SRCH-005",
+            "El campo no se usa con multi-match",
+            "Llegó un campo junto con multi_match",
+            "Quita el campo: multi_match ya busca en los dos títulos"),
+
+    /** El tamaño de página no es 25, 50 ni 100. */
+    PAGE_SIZE_NOT_ALLOWED("EFX-SRCH-006",
+            "El tamaño de página debe ser 25, 50 o 100",
+            "El tamaño de página no es 25, 50 ni 100",
+            "Elige uno de esos tres"),
+
+    /** «Desde» es posterior a «Hasta». */
+    DATE_RANGE_REVERSED("EFX-SRCH-007",
+            "La fecha «Desde» no puede ser posterior a «Hasta»",
+            "Desde es posterior a Hasta",
+            "Invierte las fechas o deja una sola"),
+
+    /** {@code from + size} pasa de 10 000. */
+    FULL_TEXT_WINDOW_EXCEEDED("EFX-SRCH-008",
+            "La página se sale de las 10 000 coincidencias que se pueden recorrer",
+            "from + size pasa de 10 000",
+            "Vuelve a una página anterior"),
+
+    /** {@code from + size} pasa de {@code k}. */
+    KNN_WINDOW_EXCEEDED("EFX-SRCH-009",
+            "La página se sale de los k resultados de este modo",
+            "from + size pasa de k",
+            "Vuelve a una página anterior o sube k"),
+
+    /** El modo no trae sus ajustes. */
+    MISSING_MODE_SETTINGS("EFX-SRCH-010",
+            "Faltan los ajustes de este modo",
+            "El modo no trae sus ajustes",
+            "Completa el tipo de consulta o el vector, según el modo"),
+
+    /** La página es menor que 1. */
+    PAGE_TOO_SMALL("EFX-SRCH-011",
+            "La página debe ser un entero mayor o igual que 1",
+            "La página es menor que 1",
+            "Empieza en la página 1");
 
     private final String code;
     private final String whatHappened;
