@@ -3,6 +3,7 @@ package com.bigfito.elastiflix.web.layout;
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.web.home.HomeController;
+import com.bigfito.elastiflix.web.home.SuggestionCatalog;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * La cabecera y el pie se repiten en cada página con el conteo del catálogo.
  */
 @WebMvcTest(HomeController.class)
-@Import(LayoutAdvice.class)
+@Import({LayoutAdvice.class, SuggestionCatalog.class})
 class LayoutPageTest {
 
     @Autowired

@@ -910,7 +910,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   - Criterio: `GET /actuator/health` → `UP` con `alias`, `index` y `documents`; el header muestra
     «Conectado · Elasticsearch Serverless» y el pie «Índice: elastiflix-reloaded · 4 322 películas» y
     «This product uses the TMDB API but is not endorsed or certified by TMDB.» en todas las páginas.
-- [ ] **4.2** Inicio (`GET /`): caja de búsqueda con su validación, selector de modo y paneles
+- [x] **4.2** Inicio (`GET /`): caja de búsqueda con su validación, selector de modo y paneles
   (Full-text: tipo de consulta, campo solo con `match`, operador y textos de ayuda; Vectorial: campo de
   vector con sus dimensiones, `k` y `num_candidates` con sus validaciones; Híbrida: ambos y la
   explicación RRF), y las **sugerencias dinámicas por modo y ajustes** exactamente como en
