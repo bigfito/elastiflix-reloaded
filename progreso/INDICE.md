@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 6
-- **Estado de la fase:** terminado
-- **Herramienta prevista:** Cursor (`cursor/fase-6-cierre-29a6`)
-- **Próximo paso:** Revisión final del usuario. No hay más fases. El PR de esta rama pide esa revisión.
-- **Última actualización:** 2026-10-18 04:55 UTC
+- **Fase actual:** ninguna. El proyecto está cerrado.
+- **Estado de la fase:** las fases 0 a 6 están en `terminado`
+- **Rama:** `main`
+- **Próximo paso:** ninguno
+- **Última actualización:** 2026-10-18 05:34 UTC
 
 ## Fases
 
@@ -41,10 +41,7 @@
 | 2026-10-18 | Fase 3 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 3. El PR #4 quedó fusionado en `main` (merge commit `05ad8f8`). |
 | 2026-10-18 | Fase 4 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 4, incluida la interfaz de las capturas. El PR #5 quedó fusionado en `main` (merge commit `c64aa8a`). |
 | 2026-10-18 | Fase 5 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 5. El PR #6 quedó fusionado en `main` (merge commit `68c1a24`). |
-
-## Pendiente para la Fase 4
-
-- Hecho en la tarea 4.4: el mockup y la página dicen que los vectores de la sinopsis se generan con inferencia.
+| 2026-10-18 | Fase 6 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 6. El PR #7 quedó fusionado en `main` (merge commit `eb309d9`). |
 
 ## Última verificación
 

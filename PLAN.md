@@ -1040,8 +1040,8 @@ Criterio: Definición de Hecho completa.
 - [x] Todos los archivos de `progreso/` en `terminado`, sin cambios sin commit, e `INDICE.md` con todas
   las fases cerradas.
 
-La evidencia de cada punto está en `progreso/6.md`. Las tareas de la Fase 6 entran en `origin/main`
-al fusionar el PR de este cierre.
+La evidencia de cada punto está en `progreso/6.md`. Las tareas de la Fase 6 están en `origin/main`
+(merge `eb309d9` del PR #7).
 
 ## Variables de entorno (`.env.example`)
 
