@@ -13,16 +13,16 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
-![Estado](https://img.shields.io/badge/estado-fase_5_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
-![Fases](https://img.shields.io/badge/fases-6%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
+![Estado](https://img.shields.io/badge/estado-terminado-BDE8D7?style=flat-square&labelColor=3A3548)
+![Fases](https://img.shields.io/badge/fases-7%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
 </div>
 
 > [!NOTE]
-> 🚧 **Estado actual:** la Fase 5 (pruebas integrales y smoke test) está terminada. `./mvnw verify -Pit`
-> corre unitarias, arquitectura, integración y el smoke contra el clúster. El smoke lee
-> `elastiflix-reloaded` y valida `movies-sample.csv` sin importarlo. El avance está en
+> ✅ **Estado actual:** las siete fases del plan están terminadas en esta rama. `./mvnw verify -Pit`
+> corre unitarias, arquitectura, integración y el smoke. La aplicación lee `elastiflix-reloaded`
+> y no lo modifica al arrancar. El cierre pide la revisión final del usuario. El avance está en
 > [`progreso/INDICE.md`](progreso/INDICE.md).
 
 ---
@@ -37,6 +37,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 - [🧰 Stack](#-stack)
 - [📁 Estructura del repositorio](#-estructura-del-repositorio)
 - [🚀 Puesta en marcha](#-puesta-en-marcha)
+- [📸 Capturas](#-capturas)
 - [🤖 Desarrollo con agentes de IA](#-desarrollo-con-agentes-de-ia)
 - [🗺️ Plan y estado](#️-plan-y-estado)
 - [✅ Calidad de código](#-calidad-de-código)
@@ -200,7 +201,7 @@ elastiflix-reloaded/
 ├── 📥 elastiflix-ingest/                validación · lectores JSON/CSV · importación · swap de alias
 ├── 🌐 elastiflix-web/                   único ejecutable · 4 páginas Thymeleaf
 ├── 🧹 config/                           Checkstyle y PMD (congelados)
-├── 📚 docs/                             convenciones · arquitectura · diseños por fase
+├── 📚 docs/                             convenciones · arquitectura · diseños por fase · capturas
 ├── 🎨 design/                           mockups aprobados y tokens de diseño
 ├── 🗄️  elasticsearch/                    mapping del índice y fixtures reales
 ├── 📍 progreso/                         estado del desarrollo para retomar sesiones
@@ -210,8 +211,9 @@ elastiflix-reloaded/
 ## 🚀 Puesta en marcha
 
 > [!IMPORTANT]
-> Comandos ejecutados con éxito al cerrar la Fase 5. `./mvnw verify -Pit` incluye el smoke.
-> La Fase 6 vuelve a verificar esta sección.
+> Esta lista es la que se ejecutó, en este orden, en un `git clone` limpio con una copia local de
+> `.env` el 2026-10-18. No hace falta ningún comando aparte. `./mvnw verify -Pit` incluye core,
+> search, ingest y el smoke.
 
 **Prerrequisitos**
 
@@ -234,18 +236,19 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 ./mvnw -q validate                               # enforcer de Java y Maven
 ./mvnw -q -DskipTests package                    # jar de elastiflix-web
 ./mvnw verify                                    # unitarias, ArchUnit, Checkstyle y PMD
-./mvnw verify -Pit -pl elastiflix-core -am       # integración de core (requiere .env local)
-./mvnw verify -Pit -pl elastiflix-search -am     # integración de búsqueda, solo lectura del alias
-./mvnw verify -Pit -pl elastiflix-ingest -am     # integración de carga sobre elastiflix-it-<aleatorio>
-./mvnw verify -Pit                               # unitarias, arquitectura, integración y smoke
+./mvnw verify -Pit                               # lo anterior más integración y smoke (requiere .env)
 ./mvnw -q install -DskipTests
 ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
-./mvnw -pl elastiflix-web spring-boot:run
+./mvnw -pl elastiflix-web spring-boot:run        # http://localhost:8080
 ```
 
-La migración dejó el alias en `elastiflix-reloaded-20261018-003535`, con 4 322 documentos, y una
-segunda ejecución terminó con código 0 sin cambiar nada. `spring-boot:run` abre http://localhost:8080
-y solo lee ese alias.
+La migración solo cambia el catálogo si el nombre configurado todavía es un índice concreto. Si ya es
+un alias, no crea ni borra índices: el log dice a cuál apunta y el proceso termina con código 0. En
+la ejecución del 2026-10-18 el alias `elastiflix-reloaded` siguió en
+`elastiflix-reloaded-20261018-003535`, con 4 322 documentos. `spring-boot:run` abre
+http://localhost:8080 y solo lee ese alias. `GET /` respondió 200.
+
+Las capturas de la aplicación en marcha están en [docs/capturas/](docs/capturas/).
 
 **Qué ya funciona**
 
@@ -324,7 +327,7 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 | 3 | 📥 Carga de datos | 🔒 | ✅ terminado |
 | 4 | 🌐 Interfaz web | — | ✅ terminado |
 | 5 | 🧪 Pruebas integrales y smoke test | — | ✅ terminado |
-| 6 | 📚 Documentación y cierre | — | ⏳ no iniciado |
+| 6 | 📚 Documentación y cierre | — | ✅ terminado |
 
 El estado vigente siempre es el de [`progreso/INDICE.md`](progreso/INDICE.md); esta tabla se actualiza
 al cerrar cada fase.
@@ -352,6 +355,19 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 |---|---|---|---|
 | Búsqueda, modos y sugerencias | Puntuaciones, filtros y paginación | Formulario, archivos y validación | Documentación de la demo |
 
+## 📸 Capturas
+
+Tomadas el 2026-10-18 con la aplicación en http://localhost:8080, leyendo el alias
+`elastiflix-reloaded` (4 322 películas).
+
+| Página | Captura |
+|---|---|
+| Inicio `GET /` | ![Inicio](docs/capturas/inicio.png) |
+| Resultados `GET /buscar` | ![Resultados](docs/capturas/resultados.png) |
+| Cargar datos `GET /cargar` | ![Cargar datos](docs/capturas/cargar.png) |
+| Acerca de `GET /acerca` | ![Acerca de](docs/capturas/acerca.png) |
+| Ruta desconocida | ![No encontrada](docs/capturas/no-encontrada.png) |
+
 ## 📖 Documentación
 
 | Documento | Para qué |
@@ -365,6 +381,8 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 | 🔎 [`docs/diseno/2.md`](docs/diseno/2.md) | Diseño aprobado de la búsqueda |
 | 📥 [`docs/diseno/3.md`](docs/diseno/3.md) | Diseño aprobado de la carga |
 | 🌐 [`docs/diseno/4.md`](docs/diseno/4.md) | Diseño de la interfaz web |
+| 🧪 [`docs/diseno/5.md`](docs/diseno/5.md) | Diseño del smoke test |
+| 📸 [`docs/capturas/`](docs/capturas/) | Capturas de las páginas |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice |
 | 🎨 [`design/README.md`](design/README.md) | Mockups y tokens de diseño |
 

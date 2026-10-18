@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 5
+- **Fase actual:** 6
 - **Estado de la fase:** terminado
-- **Herramienta prevista:** Cursor (`cursor/fase-5-pruebas-29a6`)
-- **Próximo paso:** Fase 6, no iniciada. No empezar sin que el usuario lo pida.
-- **Última actualización:** 2026-10-18 04:14 UTC
+- **Herramienta prevista:** Cursor (`cursor/fase-6-cierre-29a6`)
+- **Próximo paso:** Revisión final del usuario. No hay más fases. El PR de esta rama pide esa revisión.
+- **Última actualización:** 2026-10-18 04:55 UTC
 
 ## Fases
 
@@ -23,7 +23,7 @@
 | 3 | Carga de datos | 🔒 | terminado | `progreso/3.md` | 2026-10-18 en verde |
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
 | 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
-| 6 | Documentación y cierre | — | no iniciado | `progreso/6.md` | — |
+| 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
 
 ## Aprobaciones del usuario
 
@@ -40,6 +40,7 @@
 | 2026-10-18 | Diseño de la Fase 3 y sus supuestos | Adolfo aprobó `docs/diseno/3.md` tal cual. Incluye borrar el índice anterior al publicar, el registro individual directo al alias, sin controles de concurrencia, rechazar un CSV sin encabezado y generar siempre los vectores con inferencia. |
 | 2026-10-18 | Fase 3 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 3. El PR #4 quedó fusionado en `main` (merge commit `05ad8f8`). |
 | 2026-10-18 | Fase 4 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 4, incluida la interfaz de las capturas. El PR #5 quedó fusionado en `main` (merge commit `c64aa8a`). |
+| 2026-10-18 | Fase 5 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 5. El PR #6 quedó fusionado en `main` (merge commit `68c1a24`). |
 
 ## Pendiente para la Fase 4
 
@@ -48,5 +49,5 @@
 ## Última verificación
 
 - **Comando:** `./mvnw verify -Pit`
-- **Resultado:** BUILD SUCCESS. Checkstyle 0. `SmokeIT` validó el CSV de muestra y no lo importó. El catálogo real no se modificó. `IngestIT` escribió solo en `elastiflix-it-f40962764503`.
-- **Fecha:** 2026-10-18 04:12 UTC
+- **Resultado:** BUILD SUCCESS. Checkstyle 0. `SmokeIT` 4/4. La escritura usó `elastiflix-it-34da60644e14`. El alias real siguió en `elastiflix-reloaded-20261018-003535` con 4322 documentos.
+- **Fecha:** 2026-10-18 04:52 UTC
