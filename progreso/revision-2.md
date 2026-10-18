@@ -14,14 +14,14 @@
 
 ## Estado general
 
-terminada (PR #13 hacia `main` abierto)
+terminada y fusionada en `main` (merge `7f08810`, PR #13)
 
 ## Punto de reanudación
 
 - **Tarea actual:** ninguna; S-01 a S-27 terminadas
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** Adolfo revisa y fusiona el PR #13 (`revision-2` → `main`).
-- **Última actualización:** 2026-10-18 23:06 UTC
+- **Próximo paso:** ninguno. La rama `revision-2` se borró tras la fusión.
+- **Última actualización:** 2026-10-18 23:10 UTC
 
 ## Tareas
 

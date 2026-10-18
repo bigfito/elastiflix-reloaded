@@ -23,8 +23,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > [!NOTE]
 > ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. La
 > **Revisión 2** (27 correcciones de [`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md)) está
-> terminada en la rama `revision-2`, con estado en [`progreso/revision-2.md`](progreso/revision-2.md), y se
-> integra en `main` por PR. El índice y el conteo
+> terminada y fusionada en `main` (PR #13), con estado en [`progreso/revision-2.md`](progreso/revision-2.md). El índice y el conteo
 > del alias `elastiflix-reloaded` están en [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
 > `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
 > `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias
@@ -423,7 +422,7 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 | 4 | 🌐 Interfaz web | — | ✅ terminado |
 | 5 | 🧪 Pruebas integrales y smoke test | — | ✅ terminado |
 | 6 | 📚 Documentación y cierre | — | ✅ terminado |
-| — | 🔧 Revisión 2 (`S-01` … `S-27`) | — | ✅ terminado (PR hacia `main`) |
+| — | 🔧 Revisión 2 (`S-01` … `S-27`) | — | ✅ terminado |
 
 El estado vigente siempre es el de [`progreso/INDICE.md`](progreso/INDICE.md); esta tabla se actualiza
 al cerrar cada fase.

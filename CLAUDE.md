@@ -7,7 +7,7 @@
 >
 > Las fases 0 a 6, la revisión 1 y los bugs B-01 a B-05 ya están en `main`. La **Revisión 2**
 > (`S-01`…`S-27`, lista en `docs/revisiones/revision-2.md`, estado en `progreso/revision-2.md`) está
-> terminada en la rama `revision-2` y se integra por PR. Antes de empezar, lee `progreso/INDICE.md`: ahí
+> terminada y fusionada en `main` (PR #13). Antes de empezar, lee `progreso/INDICE.md`: ahí
 > están el catálogo vigente y el próximo paso. Para pedirlo en Claude Code basta con «Retoma el trabajo»
 > (ver `README.md`).
 
@@ -19,8 +19,8 @@
 2. Lee **`docs/convenciones-java.md`** completo, **aunque tengas instalada la skill `java-developer`**:
    el documento tiene umbrales y desviaciones del proyecto y manda sobre la skill.
 3. Trabaja **fase por fase, en orden**; corre la "Verificación de fase" antes de avanzar.
-4. En una revisión, cada `S-NN` es una tarea: atiéndelas en orden, con su criterio completo, en la rama
-   `revision-2`.
+4. En una revisión, cada corrección es una tarea: atiéndelas en orden, con su criterio completo, en la
+   rama propia de esa revisión.
 
 ## Sugerencias de uso con Claude Code
 
