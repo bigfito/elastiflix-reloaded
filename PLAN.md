@@ -810,7 +810,7 @@ nunca el catálogo a medias.
   - Criterio: pruebas unitarias aceptan `elastiflix-reloaded.json`, `peliculas_2026.csv` y rechazan
     `peliculas.txt`, `peliculas`, `peliculas.csv.exe`, `peliculas.exe.csv`, `peliculas.json.csv`, un
     archivo de 150 MB + 1 byte y uno con bytes no UTF-8, cada uno con su código `EFX-ING-*`.
-- [ ] **3.2** `JsonMovieReader`: objeto de exportación, arreglo o NDJSON, en streaming con Jackson 3;
+- [x] **3.2** `JsonMovieReader`: objeto de exportación, arreglo o NDJSON, en streaming con Jackson 3;
   verifica `document_count` si viene.
   - Criterio: lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` y las mismas
     convertidas a arreglo y a NDJSON en las pruebas.

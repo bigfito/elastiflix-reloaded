@@ -10,8 +10,8 @@
 - **Fase actual:** 3
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-3-diseno-29a6`, PR #4)
-- **Próximo paso:** Tarea 3.2, `JsonMovieReader`.
-- **Última actualización:** 2026-10-18 02:10 UTC
+- **Próximo paso:** Tarea 3.3, `CsvMovieReader`.
+- **Última actualización:** 2026-10-18 02:14 UTC
 
 ## Fases
 

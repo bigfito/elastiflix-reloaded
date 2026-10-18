@@ -164,7 +164,19 @@ public enum ErrorCode {
     INVALID_UTF8("EFX-ING-004",
             "El archivo no es texto UTF-8",
             "Hay bytes que no decodifican como UTF-8",
-            "Guarda el archivo como UTF-8 y vuelve a subirlo");
+            "Guarda el archivo como UTF-8 y vuelve a subirlo"),
+
+    /** {@code document_count} no coincide con la lista {@code documents}. */
+    DOCUMENT_COUNT_MISMATCH("EFX-ING-008",
+            "document_count no coincide con los documentos",
+            "El objeto de exportación trae un conteo distinto del largo de documents",
+            "Corrige document_count o la lista de documentos y vuelve a subir el archivo"),
+
+    /** El JSON del archivo o de una celda no se puede leer. */
+    UNREADABLE_JSON("EFX-ING-013",
+            "El JSON no se puede leer",
+            "El archivo, o el JSON de una celda, está mal formado",
+            "Revisa el JSON y vuelve a subir el archivo");
 
     private final String code;
     private final String whatHappened;
