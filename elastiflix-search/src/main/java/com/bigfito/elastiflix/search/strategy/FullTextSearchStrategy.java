@@ -46,4 +46,9 @@ public class FullTextSearchStrategy implements SearchStrategy {
         return new StrategyResult(HitReader.hits(response), HitReader.total(response),
                 HitReader.aggregations(response));
     }
+
+    @Override
+    public long foundWithoutFilters(SearchQuery query) {
+        return transport.count(requests.count(properties.index().alias(), query.withoutFilters()));
+    }
 }

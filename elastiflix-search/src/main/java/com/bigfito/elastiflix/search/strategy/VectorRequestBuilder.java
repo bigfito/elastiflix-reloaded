@@ -39,7 +39,7 @@ public class VectorRequestBuilder {
      * @return petición de {@code _search}
      */
     public SearchRequest build(String alias, SearchQuery query, float[] vector) {
-        return build(alias, query, vector, null);
+        return build(alias, query, vector, null, query.knn().k());
     }
 
     /**
@@ -53,14 +53,30 @@ public class VectorRequestBuilder {
      * @return petición de {@code _search}
      */
     public SearchRequest build(String alias, SearchQuery query, float[] vector, String preference) {
-        KnnSettings knn = query.knn();
-        Retriever retriever = retriever(knn, vector, filters.clauses(query.filters()));
-        return SearchRequest.of(request -> withPreference(base(request, alias, knn, retriever), preference));
+        return build(alias, query, vector, preference, query.knn().k());
     }
 
-    private static SearchRequest.Builder base(SearchRequest.Builder request, String alias, KnnSettings knn,
+    /**
+     * Igual que {@link #build(String, SearchQuery, float[], String)}, con otro {@code size}.
+     *
+     * <p>La confirmación de un resultado vacío pide un solo documento. {@code k} no cambia.</p>
+     *
+     * @param alias      nombre configurado del catálogo
+     * @param query      consulta ya validada
+     * @param vector     vector de consulta, ya recortado al campo
+     * @param preference valor compartido, o {@code null} si la búsqueda es sola
+     * @param size       cuántos documentos devolver
+     * @return petición de {@code _search}
+     */
+    public SearchRequest build(String alias, SearchQuery query, float[] vector, String preference, int size) {
+        KnnSettings knn = query.knn();
+        Retriever retriever = retriever(knn, vector, filters.clauses(query.filters()));
+        return SearchRequest.of(request -> withPreference(base(request, alias, size, retriever), preference));
+    }
+
+    private static SearchRequest.Builder base(SearchRequest.Builder request, String alias, int size,
             Retriever retriever) {
-        return request.index(alias).size(knn.k()).source(SearchSource.withoutVectors()).retriever(retriever);
+        return request.index(alias).size(size).source(SearchSource.withoutVectors()).retriever(retriever);
     }
 
     private static SearchRequest.Builder withPreference(SearchRequest.Builder request, String preference) {

@@ -68,7 +68,21 @@ class HybridRequestBuilderTest {
         assertThat(json(filters)).isEqualTo(WITH_FILTERS);
     }
 
+    @Test
+    @DisplayName("la confirmación de un vacío pide size 1 y conserva rank_window_size = k")
+    void shouldAskForOneHitWhenConfirmingThereAreResults() {
+        String body = json(SearchFilters.none(), 1);
+        assertThat(body).contains("\"size\":1");
+        assertThat(body).contains("\"rank_window_size\":100");
+        assertThat(body).contains("\"k\":100");
+        assertThat(body).doesNotContain("\"size\":100");
+    }
+
     private String json(SearchFilters filters) {
+        return json(filters, 100);
+    }
+
+    private String json(SearchFilters filters, int size) {
         SearchQuery query = new SearchQuery(
                 "toy story",
                 SearchMode.HYBRID,
@@ -77,6 +91,6 @@ class HybridRequestBuilderTest {
                 filters,
                 1,
                 SearchQuery.PAGE_25);
-        return JsonDocuments.of(builder.build("catalogo", query, VECTOR, PREFERENCE));
+        return JsonDocuments.of(builder.build("catalogo", query, VECTOR, PREFERENCE, size));
     }
 }

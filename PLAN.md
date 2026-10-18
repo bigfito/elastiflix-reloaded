@@ -766,7 +766,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
 - [x] **2.7** Paginación: página, total de páginas, rango («1–25 de 100»), límites por modo (Full-text
   hasta 10 000; Vectorial e Híbrida hasta `k`).
   - Criterio: pruebas unitarias de bordes (última página parcial, `k` no múltiplo del tamaño).
-- [ ] **2.8** `SearchService` (fachada): elige la estrategia, mide el tiempo, registra en `INFO` (modo,
+- [x] **2.8** `SearchService` (fachada): elige la estrategia, mide el tiempo, registra en `INFO` (modo,
   total, ms), devuelve `SearchResult` (resultados de la página, total, facetas, paginación, descripción
   de ajustes) y distingue los estados vacíos «sin resultados» y «sin resultados con estos filtros»
   (este último confirma con un conteo sin filtros).

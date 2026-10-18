@@ -48,10 +48,19 @@ public class VectorSearchStrategy implements SearchStrategy {
 
     @Override
     public StrategyResult search(SearchQuery query) {
-        float[] vector = QueryVector.forField(embeddings.embedQuery(query.text()), query.knn().field());
-        SearchResponse<Movie> response = transport.search(
-                requests.build(properties.index().alias(), query, vector), Movie.class);
-        List<RankedHit> hits = HitReader.hits(response);
+        List<RankedHit> hits = HitReader.hits(execute(query, query.knn().k()));
         return new StrategyResult(hits, hits.size(), Map.of());
+    }
+
+    @Override
+    public long foundWithoutFilters(SearchQuery query) {
+        SearchQuery open = query.withoutFilters();
+        return HitReader.hits(execute(open, 1)).size();
+    }
+
+    private SearchResponse<Movie> execute(SearchQuery query, int size) {
+        float[] vector = QueryVector.forField(embeddings.embedQuery(query.text()), query.knn().field());
+        return transport.search(
+                requests.build(properties.index().alias(), query, vector, null, size), Movie.class);
     }
 }

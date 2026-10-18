@@ -49,7 +49,22 @@ public class HybridRequestBuilder {
      * @return la petición {@code _msearch}
      */
     public MsearchRequest build(String alias, SearchQuery query, float[] vector) {
-        return build(alias, query, vector, "elastiflix-" + UUID.randomUUID());
+        return build(alias, query, vector, query.knn().k());
+    }
+
+    /**
+     * Igual que {@link #build(String, SearchQuery, float[])}, pidiendo otra cantidad de documentos.
+     *
+     * <p>{@code rank_window_size} sigue siendo {@code k}. La confirmación de un vacío usa 1.</p>
+     *
+     * @param alias  nombre configurado del catálogo
+     * @param query  consulta ya validada
+     * @param vector vector de consulta, ya recortado
+     * @param size   {@code size} de las tres búsquedas
+     * @return la petición {@code _msearch}
+     */
+    public MsearchRequest build(String alias, SearchQuery query, float[] vector, int size) {
+        return build(alias, query, vector, "elastiflix-" + UUID.randomUUID(), size);
     }
 
     /**
@@ -64,23 +79,37 @@ public class HybridRequestBuilder {
      * @return la petición {@code _msearch}
      */
     public MsearchRequest build(String alias, SearchQuery query, float[] vector, String preference) {
-        int k = query.knn().k();
-        SearchRequest fused = fused(alias, query, vector, preference, k);
-        SearchRequest words = words(alias, query, preference, k);
-        SearchRequest nearest = vectors.build(alias, query, vector, preference);
+        return build(alias, query, vector, preference, query.knn().k());
+    }
+
+    /**
+     * Igual que {@link #build(String, SearchQuery, float[], String)}, con otro {@code size}.
+     *
+     * @param alias      nombre configurado del catálogo
+     * @param query      consulta ya validada
+     * @param vector     vector de consulta, ya recortado
+     * @param preference valor compartido por las tres búsquedas
+     * @param size       {@code size} de las tres búsquedas
+     * @return la petición {@code _msearch}
+     */
+    public MsearchRequest build(String alias, SearchQuery query, float[] vector, String preference, int size) {
+        SearchRequest fused = fused(alias, query, vector, preference, size);
+        SearchRequest words = words(alias, query, preference, size);
+        SearchRequest nearest = vectors.build(alias, query, vector, preference, size);
         return MsearchRequest.of(request -> request.searches(
                 item(alias, preference, fused),
                 item(alias, preference, words),
                 item(alias, preference, nearest)));
     }
 
-    private SearchRequest fused(String alias, SearchQuery query, float[] vector, String preference, int k) {
+    private SearchRequest fused(String alias, SearchQuery query, float[] vector, String preference, int size) {
+        int k = query.knn().k();
         List<Query> clauses = filters.clauses(query.filters());
         Retriever fusion = Retriever.of(root -> root.rrf(rrf -> rrfOf(rrf, query, vector, clauses, k)));
         return SearchRequest.of(request -> request
                 .index(alias)
                 .preference(preference)
-                .size(k)
+                .size(size)
                 .source(SearchSource.withoutVectors())
                 .retriever(fusion));
     }
@@ -112,11 +141,11 @@ public class HybridRequestBuilder {
                 .numCandidates(query.knn().numCandidates())));
     }
 
-    private SearchRequest words(String alias, SearchQuery query, String preference, int k) {
+    private SearchRequest words(String alias, SearchQuery query, String preference, int size) {
         return SearchRequest.of(request -> request
                 .index(alias)
                 .preference(preference)
-                .size(k)
+                .size(size)
                 .source(SearchSource.withoutVectors())
                 .query(lexical.withFilters(query)));
     }

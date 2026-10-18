@@ -10,8 +10,8 @@
 - **Fase actual:** 2
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-2-diseno-29a6`)
-- **Próximo paso:** Tarea 2.8: `SearchService`, estados vacíos y pruebas con estrategias simuladas.
-- **Última actualización:** 2026-10-18 01:50 UTC
+- **Próximo paso:** Tarea 2.9: documentación, verificación de la fase y cierre. No empezar la Fase 3.
+- **Última actualización:** 2026-10-18 01:52 UTC
 
 ## Fases
 
@@ -39,6 +39,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-search -am verify -Dtest=PaginatorTest -Dsurefire.failIfNoSpecifiedTests=false`
-- **Resultado:** BUILD SUCCESS. `PaginatorTest`: 4 pruebas, 0 fallos. Checkstyle y PMD: 0 violaciones.
-- **Fecha:** 2026-10-18 01:45 UTC
+- **Comando:** `./mvnw -pl elastiflix-search -am verify -Dtest=SearchServiceTest,FullTextRequestBuilderTest,VectorRequestBuilderTest,HybridRequestBuilderTest -Dsurefire.failIfNoSpecifiedTests=false`
+- **Resultado:** BUILD SUCCESS. `SearchServiceTest`: 10 pruebas, 0 fallos. Checkstyle y PMD: 0 violaciones.
+- **Fecha:** 2026-10-18 01:49 UTC

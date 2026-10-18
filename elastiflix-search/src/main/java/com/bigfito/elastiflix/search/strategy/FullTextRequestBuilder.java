@@ -4,6 +4,7 @@ import com.bigfito.elastiflix.search.filter.CatalogFields;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch.core.CountRequest;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 
 import org.springframework.stereotype.Component;
@@ -34,6 +35,17 @@ public class FullTextRequestBuilder {
      */
     public SearchRequest build(String alias, SearchQuery query) {
         return SearchRequest.of(request -> aggregations(base(request, alias, query)));
+    }
+
+    /**
+     * Conteo de la misma consulta, sin página ni agregaciones.
+     *
+     * @param alias nombre configurado del catálogo
+     * @param query consulta ya validada; quien confirma un vacío le quita los filtros
+     * @return petición de {@code _count}
+     */
+    public CountRequest count(String alias, SearchQuery query) {
+        return CountRequest.of(request -> request.index(alias).query(lexical.withFilters(query)));
     }
 
     private SearchRequest.Builder base(SearchRequest.Builder request, String alias, SearchQuery query) {

@@ -44,6 +44,23 @@ class VectorRequestBuilderTest {
         assertThat(json(filters)).isEqualTo(WITH_FILTERS);
     }
 
+    @Test
+    @DisplayName("la confirmación de un vacío pide un documento y deja k en 100")
+    void shouldAskForOneHitWhenConfirmingThereAreResults() {
+        SearchQuery query = new SearchQuery(
+                "un barco",
+                SearchMode.VECTOR,
+                null,
+                new KnnSettings(VectorField.PLOT_1024, 100, 200),
+                SearchFilters.none(),
+                1,
+                SearchQuery.PAGE_25);
+        String body = JsonDocuments.of(builder.build("catalogo", query, VECTOR, null, 1));
+        assertThat(body).contains("\"size\":1");
+        assertThat(body).contains("\"k\":100");
+        assertThat(body).doesNotContain("\"size\":100");
+    }
+
     private String json(SearchFilters filters) {
         SearchQuery query = new SearchQuery(
                 "un barco",

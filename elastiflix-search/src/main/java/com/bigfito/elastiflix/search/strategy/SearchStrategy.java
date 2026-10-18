@@ -22,4 +22,15 @@ public interface SearchStrategy {
      * @return películas, total y agregaciones si el modo las pide
      */
     StrategyResult search(SearchQuery query);
+
+    /**
+     * Cuántas películas devuelve la misma consulta sin filtros.
+     *
+     * <p>En full-text es un conteo. En vectorial e híbrida la búsqueda pide un solo documento:
+     * basta saber si hay alguno.</p>
+     *
+     * @param query consulta válida
+     * @return el total sin filtros; en vectorial e híbrida, 0 o 1
+     */
+    long foundWithoutFilters(SearchQuery query);
 }

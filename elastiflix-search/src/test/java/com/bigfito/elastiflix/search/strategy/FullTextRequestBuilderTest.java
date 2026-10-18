@@ -77,6 +77,16 @@ class FullTextRequestBuilderTest {
         assertThat(JsonDocuments.of(builder.build("catalogo", query))).isEqualTo(WITH_FILTERS);
     }
 
+    @Test
+    @DisplayName("el conteo sin filtros no pide página ni agregaciones")
+    void shouldCountTheTextQueryWhenConfirmingAnEmptyResult() {
+        SearchQuery query = query("dark knight", MatchType.MATCH, TextField.TITLE, TextOperator.OR, 1,
+                SearchFilters.none());
+        assertThat(JsonDocuments.of(builder.count("catalogo", query.withoutFilters()))).isEqualTo(
+                "{\"query\":{\"bool\":{\"must\":[{\"match\":{\"title\":"
+                        + "{\"operator\":\"or\",\"query\":\"dark knight\"}}}]}}}");
+    }
+
     private static SearchQuery query(String text, MatchType type, TextField field, TextOperator operator,
             int page, SearchFilters filters) {
         return new SearchQuery(text, SearchMode.FULL_TEXT, new FullTextSettings(type, field, operator),

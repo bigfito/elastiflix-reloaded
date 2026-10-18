@@ -50,4 +50,13 @@ public record SearchQuery(
     public int from() {
         return (page - 1) * pageSize;
     }
+
+    /**
+     * La misma consulta sin filtros, para confirmar un resultado vacío.
+     *
+     * @return una copia con {@link SearchFilters#none()}
+     */
+    public SearchQuery withoutFilters() {
+        return new SearchQuery(text, mode, fullText, knn, SearchFilters.none(), page, pageSize);
+    }
 }

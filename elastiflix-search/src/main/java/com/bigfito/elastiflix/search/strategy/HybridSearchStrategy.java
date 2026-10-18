@@ -63,11 +63,21 @@ public class HybridSearchStrategy implements SearchStrategy {
 
     @Override
     public StrategyResult search(SearchQuery query) {
+        List<RankedHit> joined = ranked(query, query.knn().k());
+        return new StrategyResult(joined, joined.size(), Map.of());
+    }
+
+    @Override
+    public long foundWithoutFilters(SearchQuery query) {
+        SearchQuery open = query.withoutFilters();
+        return ranked(open, 1).size();
+    }
+
+    private List<RankedHit> ranked(SearchQuery query, int size) {
         float[] vector = QueryVector.forField(embeddings.embedQuery(query.text()), query.knn().field());
         MsearchResponse<Movie> response = transport.msearch(
-                requests.build(properties.index().alias(), query, vector), Movie.class);
-        List<RankedHit> joined = join(query, response);
-        return new StrategyResult(joined, joined.size(), Map.of());
+                requests.build(properties.index().alias(), query, vector, size), Movie.class);
+        return join(query, response);
     }
 
     private List<RankedHit> join(SearchQuery query, MsearchResponse<Movie> response) {
