@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 4
-- **Estado de la fase:** terminado
-- **Herramienta prevista:** Cursor (`cursor/fase-4-interfaz-29a6`)
-- **Próximo paso:** Fase 5, no iniciada. No empezar sin que el usuario lo pida.
-- **Última actualización:** 2026-10-18 03:50 UTC
+- **Fase actual:** 5
+- **Estado de la fase:** en curso
+- **Herramienta prevista:** Cursor (`cursor/fase-5-pruebas-29a6`)
+- **Próximo paso:** Tarea 5.1, `SmokeIT`, sin importar ni escribir en el catálogo.
+- **Última actualización:** 2026-10-18 04:10 UTC
 
 ## Fases
 
@@ -22,7 +22,7 @@
 | 2 | Búsqueda | 🔒 | terminado | `progreso/2.md` | 2026-10-18 en verde |
 | 3 | Carga de datos | 🔒 | terminado | `progreso/3.md` | 2026-10-18 en verde |
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
-| 5 | Pruebas integrales y smoke test | — | no iniciado | `progreso/5.md` | — |
+| 5 | Pruebas integrales y smoke test | — | en curso | `progreso/5.md` | — |
 | 6 | Documentación y cierre | — | no iniciado | `progreso/6.md` | — |
 
 ## Aprobaciones del usuario
@@ -39,6 +39,7 @@
 | 2026-10-18 | Fase 2 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 2. El PR #3 quedó fusionado en `main` (merge commit `6d98bb9`). |
 | 2026-10-18 | Diseño de la Fase 3 y sus supuestos | Adolfo aprobó `docs/diseno/3.md` tal cual. Incluye borrar el índice anterior al publicar, el registro individual directo al alias, sin controles de concurrencia, rechazar un CSV sin encabezado y generar siempre los vectores con inferencia. |
 | 2026-10-18 | Fase 3 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 3. El PR #4 quedó fusionado en `main` (merge commit `05ad8f8`). |
+| 2026-10-18 | Fase 4 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 4, incluida la interfaz de las capturas. El PR #5 quedó fusionado en `main` (merge commit `c64aa8a`). |
 
 ## Pendiente para la Fase 4
 

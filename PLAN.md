@@ -970,7 +970,7 @@ arquitectura en verde; resumen de diseño y revisión de convenciones en `progre
 
 **Objetivo:** demostrar de punta a punta, contra el clúster real, que la aplicación cumple el plan.
 
-- [ ] **5.0** Diseño: `docs/diseno/5.md` (alcance del smoke test, datos y limpieza). Commit antes del
+- [x] **5.0** Diseño: `docs/diseno/5.md` (alcance del smoke test, datos y limpieza). Commit antes del
   código.
 - [ ] **5.1** `SmokeIT` en `web` (`@SpringBootTest(webEnvironment = RANDOM_PORT)`, corre con `-Pit`):
   `GET /actuator/health` `UP` con 4 322 documentos; `GET /`, `/acerca`, `/cargar` responden 200; una
