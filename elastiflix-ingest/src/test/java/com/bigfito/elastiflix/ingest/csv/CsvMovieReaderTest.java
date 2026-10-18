@@ -12,7 +12,6 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.json.JsonDocuments;
-import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
@@ -54,7 +53,7 @@ class CsvMovieReaderTest {
         assertThat(checked.report().errors()).isEmpty();
         assertThat(checked.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(json.read(JSON).documents().stream().map(MovieDocuments::fromNode).toList());
+                .isEqualTo(validator.validate(json.read(JSON).documents(), Set.of()).movies());
     }
 
     @Test

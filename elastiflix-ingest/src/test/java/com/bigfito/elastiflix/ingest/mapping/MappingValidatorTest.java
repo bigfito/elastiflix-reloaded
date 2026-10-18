@@ -57,7 +57,11 @@ class MappingValidatorTest {
     @Test
     @DisplayName("el JSON de cuatro películas no tiene errores y avisa vectores y el texto vacío")
     void shouldAcceptTheJsonFixture() {
-        ValidatedMovies result = validator.validate(documentsOf(JSON), Set.of("597", "999"));
+        // given: los nodos crudos del fixture traen los tres vectores; el validador no los deja pasar
+        List<JsonNode> raw = documentsOf(JSON);
+        assertThat(raw).allSatisfy(node -> assertThat(node.has("plot_1024") && node.has("plot_256")).isTrue());
+
+        ValidatedMovies result = validator.validate(raw, Set.of("597", "999"));
 
         assertThat(result.report().errors()).isEmpty();
         assertThat(result.report().warnings())

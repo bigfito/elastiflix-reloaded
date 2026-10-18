@@ -5,13 +5,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
-import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
+import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
+import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -147,8 +149,11 @@ class JsonDocumentsTest {
         return file;
     }
 
+    /** Por el camino real: el validador del mapping, sin errores, es quien arma las películas. */
     private static List<Movie> movies(List<JsonNode> documents) {
-        return documents.stream().map(MovieDocuments::fromNode).toList();
+        ValidatedMovies checked = new MappingValidator().validate(documents, Set.of());
+        assertThat(checked.report().errors()).isEmpty();
+        return checked.movies();
     }
 
     private static Movie movie(List<Movie> movies, String id) {

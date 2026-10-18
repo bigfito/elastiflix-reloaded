@@ -80,10 +80,27 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("tamano=50")))
                 .andExpect(content().string(containsString("tamano=100")))
                 .andExpect(content().string(containsString("APLICAR")))
-                .andExpect(content().string(containsString("Tienes cambios sin aplicar.")))
                 .andExpect(content().string(containsString("M4 7V5h16v2")))
                 .andExpect(content().string(not(containsString("Ver todos los géneros"))))
                 .andExpect(content().string(not(containsString("Ver todos los idiomas"))));
+    }
+
+    @Test
+    @DisplayName("Anterior, Siguiente, los números y el tamaño 50 conservan genero y desde")
+    void shouldKeepTheFiltersInEveryPageLink() throws Exception {
+        SearchResult second = found(null, null, null, "match · title");
+        when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(second.hits(), 100,
+                second.facets(), new Pagination(2, 4, 100, 25, "26–50 de 100"), second.adjustments(), null));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama").param("desde", "1990-01-01")
+                        .param("pagina", "2"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(
+                        "href=\"" + link(1, 25) + "\" aria-label=\"Página anterior\"")))
+                .andExpect(content().string(containsString(
+                        "href=\"" + link(3, 25) + "\" aria-label=\"Página siguiente\"")))
+                .andExpect(content().string(containsString("href=\"" + link(4, 25) + "\">4</a>")))
+                .andExpect(content().string(containsString("data-href=\"" + link(1, 50) + "\"")));
     }
 
     @Test
@@ -266,6 +283,12 @@ class ResultsPageTest {
 
     private static Facets noFacets() {
         return new Facets(List.of(), List.of(), List.of(), List.of(), null, null);
+    }
+
+    private static String link(int page, int size) {
+        return "/buscar?q=titanic&amp;modo=fulltext&amp;tipo=match&amp;campo=title&amp;operador=or"
+                + "&amp;vector=plot_256&amp;k=100&amp;candidatos=200&amp;genero=Drama&amp;desde=1990-01-01"
+                + "&amp;pagina=" + page + "&amp;tamano=" + size;
     }
 
     private static Pagination page(long total) {

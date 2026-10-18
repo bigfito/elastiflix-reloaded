@@ -54,7 +54,8 @@ public class ErrorPageController implements ErrorController, HtmlPage {
         if (elastiflix != null) {
             return ErrorPages.filled(model, elastiflix);
         }
-        model.addAttribute("code", "");
+        // Sin código EFX (un 400 o un 405 del contenedor), el título es el estado HTTP: el h1 nunca queda vacío.
+        model.addAttribute("code", "Error " + status(request));
         model.addAttribute("message", "Ocurrió un error inesperado. Vuelve a intentarlo.");
         return "error";
     }

@@ -90,6 +90,8 @@ class ImportJobTest {
 
         job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
 
+        verify(catalog).createWithMapping(temp);
+        verify(catalog).writeAll(eq(temp), anyList());
         verify(catalog).publish(ALIAS, temp, LIVE);
         verify(catalog).deleteIndex(ORPHAN);
         verify(catalog, never()).deleteIndex(FOREIGN);
