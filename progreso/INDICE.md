@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-16: tabla de ajustes autorizados de PLAN §1 (ver `progreso/revision-2.md`). S-01 a S-15
+- **Próximo paso:** S-17: quitar «mayor que cero» de la documentación (ver `progreso/revision-2.md`). S-01 a S-16
   terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
-- **Última actualización:** 2026-10-19 01:35 UTC
+- **Última actualización:** 2026-10-19 01:50 UTC
 
 ## Fases
 

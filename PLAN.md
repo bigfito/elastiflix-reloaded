@@ -83,7 +83,7 @@ académicos y demostrativos y la usa una sola persona a la vez).
 
 **Diseño visual aprobado:** los mockups de `design/mockups/` (ver `design/README.md`). La interfaz
 real **reproduce fielmente** esos mockups: paleta, tipografías, textos, componentes y comportamiento.
-No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usuario del 2026-10-17):
+No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usuario del 2026-10-17 y 2026-10-18):
 
 | Mockup | Texto actual | Ajuste |
 |---|---|---|
@@ -105,6 +105,8 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 | `Ingest.dc.html` › rechazo en el navegador (revisión 2, S-03, 2026-10-18) | Motivos de ejemplo | Motivos reales: «La extensión no es .json.» / «… .csv.», «El archivo tiene más de una extensión. Solo se acepta .csv.», «El archivo pesa X MB y el máximo permitido es 150 MB.», «El contenido no es texto UTF-8.» y, con la casilla de encabezado desmarcada, «EFX-ING-005 · El CSV no confirma que la primera fila sea el encabezado.» |
 | `Ingest.dc.html` › errores del servidor (revisión 2, S-03, 2026-10-18) | — | Un rechazo del servidor muestra `<código> · <qué pasó>.` en una alerta propia. Sin respuesta: «No se pudo conectar con el servidor de la demo. Revisa que siga en marcha y vuelve a intentarlo.»; si falla una consulta de estado: «No se pudo consultar el estado del trabajo. Se vuelve a intentar en unos segundos.» |
 | `Ingest.dc.html` › correspondencia de columnas (revisión 2, S-03, 2026-10-18) | Contenidos de ejemplo («Texto con saltos de línea»…) y la fila «… y las demás columnas…» | Se muestran todas las columnas. El contenido sale del tipo del mapping («Texto», «Texto o lista JSON de textos», «Número entero», «Número», «true o false», «Fecha yyyy-MM-dd», «Lista JSON de objetos anidados», «Objeto JSON anidado») más «· vacía en N filas»; `_id` dice «Metadato; tiene que ser igual a id». Las comprobaciones superadas son «N registros leídos, con id, title y plot.» y «Ningún id repetido.» |
+| `About.dc.html` › Vectorial › nota de implementación y Carga de datos › Vectores (R-10, 2026-10-18; mockup editado en B-05, `8cbfa49`) | «… y `Document: ` en las sinopsis» | Las sinopsis se vectorizan con `input_type` `ingest` y sin prefijo, la combinación que midió la calibración 1.9. Las consultas siguen con `Query: `. B-05 cambió el mockup aprobado para que diga lo mismo (ver «Aprobaciones» de `progreso/INDICE.md`) |
+| `About.dc.html` › tabla de precisión por dimensión, `adult` y `release_date` del catálogo (R-30, decisión D3, 2026-10-18) | «Se midió con 32 descripciones…», «Contenido para adultos (ninguna película del catálogo lo es)», «Fecha de estreno en yyyy-MM-dd (de 1902 a 2023)» | Se antepone «Medido en el catálogo original de 4 322 películas.» a la tabla, y «medido en el catálogo original de 4 322 películas: » dentro de los paréntesis de `adult` y `release_date`. No se recalcula sobre el catálogo vigente |
 | `Main.dc.html` › etiquetas de las sugerencias («OR: 40 resultados», «Titanic: 4.º lugar»…) | — | Se mantienen fijas, tal como en el mockup: describen el catálogo histórico original de 4 322 películas |
 
 ## 2. Arquitectura
