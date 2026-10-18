@@ -13,7 +13,9 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.csv.CsvMovieReader;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
-import com.bigfito.elastiflix.ingest.json.JsonMovieReader;
+import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.json.JsonDocuments;
+import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -59,7 +61,7 @@ class MappingValidatorTest {
         });
         assertThat(result.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(new JsonMovieReader().read(JSON));
+                .isEqualTo(moviesOf(new JsonDocuments().read(JSON)));
     }
 
     @Test
@@ -128,6 +130,10 @@ class MappingValidatorTest {
                 Arguments.arguments("/validation/duplicate-id.json", ErrorCode.DUPLICATE_ID.code(), "id"),
                 Arguments.arguments("/validation/id-mismatch.json", ErrorCode.ID_MISMATCH.code(), "_id"),
                 Arguments.arguments("/validation/blank-title.json", ErrorCode.REQUIRED_FIELD.code(), "title"));
+    }
+
+    private static List<Movie> moviesOf(List<JsonNode> documents) {
+        return documents.stream().map(MovieDocuments::fromNode).toList();
     }
 
     private static List<JsonNode> documentsOf(Path path) {

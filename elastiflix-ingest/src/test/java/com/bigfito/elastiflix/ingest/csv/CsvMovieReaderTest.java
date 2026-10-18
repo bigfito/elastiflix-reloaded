@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.core.model.Movie;
-import com.bigfito.elastiflix.ingest.json.JsonMovieReader;
+import com.bigfito.elastiflix.ingest.json.JsonDocuments;
+import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
@@ -36,7 +37,7 @@ class CsvMovieReaderTest {
 
     private final CsvMovieReader reader = new CsvMovieReader(new IndexMapping());
     private final MappingValidator validator = new MappingValidator();
-    private final JsonMovieReader json = new JsonMovieReader();
+    private final JsonDocuments json = new JsonDocuments();
 
     @TempDir
     private Path folder;
@@ -53,7 +54,7 @@ class CsvMovieReaderTest {
         assertThat(checked.report().errors()).isEmpty();
         assertThat(checked.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(json.read(JSON));
+                .isEqualTo(json.read(JSON).stream().map(MovieDocuments::fromNode).toList());
     }
 
     @Test

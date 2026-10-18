@@ -10,10 +10,12 @@ import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -23,12 +25,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * El fixture de cuatro películas se lee como exportación, arreglo y NDJSON.
  */
-class JsonMovieReaderTest {
+class JsonDocumentsTest {
 
     private static final Path FIXTURE = Path.of("..", "elasticsearch", "fixtures", "movies-sample.json");
     private static final String EQUALIZER_ID = "345887";
 
-    private final JsonMovieReader reader = new JsonMovieReader();
+    private final JsonDocuments reader = new JsonDocuments();
     private final JsonMapper mapper = MovieJsonMapper.create();
 
     @TempDir
@@ -37,7 +39,7 @@ class JsonMovieReaderTest {
     @Test
     @DisplayName("lee las cuatro películas de la exportación y descarta los vectores")
     void shouldReadTheFixtureWhenTheFileIsAnExport() {
-        List<Movie> movies = reader.read(FIXTURE);
+        List<Movie> movies = movies(reader.read(FIXTURE));
 
         assertThat(movies).extracting(Movie::id).containsExactly("597", "27205", "10681", EQUALIZER_ID);
         Movie titanic = movie(movies, "597");
@@ -52,9 +54,9 @@ class JsonMovieReaderTest {
     @DisplayName("un arreglo y un NDJSON de las mismas películas dan los mismos valores")
     void shouldReadTheSameMoviesWhenTheShapeChanges() throws Exception {
         JsonNode documents = mapper.readTree(FIXTURE.toFile()).get("documents");
-        List<Movie> fromExport = reader.read(FIXTURE);
-        List<Movie> fromArray = reader.read(writeArray(documents));
-        List<Movie> fromNdjson = reader.read(writeNdjson(documents));
+        List<Movie> fromExport = movies(reader.read(FIXTURE));
+        List<Movie> fromArray = movies(reader.read(writeArray(documents)));
+        List<Movie> fromNdjson = movies(reader.read(writeNdjson(documents)));
 
         assertThat(fromArray).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
@@ -109,7 +111,11 @@ class JsonMovieReaderTest {
         return file;
     }
 
+    private static List<Movie> movies(List<JsonNode> documents) {
+        return documents.stream().map(MovieDocuments::fromNode).toList();
+    }
+
     private static Movie movie(List<Movie> movies, String id) {
-        return movies.stream().filter(movie -> id.equals(movie.id())).findFirst().orElseThrow();
+        return movies.stream().filter(item -> id.equals(item.id())).findFirst().orElseThrow();
     }
 }
