@@ -7,9 +7,9 @@ import java.util.Map;
 import com.bigfito.elastiflix.core.model.Movie;
 
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
-import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
+import co.elastic.clients.elasticsearch.core.search.ResponseBody;
 
 /**
  * Pasa la respuesta de Elasticsearch a {@link RankedHit} sin copiar los vectores.
@@ -22,10 +22,10 @@ public final class HitReader {
     /**
      * Lee las películas de una respuesta. Omite un hit sin documento.
      *
-     * @param response respuesta de {@code _search}
+     * @param response respuesta de {@code _search} o una parte de {@code _msearch}
      * @return películas en el orden de Elasticsearch
      */
-    public static List<RankedHit> hits(SearchResponse<Movie> response) {
+    public static List<RankedHit> hits(ResponseBody<Movie> response) {
         List<RankedHit> hits = new ArrayList<>();
         for (Hit<Movie> hit : response.hits().hits()) {
             add(hits, hit);
@@ -39,7 +39,7 @@ public final class HitReader {
      * @param response respuesta de {@code _search}
      * @return el total
      */
-    public static long total(SearchResponse<Movie> response) {
+    public static long total(ResponseBody<Movie> response) {
         return totalOf(response.hits());
     }
 
@@ -49,7 +49,7 @@ public final class HitReader {
      * @param response respuesta de {@code _search}
      * @return agregaciones por nombre
      */
-    public static Map<String, Aggregate> aggregations(SearchResponse<Movie> response) {
+    public static Map<String, Aggregate> aggregations(ResponseBody<Movie> response) {
         if (response.aggregations() == null) {
             return Map.of();
         }
@@ -58,7 +58,7 @@ public final class HitReader {
 
     private static void add(List<RankedHit> hits, Hit<Movie> hit) {
         if (hit.source() != null) {
-            hits.add(new RankedHit(hit.source(), hit.score()));
+            hits.add(RankedHit.scored(hit.source(), hit.score()));
         }
     }
 

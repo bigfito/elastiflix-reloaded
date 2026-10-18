@@ -751,7 +751,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
   facetas y paginación sobre los `k` resultados.
   - Criterio: `VectorSearchIT` reproduce las 3 filas vectoriales de §6; sin filtros devuelve exactamente
     `k` resultados; toda similitud está en (0, 1].
-- [ ] **2.5** Estrategia Híbrida: `_msearch` con (a) retriever `rrf` (`standard` con la consulta
+- [x] **2.5** Estrategia Híbrida: `_msearch` con (a) retriever `rrf` (`standard` con la consulta
   full-text + `knn`), `rank_constant: 60`, `rank_window_size: k`, `filter` del `rrf`, `size = k`;
   (b) componente full-text solo; (c) componente k-NN solo, ambos con los mismos filtros y `size = k`.
   Las tres búsquedas llevan el mismo valor de `preference` para que lean las mismas réplicas.

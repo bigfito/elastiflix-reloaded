@@ -39,13 +39,35 @@ public class VectorRequestBuilder {
      * @return petición de {@code _search}
      */
     public SearchRequest build(String alias, SearchQuery query, float[] vector) {
+        return build(alias, query, vector, null);
+    }
+
+    /**
+     * Igual que {@link #build(String, SearchQuery, float[])}, con la misma {@code preference}
+     * que las otras partes de un {@code _msearch}.
+     *
+     * @param alias      nombre configurado del catálogo
+     * @param query      consulta ya validada
+     * @param vector     vector de consulta, ya recortado al campo
+     * @param preference valor compartido, o {@code null} si la búsqueda es sola
+     * @return petición de {@code _search}
+     */
+    public SearchRequest build(String alias, SearchQuery query, float[] vector, String preference) {
         KnnSettings knn = query.knn();
-        List<Query> clauses = filters.clauses(query.filters());
-        return SearchRequest.of(request -> request
-                .index(alias)
-                .size(knn.k())
-                .source(SearchSource.withoutVectors())
-                .retriever(retriever(knn, vector, clauses)));
+        Retriever retriever = retriever(knn, vector, filters.clauses(query.filters()));
+        return SearchRequest.of(request -> withPreference(base(request, alias, knn, retriever), preference));
+    }
+
+    private static SearchRequest.Builder base(SearchRequest.Builder request, String alias, KnnSettings knn,
+            Retriever retriever) {
+        return request.index(alias).size(knn.k()).source(SearchSource.withoutVectors()).retriever(retriever);
+    }
+
+    private static SearchRequest.Builder withPreference(SearchRequest.Builder request, String preference) {
+        if (preference != null) {
+            request.preference(preference);
+        }
+        return request;
     }
 
     private static Retriever retriever(KnnSettings knn, float[] vector, List<Query> clauses) {
