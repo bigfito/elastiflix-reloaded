@@ -94,6 +94,12 @@ public enum ErrorCode {
             "La consulta o la sinopsis no trae texto",
             "Escribe un texto antes de pedir el vector"),
 
+    /** El lote no trajo un vector por cada texto. */
+    INCOMPLETE_EMBEDDING_BATCH("EFX-EMB-004",
+            "La inferencia no devolvió un vector por cada texto",
+            "El número de vectores del lote no es el de textos enviados",
+            "Revisa el endpoint de inferencia y vuelve a intentar"),
+
     /** La caja de búsqueda llegó vacía. */
     EMPTY_SEARCH_TEXT("EFX-SRCH-001",
             "Escribe qué película buscas antes de pulsar Buscar",
