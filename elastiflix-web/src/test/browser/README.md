@@ -28,3 +28,4 @@ revisión 2 (S-09 y S-10), donde el criterio pide una prueba de JS o de navegado
 | Archivo | Comportamiento |
 |---|---|
 | `utf8.test.js` | S-09: un carácter de 2 bytes cortado en el byte 65 535 no rechaza un archivo válido; un byte inválido sí |
+| `suggestions.test.js` | S-10: en Híbrida, con `k=50`, `plot_1024` y `multi_match`, una sugerencia busca con esos ajustes; sin JavaScript el enlace del servidor sigue llevando a `/buscar` |
