@@ -824,7 +824,7 @@ nunca el catálogo a medias.
     errores y, entre sus advertencias, la de vectores ignorados, y produce los mismos valores que el JSON para las 4
     películas; el mismo archivo sin su primera fila se rechaza con su código; una columna `director` se
     rechaza como columna desconocida.
-- [ ] **3.4** `MappingValidator`: cada campo existe y tiene su tipo (`keyword` texto o lista de textos,
+- [x] **3.4** `MappingValidator`: cada campo existe y tiene su tipo (`keyword` texto o lista de textos,
   `text`, `boolean`, `integer`/`long`, `float`, `date` `yyyy-MM-dd` estricto, `nested` con sus
   subcampos); `id`, `title` y `plot` obligatorios; los demás campos pueden faltar o venir en `null`
   (se guardan sin valor); `id` no se repite; `_id` igual a `id`. Los campos

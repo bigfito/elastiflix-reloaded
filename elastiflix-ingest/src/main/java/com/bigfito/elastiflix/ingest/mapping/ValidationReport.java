@@ -53,6 +53,43 @@ public record ValidationReport(List<ValidationIssue> issues) {
         return filter(true);
     }
 
+    /**
+     * CSV de los errores, sin las advertencias. La primera fila es el encabezado.
+     *
+     * @return texto con columnas registro, id, campo, recibido y esperado
+     */
+    public String toErrorCsv() {
+        StringBuilder csv = new StringBuilder();
+        csv.append("registro,id,campo,recibido,esperado\n");
+        for (ValidationIssue issue : errors()) {
+            appendRow(csv, issue);
+        }
+        return csv.toString();
+    }
+
+    private static void appendRow(StringBuilder csv, ValidationIssue issue) {
+        csv.append(cell(issue.recordLabel())).append(',')
+                .append(cell(issue.id())).append(',')
+                .append(cell(issue.field())).append(',')
+                .append(cell(issue.received())).append(',')
+                .append(cell(issue.expected())).append('\n');
+    }
+
+    private static String cell(String value) {
+        String text = value == null ? "" : value;
+        if (needsQuotes(text)) {
+            return "\"" + text.replace("\"", "\"\"") + "\"";
+        }
+        return text;
+    }
+
+    private static boolean needsQuotes(String text) {
+        return text.indexOf(',') >= 0
+                || text.indexOf('"') >= 0
+                || text.indexOf('\n') >= 0
+                || text.indexOf('\r') >= 0;
+    }
+
     private List<ValidationIssue> filter(boolean warning) {
         List<ValidationIssue> selected = new ArrayList<>();
         for (ValidationIssue issue : issues) {

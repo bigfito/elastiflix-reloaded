@@ -10,8 +10,8 @@
 - **Fase actual:** 3
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-3-diseno-29a6`, PR #4)
-- **Próximo paso:** Tarea 3.4, `MappingValidator`.
-- **Última actualización:** 2026-10-18 02:21 UTC
+- **Próximo paso:** Tarea 3.5, `PlotVectorizer`.
+- **Última actualización:** 2026-10-18 02:31 UTC
 
 ## Fases
 
@@ -46,5 +46,5 @@
 ## Última verificación
 
 - **Comando:** `./mvnw -pl elastiflix-ingest -am verify`
-- **Resultado:** BUILD SUCCESS. `CsvMovieReaderTest` 4, `JsonMovieReaderTest` 4, `FileCheckerTest` 8. Checkstyle 0, PMD en verde. No se usó el perfil `it` ni el catálogo real.
-- **Fecha:** 2026-10-18 02:21 UTC
+- **Resultado:** BUILD SUCCESS. `MappingValidatorTest` 11 y el resto de unitarias de ingest en verde. Checkstyle 0, PMD en verde. No se usó el perfil `it` ni el catálogo real.
+- **Fecha:** 2026-10-18 02:31 UTC

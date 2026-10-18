@@ -184,11 +184,47 @@ public enum ErrorCode {
             "La columna o el campo no está en el índice",
             "Quita el campo o renómbralo a uno del mapping"),
 
+    /** El mismo {@code id} aparece dos veces. */
+    DUPLICATE_ID("EFX-ING-009",
+            "Hay un id repetido",
+            "El mismo id aparece dos veces",
+            "Deja una sola fila por id"),
+
+    /** El metadato {@code _id} no coincide con {@code id}. */
+    ID_MISMATCH("EFX-ING-010",
+            "_id no es igual a id",
+            "Vino el metadato y, ya como texto, no coincide",
+            "Haz que _id y id sean el mismo texto"),
+
+    /** Falta {@code id}, {@code title} o {@code plot}. */
+    REQUIRED_FIELD("EFX-ING-011",
+            "Faltan id, title o plot",
+            "Uno de los tres no viene, viene null o viene en blanco",
+            "Completa id, title y plot"),
+
+    /** El valor no encaja con el tipo del campo. */
+    TYPE_MISMATCH("EFX-ING-012",
+            "El valor no tiene el tipo del mapping",
+            "La fecha, el booleano, el número, la lista o el objeto no encajan",
+            "Corrige el valor para que coincida con el tipo del campo"),
+
     /** El archivo trae vectores y se ignoran. */
     VECTORS_IGNORED("EFX-ING-020",
             "Los vectores del archivo se ignoran: se generarán con el servicio de inferencia",
             "El archivo trae plot_256, plot_512 o plot_1024",
             "No hace falta traer esos campos; la demo los calcula"),
+
+    /** Un hueco dentro de una lista se omitió. */
+    EMPTY_LIST_VALUE("EFX-ING-021",
+            "Un valor vacío dentro de una lista se omitió",
+            "Había un texto vacío o un hueco en una lista",
+            "Quita el hueco o escribe el texto"),
+
+    /** Un texto opcional quedó en blanco y se guardó sin valor. */
+    EMPTY_TEXT("EFX-ING-022",
+            "Un texto vacío se guardó sin valor",
+            "Un texto opcional solo tiene espacios",
+            "No hace falta traer el campo si no tiene texto"),
 
     /** {@code document_count} no coincide con la lista {@code documents}. */
     DOCUMENT_COUNT_MISMATCH("EFX-ING-008",
