@@ -878,7 +878,7 @@ nunca el catálogo a medias.
   Todas borran sus índices y su alias al terminar, pasen o fallen.
   - Criterio: `./mvnw verify -Pit -pl elastiflix-ingest -am` en verde; **ninguna** prueba toca
     `elastiflix-reloaded`.
-- [ ] **3.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [x] **3.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/3.md` qué se
   actualizó.

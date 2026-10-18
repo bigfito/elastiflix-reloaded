@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 3
-- **Estado de la fase:** en curso
-- **Herramienta prevista:** Cursor (rama `cursor/fase-3-diseno-29a6`, PR #4)
-- **Próximo paso:** Tarea 3.9, documentación y cierre de la Fase 3. No empezar la Fase 4.
-- **Última actualización:** 2026-10-18 02:55 UTC
+- **Fase actual:** 4
+- **Estado de la fase:** no iniciado
+- **Herramienta prevista:** Cursor (la Fase 3 quedó en `cursor/fase-3-diseno-29a6`, PR #4)
+- **Próximo paso:** Tarea 4.0, diseño de la interfaz web. No está empezada. Corregir el mockup «Los vectores del archivo se usan tal cual».
+- **Última actualización:** 2026-10-18 02:56 UTC
 
 ## Fases
 
@@ -20,7 +20,7 @@
 | 0 | Andamiaje y calidad | — | terminado | `progreso/0.md` | 2026-10-17 en verde |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | terminado | `progreso/1.md` | 2026-10-18 en verde |
 | 2 | Búsqueda | 🔒 | terminado | `progreso/2.md` | 2026-10-18 en verde |
-| 3 | Carga de datos | 🔒 | en curso | `progreso/3.md` | — |
+| 3 | Carga de datos | 🔒 | terminado | `progreso/3.md` | 2026-10-18 en verde |
 | 4 | Interfaz web | — | no iniciado | `progreso/4.md` | — |
 | 5 | Pruebas integrales y smoke test | — | no iniciado | `progreso/5.md` | — |
 | 6 | Documentación y cierre | — | no iniciado | `progreso/6.md` | — |
@@ -45,6 +45,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify -Pit -pl elastiflix-ingest -am`
-- **Resultado:** BUILD SUCCESS. `IngestIT` 2 sobre `elastiflix-it-bbb09e8de378`, borrado al terminar. Unitarias, Checkstyle 0 y PMD en verde. No se escribió en `elastiflix-reloaded`.
-- **Fecha:** 2026-10-18 02:55 UTC
+- **Comando:** `./mvnw verify` y `./mvnw verify -Pit -pl elastiflix-ingest -am`
+- **Resultado:** los dos BUILD SUCCESS. Checkstyle 0, PMD y ArchUnit en verde. `IngestIT` usó `elastiflix-it-bbb09e8de378` y lo borró. No se escribió en `elastiflix-reloaded`.
+- **Fecha:** 2026-10-18 02:56 UTC
