@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
@@ -164,6 +165,30 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("Drama")));
     }
 
+    @Test
+    @DisplayName("con facetas vacías y genero=Drama, «Drama 0» sigue marcado y visible")
+    void shouldKeepASelectedValueThatTheFacetNoLongerHas() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(
+                List.of(), 0, noFacets(), page(0), List.of(), EmptyState.filtered()));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama"))
+                .andExpect(status().isOk())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).containsPattern(
+                        "<label>\\s*<input type=\"checkbox\" name=\"genero\" value=\"Drama\" checked=\"checked\">"
+                                + "\\s*<span>Drama</span>\\s*<span>0</span>"));
+    }
+
+    @Test
+    @DisplayName("un valor marcado en la posición 7 no queda oculto detrás de «Ver todos»")
+    void shouldNotHideASelectedValue() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "chip", sevenGenres()));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Horror"))
+                .andExpect(status().isOk())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).containsPattern(
+                        "<label>\\s*<input type=\"checkbox\" name=\"genero\" value=\"Horror\" checked=\"checked\">"));
+    }
+
     private static SearchResult found(ComponentScore lexical, ComponentScore vector, Double rrf, String chip) {
         return found(lexical, vector, rrf, chip, facets());
     }
@@ -206,6 +231,10 @@ class ResultsPageTest {
                 List.of(new FacetValue("false", 1)),
                 LocalDate.of(1997, 1, 1),
                 LocalDate.of(1997, 12, 19));
+    }
+
+    private static Facets noFacets() {
+        return new Facets(List.of(), List.of(), List.of(), List.of(), null, null);
     }
 
     private static Pagination page(long total) {

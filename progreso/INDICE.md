@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-11: un filtro marcado no desaparece de Resultados (ver `progreso/revision-2.md`). S-01 a
-  S-10 terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
-- **Última actualización:** 2026-10-18 23:35 UTC
+- **Próximo paso:** S-12: tarjetas de modo, iconos y panel BM25 de «Acerca de» (ver `progreso/revision-2.md`).
+  S-01 a S-11 terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
+- **Última actualización:** 2026-10-18 23:45 UTC
 
 ## Fases
 
