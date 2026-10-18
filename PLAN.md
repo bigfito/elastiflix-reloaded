@@ -702,7 +702,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     consulta generado y el de `elasticsearch/fixtures/query-vector-titanic.json` tienen coseno ≥ 0.999,
     y con la combinación fijada, los vectores de documento regenerados para las cinco películas tienen
     coseno ≥ 0.999 con su `plot_1024` y ≥ 0.995 con su `plot_512` y su `plot_256`.
-- [ ] **1.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [x] **1.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/1.md` qué se
   actualizó.

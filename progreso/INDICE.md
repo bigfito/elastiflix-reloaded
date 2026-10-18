@@ -8,17 +8,17 @@
 ## Punto de reanudación
 
 - **Fase actual:** 1
-- **Estado de la fase:** en curso
+- **Estado de la fase:** terminado
 - **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Tarea 1.10: documentar la fase y correr la verificación.
-- **Última actualización:** 2026-10-18 00:55 UTC
+- **Próximo paso:** Ninguno en esta fase. La siguiente sesión empieza por la tarea 2.0 (diseño en `docs/diseno/2.md`) y se detiene hasta la aprobación. Esta sesión no la inicia.
+- **Última actualización:** 2026-10-18 00:58 UTC
 
 ## Fases
 
 | Fase | Nombre | Compuerta | Estado | Archivo de estado | Verificación de fase |
 |---|---|---|---|---|---|
 | 0 | Andamiaje y calidad | — | terminado | `progreso/0.md` | 2026-10-17 en verde |
-| 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | en curso | `progreso/1.md` | — |
+| 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | terminado | `progreso/1.md` | 2026-10-18 en verde |
 | 2 | Búsqueda | 🔒 | no iniciado | `progreso/2.md` | — |
 | 3 | Carga de datos | 🔒 | no iniciado | `progreso/3.md` | — |
 | 4 | Interfaz web | — | no iniciado | `progreso/4.md` | — |
@@ -36,6 +36,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-core -am verify -Pit -Dit.test=EmbeddingServiceIT -Dfailsafe.failIfNoSpecifiedTests=false`
-- **Resultado:** código 0. `EmbeddingServiceIT`: 2 pruebas, 0 fallos. Checkstyle 0 violaciones. La combinación medida es `ingest` sin prefijo.
-- **Fecha:** 2026-10-18 00:54 UTC
+- **Comando:** `./mvnw verify` y `./mvnw verify -Pit -pl elastiflix-core -am`
+- **Resultado:** ambos BUILD SUCCESS. Surefire de core: 26 pruebas, 0 fallos. `ArchitectureTest`: 7 pruebas, 0 fallos. Failsafe: 7 pruebas, 0 fallos. Checkstyle: 0 violaciones. Alias `elastiflix-reloaded` → `elastiflix-reloaded-20261018-003535`, 4322 documentos.
+- **Fecha:** 2026-10-18 00:57 UTC

@@ -22,7 +22,7 @@ flowchart LR
     subgraph core["elastiflix-core"]
       client["Cliente Java de Elasticsearch 9.x<br/>Jackson3JsonpMapper"]
       catalog["CatalogIndex<br/>alias, índices, reindex, conteo"]
-      emb["EmbeddingService<br/>prefijos Query / Document · recorte 512 y 256"]
+      emb["EmbeddingService<br/>consulta Query: · documentos ingest sin prefijo<br/>recorte 512 y 256"]
       mapping["IndexMapping<br/>elastiflix-reloaded-mapping.json"]
     end
   end
