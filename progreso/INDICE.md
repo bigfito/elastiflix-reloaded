@@ -10,7 +10,7 @@
 - **Fase actual:** 6
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (`cursor/fase-6-cierre-29a6`)
-- **Próximo paso:** Tarea 6.2, Definición de Hecho con evidencia.
+- **Próximo paso:** Tarea 6.3, cerrar el índice y las insignias, y pedir la revisión final.
 - **Última actualización:** 2026-10-18 04:50 UTC
 
 ## Fases

@@ -1005,7 +1005,7 @@ resumen de diseño y revisión de convenciones en `progreso/5.md`.
   - Criterio: en una carpeta temporal, `git clone` del repo, copia de `.env`, y solo los comandos de
     «Puesta en marcha» del README: `./mvnw verify` termina en 0 y la aplicación arranca y responde 200 en
     `http://localhost:8080/`.
-- [ ] **6.2** Recorre la [Definición de Hecho](#definición-de-hecho-global) y marca cada punto con su
+- [x] **6.2** Recorre la [Definición de Hecho](#definición-de-hecho-global) y marca cada punto con su
   evidencia en `progreso/6.md`.
   - Criterio: todos los puntos marcados.
 - [ ] **6.3** Cierra `progreso/INDICE.md` (todas las fases `terminado`), deja en `README.md` la
