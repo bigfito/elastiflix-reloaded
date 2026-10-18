@@ -18,12 +18,13 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** S-27
+- **Tarea actual:** S-18 (después S-19)
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** S-27: notas «(sustituido por B-0x)» en `progreso/revision-1.md` (tamaño de `AGENTS.md`, R-23
-  con `EFX-EMB-002`, R-15 con dos lecturas de `_tasks`) y corregir «No hay `@SuppressWarnings` en el código» de
-  `progreso/6.md` (l. 62 y 87). Después: S-18 y S-19, que esperan el `.env`.
-- **Última actualización:** 2026-10-19 03:35 UTC
+- **Próximo paso:** con el `.env` en la raíz: `./mvnw verify -Pit`; capturas de página completa con datos reales
+  (Inicio; Resultados en los tres modos; Cargar datos en sus tres escenarios; Acerca de; 404) en
+  `docs/capturas/`; comparación página por página en `progreso/4.md`; pedir a Adolfo la confirmación visual
+  (S-18). Después, la corrida del README en un clone limpio contra un proyecto Serverless sin el índice (S-19).
+- **Última actualización:** 2026-10-19 03:45 UTC
 
 ## Tareas
 
@@ -57,8 +58,8 @@ en curso
 | S-23 | terminada | `0df9cef` | `IngestJobErrors` con `@RestControllerAdvice(assignableTypes = IngestJobController.class)`: `ImportException` (404/409), `IngestValidationException` (400), otra `ElastiflixException` (500 con su código) e `IOException` (500, `EFX-IMP-007`). `UploadSizeErrors` sin alcance, solo `MaxUploadSizeExceededException` (413). Pruebas: `IngestJobJsonErrorsTest` (un `IOException` simulado de `UploadCheck` → 500 JSON `EFX-IMP-007`; un `ElasticsearchAccessException` al cancelar → 500 JSON `EFX-ES-001`) y `IngestJobErrorTest` (413, `.txt`, trabajo desconocido). Mutación: quitar del advice los manejadores de `IOException` y `ElastiflixException` hace fallar las dos; revertida. `./mvnw verify`: BUILD SUCCESS. |
 | S-24 | terminada | `57ee747` | `BatchWriter.writeOne` avisa vectorizados antes de `writeAll` (`WriteTotals.withWritten`) y escritos después; `ImportWork.validating()` no toca un trabajo `cancelado`; `IngestIT.deleteTheTestAlias` borra con `try/finally` aunque `stopJobs` lance; ingest queda con un solo `@SpringBootConfiguration` de prueba: se borró `IngestTestApplication` (repetía `TestApplication`) e `IngestIT` usa `TestApplication`, el nombre de PLAN 0.6. Pruebas: `ImportJobTest.shouldCountReplacementsOnTheCopyBeforeWriting` (al escribir: vectorizados 1, escritos 0; al terminar: 1 y 1), `ImportWorkTest.shouldStayCancelledWhenValidationStartsLate`. Mutaciones, una a la vez y revertidas: avisar escritos antes de escribir → la primera; `validating` saca de `cancelado` → la segunda. `IngestIT` compila con `-Pit`; correrla espera el `.env`. `./mvnw verify`: BUILD SUCCESS. |
 | S-25 | terminada | `37005aa` | Se borraron `VectorRequestBuilder.build(String, SearchQuery, float[])`, `Paginator.describe(long, int, int)` y `MovieDocuments.read(JsonParser)`; `VectorRequestBuilderTest` y `PaginatorTest` usan las firmas reales (`build(alias, query, vector, null, k)` y `describe(total, página, tamaño, ventana)`). `grep` de las tres firmas: 0. `./mvnw verify`: BUILD SUCCESS. |
-| S-26 | terminada | se anota en S-27 | `docs/diseno/2.md`: «full-text cuenta, vectorial e híbrida piden size 1» (sin `;`); `mmdc` 11.4.2 (con el Chromium de Playwright) da «Parse error on line 30» con la versión anterior y renderiza los dos diagramas con la nueva. Ventana full-text `from < 10 000` (la última página se recorta) en PLAN 2.1, `AGENTS.md` (11 608 caracteres) y `docs/convenciones-java.md` (tabla de áreas y «Límites»), como `SearchQueryValidator.MAX_WINDOW` desde R-01. Convenciones: `record ValidationIssue(code, recordLabel, id, field, received, expected, warning)` y sin la fila `EFX-WEB` (`grep EFX-WEB` en el código: 0). `docs/diseno/3.md`: el 4xx como `EFX-ES-007` ya se corrigió en S-15. PLAN §1 solo remite a «Catálogo vigente» de `progreso/INDICE.md`. `./mvnw verify`: BUILD SUCCESS. |
-| S-27 | pendiente | — | Evidencia histórica que quedó sin nota |
+| S-26 | terminada | `9693837` | `docs/diseno/2.md`: «full-text cuenta, vectorial e híbrida piden size 1» (sin `;`); `mmdc` 11.4.2 (con el Chromium de Playwright) da «Parse error on line 30» con la versión anterior y renderiza los dos diagramas con la nueva. Ventana full-text `from < 10 000` (la última página se recorta) en PLAN 2.1, `AGENTS.md` (11 608 caracteres) y `docs/convenciones-java.md` (tabla de áreas y «Límites»), como `SearchQueryValidator.MAX_WINDOW` desde R-01. Convenciones: `record ValidationIssue(code, recordLabel, id, field, received, expected, warning)` y sin la fila `EFX-WEB` (`grep EFX-WEB` en el código: 0). `docs/diseno/3.md`: el 4xx como `EFX-ES-007` ya se corrigió en S-15. PLAN §1 solo remite a «Catálogo vigente» de `progreso/INDICE.md`. `./mvnw verify`: BUILD SUCCESS. |
+| S-27 | terminada | se anota al cerrar la unidad | `progreso/revision-1.md`: los tamaños de `AGENTS.md` (10 400 y 10 428) quedan como «valor de esa fecha» con su reemplazo (B-0x, 10 831; hoy 11 608); R-23 «(sustituido por B-02: `EFX-EMB-004`)»; R-15 «(sustituido por B-04 … y por S-01 …)». `progreso/6.md` l. 62 y 87: no había supresiones en esa fecha; después, la de `ReindexTasksTest` (registrada en `docs/diseno/1.md`). Se quitó el `@SuppressWarnings("checkstyle:ParameterNumber")` que S-03 había puesto en `IngestPageTest`: Checkstyle no revisa las pruebas y no estaba registrado; `grep @SuppressWarnings` deja solo el de `ReindexTasksTest`. `./mvnw verify`: BUILD SUCCESS, 264 unitarias (core 50, search 62, ingest 97, web 55), 0 fallos. |
 
 ## Cambios sin commit
 

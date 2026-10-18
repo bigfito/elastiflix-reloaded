@@ -266,7 +266,6 @@ class IngestPageTest {
         return job("invalido", "csv", 512, 17, 23, errors, columns, "", "");
     }
 
-    @SuppressWarnings("checkstyle:ParameterNumber") // Arma el record de 22 componentes en una sola llamada.
     private static JobView job(String status, String kind, int read, int invalidRecords, int errorTotal,
             List<ValidationIssue> errors, List<CsvColumnRow> columns, String failureCode, String failureMessage) {
         long size = "csv".equals(kind) ? Math.round(12.4 * MEGABYTE) : Math.round(107.3 * MEGABYTE);
