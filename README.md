@@ -4,8 +4,9 @@
 
 **Busca películas por palabras, por significado o combinando ambos — y compara cómo responde cada modo.**
 
-Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)** sobre un catálogo de
-**6 899 películas** en **Elasticsearch Serverless**.
+Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)** sobre el alias
+`elastiflix-reloaded` de **Elasticsearch Serverless**. El índice y el conteo vigentes están en
+[`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
 
 ![Java](https://img.shields.io/badge/Java-25_LTS-FFCDB2?style=for-the-badge&logo=openjdk&logoColor=2E2A3B&labelColor=FBF7F1)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.1-BDE8D7?style=for-the-badge&logo=springboot&logoColor=1E7A5C&labelColor=FBF7F1)
@@ -20,9 +21,9 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 </div>
 
 > [!NOTE]
-> ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. El alias
-> `elastiflix-reloaded` apunta a `elastiflix-reloaded-20261018-054429`, con 6 899 documentos, desde
-> la importación del 2026-10-18. `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
+> ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. El índice y el conteo
+> del alias `elastiflix-reloaded` están en [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
+> `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
 > `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias
 > con `_count` y exigen que sea mayor que cero. La aplicación no modifica el alias al arrancar.
 > El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
@@ -278,7 +279,7 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 La migración solo cambia el catálogo si el nombre configurado todavía es un índice concreto. Si ya es
 un alias, no crea ni borra índices: el log dice a cuál apunta y el proceso termina con código 0. En
 la ejecución del 2026-10-18 04:47 UTC el alias `elastiflix-reloaded` siguió en
-`elastiflix-reloaded-20261018-003535`, con 4 322 documentos. El 2026-10-18 05:44 UTC, con la
+`elastiflix-reloaded-20261018-003535`, con 4 322 documentos del catálogo histórico. El 2026-10-18 05:44 UTC, con la
 aprobación de Adolfo, la página de carga importó `movies.json` (6 899 registros, 0 errores) y a las
 05:49 UTC el alias pasó a `elastiflix-reloaded-20261018-054429`; el índice anterior se borró.
 `spring-boot:run` abre http://localhost:8080 y solo lee ese alias. `GET /` respondió 200 en la
@@ -402,7 +403,7 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 ## 📸 Capturas
 
 Tomadas el 2026-10-18 con la aplicación en http://localhost:8080, leyendo el alias
-`elastiflix-reloaded` cuando tenía 4 322 películas. El pie de esas imágenes es el de ese momento.
+`elastiflix-reloaded` cuando el catálogo histórico tenía 4 322 películas. El pie de esas imágenes es el de ese momento.
 
 | Página | Captura |
 |---|---|

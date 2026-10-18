@@ -72,9 +72,9 @@ El estilo es el de **JavaMentor** (Java 25 LTS, Spring Boot, Maven):
 **SOLID aplicado al proyecto:**
 
 - **S** — Una clase, una razón para cambiar: `CsvMovieReader` solo lee CSV; `MappingValidator` solo
-  valida contra el mapping; `AliasPublisher` solo cambia el alias.
+  valida contra el mapping; `MovieReaderFactory` solo elige el lector.
 - **O** — Agregar un modo de búsqueda = agregar una estrategia, sin tocar las existentes.
-- **L** — Toda implementación de `MovieFileReader` se puede usar donde se espera la interfaz.
+- **L** — Toda implementación de `SearchStrategy` se puede usar donde se espera la interfaz.
 - **I** — Interfaces pequeñas: `EmbeddingService` no expone métodos de índice.
 - **D** — `search` e `ingest` dependen de interfaces de `core` (`CatalogIndex`, `EmbeddingService`),
   no de detalles del cliente.
@@ -121,7 +121,7 @@ genéricas (usa clases con nombre de responsabilidad), Visitor, reflexión.
 |---|---|---|
 | Paquete | `com.bigfito.elastiflix.<módulo>.<área>` | `com.bigfito.elastiflix.search.facet` |
 | Clase | Sustantivo en PascalCase | `HybridSearchStrategy`, `MappingValidator` |
-| Interfaz | Capacidad, sin prefijo `I` | `EmbeddingService`, `MovieFileReader` |
+| Interfaz | Capacidad, sin prefijo `I` | `EmbeddingService`, `SearchStrategy` |
 | Implementación | Calificador + interfaz | `InferenceEmbeddingService` |
 | Método | Verbo en camelCase | `buildRequest`, `validateRecord` |
 | Booleano | `is`/`has`/`can` | `isAdult`, `hasValidVectors` |

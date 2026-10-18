@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-30, coherencia de la documentación con el catálogo de 6 899
-- **Última actualización:** 2026-10-18 18:19 UTC
+- **Próximo paso:** Regenerar las cinco capturas y correr `./mvnw verify` y `./mvnw verify -Pit`
+- **Última actualización:** 2026-10-18 18:23 UTC
 
 ## Fases
 

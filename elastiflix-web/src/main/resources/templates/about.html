@@ -70,7 +70,7 @@
       </div>
       <p><strong>Una comparación justa.</strong> Los tres campos usan la misma configuración de índice: <code>index_options</code> de tipo <code>hnsw</code> con vectores float sin cuantización, los mismos <code>m</code> (16) y <code>ef_construction</code> (100), los valores por defecto de Elasticsearch, y similitud <code>cosine</code>. Así, la única diferencia entre ellos es el número de dimensiones.</p>
       <h3>Precisión medida por dimensión</h3>
-      <p>Se midió con 32 descripciones de trama (26 en español y 6 en inglés), cada una con una sola película correcta del catálogo y sin palabras de su título. Las posiciones se obtuvieron en Elasticsearch y se confirmaron con una búsqueda exacta por fuerza bruta: coinciden en todos los casos.</p>
+      <p>Medido en el catálogo original de 4 322 películas. Se midió con 32 descripciones de trama (26 en español y 6 en inglés), cada una con una sola película correcta del catálogo y sin palabras de su título. Las posiciones se obtuvieron en Elasticsearch y se confirmaron con una búsqueda exacta por fuerza bruta: coinciden en todos los casos.</p>
       <div class="table-wrap">
         <table>
           <thead>
@@ -202,7 +202,7 @@
 
     <section id="catalogo" aria-labelledby="h-catalogo">
       <h2 id="h-catalogo">El catálogo</h2>
-      <p>El catálogo está en <code th:text="${shell.alias}">elastiflix-reloaded</code>, un alias que apunta al índice vigente: así una carga de datos se publica de una sola vez o se descarta sin afectar a las búsquedas. <span th:text="${shell.moviePhrase}">Tiene 4 322 películas.</span> Estos son los campos que usa la demo; los demás (reparto, productoras, métricas, imágenes…) se muestran en los resultados o se capturan en la carga de datos.</p>
+      <p>El catálogo está en <code th:text="${shell.alias}">elastiflix-reloaded</code>, un alias que apunta al índice vigente: así una carga de datos se publica de una sola vez o se descarta sin afectar a las búsquedas. <span th:text="${shell.moviePhrase}">Tiene películas.</span> Estos son los campos que usa la demo; los demás (reparto, productoras, métricas, imágenes…) se muestran en los resultados o se capturan en la carga de datos.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Campo</th><th>Tipo</th><th>Contenido</th><th>Uso</th></tr></thead>
@@ -211,9 +211,9 @@
             <tr><td>original_title</td><td>text</td><td>Título original</td><td>Full-text, Híbrida</td></tr>
             <tr><td>plot</td><td>text</td><td>Sinopsis; origen de los tres vectores</td><td>Se muestra en los resultados</td></tr>
             <tr><td>plot_256 · plot_512 · plot_1024</td><td>dense_vector</td><td>Vectores de la sinopsis (256, 512 y 1024 dimensiones)</td><td>Vectorial, Híbrida</td></tr>
-            <tr><td>adult</td><td>boolean</td><td>Contenido para adultos (ninguna película del catálogo lo es)</td><td>Filtro</td></tr>
+            <tr><td>adult</td><td>boolean</td><td>Contenido para adultos (medido en el catálogo original de 4 322 películas: ninguna película del catálogo lo es)</td><td>Filtro</td></tr>
             <tr><td>genres</td><td>keyword</td><td>Géneros, por ejemplo Drama, Comedy o Action</td><td>Filtro</td></tr>
-            <tr><td>release_date</td><td>date</td><td>Fecha de estreno en yyyy-MM-dd (de 1902 a 2023)</td><td>Filtro</td></tr>
+            <tr><td>release_date</td><td>date</td><td>Fecha de estreno en yyyy-MM-dd (medido en el catálogo original de 4 322 películas: de 1902 a 2023)</td><td>Filtro</td></tr>
             <tr><td>spoken_languages</td><td>keyword</td><td>Idiomas hablados, con su nombre propio: English, Español, Français…</td><td>Filtro</td></tr>
             <tr><td>rating</td><td>keyword</td><td>Clasificación: G, PG, PG-13, R, NC-17 o NR</td><td>Filtro</td></tr>
           </tbody>
