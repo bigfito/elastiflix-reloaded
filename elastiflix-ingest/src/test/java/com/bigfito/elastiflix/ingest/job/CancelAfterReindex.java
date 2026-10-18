@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.ingest.job;
 
+import java.util.function.BooleanSupplier;
+
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 
 /**
@@ -28,8 +30,8 @@ final class CancelAfterReindex implements CatalogIndex {
     }
 
     @Override
-    public void reindex(String source, String target) {
-        delegate.reindex(source, target);
+    public void reindex(String source, String target, BooleanSupplier stop) {
+        delegate.reindex(source, target, stop);
         gate.fire();
     }
 

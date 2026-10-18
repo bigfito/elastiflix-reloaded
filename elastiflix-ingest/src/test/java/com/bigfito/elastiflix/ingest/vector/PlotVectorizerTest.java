@@ -1,6 +1,5 @@
 package com.bigfito.elastiflix.ingest.vector;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,19 +54,18 @@ class PlotVectorizerTest {
     }
 
     @Test
-    @DisplayName("si la inferencia falla, la excepción sale y no hay nada que publicar")
-    void shouldStopBeforePublishingWhenInferenceFails() {
-        when(embeddings.embedDocuments(List.of("una")))
-                .thenThrow(new EmbeddingException(ErrorCode.INFERENCE_UNAVAILABLE));
-        List<String> published = new ArrayList<>();
+    @DisplayName("si la inferencia devuelve menos vectores que sinopsis, EFX-EMB-004 y ninguna película")
+    void shouldRejectAnIncompleteBatch() {
+        // given
+        float[] generated = new float[1024];
+        generated[0] = 1f;
+        when(embeddings.embedDocuments(List.of("una", "otra"))).thenReturn(List.of(generated));
 
-        assertThatThrownBy(() -> {
-            vectorizer.apply(List.of(movie("1", "una")));
-            published.add("publicado");
-        }).isInstanceOf(EmbeddingException.class)
+        // when / then
+        assertThatThrownBy(() -> vectorizer.apply(List.of(movie("1", "una"), movie("2", "otra"))))
+                .isInstanceOf(EmbeddingException.class)
                 .extracting(exception -> ((EmbeddingException) exception).errorCode())
-                .isEqualTo(ErrorCode.INFERENCE_UNAVAILABLE);
-        assertThat(published).isEmpty();
+                .isEqualTo(ErrorCode.INCOMPLETE_EMBEDDING_BATCH);
     }
 
     @Test

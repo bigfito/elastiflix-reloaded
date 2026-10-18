@@ -5,12 +5,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
-import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
+import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
+import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
+import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,9 +40,26 @@ class JsonDocumentsTest {
     private Path folder;
 
     @Test
+    @DisplayName("los nodos leídos no traen vectores y la lectura avisa EFX-ING-020 una vez por campo")
+    void shouldDropVectorsWhileReading() {
+        // when
+        JsonRead read = reader.read(FIXTURE);
+
+        // then
+        assertThat(read.documents()).hasSize(4).allSatisfy(node -> assertThat(node.has("plot_256")
+                || node.has("plot_512") || node.has("plot_1024")).isFalse());
+        assertThat(read.warnings()).extracting(ValidationIssue::field)
+                .containsExactlyInAnyOrder("plot_256", "plot_512", "plot_1024");
+        assertThat(read.warnings()).allSatisfy(issue -> {
+            assertThat(issue.code()).isEqualTo(ErrorCode.VECTORS_IGNORED.code());
+            assertThat(issue.warning()).isTrue();
+        });
+    }
+
+    @Test
     @DisplayName("lee las cuatro películas de la exportación y descarta los vectores")
     void shouldReadTheFixtureWhenTheFileIsAnExport() {
-        List<Movie> movies = movies(reader.read(FIXTURE));
+        List<Movie> movies = movies(reader.read(FIXTURE).documents());
 
         assertThat(movies).extracting(Movie::id).containsExactly("597", "27205", "10681", EQUALIZER_ID);
         Movie titanic = movie(movies, "597");
@@ -54,9 +74,9 @@ class JsonDocumentsTest {
     @DisplayName("un arreglo y un NDJSON de las mismas películas dan los mismos valores")
     void shouldReadTheSameMoviesWhenTheShapeChanges() throws Exception {
         JsonNode documents = mapper.readTree(FIXTURE.toFile()).get("documents");
-        List<Movie> fromExport = movies(reader.read(FIXTURE));
-        List<Movie> fromArray = movies(reader.read(writeArray(documents)));
-        List<Movie> fromNdjson = movies(reader.read(writeNdjson(documents)));
+        List<Movie> fromExport = movies(reader.read(FIXTURE).documents());
+        List<Movie> fromArray = movies(reader.read(writeArray(documents)).documents());
+        List<Movie> fromNdjson = movies(reader.read(writeNdjson(documents)).documents());
 
         assertThat(fromArray).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
@@ -129,8 +149,11 @@ class JsonDocumentsTest {
         return file;
     }
 
+    /** Por el camino real: el validador del mapping, sin errores, es quien arma las películas. */
     private static List<Movie> movies(List<JsonNode> documents) {
-        return documents.stream().map(MovieDocuments::fromNode).toList();
+        ValidatedMovies checked = new MappingValidator().validate(documents, Set.of());
+        assertThat(checked.report().errors()).isEmpty();
+        return checked.movies();
     }
 
     private static Movie movie(List<Movie> movies, String id) {

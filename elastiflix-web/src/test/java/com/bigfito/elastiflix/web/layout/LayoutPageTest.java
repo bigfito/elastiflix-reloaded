@@ -14,6 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,7 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * La cabecera y el pie se repiten en cada página con el conteo del catálogo.
  */
-@WebMvcTest(HomeController.class)
+@WebMvcTest(controllers = HomeController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({LayoutAdvice.class, SuggestionCatalog.class})
 class LayoutPageTest {
 
@@ -43,5 +45,16 @@ class LayoutPageTest {
                 .andExpect(content().string(containsString("Conectado · Elasticsearch Serverless")))
                 .andExpect(content().string(containsString("Índice: elastiflix-reloaded · 4 322 películas")))
                 .andExpect(content().string(containsString(CatalogTexts.TMDB)));
+    }
+
+    @Test
+    @DisplayName("sin conexión, el pie dice que el conteo no está disponible")
+    void shouldSayTheCountIsUnavailableWhenOffline() throws Exception {
+        when(catalog.status()).thenReturn(new CatalogStatus("elastiflix-reloaded", null, null, false, "EFX-ES-001"));
+
+        mvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Índice: elastiflix-reloaded · conteo no disponible")))
+                .andExpect(content().string(not(containsString("sin películas"))));
     }
 }

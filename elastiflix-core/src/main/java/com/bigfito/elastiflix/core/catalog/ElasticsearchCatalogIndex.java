@@ -3,9 +3,11 @@ package com.bigfito.elastiflix.core.catalog;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
@@ -21,6 +23,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.json.JsonpMappingException;
 import co.elastic.clients.util.ObjectBuilder;
 
 import org.slf4j.Logger;
@@ -34,11 +37,18 @@ import org.springframework.stereotype.Component;
 public class ElasticsearchCatalogIndex implements CatalogIndex {
 
     private static final int NOT_FOUND = 404;
+
+    /**
+     * Tope de {@code _aliases}, por debajo del socket-timeout de 30 s del cliente. Solo {@code timeout}:
+     * Serverless rechaza {@code master_timeout} («not permitted when running in serverless mode»).
+     */
+    private static final String PUBLISH_LIMIT = "10s";
     private static final Logger LOG = LoggerFactory.getLogger(ElasticsearchCatalogIndex.class);
 
     private final ElasticsearchClient client;
     private final IndexMapping mapping;
     private final IndexNames names;
+    private final Clock clock;
 
     /**
      * Crea la puerta de acceso al catálogo.
@@ -46,11 +56,14 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
      * @param client  cliente de Elasticsearch
      * @param mapping mapping empaquetado
      * @param names   patrón de los índices de esta demo
+     * @param clock   reloj del plazo de la copia
      */
-    public ElasticsearchCatalogIndex(ElasticsearchClient client, IndexMapping mapping, IndexNames names) {
+    public ElasticsearchCatalogIndex(
+            ElasticsearchClient client, IndexMapping mapping, IndexNames names, Clock clock) {
         this.client = client;
         this.mapping = mapping;
         this.names = names;
+        this.clock = clock;
     }
 
     @Override
@@ -76,9 +89,9 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     }
 
     @Override
-    public void reindex(String source, String target) {
+    public void reindex(String source, String target, BooleanSupplier stop) {
         call(source, () -> {
-            new ReindexTasks(client).copy(source, target);
+            new ReindexTasks(client, clock).copy(source, target, stop);
             return null;
         });
     }
@@ -99,8 +112,9 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     @Override
     public void publish(String alias, String newIndex, String previousIndex) {
         call(alias, () -> {
-            client.indices().updateAliases(request -> request.actions(
-                    CatalogRequests.add(alias, newIndex), CatalogRequests.remove(previousIndex)));
+            client.indices().updateAliases(request -> request
+                    .timeout(limit -> limit.time(PUBLISH_LIMIT))
+                    .actions(CatalogRequests.add(alias, newIndex), CatalogRequests.remove(previousIndex)));
             return null;
         });
     }
@@ -167,7 +181,8 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
                     .index(name)
                     .id(movie.id())
                     .document(movie)
-                    .refresh(Refresh.WaitFor));
+                    .refresh(Refresh.WaitFor)
+                    .requireAlias(true));
             return null;
         });
     }
@@ -215,7 +230,8 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     private <T> T call(String target, IoSupplier<T> supplier) {
         try {
             return supplier.get();
-        } catch (IOException | ElasticsearchException exception) {
+        } catch (IOException | ElasticsearchException | JsonpMappingException exception) {
+            // JsonpMappingException: llegó una respuesta que no se pudo leer. No es un rechazo 4xx.
             throw failure(target, exception);
         }
     }

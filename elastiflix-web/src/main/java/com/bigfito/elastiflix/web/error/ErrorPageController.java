@@ -1,8 +1,6 @@
 package com.bigfito.elastiflix.web.error;
 
-import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
-import com.bigfito.elastiflix.web.layout.PageShells;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,17 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ErrorPageController implements ErrorController, HtmlPage {
 
-    private final CatalogStatusService catalog;
-
-    /**
-     * Crea el controlador con el estado del catálogo para la cabecera del error.
-     *
-     * @param catalog alias y conteo del pie
-     */
-    public ErrorPageController(CatalogStatusService catalog) {
-        this.catalog = catalog;
-    }
-
     /**
      * Elige la plantilla según el estado que reenvió el servidor.
      *
@@ -42,7 +29,6 @@ public class ErrorPageController implements ErrorController, HtmlPage {
     @RequestMapping("/error")
     public String error(HttpServletRequest request, Model model) {
         model.addAttribute("nav", "");
-        model.addAttribute("shell", PageShells.from(catalog.status()));
         if (status(request) == HttpServletResponse.SC_NOT_FOUND) {
             return "not-found";
         }
@@ -54,7 +40,8 @@ public class ErrorPageController implements ErrorController, HtmlPage {
         if (elastiflix != null) {
             return ErrorPages.filled(model, elastiflix);
         }
-        model.addAttribute("code", "");
+        // Sin código EFX (un 400 o un 405 del contenedor), el título es el estado HTTP: el h1 nunca queda vacío.
+        model.addAttribute("code", "Error " + status(request));
         model.addAttribute("message", "Ocurrió un error inesperado. Vuelve a intentarlo.");
         return "error";
     }

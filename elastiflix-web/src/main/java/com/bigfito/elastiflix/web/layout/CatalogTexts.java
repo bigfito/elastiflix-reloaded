@@ -63,7 +63,7 @@ public final class CatalogTexts {
 
     private static String movies(Long count) {
         if (count == null) {
-            return "sin películas";
+            return "conteo no disponible";
         }
         if (count == 1L) {
             return "1 película";

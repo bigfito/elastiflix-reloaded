@@ -189,7 +189,8 @@ class SmokeIT {
 
     private JsonNode job(String jobId) {
         String body = text(http.get().uri("/cargar/trabajos/{id}", jobId).retrieve().toEntity(String.class));
-        return JSON.readTree(body);
+        // Desde la revisión 2 (S-03) la respuesta es {job, texts}.
+        return JSON.readTree(body).path("job");
     }
 
     private static boolean pending(JsonNode job) {

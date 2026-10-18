@@ -8,18 +8,20 @@
   <div th:replace="~{fragments/chrome :: stripe}"></div>
   <header th:replace="~{fragments/chrome :: header}"></header>
   <main class="ingest">
-    <p class="eyebrow" th:text="|Índice ${shell.alias}|">Índice elastiflix-reloaded</p>
+    <section class="intro">
+    <p class="eyebrow"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg><span th:text="|Índice ${shell.alias}|">Índice elastiflix-reloaded</span></p>
     <h1>Cargar datos</h1>
     <p class="lead">Agrega películas al catálogo una por una o importa un archivo. Los tres vectores de la sinopsis (<code>plot_256</code>, <code>plot_512</code>, <code>plot_1024</code>) se generan automáticamente a partir de <code>plot</code> con jina-embeddings-v5-omni-small.</p>
-    <p class="alert" th:if="${savedTitle != null}">Se guardó <span th:text="${savedTitle}">título</span>.</p>
+    </section>
+    <p class="notice-ok" role="status" th:if="${savedTitle != null}">Se guardó <span th:text="${savedTitle}">título</span>.</p>
     <ul class="alert" th:if="${rejected != null}">
       <li th:each="issue : ${rejected}" th:text="|${issue.code} · ${issue.field} · ${issue.expected}|">error</li>
     </ul>
 
     <div role="tablist" aria-label="Forma de carga" class="tabs">
-      <button type="button" class="pill is-on" role="tab" id="tab-single" data-tab="single" aria-selected="true" aria-controls="panel-single">Registro individual</button>
-      <button type="button" class="pill" role="tab" id="tab-json" data-tab="json" aria-selected="false" aria-controls="panel-file">Importar .json</button>
-      <button type="button" class="pill" role="tab" id="tab-csv" data-tab="csv" aria-selected="false" aria-controls="panel-file">Importar .csv</button>
+      <button type="button" class="tab is-on" role="tab" id="tab-single" data-tab="single" aria-selected="true" aria-controls="panel-single"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M5 12h14"></path></svg><span>Registro individual</span></button>
+      <button type="button" class="tab" role="tab" id="tab-json" data-tab="json" aria-selected="false" aria-controls="panel-file"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4H6a2 2 0 0 0-2 2v4l-1 2l1 2v4a2 2 0 0 0 2 2h2 M16 4h2a2 2 0 0 1 2 2v4l1 2l-1 2v4a2 2 0 0 1-2 2h-2"></path></svg><span>Importar .json</span></button>
+      <button type="button" class="tab" role="tab" id="tab-csv" data-tab="csv" aria-selected="false" aria-controls="panel-file"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z M4 10h16 M4 15h16 M10 4v16"></path></svg><span>Importar .csv</span></button>
     </div>
 
     <form id="panel-single" th:action="@{/cargar/registro}" method="post" data-panel="single" class="record" role="tabpanel" aria-labelledby="tab-single">
@@ -52,8 +54,10 @@
           <label class="fld"><span class="lbl">Estado <code>status</code></span><input class="inp" name="status" list="status-list" placeholder="Released"></label>
           <datalist id="status-list"><option value="Released"></option><option value="Post Production"></option><option value="In Production"></option></datalist>
         </div>
-        <label class="chk"><input type="checkbox" name="adult" value="true">Contenido para adultos <code>adult</code></label>
-        <label class="chk"><input type="checkbox" name="video" value="true">Es un video <code>video</code></label>
+        <div class="checks-row">
+          <label class="chk"><input type="checkbox" name="adult" value="true">Contenido para adultos <code>adult</code></label>
+          <label class="chk"><input type="checkbox" name="video" value="true">Es un video <code>video</code></label>
+        </div>
       </div>
       <div class="card">
         <h2 class="h3">Métricas</h2>
@@ -81,66 +85,76 @@
       </div>
       <div class="actions">
         <p class="hint"><span class="req">*</span> Campos obligatorios.</p>
-        <button type="reset">Limpiar</button>
-        <button type="submit">Guardar película</button>
+        <div class="buttons">
+          <button type="reset" class="btn-ghost">Limpiar</button>
+          <button type="submit" class="btn-primary"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l9-10"></path></svg>Guardar película</button>
+        </div>
       </div>
     </form>
 
-    <section id="panel-file" data-panel="file" role="tabpanel" aria-labelledby="tab-json" hidden>
+    <section id="panel-file" data-panel="file" role="tabpanel" aria-labelledby="tab-json" hidden
+             th:attr="data-alias=${shell.alias},data-max-bytes=${maxFileBytes},data-max-label=${maxFileLabel}">
       <div class="card">
         <h2 class="h3" id="file-title">Archivo JSON</h2>
-        <form id="file-form">
+        <form id="file-form" novalidate>
           <label class="drop" id="drop" for="archivo">
-            <span id="drop-title">Arrastra tu archivo .json aquí o haz clic para elegirlo</span>
-            <span class="chips"><span>Solo .json</span><span>Máximo 150 MB</span><span>Texto UTF-8</span></span>
+            <svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>
+            <span id="drop-title" class="drop-title">Arrastra tu archivo .json aquí o haz clic para elegirlo</span>
+            <span class="chips"><span id="drop-only">Solo .json</span><span th:text="|Máximo ${maxFileLabel}|">Máximo 150 MB</span><span>Texto UTF-8</span></span>
             <span class="hint" id="file-hint">El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.</span>
           </label>
-          <input id="archivo" name="archivo" type="file" accept=".json,application/json">
-          <p id="chosen" class="hint" hidden></p>
-          <div id="file-block" class="block" role="alert" hidden>
-            <h2>No se puede cargar este archivo</h2>
-            <p id="file-error"></p>
-            <p class="hint">Antes de subir se comprueba la extensión y el tipo (.json o .csv, sin dobles extensiones), el tamaño (máximo 150 MB) y que el contenido sea texto UTF-8. El servidor repite estas comprobaciones al recibirlo.</p>
+          <input id="archivo" name="archivo" type="file" accept=".json,.ndjson,application/json">
+          <div id="file-chip" class="file-chip" hidden>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F4A5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z M14 3v4h4"></path></svg>
+            <span class="file-text"><span id="file-name" class="file-name"></span><span id="file-meta" class="file-meta"></span></span>
+            <label for="archivo" class="change">Cambiar archivo</label>
           </div>
           <div class="grid" data-csv hidden>
             <label class="fld"><span class="lbl">Separador</span>
               <select class="inp" name="separador">
-                <option value=",">Coma ( , ) · detectado</option>
+                <option value=",">Coma ( , )</option>
                 <option value=";">Punto y coma ( ; )</option>
                 <option value="tab">Tabulador</option>
               </select>
             </label>
             <label class="fld"><span class="lbl">Codificación</span>
               <select class="inp" name="codificacion">
-                <option>UTF-8 con BOM · detectada</option>
+                <option>UTF-8 con BOM</option>
                 <option>UTF-8</option>
               </select>
             </label>
-            <label class="chk"><input type="checkbox" name="encabezado" value="true" checked>La primera fila contiene los nombres de columna</label>
+            <label class="chk chk-end"><input type="checkbox" name="encabezado" value="true" checked>La primera fila contiene los nombres de columna</label>
           </div>
-          <p class="hint" data-csv hidden>Si se desmarca, el archivo se rechaza. Un CSV sin encabezado no se importa. Las listas y los objetos anidados van como JSON dentro de la celda.</p>
-          <button type="submit">Validar archivo</button>
+          <div class="buttons end"><button type="submit" id="file-submit" class="btn-primary" disabled><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>Validar archivo</button></div>
         </form>
+        <p id="server-error" class="alert" role="alert" hidden></p>
       </div>
 
       <div class="card">
         <h2 class="h3">Proceso de carga</h2>
         <ol class="steps" id="steps">
-          <li data-step="1"><span class="mark">1</span><span><strong>Comprobación en el navegador</strong> <em>· pendiente</em><span class="hint">Extensión, tipo y tamaño (máximo 150 MB) antes de subir nada.</span></span></li>
-          <li data-step="2"><span class="mark">2</span><span><strong>Subida al servidor</strong> <em>· pendiente</em><span class="hint">El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.</span></span></li>
-          <li data-step="3"><span class="mark">3</span><span><strong>Validación contra el mapping</strong> <em>· pendiente</em><span class="hint">Tipo de cada campo de cada registro; si algo no coincide, se detiene todo.</span></span></li>
-          <li data-step="4"><span class="mark">4</span><span><strong>Importación en un índice temporal</strong> <em>· pendiente</em><span class="hint">Copia del catálogo actual más los registros del archivo, en lotes de 100.</span></span></li>
-          <li data-step="5"><span class="mark">5</span><span><strong>Publicación</strong> <em>· pendiente</em><span class="hint">El alias <span th:text="${shell.alias}">elastiflix-reloaded</span> pasa al índice nuevo y el índice anterior se borra, en una sola operación.</span></span></li>
+          <li data-step="1"><span class="mark" aria-hidden="true">1</span><span class="step-body"><span class="step-title">Comprobación en el navegador <span class="state">· pendiente</span></span><span class="step-detail" th:text="|Extensión, tipo y tamaño (máximo ${maxFileLabel}) antes de subir nada.|">Extensión, tipo y tamaño (máximo 150 MB) antes de subir nada.</span></span></li>
+          <li data-step="2"><span class="mark" aria-hidden="true">2</span><span class="step-body"><span class="step-title">Subida al servidor <span class="state">· pendiente</span></span><span class="step-detail">El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.</span></span></li>
+          <li data-step="3"><span class="mark" aria-hidden="true">3</span><span class="step-body"><span class="step-title">Validación contra el mapping <span class="state">· pendiente</span></span><span class="step-detail">Tipo de cada campo de cada registro; si algo no coincide, se detiene todo.</span></span></li>
+          <li data-step="4"><span class="mark" aria-hidden="true">4</span><span class="step-body"><span class="step-title">Importación en un índice temporal <span class="state">· pendiente</span></span><span class="step-detail" th:text="|Copia del catálogo actual más los registros del archivo, en lotes de ${batchSize}.|">Copia del catálogo actual más los registros del archivo, en lotes de 100.</span></span></li>
+          <li data-step="5"><span class="mark" aria-hidden="true">5</span><span class="step-body"><span class="step-title">Publicación <span class="state">· pendiente</span></span><span class="step-detail">El alias <span th:text="${shell.alias}">elastiflix-reloaded</span> pasa al índice nuevo y el índice anterior se borra, en una sola operación.</span></span></li>
         </ol>
       </div>
 
-      <div class="card" data-csv hidden>
+      <div id="file-block" class="block" role="alert" hidden>
+        <h2><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B9472A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M9 9l6 6 M15 9l-6 6"></path></svg>No se puede cargar este archivo</h2>
+        <p>El archivo se rechazó en el navegador, antes de subirlo, así que no salió de tu equipo ni se importó nada.</p>
+        <ul id="file-reasons"></ul>
+        <p class="hint" th:text="|Antes de subir se comprueba la extensión y el tipo (.json o .csv, sin dobles extensiones), el tamaño (máximo ${maxFileLabel}) y que el contenido sea texto UTF-8. El servidor repite estas comprobaciones al recibirlo.|">Antes de subir se comprueba la extensión y el tipo (.json o .csv, sin dobles extensiones), el tamaño (máximo 150 MB) y que el contenido sea texto UTF-8. El servidor repite estas comprobaciones al recibirlo.</p>
+      </div>
+
+      <div id="columns-card" class="card" hidden>
         <h2 class="h3">Correspondencia de columnas</h2>
-        <p class="hint">Las columnas se asignan por su nombre. <code>plot_256</code>, <code>plot_512</code> y <code>plot_1024</code> se ignoran · se generarán desde plot.</p>
+        <p class="hint" id="mapping-note"></p>
         <div class="table-wrap">
-          <table>
-            <thead><tr><th>Columna del CSV</th><th>Campo del índice</th><th>Contenido de la celda</th><th>Estado</th></tr></thead>
-            <tbody><tr><td colspan="4">La correspondencia se muestra al validar el archivo.</td></tr></tbody>
+          <table class="data-table columns">
+            <thead><tr><th scope="col">Columna del CSV</th><th scope="col">Campo del índice</th><th scope="col">Contenido de la celda</th><th scope="col">Estado</th></tr></thead>
+            <tbody id="column-rows"></tbody>
           </table>
         </div>
       </div>
@@ -153,33 +167,38 @@
           <div><p>Reemplazarán existentes</p><p id="count-replace">0</p></div>
           <div><p>Errores</p><p id="count-errors">0</p></div>
         </div>
-        <div id="job-stopped" role="alert" hidden>
-          <h3>La carga se detuvo: los datos no coinciden con el mapping del índice</h3>
-          <p id="job-stopped-text"></p>
+        <div id="job-stopped" class="stopped" role="alert" hidden>
+          <h3><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B9472A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M9 9l6 6 M15 9l-6 6"></path></svg>La carga se detuvo: los datos no coinciden con el mapping del índice</h3>
+          <p>Se revisó el archivo completo y se encontraron <strong id="error-summary">0 errores</strong>. <strong>No se importó ningún registro.</strong> Corrige el archivo y vuelve a cargarlo; la carga solo continúa cuando todo el archivo coincide con el mapping.</p>
           <div class="table-wrap">
-            <table>
-              <thead><tr><th>Registro/Fila</th><th>id</th><th>Campo</th><th>Se recibió</th><th>El mapping espera</th></tr></thead>
+            <table class="data-table errors">
+              <thead><tr><th scope="col" id="location-label">Registro</th><th scope="col">id</th><th scope="col">Campo</th><th scope="col">Se recibió</th><th scope="col">El mapping espera</th></tr></thead>
               <tbody id="job-errors"></tbody>
             </table>
           </div>
-          <p class="hint" id="error-range">Mostrando 0 de 0 errores.</p>
-          <p><a id="job-report" href="#">Descargar informe completo (.csv)</a></p>
+          <div class="report-row">
+            <p class="hint" id="error-range">Mostrando 0 de 0 errores.</p>
+            <a id="job-report" class="btn-report" href="#"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12 M7 11l5 5l5-5 M4 20h16"></path></svg>Descargar informe completo (.csv)</a>
+          </div>
         </div>
         <div id="job-ok" hidden>
-          <h3>Comprobaciones superadas</h3>
-          <ul id="job-checks"></ul>
-          <h3>Advertencias · no detienen la carga</h3>
-          <ul id="job-warnings"></ul>
+          <h3 class="list-title">Comprobaciones superadas</h3>
+          <ul id="job-checks" class="passed"></ul>
+          <h3 class="list-title" id="warnings-title">Advertencias · no detienen la carga</h3>
+          <ul id="job-warnings" class="warned"></ul>
         </div>
-        <p id="job-failure" class="alert" hidden></p>
+        <p id="job-failure" class="alert" role="alert" hidden></p>
         <p class="hint">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code>release_date</code> en yyyy-MM-dd, <code>adult</code> booleano, <code>keywords</code> y <code>belongs_to_collection</code> como objetos anidados); <code>id</code>, <code>title</code> y <code>plot</code> son obligatorios y <code>id</code> no se puede repetir. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. Si un <code>id</code> ya existe en el índice, el registro reemplaza a la película existente.</p>
+      </div>
+
+      <div id="job-import-card" class="card" hidden>
         <h2 class="h3">Importación</h2>
-        <p id="import-text">Los vectores de la sinopsis se generan para cada película con el servicio de inferencia de Elasticsearch.</p>
-        <div id="progress" role="progressbar" aria-label="Progreso de la importación" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></div>
-        <p class="hint" id="progress-text">0 de 0 importadas · lote 0 de 0</p>
-        <div class="actions">
-          <button type="button" id="job-cancel" disabled>Cancelar importación</button>
-          <button type="button" id="job-import" disabled>Importación bloqueada</button>
+        <p id="import-text" class="body-text"></p>
+        <div id="progress" role="progressbar" aria-label="Progreso de la importación" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0"><span></span></div>
+        <p class="hint" id="progress-text"></p>
+        <div class="buttons end">
+          <button type="button" id="job-cancel" class="btn-ghost" disabled>Cancelar importación</button>
+          <button type="button" id="job-import" class="btn-primary" disabled><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg><span id="job-import-label">Importación bloqueada</span></button>
         </div>
       </div>
     </section>

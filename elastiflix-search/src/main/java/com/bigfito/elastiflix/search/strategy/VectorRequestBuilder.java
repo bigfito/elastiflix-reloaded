@@ -32,19 +32,8 @@ public class VectorRequestBuilder {
     }
 
     /**
-     * Petición contra el alias. No manda {@code from} ni agregaciones.
-     *
-     * @param alias  nombre configurado del catálogo
-     * @param query  consulta ya validada
-     * @param vector vector de consulta, ya recortado al campo
-     * @return petición de {@code _search}
-     */
-    public SearchRequest build(String alias, SearchQuery query, float[] vector) {
-        return build(alias, query, vector, null, query.knn().k());
-    }
-
-    /**
-     * Igual que {@link #build(String, SearchQuery, float[])}, con otro {@code size} y preferencia.
+     * Petición contra el alias, sin {@code from} ni agregaciones. {@code size} es {@code k} en la búsqueda y 1
+     * al confirmar el estado vacío.
      *
      * <p>La confirmación de un resultado vacío pide un solo documento. {@code k} no cambia.</p>
      *

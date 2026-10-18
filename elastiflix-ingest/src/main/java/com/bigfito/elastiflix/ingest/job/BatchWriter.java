@@ -54,8 +54,10 @@ final class BatchWriter {
         ensureRunning(context);
         List<Movie> ready = vectorizer.apply(movies);
         WriteTotals done = advanced(totals, ready.size(), replacements(context.temp(), ready));
-        context.listener().onProgress(done.notice(IMPORT_STEP));
+        // Primero se avisan los vectorizados; los escritos, solo cuando Elasticsearch aceptó el lote.
+        context.listener().onProgress(done.withWritten(totals.written()).notice(IMPORT_STEP, context.temp()));
         catalog.writeAll(context.temp(), ready);
+        context.listener().onProgress(done.notice(IMPORT_STEP, context.temp()));
         logBatch(done);
         return done;
     }

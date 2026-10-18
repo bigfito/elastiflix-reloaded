@@ -8,6 +8,7 @@ package com.bigfito.elastiflix.ingest.job;
  * @param vectorized  registros que ya tienen vector
  * @param written     registros que van a escribirse en este aviso
  * @param replaced    ids del archivo que ya estaban en la copia
+ * @param tempIndex   índice temporal {@code <alias>-<AAAAMMDD-HHMMSS>} donde se escribe
  */
-public record ImportProgress(int step, int batch, int vectorized, int written, int replaced) {
+public record ImportProgress(int step, int batch, int vectorized, int written, int replaced, String tempIndex) {
 }

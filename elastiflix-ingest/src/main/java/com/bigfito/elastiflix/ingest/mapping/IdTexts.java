@@ -28,7 +28,8 @@ public final class IdTexts {
 
     private static String text(JsonNode value) {
         if (value.isIntegralNumber()) {
-            return Long.toString(value.longValue());
+            // bigIntegerValue: un id de 25 dígitos no cabe en un long, pero como keyword es un texto válido.
+            return value.bigIntegerValue().toString();
         }
         if (value.isString() && !value.asString().isBlank()) {
             return value.asString();

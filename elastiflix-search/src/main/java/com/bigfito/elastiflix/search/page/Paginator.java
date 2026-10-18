@@ -13,19 +13,7 @@ public class Paginator {
     private static final String DASH = "–";
 
     /**
-     * Páginas y texto del rango. No recorta la lista.
-     *
-     * @param total    películas que cumplen la búsqueda
-     * @param page     página desde 1
-     * @param pageSize tamaño de página
-     * @return la paginación
-     */
-    public Pagination describe(long total, int page, int pageSize) {
-        return describe(total, page, pageSize, total);
-    }
-
-    /**
-     * Igual que {@link #describe(long, int, int)}, pero las páginas no pasan de la ventana.
+     * Páginas y texto del rango, sin pasar de la ventana. No recorta la lista.
      *
      * <p>La ventana es 10 000 en full-text y {@code k} en vectorial e híbrida. El total que se
      * muestra sigue siendo el real.</p>

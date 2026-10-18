@@ -23,7 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Acerca de muestra las secciones del mockup, la tabla de precisión y los créditos de TMDB.
  */
-@WebMvcTest(AboutController.class)
+@WebMvcTest(controllers = AboutController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import(LayoutAdvice.class)
 class AboutPageTest {
 
@@ -67,6 +68,11 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("se generan siempre")))
                 .andExpect(content().string(containsString("Un CSV sin encabezado se rechaza")))
                 .andExpect(content().string(containsString("El índice anterior se borra")))
-                .andExpect(content().string(containsString("Similarity (BM25)")));
+                .andExpect(content().string(containsString("Similarity (BM25)")))
+                .andExpect(content().string(containsString(
+                        "<div class=\"note sky\">\n        <h3>Cómo se calcula la relevancia: BM25</h3>")))
+                .andExpect(content().string(containsString("<section class=\"mode-cards\"")))
+                .andExpect(content().string(containsString("<span class=\"mode-icon lilac\" aria-hidden=\"true\">")))
+                .andExpect(content().string(containsString("<div class=\"note rose\">\n        <h3>Cuando no hay resultados</h3>")));
     }
 }

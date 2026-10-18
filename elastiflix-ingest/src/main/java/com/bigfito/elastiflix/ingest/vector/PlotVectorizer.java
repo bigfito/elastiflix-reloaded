@@ -58,7 +58,7 @@ public final class PlotVectorizer {
 
     private static List<Movie> attach(List<Movie> movies, List<float[]> vectors) {
         if (vectors == null || vectors.size() != movies.size()) {
-            throw new EmbeddingException(ErrorCode.UNEXPECTED_VECTOR);
+            throw new EmbeddingException(ErrorCode.INCOMPLETE_EMBEDDING_BATCH);
         }
         List<Movie> ready = new ArrayList<>();
         for (int index = 0; index < movies.size(); index++) {

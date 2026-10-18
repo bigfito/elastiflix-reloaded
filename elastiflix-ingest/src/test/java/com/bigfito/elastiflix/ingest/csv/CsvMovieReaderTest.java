@@ -12,7 +12,6 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.json.JsonDocuments;
-import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
@@ -54,7 +53,7 @@ class CsvMovieReaderTest {
         assertThat(checked.report().errors()).isEmpty();
         assertThat(checked.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(json.read(JSON).stream().map(MovieDocuments::fromNode).toList());
+                .isEqualTo(validator.validate(json.read(JSON).documents(), Set.of()).movies());
     }
 
     @Test
@@ -87,16 +86,21 @@ class CsvMovieReaderTest {
     }
 
     @Test
-    @DisplayName("una columna director no existe en el mapping")
+    @DisplayName("una columna director no existe en el mapping, pero las filas se leen sin ella")
     void shouldRejectAnUnknownColumn() throws Exception {
         Path file = folder.resolve("director.csv");
-        Files.writeString(file, "id,title,plot,director\n1,Una,texto,alguien\n");
+        Files.writeString(file, "id,title,plot,director\n1,Una,texto,alguien\n2,Otra,,\n");
 
         CsvRead read = reader.read(file, CsvSettings.withHeader());
 
         assertThat(read.report().errors()).extracting(ValidationIssue::code)
                 .containsExactly(ErrorCode.UNKNOWN_FIELD.code());
-        assertThat(read.documents()).isEmpty();
+        assertThat(read.documents()).hasSize(2)
+                .allSatisfy(document -> assertThat(document.has("director")).isFalse());
+        assertThat(read.rowCount()).isEqualTo(2);
+        assertThat(read.columns()).containsExactly(
+                new CsvColumn("id", 2), new CsvColumn("title", 2),
+                new CsvColumn("plot", 1), new CsvColumn("director", 1));
     }
 
     @ParameterizedTest(name = "{0} → {1} en {2}")

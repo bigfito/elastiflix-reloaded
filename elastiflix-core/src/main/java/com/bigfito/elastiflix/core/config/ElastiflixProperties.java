@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
  * Configuración de la demo bajo el prefijo {@code elastiflix}.
  *
  * <p>Los grupos que no vienen en el entorno usan el mismo valor por defecto que {@code application.yml}.
- * Los de embeddings no están en el YAML: los fija {@link DefaultValue} y, si faltan, el constructor.</p>
+ * Los de embeddings no están en el YAML: {@link DefaultValue} crea el grupo con los valores calibrados.</p>
  *
  * @param elasticsearch URL y API key del proyecto Serverless
  * @param index         nombre del alias del catálogo
@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
  * @param ingest        tamaño de archivo y de lote
  * @param poster        prefijo del CDN de pósters
  * @param bootstrap     si la migración a alias debe ejecutarse
- * @param embedding     cómo se vectorizan consultas y sinopsis
+ * @param embedding     cómo se vectorizan las sinopsis
  */
 @ConfigurationProperties(prefix = "elastiflix")
 @Validated
@@ -28,7 +28,7 @@ public record ElastiflixProperties(
         Ingest ingest,
         Poster poster,
         Bootstrap bootstrap,
-        Embedding embedding) {
+        @DefaultValue Embedding embedding) {
 
     /**
      * Rellena los grupos ausentes para que el contexto de prueba de core también arranque.
@@ -40,7 +40,7 @@ public record ElastiflixProperties(
         ingest = ingest == null ? Ingest.fallback() : ingest;
         poster = poster == null ? Poster.fallback() : poster;
         bootstrap = bootstrap == null ? Bootstrap.fallback() : bootstrap;
-        embedding = embedding == null ? Embedding.fallback() : embedding;
+        embedding = embedding == null ? new Embedding(null, null) : embedding;
     }
 
     /**
@@ -197,53 +197,37 @@ public record ElastiflixProperties(
     }
 
     /**
-     * Cómo pide la demo los vectores de una consulta y de una sinopsis.
+     * Cómo pide la demo los vectores de una sinopsis.
      *
-     * <p>La calibración dejó los documentos en {@code ingest} y sin prefijo: fue la única
-     * combinación con coseno ≥ 0.999 en las cinco películas. Las consultas siguen en
-     * {@code search} con el prefijo {@code Query: }.</p>
+     * <p>La calibración de la tarea 1.9 dejó los documentos en {@code ingest} y sin prefijo: fue la única
+     * combinación con coseno ≥ 0.999 en las cinco películas. Esos dos literales viven solo en
+     * {@link #DEFAULT_DOCUMENT_INPUT_TYPE} y {@link #DEFAULT_DOCUMENT_PREFIX}: los usan el
+     * {@link DefaultValue} del enlace y el constructor de quien crea el record a mano. Las consultas no se
+     * configuran (PLAN §6): {@code InferenceEmbeddingService} usa siempre {@code search} y {@code Query: }.</p>
      *
-     * @param queryInputType    {@code input_type} de las consultas
-     * @param queryPrefix       texto que se antepone a la consulta
      * @param documentInputType {@code input_type} de los documentos; vacío significa no enviarlo
      * @param documentPrefix    texto que se antepone a la sinopsis; vacío significa no anteponer nada
      */
     public record Embedding(
-            @DefaultValue("search") String queryInputType,
-            @DefaultValue("Query: ") String queryPrefix,
-            @DefaultValue("ingest") String documentInputType,
-            @DefaultValue("") String documentPrefix) {
+            @DefaultValue(DEFAULT_DOCUMENT_INPUT_TYPE) String documentInputType,
+            @DefaultValue(DEFAULT_DOCUMENT_PREFIX) String documentPrefix) {
 
-        private static final String DEFAULT_QUERY_INPUT_TYPE = "search";
-        private static final String DEFAULT_QUERY_PREFIX = "Query: ";
-        private static final String DEFAULT_DOCUMENT_INPUT_TYPE = "ingest";
-        private static final String DEFAULT_DOCUMENT_PREFIX = "";
+        /** {@code input_type} calibrado para las sinopsis. */
+        public static final String DEFAULT_DOCUMENT_INPUT_TYPE = "ingest";
+
+        /** Prefijo calibrado para las sinopsis: ninguno. */
+        public static final String DEFAULT_DOCUMENT_PREFIX = "";
 
         /**
-         * Aplica los valores calibrados si Spring no enlazó alguno.
+         * Aplica los valores calibrados si quien crea el record no los pasa.
          */
         public Embedding {
-            if (queryInputType == null) {
-                queryInputType = DEFAULT_QUERY_INPUT_TYPE;
-            }
-            if (queryPrefix == null) {
-                queryPrefix = DEFAULT_QUERY_PREFIX;
-            }
             if (documentInputType == null) {
                 documentInputType = DEFAULT_DOCUMENT_INPUT_TYPE;
             }
             if (documentPrefix == null) {
                 documentPrefix = DEFAULT_DOCUMENT_PREFIX;
             }
-        }
-
-        /**
-         * Consulta {@code search} con prefijo {@code Query: }; documento {@code ingest} sin prefijo.
-         *
-         * @return los cuatro valores por defecto
-         */
-        public static Embedding fallback() {
-            return new Embedding(null, null, null, null);
         }
     }
 }

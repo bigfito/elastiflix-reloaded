@@ -57,12 +57,10 @@ búsqueda sobre el mismo catálogo (el pie muestra el conteo real; el vigente es
 `progreso/INDICE.md` › «Catálogo vigente»), acotar los resultados con filtros dinámicos y
 cargar nuevas películas sin dejar nunca el catálogo a medias.
 
-> **Catálogo vigente (2026-10-18 05:49 UTC).** El alias `elastiflix-reloaded` apunta a
-> `elastiflix-reloaded-20261018-054429` y tiene **6 899** documentos. Lo dejó la importación de
-> `movies.json`, aprobada por Adolfo, que reemplazó y borró `elastiflix-reloaded-20261018-003535`
-> (catálogo histórico de 4 322 documentos). Los conteos de 4 322 de este plan son los de las verificaciones históricas anteriores a
-> esa carga. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y exigen que sea
-> mayor que cero.
+> **Catálogo vigente:** índice, conteo y fecha en `progreso/INDICE.md` › «Catálogo vigente». Los conteos de
+> 4 322 de este plan son los del catálogo histórico, anterior a la importación de `movies.json`.
+> `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`, afirman los 6 899 documentos y los
+> valores de §6; se omiten con `assumeTrue` si el conteo cambió.
 
 **Qué debe lograr.**
 
@@ -83,7 +81,7 @@ académicos y demostrativos y la usa una sola persona a la vez).
 
 **Diseño visual aprobado:** los mockups de `design/mockups/` (ver `design/README.md`). La interfaz
 real **reproduce fielmente** esos mockups: paleta, tipografías, textos, componentes y comportamiento.
-No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usuario del 2026-10-17):
+No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usuario del 2026-10-17 y 2026-10-18):
 
 | Mockup | Texto actual | Ajuste |
 |---|---|---|
@@ -101,6 +99,13 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 | `Ingest.dc.html` › ayuda del archivo CSV y `About.dc.html` › Archivo .csv | «Las listas, los objetos anidados y los vectores van como JSON dentro de la celda.» | «Las listas y los objetos anidados van como JSON dentro de la celda.» |
 | Pie de **todas** las páginas | — | Agregar el aviso de atribución de TMDB, solo texto: «This product uses the TMDB API but is not endorsed or certified by TMDB.» |
 | `About.dc.html` › nueva sección final «Créditos» | — | Aviso de atribución de TMDB «This product uses the TMDB API but is not endorsed or certified by TMDB.», debajo su traducción «Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.» y un logo **aprobado** de TMDB, menos prominente que el logo de la demo |
+| `Ingest.dc.html` › archivo (revisión 2, S-03, 2026-10-18) | Los cambios de separador y codificación se aplican al elegir el archivo | Botón «Validar archivo»: sube el archivo con el separador y la casilla elegidos. Las opciones «Coma ( , ) · detectado» y «UTF-8 con BOM · detectada» quedan sin «· detectado»/«· detectada», porque la aplicación no detecta nada |
+| `Ingest.dc.html` › rechazo en el navegador (revisión 2, S-03, 2026-10-18) | Motivos de ejemplo | Motivos reales: «La extensión no es .json.» / «… .csv.», «El archivo tiene más de una extensión. Solo se acepta .csv.», «El archivo pesa X MB y el máximo permitido es 150 MB.», «El contenido no es texto UTF-8.» y, con la casilla de encabezado desmarcada, «EFX-ING-005 · El CSV no confirma que la primera fila sea el encabezado.» |
+| `Ingest.dc.html` › errores del servidor (revisión 2, S-03, 2026-10-18) | — | Un rechazo del servidor muestra `<código> · <qué pasó>.` en una alerta propia. Sin respuesta: «No se pudo conectar con el servidor de la demo. Revisa que siga en marcha y vuelve a intentarlo.»; si falla una consulta de estado: «No se pudo consultar el estado del trabajo. Se vuelve a intentar en unos segundos.» |
+| `Ingest.dc.html` › correspondencia de columnas (revisión 2, S-03, 2026-10-18) | Contenidos de ejemplo («Texto con saltos de línea»…) y la fila «… y las demás columnas…» | Se muestran todas las columnas. El contenido sale del tipo del mapping («Texto», «Lista JSON de textos», «Número entero», «Número», «true o false», «Fecha yyyy-MM-dd», «Lista JSON de objetos anidados», «Objeto JSON anidado») más «· vacía en N filas»; `_id` dice «Metadato; tiene que ser igual a id». Las comprobaciones superadas son «N registros leídos, con id, title y plot.» y «Ningún id repetido.» |
+| `About.dc.html` › Vectorial › nota de implementación y Carga de datos › Vectores (R-10, 2026-10-18; mockup editado en B-05, `8cbfa49`) | «… y `Document: ` en las sinopsis» | Las sinopsis se vectorizan con `input_type` `ingest` y sin prefijo, la combinación que midió la calibración 1.9. Las consultas siguen con `Query: `. B-05 cambió el mockup aprobado para que diga lo mismo (ver «Aprobaciones» de `progreso/INDICE.md`) |
+| `About.dc.html` › tabla de precisión por dimensión, `adult` y `release_date` del catálogo (R-30, decisión D3, 2026-10-18) | «Se midió con 32 descripciones…», «Contenido para adultos (ninguna película del catálogo lo es)», «Fecha de estreno en yyyy-MM-dd (de 1902 a 2023)» | Se antepone «Medido en el catálogo original de 4 322 películas.» a la tabla, y «medido en el catálogo original de 4 322 películas: » dentro de los paréntesis de `adult` y `release_date`. No se recalcula sobre el catálogo vigente |
+| Pie de todas las páginas y `About.dc.html` › El catálogo, sin conexión (revisión 2, S-22, 2026-10-18) | «Índice: elastiflix-reloaded · 4 322 películas» y «Tiene 4 322 películas.» (el conteo real) | Si Elasticsearch no responde: «Índice: elastiflix-reloaded · conteo no disponible» y «El conteo no está disponible.» |
 | `Main.dc.html` › etiquetas de las sugerencias («OR: 40 resultados», «Titanic: 4.º lugar»…) | — | Se mantienen fijas, tal como en el mockup: describen el catálogo histórico original de 4 322 películas |
 
 ## 2. Arquitectura
@@ -252,7 +257,7 @@ elastiflix-reloaded/
 |---|---|
 | `POST /cargar/registro` | Guarda una película desde el formulario **directamente en el catálogo** (índice vigente a través del alias). Redirige a `/cargar` con el resultado |
 | `POST /cargar/archivo` (multipart: `archivo`, `separador`, `encabezado`) | Sube el archivo, repite las comprobaciones de tipo, tamaño y UTF-8 (y, en CSV, que traiga encabezado), y lanza la validación; devuelve `jobId` |
-| `GET /cargar/trabajos/{jobId}` | Estado del trabajo: paso del proceso (1–5), conteos, errores (primeros 6), advertencias, comprobaciones, progreso |
+| `GET /cargar/trabajos/{jobId}` | Estado del trabajo (`job`): paso del proceso (1–5), conteos, errores (primeros 6), advertencias, comprobaciones, columnas del CSV, progreso; y sus textos ya escritos (`texts`) |
 | `POST /cargar/trabajos/{jobId}/importar` | Inicia la importación de un archivo ya validado (genera los vectores, escribe en el índice temporal, publica y borra el índice anterior) |
 | `POST /cargar/trabajos/{jobId}/cancelar` | Cancela la importación y borra el índice temporal |
 | `GET /cargar/trabajos/{jobId}/informe.csv` | Informe completo de errores (CSV UTF-8) |
@@ -370,6 +375,12 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   | `management.endpoints.web.exposure.include` | `health` |
   | `management.endpoint.health.show-details` | `always` |
   | `management.health.elasticsearch.enabled` | `false` (el indicador de Boot usa `_cluster/health`, que Serverless no tiene) |
+
+  `spring.elasticsearch.socket-timeout` no se configura: vale 30 s, el valor por defecto de Spring Boot
+  4.1.1. Por eso la copia del catálogo (`_reindex` + `_tasks`) no hace una sola lectura larga: lee
+  `_tasks` en un bucle de lecturas de 20 s (`wait_for_completion=true&timeout=20s`), con un plazo total
+  de 30 minutos. Si el plazo vence, se corta la conexión o la persona cancela, la tarea se cancela con
+  `_tasks/<id>/_cancel` antes de borrar el índice temporal (revisión 2, S-01).
 
   Los valores de embeddings de documento (`elastiflix.embedding.*`) **no** van en el YAML: son los
   valores por defecto (`@DefaultValue`) del `record` de propiedades de `elastiflix-core`, fijados por la
@@ -692,9 +703,10 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
      sigue por `_tasks`) y verifica que el conteo coincida. Si la tarea falla, se detiene con
      `EFX-ES-006`. Si el conteo no coincide, borra el índice nuevo y se detiene con `EFX-ES-003`.
   3. En una sola llamada a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice
-     original. Si esa llamada falla, `describe` decide: alias en el índice nuevo cuenta como
-     publicada; el nombre sigue siendo índice concreto borra el nuevo y responde `EFX-ES-004`;
-     si no se puede leer, o el alias no quedó ahí, `EFX-IMP-006` y el índice nuevo se deja.
+     original, con `timeout` de 10 s (Serverless no acepta `master_timeout`). Si esa llamada falla, `describe` decide:
+     alias en el índice nuevo cuenta como publicada; un rechazo 4xx con el nombre todavía índice
+     concreto borra el nuevo y responde `EFX-ES-004`; en cualquier otro caso (corte, 5xx, no se puede
+     leer, el alias no quedó ahí), `EFX-IMP-006` y el índice nuevo se deja.
   4. Al terminar, cierra el contexto de Spring y la aplicación sale con código 0 (o distinto de 0 si
      falló), para que el comando no quede esperando.
   - Ejecución real (desde la raíz, en Git Bash):
@@ -752,7 +764,8 @@ puntuaciones, y reproduce los datos de verificación de §6.
 - [x] **2.1** Modelo de entrada en `search/.../search/query/`: `SearchQuery` con texto, modo y ajustes
   (`FullTextSettings`, `KnnSettings`), filtros, página y tamaño; validación con códigos `EFX-SRCH-*`:
   texto vacío, `k < 1`, `num_candidates < k` o `> 10000`, `campo` con `multi_match`, `tamano` fuera de
-  {25, 50, 100}, `desde > hasta`, full-text con `from + size > 10000`.
+  {25, 50, 100}, `desde > hasta`, full-text con `from ≥ 10000` (una página que empieza dentro de la ventana y
+  pasa de 10 000 se recorta a la ventana; revisión 1, R-01).
   - Criterio: una prueba unitaria por regla, que verifica el código `EFX-SRCH-*`. Cuando el mockup tiene
     un mensaje para esa regla, el «qué pasó» del código es ese texto (por ejemplo «num_candidates debe ser
     mayor o igual que k»): la interfaz lo muestra junto al campo, tal como en el mockup, y el código
@@ -815,8 +828,12 @@ resumen de diseño y revisión de convenciones en `progreso/2.md`.
 **Objetivo:** `elastiflix-ingest` valida archivos completos contra el mapping y los importa sin dejar
 nunca el catálogo a medias.
 
-- [x] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura en streaming de 150 MB, dos pasadas validación →
-  importación, estado del trabajo, cancelación, swap y vuelta atrás). Commit y **detente** hasta la
+- [x] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura de hasta 150 MB, validación completa antes de importar,
+  estado del trabajo, cancelación, swap y vuelta atrás). Desde la revisión 1 (decisión D2), el archivo se
+  lee una sola vez y las películas validadas quedan en memoria hasta importarse: los vectores se quitan al
+  leer, los nodos crudos se sueltan al validar, el archivo local se borra al terminar la validación y los
+  trabajos viejos se olvidan (revisión 2, S-06). La lectura en streaming con dos pasadas quedó como
+  alternativa descartada. Commit y **detente** hasta la
   aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
   - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
   - el registro individual se escribe **directamente en el catálogo**;
@@ -832,8 +849,8 @@ nunca el catálogo a medias.
   - Criterio: pruebas unitarias aceptan `elastiflix-reloaded.json`, `peliculas_2026.csv` y rechazan
     `peliculas.txt`, `peliculas`, `peliculas.csv.exe`, `peliculas.exe.csv`, `peliculas.json.csv`, un
     archivo de 150 MB + 1 byte y uno con bytes no UTF-8, cada uno con su código `EFX-ING-*`.
-- [x] **3.2** `JsonDocuments`: objeto de exportación, arreglo o NDJSON, en streaming con Jackson 3;
-  verifica `document_count` si viene. La revisión 1 (R-14) eliminó `JsonMovieReader`. Las pruebas
+- [x] **3.2** `JsonDocuments`: objeto de exportación, arreglo o NDJSON, con el parser de Jackson 3, un
+  registro a la vez (sin vectores) hacia una lista en memoria (D2); verifica `document_count` si viene. La revisión 1 (R-14) eliminó `JsonMovieReader`. Las pruebas
   viven en `JsonDocumentsTest`.
   - Criterio: lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` y las mismas
     convertidas a arreglo y a NDJSON en las pruebas.
@@ -871,8 +888,9 @@ nunca el catálogo a medias.
   al índice nuevo y `remove_index` del índice anterior. Ante un lote rechazado, un conteo que no
   cuadra, un fallo de inferencia, una tarea de reindex que no termina o una cancelación: borra el
   índice temporal y deja el alias y el índice anterior intactos. Si `publish` no confirma, `describe`
-  decide: alias en el anterior borra el temporal (`EFX-ES-004`); alias en el temporal cuenta como
-  publicado; si no se puede leer, `EFX-IMP-006` y el temporal se deja. Al empezar a importar, el
+  decide: un rechazo 4xx con el alias en el anterior borra el temporal (`EFX-ES-004`); alias en el
+  temporal cuenta como publicado; un corte, un 5xx o un `describe` que no se puede leer dan
+  `EFX-IMP-006` y el temporal se deja. Una vez publicado, ningún fallo posterior borra el temporal. Al empezar a importar, el
   trabajo suelta la lista de películas. Al iniciar, limpia (con `WARN`) los
   índices huérfanos **de su propio alias**: los que cumplen exactamente `<alias>-<AAAAMMDD-HHMMSS>` y no
   están detrás del alias. Nunca toca índices con otro prefijo. Publica el progreso por el listener (paso
@@ -952,7 +970,8 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   aplicar», APLICAR, Limpiar, rango de fechas de los resultados), estados vacíos y leyenda por modo.
   Cambiar el tamaño o aplicar filtros vuelve a la página 1.
   - Criterio: pruebas MockMvc para los tres modos, los dos estados vacíos y un error de validación
-    (`candidatos < k`) mostrado con su código.
+    (`candidatos < k`) mostrado con su «qué pasó» junto al campo, como en el mockup; el código va al log
+    (desde la revisión 1, R-06).
 - [x] **4.4** Cargar datos (`GET /cargar` y endpoints de §5): pestañas, formulario completo del mockup,
   zona de arrastre con las comprobaciones del navegador, opciones de CSV, proceso en 5 pasos, tarjetas
   de conteo, tabla de errores (6 primeros + descarga del informe), comprobaciones superadas,

@@ -16,7 +16,17 @@ record WriteTotals(int batches, int vectorized, int written, int replaced) {
      * @param step paso del mockup
      * @return avance de este lote
      */
-    ImportProgress notice(int step) {
-        return new ImportProgress(step, batches, vectorized, written, replaced);
+    ImportProgress notice(int step, String tempIndex) {
+        return new ImportProgress(step, batches, vectorized, written, replaced, tempIndex);
+    }
+
+    /**
+     * Los mismos conteos con otra cifra de escritos: el aviso de antes de escribir el lote.
+     *
+     * @param count escritos hasta ahora
+     * @return copia con esa cifra
+     */
+    WriteTotals withWritten(int count) {
+        return new WriteTotals(batches, vectorized, count, replaced);
     }
 }

@@ -8,14 +8,14 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 2 — 27 correcciones (`S-01` … `S-27`) de la segunda revisión de `main` en `41c1188`
-- **Estado de la fase:** no iniciado
-- **Rama:** `revision-2`, por crear desde `main`
+- **Estado de la fase:** terminada; PR #13 hacia `main` abierto (Claude Code)
+- **Rama:** `revision-2`, creada desde `main` en `3d0b8ff`
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** aplica el protocolo de reanudación de `AGENTS.md`, crea la rama `revision-2` desde
-  `main`, marca la Revisión 2 `en curso` y empieza S-01.
-- **Última actualización:** 2026-10-18 19:42 UTC
+- **Próximo paso:** Adolfo revisa y fusiona el PR #13 (`revision-2` → `main`). S-01 a S-27 terminadas;
+  `./mvnw verify` y `./mvnw verify -Pit` en verde.
+- **Última actualización:** 2026-10-18 23:06 UTC
 
 ## Fases
 
@@ -31,7 +31,7 @@
 | — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. Nueve R quedaron incompletas y continúan en la revisión 2. |
 | — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
 | — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
-| — | Revisión 2 | — | no iniciado | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. |
+| — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. PR #13 hacia `main` abierto. |
 
 ## Aprobaciones del usuario
 
@@ -52,9 +52,14 @@
 | 2026-10-18 | Fase 6 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 6. El PR #7 quedó fusionado en `main` (merge commit `eb309d9`). |
 | 2026-10-18 | Corrección de documentación fusionada en `main` | Adolfo aprobó el PR #8. Quedó fusionado en `main` (merge commit `22dac52`). Después se borraron las ramas remotas `cursor/*` de las fases 0 a 6. |
 | 2026-10-18 | Criterios de §6 relajados, fusionados en `main` | El PR #9 (`cursor/revision-docs-29a6`, merge `dc44535`, commit `2a3aaea`) dejó de afirmar los totales de 4 322 y lee `_count`. La revisión 1 (R-05, D1) restituye los valores exactos sobre 6 899 películas. |
-| 2026-10-18 | Capturas de R-21 | Adolfo Orozco aprobó la fidelidad visual de las cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada). |
+| 2026-10-18 | Capturas de R-21 | Adolfo Orozco aprobó la fidelidad visual de las cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada). Sustituida por S-18: esas capturas no reflejaban la interfaz y se reemplazaron; la aprobación nueva va aparte. |
+| 2026-10-18 | Capturas de S-18 | Adolfo Orozco aprobó las nueve capturas de página completa con datos reales en `docs/capturas/` y la comparación de `progreso/4.md` («S-18 apruebo»), después de tomadas (`20b1f59`). |
 | 2026-10-18 | Importación de `movies.json` al catálogo real | Adolfo eligió reemplazar el índice de `elastiflix-reloaded`. Arranque 05:44:29 UTC y publicación 05:49:22 UTC (unos 4 min 54 s). Arreglo JSON de 6899 registros, validación `valido`, 0 errores y 5055 advertencias (`EFX-ING-022`: 4960, `EFX-ING-021`: 95). Índice nuevo `elastiflix-reloaded-20261018-054429` con 6899 documentos. Se borró `elastiflix-reloaded-20261018-003535`. Una lectura posterior contó `title`, `plot`, `plot_256`, `plot_512` y `plot_1024` en 6899/6899. |
 | 2026-10-18 | Revisión 1 fusionada en `main` | Adolfo fusionó el PR #10 (merge `dc9a315`). |
+| 2026-10-18 | Decisión D1 de la revisión 1 (R-05) | Las pruebas de §6 vuelven a afirmar los valores exactos sobre 6 899 películas y se omiten con `assumeTrue` si `_count` cambió. La tomó el agente en la revisión 1 (`progreso/revision-1.md`, «Decisiones»); Adolfo la aceptó al fusionar el PR #10 (`dc9a315`). No hay otra aprobación registrada. |
+| 2026-10-18 | Decisión D2 de la revisión 1 (R-12) | La ingesta trabaja en memoria (hasta 150 MB) en lugar de releer el archivo en streaming: los vectores se quitan al leer y las películas se sueltan al terminar. Mismo origen que D1; aceptada al fusionar el PR #10 (`dc9a315`). La revisión 2 (S-06) completa sus mitigaciones. |
+| 2026-10-18 | Decisión D3 de la revisión 1 (R-30) | «Acerca de» rotula la tabla de precisión y los datos de `adult` y `release_date` como medidos en el catálogo original de 4 322 películas, sin recalcular. Mismo origen que D1; aceptada al fusionar el PR #10 (`dc9a315`). |
+| 2026-10-18 | Cambio del mockup aprobado en B-05 | `design/mockups/About.dc.html` cambió «`Document: ` en las sinopsis» por «`input_type` `ingest` y sin prefijo». Lo hizo el agente en B-05 (`8cbfa49`); Adolfo lo aceptó al fusionar el PR #12 (`41c1188`). Registrado en PLAN §1 por S-16. |
 | 2026-10-18 | Sincronización de documentación fusionada en `main` | Adolfo fusionó el PR #11 (merge `2f6f9ed`). |
 | 2026-10-18 | Bugs B-01 a B-05 fusionados en `main` | Adolfo fusionó el PR #12 (merge `41c1188`). |
 | 2026-10-18 | Revisión 2 encargada a otro agente | Adolfo pidió pasar la lista de correcciones al repositorio (`docs/revisiones/revision-2.md`) para que la tome un agente de Claude Code, Google Antigravity o JetBrains Junie. Ya no se le encarga al agente de grokbot (Cursor). Las decisiones abiertas de S-03, S-05 y S-06 las toma el agente y las registra en `progreso/revision-2.md`. |

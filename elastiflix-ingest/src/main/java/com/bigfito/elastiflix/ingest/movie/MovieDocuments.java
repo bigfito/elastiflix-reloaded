@@ -9,7 +9,6 @@ import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
 
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.JsonParser;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ObjectNode;
@@ -39,31 +38,22 @@ public final class MovieDocuments {
     }
 
     /**
-     * Lee el valor actual del parser como película.
-     *
-     * @param parser posicionado al inicio del objeto
-     * @return película sin vectores
-     */
-    public static Movie read(JsonParser parser) {
-        return fromNode((JsonNode) parser.readValueAsTree());
-    }
-
-    /**
-     * Convierte un objeto JSON. Un valor que no es objeto no se puede leer.
+     * Convierte un objeto ya validado en película. Sirve igual para JSON y para CSV.
      *
      * @param node valor de una película
      * @return película sin vectores
+     * @throws IngestValidationException {@code EFX-ING-012} si el valor no es un objeto o no encaja en el modelo
      */
     public static Movie fromNode(JsonNode node) {
         if (!(node instanceof ObjectNode object)) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON);
+            throw new IngestValidationException(ErrorCode.TYPE_MISMATCH);
         }
         dropBlankText(object);
         object.remove(IGNORED);
         try {
             return MAPPER.treeToValue(object, Movie.class);
         } catch (JacksonException exception) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON, exception);
+            throw new IngestValidationException(ErrorCode.TYPE_MISMATCH, exception);
         }
     }
 }

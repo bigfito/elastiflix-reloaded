@@ -25,6 +25,7 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Publica un alias de prueba en una sola llamada y no toca el catálogo real.
@@ -78,7 +79,7 @@ class CatalogIndexIT {
         assertThat(catalog.describe(indexA)).isInstanceOf(CatalogName.ConcreteIndex.class);
 
         create(indexB);
-        catalog.reindex(indexA, indexB);
+        catalog.reindex(indexA, indexB, () -> false);
         catalog.refresh(indexB);
         assertThat(catalog.count(indexB)).isEqualTo(count);
 
@@ -104,6 +105,29 @@ class CatalogIndexIT {
         catalog.deleteIndex(indexB);
         created.remove(indexB);
         assertThat(catalog.describe(indexB)).isInstanceOf(CatalogName.Missing.class);
+    }
+
+    @Test
+    @DisplayName("listOwnedIndexes trae solo los índices <alias>-<AAAAMMDD-HHMMSS> de ese alias")
+    void shouldListOnlyTheDatedIndexesOfTheAlias() {
+        String dated = alias + "-20261018-030405";
+        String undated = alias + "-copia";
+        String foreign = alias + "x-20261018-030405";
+        create(dated);
+        create(undated);
+        create(foreign);
+
+        assertThat(catalog.listOwnedIndexes(alias)).containsExactly(dated);
+    }
+
+    @Test
+    @DisplayName("indexOne con require_alias no crea un índice concreto si el alias no existe")
+    void shouldNotCreateAnIndexWhenTheAliasIsMissing() throws Exception {
+        Movie movie = readFixture().getFirst();
+        created.add(alias);
+
+        assertThatThrownBy(() -> catalog.indexOne(alias, movie)).isInstanceOf(ElasticsearchAccessException.class);
+        assertThat(catalog.describe(alias)).isInstanceOf(CatalogName.Missing.class);
     }
 
     private void create(String indexName) {

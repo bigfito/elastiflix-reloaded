@@ -27,8 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Un archivo mayor que el tope y un trabajo desconocido responden JSON, no una página HTML.
  */
-@WebMvcTest(IngestJobController.class)
-@Import({IngestJobErrors.class, UploadCheck.class})
+@WebMvcTest(controllers = IngestJobController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
+@Import({IngestJobErrors.class, UploadSizeErrors.class, UploadCheck.class, IngestLimits.class})
 @TestPropertySource(properties = "spring.servlet.multipart.max-file-size=32B")
 class IngestJobErrorTest {
 

@@ -1,0 +1,11 @@
+{
+  "name": "elastiflix-browser-tests",
+  "private": true,
+  "description": "Pruebas de navegador del JavaScript de las páginas (no las corre ./mvnw verify)",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "playwright": "1.49.1"
+  }
+}

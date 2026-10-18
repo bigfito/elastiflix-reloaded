@@ -192,17 +192,17 @@ public class ElastiflixApplication {
 | Configuración | `EFX-CFG` | falta `ELASTICSEARCH_URL` |
 | Conexión e índice | `EFX-ES` | sin conexión, alias inexistente |
 | Embeddings | `EFX-EMB` | endpoint de inferencia no disponible, dimensión inesperada |
-| Búsqueda | `EFX-SRCH` | `num_candidates < k`, `from + size > 10 000`, consulta vacía |
+| Búsqueda | `EFX-SRCH` | `num_candidates < k`, full-text con `from ≥ 10 000`, consulta vacía |
 | Validación de archivo | `EFX-ING` | extensión no permitida, más de 150 MB, no es UTF-8, no coincide con el mapping |
 | Importación | `EFX-IMP` | lote rechazado, conteo no cuadra, alias no cambiado |
-| Web | `EFX-WEB` | parámetro inválido |
 
 - **Formato del mensaje:** `<código> · <qué pasó>. Causa probable: <…>. Acción sugerida: <…>.`
 - **Nunca** silencies excepciones ni dejes un `catch` vacío; al envolver, conserva la causa.
 - No captures `Exception`, `RuntimeException` ni `Throwable` (regla `JM-ERR-01`); el
   `@ControllerAdvice` usa `@ExceptionHandler`, no `catch`.
 - Los errores de validación de la ingesta **no son excepciones por registro**: se acumulan como
-  `record ValidationError(int recordNumber, String id, String field, String received, String expected)`
+  `record ValidationIssue(String code, String recordLabel, String id, String field, String received,
+  String expected, boolean warning)`
   y se lanzan juntos al final.
 
 ## 8. Logging
@@ -269,7 +269,7 @@ SLF4J con un `private static final Logger LOG` por clase.
   servicio de inferencia; los archivos no los necesitan (si los traen, se ignoran con advertencia) y el
   formulario no los captura. Para leer vectores guardados, pide `"_source": {"exclude_vectors": false}`
   (Serverless los excluye de `_source` por defecto).
-- **Límites:** `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`; full-text `from + size ≤ 10 000`
+- **Límites:** `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`; full-text `from < 10 000` (la última página se recorta a la ventana)
   (`index.max_result_window`); híbrida `rank_window_size = k` y `rank_constant = 60`.
 - **Puntuaciones:** BM25 tal cual; k-NN `(1 + coseno) / 2`; RRF `Σ 1 / (60 + posición)`.
 - **Alias e índices:** el nombre `elastiflix-reloaded` es configurable (`elastiflix.index.alias`); el

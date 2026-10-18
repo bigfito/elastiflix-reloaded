@@ -66,25 +66,8 @@
     document.querySelectorAll(".chip-set").forEach(function (set) {
       show(set, set.getAttribute("data-key") === key);
     });
-    document.querySelectorAll(".chip").forEach(keepChosenSettings);
     ["modo", "tipo", "campo", "operador", "vector"].forEach(paintPressed);
     checkKnn();
-  }
-
-  function keepChosenSettings(chip) {
-    var href = chip.getAttribute("href");
-    href = replaceParam(href, "k", value("k"));
-    href = replaceParam(href, "candidatos", value("candidatos"));
-    href = replaceParam(href, "vector", value("vector"));
-    chip.setAttribute("href", href);
-  }
-
-  function replaceParam(href, name, next) {
-    var pattern = new RegExp("([?&]" + name + "=)[^&]*");
-    if (!pattern.test(href)) {
-      return href;
-    }
-    return href.replace(pattern, "$1" + encodeURIComponent(next));
   }
 
   function checkKnn() {
@@ -115,6 +98,16 @@
     button.addEventListener("click", function () {
       setValue(button.getAttribute("data-set"), button.getAttribute("data-value"));
       refresh();
+    });
+  });
+  // Una sugerencia busca su texto con los ajustes que hay en la página (modo, tipo, campo, operador,
+  // vector, k y num_candidates). Sin JavaScript, el enlace del servidor sigue funcionando solo.
+  document.querySelectorAll(".chip").forEach(function (chip) {
+    chip.addEventListener("click", function (event) {
+      event.preventDefault();
+      var query = new URL(chip.href, window.location.href).searchParams.get("q") || "";
+      document.getElementById("q").value = query;
+      form.requestSubmit();
     });
   });
   document.getElementById("knn-k").addEventListener("input", checkKnn);

@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,9 +37,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Resultados muestra los tres modos, los dos vacíos y el código si candidatos es menor que k.
+ * Resultados muestra los tres modos, los dos vacíos y, si candidatos es menor que k, el «qué pasó» junto al campo.
  */
-@WebMvcTest(SearchController.class)
+@WebMvcTest(controllers = SearchController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({LayoutAdvice.class, SearchQueryMapper.class, ResultsPage.class, ResultCards.class, PosterUrls.class})
 class ResultsPageTest {
 
@@ -63,13 +65,13 @@ class ResultsPageTest {
 
         mvc.perform(get("/buscar").param("q", "titanic").param("modo", "fulltext").param("genero", "Drama"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("class=\"eyebrow\">Puntuación</span>")))
+                .andExpect(content().string(containsString("class=\"score-title\">Puntuación</span>")))
                 .andExpect(content().string(containsString("Ordenados por puntuación BM25")))
                 .andExpect(content().string(containsString("Mostrando 1–1 de 1 resultados")))
                 .andExpect(content().string(containsString("Filtros aplicados:")))
                 .andExpect(content().string(containsString("Géneros: Drama")))
                 .andExpect(content().string(containsString("Valores actualizados con los resultados filtrados.")))
-                .andExpect(content().string(containsString("<select id=\"page-size\">")))
+                .andExpect(content().string(containsString("<select id=\"page-size\" class=\"inp\">")))
                 .andExpect(content().string(containsString("7.9 · 1000 votos")))
                 .andExpect(content().string(containsString("En estos resultados: de 1997-01-01 a 1997-12-19")))
                 .andExpect(content().string(not(containsString("1997-12-19."))))
@@ -78,10 +80,27 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("tamano=50")))
                 .andExpect(content().string(containsString("tamano=100")))
                 .andExpect(content().string(containsString("APLICAR")))
-                .andExpect(content().string(containsString("Tienes cambios sin aplicar.")))
                 .andExpect(content().string(containsString("M4 7V5h16v2")))
                 .andExpect(content().string(not(containsString("Ver todos los géneros"))))
                 .andExpect(content().string(not(containsString("Ver todos los idiomas"))));
+    }
+
+    @Test
+    @DisplayName("Anterior, Siguiente, los números y el tamaño 50 conservan genero y desde")
+    void shouldKeepTheFiltersInEveryPageLink() throws Exception {
+        SearchResult second = found(null, null, null, "match · title");
+        when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(second.hits(), 100,
+                second.facets(), new Pagination(2, 4, 100, 25, "26–50 de 100"), second.adjustments(), null));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama").param("desde", "1990-01-01")
+                        .param("pagina", "2"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(
+                        "href=\"" + link(1, 25) + "\" aria-label=\"Página anterior\"")))
+                .andExpect(content().string(containsString(
+                        "href=\"" + link(3, 25) + "\" aria-label=\"Página siguiente\"")))
+                .andExpect(content().string(containsString("href=\"" + link(4, 25) + "\">4</a>")))
+                .andExpect(content().string(containsString("data-href=\"" + link(1, 50) + "\"")));
     }
 
     @Test
@@ -104,13 +123,13 @@ class ResultsPageTest {
                 found(new ComponentScore(1.2, "2"), new ComponentScore(0.8, "1"), 0.03, "RRF"));
 
         mvc.perform(get("/buscar").param("q", "barco").param("modo", "vectorial"))
-                .andExpect(content().string(containsString("class=\"eyebrow\">Similitud</span>")))
+                .andExpect(content().string(containsString("class=\"score-title\">Similitud</span>")))
                 .andExpect(content().string(containsString("Similitud k-NN")))
                 .andExpect(content().string(containsString("stroke=\"#1E7A5C\"")))
                 .andExpect(content().string(containsString("Ordenados por similitud k-NN")));
 
         mvc.perform(get("/buscar").param("q", "barco").param("modo", "hibrida"))
-                .andExpect(content().string(containsString("class=\"eyebrow\">Puntuación en cada lista</span>")))
+                .andExpect(content().string(containsString("class=\"score-title\">Puntuación en cada lista</span>")))
                 .andExpect(content().string(containsString("class=\"rrf-value\"")))
                 .andExpect(content().string(containsString("posición en su lista: #2")))
                 .andExpect(content().string(containsString("Ordenados por fusión RRF")));
@@ -130,6 +149,38 @@ class ResultsPageTest {
         when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.none("zzz", SearchMode.VECTOR)));
         mvc.perform(get("/buscar").param("q", "zzz").param("modo", "vectorial"))
                 .andExpect(content().string(not(containsString("La búsqueda vectorial devuelve como máximo"))));
+    }
+
+    @Test
+    @DisplayName("un póster vacío muestra el marcador del mockup con aria-label")
+    void shouldShowThePosterMarkWhenThePathIsEmpty() throws Exception {
+        SearchHit hit = new SearchHit(
+                "1", "Titanic", "Titanic", "Un barco", "",
+                LocalDate.of(1997, 12, 19), 194, List.of("Drama"), 7.9, 1000, "PG-13",
+                12.5, null, null, null);
+        when(searches.search(any(SearchQuery.class))).thenReturn(
+                new SearchResult(List.of(hit), 1, facets(), page(1), List.of("match · title"), null));
+
+        mvc.perform(get("/buscar").param("q", "titanic"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(
+                        "<div class=\"poster missing\" role=\"img\" aria-label=\"Póster de Titanic\"><svg")))
+                .andExpect(content().string(containsString("<span>poster_path</span></div>")))
+                .andExpect(content().string(not(containsString("<img src=\"\""))))
+                .andExpect(content().string(not(containsString("onerror"))));
+    }
+
+    @Test
+    @DisplayName("una consulta vacía marca la caja con aria-invalid y deja un h1")
+    void shouldMarkTheQueryBoxWhenTheQueryIsEmpty() throws Exception {
+        mvc.perform(get("/buscar").param("q", ""))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("aria-describedby=\"q-error\" aria-invalid=\"true\"")))
+                .andExpect(content().string(containsString("class=\"sbox compact is-invalid\"")))
+                .andExpect(content().string(containsString("<p id=\"q-error\" class=\"alert query-alert\" role=\"alert\">")))
+                .andExpect(content().string(containsString("<h1 class=\"visually-hidden\">Resultados</h1>")))
+                .andExpect(content().string(containsString(
+                        "<span>Escribe qué película buscas antes de pulsar Buscar.</span>")));
     }
 
     @Test
@@ -161,6 +212,31 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("value=\"1999-01-01\"")))
                 .andExpect(content().string(containsString("disabled=\"disabled\"")))
                 .andExpect(content().string(containsString("Drama")));
+    }
+
+    @Test
+    @DisplayName("con facetas vacías y genero=Drama, «Drama 0» sigue marcado y visible")
+    void shouldKeepASelectedValueThatTheFacetNoLongerHas() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(
+                List.of(), 0, noFacets(), page(0), List.of(), EmptyState.filtered()));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama"))
+                .andExpect(status().isOk())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).containsPattern(
+                        "<label class=\"opt\">\\s*<input type=\"checkbox\" name=\"genero\" value=\"Drama\" "
+                                + "checked=\"checked\">\\s*<span class=\"opt-label\">Drama</span>\\s*<span class=\"count\">0</span>"));
+    }
+
+    @Test
+    @DisplayName("un valor marcado en la posición 7 no queda oculto detrás de «Ver todos»")
+    void shouldNotHideASelectedValue() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "chip", sevenGenres()));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Horror"))
+                .andExpect(status().isOk())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).containsPattern(
+                        "<label class=\"opt\">\\s*<input type=\"checkbox\" name=\"genero\" value=\"Horror\" "
+                                + "checked=\"checked\">"));
     }
 
     private static SearchResult found(ComponentScore lexical, ComponentScore vector, Double rrf, String chip) {
@@ -205,6 +281,16 @@ class ResultsPageTest {
                 List.of(new FacetValue("false", 1)),
                 LocalDate.of(1997, 1, 1),
                 LocalDate.of(1997, 12, 19));
+    }
+
+    private static Facets noFacets() {
+        return new Facets(List.of(), List.of(), List.of(), List.of(), null, null);
+    }
+
+    private static String link(int page, int size) {
+        return "/buscar?q=titanic&amp;modo=fulltext&amp;tipo=match&amp;campo=title&amp;operador=or"
+                + "&amp;vector=plot_256&amp;k=100&amp;candidatos=200&amp;genero=Drama&amp;desde=1990-01-01"
+                + "&amp;pagina=" + page + "&amp;tamano=" + size;
     }
 
     private static Pagination page(long total) {

@@ -22,7 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Inicio muestra los textos del mockup y enlaza cada sugerencia con su modo.
  */
-@WebMvcTest(HomeController.class)
+@WebMvcTest(controllers = HomeController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({LayoutAdvice.class, SuggestionCatalog.class})
 class HomePageTest {
 
@@ -66,6 +67,12 @@ class HomePageTest {
                 .andExpect(content().string(containsString("vector=plot_1024")))
                 .andExpect(content().string(containsString("Titanic: 1.º lugar")))
                 .andExpect(content().string(containsString("modo=hibrida")))
-                .andExpect(content().string(containsString("Titanic: 1.º vectorial, 2.º léxico")));
+                .andExpect(content().string(containsString("Titanic: 1.º vectorial, 2.º léxico")))
+                .andExpect(content().string(containsString("href=\"/buscar?q=un%20barco%20de%20lujo%20choca%20con%20un"
+                        + "%20iceberg%20en%20su%20viaje%20inaugural&amp;modo=vectorial&amp;vector=plot_256&amp;k=100"
+                        + "&amp;candidatos=200\"")))
+                .andExpect(content().string(containsString("href=\"/buscar?q=dark%20knight%20joker%20caos%20en%20la"
+                        + "%20ciudad&amp;modo=hibrida&amp;tipo=match&amp;campo=title&amp;operador=or&amp;vector=plot_256"
+                        + "&amp;k=100&amp;candidatos=200\"")));
     }
 }

@@ -1,4 +1,8 @@
 (function () {
+  // El mismo marcador que pinta la plantilla cuando poster_path viene vacío (Results.dc.html).
+  var POSTER_ICON = '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+    + 'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 '
+    + 'M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg>';
   document.querySelectorAll("[data-expand]").forEach(function (button) {
     button.addEventListener("click", function () {
       var box = button.closest("[data-facet]");
@@ -47,8 +51,8 @@
     var mark = document.createElement("div");
     mark.className = "poster missing";
     mark.setAttribute("role", "img");
-    mark.setAttribute("aria-label", image.alt);
-    mark.textContent = "poster_path";
+    mark.setAttribute("aria-label", "Póster de " + image.alt);
+    mark.innerHTML = POSTER_ICON + "<span>poster_path</span>";
     image.replaceWith(mark);
   }
   function markDirty(form, initial) {

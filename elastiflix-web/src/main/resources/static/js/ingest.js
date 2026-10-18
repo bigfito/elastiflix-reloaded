@@ -1,28 +1,91 @@
 (function () {
   var filePanel = document.querySelector('[data-panel="file"]');
   var single = document.querySelector('[data-panel="single"]');
-  var title = document.getElementById("file-title");
+  var form = document.getElementById("file-form");
+  if (!filePanel || !form) {
+    return;
+  }
   var input = document.getElementById("archivo");
   var drop = document.getElementById("drop");
-  var chosen = null;
+  var submit = document.getElementById("file-submit");
+  var importButton = document.getElementById("job-import");
+  var cancelButton = document.getElementById("job-cancel");
+  var maxBytes = Number(filePanel.getAttribute("data-max-bytes")) || 150 * 1024 * 1024;
+  var maxLabel = filePanel.getAttribute("data-max-label") || "150 MB";
+  var ACTIVE = ["recibido", "validando", "importando"];
+  var STATE_LABELS = { done: "completado", current: "en curso", failed: "detenido", ready: "listo para empezar", pending: "pendiente" };
+  var STATE_MARKS = { done: "✓", failed: "✕", current: "…" };
+  var NETWORK_ERROR = "No se pudo conectar con el servidor de la demo. Revisa que siga en marcha y vuelve a intentarlo.";
+  var POLL_RETRY = "No se pudo consultar el estado del trabajo. Se vuelve a intentar en unos segundos.";
+
   var tab = "json";
+  var chosen = null;
   var jobId = "";
+  var timer = 0;
+  var busy = false;
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
 
   function show(node, visible) {
-    if (!node) {
-      return;
-    }
-    if (visible) {
-      node.removeAttribute("hidden");
-    } else {
-      node.setAttribute("hidden", "");
+    if (node) {
+      node.hidden = !visible;
     }
   }
 
-  function showCsv(visible) {
-    document.querySelectorAll("[data-csv]").forEach(function (node) {
-      show(node, visible);
+  function megabytes(bytes) {
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
+
+  function setText(id, text) {
+    byId(id).textContent = text || "";
+  }
+
+  function fill(list, lines) {
+    list.replaceChildren();
+    (lines || []).forEach(function (line) {
+      var item = document.createElement("li");
+      item.textContent = line;
+      list.appendChild(item);
     });
+  }
+
+  function setStep(index, state) {
+    var item = document.querySelector('#steps li[data-step="' + index + '"]');
+    item.className = state === "pending" ? "" : "is-" + state;
+    item.querySelector(".mark").textContent = STATE_MARKS[state] || String(index);
+    item.querySelector(".state").textContent = "· " + STATE_LABELS[state];
+  }
+
+  function setSteps(states) {
+    states.forEach(function (state, position) {
+      setStep(position + 1, state);
+    });
+  }
+
+  function stopPolling() {
+    window.clearTimeout(timer);
+    timer = 0;
+  }
+
+  // Un archivo nuevo, una pestaña nueva o un error nuevo empiezan de cero: no queda nada del trabajo anterior.
+  function resetJob() {
+    stopPolling();
+    jobId = "";
+    busy = false;
+    ["file-block", "columns-card", "job", "job-import-card", "server-error"].forEach(function (id) {
+      show(byId(id), false);
+    });
+    setSteps(["pending", "pending", "pending", "pending", "pending"]);
+  }
+
+  function resetFile() {
+    chosen = null;
+    input.value = "";
+    show(byId("file-chip"), false);
+    submit.disabled = true;
+    resetJob();
   }
 
   document.querySelectorAll("[data-tab]").forEach(function (button) {
@@ -35,82 +98,82 @@
       });
       show(single, tab === "single");
       show(filePanel, tab !== "single");
-      showCsv(tab === "csv");
+      document.querySelectorAll("[data-csv]").forEach(function (node) {
+        show(node, tab === "csv");
+      });
       filePanel.setAttribute("aria-labelledby", button.id);
       paintFileCopy();
-      chosen = null;
-      input.value = "";
+      resetFile();
     });
   });
 
   function paintFileCopy() {
     var csv = tab === "csv";
-    title.textContent = csv ? "Archivo CSV" : "Archivo JSON";
-    document.getElementById("drop-title").textContent = csv
+    setText("file-title", csv ? "Archivo CSV" : "Archivo JSON");
+    setText("drop-title", csv
       ? "Arrastra tu archivo .csv aquí o haz clic para elegirlo"
-      : "Arrastra tu archivo .json aquí o haz clic para elegirlo";
-    document.getElementById("file-hint").textContent = csv
+      : "Arrastra tu archivo .json aquí o haz clic para elegirlo");
+    setText("drop-only", csv ? "Solo .csv" : "Solo .json");
+    setText("file-hint", csv
       ? "Texto UTF-8 (con o sin BOM), una película por fila y la primera fila con los nombres de columna. Las listas y los objetos anidados van como JSON dentro de la celda; los textos pueden tener saltos de línea entre comillas."
-      : "El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.";
-    input.setAttribute("accept", csv ? ".csv,text/csv" : ".json,application/json");
+      : "El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.");
+    input.setAttribute("accept", csv ? ".csv,text/csv" : ".json,.ndjson,application/json");
   }
 
   window.addEventListener("dragover", function (event) { event.preventDefault(); });
   window.addEventListener("drop", function (event) { event.preventDefault(); });
-  if (drop) {
-    drop.addEventListener("dragover", function (event) {
-      event.preventDefault();
-      drop.classList.add("is-over");
-    });
-    drop.addEventListener("dragleave", function () { drop.classList.remove("is-over"); });
-    drop.addEventListener("drop", function (event) {
-      event.preventDefault();
-      drop.classList.remove("is-over");
-      chosen = event.dataTransfer.files[0] || null;
-      remember(chosen);
-    });
-  }
-  if (input) {
-    input.addEventListener("change", function () {
-      chosen = input.files[0] || null;
-      remember(chosen);
-    });
-  }
-
-  function remember(file) {
-    var label = document.getElementById("chosen");
-    label.textContent = file ? file.name + " · " + file.size + " bytes" : "";
-    show(label, !!file);
-  }
-
-  var form = document.getElementById("file-form");
-  if (!form) {
-    return;
-  }
-  form.addEventListener("submit", function (event) {
+  drop.addEventListener("dragover", function (event) {
     event.preventDefault();
-    var file = chosen || (input.files ? input.files[0] : null);
-    if (!file) {
-      block("Elige un archivo .json o .csv.");
-      return;
-    }
-    var reason = localReason(file);
-    if (reason) {
-      block(reason);
-      return;
-    }
-    readUtf8(file).then(function (ok) {
-      if (!ok) {
-        block("El contenido no es texto UTF-8.");
-        return;
-      }
-      upload(file);
-    }).catch(function () {
-      block("No se pudo leer el archivo en el navegador.");
-    });
+    drop.classList.add("is-over");
+  });
+  drop.addEventListener("dragleave", function () { drop.classList.remove("is-over"); });
+  drop.addEventListener("drop", function (event) {
+    event.preventDefault();
+    drop.classList.remove("is-over");
+    choose(event.dataTransfer.files[0] || null);
+  });
+  input.addEventListener("change", function () {
+    choose(input.files[0] || null);
   });
 
-  function localReason(file) {
+  // Paso 1: la comprobación del navegador corre apenas se elige el archivo.
+  function choose(file) {
+    resetJob();
+    chosen = file;
+    submit.disabled = true;
+    if (!file) {
+      show(byId("file-chip"), false);
+      return;
+    }
+    setText("file-name", file.name);
+    setText("file-meta", megabytes(file.size));
+    byId("file-chip").classList.remove("is-rejected");
+    show(byId("file-chip"), true);
+    setStep(1, "current");
+    browserReasons(file).then(function (reasons) {
+      if (chosen !== file) {
+        return;
+      }
+      if (reasons.length > 0) {
+        rejectInBrowser(reasons);
+        return;
+      }
+      setStep(1, "done");
+      submit.disabled = false;
+    });
+  }
+
+  function browserReasons(file) {
+    var reason = nameOrSizeReason(file);
+    if (reason) {
+      return Promise.resolve([reason]);
+    }
+    return readUtf8(file).then(function (ok) {
+      return ok ? [] : ["El contenido no es texto UTF-8."];
+    });
+  }
+
+  function nameOrSizeReason(file) {
     var expected = tab === "csv" ? ".csv" : ".json";
     var name = file.name.toLowerCase();
     if (!name.endsWith(expected)) {
@@ -119,111 +182,190 @@
     if (name.slice(0, -expected.length).indexOf(".") >= 0) {
       return "El archivo tiene más de una extensión. Solo se acepta " + expected + ".";
     }
-    if (file.size > 150 * 1024 * 1024) {
-      return "El archivo pesa más de 150 MB y el máximo permitido es 150 MB.";
+    if (file.size > maxBytes) {
+      return "El archivo pesa " + megabytes(file.size) + " y el máximo permitido es " + maxLabel + ".";
     }
     return "";
   }
 
+  // Solo se leen 64 KiB: el corte puede partir un carácter de varios bytes. Con stream: true, el
+  // decodificador guarda esos bytes para un trozo siguiente en lugar de tratarlos como un error.
   function readUtf8(file) {
     return file.slice(0, 65536).arrayBuffer().then(function (buffer) {
-      new TextDecoder("utf-8", { fatal: true }).decode(buffer);
+      new TextDecoder("utf-8", { fatal: true }).decode(buffer, { stream: true });
       return true;
     }).catch(function () {
       return false;
     });
   }
 
+  function rejectInBrowser(reasons) {
+    resetJob();
+    submit.disabled = true;
+    setStep(1, "failed");
+    setText("file-meta", megabytes(chosen ? chosen.size : 0) + " · rechazado");
+    byId("file-chip").classList.add("is-rejected");
+    fill(byId("file-reasons"), reasons);
+    show(byId("file-block"), true);
+  }
+
+  function serverError(text) {
+    setText("server-error", text);
+    show(byId("server-error"), true);
+  }
+
+  function errorText(data) {
+    if (data && data.code) {
+      return data.code + " · " + (data.message || "") + ".";
+    }
+    return NETWORK_ERROR;
+  }
+
   function readJson(response) {
     var type = response.headers.get("content-type") || "";
     if (type.indexOf("application/json") < 0) {
-      return Promise.reject(new Error("respuesta sin JSON"));
+      return Promise.resolve({ ok: false, data: null });
     }
     return response.json().then(function (data) {
       return { ok: response.ok, data: data };
     });
   }
 
-  function failureText(data) {
-    if (!data) {
-      return "No se pudo completar la carga.";
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (!chosen || submit.disabled) {
+      return;
     }
-    return (data.code || "") + " " + (data.message || "");
-  }
-
-  function block(text) {
-    document.getElementById("file-error").textContent = text;
-    show(document.getElementById("file-block"), true);
-  }
+    var header = form.querySelector('[name="encabezado"]');
+    if (tab === "csv" && header && !header.checked) {
+      rejectInBrowser(["EFX-ING-005 · El CSV no confirma que la primera fila sea el encabezado."]);
+      return;
+    }
+    upload(chosen);
+  });
 
   function upload(file) {
+    resetJob();
+    setStep(1, "done");
+    setStep(2, "current");
+    submit.disabled = true;
     var body = new FormData();
-    body.append("archivo", file, file.name);
     var separator = form.querySelector('[name="separador"]');
     var header = form.querySelector('[name="encabezado"]');
+    body.append("archivo", file, file.name);
     body.set("separador", separator ? separator.value : ",");
-    body.set("encabezado", header && header.checked ? "true" : "false");
+    body.set("encabezado", tab !== "csv" || (header && header.checked) ? "true" : "false");
     fetch("/cargar/archivo", { method: "POST", body: body })
       .then(readJson)
       .then(function (result) {
         if (!result.ok) {
-          block(failureText(result.data));
+          setStep(2, "failed");
+          serverError(errorText(result.data));
+          submit.disabled = false;
           return;
         }
-        show(document.getElementById("file-block"), false);
         jobId = result.data.jobId;
-        show(document.getElementById("job"), true);
-        document.getElementById("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
+        byId("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
+        show(byId("job"), true);
+        show(byId("job-import-card"), true);
         poll();
       })
-      .catch(function () { block("No se pudo subir el archivo."); });
+      .catch(function () {
+        setStep(2, "failed");
+        serverError(NETWORK_ERROR);
+        submit.disabled = false;
+      });
   }
 
+  // Una sola cadena de consultas: cada respuesta programa la siguiente y ninguna otra la duplica.
   function poll() {
-    if (!jobId) {
+    stopPolling();
+    var current = jobId;
+    if (!current) {
       return;
     }
-    fetch("/cargar/trabajos/" + jobId)
+    fetch("/cargar/trabajos/" + current)
       .then(readJson)
       .then(function (result) {
+        if (current !== jobId) {
+          return;
+        }
         if (!result.ok) {
-          block(failureText(result.data));
+          serverError(errorText(result.data));
           return;
         }
         paint(result.data);
       })
-      .catch(function () { block("No se pudo consultar el trabajo."); });
+      .catch(function () {
+        if (current !== jobId) {
+          return;
+        }
+        serverError(POLL_RETRY);
+        timer = window.setTimeout(poll, 3000);
+      });
   }
 
-  function paint(job) {
+  function act(path) {
+    busy = true;
+    importButton.disabled = true;
+    cancelButton.disabled = true;
+    stopPolling();
+    var current = jobId;
+    fetch("/cargar/trabajos/" + current + "/" + path, { method: "POST" })
+      .then(readJson)
+      .then(function (result) {
+        busy = false;
+        if (current !== jobId) {
+          return;
+        }
+        if (!result.ok) {
+          serverError(errorText(result.data));
+          poll();
+          return;
+        }
+        paint(result.data);
+      })
+      .catch(function () {
+        busy = false;
+        serverError(NETWORK_ERROR);
+        poll();
+      });
+  }
+
+  importButton.addEventListener("click", function () { act("importar"); });
+  cancelButton.addEventListener("click", function () { act("cancelar"); });
+
+  function paint(screen) {
+    var job = screen.job;
+    var texts = screen.texts;
+    show(byId("server-error"), false);
     paintSteps(job);
-    document.getElementById("count-read").textContent = job.fileCount;
-    document.getElementById("count-valid").textContent = job.validCount;
-    document.getElementById("count-replace").textContent = job.replaceCount;
-    document.getElementById("count-errors").textContent = job.errorTotal;
-    paintErrors(job);
-    paintOk(job);
-    paintFailure(job);
-    paintImport(job);
-    if (job.status === "validando" || job.status === "importando" || job.status === "recibido") {
-      window.setTimeout(poll, 1000);
+    if (job.fileCount > 0) {
+      setText("file-meta", texts.fileMeta);
+    }
+    setText("count-read", texts.read);
+    setText("count-valid", texts.valid);
+    setText("count-replace", texts.replace);
+    setText("count-errors", texts.errors);
+    paintColumns(job, texts);
+    paintErrors(job, texts);
+    paintOk(job, texts);
+    setText("job-failure", texts.failure);
+    show(byId("job-failure"), !!texts.failure);
+    paintImport(job, texts);
+    if (ACTIVE.indexOf(job.status) >= 0) {
+      timer = window.setTimeout(poll, 1000);
     }
   }
 
   function paintSteps(job) {
-    var labels = { done: "completado", current: "en curso", failed: "detenido", ready: "listo para empezar", pending: "pendiente" };
-    var marks = { done: "✓", failed: "✕", current: "…", ready: "4" };
-    document.querySelectorAll("#steps li").forEach(function (item) {
-      var index = Number(item.getAttribute("data-step"));
-      var state = stepState(index, job);
-      item.className = "is-" + state;
-      item.querySelector(".mark").textContent = marks[state] || String(index);
-      item.querySelector("em").textContent = "· " + labels[state];
-    });
+    for (var index = 1; index <= 5; index++) {
+      setStep(index, stepState(index, job));
+    }
   }
 
   function stepState(index, job) {
-    var step = job.step || 0;
+    var step = job.step || 1;
     if (job.status === "publicado") {
       return "done";
     }
@@ -233,7 +375,7 @@
       }
       return index === 4 ? "ready" : "pending";
     }
-    if (job.status === "invalido" || job.status === "fallido") {
+    if (job.status === "invalido" || job.status === "fallido" || job.status === "cancelado") {
       if (index < step) {
         return "done";
       }
@@ -245,99 +387,82 @@
     return index === step ? "current" : "pending";
   }
 
-  function paintErrors(job) {
-    var box = document.getElementById("job-stopped");
+  function paintColumns(job, texts) {
+    var columns = job.columns || [];
+    show(byId("columns-card"), job.kind === "csv" && columns.length > 0);
+    setText("mapping-note", texts.mappingNote);
+    var body = byId("column-rows");
+    body.replaceChildren();
+    columns.forEach(function (column) {
+      var row = document.createElement("tr");
+      row.appendChild(cell(column.column));
+      var fieldCell = document.createElement("td");
+      var select = document.createElement("select");
+      select.className = "inp";
+      select.setAttribute("aria-label", "Campo para " + column.column);
+      var option = document.createElement("option");
+      option.textContent = column.field;
+      select.appendChild(option);
+      fieldCell.appendChild(select);
+      row.appendChild(fieldCell);
+      row.appendChild(cell(column.content));
+      var status = cell(column.status);
+      status.className = "status-" + statusTone(column.status);
+      row.appendChild(status);
+      body.appendChild(row);
+    });
+  }
+
+  function statusTone(status) {
+    if (status === "Asignada") {
+      return "ok";
+    }
+    return status === "No existe en el mapping" ? "error" : "warn";
+  }
+
+  function cell(text) {
+    var td = document.createElement("td");
+    td.textContent = text || "";
+    return td;
+  }
+
+  function paintErrors(job, texts) {
     var errors = job.errors || [];
-    show(box, errors.length > 0 || job.errorTotal > 0);
-    document.getElementById("job-stopped-text").textContent =
-      "Se revisó el archivo completo y se encontraron " + job.errorTotal + " errores. No se importó ningún registro.";
-    var body = document.getElementById("job-errors");
+    show(byId("job-stopped"), job.errorTotal > 0);
+    setText("error-summary", texts.errorSummary);
+    setText("location-label", texts.locationLabel);
+    var body = byId("job-errors");
     body.replaceChildren();
     errors.forEach(function (issue) {
       var row = document.createElement("tr");
-      [issue.recordLabel, issue.id, issue.field, issue.received, issue.expected].forEach(function (cell) {
-        var td = document.createElement("td");
-        td.textContent = cell || "";
-        row.appendChild(td);
+      [issue.recordLabel, issue.id, issue.field, issue.received, issue.expected].forEach(function (value) {
+        row.appendChild(cell(value));
       });
       body.appendChild(row);
     });
-    document.getElementById("error-range").textContent =
-      "Mostrando " + errors.length + " de " + job.errorTotal + " errores.";
+    setText("error-range", texts.errorRange);
   }
 
-  function paintOk(job) {
-    var box = document.getElementById("job-ok");
+  function paintOk(job, texts) {
     var checks = job.checks || [];
-    show(box, checks.length > 0);
-    fill(document.getElementById("job-checks"), checks);
-    fill(document.getElementById("job-warnings"), grouped(job.warnings || []));
+    show(byId("job-ok"), checks.length > 0);
+    fill(byId("job-checks"), checks);
+    fill(byId("job-warnings"), texts.warnings);
+    show(byId("warnings-title"), texts.warnings.length > 0);
+    show(byId("job-warnings"), texts.warnings.length > 0);
   }
 
-  function grouped(warnings) {
-    var vectors = false;
-    var lines = [];
-    warnings.forEach(function (issue) {
-      if (issue.field === "plot_256" || issue.field === "plot_512" || issue.field === "plot_1024") {
-        vectors = true;
-        return;
-      }
-      var times = issue.count > 1 ? " (" + issue.count + ")" : "";
-      lines.push((issue.field || "") + ": " + (issue.message || issue.expected || "") + times);
-    });
-    if (vectors) {
-      lines.unshift("El archivo trae plot_256, plot_512 y plot_1024: se ignorarán y se generarán con el servicio de inferencia.");
-    }
-    return lines;
-  }
-
-  function fill(list, lines) {
-    list.replaceChildren();
-    lines.forEach(function (line) {
-      var item = document.createElement("li");
-      item.textContent = line;
-      list.appendChild(item);
-    });
-  }
-
-  function paintFailure(job) {
-    var node = document.getElementById("job-failure");
-    if (!job.failureCode) {
-      show(node, false);
-      return;
-    }
-    node.textContent = job.failureMessage ? job.failureCode + " · " + job.failureMessage : job.failureCode;
-    show(node, true);
-  }
-
-  function paintImport(job) {
-    var button = document.getElementById("job-import");
-    var cancel = document.getElementById("job-cancel");
-    var ready = job.status === "valido";
-    button.disabled = !ready;
-    button.textContent = ready ? "Importar " + job.fileCount + " registros" : "Importación bloqueada";
-    cancel.disabled = job.status !== "valido" && job.status !== "importando";
-    var max = job.fileCount || 0;
-    var bar = document.getElementById("progress");
+  function paintImport(job, texts) {
+    importButton.disabled = busy || job.status !== "valido";
+    cancelButton.disabled = busy || job.status !== "importando";
+    setText("job-import-label", texts.importLabel);
+    setText("import-text", texts.importText);
+    setText("progress-text", texts.progressText);
+    var max = Math.max(job.fileCount || 0, 1);
+    var done = Math.min(job.written || 0, max);
+    var bar = byId("progress");
     bar.setAttribute("aria-valuemax", String(max));
-    bar.setAttribute("aria-valuenow", String(job.written || 0));
-    var width = max === 0 ? 0 : Math.round((job.written || 0) * 100 / max);
-    bar.replaceChildren();
-    var fillBar = document.createElement("span");
-    fillBar.style.width = width + "%";
-    bar.appendChild(fillBar);
-    document.getElementById("progress-text").textContent =
-      (job.written || 0) + " de " + max + " importadas · lote " + (job.batch || 0) + " de " + (job.batches || 0);
+    bar.setAttribute("aria-valuenow", String(done));
+    bar.querySelector("span").style.width = Math.round(done * 100 / max) + "%";
   }
-
-  document.getElementById("job-import").addEventListener("click", function () {
-    fetch("/cargar/trabajos/" + jobId + "/importar", { method: "POST" }).then(poll).catch(function () {
-      block("No se pudo empezar la importación.");
-    });
-  });
-  document.getElementById("job-cancel").addEventListener("click", function () {
-    fetch("/cargar/trabajos/" + jobId + "/cancelar", { method: "POST" }).then(poll).catch(function () {
-      block("No se pudo cancelar la importación.");
-    });
-  });
 }());

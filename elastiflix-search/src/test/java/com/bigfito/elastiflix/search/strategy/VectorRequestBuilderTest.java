@@ -70,6 +70,6 @@ class VectorRequestBuilderTest {
                 filters,
                 1,
                 SearchQuery.PAGE_25);
-        return JsonDocuments.of(builder.build("catalogo", query, VECTOR));
+        return JsonDocuments.of(builder.build("catalogo", query, VECTOR, null, query.knn().k()));
     }
 }

@@ -1,7 +1,9 @@
 package com.bigfito.elastiflix.web.search;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.bigfito.elastiflix.search.facet.FacetValue;
 
@@ -17,24 +19,30 @@ public final class FacetChoices {
     }
 
     /**
-     * Opciones de un filtro de casillas.
+     * Valores de la faceta y, al final con conteo 0, los marcados que la faceta ya no trae.
      *
-     * @param values   faceta
-     * @param selected valores de la URL
-     * @return opciones en el orden de la faceta
+     * <p>Como {@code mk(...)} del mockup: un filtro marcado siempre se puede ver y desmarcar, aunque los
+     * resultados ya no lo tengan (por ejemplo en «Ningún resultado cumple los filtros»). Un valor marcado
+     * nunca queda oculto detrás de «Ver todos».</p>
+     *
+     * @param values   conteos de la faceta, en su orden
+     * @param selected valores marcados en la petición
+     * @return opciones para la plantilla
      */
     public static List<FacetChoice> of(List<FacetValue> values, List<String> selected) {
         List<FacetChoice> choices = new ArrayList<>();
-        int index = 0;
+        Set<String> shown = new HashSet<>();
         for (FacetValue value : values) {
-            choices.add(choice(value, selected, index));
-            index++;
+            boolean on = selected.contains(value.label());
+            choices.add(new FacetChoice(value.label(), value.count(), on, !on && shown.size() >= VISIBLE));
+            shown.add(value.label());
+        }
+        for (String value : selected) {
+            if (shown.add(value)) {
+                choices.add(new FacetChoice(value, 0, true, false));
+            }
         }
         return List.copyOf(choices);
-    }
-
-    private static FacetChoice choice(FacetValue value, List<String> selected, int index) {
-        return new FacetChoice(value.label(), value.count(), selected.contains(value.label()), index >= VISIBLE);
     }
 
     /**

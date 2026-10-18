@@ -3,6 +3,9 @@ package com.bigfito.elastiflix.ingest.job;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Clock;
+import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,6 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
+import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
@@ -27,6 +32,20 @@ public final class JobStore {
     private static final Logger LOG = LoggerFactory.getLogger(JobStore.class);
 
     private final Map<String, ImportWork> jobs = new ConcurrentHashMap<>();
+    private final Map<String, Instant> activity = new ConcurrentHashMap<>();
+    private final ElastiflixProperties properties;
+    private final Clock clock;
+
+    /**
+     * Crea el mapa de trabajos.
+     *
+     * @param properties tamaño de lote que muestra la página
+     * @param clock      reloj UTC de la última actividad de cada trabajo
+     */
+    public JobStore(ElastiflixProperties properties, Clock clock) {
+        this.properties = properties;
+        this.clock = clock;
+    }
 
     /**
      * Crea el trabajo en {@code recibido}.
@@ -37,8 +56,11 @@ public final class JobStore {
      * @return identificador nuevo
      */
     public String open(String fileName, Path path, CsvSettings settings) {
+        evict();
         String id = UUID.randomUUID().toString();
-        jobs.put(id, new ImportWork(id, fileName, path, settings));
+        ImportWork work = new ImportWork(id, fileName, path, settings, sizeOf(path));
+        activity.put(id, clock.instant());
+        jobs.put(id, work);
         LOG.debug("Llegó el archivo {}", fileName);
         return id;
     }
@@ -50,7 +72,7 @@ public final class JobStore {
      * @return copia que no cambia
      */
     public JobView view(String jobId) {
-        return require(jobId).view();
+        return require(jobId).view(properties.ingest().batchSize());
     }
 
     /**
@@ -101,6 +123,17 @@ public final class JobStore {
      */
     public void onProgress(String jobId, ImportProgress progress) {
         require(jobId).progress(progress);
+    }
+
+    /**
+     * Anota cuántos registros se leyeron y, en CSV, la tabla de correspondencia.
+     *
+     * @param jobId   identificador
+     * @param records registros o filas de datos
+     * @param columns tabla del CSV; vacía en JSON
+     */
+    public void fileRead(String jobId, int records, List<CsvColumnRow> columns) {
+        require(jobId).describe(records, columns);
     }
 
     /**
@@ -181,11 +214,12 @@ public final class JobStore {
         if (work == null) {
             throw new ImportException(ErrorCode.UNKNOWN_JOB);
         }
+        activity.put(jobId, clock.instant());
         return work;
     }
 
     private boolean finishEarly(ImportWork work) {
-        if (!work.cancelledFlag().getAsBoolean()) {
+        if (!work.isCancelled()) {
             return false;
         }
         work.become(JobStatus.CANCELLED);
@@ -194,19 +228,27 @@ public final class JobStore {
         return true;
     }
 
-    private void discardIfTerminal(ImportWork work) {
-        JobStatus status = work.status();
-        if (terminal(status)) {
-            work.release();
-            deleteLocal(work);
+    /**
+     * Cancela los {@code valido} olvidados y olvida los trabajos finales que pasan del tope. Nunca toca un
+     * trabajo {@code importando}.
+     */
+    private void evict() {
+        for (ImportWork work : JobRetention.idleValid(jobs.values(), activity, clock.instant())) {
+            work.requestCancel();
+            LOG.info("{}: el trabajo {} venció sin importarse", ErrorCode.IMPORT_CANCELLED.code(), work.id());
+            discardIfTerminal(work);
+        }
+        for (ImportWork work : JobRetention.overflow(jobs.values(), activity)) {
+            jobs.remove(work.id());
+            activity.remove(work.id());
         }
     }
 
-    private static boolean terminal(JobStatus status) {
-        return status == JobStatus.INVALID
-                || status == JobStatus.PUBLISHED
-                || status == JobStatus.FAILED
-                || status == JobStatus.CANCELLED;
+    private void discardIfTerminal(ImportWork work) {
+        if (work.status().terminal()) {
+            work.release();
+            deleteLocal(work);
+        }
     }
 
     private void deleteLocal(ImportWork work) {
@@ -214,6 +256,15 @@ public final class JobStore {
             Files.deleteIfExists(work.path());
         } catch (IOException exception) {
             LOG.warn("No se pudo borrar el archivo local del trabajo {}", work.id());
+        }
+    }
+
+    private static long sizeOf(Path path) {
+        try {
+            return Files.size(path);
+        } catch (IOException exception) {
+            LOG.warn("No se pudo leer el tamaño del archivo subido tipo={}", exception.getClass().getSimpleName());
+            return 0;
         }
     }
 

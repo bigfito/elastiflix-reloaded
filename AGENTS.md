@@ -46,13 +46,13 @@ dinámicos, paginación y carga segura de datos (.json/.csv). El índice y el co
 `progreso/INDICE.md` › «Catálogo vigente». Java 25, Spring Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de
 Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. El plan está cerrado en `main`. Las
 verificaciones históricas de las fases contaron 4 322 películas, el catálogo anterior a la importación del
-2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`.
+2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` leen `_count`, afirman los 6 899 documentos y los valores de §6; se omiten con `assumeTrue` si el conteo cambió.
 
 ## Trabajo abierto
 
 Las fases 0 a 6 están cerradas. Lo pendiente es lo que diga `progreso/INDICE.md` › «Punto de
-reanudación». Hoy es la **Revisión 2**: correcciones `S-01`…`S-27` en `docs/revisiones/revision-2.md`,
-con estado en `progreso/revision-2.md`. Cada `S-NN` es una tarea (`S-NN: <resumen>` en el commit) con el
+reanudación». La **Revisión 2** está terminada y se integra por PR: correcciones `S-01`…`S-27` en
+`docs/revisiones/revision-2.md`, con estado en `progreso/revision-2.md`. Cada `S-NN` es una tarea (`S-NN: <resumen>` en el commit) con el
 mismo protocolo, la misma disciplina de estado y las mismas reglas de código. Rama `revision-2`; se
 integra en `main` por PR.
 
@@ -126,9 +126,9 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 - Lectura siempre por el alias `elastiflix-reloaded` (configurable). Importación: índice temporal
   `<alias>-<AAAAMMDD-HHMMSS>`, copia con `_reindex` en segundo plano (`_tasks`) y publicación en una
   sola llamada a `_aliases` (`add` al nuevo + `remove_index` del anterior). Si falla antes de publicar,
-  se borra el temporal. Si `publish` no confirma, `describe` decide: alias en el anterior borra el
-  temporal (`EFX-ES-004`); alias en el temporal se trata como publicado; si no se puede leer,
-  `EFX-IMP-006` y el temporal se deja. Al empezar a importar se suelta la lista de películas. La
+  se borra el temporal. Si `publish` no confirma, `describe` decide: rechazo 4xx con el alias en el
+  anterior borra el temporal (`EFX-ES-004`); alias en el temporal se trata como publicado; corte, 5xx
+  o `describe` ilegible: `EFX-IMP-006` y el temporal se deja. Al empezar a importar se suelta la lista de películas. La
   limpieza de huérfanos solo toca índices `<alias>-<AAAAMMDD-HHMMSS>` de su propio alias. La migración
   a alias usa ese mismo criterio de `describe`.
 - Registro individual: directo al catálogo por el alias.
@@ -144,7 +144,7 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 - Vectores: 1024 del modelo; 512 y 256 = primeros N valores renormalizados. Consultas: `input_type:
   search` y prefijo `Query: `. Documentos: `input_type: ingest` y sin prefijo (calibración 1.9;
   `Document: ` se midió y no se eligió). k-NN: `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`. RRF: `rank_constant 60`,
-  `rank_window_size = k`. Full-text: `from + size ≤ 10 000`.
+  `rank_window_size = k`. Full-text: `from < 10 000`.
 - Facetas de Vectorial e Híbrida se calculan en la aplicación sobre los resultados devueltos.
 - Fechas en UTC; `release_date` `yyyy-MM-dd`. Interfaz en español, con los textos de los mockups.
 - **Pruebas de integración:** lectura sobre `elastiflix-reloaded` sin modificarlo; escritura solo sobre

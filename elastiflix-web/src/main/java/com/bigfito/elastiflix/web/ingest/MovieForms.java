@@ -3,13 +3,17 @@ package com.bigfito.elastiflix.web.ingest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 
+import tools.jackson.databind.exc.InvalidFormatException;
 import tools.jackson.databind.json.JsonMapper;
 
 /**
@@ -23,15 +27,41 @@ public class MovieForms {
     /**
      * Lee los campos del formulario. Un texto vacío no se envía.
      *
+     * <p>Un número que no cabe en el tipo del campo ({@code vote_count=1e3}, un {@code runtime} de 11 dígitos)
+     * no tumba la página: vuelve como rechazo {@code EFX-ING-012} con el nombre del campo.</p>
+     *
      * @param form parámetros de {@code POST /cargar/registro}
-     * @return película sin vectores
+     * @return la película sin vectores, o el rechazo
      */
-    public Movie toMovie(MultiValueMap<String, String> form) {
+    public MovieForm read(MultiValueMap<String, String> form) {
         Map<String, Object> values = new LinkedHashMap<>();
         texts(values, form);
         numbers(values, form);
         lists(values, form);
-        return json.convertValue(values, Movie.class);
+        try {
+            return new MovieForm.Read(json.convertValue(values, Movie.class));
+        } catch (InvalidFormatException exception) {
+            return new MovieForm.Invalid(rejection(exception, form.getFirst("id")));
+        }
+    }
+
+    private static ValidationIssue rejection(InvalidFormatException exception, String id) {
+        String property = exception.getPath().isEmpty() ? null : exception.getPath().getLast().getPropertyName();
+        String field = snakeCase(property);
+        return new ValidationIssue(ErrorCode.TYPE_MISMATCH.code(), "formulario", id == null ? "—" : id, field,
+                String.valueOf(exception.getValue()), expected(exception.getTargetType()), false);
+    }
+
+    private static String expected(Class<?> type) {
+        if (Integer.class.equals(type) || Long.class.equals(type)) {
+            return "un número entero";
+        }
+        return "un número";
+    }
+
+    /** {@code voteCount} → {@code vote_count}, el nombre del campo en el formulario y en el mapping. */
+    private static String snakeCase(String property) {
+        return property == null ? "formulario" : property.replaceAll("([A-Z])", "_$1").toLowerCase(Locale.ROOT);
     }
 
     private static void texts(Map<String, Object> values, MultiValueMap<String, String> form) {
