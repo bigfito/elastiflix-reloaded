@@ -826,8 +826,12 @@ resumen de diseño y revisión de convenciones en `progreso/2.md`.
 **Objetivo:** `elastiflix-ingest` valida archivos completos contra el mapping y los importa sin dejar
 nunca el catálogo a medias.
 
-- [x] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura en streaming de 150 MB, dos pasadas validación →
-  importación, estado del trabajo, cancelación, swap y vuelta atrás). Commit y **detente** hasta la
+- [x] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura de hasta 150 MB, validación completa antes de importar,
+  estado del trabajo, cancelación, swap y vuelta atrás). Desde la revisión 1 (decisión D2), el archivo se
+  lee una sola vez y las películas validadas quedan en memoria hasta importarse: los vectores se quitan al
+  leer, los nodos crudos se sueltan al validar, el archivo local se borra al terminar la validación y los
+  trabajos viejos se olvidan (revisión 2, S-06). La lectura en streaming con dos pasadas quedó como
+  alternativa descartada. Commit y **detente** hasta la
   aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
   - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
   - el registro individual se escribe **directamente en el catálogo**;
@@ -843,8 +847,8 @@ nunca el catálogo a medias.
   - Criterio: pruebas unitarias aceptan `elastiflix-reloaded.json`, `peliculas_2026.csv` y rechazan
     `peliculas.txt`, `peliculas`, `peliculas.csv.exe`, `peliculas.exe.csv`, `peliculas.json.csv`, un
     archivo de 150 MB + 1 byte y uno con bytes no UTF-8, cada uno con su código `EFX-ING-*`.
-- [x] **3.2** `JsonDocuments`: objeto de exportación, arreglo o NDJSON, en streaming con Jackson 3;
-  verifica `document_count` si viene. La revisión 1 (R-14) eliminó `JsonMovieReader`. Las pruebas
+- [x] **3.2** `JsonDocuments`: objeto de exportación, arreglo o NDJSON, con el parser de Jackson 3, un
+  registro a la vez (sin vectores) hacia una lista en memoria (D2); verifica `document_count` si viene. La revisión 1 (R-14) eliminó `JsonMovieReader`. Las pruebas
   viven en `JsonDocumentsTest`.
   - Criterio: lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` y las mismas
     convertidas a arreglo y a NDJSON en las pruebas.

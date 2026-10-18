@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-15: registro de entrega de las decisiones de la revisión 1 (ver `progreso/revision-2.md`).
-  S-01 a S-14 terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
-- **Última actualización:** 2026-10-19 01:20 UTC
+- **Próximo paso:** S-16: tabla de ajustes autorizados de PLAN §1 (ver `progreso/revision-2.md`). S-01 a S-15
+  terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
+- **Última actualización:** 2026-10-19 01:35 UTC
 
 ## Fases
 
@@ -55,6 +55,10 @@
 | 2026-10-18 | Capturas de R-21 | Adolfo Orozco aprobó la fidelidad visual de las cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada). |
 | 2026-10-18 | Importación de `movies.json` al catálogo real | Adolfo eligió reemplazar el índice de `elastiflix-reloaded`. Arranque 05:44:29 UTC y publicación 05:49:22 UTC (unos 4 min 54 s). Arreglo JSON de 6899 registros, validación `valido`, 0 errores y 5055 advertencias (`EFX-ING-022`: 4960, `EFX-ING-021`: 95). Índice nuevo `elastiflix-reloaded-20261018-054429` con 6899 documentos. Se borró `elastiflix-reloaded-20261018-003535`. Una lectura posterior contó `title`, `plot`, `plot_256`, `plot_512` y `plot_1024` en 6899/6899. |
 | 2026-10-18 | Revisión 1 fusionada en `main` | Adolfo fusionó el PR #10 (merge `dc9a315`). |
+| 2026-10-18 | Decisión D1 de la revisión 1 (R-05) | Las pruebas de §6 vuelven a afirmar los valores exactos sobre 6 899 películas y se omiten con `assumeTrue` si `_count` cambió. La tomó el agente en la revisión 1 (`progreso/revision-1.md`, «Decisiones»); Adolfo la aceptó al fusionar el PR #10 (`dc9a315`). No hay otra aprobación registrada. |
+| 2026-10-18 | Decisión D2 de la revisión 1 (R-12) | La ingesta trabaja en memoria (hasta 150 MB) en lugar de releer el archivo en streaming: los vectores se quitan al leer y las películas se sueltan al terminar. Mismo origen que D1; aceptada al fusionar el PR #10 (`dc9a315`). La revisión 2 (S-06) completa sus mitigaciones. |
+| 2026-10-18 | Decisión D3 de la revisión 1 (R-30) | «Acerca de» rotula la tabla de precisión y los datos de `adult` y `release_date` como medidos en el catálogo original de 4 322 películas, sin recalcular. Mismo origen que D1; aceptada al fusionar el PR #10 (`dc9a315`). |
+| 2026-10-18 | Cambio del mockup aprobado en B-05 | `design/mockups/About.dc.html` cambió «`Document: ` en las sinopsis» por «`input_type` `ingest` y sin prefijo». Lo hizo el agente en B-05 (`8cbfa49`); Adolfo lo aceptó al fusionar el PR #12 (`41c1188`). Registrado en PLAN §1 por S-16. |
 | 2026-10-18 | Sincronización de documentación fusionada en `main` | Adolfo fusionó el PR #11 (merge `2f6f9ed`). |
 | 2026-10-18 | Bugs B-01 a B-05 fusionados en `main` | Adolfo fusionó el PR #12 (merge `41c1188`). |
 | 2026-10-18 | Revisión 2 encargada a otro agente | Adolfo pidió pasar la lista de correcciones al repositorio (`docs/revisiones/revision-2.md`) para que la tome un agente de Claude Code, Google Antigravity o JetBrains Junie. Ya no se le encarga al agente de grokbot (Cursor). Las decisiones abiertas de S-03, S-05 y S-06 las toma el agente y las registra en `progreso/revision-2.md`. |
