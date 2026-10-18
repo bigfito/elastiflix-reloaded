@@ -8,21 +8,22 @@
 
 - **Unidad:** Revisión 2
 - **Nombre:** Correcciones de la segunda revisión exhaustiva
-- **Rama:** `revision-2` (por crear desde `main`)
+- **Rama:** `revision-2` (creada desde `main` en `3d0b8ff`)
 - **Carpeta:** raíz del repositorio
-- **Herramienta de la última sesión:** ninguna todavía (puede ser Claude Code, Google Antigravity, JetBrains Junie o Cursor)
+- **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-no iniciado
+en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna
+- **Tarea actual:** S-01
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** aplica el protocolo de reanudación de `AGENTS.md`, crea la rama `revision-2` desde
-  `main`, marca esta unidad `en curso` y empieza S-01 según `docs/revisiones/revision-2.md`.
-- **Última actualización:** 2026-10-18 19:42 UTC
+- **Próximo paso:** S-01: reescribir `ReindexTasks.await` como bucle de lecturas `_tasks` de 20 s con plazo
+  total de 30 min medido con `Clock`, revisar `failures`/`timed_out`, cancelar la tarea antes de borrar el
+  temporal y cubrir los seis casos de `ReindexTasksTest` más el orden en `ImportJobTest`.
+- **Última actualización:** 2026-10-18 19:58 UTC
 
 ## Tareas
 
@@ -65,9 +66,10 @@ Vacío.
 
 ## Última verificación
 
-- **Comando:** ninguno en esta unidad todavía. La última corrida registrada es la de `progreso/INDICE.md`.
-- **Resultado:** —
-- **Fecha:** —
+- **Comando:** `./mvnw verify`
+- **Resultado:** BUILD SUCCESS: 193 unitarias (core 39, search 58, ingest 63, web 33), 0 fallos; Checkstyle y
+  PMD en 0. `./mvnw verify -Pit` no se pudo correr: en esta máquina no hay `.env`.
+- **Fecha:** 2026-10-18 19:57 UTC
 
 ## Decisiones
 
@@ -77,6 +79,14 @@ Vacío.
 - 2026-10-18: las decisiones abiertas de S-03 (textos fuera del mockup), S-05 (consulta configurable o
   fija) y S-06 (cuántos trabajos conservar) las toma el agente. Elige la opción más simple que cumpla
   el criterio y la registra aquí.
+- Sesión reanudada 2026-10-18 19:50 UTC con Claude Code (Opus 5.5): unidad `no iniciado`, rama `main` en
+  `3d0b8ff` limpia y al día con `origin`. Se creó la rama `revision-2`. En una máquina **sin `.env`**,
+  `./mvnw verify` fallaba en `main`: las siete pruebas `@WebMvcTest` de web no pasaban la URL y la API key
+  ficticias que pide PLAN 0.6, y `ElasticsearchCredentialsEnvironmentPostProcessor` cortaba el contexto con
+  `EFX-CFG-001` (22 errores). Con `.env` presente el fallo no se veía. Antes de S-01, el commit
+  «revision-2: las pruebas web corren sin .env» agrega a cada `@WebMvcTest`
+  `properties = {"elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"}`.
+  No cambia código de producción.
 
 ## Resumen de diseño
 

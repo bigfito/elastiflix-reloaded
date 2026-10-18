@@ -38,7 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Resultados muestra los tres modos, los dos vacíos y el código si candidatos es menor que k.
  */
-@WebMvcTest(SearchController.class)
+@WebMvcTest(controllers = SearchController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({LayoutAdvice.class, SearchQueryMapper.class, ResultsPage.class, ResultCards.class, PosterUrls.class})
 class ResultsPageTest {
 

@@ -22,7 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Inicio muestra los textos del mockup y enlaza cada sugerencia con su modo.
  */
-@WebMvcTest(HomeController.class)
+@WebMvcTest(controllers = HomeController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({LayoutAdvice.class, SuggestionCatalog.class})
 class HomePageTest {
 

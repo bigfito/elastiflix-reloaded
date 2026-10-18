@@ -23,7 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Una excepción de la demo muestra su código y una ruta desconocida ofrece la navegación.
  */
-@WebMvcTest(ErrorProbeController.class)
+@WebMvcTest(controllers = ErrorProbeController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({WebExceptionHandler.class, NotFoundAdvice.class, LayoutAdvice.class})
 class ErrorPageTest {
 

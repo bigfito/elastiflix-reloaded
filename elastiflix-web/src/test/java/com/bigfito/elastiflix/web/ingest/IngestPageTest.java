@@ -38,7 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * La carga valida, importa, consulta y cancela con la fachada simulada.
  */
-@WebMvcTest({IngestController.class, IngestJobController.class})
+@WebMvcTest(controllers = {IngestController.class, IngestJobController.class}, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({LayoutAdvice.class, MovieForms.class, UploadCheck.class})
 class IngestPageTest {
 

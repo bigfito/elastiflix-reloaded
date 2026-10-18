@@ -23,7 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Acerca de muestra las secciones del mockup, la tabla de precisión y los créditos de TMDB.
  */
-@WebMvcTest(AboutController.class)
+@WebMvcTest(controllers = AboutController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import(LayoutAdvice.class)
 class AboutPageTest {
 

@@ -22,7 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * La cabecera y el pie se repiten en cada página con el conteo del catálogo.
  */
-@WebMvcTest(HomeController.class)
+@WebMvcTest(controllers = HomeController.class, properties = {
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({LayoutAdvice.class, SuggestionCatalog.class})
 class LayoutPageTest {
 
