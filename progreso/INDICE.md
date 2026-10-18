@@ -10,7 +10,7 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-23, conteo de vectores de inferencia
+- **Próximo paso:** R-24, diagnóstico de errores de Elasticsearch
 - **Última actualización:** 2026-10-18 17:49 UTC
 
 ## Fases

@@ -93,7 +93,7 @@ public class InferenceEmbeddingService implements EmbeddingService {
         try {
             InferenceResponse response = client.inference()
                     .inference(request -> requestFor(request, prepared, inputType));
-            return vectorsOf(response.result());
+            return requireSameSize(prepared, vectorsOf(response.result()));
         } catch (IOException | ElasticsearchException exception) {
             LOG.error("{} en {}", ErrorCode.INFERENCE_UNAVAILABLE.code(), properties.inference().id());
             throw new EmbeddingException(ErrorCode.INFERENCE_UNAVAILABLE, exception);
@@ -131,6 +131,20 @@ public class InferenceEmbeddingService implements EmbeddingService {
         if (text == null || text.isBlank()) {
             throw new EmbeddingException(ErrorCode.EMPTY_EMBEDDING_TEXT);
         }
+    }
+
+    /**
+     * Exige un vector por cada texto del lote.
+     *
+     * @param prepared textos enviados
+     * @param vectors  vectores recibidos
+     * @return los mismos vectores, si coinciden
+     */
+    static List<float[]> requireSameSize(List<String> prepared, List<float[]> vectors) {
+        if (vectors.size() != prepared.size()) {
+            throw new EmbeddingException(ErrorCode.UNEXPECTED_VECTOR);
+        }
+        return vectors;
     }
 
     private static List<float[]> vectorsOf(InferenceResult result) {
