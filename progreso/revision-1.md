@@ -18,8 +18,8 @@ en curso
 
 - **Tarea actual:** cierre
 - **Subpaso en curso:** commit y push de capturas y verificación
-- **Próximo paso:** El PR #10 sigue en borrador. La fila de capturas de R-21 sigue sin marcar.
-- **Última actualización:** 2026-10-18 18:27 UTC
+- **Próximo paso:** El PR #10 sigue en borrador.
+- **Última actualización:** 2026-10-18 18:32 UTC
 
 ## Tareas
 
@@ -45,7 +45,7 @@ en curso
 | R-18 | terminada | `8ab53f8` | `SmokeIT` lee el alias de `ElastiflixProperties`, no de un literal. Compila con `test-compile`. Checkstyle y PMD en 0. |
 | R-19 | terminada | `6794f28` | README: se quitó «Maven ≥ 3.6.3 solo para generar el wrapper»; el alias y el id de inferencia salen de `application.yml` o de `.env`. Nueva subsección «Datos y proyecto Serverless» (exportación no versionada, índice concreto de la tarea 1.8, películas `597` `27205` `10681` `345887` `134` `87827`, endpoint `.jina-embeddings-v5-omni-small` y privilegios de la API key, cada uno con comando o enlace). |
 | R-20 | terminada | `5a5ffc6` | Hashes verificados con `git log` en las 24 filas. La 2.3 queda `7a878d6` y `8bf3c1a`. Aprobaciones incluye el PR #9 (`dc44535`). `progreso/6.md` anota `2a3aaea`. La plantilla dice que el hash se completa en la tarea siguiente. |
-| R-21 | terminada | `ab50458` | Cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada), copiadas también a `attachments/` del store. Comparación en `progreso/4.md`. La fila de aprobación queda sin marcar. |
+| R-21 | terminada | `ab50458` | Cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada), copiadas también a `attachments/` del store. Comparación en `progreso/4.md`. Adolfo Orozco aprobó la fidelidad visual el 2026-10-18; la fila de `progreso/INDICE.md` queda aprobada. |
 | R-22 | terminada | `6f44800` | `CatalogBootstrapRunnerTest`: con `servlet` responde `EFX-CFG-004` y no cierra el cliente; con `none` migra y lo cierra. El log de una migración exitosa reutiliza el conteo ya verificado. Si ese conteo falla en un alias que ya existe, la migración sigue. Checkstyle y PMD en 0. |
 | R-23 | terminada | `0c28269` | `InferenceEmbeddingServiceTest`: un lote con menos vectores que textos lanza `EFX-EMB-002`. Checkstyle y PMD en 0. |
 | R-24 | terminada | `8706b83` | Un 4xx es `EFX-ES-007` y un corte de red sigue en `EFX-ES-001`. El log de `_msearch` usa el alias de la cabecera. El bulk registra id y tipo. El CSV ilegible es `EFX-ING-015`. La columna recibido de un rechazo de archivo ya no repite el código. Checkstyle y PMD en 0. |
@@ -74,6 +74,7 @@ Vacío al cerrar la verificación.
 - D3: «Acerca de» se rotula como medido en el catálogo de 4 322, sin recalcular (R-30).
 - Sesión reanudada 2026-10-18 18:13 UTC con Cursor: árbol limpio en `19f0557`, siguiente paso R-29.
 - R-29: el enlace «Resultados» del 404 se quita. `/buscar` sin `q` es `EFX-SRCH-001` y no se inventa una consulta.
+- 2026-10-18: Adolfo Orozco aprobó la fidelidad visual de las cinco capturas de R-21.
 
 ## Resumen de diseño
 
