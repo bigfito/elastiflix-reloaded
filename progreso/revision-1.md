@@ -16,9 +16,9 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-20
+- **Tarea actual:** R-21
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-21. Rehacer las cinco capturas y compararlas con los mockups, sin marcar la aprobación.
+- **Próximo paso:** R-22. La migración no cierra el cliente si el servidor web sigue activo, y el conteo del log reutiliza el ya verificado.
 - **Última actualización:** 2026-10-18 17:50 UTC
 
 ## Tareas
@@ -44,8 +44,8 @@ en curso
 | R-17 | terminada | `4218be1` | El `img` del póster trae `onerror` y `results.js` también sustituye una imagen que ya falló antes de enganchar el evento. |
 | R-18 | terminada | `8ab53f8` | `SmokeIT` lee el alias de `ElastiflixProperties`, no de un literal. Compila con `test-compile`. Checkstyle y PMD en 0. |
 | R-19 | terminada | `6794f28` | README: se quitó «Maven ≥ 3.6.3 solo para generar el wrapper»; el alias y el id de inferencia salen de `application.yml` o de `.env`. Nueva subsección «Datos y proyecto Serverless» (exportación no versionada, índice concreto de la tarea 1.8, películas `597` `27205` `10681` `345887` `134` `87827`, endpoint `.jina-embeddings-v5-omni-small` y privilegios de la API key, cada uno con comando o enlace). |
-| R-20 | terminada | se anota en R-21 | Hashes verificados con `git log` en las 24 filas. La 2.3 queda `7a878d6` y `8bf3c1a`. Aprobaciones incluye el PR #9 (`dc44535`). `progreso/6.md` anota `2a3aaea`. La plantilla dice que el hash se completa en la tarea siguiente. |
-| R-21 | pendiente | | |
+| R-20 | terminada | `5a5ffc6` | Hashes verificados con `git log` en las 24 filas. La 2.3 queda `7a878d6` y `8bf3c1a`. Aprobaciones incluye el PR #9 (`dc44535`). `progreso/6.md` anota `2a3aaea`. La plantilla dice que el hash se completa en la tarea siguiente. |
+| R-21 | terminada | se anota en R-22 | Cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada), copiadas también a `attachments/` del store. Comparación en `progreso/4.md`. La fila de aprobación queda sin marcar. |
 | R-22 | pendiente | | |
 | R-23 | pendiente | | |
 | R-24 | pendiente | | |
@@ -62,8 +62,8 @@ Vacío al cerrar R-19.
 
 ## Última verificación
 
-- **Comando:** `git log` de los 24 hashes y búsqueda de la frase genérica de hash pendiente en `progreso/`
-- **Resultado:** los 24 hashes existen y las filas de `progreso/0.md` a `6.md` ya nombran el hash, no la frase genérica.
+- **Comando:** Chrome headless contra http://localhost:8080 (`/`, `/buscar?q=dark knight`, `/cargar`, `/acerca`, `/ruta-inexistente`)
+- **Resultado:** las cinco PNG quedaron en `docs/capturas/` y en `attachments/`. `/ruta-inexistente` respondió 404. La aprobación de R-21 no se marcó.
 - **Fecha:** 2026-10-18 17:50 UTC
 
 ## Decisiones
