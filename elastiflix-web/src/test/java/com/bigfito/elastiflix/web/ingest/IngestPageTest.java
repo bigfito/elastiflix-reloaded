@@ -65,6 +65,21 @@ class IngestPageTest {
         mvc.perform(get("/cargar"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Registro individual")))
+                .andExpect(content().string(containsString("Archivo JSON")))
+                .andExpect(content().string(containsString("Campos obligatorios.")))
+                .andExpect(content().string(containsString("Registros leídos")))
+                .andExpect(content().string(containsString("Reemplazarán existentes")))
+                .andExpect(content().string(containsString("Se recibió")))
+                .andExpect(content().string(containsString("El mapping espera")))
+                .andExpect(content().string(containsString("Comprobaciones superadas")))
+                .andExpect(content().string(containsString("Advertencias · no detienen la carga")))
+                .andExpect(content().string(containsString("Correspondencia de columnas")))
+                .andExpect(content().string(containsString("Importación bloqueada")))
+                .andExpect(content().string(containsString("Cancelar importación")))
+                .andExpect(content().string(containsString("No se puede cargar este archivo")))
+                .andExpect(content().string(containsString("Codificación")))
+                .andExpect(content().string(containsString("type=\"url\"")))
+                .andExpect(content().string(containsString("role=\"tab\"")))
                 .andExpect(content().string(containsString(
                         "Los vectores de la sinopsis se generan para cada película "
                                 + "con el servicio de inferencia de Elasticsearch.")))
@@ -116,7 +131,7 @@ class IngestPageTest {
     }
 
     private static JobView view(String status) {
-        return new JobView(JOB, status, 4, 0, 0, 0, 2, 0, List.of(), List.of(), "");
+        return new JobView(JOB, status, 4, 0, 0, 0, 2, 0, List.of(), List.of(), "", "", List.of(), 2, 0, 1);
     }
 
     private static Movie saved() {

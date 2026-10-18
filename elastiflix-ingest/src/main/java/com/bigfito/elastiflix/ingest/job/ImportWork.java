@@ -84,6 +84,13 @@ final class ImportWork {
     }
 
     /**
+     * Suelta las películas. Los conteos se quedan para la página.
+     */
+    synchronized void release() {
+        movies = List.of();
+    }
+
+    /**
      * Conteos para {@link ImportJob}. El lote lo pone quien llama.
      *
      * @param batchSize películas por lote
@@ -111,7 +118,7 @@ final class ImportWork {
         fileCount = movies.size();
         replaceCount = checked.replaceCount();
         status = JobStatus.VALID;
-        step = VALIDATION_STEP;
+        step = IMPORT_STEP;
     }
 
     synchronized void invalid(ValidationReport issues) {
@@ -147,6 +154,7 @@ final class ImportWork {
         batch = progress.batch();
         vectorized = progress.vectorized();
         written = progress.written();
+        replaceCount = progress.replaced();
     }
 
     synchronized void become(JobStatus next) {
@@ -167,6 +175,7 @@ final class ImportWork {
     }
 
     synchronized JobView view() {
+        int errors = report.errors().size();
         return new JobView(
                 id,
                 status.label(),
@@ -177,8 +186,13 @@ final class ImportWork {
                 fileCount,
                 replaceCount,
                 preview(report.errors()),
-                report.warnings(),
-                failureCode);
+                report.groupedWarnings(),
+                failureCode,
+                JobFigures.failureMessage(failureCode),
+                JobFigures.checks(errors, fileCount),
+                JobFigures.validCount(errors, fileCount),
+                errors,
+                JobFigures.batches(fileCount));
     }
 
     private boolean stopIfCancelled() {

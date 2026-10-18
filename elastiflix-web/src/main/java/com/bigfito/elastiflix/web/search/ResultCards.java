@@ -86,7 +86,17 @@ public class ResultCards {
         if (score == null) {
             return new ScoreLine(label, "—", "");
         }
-        return new ScoreLine(label, number(score.score()), score.position());
+        return new ScoreLine(label, number(score.score()), hashed(score.position()));
+    }
+
+    private static String hashed(String position) {
+        if (position == null || position.isBlank()) {
+            return "";
+        }
+        if (position.chars().allMatch(Character::isDigit)) {
+            return "#" + position;
+        }
+        return position;
     }
 
     private static String rrf(SearchHit hit, SearchMode mode) {
@@ -112,7 +122,14 @@ public class ResultCards {
     }
 
     private static String votes(SearchHit hit) {
-        return number(hit.voteAverage()) + " · " + count(hit.voteCount()) + " votos";
+        return oneDecimal(hit.voteAverage()) + " · " + count(hit.voteCount()) + " votos";
+    }
+
+    private static String oneDecimal(Double value) {
+        if (value == null) {
+            return "—";
+        }
+        return String.format(Locale.US, "%.1f", value);
     }
 
     private static String count(Integer value) {

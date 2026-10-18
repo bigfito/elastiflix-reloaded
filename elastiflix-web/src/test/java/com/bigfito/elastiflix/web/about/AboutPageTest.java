@@ -50,6 +50,10 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("Resultados y filtros")))
                 .andExpect(content().string(containsString("Carga de datos")))
                 .andExpect(content().string(containsString("El catálogo")))
+                .andExpect(content().string(containsString(
+                        "Medido en el catálogo original de 4 322 películas")))
+                .andExpect(content().string(containsString("ninguna película del catálogo lo es")))
+                .andExpect(content().string(containsString("de 1902 a 2023")))
                 .andExpect(content().string(containsString("22 de 32 (69 %)")))
                 .andExpect(content().string(containsString("0.774")))
                 .andExpect(content().string(containsString("0.853")))

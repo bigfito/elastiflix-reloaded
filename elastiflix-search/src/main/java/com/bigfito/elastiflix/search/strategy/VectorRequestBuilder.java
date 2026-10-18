@@ -10,6 +10,7 @@ import co.elastic.clients.elasticsearch._types.KnnRetriever;
 import co.elastic.clients.elasticsearch._types.Retriever;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 
 import org.springframework.stereotype.Component;
 
@@ -43,21 +44,7 @@ public class VectorRequestBuilder {
     }
 
     /**
-     * Igual que {@link #build(String, SearchQuery, float[])}, con la misma {@code preference}
-     * que las otras partes de un {@code _msearch}.
-     *
-     * @param alias      nombre configurado del catálogo
-     * @param query      consulta ya validada
-     * @param vector     vector de consulta, ya recortado al campo
-     * @param preference valor compartido, o {@code null} si la búsqueda es sola
-     * @return petición de {@code _search}
-     */
-    public SearchRequest build(String alias, SearchQuery query, float[] vector, String preference) {
-        return build(alias, query, vector, preference, query.knn().k());
-    }
-
-    /**
-     * Igual que {@link #build(String, SearchQuery, float[], String)}, con otro {@code size}.
+     * Igual que {@link #build(String, SearchQuery, float[])}, con otro {@code size} y preferencia.
      *
      * <p>La confirmación de un resultado vacío pide un solo documento. {@code k} no cambia.</p>
      *
@@ -69,14 +56,37 @@ public class VectorRequestBuilder {
      * @return petición de {@code _search}
      */
     public SearchRequest build(String alias, SearchQuery query, float[] vector, String preference, int size) {
-        KnnSettings knn = query.knn();
-        Retriever retriever = retriever(knn, vector, filters.clauses(query.filters()));
-        return SearchRequest.of(request -> withPreference(base(request, alias, size, retriever), preference));
+        return search(alias, query, vector, preference, new Shape(size, false));
     }
 
-    private static SearchRequest.Builder base(SearchRequest.Builder request, String alias, int size,
+    /**
+     * La lista de apoyo de la híbrida: mismo k-NN, sin el documento.
+     *
+     * @param alias      nombre configurado del catálogo
+     * @param query      consulta ya validada
+     * @param vector     vector de consulta, ya recortado al campo
+     * @param preference valor compartido por las tres búsquedas
+     * @param size       cuántos ids devolver
+     * @return petición de {@code _search} con {@code _source: false}
+     */
+    public SearchRequest ids(String alias, SearchQuery query, float[] vector, String preference, int size) {
+        return search(alias, query, vector, preference, new Shape(size, true));
+    }
+
+    private SearchRequest search(String alias, SearchQuery query, float[] vector, String preference, Shape shape) {
+        KnnSettings knn = query.knn();
+        Retriever retriever = retriever(knn, vector, filters.clauses(query.filters()));
+        return SearchRequest.of(request -> withPreference(
+                base(request, alias, shape, retriever), preference));
+    }
+
+    private record Shape(int size, boolean idsOnly) {
+    }
+
+    private static SearchRequest.Builder base(SearchRequest.Builder request, String alias, Shape shape,
             Retriever retriever) {
-        return request.index(alias).size(size).source(SearchSource.withoutVectors()).retriever(retriever);
+        SourceConfig source = shape.idsOnly() ? SearchSource.idsOnly() : SearchSource.withoutVectors();
+        return request.index(alias).size(shape.size()).source(source).retriever(retriever);
     }
 
     private static SearchRequest.Builder withPreference(SearchRequest.Builder request, String preference) {

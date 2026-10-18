@@ -109,12 +109,27 @@ class SearchQueryValidatorTest {
     }
 
     @Test
-    @DisplayName("vectorial no pasa de k resultados")
-    void shouldRejectWhenVectorPageLeavesK() {
+    @DisplayName("la última página de full-text, antes de 10000, se acepta")
+    void shouldAcceptTheLastFullTextPageInsideTheWindow() {
         SearchQuery query = new SearchQuery(
-                "tigre", SearchMode.VECTOR, null, knn(30, 30),
-                SearchFilters.none(), 2, SearchQuery.PAGE_25);
-        assertCode(query, ErrorCode.KNN_WINDOW_EXCEEDED,
+                "titanic", SearchMode.FULL_TEXT, matchTitle(), null,
+                SearchFilters.none(), 400, SearchQuery.PAGE_25);
+        assertThatCode(() -> validator.validate(query)).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("una página parcial dentro de k se acepta")
+    void shouldAcceptAPartialVectorPageInsideK() {
+        assertThatCode(() -> validator.validate(vectorPage(10, 1, SearchQuery.PAGE_25)))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> validator.validate(vectorPage(150, 2, SearchQuery.PAGE_100)))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("vectorial rechaza la página que empieza en k o después")
+    void shouldRejectWhenTheVectorPageStartsAtK() {
+        assertCode(vectorPage(10, 2, SearchQuery.PAGE_25), ErrorCode.KNN_WINDOW_EXCEEDED,
                 "La página se sale de los k resultados de este modo.");
     }
 
@@ -171,5 +186,10 @@ class SearchQueryValidatorTest {
 
     private static KnnSettings knn(int k, int candidates) {
         return new KnnSettings(VectorField.PLOT_1024, k, candidates);
+    }
+
+    private static SearchQuery vectorPage(int k, int page, int pageSize) {
+        return new SearchQuery("tigre", SearchMode.VECTOR, null, knn(k, Math.max(k, 200)),
+                SearchFilters.none(), page, pageSize);
     }
 }

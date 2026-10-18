@@ -21,26 +21,28 @@
         <input type="hidden" name="k" th:value="${form.k}">
         <input type="hidden" name="candidatos" th:value="${form.candidates}">
       </div>
-      <p class="alert" th:if="${errorCode != null}" role="alert">
-        <span th:text="${errorCode}">EFX-SRCH-003</span>
-        <span th:text="${errorMessage}">mensaje</span>
-      </p>
+      <p class="alert" th:if="${errorSummary != null and !dateError}" role="alert" th:text="${errorSummary}">mensaje</p>
     </form>
 
     <div class="adjust-row" th:if="${copy != null}">
-      <span class="mode-chip" th:classappend="${copy.tone}" th:text="${copy.label}">Modo</span>
+      <span class="mode-chip" th:classappend="${copy.tone}">
+        <svg th:if="${copy.tone == 'tone-sky'}" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg>
+        <svg th:if="${copy.tone == 'tone-mint'}" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg>
+        <svg th:if="${copy.tone == 'tone-lavender'}" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg>
+        <span th:text="${copy.label}">Modo</span>
+      </span>
       <span class="adjust" th:each="label : ${adjustments}" th:text="${label}">match · title</span>
       <a th:href="@{/}">Cambiar ajustes</a>
     </div>
 
-    <div class="results-layout" th:if="${copy != null}">
+    <div class="results-layout">
       <aside class="filters" aria-labelledby="f-title">
         <div class="filters-head">
-          <h2 id="f-title">Filtros</h2>
+          <h2 id="f-title" class="fh">Filtros</h2>
           <a th:href="${clearHref}">Limpiar</a>
         </div>
         <p class="dims">Entre filtros distintos se cumplen todos; dentro de un mismo filtro basta con uno de los valores marcados.</p>
-        <p class="dims">Los valores salen de los resultados actuales y se actualizan cada vez que cambian.</p>
+        <p class="dims" aria-live="polite" th:text="${facetNote}">Los valores salen de los resultados actuales y se actualizan cada vez que cambian.</p>
         <form id="filter-form" th:action="@{/buscar}" method="get">
           <input type="hidden" name="q" th:value="${form.query}">
           <input type="hidden" name="modo" th:value="${form.mode}">
@@ -54,40 +56,41 @@
           <input type="hidden" name="tamano" th:value="${form.pageSize}">
 
           <fieldset>
-            <legend>Contenido para adultos <code>adult</code></legend>
+            <legend class="fh">Contenido para adultos <code>adult</code></legend>
             <label><input type="radio" name="adult" value="" th:checked="${!safeOnly}"> <span>Todos</span> <span th:text="${adultAll}">0</span></label>
             <label><input type="radio" name="adult" value="false" th:checked="${safeOnly}"> <span>Solo no adultos</span> <span th:text="${adultSafe}">0</span></label>
           </fieldset>
 
           <fieldset data-facet>
-            <legend>Géneros <code>genres</code></legend>
+            <legend class="fh">Géneros <code>genres</code></legend>
             <label th:each="choice : ${genres}" th:classappend="${choice.extra} ? 'extra' : ''">
               <input type="checkbox" name="genero" th:value="${choice.value}" th:checked="${choice.selected}">
               <span th:text="${choice.value}">Drama</span>
               <span th:text="${choice.count}">1</span>
             </label>
-            <button type="button" class="linkish" data-expand>Ver todos los géneros</button>
+            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${genres.size() > 6}">Ver todos los géneros</button>
           </fieldset>
 
           <fieldset>
-            <legend>Fecha de estreno <code>release_date</code></legend>
-            <label>Desde <input type="date" name="desde" th:value="${form.from}"></label>
-            <label>Hasta <input type="date" name="hasta" th:value="${form.to}"></label>
+            <legend class="fh">Fecha de estreno <code>release_date</code></legend>
+            <label>Desde <input type="date" name="desde" th:value="${form.from}" th:attr="aria-invalid=${dateError} ? 'true' : 'false'"></label>
+            <label>Hasta <input type="date" name="hasta" th:value="${form.to}" th:attr="aria-invalid=${dateError} ? 'true' : 'false'"></label>
             <p class="dims" th:text="${dateNote}">En estos resultados: de … a …</p>
+            <p id="date-error" class="date-error" role="alert" th:attr="hidden=${dateError} ? null : 'hidden'">La fecha «Desde» no puede ser posterior a «Hasta».</p>
           </fieldset>
 
           <fieldset data-facet>
-            <legend>Idiomas hablados <code>spoken_languages</code></legend>
+            <legend class="fh">Idiomas hablados <code>spoken_languages</code></legend>
             <label th:each="choice : ${languages}" th:classappend="${choice.extra} ? 'extra' : ''">
               <input type="checkbox" name="idioma" th:value="${choice.value}" th:checked="${choice.selected}">
               <span th:text="${choice.value}">English</span>
               <span th:text="${choice.count}">1</span>
             </label>
-            <button type="button" class="linkish" data-expand>Ver todos los idiomas</button>
+            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${languages.size() > 6}">Ver todos los idiomas</button>
           </fieldset>
 
           <fieldset>
-            <legend>Clasificación <code>rating</code></legend>
+            <legend class="fh">Clasificación <code>rating</code></legend>
             <label th:each="choice : ${ratings}">
               <input type="checkbox" name="clasificacion" th:value="${choice.value}" th:checked="${choice.selected}">
               <span th:text="${choice.value}">PG</span>
@@ -95,25 +98,32 @@
             </label>
           </fieldset>
 
-          <p id="dirty" class="alert" hidden>Tienes cambios sin aplicar.</p>
-          <button class="apply" type="submit">APLICAR</button>
+          <p id="dirty" class="pending" hidden>Tienes cambios sin aplicar.</p>
+          <button class="apply" type="submit" th:disabled="${dateError}">APLICAR</button>
         </form>
       </aside>
 
-      <section>
+      <section th:if="${copy != null}">
         <div class="results-head">
           <div>
             <h1 th:text="${countTitle}">0 resultados</h1>
             <p class="dims" th:text="${copy.orderedBy}">Ordenados por puntuación BM25</p>
           </div>
-          <div class="sizes">Resultados por página
-            <a th:href="${size25}">25</a>
-            <a th:href="${size50}">50</a>
-            <a th:href="${size100}">100</a>
-          </div>
+          <label class="page-size">Resultados por página
+            <select id="page-size">
+              <option value="25" th:selected="${form.pageSize == '25'}" th:attr="data-href=${size25}">25</option>
+              <option value="50" th:selected="${form.pageSize == '50'}" th:attr="data-href=${size50}">50</option>
+              <option value="100" th:selected="${form.pageSize == '100'}" th:attr="data-href=${size100}">100</option>
+            </select>
+          </label>
         </div>
 
-        <p class="dims" th:if="${copy.limit != ''}" th:text="${copy.limit}">límite</p>
+        <div class="filter-chips" th:if="${!chips.isEmpty()}">
+          <span>Filtros aplicados:</span>
+          <span class="chip-on" th:each="chip : ${chips}" th:text="${chip}">Géneros: Drama</span>
+        </div>
+
+        <p class="limit" th:if="${empty == null and copy.limit != ''}" th:text="${copy.limit}">límite</p>
 
         <div class="empty" th:if="${empty != null}" role="status">
           <h2 th:text="${empty.title}">No encontramos películas</h2>
@@ -129,7 +139,7 @@
           <li class="hit" th:each="card : ${cards}">
             <div class="hit-main">
               <span class="rank" th:text="|#${card.rank}|">#1</span>
-              <img th:if="${!card.posterUrl.isEmpty()}" th:src="${card.posterUrl}" th:alt="${card.title}" class="poster" width="80" height="120">
+              <img th:if="${!card.posterUrl.isEmpty()}" th:src="${card.posterUrl}" th:alt="${card.title}" class="poster" width="80" height="120" onerror="var d=document.createElement('div');d.className='poster missing';d.setAttribute('role','img');d.textContent='poster_path';this.replaceWith(d)">
               <div th:if="${card.posterUrl.isEmpty()}" class="poster missing" role="img" th:attr="aria-label=|Póster de ${card.title}|">poster_path</div>
               <div>
                 <h3 th:text="${card.title}">Título</h3>
@@ -139,17 +149,24 @@
               </div>
             </div>
             <div class="score-panel">
-              <span class="eyebrow">Puntuación</span>
+              <span class="eyebrow" th:text="${copy.scoreTitle}">Puntuación</span>
               <div th:each="score : ${card.scores}">
                 <div class="score-line">
-                  <span th:text="${score.label}">BM25</span>
+                  <span class="score-label">
+                    <svg th:if="${score.label == 'BM25'}" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg>
+                    <svg th:if="${score.label == 'Similitud k-NN'}" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg>
+                    <span th:text="${score.label}">BM25</span>
+                  </span>
                   <span th:text="${score.value}">0</span>
                 </div>
                 <span class="dims" th:if="${!score.position.isEmpty()}" th:text="|posición en su lista: ${score.position}|">posición</span>
               </div>
               <div class="score-line" th:if="${!card.rrf.isEmpty()}">
-                <span>RRF</span>
-                <span th:text="${card.rrf}">0</span>
+                <span class="score-label">
+                  <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6A50C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg>
+                  RRF
+                </span>
+                <span class="rrf-value" th:text="${card.rrf}">0</span>
               </div>
             </div>
           </li>

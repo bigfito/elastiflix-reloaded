@@ -70,7 +70,7 @@
       </div>
       <p><strong>Una comparación justa.</strong> Los tres campos usan la misma configuración de índice: <code>index_options</code> de tipo <code>hnsw</code> con vectores float sin cuantización, los mismos <code>m</code> (16) y <code>ef_construction</code> (100), los valores por defecto de Elasticsearch, y similitud <code>cosine</code>. Así, la única diferencia entre ellos es el número de dimensiones.</p>
       <h3>Precisión medida por dimensión</h3>
-      <p>Se midió con 32 descripciones de trama (26 en español y 6 en inglés), cada una con una sola película correcta del catálogo y sin palabras de su título. Las posiciones se obtuvieron en Elasticsearch y se confirmaron con una búsqueda exacta por fuerza bruta: coinciden en todos los casos.</p>
+      <p>Medido en el catálogo original de 4 322 películas. Se midió con 32 descripciones de trama (26 en español y 6 en inglés), cada una con una sola película correcta del catálogo y sin palabras de su título. Las posiciones se obtuvieron en Elasticsearch y se confirmaron con una búsqueda exacta por fuerza bruta: coinciden en todos los casos.</p>
       <div class="table-wrap">
         <table>
           <thead>
@@ -108,7 +108,7 @@
         <div><dt>k</dt><dd>Número máximo de resultados que devuelve la búsqueda vectorial, después de combinar los candidatos de todos los shards; se reparten en páginas de 25, 50 o 100. Debe ser menor o igual que <code>num_candidates</code>. Valor inicial: 100.</dd></div>
         <div><dt>num_candidates</dt><dd>Candidatos que se evalúan en cada shard antes de quedarse con los <code>k</code> mejores. Subirlo tiende a mejorar la precisión, a cambio de más tiempo de respuesta. Máximo 10 000. Valor inicial: 200.</dd></div>
       </dl>
-      <p>Nota de implementación: para recuperación, el modelo espera el prefijo <code>Query: </code> en las consultas y <code>Document: </code> en las sinopsis.</p>
+      <p>Nota de implementación: para recuperación, el modelo espera el prefijo <code>Query: </code> en las consultas. Las sinopsis se vectorizan con <code>input_type</code> <code>ingest</code> y sin prefijo.</p>
       <p class="docs"><span>Documentación</span>
         <a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/retrievers/knn-retriever">kNN retriever</a>
         <a href="https://www.elastic.co/docs/solutions/search/vector/knn/approximate-knn">Approximate kNN</a>
@@ -189,9 +189,9 @@
       </dl>
       <h3>Importación</h3>
       <dl>
-        <div><dt>Vectores</dt><dd>Los tres vectores se generan siempre desde <code>plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, prefijo <code>Document: </code>). Si el archivo trae <code>plot_256</code>, <code>plot_512</code> o <code>plot_1024</code>, se ignoran.</dd></div>
+        <div><dt>Vectores</dt><dd>Los tres vectores se generan siempre desde <code>plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, <code>input_type</code> <code>ingest</code> y sin prefijo). Si el archivo trae <code>plot_256</code>, <code>plot_512</code> o <code>plot_1024</code>, se ignoran.</dd></div>
         <div><dt>Índice temporal</dt><dd>Los registros se escriben en lotes de 100 en un índice temporal que empieza como copia del catálogo actual. Si un <code>id</code> ya existe, el registro reemplaza a la película.</dd></div>
-        <div><dt>Publicación</dt><dd>Al terminar se comprueba el conteo y el alias <code>elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd></div>
+        <div><dt>Publicación</dt><dd>Al terminar se comprueba el conteo y el alias <code th:text="${shell.alias}">elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd></div>
         <div><dt>Si falla</dt><dd>Si Elasticsearch rechaza un lote o la comprobación no cuadra, se borra el índice temporal y el catálogo queda exactamente como estaba.</dd></div>
       </dl>
       <p class="docs"><span>Documentación</span>
@@ -202,7 +202,7 @@
 
     <section id="catalogo" aria-labelledby="h-catalogo">
       <h2 id="h-catalogo">El catálogo</h2>
-      <p>El catálogo está en <code th:text="${shell.alias}">elastiflix-reloaded</code>, un alias que apunta al índice vigente: así una carga de datos se publica de una sola vez o se descarta sin afectar a las búsquedas. <span th:text="${shell.moviePhrase}">Tiene 4 322 películas.</span> Estos son los campos que usa la demo; los demás (reparto, productoras, métricas, imágenes…) se muestran en los resultados o se capturan en la carga de datos.</p>
+      <p>El catálogo está en <code th:text="${shell.alias}">elastiflix-reloaded</code>, un alias que apunta al índice vigente: así una carga de datos se publica de una sola vez o se descarta sin afectar a las búsquedas. <span th:text="${shell.moviePhrase}">Tiene películas.</span> Estos son los campos que usa la demo; los demás (reparto, productoras, métricas, imágenes…) se muestran en los resultados o se capturan en la carga de datos.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Campo</th><th>Tipo</th><th>Contenido</th><th>Uso</th></tr></thead>
@@ -211,9 +211,9 @@
             <tr><td>original_title</td><td>text</td><td>Título original</td><td>Full-text, Híbrida</td></tr>
             <tr><td>plot</td><td>text</td><td>Sinopsis; origen de los tres vectores</td><td>Se muestra en los resultados</td></tr>
             <tr><td>plot_256 · plot_512 · plot_1024</td><td>dense_vector</td><td>Vectores de la sinopsis (256, 512 y 1024 dimensiones)</td><td>Vectorial, Híbrida</td></tr>
-            <tr><td>adult</td><td>boolean</td><td>Contenido para adultos (ninguna película del catálogo lo es)</td><td>Filtro</td></tr>
+            <tr><td>adult</td><td>boolean</td><td>Contenido para adultos (medido en el catálogo original de 4 322 películas: ninguna película del catálogo lo es)</td><td>Filtro</td></tr>
             <tr><td>genres</td><td>keyword</td><td>Géneros, por ejemplo Drama, Comedy o Action</td><td>Filtro</td></tr>
-            <tr><td>release_date</td><td>date</td><td>Fecha de estreno en yyyy-MM-dd (de 1902 a 2023)</td><td>Filtro</td></tr>
+            <tr><td>release_date</td><td>date</td><td>Fecha de estreno en yyyy-MM-dd (medido en el catálogo original de 4 322 películas: de 1902 a 2023)</td><td>Filtro</td></tr>
             <tr><td>spoken_languages</td><td>keyword</td><td>Idiomas hablados, con su nombre propio: English, Español, Français…</td><td>Filtro</td></tr>
             <tr><td>rating</td><td>keyword</td><td>Clasificación: G, PG, PG-13, R, NC-17 o NR</td><td>Filtro</td></tr>
           </tbody>

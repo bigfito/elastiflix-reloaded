@@ -30,8 +30,12 @@ class ElastiflixPropertiesTest {
             assertThat(properties.ingest().maxFileSize().toMegabytes()).isEqualTo(150);
             assertThat(properties.poster().baseUrl()).isEqualTo("https://image.tmdb.org/t/p/w342");
             assertThat(properties.bootstrap().enabled()).isFalse();
+            assertThat(properties.embedding().queryInputType()).isEqualTo("search");
+            assertThat(properties.embedding().queryPrefix()).isEqualTo("Query: ");
             assertThat(properties.embedding().documentInputType()).isEqualTo("ingest");
             assertThat(properties.embedding().documentPrefix()).isEmpty();
+            assertThat(properties.elasticsearch().toString()).contains("apiKey=****").doesNotContain("test-key");
+            assertThat(properties.toString()).doesNotContain("test-key");
         });
     }
 

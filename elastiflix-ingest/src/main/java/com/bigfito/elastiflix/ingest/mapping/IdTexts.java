@@ -4,13 +4,22 @@ import tools.jackson.databind.JsonNode;
 
 /**
  * Lee un {@code id} que puede llegar como número o como texto.
+ *
+ * <p>La búsqueda de ids ya existentes y el validador usan este mismo texto. No se recorta:
+ * un espacio forma parte del id.</p>
  */
-final class IdTexts {
+public final class IdTexts {
 
     private IdTexts() {
     }
 
-    static String of(JsonNode value) {
+    /**
+     * Texto del id. Un número entero se escribe sin decimales.
+     *
+     * @param value nodo del id, o {@code null}
+     * @return el texto, o {@code null} si no hay un id usable
+     */
+    public static String of(JsonNode value) {
         if (value == null || value.isNull()) {
             return null;
         }

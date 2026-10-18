@@ -8,10 +8,12 @@ import java.util.concurrent.locks.LockSupport;
 import java.util.regex.Pattern;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,24 +33,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Recorre la aplicación contra el catálogo real. Solo lee: no importa ni publica.
  *
- * <p>El conteo no está fijo, porque una carga cambia el número de películas. Al empezar se lee
- * {@code _count} del alias y se exige que la salud diga lo mismo, y que sea mayor que cero. La
- * validación del CSV compara alias, índice y conteo antes y después: si alguno cambia, la prueba
- * falla.</p>
+ * <p>La salud afirma las 6 899 películas de §6. Si {@code _count} ya no es ese número, esa prueba
+ * se omite. La validación del CSV compara alias, índice y conteo antes y después: si alguno
+ * cambia, la prueba falla.</p>
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SmokeIT {
 
     private static final JsonMapper JSON = JsonMapper.builder().build();
     private static final Path SAMPLE = Path.of("..", "elasticsearch", "fixtures", "movies-sample.csv");
-    private static final String ALIAS = "elastiflix-reloaded";
     private static final String UP = "UP";
     private static final String VALID = "valido";
     private static final String RECEIVED = "recibido";
     private static final String VALIDATING = "validando";
     private static final String VECTORS_IGNORED = "EFX-ING-020";
     private static final String HIT = "class=\"hit\"";
-    private static final int VALIDATION_STEP = 3;
+    private static final int READY_STEP = 4;
+    private static final long CATALOG_COUNT = 6_899L;
     private static final int SAMPLE_MOVIES = 4;
     private static final int DEFAULT_K = 100;
     private static final int DEFAULT_CANDIDATES = 200;
@@ -67,33 +68,37 @@ class SmokeIT {
 
     private final RestClient http;
     private final CatalogIndex catalog;
+    private final String alias;
 
     /**
      * Spring no inyecta el constructor de una prueba si no lleva {@code @Autowired}.
      *
-     * @param port    puerto aleatorio del servidor de esta prueba
-     * @param catalog {@code _count} del alias, solo lectura
+     * @param port       puerto aleatorio del servidor de esta prueba
+     * @param catalog    {@code _count} del alias, solo lectura
+     * @param properties alias configurado, no un literal
      */
     @Autowired
-    SmokeIT(@LocalServerPort int port, CatalogIndex catalog) {
+    SmokeIT(@LocalServerPort int port, CatalogIndex catalog, ElastiflixProperties properties) {
         this.http = RestClient.builder().baseUrl("http://localhost:" + port).build();
         this.catalog = catalog;
+        this.alias = properties.index().alias();
     }
 
     @Test
-    @DisplayName("el catálogo responde UP con el mismo conteo que _count")
+    @DisplayName("el catálogo responde UP con las 6899 películas de §6")
     void shouldReportTheLiveCatalogCount() {
         // given
-        long counted = catalog.count(ALIAS);
+        long counted = catalog.count(alias);
+        Assumptions.assumeTrue(counted == CATALOG_COUNT, () ->
+                "El catálogo cambió: se esperaban " + CATALOG_COUNT + " películas y hay " + counted);
 
         // when
         Catalog seen = readCatalog();
 
         // then
-        assertThat(counted).isPositive();
-        assertThat(seen.alias()).isEqualTo(ALIAS);
-        assertThat(seen.index()).matches(Pattern.quote(ALIAS) + "-\\d{8}-\\d{6}");
-        assertThat(seen.documents()).isEqualTo(counted);
+        assertThat(seen.alias()).isEqualTo(alias);
+        assertThat(seen.index()).matches(Pattern.quote(alias) + "-\\d{8}-\\d{6}");
+        assertThat(seen.documents()).isEqualTo(CATALOG_COUNT);
     }
 
     @Test
@@ -196,7 +201,7 @@ class SmokeIT {
         assertThat(job.path("status").asString())
                 .withFailMessage("estado %s, errores %s", job.path("status"), job.path("errors"))
                 .isEqualTo(VALID);
-        assertThat(job.path("step").asInt()).isEqualTo(VALIDATION_STEP);
+        assertThat(job.path("step").asInt()).isEqualTo(READY_STEP);
         assertThat(job.path("errors")).isEmpty();
         assertThat(job.path("fileCount").asInt()).isEqualTo(SAMPLE_MOVIES);
         assertThat(ignoredVectorFields(job)).containsExactlyInAnyOrder("plot_256", "plot_512", "plot_1024");

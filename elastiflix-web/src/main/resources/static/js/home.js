@@ -66,8 +66,25 @@
     document.querySelectorAll(".chip-set").forEach(function (set) {
       show(set, set.getAttribute("data-key") === key);
     });
+    document.querySelectorAll(".chip").forEach(keepChosenSettings);
     ["modo", "tipo", "campo", "operador", "vector"].forEach(paintPressed);
     checkKnn();
+  }
+
+  function keepChosenSettings(chip) {
+    var href = chip.getAttribute("href");
+    href = replaceParam(href, "k", value("k"));
+    href = replaceParam(href, "candidatos", value("candidatos"));
+    href = replaceParam(href, "vector", value("vector"));
+    chip.setAttribute("href", href);
+  }
+
+  function replaceParam(href, name, next) {
+    var pattern = new RegExp("([?&]" + name + "=)[^&]*");
+    if (!pattern.test(href)) {
+      return href;
+    }
+    return href.replace(pattern, "$1" + encodeURIComponent(next));
   }
 
   function checkKnn() {
@@ -84,6 +101,9 @@
     }
     box.textContent = text;
     show(box, text !== "");
+    var invalid = text !== "";
+    document.getElementById("knn-k").setAttribute("aria-invalid", invalid ? "true" : "false");
+    document.getElementById("knn-cand").setAttribute("aria-invalid", invalid ? "true" : "false");
     if (text === "") {
       setValue("k", String(k));
       setValue("candidatos", String(candidates));
@@ -102,12 +122,15 @@
   form.addEventListener("submit", function (event) {
     var query = document.getElementById("q").value.trim();
     var queryError = document.getElementById("query-error");
+    var queryBox = document.getElementById("q");
     if (query === "") {
       event.preventDefault();
       show(queryError, true);
+      queryBox.setAttribute("aria-invalid", "true");
       return;
     }
     show(queryError, false);
+    queryBox.setAttribute("aria-invalid", "false");
     var mode = value("modo");
     if ((mode === "vectorial" || mode === "hibrida") && !checkKnn()) {
       event.preventDefault();

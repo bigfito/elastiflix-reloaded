@@ -10,13 +10,18 @@ import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.unit.DataSize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -25,18 +30,26 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class IngestJobController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(IngestJobController.class);
+
     private final IngestService ingest;
     private final UploadCheck uploads;
+    private final long maxFileBytes;
 
     /**
-     * Crea los endpoints con la fachada y la comprobación previa.
+     * Crea los endpoints con la fachada y el tope de Tomcat.
      *
-     * @param ingest  fachada
-     * @param uploads extensión, tamaño y UTF-8
+     * @param ingest      fachada
+     * @param uploads     extensión, tamaño y UTF-8
+     * @param maxFileSize mismo tope que {@code spring.servlet.multipart.max-file-size}
      */
-    public IngestJobController(IngestService ingest, UploadCheck uploads) {
+    public IngestJobController(
+            IngestService ingest,
+            UploadCheck uploads,
+            @Value("${spring.servlet.multipart.max-file-size:150MB}") DataSize maxFileSize) {
         this.ingest = ingest;
         this.uploads = uploads;
+        this.maxFileBytes = maxFileSize.toBytes();
     }
 
     /**
@@ -53,12 +66,11 @@ public class IngestJobController {
             @RequestParam("archivo") MultipartFile file,
             @RequestParam(name = "separador", defaultValue = ",") String separator,
             @RequestParam(name = "encabezado", defaultValue = "false") String header) throws IOException {
+        rejectIfTooLarge(file);
         try {
             uploads.requireAccepted(file);
         } catch (IngestValidationException exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                    "code", exception.errorCode().code(),
-                    "message", exception.getMessage()));
+            return rejected(file, exception);
         }
         String jobId = ingest.acceptFile(file.getOriginalFilename(), copy(file), settings(separator, header));
         return ResponseEntity.ok(Map.of("jobId", jobId));
@@ -108,6 +120,29 @@ public class IngestJobController {
     @GetMapping(value = "/cargar/trabajos/{jobId}/informe.csv", produces = "text/csv")
     public String report(@PathVariable String jobId) {
         return ingest.errorReport(jobId);
+    }
+
+    private static ResponseEntity<Map<String, String>> rejected(
+            MultipartFile file, IngestValidationException exception) {
+        String code = exception.errorCode().code();
+        LOG.warn("{}: se rechazó {}", code, fileName(file));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "code", code,
+                "message", exception.errorCode().summary()));
+    }
+
+    private static String fileName(MultipartFile file) {
+        String name = file.getOriginalFilename();
+        if (name == null || name.isBlank()) {
+            return "sin-nombre";
+        }
+        return name;
+    }
+
+    private void rejectIfTooLarge(MultipartFile file) {
+        if (file.getSize() > maxFileBytes) {
+            throw new MaxUploadSizeExceededException(maxFileBytes);
+        }
     }
 
     private static Path copy(MultipartFile file) throws IOException {

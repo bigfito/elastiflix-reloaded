@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** ninguna. El proyecto está cerrado.
-- **Estado de la fase:** las fases 0 a 6 están en `terminado`
-- **Rama:** `main` (en `origin` solo queda esta rama; las `cursor/*` se borraron el 2026-10-18)
-- **Próximo paso:** ninguno
-- **Última actualización:** 2026-10-18 06:20 UTC
+- **Fase actual:** Revisión 1
+- **Estado de la fase:** en curso (R-01 a R-30 terminadas; el PR #10 sigue en borrador)
+- **Rama:** `cursor/revision-1-29a6`
+- **Próximo paso:** Revisar el PR #10. Sigue en borrador.
+- **Última actualización:** 2026-10-18 18:32 UTC
 
 ## Fases
 
@@ -24,6 +24,7 @@
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
 | 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
 | 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
+| — | Revisión 1 | — | en curso | `progreso/revision-1.md` | `verify` y `verify -Pit` en verde el 2026-10-18 18:26 UTC. Adolfo Orozco aprobó las capturas de R-21. |
 
 ## Aprobaciones del usuario
 
@@ -42,7 +43,9 @@
 | 2026-10-18 | Fase 4 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 4, incluida la interfaz de las capturas. El PR #5 quedó fusionado en `main` (merge commit `c64aa8a`). |
 | 2026-10-18 | Fase 5 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 5. El PR #6 quedó fusionado en `main` (merge commit `68c1a24`). |
 | 2026-10-18 | Fase 6 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 6. El PR #7 quedó fusionado en `main` (merge commit `eb309d9`). |
-| 2026-10-18 | Corrección de documentación fusionada en `main` | Adolfo aprobó el PR #8. Quedó fusionado en `main` (merge commit `22dac52`). Después se borraron las ramas remotas `cursor/*`. |
+| 2026-10-18 | Corrección de documentación fusionada en `main` | Adolfo aprobó el PR #8. Quedó fusionado en `main` (merge commit `22dac52`). Después se borraron las ramas remotas `cursor/*` de las fases 0 a 6. |
+| 2026-10-18 | Criterios de §6 relajados, fusionados en `main` | El PR #9 (`cursor/revision-docs-29a6`, merge `dc44535`, commit `2a3aaea`) dejó de afirmar los totales de 4 322 y lee `_count`. La revisión 1 (R-05, D1) restituye los valores exactos sobre 6 899 películas. |
+| 2026-10-18 | Capturas de R-21 | Adolfo Orozco aprobó la fidelidad visual de las cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada). |
 | 2026-10-18 | Importación de `movies.json` al catálogo real | Adolfo eligió reemplazar el índice de `elastiflix-reloaded`. Arranque 05:44:29 UTC y publicación 05:49:22 UTC (unos 4 min 54 s). Arreglo JSON de 6899 registros, validación `valido`, 0 errores y 5055 advertencias (`EFX-ING-022`: 4960, `EFX-ING-021`: 95). Índice nuevo `elastiflix-reloaded-20261018-054429` con 6899 documentos. Se borró `elastiflix-reloaded-20261018-003535`. Una lectura posterior contó `title`, `plot`, `plot_256`, `plot_512` y `plot_1024` en 6899/6899. |
 
 ## Catálogo vigente
@@ -51,7 +54,7 @@
 - **Índice:** `elastiflix-reloaded-20261018-054429`
 - **Documentos:** 6899, con `title`, `plot` y los tres vectores en todos
 - **Índice anterior:** `elastiflix-reloaded-20261018-003535` (4322 documentos), borrado al publicar
-- **Pruebas:** `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y exigen que sea mayor que cero. No escriben en este alias.
+- **Pruebas:** `SmokeIT`, `CatalogStatusServiceIT`, `FullTextSearchIT`, `VectorSearchIT` y `HybridSearchIT` afirman la tabla de §6 (6 899 películas) y se omiten si `_count` cambió. No escriben en este alias.
 
 ## Última verificación
 

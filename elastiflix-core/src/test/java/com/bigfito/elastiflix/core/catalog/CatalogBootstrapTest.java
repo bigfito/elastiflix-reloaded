@@ -38,6 +38,17 @@ class CatalogBootstrapTest {
     }
 
     @Test
+    @DisplayName("si el conteo del log falla, el alias que ya existe no tumba la migración")
+    void shouldKeepGoingWhenTheLogCountFails() {
+        FakeCatalog catalog = new FakeCatalog(new CatalogName.Alias(ALIAS, NEW_INDEX), false, false);
+        catalog.failCount = true;
+
+        bootstrap(catalog).migrate();
+
+        assertThat(catalog.calls).containsExactly("describe", "count");
+    }
+
+    @Test
     @DisplayName("si no existe, se detiene con EFX-ES-002")
     void shouldStopWhenTheCatalogIsMissing() {
         FakeCatalog catalog = new FakeCatalog(new CatalogName.Missing(ALIAS), false, false);
@@ -57,7 +68,7 @@ class CatalogBootstrapTest {
         bootstrap(catalog).migrate();
 
         assertThat(catalog.calls).containsExactly(
-                "describe", "create", "reindex", "refresh", "count", "count", "publish", "count");
+                "describe", "create", "reindex", "refresh", "count", "count", "publish");
         assertThat(catalog.created).isEqualTo(NEW_INDEX);
         assertThat(catalog.publishedPrevious).isEqualTo(ALIAS);
         assertThat(catalog.deleted).isNull();
@@ -98,6 +109,7 @@ class CatalogBootstrapTest {
 
         private final boolean mismatch;
         private final boolean failPublish;
+        private boolean failCount;
         private final List<String> calls = new ArrayList<>();
         private CatalogName described;
         private String created;
@@ -135,6 +147,9 @@ class CatalogBootstrapTest {
         @Override
         public long count(String name) {
             calls.add("count");
+            if (failCount) {
+                throw new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+            }
             if (mismatch && name.equals(created)) {
                 return DOCUMENTS - 1;
             }

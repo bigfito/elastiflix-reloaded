@@ -62,6 +62,7 @@ class IngestIT {
     private final ElasticsearchClient client;
     private final ElastiflixProperties properties;
     private final CancelGate gate;
+    private final List<String> jobIds = new ArrayList<>();
 
     /**
      * Spring no inyecta el constructor de una prueba si no lleva {@code @Autowired}.
@@ -106,6 +107,7 @@ class IngestIT {
 
     @AfterEach
     void deleteTheTestAlias() {
+        stopJobs();
         deleteOwned();
     }
 
@@ -116,7 +118,7 @@ class IngestIT {
         List<String> order = relativeOrder(knn());
         Path file = sample.writeImportFile();
         try {
-            String jobId = service.acceptFile("carga.json", file, CsvSettings.withHeader());
+            String jobId = accept("carga.json", file);
             assertThat(waitFor(jobId, "valido", "invalido", "fallido").status()).isEqualTo("valido");
             service.importFile(jobId);
             assertThat(waitFor(jobId, "publicado", "fallido", "cancelado").status()).isEqualTo("publicado");
@@ -133,7 +135,7 @@ class IngestIT {
         ImportSample sample = ImportSample.read(FIXTURE);
         Path file = sample.writeImportFile();
         try {
-            String jobId = service.acceptFile("carga.json", file, CsvSettings.withHeader());
+            String jobId = accept("carga.json", file);
             assertThat(waitFor(jobId, "valido", "invalido", "fallido").status()).isEqualTo("valido");
             gate.arm(() -> service.cancel(jobId));
             service.importFile(jobId);
@@ -215,6 +217,29 @@ class IngestIT {
             }
         }
         return order;
+    }
+
+    private String accept(String name, Path file) {
+        String jobId = service.acceptFile(name, file, CsvSettings.withHeader());
+        jobIds.add(jobId);
+        return jobId;
+    }
+
+    private void stopJobs() {
+        for (String jobId : jobIds) {
+            service.cancel(jobId);
+            JobView view = waitFor(jobId, "publicado", "fallido", "cancelado", "invalido");
+            if (!terminal(view.status())) {
+                throw new IllegalStateException("el trabajo sigue en " + view.status());
+            }
+        }
+    }
+
+    private static boolean terminal(String status) {
+        return "publicado".equals(status)
+                || "fallido".equals(status)
+                || "cancelado".equals(status)
+                || "invalido".equals(status);
     }
 
     private JobView waitFor(String jobId, String... done) {

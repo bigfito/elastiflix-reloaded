@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.web.search;
 
+import com.bigfito.elastiflix.web.EncodedQuery;
+
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -50,7 +52,7 @@ public final class SearchLinks {
         }
         builder.queryParam("pagina", page);
         builder.queryParam("tamano", size);
-        return builder.build().encode().toUriString();
+        return EncodedQuery.of(builder);
     }
 
     private static void query(UriComponentsBuilder builder, SearchForm form) {

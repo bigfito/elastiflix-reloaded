@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
  * @param ingest        tamaño de archivo y de lote
  * @param poster        prefijo del CDN de pósters
  * @param bootstrap     si la migración a alias debe ejecutarse
- * @param embedding     cómo se vectorizan las sinopsis
+     * @param embedding     cómo se vectorizan consultas y sinopsis
  */
 @ConfigurationProperties(prefix = "elastiflix")
 @Validated
@@ -50,6 +50,16 @@ public record ElastiflixProperties(
      * @param apiKey valor de {@code ELASTICSEARCH_API_KEY}
      */
     public record Elasticsearch(String url, String apiKey) {
+
+        /**
+         * No incluye la API key. Un log de esta propiedad solo ve la máscara.
+         *
+         * @return la URL y {@code ****} en lugar de la clave
+         */
+        @Override
+        public String toString() {
+            return "Elasticsearch[url=" + url + ", apiKey=****]";
+        }
     }
 
     /**
@@ -187,40 +197,53 @@ public record ElastiflixProperties(
     }
 
     /**
-     * Cómo pide la demo los vectores de una sinopsis.
+     * Cómo pide la demo los vectores de una consulta y de una sinopsis.
      *
-     * <p>La calibración dejó {@code ingest} y sin prefijo: fue la única combinación con coseno
-     * ≥ 0.999 en las cinco películas.</p>
+     * <p>La calibración dejó los documentos en {@code ingest} y sin prefijo: fue la única
+     * combinación con coseno ≥ 0.999 en las cinco películas. Las consultas siguen en
+     * {@code search} con el prefijo {@code Query: }.</p>
      *
+     * @param queryInputType    {@code input_type} de las consultas
+     * @param queryPrefix       texto que se antepone a la consulta
      * @param documentInputType {@code input_type} de los documentos; vacío significa no enviarlo
      * @param documentPrefix    texto que se antepone a la sinopsis; vacío significa no anteponer nada
      */
     public record Embedding(
+            @DefaultValue("search") String queryInputType,
+            @DefaultValue("Query: ") String queryPrefix,
             @DefaultValue("ingest") String documentInputType,
             @DefaultValue("") String documentPrefix) {
 
-        private static final String DEFAULT_INPUT_TYPE = "ingest";
-        private static final String DEFAULT_PREFIX = "";
+        private static final String DEFAULT_QUERY_INPUT_TYPE = "search";
+        private static final String DEFAULT_QUERY_PREFIX = "Query: ";
+        private static final String DEFAULT_DOCUMENT_INPUT_TYPE = "ingest";
+        private static final String DEFAULT_DOCUMENT_PREFIX = "";
 
         /**
-         * Aplica la combinación calibrada si Spring no enlazó el valor.
+         * Aplica los valores calibrados si Spring no enlazó alguno.
          */
         public Embedding {
+            if (queryInputType == null) {
+                queryInputType = DEFAULT_QUERY_INPUT_TYPE;
+            }
+            if (queryPrefix == null) {
+                queryPrefix = DEFAULT_QUERY_PREFIX;
+            }
             if (documentInputType == null) {
-                documentInputType = DEFAULT_INPUT_TYPE;
+                documentInputType = DEFAULT_DOCUMENT_INPUT_TYPE;
             }
             if (documentPrefix == null) {
-                documentPrefix = DEFAULT_PREFIX;
+                documentPrefix = DEFAULT_DOCUMENT_PREFIX;
             }
         }
 
         /**
-         * Combinación calibrada: {@code ingest} y sin prefijo.
+         * Consulta {@code search} con prefijo {@code Query: }; documento {@code ingest} sin prefijo.
          *
-         * @return los valores por defecto de documento
+         * @return los cuatro valores por defecto
          */
         public static Embedding fallback() {
-            return new Embedding(null, null);
+            return new Embedding(null, null, null, null);
         }
     }
 }

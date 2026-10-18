@@ -7,7 +7,10 @@ import java.util.Set;
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
+import com.bigfito.elastiflix.core.error.ErrorCode;
+import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
+import com.bigfito.elastiflix.ingest.mapping.IdTexts;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
@@ -60,6 +63,14 @@ public final class FileIntake {
             store.invalid(jobId, report(exception));
         } catch (ElastiflixException exception) {
             store.failed(jobId, exception);
+        } finally {
+            closeIfStill(jobId, JobStatus.VALIDATING);
+        }
+    }
+
+    private void closeIfStill(String jobId, JobStatus open) {
+        if (store.view(jobId).status().equals(open.label())) {
+            store.failed(jobId, new ImportException(ErrorCode.JOB_FAILED));
         }
     }
 
@@ -96,11 +107,8 @@ public final class FileIntake {
     }
 
     private static void addId(List<String> ids, JsonNode id) {
-        if (id == null || id.isNull()) {
-            return;
-        }
-        String text = id.asString().trim();
-        if (!text.isEmpty()) {
+        String text = IdTexts.of(id);
+        if (text != null) {
             ids.add(text);
         }
     }
@@ -118,8 +126,8 @@ public final class FileIntake {
                 "archivo",
                 "—",
                 "archivo",
-                exception.errorCode().code(),
-                exception.errorCode().userMessage(),
+                "—",
+                exception.errorCode().summary(),
                 false)));
     }
 }

@@ -1,7 +1,6 @@
 package com.bigfito.elastiflix.ingest.job;
 
 import java.time.Clock;
-import java.util.List;
 import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
@@ -11,7 +10,6 @@ import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
-import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.vector.PlotVectorizer;
 
 import org.slf4j.Logger;
@@ -19,12 +17,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Copia el catálogo, escribe los lotes y publica, o borra el temporal si algo falla.
+ * Copia el catálogo, escribe los lotes y publica.
+ *
+ * <p>Si algo falla antes de publicar, borra el temporal. Si {@code publish} falla, primero lee el
+ * alias: solo borra el temporal cuando el alias sigue en el índice anterior.</p>
  */
 @Component
 public final class ImportJob {
 
-    private static final int IMPORT_STEP = 4;
     private static final int PUBLISH_STEP = 5;
     private static final Logger LOG = LoggerFactory.getLogger(ImportJob.class);
 
@@ -121,39 +121,18 @@ public final class ImportJob {
     }
 
     private WriteTotals writeBatches(ImportContext context) {
-        WriteTotals totals = new WriteTotals(0, 0, 0);
-        List<Movie> movies = context.source().next(context.counts().batchSize());
-        while (!movies.isEmpty()) {
-            totals = writeOne(context, movies, totals);
-            movies = context.source().next(context.counts().batchSize());
-        }
-        return totals;
-    }
-
-    private WriteTotals writeOne(ImportContext context, List<Movie> movies, WriteTotals totals) {
-        ensureRunning(context.cancelled());
-        List<Movie> ready = vectorizer.apply(movies);
-        catalog.writeAll(context.temp(), ready);
-        WriteTotals done = new WriteTotals(
-                totals.batches() + 1,
-                totals.vectorized() + ready.size(),
-                totals.written() + ready.size());
-        context.listener().onProgress(new ImportProgress(
-                IMPORT_STEP, done.batches(), done.vectorized(), done.written()));
-        logBatch(done);
-        return done;
+        return new BatchWriter(catalog, vectorizer).write(context);
     }
 
     private void publish(ImportContext context, long copied, WriteTotals totals) {
         catalog.refresh(context.temp());
-        long expected = copied + context.counts().fileCount() - context.counts().replaceCount();
+        long expected = copied + context.counts().fileCount() - totals.replaced();
         if (catalog.count(context.temp()) != expected) {
             throw new ImportException(ErrorCode.IMPORT_COUNT_MISMATCH);
         }
         ensureRunning(context.cancelled());
         swap(context);
-        context.listener().onProgress(new ImportProgress(
-                PUBLISH_STEP, totals.batches(), totals.vectorized(), totals.written()));
+        context.listener().onProgress(totals.notice(PUBLISH_STEP));
         LOG.info("La importación publicó {} en {} y borró {} ({} documentos)",
                 context.alias(), context.temp(), context.previous(), expected);
     }
@@ -162,8 +141,36 @@ public final class ImportJob {
         try {
             catalog.publish(context.alias(), context.temp(), context.previous());
         } catch (ElasticsearchAccessException exception) {
-            throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, exception);
+            resolvePublish(context, exception);
         }
+    }
+
+    private void resolvePublish(ImportContext context, ElasticsearchAccessException failure) {
+        // Un corte de red no es un rechazo. Solo se borra si describe confirma el índice anterior.
+        CatalogName described = aliasAfter(context.alias());
+        if (pointsTo(described, context.temp())) {
+            return;
+        }
+        if (pointsTo(described, context.previous())) {
+            throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, failure);
+        }
+        throw uncertain(failure);
+    }
+
+    private CatalogName aliasAfter(String alias) {
+        try {
+            return catalog.describe(alias);
+        } catch (ElastiflixException exception) {
+            throw uncertain(exception);
+        }
+    }
+
+    private static boolean pointsTo(CatalogName described, String index) {
+        return described instanceof CatalogName.Alias alias && index.equals(alias.concreteIndex());
+    }
+
+    private static ImportException uncertain(ElastiflixException cause) {
+        return new ImportException(ErrorCode.PUBLISH_UNCERTAIN, cause);
     }
 
     private static void ensureRunning(BooleanSupplier cancelled) {
@@ -173,7 +180,9 @@ public final class ImportJob {
     }
 
     private void rollback(String temp, ElastiflixException exception) {
-        deleteTemp(temp);
+        if (exception.errorCode() != ErrorCode.PUBLISH_UNCERTAIN) {
+            deleteTemp(temp);
+        }
         logFailure(exception, temp);
         throw exception;
     }
@@ -186,18 +195,20 @@ public final class ImportJob {
         }
     }
 
+    private static String causeType(ElastiflixException exception) {
+        Throwable cause = exception.getCause();
+        if (cause == null) {
+            return exception.getClass().getSimpleName();
+        }
+        return cause.getClass().getSimpleName();
+    }
+
     private static void logFailure(ElastiflixException exception, String temp) {
         String code = exception.errorCode().code();
         if (ErrorCode.IMPORT_CANCELLED.code().equals(code)) {
             LOG.info("{}: se canceló {}", code, temp);
             return;
         }
-        LOG.error("{} en el índice {}", code, temp);
-    }
-
-    private static void logBatch(WriteTotals done) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Lote {} con {} registros", done.batches(), done.written());
-        }
+        LOG.error("{} en el índice {} tipo={}", code, temp, causeType(exception));
     }
 }

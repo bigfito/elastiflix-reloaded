@@ -29,6 +29,7 @@ class HybridRequestBuilderTest {
     private static final String HEADER =
             "\"header\":{\"index\":[\"catalogo\"],\"preference\":\"elastiflix-test\"}";
     private static final String SOURCE = "\"_source\":{\"excludes\":[\"plot_256\",\"plot_512\",\"plot_1024\"]}";
+    private static final String IDS = "\"_source\":false";
     private static final String MATCH = "{\"match\":{\"title\":{\"operator\":\"and\",\"query\":\"toy story\"}}}";
     private static final String KNN = "\"field\":\"plot_1024\",\"query_vector\":[0.5,0.25],\"k\":100,"
             + "\"num_candidates\":200";
@@ -39,16 +40,16 @@ class HybridRequestBuilderTest {
             + "{\"standard\":{\"query\":" + MATCH + "}},{\"knn\":{" + KNN + "}}],"
             + "\"rank_constant\":60,\"rank_window_size\":100}},\"size\":100," + SOURCE + "}},"
             + "{" + HEADER + ",\"body\":{\"query\":{\"bool\":{\"must\":[" + MATCH + "]}},\"size\":100,"
-            + SOURCE + "}},"
-            + "{" + HEADER + ",\"body\":{\"retriever\":{\"knn\":{" + KNN + "}},\"size\":100," + SOURCE + "}}]";
+            + IDS + "}},"
+            + "{" + HEADER + ",\"body\":{\"retriever\":{\"knn\":{" + KNN + "}},\"size\":100," + IDS + "}}]";
     private static final String WITH_FILTERS = "["
             + "{" + HEADER + ",\"body\":{\"retriever\":{\"rrf\":{\"filter\":[" + FILTERS + "],\"retrievers\":["
             + "{\"standard\":{\"query\":" + MATCH + "}},{\"knn\":{" + KNN + "}}],"
             + "\"rank_constant\":60,\"rank_window_size\":100}},\"size\":100," + SOURCE + "}},"
             + "{" + HEADER + ",\"body\":{\"query\":{\"bool\":{\"filter\":[" + FILTERS + "],\"must\":["
-            + MATCH + "]}},\"size\":100," + SOURCE + "}},"
+            + MATCH + "]}},\"size\":100," + IDS + "}},"
             + "{" + HEADER + ",\"body\":{\"retriever\":{\"knn\":{\"filter\":[" + FILTERS + "],"
-            + KNN + "}},\"size\":100," + SOURCE + "}}]";
+            + KNN + "}},\"size\":100," + IDS + "}}]";
 
     private final HybridRequestBuilder builder = new HybridRequestBuilder(
             new LexicalQueryBuilder(new FilterQueryBuilder()),

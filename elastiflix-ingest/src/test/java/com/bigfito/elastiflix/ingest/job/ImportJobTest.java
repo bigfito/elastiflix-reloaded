@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
@@ -30,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -38,7 +40,8 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 /**
- * El índice anterior se borra solo en la publicación, y un fallo borra únicamente el temporal.
+ * El índice anterior se borra solo en la publicación. Un fallo anterior borra el temporal.
+ * Si publicar no confirma, se lee el alias antes de borrar.
  */
 @ExtendWith(MockitoExtension.class)
 class ImportJobTest {
@@ -87,6 +90,27 @@ class ImportJobTest {
         verify(catalog, never()).deleteIndex(LIVE);
         verify(catalog, never()).deleteIndex(temp);
         assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 5);
+    }
+
+    @Test
+    @DisplayName("el reemplazo se cuenta en la copia y el aviso sale antes de escribir")
+    void shouldCountReplacementsOnTheCopyBeforeWriting() {
+        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        when(catalog.existingIds(eq(temp), anyList())).thenReturn(Set.of("1"));
+        when(catalog.count(temp)).thenReturn(4L, 4L);
+        when(catalog.count(LIVE)).thenReturn(4L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+        doAnswer(invocation -> {
+            assertThat(progress).singleElement()
+                    .extracting(ImportProgress::vectorized, ImportProgress::written)
+                    .containsExactly(1, 1);
+            return null;
+        }).when(catalog).writeAll(eq(temp), anyList());
+
+        job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
+
+        verify(catalog).publish(ALIAS, temp, LIVE);
     }
 
     @Test
@@ -161,6 +185,59 @@ class ImportJobTest {
     }
 
     @Test
+    @DisplayName("si publicar falla y el alias ya apunta al temporal, queda publicado")
+    void shouldTreatThePublishAsDoneWhenTheAliasPointsAtTheTemp() {
+        reachPublish(new CatalogName.Alias(ALIAS, temp));
+
+        job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
+
+        verify(catalog, never()).deleteIndex(temp);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 5);
+    }
+
+    @Test
+    @DisplayName("si publicar falla y el alias sigue en el anterior, borra el temporal")
+    void shouldDeleteTheTempWhenTheAliasStaysOnThePreviousIndex() {
+        reachPublish(new CatalogName.Alias(ALIAS, LIVE));
+
+        assertThatThrownBy(() -> runOne()).isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(error -> ((ElasticsearchAccessException) error).errorCode())
+                .isEqualTo(ErrorCode.ALIAS_PUBLISH_FAILED);
+        verify(catalog).deleteIndex(temp);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4);
+    }
+
+    @Test
+    @DisplayName("si publicar falla y describe también, no borra el temporal")
+    void shouldLeaveTheTempWhenTheAliasCannotBeRead() {
+        when(catalog.describe(ALIAS))
+                .thenReturn(new CatalogName.Alias(ALIAS, LIVE))
+                .thenThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE));
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        when(catalog.count(temp)).thenReturn(4L, 5L);
+        when(catalog.count(LIVE)).thenReturn(4L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+        doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE))
+                .when(catalog).publish(ALIAS, temp, LIVE);
+
+        assertThatThrownBy(() -> runOne()).isInstanceOf(ImportException.class)
+                .extracting(error -> ((ImportException) error).errorCode())
+                .isEqualTo(ErrorCode.PUBLISH_UNCERTAIN);
+        verify(catalog, never()).deleteIndex(anyString());
+    }
+
+    @Test
+    @DisplayName("si publicar falla y el alias ya no existe, no borra el temporal")
+    void shouldLeaveTheTempWhenTheAliasIsMissing() {
+        reachPublish(new CatalogName.Missing(ALIAS));
+
+        assertThatThrownBy(() -> runOne()).isInstanceOf(ImportException.class)
+                .extracting(error -> ((ImportException) error).errorCode())
+                .isEqualTo(ErrorCode.PUBLISH_UNCERTAIN);
+        verify(catalog, never()).deleteIndex(anyString());
+    }
+
+    @Test
     @DisplayName("un índice concreto no se publica ni se borra")
     void shouldRefuseAConcreteIndex() {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.ConcreteIndex(ALIAS));
@@ -177,6 +254,16 @@ class ImportJobTest {
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
         when(catalog.count(temp)).thenReturn(4L);
         when(catalog.count(LIVE)).thenReturn(4L);
+    }
+
+    private void reachPublish(CatalogName afterPublish) {
+        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE), afterPublish);
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        when(catalog.count(temp)).thenReturn(4L, 5L);
+        when(catalog.count(LIVE)).thenReturn(4L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+        doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE))
+                .when(catalog).publish(ALIAS, temp, LIVE);
     }
 
     private void runOne() {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
+import com.bigfito.elastiflix.core.error.ElasticsearchDiagnostics;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
@@ -44,7 +45,7 @@ public class ElasticsearchSearchTransport implements SearchTransport {
 
     @Override
     public <T> MsearchResponse<T> msearch(MsearchRequest request, Class<T> documentType) {
-        return call(request.index(), () -> client.msearch(request, documentType));
+        return call(msearchIndex(request), () -> client.msearch(request, documentType));
     }
 
     @Override
@@ -60,9 +61,21 @@ public class ElasticsearchSearchTransport implements SearchTransport {
         }
     }
 
+    private static List<String> msearchIndex(MsearchRequest request) {
+        if (request.index() != null && !request.index().isEmpty()) {
+            return request.index();
+        }
+        if (request.searches() == null || request.searches().isEmpty()) {
+            return List.of();
+        }
+        return request.searches().getFirst().header().index();
+    }
+
     private static ElasticsearchAccessException unavailable(List<String> index, Exception cause) {
-        LOG.error("EFX-ES-001 en {}", alias(index));
-        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, cause);
+        int status = cause instanceof ElasticsearchException elastic ? elastic.status() : 0;
+        ErrorCode code = ElasticsearchDiagnostics.codeFor(status);
+        LOG.error("{} en {} tipo={}", code.code(), alias(index), ElasticsearchDiagnostics.typeOf(cause));
+        return new ElasticsearchAccessException(code, cause);
     }
 
     private static String alias(List<String> index) {

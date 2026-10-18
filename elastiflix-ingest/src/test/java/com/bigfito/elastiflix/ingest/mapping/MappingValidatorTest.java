@@ -11,10 +11,11 @@ import java.util.stream.Stream;
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
-import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvMovieReader;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
-import com.bigfito.elastiflix.ingest.json.JsonMovieReader;
+import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.json.JsonDocuments;
+import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,19 +54,24 @@ class MappingValidatorTest {
                         tuple(ErrorCode.VECTORS_IGNORED.code(), "plot_1024"),
                         tuple(ErrorCode.EMPTY_TEXT.code(), "homepage"));
         assertThat(result.replaceCount()).isEqualTo(1);
+        assertThat(result.movies()).allSatisfy(movie -> {
+            assertThat(movie.plot256()).isNull();
+            assertThat(movie.plot512()).isNull();
+            assertThat(movie.plot1024()).isNull();
+        });
         assertThat(result.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(new JsonMovieReader().read(JSON));
+                .isEqualTo(moviesOf(new JsonDocuments().read(JSON)));
     }
 
     @Test
     @DisplayName("el CSV de cuatro películas, ya leído, tampoco tiene errores de tipo")
     void shouldAcceptTheCsvFixture() {
-        List<Movie> movies = new CsvMovieReader(new IndexMapping())
+        List<JsonNode> documents = new CsvMovieReader(new IndexMapping())
                 .read(CSV, CsvSettings.withHeader())
-                .movies();
+                .documents();
 
-        ValidatedMovies result = validator.validate(nodesOf(movies), Set.of());
+        ValidatedMovies result = validator.validate(documents, Set.of());
 
         assertThat(result.report().errors()).isEmpty();
         assertThat(result.movies()).hasSize(4);
@@ -109,10 +115,52 @@ class MappingValidatorTest {
 
         String csv = new ValidationReport(List.of(issue, warning)).toErrorCsv();
 
-        assertThat(csv).isEqualTo("""
+        assertThat(csv).isEqualTo("\uFEFF" + """
                 registro,id,campo,recibido,esperado
                 1,7,plot,"hola, mundo",un texto
                 """);
+    }
+
+    @Test
+    @DisplayName("una celda que parece fórmula lleva apóstrofo")
+    void shouldNeutralizeFormulaCells() {
+        ValidationIssue issue = new ValidationIssue(
+                ErrorCode.TYPE_MISMATCH.code(), "=1", "+2", "-3", "@4", "un texto", false);
+
+        String csv = new ValidationReport(List.of(issue)).toErrorCsv();
+
+        assertThat(csv).contains("'=1,'+2,'-3,'@4,un texto");
+    }
+
+    @Test
+    @DisplayName("las advertencias del estado se agrupan por código y campo")
+    void shouldGroupWarningsByCodeAndField() {
+        ValidationIssue first = new ValidationIssue(
+                ErrorCode.EMPTY_TEXT.code(), "1", "7", "tagline", "", "sin valor", true);
+        ValidationIssue second = new ValidationIssue(
+                ErrorCode.EMPTY_TEXT.code(), "2", "8", "tagline", "", "sin valor", true);
+        ValidationIssue other = new ValidationIssue(
+                ErrorCode.EMPTY_LIST_VALUE.code(), "2", "8", "genres", "", "se omite", true);
+
+        assertThat(new ValidationReport(List.of(first, second, other)).groupedWarnings())
+                .containsExactly(
+                        new WarningCount(ErrorCode.EMPTY_TEXT.code(), "tagline", 2, "sin valor"),
+                        new WarningCount(ErrorCode.EMPTY_LIST_VALUE.code(), "genres", 1, "se omite"));
+    }
+
+    @Test
+    @DisplayName("un id con espacio se busca con ese mismo texto")
+    void shouldKeepTheSpaceInsideAnId() {
+        JsonNode documents = MAPPER.readTree("""
+                [{"id":" 7","title":"Una","plot":"texto"}]
+                """);
+        JsonNode id = children(documents).getFirst().get("id");
+
+        ValidatedMovies result = validator.validate(children(documents), Set.of(IdTexts.of(id)));
+
+        assertThat(IdTexts.of(id)).isEqualTo(" 7");
+        assertThat(result.replaceCount()).isEqualTo(1);
+        assertThat(result.movies().getFirst().id()).isEqualTo(" 7");
     }
 
     private static Stream<Arguments> invalidFiles() {
@@ -126,6 +174,10 @@ class MappingValidatorTest {
                 Arguments.arguments("/validation/blank-title.json", ErrorCode.REQUIRED_FIELD.code(), "title"));
     }
 
+    private static List<Movie> moviesOf(List<JsonNode> documents) {
+        return documents.stream().map(MovieDocuments::fromNode).toList();
+    }
+
     private static List<JsonNode> documentsOf(Path path) {
         return children(MAPPER.readTree(path).get("documents"));
     }
@@ -134,14 +186,6 @@ class MappingValidatorTest {
         try (InputStream input = MappingValidatorTest.class.getResourceAsStream(name)) {
             return children(MAPPER.readTree(input));
         }
-    }
-
-    private static List<JsonNode> nodesOf(List<Movie> movies) {
-        List<JsonNode> nodes = new ArrayList<>();
-        for (Movie movie : movies) {
-            nodes.add(MAPPER.valueToTree(movie));
-        }
-        return nodes;
     }
 
     private static List<JsonNode> children(JsonNode array) {

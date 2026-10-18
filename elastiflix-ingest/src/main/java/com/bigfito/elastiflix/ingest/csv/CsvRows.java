@@ -86,15 +86,35 @@ final class CsvRows implements AutoCloseable {
         while (true) {
             int ch = read();
             if (ch < 0) {
-                throw new IngestValidationException(ErrorCode.UNREADABLE_JSON);
+                throw new IngestValidationException(ErrorCode.UNREADABLE_CSV);
             }
             if (ch == QUOTE && !escapedQuote(text)) {
                 return text.toString();
             }
-            if (ch != QUOTE) {
-                text.append((char) ch);
-            }
+            appendChar(text, ch);
         }
+    }
+
+    private void appendChar(StringBuilder text, int ch) {
+        if (ch == QUOTE) {
+            return;
+        }
+        if (ch == CR) {
+            text.append(breakChar());
+            return;
+        }
+        text.append((char) ch);
+    }
+
+    private char breakChar() {
+        int next = read();
+        if (next == LF) {
+            return LF;
+        }
+        if (next >= 0) {
+            unread(next);
+        }
+        return CR;
     }
 
     private boolean escapedQuote(StringBuilder text) {
@@ -120,7 +140,7 @@ final class CsvRows implements AutoCloseable {
         try {
             return reader.read();
         } catch (IOException exception) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON, exception);
+            throw new IngestValidationException(ErrorCode.UNREADABLE_CSV, exception);
         }
     }
 
@@ -128,7 +148,7 @@ final class CsvRows implements AutoCloseable {
         try {
             reader.unread(ch);
         } catch (IOException exception) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON, exception);
+            throw new IngestValidationException(ErrorCode.UNREADABLE_CSV, exception);
         }
     }
 }

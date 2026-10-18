@@ -44,7 +44,9 @@ public final class JsonDocuments {
 
     private List<JsonNode> readArray(JsonParser parser) {
         require(parser.nextToken(), JsonToken.START_ARRAY);
-        return readElements(parser);
+        List<JsonNode> documents = readElements(parser);
+        requireEnd(parser);
+        return documents;
     }
 
     private List<JsonNode> readNdjson(JsonParser parser) {
@@ -63,6 +65,7 @@ public final class JsonDocuments {
         }
         requireDocuments(read.sawDocuments);
         requireCount(read.declared, read.documents.size());
+        requireEnd(parser);
         return read.documents;
     }
 
@@ -93,6 +96,12 @@ public final class JsonDocuments {
     private static void requireCount(Long declared, int actual) {
         if (declared != null && declared != actual) {
             throw new IngestValidationException(ErrorCode.DOCUMENT_COUNT_MISMATCH);
+        }
+    }
+
+    private static void requireEnd(JsonParser parser) {
+        if (parser.nextToken() != null) {
+            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON);
         }
     }
 

@@ -1,20 +1,31 @@
 package com.bigfito.elastiflix.ingest.csv;
 
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
-import com.bigfito.elastiflix.ingest.json.JsonMovieReader;
+import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.json.JsonDocuments;
+import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
+import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
+import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * El CSV de cuatro películas coincide con el JSON y rechaza un encabezado inútil.
@@ -25,7 +36,8 @@ class CsvMovieReaderTest {
     private static final Path CSV = Path.of("..", "elasticsearch", "fixtures", "movies-sample.csv");
 
     private final CsvMovieReader reader = new CsvMovieReader(new IndexMapping());
-    private final JsonMovieReader json = new JsonMovieReader();
+    private final MappingValidator validator = new MappingValidator();
+    private final JsonDocuments json = new JsonDocuments();
 
     @TempDir
     private Path folder;
@@ -38,9 +50,11 @@ class CsvMovieReaderTest {
         assertThat(read.report().errors()).isEmpty();
         assertThat(read.report().warnings()).extracting(ValidationIssue::code)
                 .contains(ErrorCode.VECTORS_IGNORED.code());
-        assertThat(read.movies()).usingRecursiveComparison()
+        ValidatedMovies checked = validator.validate(read.documents(), Set.of());
+        assertThat(checked.report().errors()).isEmpty();
+        assertThat(checked.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(json.read(JSON));
+                .isEqualTo(json.read(JSON).stream().map(MovieDocuments::fromNode).toList());
     }
 
     @Test
@@ -54,7 +68,22 @@ class CsvMovieReaderTest {
         assertThat(read.report().accepted()).isFalse();
         assertThat(read.report().errors()).extracting(ValidationIssue::code)
                 .contains(ErrorCode.INVALID_HEADER.code());
-        assertThat(read.movies()).isEmpty();
+        assertThat(read.documents()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("una fila con menos o más celdas que el encabezado se rechaza")
+    void shouldRejectARowWhoseWidthDoesNotMatchTheHeader() throws Exception {
+        Path file = folder.resolve("ancho.csv");
+        Files.writeString(file, "id,title,plot\n1,Una\n2,Dos,texto,sobra\n");
+
+        CsvRead read = reader.read(file, CsvSettings.withHeader());
+
+        assertThat(read.report().accepted()).isFalse();
+        assertThat(read.report().errors()).extracting(ValidationIssue::code, ValidationIssue::recordLabel)
+                .contains(
+                        tuple(ErrorCode.COLUMN_COUNT.code(), "2"),
+                        tuple(ErrorCode.COLUMN_COUNT.code(), "3"));
     }
 
     @Test
@@ -67,7 +96,46 @@ class CsvMovieReaderTest {
 
         assertThat(read.report().errors()).extracting(ValidationIssue::code)
                 .containsExactly(ErrorCode.UNKNOWN_FIELD.code());
-        assertThat(read.movies()).isEmpty();
+        assertThat(read.documents()).isEmpty();
+    }
+
+    @ParameterizedTest(name = "{0} → {1} en {2}")
+    @MethodSource("invalidCsv")
+    @DisplayName("cada variante CSV produce exactamente su error")
+    void shouldReportTheCellError(String resource, String code, String field) throws Exception {
+        CsvRead read = reader.read(resource(resource), CsvSettings.withHeader());
+        ValidatedMovies checked = validator.validate(read.documents(), Set.of());
+
+        assertThat(read.report().errors()).isEmpty();
+        assertThat(checked.movies()).isEmpty();
+        assertThat(checked.report().errors())
+                .extracting(ValidationIssue::code, ValidationIssue::field)
+                .containsExactly(tuple(code, field));
+    }
+
+    @Test
+    @DisplayName("un título [REC] y un eslogan 007 se conservan como texto")
+    void shouldKeepATitleThatLooksLikeJsonAndANumericTagline() throws Exception {
+        CsvRead read = reader.read(resource("/validation/csv-rec.csv"), CsvSettings.withHeader());
+        ValidatedMovies checked = validator.validate(read.documents(), Set.of());
+
+        assertThat(checked.report().errors()).isEmpty();
+        Movie movie = checked.movies().getFirst();
+        assertThat(movie.title()).isEqualTo("[REC]");
+        assertThat(movie.tagline()).isEqualTo("007");
+    }
+
+    private static Stream<Arguments> invalidCsv() {
+        return Stream.of(
+                Arguments.arguments("/validation/csv-id-mismatch.csv", ErrorCode.ID_MISMATCH.code(), "_id"),
+                Arguments.arguments("/validation/csv-bad-date.csv", ErrorCode.TYPE_MISMATCH.code(), "release_date"),
+                Arguments.arguments("/validation/csv-adult.csv", ErrorCode.TYPE_MISMATCH.code(), "adult"),
+                Arguments.arguments("/validation/csv-keyword.csv", ErrorCode.UNKNOWN_FIELD.code(), "extra"),
+                Arguments.arguments("/validation/csv-genres.csv", ErrorCode.TYPE_MISMATCH.code(), "genres"));
+    }
+
+    private static Path resource(String name) throws URISyntaxException {
+        return Path.of(CsvMovieReaderTest.class.getResource(name).toURI());
     }
 
     @Test

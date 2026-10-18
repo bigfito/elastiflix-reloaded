@@ -48,7 +48,11 @@ class HomePageTest {
                 .andExpect(content().string(containsString("k-NN (k vecinos más cercanos)")))
                 .andExpect(content().string(containsString("Reciprocal Rank Fusion")))
                 .andExpect(content().string(containsString(
-                        "Escribe qué película buscas antes de pulsar Buscar.")));
+                        "Escribe qué película buscas antes de pulsar Buscar.")))
+                .andExpect(content().string(containsString("aria-current=\"page\"")))
+                .andExpect(content().string(containsString("id=\"query-error\" class=\"alert\" role=\"alert\"")))
+                .andExpect(content().string(containsString("aria-describedby=\"query-error\"")))
+                .andExpect(content().string(containsString("aria-describedby=\"knn-error\"")));
     }
 
     @Test

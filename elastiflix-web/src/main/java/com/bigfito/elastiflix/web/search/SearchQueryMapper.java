@@ -106,7 +106,11 @@ public class SearchQueryMapper {
         if (!text.matches("-?\\d+")) {
             return fallback;
         }
-        return Integer.parseInt(text);
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException exception) {
+            return fallback;
+        }
     }
 
     private static SearchFilters filters(SearchForm form) {

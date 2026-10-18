@@ -22,12 +22,11 @@ import org.springframework.stereotype.Component;
  * Mapa de trabajos de esta JVM. Un reinicio lo olvida.
  */
 @Component
-public final class JobStore implements ImportListener {
+public final class JobStore {
 
     private static final Logger LOG = LoggerFactory.getLogger(JobStore.class);
 
     private final Map<String, ImportWork> jobs = new ConcurrentHashMap<>();
-    private volatile ImportWork importing;
 
     /**
      * Crea el trabajo en {@code recibido}.
@@ -91,16 +90,17 @@ public final class JobStore implements ImportListener {
             discardIfTerminal(work);
             return false;
         }
-        importing = work;
         return true;
     }
 
-    @Override
-    public void onProgress(ImportProgress progress) {
-        ImportWork current = importing;
-        if (current != null) {
-            current.progress(progress);
-        }
+    /**
+     * Anota el avance de ese trabajo. Otro trabajo no recibe el aviso.
+     *
+     * @param jobId    identificador
+     * @param progress paso, lote, vectorizados, escritos y reemplazos
+     */
+    public void onProgress(String jobId, ImportProgress progress) {
+        require(jobId).progress(progress);
     }
 
     /**
@@ -143,7 +143,7 @@ public final class JobStore implements ImportListener {
     public void failed(String jobId, ElastiflixException exception) {
         ImportWork work = require(jobId);
         work.failed(exception.errorCode().code());
-        LOG.error("{} en el trabajo {}", exception.errorCode().code(), jobId);
+        LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, causeType(exception));
         discardIfTerminal(work);
     }
 
@@ -155,7 +155,6 @@ public final class JobStore implements ImportListener {
     public void published(String jobId) {
         ImportWork work = require(jobId);
         work.become(JobStatus.PUBLISHED);
-        importing = null;
         discardIfTerminal(work);
     }
 
@@ -167,13 +166,12 @@ public final class JobStore implements ImportListener {
      */
     public void importStopped(String jobId, ElastiflixException exception) {
         ImportWork work = require(jobId);
-        importing = null;
         if (ErrorCode.IMPORT_CANCELLED.code().equals(exception.errorCode().code())) {
             work.become(JobStatus.CANCELLED);
             LOG.info("{}: se canceló el trabajo {}", exception.errorCode().code(), jobId);
         } else {
             work.failed(exception.errorCode().code());
-            LOG.error("{} en el trabajo {}", exception.errorCode().code(), jobId);
+            LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, causeType(exception));
         }
         discardIfTerminal(work);
     }
@@ -199,6 +197,7 @@ public final class JobStore implements ImportListener {
     private void discardIfTerminal(ImportWork work) {
         JobStatus status = work.status();
         if (terminal(status)) {
+            work.release();
             deleteLocal(work);
         }
     }
@@ -216,6 +215,14 @@ public final class JobStore implements ImportListener {
         } catch (IOException exception) {
             LOG.warn("No se pudo borrar el archivo local del trabajo {}", work.id());
         }
+    }
+
+    private static String causeType(ElastiflixException exception) {
+        Throwable cause = exception.getCause();
+        if (cause == null) {
+            return exception.getClass().getSimpleName();
+        }
+        return cause.getClass().getSimpleName();
     }
 
     private static void logValidation(ImportWork work) {

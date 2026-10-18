@@ -41,65 +41,27 @@ public class HybridRequestBuilder {
     }
 
     /**
-     * Tres búsquedas con la misma {@code preference} y {@code size = k}.
+     * Tres búsquedas. {@code rank_window_size} sigue siendo {@code k}.
      *
-     * @param alias  nombre configurado del catálogo
-     * @param query  consulta ya validada
-     * @param vector vector de consulta, ya recortado
-     * @return la petición {@code _msearch}
-     */
-    public MsearchRequest build(String alias, SearchQuery query, float[] vector) {
-        return build(alias, query, vector, query.knn().k());
-    }
-
-    /**
-     * Igual que {@link #build(String, SearchQuery, float[])}, pidiendo otra cantidad de documentos.
-     *
-     * <p>{@code rank_window_size} sigue siendo {@code k}. La confirmación de un vacío usa 1.</p>
-     *
-     * @param alias  nombre configurado del catálogo
-     * @param query  consulta ya validada
-     * @param vector vector de consulta, ya recortado
-     * @param size   {@code size} de las tres búsquedas
-     * @return la petición {@code _msearch}
-     */
-    public MsearchRequest build(String alias, SearchQuery query, float[] vector, int size) {
-        return build(alias, query, vector, "elastiflix-" + UUID.randomUUID(), size);
-    }
-
-    /**
-     * Igual que {@link #build(String, SearchQuery, float[])}, con una preferencia ya elegida.
-     *
-     * <p>La prueba unitaria pasa un valor fijo para comparar el JSON.</p>
+     * <p>Si {@code preference} es {@code null}, se genera una. La confirmación de un vacío usa
+     * {@code size} 1.</p>
      *
      * @param alias      nombre configurado del catálogo
      * @param query      consulta ya validada
      * @param vector     vector de consulta, ya recortado
-     * @param preference valor compartido por las tres búsquedas
-     * @return la petición {@code _msearch}
-     */
-    public MsearchRequest build(String alias, SearchQuery query, float[] vector, String preference) {
-        return build(alias, query, vector, preference, query.knn().k());
-    }
-
-    /**
-     * Igual que {@link #build(String, SearchQuery, float[], String)}, con otro {@code size}.
-     *
-     * @param alias      nombre configurado del catálogo
-     * @param query      consulta ya validada
-     * @param vector     vector de consulta, ya recortado
-     * @param preference valor compartido por las tres búsquedas
+     * @param preference valor compartido, o {@code null} para generar uno
      * @param size       {@code size} de las tres búsquedas
      * @return la petición {@code _msearch}
      */
     public MsearchRequest build(String alias, SearchQuery query, float[] vector, String preference, int size) {
-        SearchRequest fused = fused(alias, query, vector, preference, size);
-        SearchRequest words = words(alias, query, preference, size);
-        SearchRequest nearest = vectors.build(alias, query, vector, preference, size);
+        String chosen = preference == null ? "elastiflix-" + UUID.randomUUID() : preference;
+        SearchRequest fused = fused(alias, query, vector, chosen, size);
+        SearchRequest words = words(alias, query, chosen, size);
+        SearchRequest nearest = vectors.ids(alias, query, vector, chosen, size);
         return MsearchRequest.of(request -> request.searches(
-                item(alias, preference, fused),
-                item(alias, preference, words),
-                item(alias, preference, nearest)));
+                item(alias, chosen, fused),
+                item(alias, chosen, words),
+                item(alias, chosen, nearest)));
     }
 
     private SearchRequest fused(String alias, SearchQuery query, float[] vector, String preference, int size) {
@@ -146,7 +108,7 @@ public class HybridRequestBuilder {
                 .index(alias)
                 .preference(preference)
                 .size(size)
-                .source(SearchSource.withoutVectors())
+                .source(SearchSource.idsOnly())
                 .query(lexical.withFilters(query)));
     }
 

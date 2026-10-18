@@ -2,6 +2,8 @@ package com.bigfito.elastiflix.ingest.job;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
+import com.bigfito.elastiflix.core.error.ErrorCode;
+import com.bigfito.elastiflix.core.error.ImportException;
 
 import org.springframework.stereotype.Component;
 
@@ -35,16 +37,23 @@ public final class ImportRunner {
      */
     public void run(String jobId) {
         ImportWork work = store.require(jobId);
+        MovieBatchSource source = new ListMovieSource(work.movies());
+        ImportCounts counts = work.counts(properties.ingest().batchSize());
+        work.release();
         try {
             job.run(
                     properties.index().alias(),
-                    new ListMovieSource(work.movies()),
-                    work.counts(properties.ingest().batchSize()),
-                    store,
+                    source,
+                    counts,
+                    progress -> store.onProgress(jobId, progress),
                     work.cancelledFlag());
             store.published(jobId);
         } catch (ElastiflixException exception) {
             store.importStopped(jobId, exception);
+        } finally {
+            if (store.view(jobId).status().equals(JobStatus.IMPORTING.label())) {
+                store.failed(jobId, new ImportException(ErrorCode.JOB_FAILED));
+            }
         }
     }
 }

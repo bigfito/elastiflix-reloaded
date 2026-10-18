@@ -12,6 +12,7 @@ import com.bigfito.elastiflix.search.query.SearchMode;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.transport.SearchTransport;
 
+import co.elastic.clients.elasticsearch._types.ErrorResponse;
 import co.elastic.clients.elasticsearch.core.MsearchResponse;
 import co.elastic.clients.elasticsearch.core.msearch.MultiSearchItem;
 import co.elastic.clients.elasticsearch.core.msearch.MultiSearchResponseItem;
@@ -63,43 +64,58 @@ public class HybridSearchStrategy implements SearchStrategy {
 
     @Override
     public StrategyResult search(SearchQuery query) {
-        List<RankedHit> joined = ranked(query, query.knn().k());
-        return new StrategyResult(joined, joined.size(), Map.of());
+        float[] vector = vectorOf(query, null);
+        List<RankedHit> joined = ranked(query, vector, query.knn().k());
+        return new StrategyResult(joined, joined.size(), Map.of(), vector);
     }
 
     @Override
-    public long foundWithoutFilters(SearchQuery query) {
+    public long foundWithoutFilters(SearchQuery query, float[] vector) {
         SearchQuery open = query.withoutFilters();
-        return ranked(open, 1).size();
+        return ranked(open, vectorOf(query, vector), 1).size();
     }
 
-    private List<RankedHit> ranked(SearchQuery query, int size) {
-        float[] vector = QueryVector.forField(embeddings.embedQuery(query.text()), query.knn().field());
+    private float[] vectorOf(SearchQuery query, float[] vector) {
+        if (vector != null) {
+            return vector;
+        }
+        return QueryVector.forField(embeddings.embedQuery(query.text()), query.knn().field());
+    }
+
+    private List<RankedHit> ranked(SearchQuery query, float[] vector, int size) {
         MsearchResponse<Movie> response = transport.msearch(
-                requests.build(properties.index().alias(), query, vector, size), Movie.class);
+                requests.build(properties.index().alias(), query, vector, null, size), Movie.class);
         return join(query, response);
     }
 
     private List<RankedHit> join(SearchQuery query, MsearchResponse<Movie> response) {
         List<MultiSearchResponseItem<Movie>> parts = response.responses();
         if (parts.size() != PARTS) {
-            throw unavailable();
+            throw rejected("respuesta");
         }
         List<RankedHit> fused = HitReader.hits(part(parts.get(FUSED)));
-        List<RankedHit> lexical = HitReader.hits(part(parts.get(LEXICAL)));
-        List<RankedHit> vector = HitReader.hits(part(parts.get(VECTOR)));
+        List<RankedHit> lexical = HitReader.ids(part(parts.get(LEXICAL)));
+        List<RankedHit> vector = HitReader.ids(part(parts.get(VECTOR)));
         return joiner.join(fused, lexical, vector, query.knn().k());
     }
 
     private MultiSearchItem<Movie> part(MultiSearchResponseItem<Movie> item) {
         if (item.isFailure()) {
-            throw unavailable();
+            throw rejected(failureType(item.failure()));
         }
         return item.result();
     }
 
-    private ElasticsearchAccessException unavailable() {
-        LOG.error("EFX-ES-001 en {}", properties.index().alias());
-        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+    private static String failureType(ErrorResponse failure) {
+        if (failure == null || failure.error() == null || failure.error().type() == null
+                || failure.error().type().isBlank()) {
+            return "desconocido";
+        }
+        return failure.error().type();
+    }
+
+    private ElasticsearchAccessException rejected(String type) {
+        LOG.error("{} en {} tipo={}", ErrorCode.ELASTICSEARCH_REJECTED.code(), properties.index().alias(), type);
+        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_REJECTED);
     }
 }

@@ -52,6 +52,16 @@ public class CatalogBootstrap {
         copyAndPublish(alias);
     }
 
+    private long verifiedCount(String alias, String target) {
+        catalog.reindex(alias, target);
+        catalog.refresh(target);
+        long copied = catalog.count(target);
+        if (catalog.count(alias) != copied) {
+            throw new ElasticsearchAccessException(ErrorCode.REINDEX_COUNT_MISMATCH);
+        }
+        return copied;
+    }
+
     private void requireConcrete(CatalogName described) {
         if (described instanceof CatalogName.Missing) {
             throw new ElasticsearchAccessException(ErrorCode.CATALOG_NOT_FOUND);
@@ -64,35 +74,34 @@ public class CatalogBootstrap {
     private void copyAndPublish(String alias) {
         String target = names.timestamped(alias, clock);
         catalog.createWithMapping(target);
+        publish(alias, target, copy(alias, target));
+    }
+
+    private long copy(String alias, String target) {
         try {
-            reindexAndCheck(alias, target);
+            return verifiedCount(alias, target);
         } catch (ElasticsearchAccessException exception) {
             deleteNewIfOriginalRemains(alias, target);
             throw exception;
         }
-        publish(alias, target);
     }
 
-    private void reindexAndCheck(String alias, String target) {
-        catalog.reindex(alias, target);
-        catalog.refresh(target);
-        if (catalog.count(alias) != catalog.count(target)) {
-            throw new ElasticsearchAccessException(ErrorCode.REINDEX_COUNT_MISMATCH);
-        }
-    }
-
-    private void publish(String alias, String target) {
+    private void publish(String alias, String target, long documents) {
         try {
             catalog.publish(alias, target, alias);
         } catch (ElasticsearchAccessException exception) {
             deleteNewIfOriginalRemains(alias, target);
             throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, exception);
         }
-        LOG.info("El alias {} quedó en {} con {} documentos", alias, target, catalog.count(alias));
+        LOG.info("El alias {} quedó en {} con {} documentos", alias, target, documents);
     }
 
     private void logExisting(String alias, String concreteIndex) {
-        LOG.info("El alias {} ya apunta a {} con {} documentos", alias, concreteIndex, catalog.count(alias));
+        try {
+            LOG.info("El alias {} ya apunta a {} con {} documentos", alias, concreteIndex, catalog.count(alias));
+        } catch (ElasticsearchAccessException exception) {
+            LOG.info("El alias {} ya apunta a {} ({})", alias, concreteIndex, exception.errorCode().code());
+        }
     }
 
     private void deleteNewIfOriginalRemains(String alias, String target) {

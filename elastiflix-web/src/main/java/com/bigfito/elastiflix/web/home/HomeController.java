@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.web.home;
 
+import com.bigfito.elastiflix.web.layout.HtmlPage;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Página de inicio: caja de búsqueda, paneles de modo y sugerencias.
  */
 @Controller
-public class HomeController {
+public class HomeController implements HtmlPage {
 
     private final SuggestionCatalog suggestions;
 

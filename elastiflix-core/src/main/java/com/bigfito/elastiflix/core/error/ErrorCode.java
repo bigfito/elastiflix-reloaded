@@ -26,6 +26,12 @@ public enum ErrorCode {
             "No se empaquetó elasticsearch/elastiflix-reloaded-mapping.json",
             "Reconstruye elastiflix-core con el recurso del mapping"),
 
+    /** La migración se lanzó con el servidor web encendido. */
+    BOOTSTRAP_WITH_WEB("EFX-CFG-004",
+            "La migración no puede convivir con el servidor web",
+            "Falta --spring.main.web-application-type=none",
+            "Vuelve a lanzar la migración con ese argumento"),
+
     /** No se pudo hablar con Elasticsearch. */
     ELASTICSEARCH_UNAVAILABLE("EFX-ES-001",
             "No se pudo conectar con Elasticsearch",
@@ -45,12 +51,24 @@ public enum ErrorCode {
             "No se publicó el alias. El índice nuevo se borró y el original sigue igual. "
                     + "Vuelve a ejecutar la migración"),
 
-    /** La llamada única a {@code _aliases} fue rechazada. */
+    /** La tarea de {@code _reindex} terminó con error o no llegó a completarse. */
+    REINDEX_FAILED("EFX-ES-006",
+            "No se pudo copiar el catálogo al índice nuevo",
+            "La tarea de reindex terminó con error o no se completó",
+            "No se publicó el alias. El índice temporal se borra y el original sigue igual. Vuelve a importar"),
+
+    /** La llamada única a {@code _aliases} no movió el alias: sigue en el índice anterior. */
     ALIAS_PUBLISH_FAILED("EFX-ES-004",
             "No se pudo publicar el alias",
-            "Elasticsearch rechazó la publicación",
-            "El índice original no se tocó. Si quedó un índice nuevo, se intenta borrar. "
+            "Elasticsearch rechazó la publicación y el alias sigue en el índice anterior",
+            "Se borró el índice temporal. El catálogo anterior sigue igual. "
                     + "Revisa el catálogo y vuelve a intentarlo"),
+
+    /** Elasticsearch respondió 4xx. No es un fallo de red. */
+    ELASTICSEARCH_REJECTED("EFX-ES-007",
+            "Elasticsearch rechazó la operación",
+            "El proyecto respondió un error 4xx",
+            "Revisa el tipo de error en el log y corrige la petición"),
 
     /** El alias apunta a más de un índice. */
     ALIAS_AMBIGUOUS("EFX-ES-005",
@@ -118,16 +136,16 @@ public enum ErrorCode {
             "Desde es posterior a Hasta",
             "Invierte las fechas o deja una sola"),
 
-    /** {@code from + size} pasa de 10 000. */
+    /** {@code from} llega a 10 000. */
     FULL_TEXT_WINDOW_EXCEEDED("EFX-SRCH-008",
             "La página se sale de las 10 000 coincidencias que se pueden recorrer",
-            "from + size pasa de 10 000",
+            "from es mayor o igual que 10 000",
             "Vuelve a una página anterior"),
 
-    /** {@code from + size} pasa de {@code k}. */
+    /** {@code from} llega a {@code k}. */
     KNN_WINDOW_EXCEEDED("EFX-SRCH-009",
             "La página se sale de los k resultados de este modo",
-            "from + size pasa de k",
+            "from es mayor o igual que k",
             "Vuelve a una página anterior o sube k"),
 
     /** El modo no trae sus ajustes. */
@@ -238,6 +256,18 @@ public enum ErrorCode {
             "El archivo, o el JSON de una celda, está mal formado",
             "Revisa el JSON y vuelve a subir el archivo"),
 
+    /** El archivo CSV no se puede leer. */
+    UNREADABLE_CSV("EFX-ING-015",
+            "El CSV no se puede leer",
+            "El archivo CSV está mal formado",
+            "Revisa el CSV y vuelve a subir el archivo"),
+
+    /** Una fila del CSV no trae una celda por cada columna del encabezado. */
+    COLUMN_COUNT("EFX-ING-014",
+            "Una fila no tiene las mismas celdas que el encabezado",
+            "Faltan o sobran columnas en esa fila",
+            "Corrige la fila para que tenga una celda por cada columna del encabezado"),
+
     /** Un ítem del lote fue rechazado. */
     BULK_REJECTED("EFX-IMP-001",
             "Elasticsearch rechazó un documento del lote",
@@ -266,7 +296,23 @@ public enum ErrorCode {
     UNKNOWN_JOB("EFX-IMP-005",
             "No está ese trabajo de importación",
             "El identificador no está en memoria",
-            "Vuelve a subir el archivo");
+            "Vuelve a subir el archivo"),
+
+    /**
+     * La publicación no confirmó el resultado y no se pudo leer el alias.
+     *
+     * <p>El índice temporal se deja: borrarlo podría vaciar el catálogo si el alias ya apunta a él.</p>
+     */
+    PUBLISH_UNCERTAIN("EFX-IMP-006",
+            "No se sabe si el alias se publicó",
+            "La respuesta no llegó y no se pudo leer el alias",
+            "Estado incierto: revisa el alias manualmente. El índice temporal se dejó sin borrar"),
+
+    /** La validación o la importación salió por un error que no es de la demo. */
+    JOB_FAILED("EFX-IMP-007",
+            "El trabajo de carga se interrumpió",
+            "Ocurrió un error no previsto durante la validación o la importación",
+            "Vuelve a subir el archivo. El catálogo anterior no se publicó por este error");
 
     private final String code;
     private final String whatHappened;
@@ -287,6 +333,18 @@ public enum ErrorCode {
      */
     public String code() {
         return code;
+    }
+
+    /**
+     * Devuelve solo qué pasó, sin el código ni la causa.
+     *
+     * <p>La página de resultados lo muestra junto al campo. La de error lo pone bajo el código,
+     * que va en el título.</p>
+     *
+     * @return el texto corto del error
+     */
+    public String summary() {
+        return whatHappened;
     }
 
     /**

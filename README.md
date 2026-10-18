@@ -4,8 +4,9 @@
 
 **Busca películas por palabras, por significado o combinando ambos — y compara cómo responde cada modo.**
 
-Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)** sobre un catálogo de
-**6 899 películas** en **Elasticsearch Serverless**.
+Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)** sobre el alias
+`elastiflix-reloaded` de **Elasticsearch Serverless**. El índice y el conteo vigentes están en
+[`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
 
 ![Java](https://img.shields.io/badge/Java-25_LTS-FFCDB2?style=for-the-badge&logo=openjdk&logoColor=2E2A3B&labelColor=FBF7F1)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.1-BDE8D7?style=for-the-badge&logo=springboot&logoColor=1E7A5C&labelColor=FBF7F1)
@@ -20,9 +21,9 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 </div>
 
 > [!NOTE]
-> ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. El alias
-> `elastiflix-reloaded` apunta a `elastiflix-reloaded-20261018-054429`, con 6 899 documentos, desde
-> la importación del 2026-10-18. `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
+> ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. El índice y el conteo
+> del alias `elastiflix-reloaded` están en [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
+> `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
 > `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias
 > con `_count` y exigen que sea mayor que cero. La aplicación no modifica el alias al arrancar.
 > El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
@@ -219,8 +220,39 @@ elastiflix-reloaded/
 
 **Prerrequisitos**
 
-- ☕ JDK 25 · 🐙 Git (en Windows, con **Git Bash**) · 📦 Maven ≥ 3.6.3 solo para generar el wrapper la primera vez
-- 🔑 Un proyecto **Elasticsearch Serverless** con el índice `elastiflix-reloaded` y una API key
+- ☕ JDK 25 · 🐙 Git (en Windows, con **Git Bash**). El Maven Wrapper ya está en el repositorio
+  (`./mvnw`); no hace falta instalar Maven para compilar.
+- 🔑 Un proyecto **Elasticsearch Serverless** y una API key. Los datos del catálogo, el endpoint de
+  inferencia y los privilegios de esa clave están en «Datos y proyecto Serverless».
+
+**Datos y proyecto Serverless**
+
+- El archivo de exportación del catálogo no está versionado. El respaldo lo guarda quien exportó el
+  índice (PLAN §2, nota 5). El alias, el índice concreto y el conteo vigentes están en
+  [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
+- La tarea 1.8 necesita que el nombre configurado sea todavía el índice concreto `elastiflix-reloaded`,
+  ya creado en el proyecto. Si ese nombre ya es un alias, el comando no crea ni borra índices:
+
+  ```bash
+  ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
+  ```
+
+- Las pruebas de integración leen del alias las películas `597`, `27205`, `10681`, `345887`, `134` y
+  `87827`. Las de §6 se omiten si `_count` no es 6 899.
+- El endpoint de inferencia `.jina-embeddings-v5-omni-small` tiene que existir. El id sale de
+  `ELASTIFLIX_INFERENCE_ID` en `.env`, con el mismo valor por defecto en
+  [`application.yml`](elastiflix-web/src/main/resources/application.yml). Comprobarlo:
+
+  ```bash
+  curl -sS -H "Authorization: ApiKey $ELASTICSEARCH_API_KEY" \
+    "$ELASTICSEARCH_URL/_inference/text_embedding/.jina-embeddings-v5-omni-small"
+  ```
+
+  La referencia de esa API está en la
+  [operación Get inference](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-inference-get).
+- La API key necesita crear y borrar índices `elastiflix-*`, usar `_aliases`, `_reindex` e
+  `_inference`, y escribir en esos índices. Cómo se declaran los privilegios:
+  [claves de API de Elasticsearch](https://www.elastic.co/docs/deploy-manage/api-keys/elasticsearch-api-keys).
 
 **Configuración**
 
@@ -247,7 +279,7 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 La migración solo cambia el catálogo si el nombre configurado todavía es un índice concreto. Si ya es
 un alias, no crea ni borra índices: el log dice a cuál apunta y el proceso termina con código 0. En
 la ejecución del 2026-10-18 04:47 UTC el alias `elastiflix-reloaded` siguió en
-`elastiflix-reloaded-20261018-003535`, con 4 322 documentos. El 2026-10-18 05:44 UTC, con la
+`elastiflix-reloaded-20261018-003535`, con 4 322 documentos del catálogo histórico. El 2026-10-18 05:44 UTC, con la
 aprobación de Adolfo, la página de carga importó `movies.json` (6 899 registros, 0 errores) y a las
 05:49 UTC el alias pasó a `elastiflix-reloaded-20261018-054429`; el índice anterior se borró.
 `spring-boot:run` abre http://localhost:8080 y solo lee ese alias. `GET /` respondió 200 en la
@@ -262,8 +294,8 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
 - Vectores de consulta (`search`, prefijo `Query: `) y de sinopsis (`ingest`, sin prefijo).
 - Recorte de un vector de 1024 a 512 y a 256, con norma 1.
 - Búsqueda de solo lectura sobre el alias: full-text (BM25), vectorial (k-NN) e híbrida (RRF).
-  Las pruebas no fijan los totales del catálogo de 4 322: OR tiene que encontrar películas y AND
-  no supera ese total; la película de cada fila vectorial sigue entre los `k` resultados.
+  Las pruebas de §6 afirman los totales medidos sobre las 6 899 películas y se omiten si `_count`
+  ya no es ese número.
 - Filtros, facetas, paginación y los dos estados vacíos, en `SearchService` y en la página de
   resultados.
 - Carga de un `.json` o un `.csv`: comprobación de nombre, tamaño y UTF-8, validación todo o nada
@@ -276,16 +308,21 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
   (tabla de precisión y créditos de TMDB). `GET /actuator/health` incluye el indicador del catálogo.
 - Una excepción `EFX-*` no capturada muestra su código, y una ruta desconocida muestra un 404 con
   navegación.
-- Smoke de punta a punta: `GET /actuator/health` en `UP`, con el mismo conteo que `_count` y mayor
-  que cero; `/`, `/acerca` y `/cargar` responden 200; una sugerencia de cada modo devuelve
+- Smoke de punta a punta: `GET /actuator/health` en `UP`, con el alias de la configuración y las
+  6 899 películas de §6; `/`, `/acerca` y `/cargar` responden 200; una sugerencia de cada modo devuelve
   resultados; subir `elasticsearch/fixtures/movies-sample.csv` lo deja validado, con 0 errores y la
   advertencia `EFX-ING-020`, sin importar. Alias, índice y conteo quedan iguales antes y después.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
 YAML: sus valores por defecto viven en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id
-de inferencia salen de `.env.example`.
+de inferencia salen de `application.yml` (valores por defecto) o de `.env`
+(`ELASTIFLIX_INDEX_ALIAS`, `ELASTIFLIX_INFERENCE_ID`). `.env.example` solo lista los nombres.
 
 En Windows, ejecuta estos comandos en **Git Bash** (ver `AGENTS.md` › Comandos).
+
+## 🔐 Seguridad y secretos
+
+La demo no tiene autenticación (es intencional y está fuera de alcance). Los POST no tienen protección CSRF: no hay sesión que proteger y la usa una sola persona. Los secretos van solo en `.env` (ver `.env.example`); no se escriben en el código, el YAML, las pruebas ni los logs.
 
 ## 🤖 Desarrollo con agentes de IA
 
@@ -366,7 +403,8 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 ## 📸 Capturas
 
 Tomadas el 2026-10-18 con la aplicación en http://localhost:8080, leyendo el alias
-`elastiflix-reloaded` cuando tenía 4 322 películas. El pie de esas imágenes es el de ese momento.
+`elastiflix-reloaded`. El pie muestra el conteo real. El índice y el número vigentes están en
+[`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
 
 | Página | Captura |
 |---|---|

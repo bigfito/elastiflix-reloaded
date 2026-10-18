@@ -53,13 +53,14 @@
 ## 1. Contexto y objetivo
 
 **Qué es.** Una demo que permite escribir una consulta y comparar cómo responden tres modos de
-búsqueda sobre el mismo catálogo de **4 322 películas**, acotar los resultados con filtros dinámicos y
+búsqueda sobre el mismo catálogo (el pie muestra el conteo real; el vigente está en
+`progreso/INDICE.md` › «Catálogo vigente»), acotar los resultados con filtros dinámicos y
 cargar nuevas películas sin dejar nunca el catálogo a medias.
 
 > **Catálogo vigente (2026-10-18 05:49 UTC).** El alias `elastiflix-reloaded` apunta a
 > `elastiflix-reloaded-20261018-054429` y tiene **6 899** documentos. Lo dejó la importación de
 > `movies.json`, aprobada por Adolfo, que reemplazó y borró `elastiflix-reloaded-20261018-003535`
-> (4 322 documentos). Los conteos de 4 322 de este plan son los de las verificaciones anteriores a
+> (catálogo histórico de 4 322 documentos). Los conteos de 4 322 de este plan son los de las verificaciones históricas anteriores a
 > esa carga. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y exigen que sea
 > mayor que cero.
 
@@ -100,7 +101,7 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 | `Ingest.dc.html` › ayuda del archivo CSV y `About.dc.html` › Archivo .csv | «Las listas, los objetos anidados y los vectores van como JSON dentro de la celda.» | «Las listas y los objetos anidados van como JSON dentro de la celda.» |
 | Pie de **todas** las páginas | — | Agregar el aviso de atribución de TMDB, solo texto: «This product uses the TMDB API but is not endorsed or certified by TMDB.» |
 | `About.dc.html` › nueva sección final «Créditos» | — | Aviso de atribución de TMDB «This product uses the TMDB API but is not endorsed or certified by TMDB.», debajo su traducción «Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.» y un logo **aprobado** de TMDB, menos prominente que el logo de la demo |
-| `Main.dc.html` › etiquetas de las sugerencias («OR: 40 resultados», «Titanic: 4.º lugar»…) | — | Se mantienen fijas, tal como en el mockup: describen el catálogo original de 4 322 películas |
+| `Main.dc.html` › etiquetas de las sugerencias («OR: 40 resultados», «Titanic: 4.º lugar»…) | — | Se mantienen fijas, tal como en el mockup: describen el catálogo histórico original de 4 322 películas |
 
 ## 2. Arquitectura
 
@@ -259,7 +260,7 @@ elastiflix-reloaded/
 `documents`): un `HealthIndicator` de Spring Boot 4 (`org.springframework.boot.health.contributor`)
 registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoint.health.show-details=always`
 (§7). Alimenta el indicador «Conectado · Elasticsearch Serverless» del header y el pie
-«Índice: elastiflix-reloaded · 4 322 películas».
+«Índice: elastiflix-reloaded · N películas», donde N es el conteo real del alias.
 
 **Límites entre módulos** (interfaces que define el diseño de la Fase 1 y consumen las demás):
 `CatalogIndex`, `EmbeddingService`, `IndexMapping`, `CatalogStatusService` (en `core`);
@@ -290,8 +291,9 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
 | `rating` | keyword (`G`, `PG`, `PG-13`, `R`, `NC-17`, `NR`) | Filtro |
 | `keywords`, `belongs_to_collection` | nested | Se capturan en la carga |
 
-- **Vectores:** 512 y 256 son los primeros N valores del vector de 1024, renormalizados (L2). Prefijos:
-  `Query: ` en consultas (`input_type: search`) y `Document: ` en sinopsis.
+- **Vectores:** 512 y 256 son los primeros N valores del vector de 1024, renormalizados (L2). Consultas:
+  `input_type: search` y prefijo `Query: `. Sinopsis: `input_type: ingest` y sin prefijo (la calibración
+  de la tarea 1.9; `Document: ` no alcanzó coseno 0.999).
 - **En cada carga (archivo o registro individual), `plot_256`, `plot_512` y `plot_1024` se llenan en
   tiempo de ejecución** llamando al modelo de embeddings a través del servicio de inferencia de
   Elasticsearch. Los archivos de importación **no necesitan** traer esos campos y el formulario **no los
@@ -303,7 +305,7 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
   combinación en la configuración (`elastiflix.embedding.*`); las cargas usan exactamente esa
   combinación. Hechos ya comprobados: las consultas con `input_type: search` y prefijo `Query: `
   reproducen el vector de `elasticsearch/fixtures/query-vector-titanic.json`, y `plot_512`/`plot_256`
-  del catálogo son el recorte renormalizado de `plot_1024` (verificado en las 4 322 películas de la
+  del catálogo son el recorte renormalizado de `plot_1024` (verificado en las 4 322 películas del catálogo histórico de la
   exportación: coseno ≥ 0.9999999 en todas; ninguna película sin vectores ni con `plot` vacío).
 - **Formatos de carga** (muestras reales en `elasticsearch/fixtures/`):
   - **JSON:** objeto de exportación `{index, exported_at, document_count, csv_file, load_notes, mapping, documents[]}`,
@@ -313,26 +315,29 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
     entre comillas; listas y objetos anidados como JSON dentro de la celda.
   - En ambos formatos puede venir el metadato `_id`; si viene, debe ser igual a `id`. `id` puede llegar
     como número y se guarda como texto.
-- **Datos de verificación** (catálogo intacto de 4 322 películas, `k = 100`, `num_candidates = 200`):
+- **Datos de verificación** (medidos el 2026-10-18 sobre el catálogo vigente de **6 899** películas,
+  `k = 100`, `num_candidates = 200`; solo lectura de `elastiflix-reloaded`):
 
 | Modo y ajustes | Consulta | Esperado |
 |---|---|---|
-| `match` · `title` | `dark knight` | OR 40 · AND 3 |
-| `match` · `title` | `love story` | OR 65 · AND 1 |
-| `match` · `title` | `Kolejne 365 dni` | OR 1 · AND 0 |
-| `match` · `original_title` | `el secreto` | OR 16 · AND 1 |
-| `match` · `original_title` | `le fabuleux destin` | OR 14 · AND 1 |
-| `multi_match` | `heaven cielo` | OR 6 · AND 0 |
-| `multi_match` | `next kolejne` | OR 11 · AND 0 |
+| `match` · `title` | `dark knight` | OR 57 · AND 5 |
+| `match` · `title` | `love story` | OR 107 · AND 3 |
+| `match` · `title` | `Kolejne 365 dni` | OR 3 · AND 0 |
+| `match` · `original_title` | `el secreto` | OR 35 · AND 2 |
+| `match` · `original_title` | `le fabuleux destin` | OR 26 · AND 1 |
+| `multi_match` | `heaven cielo` | OR 10 · AND 0 |
+| `multi_match` | `next kolejne` | OR 15 · AND 0 |
 | `multi_match` | `parasite 기생충` | OR 1 · AND 0 |
-| Vectorial | `un barco de lujo choca con un iceberg en su viaje inaugural` | Titanic (`597`): 4.º en `plot_256`, 3.º en `plot_512`, 1.º en `plot_1024` |
-| Vectorial | `un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano` | Life of Pi (`87827`): 10.º · 3.º · 2.º |
+| Vectorial | `un barco de lujo choca con un iceberg en su viaje inaugural` | Titanic (`597`): 36.º en `plot_256`, 7.º en `plot_512`, 4.º en `plot_1024` |
+| Vectorial | `un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano` | Life of Pi (`87827`): 30.º · 7.º · 4.º |
 | Vectorial | `un robot solitario que limpia la Tierra` | WALL·E (`10681`): 1.º en los tres campos |
 | Híbrida · `match` `title` AND | `toy story juguetes que cobran vida` | componente léxico vacío; los `k` resultados vienen del vectorial |
 
-Esos totales y posiciones son del catálogo de 4 322 películas. En el de 6 899 cambian.
-`FullTextSearchIT` exige que OR sea mayor que cero y que AND no lo supere.
-`VectorSearchIT` exige que la película de la fila siga entre los `k` resultados.
+`FullTextSearchIT` afirma esos ocho pares OR/AND. `VectorSearchIT` afirma esas posiciones.
+`HybridSearchIT` afirma la fila híbrida (léxico vacío y orden vectorial). `CatalogStatusServiceIT`
+y el conteo de `SmokeIT` afirman 6 899 documentos. Cada una empieza con
+`Assumptions.assumeTrue(count == 6899, "El catálogo cambió: …")`: si el conteo no es 6 899, la
+prueba se omite y no pasa en falso. No se afloja el criterio en el código.
 
 ## 7. Convenciones del proyecto
 
@@ -628,8 +633,8 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 - [x] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
   las propiedades `elastiflix.*` de §7: `elasticsearch.url`, `elasticsearch.api-key`, `index.alias`,
   `inference.id`, `ingest.max-file-size`, `ingest.batch-size`, `poster.base-url`, `bootstrap.enabled` y
-  `embedding.*` (valores por defecto provisionales `document-input-type: ingest` y
-  `document-prefix: "Document: "`, que la tarea 1.9 confirma o reemplaza). Un `EnvironmentPostProcessor`
+  `embedding.*` (la tarea 1.9 dejó `document-input-type: ingest` y `document-prefix` vacío;
+  el prefijo provisional `Document: ` no se usa). Un `EnvironmentPostProcessor`
   de core (registrado en `META-INF/spring.factories` con la clave de la interfaz en Spring Boot 4,
   `org.springframework.boot.EnvironmentPostProcessor`; verifícala en la documentación de 4.1.1) comprueba **antes de crear cualquier bean**, incluido
   el cliente de Elasticsearch, que `elastiflix.elasticsearch.url` y `elastiflix.elasticsearch.api-key` no
@@ -676,7 +681,8 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 - [x] **1.7** `CatalogStatusService`: devuelve alias, índice vigente, conteo y estado (conectado / sin
   conexión) con el código de error correspondiente. Funciona tanto si `elastiflix-reloaded` todavía es
   un índice concreto (antes de 1.8) como si ya es alias.
-  - Criterio: `CatalogStatusServiceIT` devuelve `documents = 4322` para `elastiflix-reloaded`.
+  - Criterio: `CatalogStatusServiceIT` afirma los 6 899 documentos de §6 para `elastiflix-reloaded`
+    cuando `_count` coincide; si el catálogo cambió, la prueba se omite.
 - [x] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
   `elastiflix.bootstrap.enabled=true` (no requiere aprobación previa del usuario; decisión del 2026-10-17):
   1. Si `elastiflix-reloaded` ya es alias → no hace nada y lo registra.
@@ -693,7 +699,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     ```
   - Criterio: `CatalogBootstrapTest` (con dobles) cubre los tres caminos, incluido el conteo que no
     coincide; después de la ejecución real, agrega a `CatalogStatusServiceIT` la aserción de que
-    `elastiflix-reloaded` es un alias que apunta a `elastiflix-reloaded-…` con 4 322 documentos (hasta 1.7
+    `elastiflix-reloaded` es un alias que apunta a `elastiflix-reloaded-…` con los 4 322 documentos del catálogo histórico de esa ejecución (hasta 1.7
     solo se comprobaba el conteo); una segunda ejecución termina en 0 sin cambiar nada.
 - [x] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
   `ELASTIFLIX_INFERENCE_ID`, en lotes; `VectorProjector` recorta a 512 y 256 y renormaliza. Consultas:
@@ -705,7 +711,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
      `docs/diseno/1.md` y en `progreso/1.md`.
   2. Fija como valores por defecto (`@DefaultValue`) del `record` de propiedades
      (`elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix`) la combinación
-     con coseno ≥ 0.999 en las cinco películas.
+     con coseno ≥ 0.999 en las cinco películas. Quedó `ingest` y sin prefijo.
   3. Si ninguna llega a 0.999, marca la tarea `bloqueado` con la tabla y pregunta al usuario: sin esa
      coherencia, las películas cargadas quedarían mal ubicadas en la búsqueda vectorial.
   - Criterio: `VectorProjectorTest` (norma 1 ± 1e-6; el recorte de un `plot_1024` del fixture
@@ -725,7 +731,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 ./mvnw verify
 ./mvnw verify -Pit -pl elastiflix-core -am
 ```
-Criterio: todas las pruebas en verde; alias `elastiflix-reloaded` operativo con 4 322 documentos;
+Criterio: todas las pruebas en verde; alias `elastiflix-reloaded` operativo con los 4 322 documentos del catálogo histórico de la fase;
 0 violaciones; arquitectura en verde; resumen de diseño y revisión de convenciones en `progreso/1.md`.
 
 ---
@@ -919,7 +925,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   las fuentes Bricolage Grotesque, IBM Plex Sans e IBM Plex Mono; aviso de atribución de TMDB en el pie
   (solo texto). `CatalogHealthIndicator` (`elastiflixCatalog`) en Actuator.
   - Criterio: `GET /actuator/health` → `UP` con `alias`, `index` y `documents`; el header muestra
-    «Conectado · Elasticsearch Serverless» y el pie «Índice: elastiflix-reloaded · 4 322 películas» y
+    «Conectado · Elasticsearch Serverless» y el pie con el alias y el conteo real («Índice: elastiflix-reloaded · N películas») y
     «This product uses the TMDB API but is not endorsed or certified by TMDB.» en todas las páginas.
 - [x] **4.2** Inicio (`GET /`): caja de búsqueda con su validación, selector de modo y paneles
   (Full-text: tipo de consulta, campo solo con `match`, operador y textos de ayuda; Vectorial: campo de
@@ -984,7 +990,8 @@ arquitectura en verde; resumen de diseño y revisión de convenciones en `progre
 - [x] **5.0** Diseño: `docs/diseno/5.md` (alcance del smoke test, datos y limpieza). Commit antes del
   código.
 - [x] **5.1** `SmokeIT` en `web` (`@SpringBootTest(webEnvironment = RANDOM_PORT)`, corre con `-Pit`):
-  `GET /actuator/health` `UP` con 4 322 documentos; `GET /`, `/acerca`, `/cargar` responden 200; una
+  `GET /actuator/health` `UP` con los 6 899 documentos de §6 (se omite si el conteo cambió); `GET /`,
+  `/acerca`, `/cargar` responden 200; una
   búsqueda por modo con una sugerencia del mockup devuelve resultados; subir
   `elasticsearch/fixtures/movies-sample.csv` deja el paso 4 en «listo para empezar» con 0 errores y la
   advertencia de vectores ignorados (no importa).
@@ -1036,7 +1043,9 @@ Criterio: Definición de Hecho completa.
 
 - [x] Los tres modos de búsqueda, los filtros, la paginación y la carga de datos funcionan como describe
   §1 y los mockups.
-- [x] Todos los datos de verificación de §6 pasan en las pruebas de integración.
+- [x] Todos los datos de verificación de §6 pasan en las pruebas de integración: los totales OR/AND,
+  las posiciones vectoriales y la fila híbrida de la tabla de 6 899 películas, con `assumeTrue` si
+  el conteo cambió.
 - [x] `elastiflix-reloaded` es un alias; una carga publica con swap atómico y borra el índice anterior;
   una falla deja el catálogo intacto (demostrado en pruebas).
 - [x] `./mvnw verify -Pit` en verde: unitarias, arquitectura, integración y smoke.
@@ -1055,9 +1064,21 @@ La evidencia de cada punto está en `progreso/6.md`. Las tareas de la Fase 6 est
 (merge `eb309d9` del PR #7). El PR #8 (`22dac52`) registró esa fusión. Después se borraron las ramas
 remotas `cursor/*`. El catálogo vigente está en `progreso/INDICE.md`.
 
+Revisión 1 (R-01 a R-30), en la rama `cursor/revision-1-29a6` y en el PR #10, que sigue en borrador:
+
+- `./mvnw verify` terminó en BUILD SUCCESS el 2026-10-18 18:24 UTC (21 s): 187 pruebas unitarias,
+  0 fallos. Checkstyle y PMD en 0.
+- `./mvnw verify -Pit` terminó en BUILD SUCCESS el 2026-10-18 18:26 UTC (1 min 5 s): 187 unitarias y
+  27 de integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
+- Después de esa corrida, el alias `elastiflix-reloaded` seguía en
+  `elastiflix-reloaded-20261018-054429` con 6 899 documentos.
+
 ## Variables de entorno (`.env.example`)
 
 ```dotenv
+# Copia este archivo como .env (excluido de git) y completa los valores.
+# Nunca subas .env al repositorio.
+
 # Elasticsearch Serverless (obligatorias; el usuario las provee)
 ELASTICSEARCH_URL=
 ELASTICSEARCH_API_KEY=
@@ -1066,7 +1087,7 @@ ELASTICSEARCH_API_KEY=
 ELASTIFLIX_INDEX_ALIAS=elastiflix-reloaded
 ELASTIFLIX_INFERENCE_ID=.jina-embeddings-v5-omni-small
 
-# Carga de datos
+# Carga de datos. Opcionales: application.yml ya usa 150MB y lotes de 100.
 ELASTIFLIX_INGEST_MAX_FILE_SIZE=150MB
 ELASTIFLIX_INGEST_BATCH_SIZE=100
 
