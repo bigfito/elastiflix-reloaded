@@ -10,8 +10,8 @@
 - **Fase actual:** corrección de los 5 bugs de la sincronización de documentación
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/bugs-revision-29a6` (desde `main` en `2f6f9ed`, fusión del PR #11)
-- **Próximo paso:** B-04, quitar `Thread.sleep` de `ReindexTasks`.
-- **Última actualización:** 2026-10-18 19:01 UTC
+- **Próximo paso:** B-05, el prefijo del mockup `About.dc.html`.
+- **Última actualización:** 2026-10-18 19:02 UTC
 
 ## Fases
 
@@ -26,7 +26,7 @@
 | 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
 | — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. |
 | — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
-| — | Bugs de la revisión de documentación | — | en curso | `progreso/bugs.md` | B-03 terminada. Siguiente: B-04. |
+| — | Bugs de la revisión de documentación | — | en curso | `progreso/bugs.md` | B-04 terminada. Siguiente: B-05. |
 
 ## Aprobaciones del usuario
 
