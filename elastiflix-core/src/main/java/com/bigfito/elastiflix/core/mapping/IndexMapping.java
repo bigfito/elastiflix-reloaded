@@ -42,12 +42,21 @@ public class IndexMapping {
     }
 
     /**
-     * JSON listo para crear un índice.
+     * JSON del archivo, sin cambios.
      *
-     * @return el documento de mapping, sin cambios
+     * @return el documento completo
      */
     public String document() {
         return document;
+    }
+
+    /**
+     * Objeto {@code mappings} listo para crear un índice.
+     *
+     * @return JSON de {@code mappings}
+     */
+    public String mappings() {
+        return JSON.writeValueAsString(JSON.readTree(document).path("mappings"));
     }
 
     /**

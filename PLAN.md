@@ -651,7 +651,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   subcampos de los `nested` y las dimensiones de los vectores.
   - Criterio: prueba unitaria verifica 33 campos, `release_date` con formato `yyyy-MM-dd` y
     `plot_512` con 512 dimensiones.
-- [ ] **1.6** `CatalogIndex` (gateway): resolver el índice detrás del alias, crear un índice con el
+- [x] **1.6** `CatalogIndex` (gateway): resolver el índice detrás del alias, crear un índice con el
   mapping, `_reindex` de un índice a otro, `refresh`, `_count`, publicar (en una sola llamada a
   `_aliases`: `add` del alias al índice nuevo y `remove_index` del anterior), borrar índice, comprobar si
   un nombre es alias o índice, listar índices `<alias>-*`, y leer documentos **con** sus vectores (en

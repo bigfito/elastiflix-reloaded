@@ -10,8 +10,8 @@
 - **Fase actual:** 1
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Tarea 1.6: `CatalogIndex` y `CatalogIndexIT`.
-- **Última actualización:** 2026-10-18 00:24 UTC
+- **Próximo paso:** Tarea 1.7: `CatalogStatusService` y conteo de 4322 documentos.
+- **Última actualización:** 2026-10-18 00:31 UTC
 
 ## Fases
 
@@ -37,5 +37,5 @@
 ## Última verificación
 
 - **Comando:** `./mvnw -q verify`
-- **Resultado:** en verde (código 0). `IndexMappingTest`: 2 pruebas, 0 fallos.
-- **Fecha:** 2026-10-18 00:24 UTC
+- **Resultado:** en verde (código 0). `CatalogIndexIT`: 1 prueba, 0 fallos.
+- **Fecha:** 2026-10-18 00:31 UTC
