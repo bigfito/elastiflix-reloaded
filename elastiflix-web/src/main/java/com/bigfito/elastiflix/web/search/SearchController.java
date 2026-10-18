@@ -62,7 +62,8 @@ public class SearchController implements HtmlPage {
         } catch (SearchValidationException exception) {
             LOG.warn("{}: la consulta no pasó la validación", exception.errorCode().code());
             pages.rejected(model, form, exception.errorCode() == ErrorCode.DATE_RANGE_REVERSED);
-            model.addAttribute("errorSummary", exception.errorCode().summary());
+            // Junto al campo va solo el «qué pasó», con su punto final como en el mockup y en PLAN §5.
+            model.addAttribute("errorSummary", exception.errorCode().summary() + ".");
             model.addAttribute("queryError", exception.errorCode() == ErrorCode.EMPTY_SEARCH_TEXT);
         }
     }

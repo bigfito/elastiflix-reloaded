@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Resultados muestra los tres modos, los dos vacíos y el código si candidatos es menor que k.
+ * Resultados muestra los tres modos, los dos vacíos y, si candidatos es menor que k, el «qué pasó» junto al campo.
  */
 @WebMvcTest(controllers = SearchController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
@@ -178,7 +178,9 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("aria-describedby=\"q-error\" aria-invalid=\"true\"")))
                 .andExpect(content().string(containsString("class=\"sbox compact is-invalid\"")))
                 .andExpect(content().string(containsString("<p id=\"q-error\" class=\"alert query-alert\" role=\"alert\">")))
-                .andExpect(content().string(containsString("<h1 class=\"visually-hidden\">Resultados</h1>")));
+                .andExpect(content().string(containsString("<h1 class=\"visually-hidden\">Resultados</h1>")))
+                .andExpect(content().string(containsString(
+                        "<span>Escribe qué película buscas antes de pulsar Buscar.</span>")));
     }
 
     @Test

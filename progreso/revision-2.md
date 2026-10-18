@@ -18,12 +18,12 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** S-22
+- **Tarea actual:** S-23
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** S-22: punto final en los mensajes de `summary()` que se muestran, `ErrorPageController` sin
-  llamar dos veces a `catalog.status()`, pie sin conexión «conteo no disponible», PLAN 4.3 y Javadoc de
-  `ResultsPageTest`; además `/buscar?k=abc` responde 500 (encontrado en S-14). S-18 y S-19 esperan el `.env`.
-- **Última actualización:** 2026-10-19 02:25 UTC
+- **Próximo paso:** S-23: `@RestControllerAdvice(assignableTypes = IngestJobController.class)` para
+  `ElastiflixException` e `IOException` (JSON), y dejar sin alcance solo el de `MaxUploadSizeExceededException`;
+  prueba con un `IOException` simulado. S-18 y S-19 esperan el `.env`.
+- **Última actualización:** 2026-10-19 02:45 UTC
 
 ## Tareas
 
@@ -52,8 +52,8 @@ en curso
 | S-18 | pendiente | — | Las capturas y la comparación de R-21 no reflejan la interfaz real |
 | S-19 | pendiente | — | Con solo el README todavía no se puede preparar el catálogo |
 | S-20 | terminada | `496a9b1` | `ElasticsearchDiagnostics.codeFor`: 401 y 403 → `EFX-ES-001` («La URL o la API key no son válidas…»), igual que el pie; el resto de los 4xx → `EFX-ES-007`. `HybridSearchStrategy.rejected` usa `codeFor(status del ítem)`. `docs/diseno/2.md` actualizado (errores y log). Pruebas: `ElasticsearchDiagnosticsTest.shouldTreatBadCredentialsAsUnavailable` (401, 403, 500, 400) y `KnnStrategiesTest.shouldFailWhenAPartOfTheMultiSearchFails` (ítem 500 → `EFX-ES-001`). Mutaciones, una a la vez y revertidas: 401 tratado como 4xx → la primera; híbrida con `EFX-ES-007` fijo → la segunda. `./mvnw verify`: BUILD SUCCESS. |
-| S-21 | terminada | se anota en S-22 | Textos neutros: `REINDEX_COUNT_MISMATCH` y `REINDEX_FAILED` dicen «Vuelve a ejecutar la importación o la migración» y que el índice nuevo se borra (si el original sigue, en `REINDEX_FAILED`); `ALIAS_PUBLISH_FAILED` ya no afirma «Se borró el índice temporal» (dice que se borra y, si no se pudo, lo limpia la próxima importación); `PUBLISH_UNCERTAIN` da una causa que también vale cuando `describe` respondió. Javadoc de `ElasticsearchAccessException` con `EFX-IMP-006`. `FileGate.open` elige `EFX-ING-015` para un `.csv` ilegible y `EFX-ING-013` para un JSON; `MovieDocuments.fromNode` usa `EFX-ING-012` (sirve a los dos formatos). `PlotVectorizer.attach` ya usaba `EFX-EMB-004` desde S-14. Pruebas: `ErrorContextTest` (CSV → 015, JSON → 013, `fromNode` → 012, textos neutros). Mutaciones, una a la vez y revertidas: `FileGate` siempre JSON → `shouldNameTheFileKindWhenTheFileCannotBeRead`; `fromNode` con 013 → `shouldUseTheTypeCodeWhenAValueDoesNotFitTheModel`. `./mvnw verify`: BUILD SUCCESS. |
-| S-22 | pendiente | — | Mensajes y página de error genérica |
+| S-21 | terminada | `e33400e` | Textos neutros: `REINDEX_COUNT_MISMATCH` y `REINDEX_FAILED` dicen «Vuelve a ejecutar la importación o la migración» y que el índice nuevo se borra (si el original sigue, en `REINDEX_FAILED`); `ALIAS_PUBLISH_FAILED` ya no afirma «Se borró el índice temporal» (dice que se borra y, si no se pudo, lo limpia la próxima importación); `PUBLISH_UNCERTAIN` da una causa que también vale cuando `describe` respondió. Javadoc de `ElasticsearchAccessException` con `EFX-IMP-006`. `FileGate.open` elige `EFX-ING-015` para un `.csv` ilegible y `EFX-ING-013` para un JSON; `MovieDocuments.fromNode` usa `EFX-ING-012` (sirve a los dos formatos). `PlotVectorizer.attach` ya usaba `EFX-EMB-004` desde S-14. Pruebas: `ErrorContextTest` (CSV → 015, JSON → 013, `fromNode` → 012, textos neutros). Mutaciones, una a la vez y revertidas: `FileGate` siempre JSON → `shouldNameTheFileKindWhenTheFileCannotBeRead`; `fromNode` con 013 → `shouldUseTheTypeCodeWhenAValueDoesNotFitTheModel`. `./mvnw verify`: BUILD SUCCESS. |
+| S-22 | terminada | se anota en S-23 | `SearchController` muestra `summary() + "."` (Resultados: «Escribe qué película buscas antes de pulsar Buscar.»; lo mismo para k y `num_candidates`; en la carga, el JS ya agrega el punto desde S-03). `ErrorPageController` sin `CatalogStatusService`: el `shell` lo pone `LayoutAdvice` una vez; el título sin código EFX es «Error <estado>» (desde S-14). Pie sin conexión: «conteo no disponible» (registrado en PLAN §1 con «El conteo no está disponible.» de «Acerca de»). PLAN 4.3 y el Javadoc de `ResultsPageTest` corregidos. Pruebas: `ResultsPageTest.shouldMarkTheQueryBoxWhenTheQueryIsEmpty` (punto final), `LayoutPageTest.shouldSayTheCountIsUnavailableWhenOffline`, `ServedPagesTest.shouldReadTheCatalogOnceForAnErrorPage` (`times(1)` en un 405). Mutaciones, una a la vez y revertidas: «sin películas» → la segunda; sin punto → la primera; el error vuelve a pedir el estado → la tercera. El 500 de `/buscar?k=abc` anotado en S-14 no es un fallo: en full-text `k` no se usa y la búsqueda llega a un Elasticsearch que aquí no existe (`EFX-ES-001`); con `modo=vectorial` responde «k debe ser un entero mayor o igual que 1». `./mvnw verify`: BUILD SUCCESS, 261 unitarias (core 50, search 62, ingest 96, web 53), 0 fallos. |
 | S-23 | pendiente | — | Errores JSON de la carga con alcance incompleto |
 | S-24 | pendiente | — | Detalles de la ingesta |
 | S-25 | pendiente | — | Código muerto |
@@ -110,8 +110,9 @@ Vacío.
   navegador con Playwright en `elastiflix-web/src/test/browser/`, fuera de `./mvnw verify` (necesitan Node.js
   y Chromium). No agregan dependencias Maven; Playwright es dependencia de desarrollo de esa carpeta.
 
-- 2026-10-19, S-14: al probar el `/error` real apareció un fallo fuera de la lista: `/buscar?k=abc`
-  responde 500 en lugar de rechazar con `EFX-SRCH-002`. Se corrige en S-22 (mensajes y página de error).
+- 2026-10-19, S-14: al probar el `/error` real pareció un fallo que `/buscar?k=abc` respondiera 500. En S-22
+  se vio que no lo es: en full-text `k` no se usa y la búsqueda llega a Elasticsearch, que en esta máquina no
+  existe (`EFX-ES-001`, 500). Con `modo=vectorial` responde la validación de `k`.
 
 - 2026-10-19 (decisión del agente): S-18 (capturas con datos reales y nueva aprobación de Adolfo) y S-19
   (corrida del README en un proyecto Serverless sin el índice) necesitan el `.env`, que esta máquina no tiene.

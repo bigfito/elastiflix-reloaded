@@ -32,6 +32,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -84,6 +87,17 @@ class ServedPagesTest {
 
         assertThat(page.statusCode()).isEqualTo(405);
         assertThat(page.body()).contains("<h1>Error 405</h1>").contains(CatalogTexts.TMDB).doesNotContain("EFX-");
+    }
+
+    @Test
+    @DisplayName("la página de error pide el estado del catálogo una sola vez")
+    void shouldReadTheCatalogOnceForAnErrorPage() throws Exception {
+        clearInvocations(catalog);
+
+        http.send(HttpRequest.newBuilder(uri("/acerca")).header("Accept", "text/html").DELETE().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        verify(catalog, times(1)).status();
     }
 
     @Test

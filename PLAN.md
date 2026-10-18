@@ -107,6 +107,7 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 | `Ingest.dc.html` › correspondencia de columnas (revisión 2, S-03, 2026-10-18) | Contenidos de ejemplo («Texto con saltos de línea»…) y la fila «… y las demás columnas…» | Se muestran todas las columnas. El contenido sale del tipo del mapping («Texto», «Texto o lista JSON de textos», «Número entero», «Número», «true o false», «Fecha yyyy-MM-dd», «Lista JSON de objetos anidados», «Objeto JSON anidado») más «· vacía en N filas»; `_id` dice «Metadato; tiene que ser igual a id». Las comprobaciones superadas son «N registros leídos, con id, title y plot.» y «Ningún id repetido.» |
 | `About.dc.html` › Vectorial › nota de implementación y Carga de datos › Vectores (R-10, 2026-10-18; mockup editado en B-05, `8cbfa49`) | «… y `Document: ` en las sinopsis» | Las sinopsis se vectorizan con `input_type` `ingest` y sin prefijo, la combinación que midió la calibración 1.9. Las consultas siguen con `Query: `. B-05 cambió el mockup aprobado para que diga lo mismo (ver «Aprobaciones» de `progreso/INDICE.md`) |
 | `About.dc.html` › tabla de precisión por dimensión, `adult` y `release_date` del catálogo (R-30, decisión D3, 2026-10-18) | «Se midió con 32 descripciones…», «Contenido para adultos (ninguna película del catálogo lo es)», «Fecha de estreno en yyyy-MM-dd (de 1902 a 2023)» | Se antepone «Medido en el catálogo original de 4 322 películas.» a la tabla, y «medido en el catálogo original de 4 322 películas: » dentro de los paréntesis de `adult` y `release_date`. No se recalcula sobre el catálogo vigente |
+| Pie de todas las páginas y `About.dc.html` › El catálogo, sin conexión (revisión 2, S-22, 2026-10-19) | «Índice: elastiflix-reloaded · 4 322 películas» y «Tiene 4 322 películas.» (el conteo real) | Si Elasticsearch no responde: «Índice: elastiflix-reloaded · conteo no disponible» y «El conteo no está disponible.» |
 | `Main.dc.html` › etiquetas de las sugerencias («OR: 40 resultados», «Titanic: 4.º lugar»…) | — | Se mantienen fijas, tal como en el mockup: describen el catálogo histórico original de 4 322 películas |
 
 ## 2. Arquitectura
@@ -970,7 +971,8 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   aplicar», APLICAR, Limpiar, rango de fechas de los resultados), estados vacíos y leyenda por modo.
   Cambiar el tamaño o aplicar filtros vuelve a la página 1.
   - Criterio: pruebas MockMvc para los tres modos, los dos estados vacíos y un error de validación
-    (`candidatos < k`) mostrado con su código.
+    (`candidatos < k`) mostrado con su «qué pasó» junto al campo, como en el mockup; el código va al log
+    (desde la revisión 1, R-06).
 - [x] **4.4** Cargar datos (`GET /cargar` y endpoints de §5): pestañas, formulario completo del mockup,
   zona de arrastre con las comprobaciones del navegador, opciones de CSV, proceso en 5 pasos, tarjetas
   de conteo, tabla de errores (6 primeros + descarga del informe), comprobaciones superadas,
