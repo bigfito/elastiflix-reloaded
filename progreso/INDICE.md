@@ -10,8 +10,8 @@
 - **Fase actual:** 1
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Tarea 1.3: `ApplicationContextRunner` comprueba `Jackson3JsonpMapper` y `ElasticsearchClientIT` ejecuta `info()`.
-- **Última actualización:** 2026-10-18 00:12 UTC
+- **Próximo paso:** Tarea 1.4: modelo `Movie` y `MovieJsonTest` con las 4 películas del fixture.
+- **Última actualización:** 2026-10-18 00:13 UTC
 
 ## Fases
 
@@ -36,6 +36,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -q verify` y `./mvnw -q verify -Pit -pl elastiflix-core -am`
-- **Resultado:** ambos en verde (código 0).
-- **Fecha:** 2026-10-18 00:12 UTC
+- **Comando:** `./mvnw -pl elastiflix-core -am verify -Pit -Dit.test=ElasticsearchClientIT`
+- **Resultado:** en verde. `ElasticsearchClientIT`: 1 prueba, 0 fallos. `ElasticsearchClientConfigTest`: 1 prueba, 0 fallos.
+- **Fecha:** 2026-10-18 00:13 UTC

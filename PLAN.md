@@ -628,7 +628,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     `web-application-type=none` y `elastiflix.elasticsearch.url` vacía: no arranca, no intenta conectarse
     y el análisis de la falla contiene `EFX-CFG-001` y «Revisa ELASTICSEARCH_URL»; lo mismo con la API key
     vacía y `EFX-CFG-002`.
-- [ ] **1.3** `ElasticsearchClient` con la **autoconfiguración de Spring Boot 4.1.1**
+- [x] **1.3** `ElasticsearchClient` con la **autoconfiguración de Spring Boot 4.1.1**
   (`spring-boot-starter-elasticsearch`: cliente sobre `Rest5Client`, `spring.elasticsearch.uris` y
   `spring.elasticsearch.api-key` de §7, `Jackson3JsonpMapper`). Personalizaciones solo con
   `Rest5ClientBuilderCustomizer`. El indicador de salud de Boot queda desactivado
