@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-19, README de puesta en marcha
-- **Última actualización:** 2026-10-18 17:36 UTC
+- **Próximo paso:** R-20, hashes reales en `progreso/`
+- **Última actualización:** 2026-10-18 17:45 UTC
 
 ## Fases
 

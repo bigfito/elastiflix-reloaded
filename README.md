@@ -219,8 +219,39 @@ elastiflix-reloaded/
 
 **Prerrequisitos**
 
-- ☕ JDK 25 · 🐙 Git (en Windows, con **Git Bash**) · 📦 Maven ≥ 3.6.3 solo para generar el wrapper la primera vez
-- 🔑 Un proyecto **Elasticsearch Serverless** con el índice `elastiflix-reloaded` y una API key
+- ☕ JDK 25 · 🐙 Git (en Windows, con **Git Bash**). El Maven Wrapper ya está en el repositorio
+  (`./mvnw`); no hace falta instalar Maven para compilar.
+- 🔑 Un proyecto **Elasticsearch Serverless** y una API key. Los datos del catálogo, el endpoint de
+  inferencia y los privilegios de esa clave están en «Datos y proyecto Serverless».
+
+**Datos y proyecto Serverless**
+
+- El archivo de exportación del catálogo no está versionado. El respaldo lo guarda quien exportó el
+  índice (PLAN §2, nota 5). El alias, el índice concreto y el conteo vigentes están en
+  [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
+- La tarea 1.8 necesita que el nombre configurado sea todavía el índice concreto `elastiflix-reloaded`,
+  ya creado en el proyecto. Si ese nombre ya es un alias, el comando no crea ni borra índices:
+
+  ```bash
+  ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
+  ```
+
+- Las pruebas de integración leen del alias las películas `597`, `27205`, `10681`, `345887`, `134` y
+  `87827`. Las de §6 se omiten si `_count` no es 6 899.
+- El endpoint de inferencia `.jina-embeddings-v5-omni-small` tiene que existir. El id sale de
+  `ELASTIFLIX_INFERENCE_ID` en `.env`, con el mismo valor por defecto en
+  [`application.yml`](elastiflix-web/src/main/resources/application.yml). Comprobarlo:
+
+  ```bash
+  curl -sS -H "Authorization: ApiKey $ELASTICSEARCH_API_KEY" \
+    "$ELASTICSEARCH_URL/_inference/text_embedding/.jina-embeddings-v5-omni-small"
+  ```
+
+  La referencia de esa API está en la
+  [operación Get inference](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-inference-get).
+- La API key necesita crear y borrar índices `elastiflix-*`, usar `_aliases`, `_reindex` e
+  `_inference`, y escribir en esos índices. Cómo se declaran los privilegios:
+  [claves de API de Elasticsearch](https://www.elastic.co/docs/deploy-manage/api-keys/elasticsearch-api-keys).
 
 **Configuración**
 
@@ -262,8 +293,8 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
 - Vectores de consulta (`search`, prefijo `Query: `) y de sinopsis (`ingest`, sin prefijo).
 - Recorte de un vector de 1024 a 512 y a 256, con norma 1.
 - Búsqueda de solo lectura sobre el alias: full-text (BM25), vectorial (k-NN) e híbrida (RRF).
-  Las pruebas no fijan los totales del catálogo de 4 322: OR tiene que encontrar películas y AND
-  no supera ese total; la película de cada fila vectorial sigue entre los `k` resultados.
+  Las pruebas de §6 afirman los totales medidos sobre las 6 899 películas y se omiten si `_count`
+  ya no es ese número.
 - Filtros, facetas, paginación y los dos estados vacíos, en `SearchService` y en la página de
   resultados.
 - Carga de un `.json` o un `.csv`: comprobación de nombre, tamaño y UTF-8, validación todo o nada
@@ -276,14 +307,15 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
   (tabla de precisión y créditos de TMDB). `GET /actuator/health` incluye el indicador del catálogo.
 - Una excepción `EFX-*` no capturada muestra su código, y una ruta desconocida muestra un 404 con
   navegación.
-- Smoke de punta a punta: `GET /actuator/health` en `UP`, con el mismo conteo que `_count` y mayor
-  que cero; `/`, `/acerca` y `/cargar` responden 200; una sugerencia de cada modo devuelve
+- Smoke de punta a punta: `GET /actuator/health` en `UP`, con el alias de la configuración y las
+  6 899 películas de §6; `/`, `/acerca` y `/cargar` responden 200; una sugerencia de cada modo devuelve
   resultados; subir `elasticsearch/fixtures/movies-sample.csv` lo deja validado, con 0 errores y la
   advertencia `EFX-ING-020`, sin importar. Alias, índice y conteo quedan iguales antes y después.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
 YAML: sus valores por defecto viven en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id
-de inferencia salen de `.env.example`.
+de inferencia salen de `application.yml` (valores por defecto) o de `.env`
+(`ELASTIFLIX_INDEX_ALIAS`, `ELASTIFLIX_INFERENCE_ID`). `.env.example` solo lista los nombres.
 
 En Windows, ejecuta estos comandos en **Git Bash** (ver `AGENTS.md` › Comandos).
 

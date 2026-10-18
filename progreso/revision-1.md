@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-18
+- **Tarea actual:** R-19
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-19. El README describe los prerrequisitos y la puesta en marcha actuales.
-- **Última actualización:** 2026-10-18 17:36 UTC
+- **Próximo paso:** R-20. Sustituir «este commit» por los hashes verificados en `progreso/`.
+- **Última actualización:** 2026-10-18 17:45 UTC
 
 ## Tareas
 
@@ -42,8 +42,8 @@ en curso
 | R-15 | terminada | `83e7cea` | `ReindexTasksTest`: `wait_for_completion` queda en falso y la copia espera dos lecturas de `_tasks` hasta `completed`. Si la tarea falla, `EFX-ES-006`. Checkstyle y PMD en 0. |
 | R-16 | terminada | `95f9996` | `home.js` reescribe `k`, `candidatos` y `vector` de cada sugerencia con los valores del formulario. |
 | R-17 | terminada | `4218be1` | El `img` del póster trae `onerror` y `results.js` también sustituye una imagen que ya falló antes de enganchar el evento. |
-| R-18 | terminada | se anota en R-19 | `SmokeIT` lee el alias de `ElastiflixProperties`, no de un literal. Compila con `test-compile`. Checkstyle y PMD en 0. |
-| R-19 | pendiente | | |
+| R-18 | terminada | `8ab53f8` | `SmokeIT` lee el alias de `ElastiflixProperties`, no de un literal. Compila con `test-compile`. Checkstyle y PMD en 0. |
+| R-19 | terminada | se anota en R-20 | README: se quitó «Maven ≥ 3.6.3 solo para generar el wrapper»; el alias y el id de inferencia salen de `application.yml` o de `.env`. Nueva subsección «Datos y proyecto Serverless» (exportación no versionada, índice concreto de la tarea 1.8, películas `597` `27205` `10681` `345887` `134` `87827`, endpoint `.jina-embeddings-v5-omni-small` y privilegios de la API key, cada uno con comando o enlace). |
 | R-20 | pendiente | | |
 | R-21 | pendiente | | |
 | R-22 | pendiente | | |
@@ -58,13 +58,13 @@ en curso
 
 ## Cambios sin commit
 
-Vacío al cerrar R-06.
+Vacío al cerrar R-19.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-web -am test -Dtest=ResultsPageTest,ErrorPageTest,ErrorCodeTest` y `checkstyle:check pmd:check`
-- **Resultado:** BUILD SUCCESS. ResultsPageTest 5, ErrorPageTest 2, ErrorCodeTest 3, 0 fallos. Checkstyle y PMD en 0. La página en vivo de «dark knight» dice «57 resultados» y «Mostrando 1–25 de 57 resultados».
-- **Fecha:** 2026-10-18 17:12 UTC
+- **Comando:** lectura de `README.md` («Prerrequisitos», «Datos y proyecto Serverless» y el párrafo del alias)
+- **Resultado:** el wrapper ya versionado sustituye la nota de Maven 3.6.3; alias e inferencia apuntan a `application.yml` o `.env`; la subsección cubre exportación, tarea 1.8, películas de integración, endpoint y privilegios.
+- **Fecha:** 2026-10-18 17:45 UTC
 
 ## Decisiones
 
