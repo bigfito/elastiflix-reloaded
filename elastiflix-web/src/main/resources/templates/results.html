@@ -134,7 +134,7 @@
           <li class="hit" th:each="card : ${cards}">
             <div class="hit-main">
               <span class="rank" th:text="|#${card.rank}|">#1</span>
-              <img th:if="${!card.posterUrl.isEmpty()}" th:src="${card.posterUrl}" th:alt="${card.title}" class="poster" width="80" height="120">
+              <img th:if="${!card.posterUrl.isEmpty()}" th:src="${card.posterUrl}" th:alt="${card.title}" class="poster" width="80" height="120" onerror="var d=document.createElement('div');d.className='poster missing';d.setAttribute('role','img');d.textContent='poster_path';this.replaceWith(d)">
               <div th:if="${card.posterUrl.isEmpty()}" class="poster missing" role="img" th:attr="aria-label=|Póster de ${card.title}|">poster_path</div>
               <div>
                 <h3 th:text="${card.title}">Título</h3>
