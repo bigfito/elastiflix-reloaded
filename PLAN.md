@@ -899,7 +899,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
 
 **Objetivo:** las cuatro páginas de los mockups, servidas por Thymeleaf, cableadas a las fachadas.
 
-- [ ] **4.0** Diseño: `docs/diseno/4.md` (plantillas y fragmentos, controladores, modelo de cada vista,
+- [x] **4.0** Diseño: `docs/diseno/4.md` (plantillas y fragmentos, controladores, modelo de cada vista,
   JavaScript mínimo, CSS con los tokens de `design/README.md`). Commit antes del código. Los pósters se
   cargan del CDN de TMDB (decisión del usuario; ver §5) y la atribución de TMDB va en el pie y en
   «Acerca de» (ver §1).
