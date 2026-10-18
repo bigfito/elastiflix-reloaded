@@ -860,7 +860,7 @@ nunca el catálogo a medias.
   vea en la siguiente búsqueda.
   - Criterio: prueba unitaria del flujo completo con dobles (la prueba contra Elasticsearch está en
     3.8).
-- [ ] **3.8** `IngestService` (fachada) y pruebas de integración. `IngestIT` usa su propio alias
+- [x] **3.8** `IngestService` (fachada) y pruebas de integración. `IngestIT` usa su propio alias
   `elastiflix-it-<aleatorio>` (configurado como `elastiflix.index.alias` de la prueba):
   1. **Preparación:** crea `<alias>-<marca de tiempo>` con el mapping, carga las 4 películas de
      `movies-sample.json` **con** sus vectores y apunta el alias a ese índice. Guarda el orden de esas 4

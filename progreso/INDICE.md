@@ -10,8 +10,8 @@
 - **Fase actual:** 3
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-3-diseno-29a6`, PR #4)
-- **Próximo paso:** Tarea 3.8, fachada `IngestService` y `IngestIT`.
-- **Última actualización:** 2026-10-18 02:41 UTC
+- **Próximo paso:** Tarea 3.9, documentación y cierre de la Fase 3. No empezar la Fase 4.
+- **Última actualización:** 2026-10-18 02:55 UTC
 
 ## Fases
 
@@ -45,6 +45,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-ingest -am verify`
-- **Resultado:** BUILD SUCCESS. `IndividualRecordTest` 2 y el resto de unitarias de core e ingest en verde. Checkstyle 0, PMD en verde. No se usó el perfil `it` ni el catálogo real.
-- **Fecha:** 2026-10-18 02:41 UTC
+- **Comando:** `./mvnw verify -Pit -pl elastiflix-ingest -am`
+- **Resultado:** BUILD SUCCESS. `IngestIT` 2 sobre `elastiflix-it-bbb09e8de378`, borrado al terminar. Unitarias, Checkstyle 0 y PMD en verde. No se escribió en `elastiflix-reloaded`.
+- **Fecha:** 2026-10-18 02:55 UTC

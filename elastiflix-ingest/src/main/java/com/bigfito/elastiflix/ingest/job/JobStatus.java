@@ -1,0 +1,46 @@
+package com.bigfito.elastiflix.ingest.job;
+
+/**
+ * Estado de un trabajo de carga, con el nombre que verá la página.
+ */
+public enum JobStatus {
+
+    /** El archivo ya está en disco y todavía no se revisa. */
+    RECEIVED("recibido"),
+
+    /** Se están comprobando el archivo y los campos. */
+    VALIDATING("validando"),
+
+    /** No hay errores. Se puede importar. */
+    VALID("valido"),
+
+    /** Hay errores de campos o de formato. No se importa. */
+    INVALID("invalido"),
+
+    /** Los lotes se están escribiendo en el índice temporal. */
+    IMPORTING("importando"),
+
+    /** El alias ya apunta al índice nuevo. */
+    PUBLISHED("publicado"),
+
+    /** La importación o la validación falló con una excepción. */
+    FAILED("fallido"),
+
+    /** Alguien pidió cancelar y el temporal, si existía, se borró. */
+    CANCELLED("cancelado");
+
+    private final String label;
+
+    JobStatus(String label) {
+        this.label = label;
+    }
+
+    /**
+     * Nombre en español, sin tilde, como lo deja el diseño.
+     *
+     * @return por ejemplo {@code valido} o {@code publicado}
+     */
+    public String label() {
+        return label;
+    }
+}

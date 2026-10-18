@@ -8,12 +8,15 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 
+import org.springframework.stereotype.Component;
+
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.node.ObjectNode;
 
 /**
  * Revisa un archivo completo contra el mapping y solo deja pasar uno sin errores.
  */
+@Component
 public final class MappingValidator {
 
     private final DocumentChecker checker = new DocumentChecker();
