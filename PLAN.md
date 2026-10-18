@@ -662,7 +662,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     existe, que el conteo se conserva y que los vectores leídos de `-b` tienen coseno ≥ 0.9999 con los del
     fixture (el reindex los conserva). Borra todo al terminar, aun si la prueba falla. (Confirma en el
     proyecto Serverless real el mecanismo que usan 1.8 y 3.6.)
-- [ ] **1.7** `CatalogStatusService`: devuelve alias, índice vigente, conteo y estado (conectado / sin
+- [x] **1.7** `CatalogStatusService`: devuelve alias, índice vigente, conteo y estado (conectado / sin
   conexión) con el código de error correspondiente. Funciona tanto si `elastiflix-reloaded` todavía es
   un índice concreto (antes de 1.8) como si ya es alias.
   - Criterio: `CatalogStatusServiceIT` devuelve `documents = 4322` para `elastiflix-reloaded`.
