@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = IngestJobController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
-@Import({IngestJobErrors.class, UploadCheck.class, IngestLimits.class})
+@Import({IngestJobErrors.class, UploadSizeErrors.class, UploadCheck.class, IngestLimits.class})
 @TestPropertySource(properties = "spring.servlet.multipart.max-file-size=32B")
 class IngestJobErrorTest {
 

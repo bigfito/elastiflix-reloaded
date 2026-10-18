@@ -1,0 +1,38 @@
+package com.bigfito.elastiflix.web.ingest;
+
+import java.util.Map;
+
+import com.bigfito.elastiflix.core.error.ErrorCode;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+/**
+ * Un archivo mayor que el tope responde 413 JSON con {@code EFX-ING-003}.
+ *
+ * <p>No tiene alcance: el contenedor rechaza la subida al leer el multipart, antes de elegir controlador,
+ * así que un {@code assignableTypes} no la vería.</p>
+ */
+@RestControllerAdvice
+public class UploadSizeErrors {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UploadSizeErrors.class);
+
+    /**
+     * El contenedor, o el controlador, rechazó el archivo por tamaño.
+     *
+     * @param exception límite superado
+     * @return 413 con {@code EFX-ING-003}
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Map<String, String>> tooLarge(MaxUploadSizeExceededException exception) {
+        LOG.warn("{}: la subida supera {} bytes", ErrorCode.FILE_TOO_LARGE.code(), exception.getMaxUploadSize());
+        return ResponseEntity.status(HttpStatus.CONTENT_TOO_LARGE).body(Map.of(
+                "code", ErrorCode.FILE_TOO_LARGE.code(), "message", ErrorCode.FILE_TOO_LARGE.summary()));
+    }
+}
