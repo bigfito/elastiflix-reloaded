@@ -37,11 +37,14 @@ public final class ImportRunner {
      */
     public void run(String jobId) {
         ImportWork work = store.require(jobId);
+        MovieBatchSource source = new ListMovieSource(work.movies());
+        ImportCounts counts = work.counts(properties.ingest().batchSize());
+        work.release();
         try {
             job.run(
                     properties.index().alias(),
-                    new ListMovieSource(work.movies()),
-                    work.counts(properties.ingest().batchSize()),
+                    source,
+                    counts,
                     store,
                     work.cancelledFlag());
             store.published(jobId);

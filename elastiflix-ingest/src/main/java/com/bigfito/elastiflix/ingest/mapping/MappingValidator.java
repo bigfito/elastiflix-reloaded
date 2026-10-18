@@ -42,8 +42,16 @@ public final class MappingValidator {
     private void accept(JsonNode document, int number, ValidationRun run) {
         CheckedDocument checked = checker.check(document, number, run.warned());
         run.issues().addAll(checked.issues());
+        dropVectors(document);
+        dropVectors(checked.body());
         run.bodies().add(checked.body());
         remember(checked, number, run);
+    }
+
+    private static void dropVectors(JsonNode node) {
+        if (node instanceof ObjectNode object) {
+            object.remove(List.of("plot_256", "plot_512", "plot_1024"));
+        }
     }
 
     private static void remember(CheckedDocument checked, int number, ValidationRun run) {
@@ -109,6 +117,7 @@ public final class MappingValidator {
         for (ObjectNode body : bodies) {
             movies.add(MovieDocuments.fromNode(body));
         }
+        bodies.clear();
         return movies;
     }
 }

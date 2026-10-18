@@ -199,6 +199,7 @@ public final class JobStore implements ImportListener {
     private void discardIfTerminal(ImportWork work) {
         JobStatus status = work.status();
         if (terminal(status)) {
+            work.release();
             deleteLocal(work);
         }
     }

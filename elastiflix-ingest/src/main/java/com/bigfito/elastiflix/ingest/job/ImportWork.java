@@ -84,6 +84,13 @@ final class ImportWork {
     }
 
     /**
+     * Suelta las películas. Los conteos se quedan para la página.
+     */
+    synchronized void release() {
+        movies = List.of();
+    }
+
+    /**
      * Conteos para {@link ImportJob}. El lote lo pone quien llama.
      *
      * @param batchSize películas por lote

@@ -52,6 +52,11 @@ class MappingValidatorTest {
                         tuple(ErrorCode.VECTORS_IGNORED.code(), "plot_1024"),
                         tuple(ErrorCode.EMPTY_TEXT.code(), "homepage"));
         assertThat(result.replaceCount()).isEqualTo(1);
+        assertThat(result.movies()).allSatisfy(movie -> {
+            assertThat(movie.plot256()).isNull();
+            assertThat(movie.plot512()).isNull();
+            assertThat(movie.plot1024()).isNull();
+        });
         assertThat(result.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
                 .isEqualTo(new JsonMovieReader().read(JSON));

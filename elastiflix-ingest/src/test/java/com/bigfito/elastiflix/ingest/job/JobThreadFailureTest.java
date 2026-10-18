@@ -3,11 +3,15 @@ package com.bigfito.elastiflix.ingest.job;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
+import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
+import com.bigfito.elastiflix.ingest.json.JsonDocuments;
+import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 
@@ -56,6 +60,22 @@ class JobThreadFailureTest {
 
         assertThat(store.view(jobId).status()).isEqualTo(JobStatus.FAILED.label());
         assertThat(store.view(jobId).failureCode()).isEqualTo(ErrorCode.JOB_FAILED.code());
+    }
+
+    @Test
+    @DisplayName("al cerrar el trabajo se sueltan las películas")
+    void shouldReleaseMoviesWhenTheJobEnds() throws Exception {
+        JobStore store = new JobStore();
+        String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader());
+        ValidatedMovies checked = new MappingValidator().validate(
+                new JsonDocuments().read(Path.of("..", "elasticsearch", "fixtures", "movies-sample.json")),
+                Set.of());
+        store.require(jobId).ready(checked);
+        assertThat(store.require(jobId).movies()).isNotEmpty();
+
+        store.failed(jobId, new ImportException(ErrorCode.JOB_FAILED));
+
+        assertThat(store.require(jobId).movies()).isEmpty();
     }
 
     private static Path temp() throws Exception {

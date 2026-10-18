@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-11, trabajos que no se quedan colgados
-- **Última actualización:** 2026-10-18 17:22 UTC
+- **Próximo paso:** R-12, soltar memoria de la ingesta
+- **Última actualización:** 2026-10-18 17:26 UTC
 
 ## Fases
 
