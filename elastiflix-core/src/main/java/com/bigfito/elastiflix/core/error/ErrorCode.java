@@ -236,7 +236,37 @@ public enum ErrorCode {
     UNREADABLE_JSON("EFX-ING-013",
             "El JSON no se puede leer",
             "El archivo, o el JSON de una celda, está mal formado",
-            "Revisa el JSON y vuelve a subir el archivo");
+            "Revisa el JSON y vuelve a subir el archivo"),
+
+    /** Un ítem del lote fue rechazado. */
+    BULK_REJECTED("EFX-IMP-001",
+            "Elasticsearch rechazó un documento del lote",
+            "Un ítem del lote trae error",
+            "Se borró el índice temporal. El catálogo anterior sigue igual. Revisa el archivo y vuelve a importar"),
+
+    /** El conteo después de los lotes no es el esperado. */
+    IMPORT_COUNT_MISMATCH("EFX-IMP-002",
+            "El conteo del índice nuevo no es el esperado",
+            "Después de los lotes, el conteo no cuadra",
+            "Se borró el índice temporal y no se publicó. Vuelve a importar"),
+
+    /** Alguien pidió cancelar la importación. */
+    IMPORT_CANCELLED("EFX-IMP-003",
+            "La importación se canceló",
+            "Alguien pidió cancelar",
+            "Se borró el índice temporal si existía. El catálogo anterior sigue igual"),
+
+    /** El nombre configurado es un índice concreto, no un alias. */
+    CATALOG_NOT_ALIAS("EFX-IMP-004",
+            "El catálogo configurado no es un alias",
+            "El nombre es un índice concreto",
+            "Publica el catálogo como alias antes de importar"),
+
+    /** El identificador del trabajo no está en memoria. */
+    UNKNOWN_JOB("EFX-IMP-005",
+            "No está ese trabajo de importación",
+            "El identificador no está en memoria",
+            "Vuelve a subir el archivo");
 
     private final String code;
     private final String whatHappened;

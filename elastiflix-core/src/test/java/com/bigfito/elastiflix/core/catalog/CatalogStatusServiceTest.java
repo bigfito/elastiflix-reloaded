@@ -144,6 +144,22 @@ class CatalogStatusServiceTest {
             return List.of();
         }
 
+        @Override
+        public java.util.Set<String> existingIds(String name, List<String> ids) {
+            unused();
+            return java.util.Set.of();
+        }
+
+        @Override
+        public void writeAll(String indexName, List<Movie> movies) {
+            unused();
+        }
+
+        @Override
+        public void indexOne(String name, Movie movie) {
+            unused();
+        }
+
         private static void unused() {
             throw new UnsupportedOperationException("el estado no usa esta operación");
         }

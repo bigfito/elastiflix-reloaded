@@ -9,12 +9,15 @@ import com.bigfito.elastiflix.core.error.EmbeddingException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Pide el vector de 1024 de cada sinopsis y deriva los de 512 y 256.
  *
  * <p>No usa los vectores que pudiera traer el archivo: esos ya se descartaron. Si la inferencia
  * falla, la excepción {@code EFX-EMB-*} sale sin cambios para que la importación no publique.</p>
  */
+@Component
 public final class PlotVectorizer {
 
     private static final int MEDIUM = 512;

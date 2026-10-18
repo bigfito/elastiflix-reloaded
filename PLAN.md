@@ -841,7 +841,7 @@ nunca el catálogo a medias.
   atrás. El progreso informa los registros vectorizados.
   - Criterio: prueba unitaria con `EmbeddingService` simulado verifica que se llama para todos los
     registros, incluso los que traen vectores, y que un fallo detiene la importación sin publicar.
-- [ ] **3.6** `ImportJob`: crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, copia el
+- [x] **3.6** `ImportJob`: crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, copia el
   índice vigente (`_reindex`), escribe en lotes de 100 (`_id` = `id`, reemplaza si existe), revisa
   cada respuesta `bulk`, `refresh`, verifica el conteo esperado (anterior + nuevos) y publica en **una
   sola llamada** a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice anterior.

@@ -10,8 +10,8 @@
 - **Fase actual:** 3
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-3-diseno-29a6`, PR #4)
-- **Próximo paso:** Tarea 3.6, `ImportJob`.
-- **Última actualización:** 2026-10-18 02:33 UTC
+- **Próximo paso:** Tarea 3.7, registro individual.
+- **Última actualización:** 2026-10-18 02:38 UTC
 
 ## Fases
 
@@ -46,5 +46,5 @@
 ## Última verificación
 
 - **Comando:** `./mvnw -pl elastiflix-ingest -am verify`
-- **Resultado:** BUILD SUCCESS. `PlotVectorizerTest` 3 y el resto de unitarias de ingest en verde. Checkstyle 0, PMD en verde. No se usó el perfil `it` ni el catálogo real.
-- **Fecha:** 2026-10-18 02:33 UTC
+- **Resultado:** BUILD SUCCESS. `ImportJobTest` 7 y el resto de unitarias de core e ingest en verde. Checkstyle 0, PMD en verde. No se usó el perfil `it` ni el catálogo real.
+- **Fecha:** 2026-10-18 02:38 UTC
