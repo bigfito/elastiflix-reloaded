@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-05: una sola fuente para el `input_type` y el prefijo de documento (ver
-  `progreso/revision-2.md`). S-01 a S-04 terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
-- **Última actualización:** 2026-10-18 21:55 UTC
+- **Próximo paso:** S-06: memoria de la ingesta y expulsión de trabajos (ver `progreso/revision-2.md`). S-01
+  a S-05 terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
+- **Última actualización:** 2026-10-18 22:05 UTC
 
 ## Fases
 
