@@ -419,15 +419,20 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 
 ## 📸 Capturas
 
-Tomadas el 2026-10-18 con la aplicación en http://localhost:8080, leyendo el alias
-`elastiflix-reloaded`. El pie muestra el conteo real. El índice y el número vigentes están en
-[`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
+Capturas de página completa tomadas el 2026-10-18 con la aplicación conectada al alias
+`elastiflix-reloaded` real. El pie muestra el conteo real. El índice y el número vigentes están en
+[`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente». La comparación con los mockups está en
+[`progreso/4.md`](progreso/4.md).
 
 | Página | Captura |
 |---|---|
 | Inicio `GET /` | ![Inicio](docs/capturas/inicio.png) |
-| Resultados `GET /buscar` | ![Resultados](docs/capturas/resultados.png) |
-| Cargar datos `GET /cargar` | ![Cargar datos](docs/capturas/cargar.png) |
+| Resultados · Full-text | ![Resultados full-text](docs/capturas/resultados-fulltext.png) |
+| Resultados · Vectorial | ![Resultados vectorial](docs/capturas/resultados-vectorial.png) |
+| Resultados · Híbrida | ![Resultados híbrida](docs/capturas/resultados-hibrida.png) |
+| Cargar datos · Registro individual | ![Registro individual](docs/capturas/cargar-registro.png) |
+| Cargar datos · CSV válido, listo para importar | ![CSV válido](docs/capturas/cargar-csv-valido.png) |
+| Cargar datos · CSV que no coincide con el mapping | ![CSV inválido](docs/capturas/cargar-csv-invalido.png) |
 | Acerca de `GET /acerca` | ![Acerca de](docs/capturas/acerca.png) |
 | Ruta desconocida | ![No encontrada](docs/capturas/no-encontrada.png) |
 
