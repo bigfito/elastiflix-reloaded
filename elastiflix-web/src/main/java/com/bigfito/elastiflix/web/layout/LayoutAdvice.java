@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 /**
  * Pone la cabecera y el pie en cada vista, con el estado real del catálogo.
  */
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = HtmlPage.class)
 public class LayoutAdvice {
 
     private final CatalogStatusService catalog;

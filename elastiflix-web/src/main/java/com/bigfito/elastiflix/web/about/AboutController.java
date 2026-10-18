@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.web.about;
 
+import com.bigfito.elastiflix.web.layout.HtmlPage;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Página Acerca de: cómo funciona la demo, con el alias y el conteo del catálogo.
  */
 @Controller
-public class AboutController {
+public class AboutController implements HtmlPage {
 
     /**
      * Muestra Acerca de. El alias y el conteo llegan en {@code shell}.

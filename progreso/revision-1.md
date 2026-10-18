@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-06
+- **Tarea actual:** R-07
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-07. Los endpoints JSON de la carga responden 413 y 404 en JSON.
-- **Última actualización:** 2026-10-18 17:13 UTC
+- **Próximo paso:** R-08. El indicador de salud responde DOWN si Elasticsearch no está.
+- **Última actualización:** 2026-10-18 17:19 UTC
 
 ## Tareas
 
@@ -30,8 +30,8 @@ en curso
 | R-03 | terminada | `f24bb4d` | Variantes CSV: `_id` ≠ `id` (`EFX-ING-010`), fecha `16/07/1999`, `adult=yes` y `genres=Drama` (`EFX-ING-012`), subcampo `extra` en keywords (`EFX-ING-007`). `[REC]` y `007` se conservan. `movies-sample.csv` con 0 errores. Checkstyle y PMD de ingest en 0. |
 | R-04 | terminada | `90b96ce` | MockMvc ve las tarjetas, la tabla «Se recibió / El mapping espera», «Archivo JSON», «Importación bloqueada» y el paso 4. `SmokeIT` espera el paso 4. Captura `docs/capturas/cargar.png`. Checkstyle y PMD en 0. |
 | R-05 | terminada | `46aeda4` | Tabla de §6 medida sobre 6 899: dark knight 57/5, love story 107/3, Kolejne 3/0, el secreto 35/2, le fabuleux 26/1, heaven 10/0, next 15/0, parasite 1/0. Titanic 36/7/4, Life of Pi 30/7/4, WALL·E 1/1/1. `assumeTrue(count == 6899)`. FullText 8, Vector 4, Hybrid 2, CatalogStatus 1 y Smoke 4, 0 omitidas. |
-| R-06 | terminada | se anota en R-07 | MockMvc: títulos Puntuación, Similitud y Puntuación en cada lista; «Mostrando 1–1 de 1 resultados»; chips «Géneros: Drama»; `<select id="page-size">`; fecha invertida con el texto del mockup y el formulario visible. Captura `docs/capturas/resultados.png`. Checkstyle y PMD en 0. |
-| R-07 | pendiente | | |
+| R-06 | terminada | `2793d22` | MockMvc: títulos Puntuación, Similitud y Puntuación en cada lista; «Mostrando 1–1 de 1 resultados»; chips «Géneros: Drama»; `<select id="page-size">`; fecha invertida con el texto del mockup y el formulario visible. Captura `docs/capturas/resultados.png`. Checkstyle y PMD en 0. |
+| R-07 | terminada | se anota en R-08 | `IngestJobErrorTest`: archivo de 64 B con tope 32 B responde 413 y `EFX-ING-003`. Trabajo desconocido responde 404 JSON `EFX-IMP-005`. Checkstyle y PMD en 0. |
 | R-08 | pendiente | | |
 | R-09 | pendiente | | |
 | R-10 | pendiente | | |

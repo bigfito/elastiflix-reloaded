@@ -134,6 +134,23 @@
     });
   }
 
+  function readJson(response) {
+    var type = response.headers.get("content-type") || "";
+    if (type.indexOf("application/json") < 0) {
+      return Promise.reject(new Error("respuesta sin JSON"));
+    }
+    return response.json().then(function (data) {
+      return { ok: response.ok, data: data };
+    });
+  }
+
+  function failureText(data) {
+    if (!data) {
+      return "No se pudo completar la carga.";
+    }
+    return (data.code || "") + " " + (data.message || "");
+  }
+
   function block(text) {
     document.getElementById("file-error").textContent = text;
     show(document.getElementById("file-block"), true);
@@ -147,10 +164,10 @@
     body.set("separador", separator ? separator.value : ",");
     body.set("encabezado", header && header.checked ? "true" : "false");
     fetch("/cargar/archivo", { method: "POST", body: body })
-      .then(function (response) { return response.json().then(function (data) { return { ok: response.ok, data: data }; }); })
+      .then(readJson)
       .then(function (result) {
         if (!result.ok) {
-          block((result.data.code || "") + " " + (result.data.message || ""));
+          block(failureText(result.data));
           return;
         }
         show(document.getElementById("file-block"), false);
@@ -167,8 +184,14 @@
       return;
     }
     fetch("/cargar/trabajos/" + jobId)
-      .then(function (response) { return response.json(); })
-      .then(paint)
+      .then(readJson)
+      .then(function (result) {
+        if (!result.ok) {
+          block(failureText(result.data));
+          return;
+        }
+        paint(result.data);
+      })
       .catch(function () { block("No se pudo consultar el trabajo."); });
   }
 

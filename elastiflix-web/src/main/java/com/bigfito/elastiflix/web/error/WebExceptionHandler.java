@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.web.error;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
+import com.bigfito.elastiflix.web.layout.HtmlPage;
 import com.bigfito.elastiflix.web.layout.PageShells;
 
 import org.slf4j.Logger;
@@ -11,12 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
- * Muestra el código {@code EFX-*} cuando una página no captura la excepción, y un 404 con navegación.
+ * Muestra el código {@code EFX-*} cuando una página HTML no captura la excepción.
  */
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = HtmlPage.class)
 public class WebExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebExceptionHandler.class);
@@ -45,20 +45,6 @@ public class WebExceptionHandler {
         LOG.info("Página de error {}", exception.errorCode().code());
         shell(model);
         return ErrorPages.filled(model, exception);
-    }
-
-    /**
-     * Ruta que no corresponde a ninguna pantalla.
-     *
-     * @param model navegación y cabecera
-     * @return la plantilla {@code not-found}
-     */
-    @ExceptionHandler(NoResourceFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String missing(Model model) {
-        model.addAttribute("nav", "");
-        shell(model);
-        return "not-found";
     }
 
     private void shell(Model model) {

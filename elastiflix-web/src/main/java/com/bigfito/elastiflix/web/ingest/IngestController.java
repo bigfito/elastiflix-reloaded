@@ -3,6 +3,8 @@ package com.bigfito.elastiflix.web.ingest;
 import com.bigfito.elastiflix.ingest.job.SaveResult;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 
+import com.bigfito.elastiflix.web.layout.HtmlPage;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -15,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Página de carga y el registro individual, que se escribe directo en el catálogo.
  */
 @Controller
-public class IngestController {
+public class IngestController implements HtmlPage {
 
     private final IngestService ingest;
     private final MovieForms forms;

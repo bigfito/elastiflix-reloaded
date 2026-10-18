@@ -5,6 +5,8 @@ import com.bigfito.elastiflix.core.error.SearchValidationException;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.result.SearchService;
 
+import com.bigfito.elastiflix.web.layout.HtmlPage;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Página de resultados. Un error de validación se muestra aquí, con su código.
  */
 @Controller
-public class SearchController {
+public class SearchController implements HtmlPage {
 
     private final SearchQueryMapper mapper;
     private final SearchService searches;

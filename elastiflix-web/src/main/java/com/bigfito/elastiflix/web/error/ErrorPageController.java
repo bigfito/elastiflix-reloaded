@@ -8,6 +8,8 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import com.bigfito.elastiflix.web.layout.HtmlPage;
+
 import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Atiende el reenvío {@code /error} del servidor: 404 con navegación, o el código {@code EFX-*}.
  */
 @Controller
-public class ErrorPageController implements ErrorController {
+public class ErrorPageController implements ErrorController, HtmlPage {
 
     private final CatalogStatusService catalog;
 

@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-07, errores JSON de la carga (413 y 404)
-- **Última actualización:** 2026-10-18 17:13 UTC
+- **Próximo paso:** R-08, salud DOWN sin detalles nulos
+- **Última actualización:** 2026-10-18 17:19 UTC
 
 ## Fases
 

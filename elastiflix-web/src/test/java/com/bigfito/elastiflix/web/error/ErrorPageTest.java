@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Una excepción de la demo muestra su código y una ruta desconocida ofrece la navegación.
  */
 @WebMvcTest(ErrorProbeController.class)
-@Import({WebExceptionHandler.class, LayoutAdvice.class})
+@Import({WebExceptionHandler.class, NotFoundAdvice.class, LayoutAdvice.class})
 class ErrorPageTest {
 
     @Autowired
