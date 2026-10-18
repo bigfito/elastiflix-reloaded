@@ -99,7 +99,7 @@ public final class FileIntake {
             return;
         }
         Set<String> existing = existing(loaded.documents());
-        ValidatedMovies checked = validator.validateAndRelease(loaded.documents(), existing);
+        ValidatedMovies checked = validator.validateAndRelease(loaded.documents(), loaded.labels(), existing);
         storeOutcome(jobId, loaded.report(), checked);
     }
 

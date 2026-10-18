@@ -12,16 +12,22 @@ import tools.jackson.databind.JsonNode;
  *
  * @param documents   un objeto JSON por película; el validador la vacía a medida que revisa
  * @param report      errores de encabezado o de forma; vacío si el lector no encontró
+ * @param labels      en CSV, la fila real de cada documento; vacía en JSON (se numera desde 1)
  * @param recordCount registros (JSON) o filas de datos (CSV) que se leyeron
  * @param columns     tabla de correspondencia del CSV; vacía en JSON
  */
 public record LoadedDocuments(
-        List<JsonNode> documents, ValidationReport report, int recordCount, List<CsvColumnRow> columns) {
+        List<JsonNode> documents,
+        ValidationReport report,
+        List<String> labels,
+        int recordCount,
+        List<CsvColumnRow> columns) {
 
     /**
      * Copia la tabla de columnas. La lista de documentos no se copia: el validador la va vaciando.
      */
     public LoadedDocuments {
+        labels = List.copyOf(labels);
         columns = List.copyOf(columns);
     }
 }

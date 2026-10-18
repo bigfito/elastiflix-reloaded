@@ -19,8 +19,7 @@ final class DocumentChecker {
     private static final Logger LOG = LoggerFactory.getLogger(DocumentChecker.class);
     private static final String NOT_IN_MAPPING = "Ese campo no existe en el mapping del índice";
 
-    CheckedDocument check(JsonNode node, int number, Set<String> warnedVectors) {
-        String record = Integer.toString(number);
+    CheckedDocument check(JsonNode node, String record, Set<String> warnedVectors) {
         if (!(node instanceof ObjectNode object)) {
             return notObject(record);
         }

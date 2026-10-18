@@ -47,7 +47,7 @@ class MappingValidatorTest {
         List<JsonNode> documents = new ArrayList<>(new JsonDocuments().read(JSON).documents());
 
         // when
-        ValidatedMovies checked = validator.validateAndRelease(documents, Set.of());
+        ValidatedMovies checked = validator.validateAndRelease(documents, List.of(), Set.of());
 
         // then
         assertThat(checked.movies()).hasSize(4);

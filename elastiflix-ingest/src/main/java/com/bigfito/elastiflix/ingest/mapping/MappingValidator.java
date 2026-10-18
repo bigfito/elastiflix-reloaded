@@ -28,7 +28,7 @@ public final class MappingValidator {
      * @return películas aceptadas, el informe y cuántos id se reemplazarían
      */
     public ValidatedMovies validate(List<JsonNode> documents, Set<String> existingIds) {
-        return validateAndRelease(new ArrayList<>(documents), existingIds);
+        return validateAndRelease(new ArrayList<>(documents), List.of(), existingIds);
     }
 
     /**
@@ -36,45 +36,53 @@ public final class MappingValidator {
      * archivo crudo y las películas no convivan enteros en memoria.
      *
      * @param documents   lista modificable; al terminar solo tiene {@code null}
+     * @param labels      fila o registro de cada documento, en el mismo orden (en CSV, la fila real del
+     *                    archivo); vacía para numerar desde 1
      * @param existingIds ids que ya están en el catálogo; vacío si no se sabe
      * @return películas aceptadas, el informe y cuántos id se reemplazarían
      */
-    public ValidatedMovies validateAndRelease(List<JsonNode> documents, Set<String> existingIds) {
+    public ValidatedMovies validateAndRelease(
+            List<JsonNode> documents, List<String> labels, Set<String> existingIds) {
         ValidationRun run = new ValidationRun();
         ListIterator<JsonNode> pending = documents.listIterator();
         while (pending.hasNext()) {
+            int index = pending.nextIndex();
             JsonNode document = pending.next();
             pending.set(null);
-            accept(document, pending.nextIndex(), run);
+            accept(document, labelOf(labels, index), run);
         }
         noteEmpty(documents, run);
         return result(run, existingIds);
     }
 
-    private void accept(JsonNode document, int number, ValidationRun run) {
-        CheckedDocument checked = checker.check(document, number, run.warned());
+    private static String labelOf(List<String> labels, int index) {
+        return index < labels.size() ? labels.get(index) : Integer.toString(index + 1);
+    }
+
+    private void accept(JsonNode document, String label, ValidationRun run) {
+        CheckedDocument checked = checker.check(document, label, run.warned());
         run.addAll(checked.issues());
-        remember(checked, number, run);
+        remember(checked, label, run);
         if (!run.failed()) {
             run.movies().add(MovieDocuments.fromNode(checked.body()));
         }
     }
 
-    private static void remember(CheckedDocument checked, int number, ValidationRun run) {
+    private static void remember(CheckedDocument checked, String label, ValidationRun run) {
         if (FieldNames.MISSING.equals(checked.id())) {
             return;
         }
         if (!run.seen().add(checked.id())) {
-            run.add(duplicate(checked, number));
+            run.add(duplicate(checked, label));
             return;
         }
         run.ids().add(checked.id());
     }
 
-    private static ValidationIssue duplicate(CheckedDocument checked, int number) {
+    private static ValidationIssue duplicate(CheckedDocument checked, String label) {
         return new ValidationIssue(
                 ErrorCode.DUPLICATE_ID.code(),
-                Integer.toString(number),
+                label,
                 checked.id(),
                 FieldNames.ID,
                 checked.id(),

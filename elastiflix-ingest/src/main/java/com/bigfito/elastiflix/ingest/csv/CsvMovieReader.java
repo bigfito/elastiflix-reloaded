@@ -70,11 +70,12 @@ public final class CsvMovieReader {
         }
         List<ValidationIssue> issues = header.check(columns.get());
         if (stopsReading(issues)) {
-            return new CsvRead(List.of(), new ValidationReport(issues), 0, List.of());
+            return new CsvRead(List.of(), new ValidationReport(issues), List.of(), 0, List.of());
         }
         ColumnTally tally = new ColumnTally(columns.get());
-        List<JsonNode> documents = documents(rows, columns.get(), issues, tally);
-        return new CsvRead(documents, new ValidationReport(issues), tally.rows(), tally.columns());
+        List<String> labels = new ArrayList<>();
+        List<JsonNode> documents = documents(rows, columns.get(), issues, tally, labels);
+        return new CsvRead(documents, new ValidationReport(issues), labels, tally.rows(), tally.columns());
     }
 
     /** Solo una columna desconocida deja seguir: el resto de los errores del encabezado impide leer. */
@@ -87,15 +88,18 @@ public final class CsvMovieReader {
         return false;
     }
 
-    private List<JsonNode> documents(
-            CsvRows rows, List<String> columns, List<ValidationIssue> issues, ColumnTally tally) {
+    /** La fila 1 es el encabezado: la primera fila de datos es la 2, y las filas en blanco también cuentan. */
+    private List<JsonNode> documents(CsvRows rows, List<String> columns, List<ValidationIssue> issues,
+            ColumnTally tally, List<String> labels) {
         List<JsonNode> documents = new ArrayList<>();
         Optional<List<String>> row = rows.nextRow();
         int number = 2;
         while (row.isPresent()) {
+            if (!blank(row.get()) && addRow(documents, issues, columns, row.get(), number)) {
+                labels.add(Integer.toString(number));
+            }
             if (!blank(row.get())) {
                 tally.count(row.get());
-                addRow(documents, issues, columns, row.get(), number);
             }
             number++;
             row = rows.nextRow();
@@ -103,7 +107,7 @@ public final class CsvMovieReader {
         return documents;
     }
 
-    private void addRow(
+    private boolean addRow(
             List<JsonNode> documents,
             List<ValidationIssue> issues,
             List<String> columns,
@@ -111,9 +115,10 @@ public final class CsvMovieReader {
             int number) {
         if (row.size() != columns.size()) {
             issues.add(width(number, columns.size(), row.size()));
-            return;
+            return false;
         }
         documents.add(document(columns, row));
+        return true;
     }
 
     private static ValidationIssue width(int number, int expected, int received) {

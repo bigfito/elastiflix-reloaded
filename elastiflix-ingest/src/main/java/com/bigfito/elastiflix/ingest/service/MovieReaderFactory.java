@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.ingest.service;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
@@ -46,7 +47,7 @@ public final class MovieReaderFactory {
     public LoadedDocuments load(FileKind kind, Path path, CsvSettings settings) {
         if (kind == FileKind.JSON) {
             JsonRead read = json.read(path);
-            return new LoadedDocuments(read.documents(), new ValidationReport(read.warnings()),
+            return new LoadedDocuments(read.documents(), new ValidationReport(read.warnings()), List.of(),
                     read.documents().size(), List.of());
         }
         return csvDocuments(path, settings);
@@ -54,7 +55,7 @@ public final class MovieReaderFactory {
 
     private LoadedDocuments csvDocuments(Path path, CsvSettings settings) {
         CsvRead read = csv.read(path, settings);
-        return new LoadedDocuments(read.documents(), read.report(), read.rowCount(),
-                columnRows.of(read.columns(), read.rowCount()));
+        return new LoadedDocuments(new ArrayList<>(read.documents()), read.report(), read.labels(),
+                read.rowCount(), columnRows.of(read.columns(), read.rowCount()));
     }
 }

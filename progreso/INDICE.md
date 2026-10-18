@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-08: número de fila real en los errores del CSV (ver `progreso/revision-2.md`). S-01 a
-  S-07 terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
-- **Última actualización:** 2026-10-18 23:00 UTC
+- **Próximo paso:** S-09: la comprobación UTF-8 del navegador (ver `progreso/revision-2.md`). S-01 a S-08
+  terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
+- **Última actualización:** 2026-10-18 23:15 UTC
 
 ## Fases
 
