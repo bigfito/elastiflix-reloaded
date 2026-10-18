@@ -606,7 +606,7 @@ Criterio: Maven 3.10.0 y Java 25; `verify` en verde con 0 violaciones y `Archite
 **Objetivo:** `elastiflix-core` se conecta a Elasticsearch Serverless, conoce el mapping, administra el
 alias y sus índices, y genera vectores de consulta y de documento idénticos a los del catálogo.
 
-- [ ] **1.0** 🔒 Diseño: `docs/diseno/1.md` desde `docs/diseno/_PLANTILLA.md` (clases, contratos de
+- [x] **1.0** 🔒 Diseño: `docs/diseno/1.md` desde `docs/diseno/_PLANTILLA.md` (clases, contratos de
   `CatalogIndex`, `EmbeddingService`, `IndexMapping`, `CatalogStatusService`, catálogo de errores,
   configuración, secuencia de la migración a alias, calibración de embeddings). Commit y **detente**
   hasta la aprobación del usuario.
