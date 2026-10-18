@@ -610,7 +610,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   `CatalogIndex`, `EmbeddingService`, `IndexMapping`, `CatalogStatusService`, catálogo de errores,
   configuración, secuencia de la migración a alias, calibración de embeddings). Commit y **detente**
   hasta la aprobación del usuario.
-- [ ] **1.1** Catálogo de errores en `core/.../core/error/`: `ErrorCode` y la jerarquía de
+- [x] **1.1** Catálogo de errores en `core/.../core/error/`: `ErrorCode` y la jerarquía de
   `ElastiflixException` (`docs/convenciones-java.md` §7).
   - Criterio: pruebas unitarias verifican el formato `<código> · <qué pasó>. Causa probable: … Acción
     sugerida: …` y que los códigos son únicos.
