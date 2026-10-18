@@ -39,6 +39,8 @@ public class LayoutAdvice {
             connection = CatalogTexts.disconnected(status.errorCode());
         }
         String index = CatalogTexts.indexLine(status.name(), status.documentCount());
-        return new PageShell(connection, index, status.connected(), CatalogTexts.TMDB);
+        String phrase = CatalogTexts.moviePhrase(status.documentCount());
+        return new PageShell(
+                connection, index, status.connected(), CatalogTexts.TMDB, CatalogTexts.TMDB_ES, status.name(), phrase);
     }
 }

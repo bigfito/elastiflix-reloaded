@@ -10,8 +10,8 @@
 - **Fase actual:** 4
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (`cursor/fase-4-interfaz-29a6`)
-- **Próximo paso:** Tarea 4.4, página de carga de datos.
-- **Última actualización:** 2026-10-18 03:16 UTC
+- **Próximo paso:** Tarea 4.6, páginas de error y 404.
+- **Última actualización:** 2026-10-18 03:24 UTC
 
 ## Fases
 
@@ -42,7 +42,7 @@
 
 ## Pendiente para la Fase 4
 
-- Corregir en el mockup `design/mockups/Ingest.dc.html` el texto «Los vectores del archivo se usan tal cual». Los vectores siempre se generan con el servicio de inferencia; si el archivo los trae, se ignoran con advertencia.
+- Hecho en la tarea 4.4: el mockup y la página dicen que los vectores de la sinopsis se generan con inferencia.
 
 ## Última verificación
 

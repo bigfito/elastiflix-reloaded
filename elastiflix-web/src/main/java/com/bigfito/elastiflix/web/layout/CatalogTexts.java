@@ -12,6 +12,10 @@ public final class CatalogTexts {
     public static final String TMDB =
             "This product uses the TMDB API but is not endorsed or certified by TMDB.";
 
+    /** Traducción de la atribución, en la sección Créditos de Acerca de. */
+    public static final String TMDB_ES =
+            "Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.";
+
     private static final int GROUP = 3;
 
     private CatalogTexts() {
@@ -39,6 +43,22 @@ public final class CatalogTexts {
             return "Sin conexión · Elasticsearch Serverless";
         }
         return "Sin conexión · " + errorCode;
+    }
+
+    /**
+     * Frase del conteo para Acerca de.
+     *
+     * @param count documentos, o {@code null} si no hay conteo
+     * @return por ejemplo {@code Tiene 4 322 películas.}
+     */
+    public static String moviePhrase(Long count) {
+        if (count == null) {
+            return "El conteo no está disponible.";
+        }
+        if (count == 1L) {
+            return "Tiene 1 película.";
+        }
+        return "Tiene " + grouped(count) + " películas.";
     }
 
     private static String movies(Long count) {

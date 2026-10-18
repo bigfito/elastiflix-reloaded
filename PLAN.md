@@ -926,14 +926,14 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   Cambiar el tamaño o aplicar filtros vuelve a la página 1.
   - Criterio: pruebas MockMvc para los tres modos, los dos estados vacíos y un error de validación
     (`candidatos < k`) mostrado con su código.
-- [ ] **4.4** Cargar datos (`GET /cargar` y endpoints de §5): pestañas, formulario completo del mockup,
+- [x] **4.4** Cargar datos (`GET /cargar` y endpoints de §5): pestañas, formulario completo del mockup,
   zona de arrastre con las comprobaciones del navegador, opciones de CSV, proceso en 5 pasos, tarjetas
   de conteo, tabla de errores (6 primeros + descarga del informe), comprobaciones superadas,
   advertencias, botón de importar, progreso y cancelación (consulta periódica del estado del trabajo),
   con los ajustes de texto autorizados en §1 (casilla de encabezado, vectores fuera de las reglas).
   - Criterio: pruebas MockMvc del flujo validar → importar → estado → cancelar con `IngestService`
     simulado; un archivo `.txt` se rechaza con su código.
-- [ ] **4.5** Acerca de (`GET /acerca`): contenido de `About.dc.html` (tres modos, BM25, k-NN, tabla de
+- [x] **4.5** Acerca de (`GET /acerca`): contenido de `About.dc.html` (tres modos, BM25, k-NN, tabla de
   precisión por dimensión, RRF, resultados y filtros, carga de datos, catálogo) con alias y conteo
   reales, los enlaces a la documentación oficial y los ajustes de texto autorizados en §1 (vectores
   siempre generados, borrado del índice anterior, CSV con encabezado obligatorio) y la sección
