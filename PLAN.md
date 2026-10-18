@@ -1000,7 +1000,7 @@ resumen de diseño y revisión de convenciones en `progreso/5.md`.
 
 **Objetivo:** dejar el proyecto listo para que cualquier persona lo ejecute y lo entienda.
 
-- [ ] **6.1** Actualiza `README.md` con los comandos reales verificados (compilar, configurar `.env`,
+- [x] **6.1** Actualiza `README.md` con los comandos reales verificados (compilar, configurar `.env`,
   migrar a alias, arrancar, pruebas) y una captura de cada página en `docs/capturas/`.
   - Criterio: en una carpeta temporal, `git clone` del repo, copia de `.env`, y solo los comandos de
     «Puesta en marcha» del README: `./mvnw verify` termina en 0 y la aplicación arranca y responde 200 en
