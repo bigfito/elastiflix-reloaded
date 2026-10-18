@@ -10,8 +10,8 @@
 - **Fase actual:** 1
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Tarea 1.4: modelo `Movie` y `MovieJsonTest` con las 4 películas del fixture.
-- **Última actualización:** 2026-10-18 00:13 UTC
+- **Próximo paso:** Tarea 1.5: `IndexMapping` y prueba de 33 campos, formato de `release_date` y dimensiones de `plot_512`.
+- **Última actualización:** 2026-10-18 00:21 UTC
 
 ## Fases
 
@@ -36,6 +36,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-core -am verify -Pit -Dit.test=ElasticsearchClientIT`
-- **Resultado:** en verde. `ElasticsearchClientIT`: 1 prueba, 0 fallos. `ElasticsearchClientConfigTest`: 1 prueba, 0 fallos.
-- **Fecha:** 2026-10-18 00:13 UTC
+- **Comando:** `./mvnw -q verify`
+- **Resultado:** en verde (código 0). `MovieJsonTest`: 1 prueba, 0 fallos.
+- **Fecha:** 2026-10-18 00:21 UTC

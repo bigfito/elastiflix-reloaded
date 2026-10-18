@@ -635,7 +635,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   (`management.health.elasticsearch.enabled=false`).
   - Criterio: prueba con `ApplicationContextRunner` confirma que el mapper del cliente es
     `Jackson3JsonpMapper`; `ElasticsearchClientIT` (`-Pit`) ejecuta `info()` sin error.
-- [ ] **1.4** Modelo de dominio en `core/.../core/model/`: `Movie` (los 33 campos del mapping),
+- [x] **1.4** Modelo de dominio en `core/.../core/model/`: `Movie` (los 33 campos del mapping),
   `MovieCollection`, `MovieKeyword`; serialización con Jackson 3 (`snake_case`), `release_date` como
   `LocalDate`, vectores como `float[]`; los campos opcionales pueden faltar o venir en `null` (en la
   exportación real faltan o son `null`, por ejemplo, `rating`, `poster_path` y `user_score`); el metadato
