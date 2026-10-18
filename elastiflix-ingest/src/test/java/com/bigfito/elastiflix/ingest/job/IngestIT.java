@@ -15,7 +15,7 @@ import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.embedding.CosineSimilarity;
 import com.bigfito.elastiflix.core.model.Movie;
-import com.bigfito.elastiflix.ingest.IngestTestApplication;
+import com.bigfito.elastiflix.ingest.TestApplication;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.job.SaveResult.Saved;
 import com.bigfito.elastiflix.ingest.service.IngestService;
@@ -43,7 +43,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Importa y cancela sobre un alias {@code elastiflix-it-<aleatorio>}. No toca el catálogo real.
  */
-@SpringBootTest(classes = {IngestTestApplication.class, IngestIT.GateConfig.class})
+@SpringBootTest(classes = {TestApplication.class, IngestIT.GateConfig.class})
 class IngestIT {
 
     private static final Path FIXTURE = Path.of("..", "elasticsearch", "fixtures", "movies-sample.json");
@@ -107,8 +107,11 @@ class IngestIT {
 
     @AfterEach
     void deleteTheTestAlias() {
-        stopJobs();
-        deleteOwned();
+        try {
+            stopJobs();
+        } finally {
+            deleteOwned();
+        }
     }
 
     @Test

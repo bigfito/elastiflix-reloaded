@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-24: detalles de la ingesta (ver `progreso/revision-2.md`). S-01 a S-17 y S-20 a S-23
-  terminadas; S-18 y S-19 esperan el `.env`.
-- **Última actualización:** 2026-10-19 02:55 UTC
+- **Próximo paso:** S-25: código muerto (ver `progreso/revision-2.md`). S-01 a S-17 y S-20 a S-24 terminadas;
+  S-18 y S-19 esperan el `.env`.
+- **Última actualización:** 2026-10-19 03:10 UTC
 
 ## Fases
 

@@ -108,6 +108,9 @@ final class ImportWork {
     }
 
     synchronized void validating() {
+        if (status == JobStatus.CANCELLED) {
+            return;
+        }
         status = JobStatus.VALIDATING;
         step = UPLOAD_STEP;
     }

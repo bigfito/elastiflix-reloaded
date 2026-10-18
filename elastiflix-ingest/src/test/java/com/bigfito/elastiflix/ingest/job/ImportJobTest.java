@@ -97,7 +97,7 @@ class ImportJobTest {
         verify(catalog, never()).deleteIndex(FOREIGN);
         verify(catalog, never()).deleteIndex(LIVE);
         verify(catalog, never()).deleteIndex(temp);
-        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4, 5);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4, 4, 5);
         assertThat(progress).extracting(ImportProgress::tempIndex).containsOnly(temp);
     }
 
@@ -111,15 +111,19 @@ class ImportJobTest {
         when(catalog.count(LIVE)).thenReturn(4L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
         doAnswer(invocation -> {
+            // Al escribir el lote ya se avisó que está vectorizado, pero todavía no que está escrito.
             assertThat(progress).last()
                     .extracting(ImportProgress::vectorized, ImportProgress::written)
-                    .containsExactly(1, 1);
+                    .containsExactly(1, 0);
             return null;
         }).when(catalog).writeAll(eq(temp), anyList());
 
         job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
 
         verify(catalog).publish(ALIAS, temp, LIVE);
+        assertThat(progress).filteredOn(notice -> notice.step() == 4).last()
+                .extracting(ImportProgress::vectorized, ImportProgress::written)
+                .containsExactly(1, 1);
     }
 
     @Test
@@ -231,7 +235,7 @@ class ImportJobTest {
         job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
 
         verify(catalog, never()).deleteIndex(temp);
-        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4, 5);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4, 4, 5);
     }
 
     @Test
@@ -287,7 +291,7 @@ class ImportJobTest {
                 .extracting(error -> ((ElasticsearchAccessException) error).errorCode())
                 .isEqualTo(ErrorCode.ALIAS_PUBLISH_FAILED);
         verify(catalog).deleteIndex(temp);
-        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4, 4);
     }
 
     @Test
