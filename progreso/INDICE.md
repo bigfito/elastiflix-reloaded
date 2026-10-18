@@ -10,7 +10,7 @@
 - **Fase actual:** 5
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (`cursor/fase-5-pruebas-29a6`)
-- **Próximo paso:** Tarea 5.1, `SmokeIT`, sin importar ni escribir en el catálogo.
+- **Próximo paso:** Tarea 5.2, tabla de cobertura de §1 y §6.
 - **Última actualización:** 2026-10-18 04:10 UTC
 
 ## Fases
@@ -47,6 +47,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw clean verify` y `./mvnw -pl elastiflix-web spring-boot:run`
-- **Resultado:** BUILD SUCCESS. Checkstyle 0, PMD y ArchUnit en verde, sin `archunit.properties`. La aplicación leyó `elastiflix-reloaded` (4322 documentos, índice `elastiflix-reloaded-20261018-003535`) y no lo modificó.
-- **Fecha:** 2026-10-18 03:31 UTC
+- **Comando:** `./mvnw verify -Pit`
+- **Resultado:** BUILD SUCCESS. `SmokeIT` validó el CSV de muestra y no lo importó. El catálogo real no se modificó. `IngestIT` escribió solo en `elastiflix-it-5e7fcecfbc7c`.
+- **Fecha:** 2026-10-18 04:08 UTC
