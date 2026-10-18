@@ -188,9 +188,11 @@
     return "";
   }
 
+  // Solo se leen 64 KiB: el corte puede partir un carácter de varios bytes. Con stream: true, el
+  // decodificador guarda esos bytes para un trozo siguiente en lugar de tratarlos como un error.
   function readUtf8(file) {
     return file.slice(0, 65536).arrayBuffer().then(function (buffer) {
-      new TextDecoder("utf-8", { fatal: true }).decode(buffer);
+      new TextDecoder("utf-8", { fatal: true }).decode(buffer, { stream: true });
       return true;
     }).catch(function () {
       return false;

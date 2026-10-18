@@ -23,3 +23,6 @@ uploads-tmp/
 *.log
 
 # progreso/ SE VERSIONA: no lo agregues aquí
+# Dependencias de las pruebas de navegador
+elastiflix-web/src/test/browser/node_modules
+elastiflix-web/src/test/browser/package-lock.json
