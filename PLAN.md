@@ -61,8 +61,8 @@ cargar nuevas películas sin dejar nunca el catálogo a medias.
 > `elastiflix-reloaded-20261018-054429` y tiene **6 899** documentos. Lo dejó la importación de
 > `movies.json`, aprobada por Adolfo, que reemplazó y borró `elastiflix-reloaded-20261018-003535`
 > (catálogo histórico de 4 322 documentos). Los conteos de 4 322 de este plan son los de las verificaciones históricas anteriores a
-> esa carga. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y exigen que sea
-> mayor que cero.
+> esa carga. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`,
+> afirman los 6 899 documentos y los valores de §6; se omiten con `assumeTrue` si el conteo cambió.
 
 **Qué debe lograr.**
 

@@ -46,7 +46,7 @@ dinámicos, paginación y carga segura de datos (.json/.csv). El índice y el co
 `progreso/INDICE.md` › «Catálogo vigente». Java 25, Spring Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de
 Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. El plan está cerrado en `main`. Las
 verificaciones históricas de las fases contaron 4 322 películas, el catálogo anterior a la importación del
-2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`.
+2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` leen `_count`, afirman los 6 899 documentos y los valores de §6; se omiten con `assumeTrue` si el conteo cambió.
 
 ## Trabajo abierto
 

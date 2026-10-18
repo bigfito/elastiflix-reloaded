@@ -27,7 +27,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > del alias `elastiflix-reloaded` están en [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
 > `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
 > `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias
-> con `_count` y exigen que sea mayor que cero. La aplicación no modifica el alias al arrancar.
+> con `_count`, afirman los 6 899 documentos y los valores de §6; se omiten con `assumeTrue` si el conteo cambió. La aplicación no modifica el alias al arrancar.
 > El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
 
 ---
