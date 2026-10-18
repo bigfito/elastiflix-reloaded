@@ -110,7 +110,7 @@ public final class ImportJob {
 
     private long copy(ImportContext context) {
         ensureRunning(context.cancelled());
-        catalog.reindex(context.previous(), context.temp());
+        catalog.reindex(context.previous(), context.temp(), context.cancelled());
         ensureRunning(context.cancelled());
         catalog.refresh(context.temp());
         long copied = catalog.count(context.temp());

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.catalog.CatalogName;
@@ -29,6 +30,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -165,7 +167,7 @@ class ImportJobTest {
         doAnswer(invocation -> {
             cancel.set(true);
             return null;
-        }).when(catalog).reindex(anyString(), anyString());
+        }).when(catalog).reindex(anyString(), anyString(), any());
 
         assertThatThrownBy(() -> job.run(
                 ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, cancel::get))
@@ -173,6 +175,36 @@ class ImportJobTest {
                 .extracting(error -> ((ImportException) error).errorCode())
                 .isEqualTo(ErrorCode.IMPORT_CANCELLED);
         verify(catalog).deleteIndex(temp);
+        verify(catalog, never()).publish(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    @DisplayName("si la copia falla, la tarea se cancela antes de borrar el temporal")
+    void shouldCancelTheCopyBeforeDeletingTheTemp() {
+        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        AtomicBoolean cancel = new AtomicBoolean();
+        List<String> events = new ArrayList<>();
+        doAnswer(invocation -> {
+            // Así se comporta ElasticsearchCatalogIndex (ver ReindexTasksTest): la persona cancela a
+            // mitad de la copia, reindex lo ve en la señal que recibió, cancela la tarea y después lanza.
+            cancel.set(true);
+            BooleanSupplier stop = invocation.getArgument(2);
+            if (stop.getAsBoolean()) {
+                events.add("tarea cancelada");
+                throw new ImportException(ErrorCode.IMPORT_CANCELLED);
+            }
+            return null;
+        }).when(catalog).reindex(eq(LIVE), eq(temp), any());
+        doAnswer(invocation -> events.add("deleteIndex " + invocation.getArgument(0)))
+                .when(catalog).deleteIndex(temp);
+
+        assertThatThrownBy(() -> job.run(
+                ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, cancel::get))
+                .isInstanceOf(ImportException.class)
+                .extracting(error -> ((ImportException) error).errorCode())
+                .isEqualTo(ErrorCode.IMPORT_CANCELLED);
+        assertThat(events).containsExactly("tarea cancelada", "deleteIndex " + temp);
         verify(catalog, never()).publish(anyString(), anyString(), anyString());
     }
 

@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.core.catalog;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.model.Movie;
 
@@ -28,10 +29,14 @@ public interface CatalogIndex {
     /**
      * Copia los documentos de un índice a otro y espera a que termine.
      *
+     * <p>Si la copia no termina en el plazo, se corta la conexión o {@code stop} dice sí, cancela la
+     * tarea de reindex <b>antes</b> de lanzar: quien borre después el destino no compite con ella.</p>
+     *
      * @param source índice de origen
      * @param target índice de destino
+     * @param stop   se consulta durante la espera; si dice sí, lanza {@code EFX-IMP-003}
      */
-    void reindex(String source, String target);
+    void reindex(String source, String target, BooleanSupplier stop);
 
     /**
      * Hace visibles los documentos recién escritos.

@@ -371,6 +371,12 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   | `management.endpoint.health.show-details` | `always` |
   | `management.health.elasticsearch.enabled` | `false` (el indicador de Boot usa `_cluster/health`, que Serverless no tiene) |
 
+  `spring.elasticsearch.socket-timeout` no se configura: vale 30 s, el valor por defecto de Spring Boot
+  4.1.1. Por eso la copia del catálogo (`_reindex` + `_tasks`) no hace una sola lectura larga: lee
+  `_tasks` en un bucle de lecturas de 20 s (`wait_for_completion=true&timeout=20s`), con un plazo total
+  de 30 minutos. Si el plazo vence, se corta la conexión o la persona cancela, la tarea se cancela con
+  `_tasks/<id>/_cancel` antes de borrar el índice temporal (revisión 2, S-01).
+
   Los valores de embeddings de documento (`elastiflix.embedding.*`) **no** van en el YAML: son los
   valores por defecto (`@DefaultValue`) del `record` de propiedades de `elastiflix-core`, fijados por la
   calibración de la tarea 1.9, para que todos los módulos y pruebas usen los mismos.

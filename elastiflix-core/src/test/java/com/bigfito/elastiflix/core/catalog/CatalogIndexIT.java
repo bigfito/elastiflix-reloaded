@@ -78,7 +78,7 @@ class CatalogIndexIT {
         assertThat(catalog.describe(indexA)).isInstanceOf(CatalogName.ConcreteIndex.class);
 
         create(indexB);
-        catalog.reindex(indexA, indexB);
+        catalog.reindex(indexA, indexB, () -> false);
         catalog.refresh(indexB);
         assertThat(catalog.count(indexB)).isEqualTo(count);
 

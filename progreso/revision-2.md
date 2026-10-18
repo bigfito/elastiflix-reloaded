@@ -18,12 +18,12 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** S-01
+- **Tarea actual:** S-02
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** S-01: reescribir `ReindexTasks.await` como bucle de lecturas `_tasks` de 20 s con plazo
-  total de 30 min medido con `Clock`, revisar `failures`/`timed_out`, cancelar la tarea antes de borrar el
-  temporal y cubrir los seis casos de `ReindexTasksTest` más el orden en `ImportJobTest`.
-- **Última actualización:** 2026-10-18 19:58 UTC
+- **Próximo paso:** S-02: comparar `templates/ingest.html` y `static/css/elastiflix.css` con
+  `design/mockups/Ingest.dc.html` y completar contenedor, pestañas, botones con iconos, campos, pasos,
+  tarjetas, tablas, alertas y listas.
+- **Última actualización:** 2026-10-18 20:12 UTC
 
 ## Tareas
 
@@ -32,7 +32,7 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| S-01 | pendiente | — | La copia del índice se corta a los 30 s, y el reindex sigue escribiendo después de borrar el temporal |
+| S-01 | terminada | se anota en S-02 | `ReindexTasks` espera en un bucle de lecturas `_tasks` de 20 s con plazo total de 30 min (`Clock`), revisa `error`/`failures`/`timed_out`, falla con `EFX-ES-006` sin id de tarea, y cancela la tarea (`_tasks/<id>/_cancel`) antes de lanzar si vence el plazo, se corta la conexión o la persona cancela. `CatalogIndex.reindex` recibe `stop`. Confirmado en el jar: `spring.elasticsearch.socket-timeout` vale 30 s. `./mvnw verify`: BUILD SUCCESS, 200 unitarias, 0 fallos, Checkstyle y PMD en 0. `ReindexTasksTest` (10) cubre los seis casos del criterio más la lectura de 20 s, `completed=false`, el error de la tarea y la cancelación de la persona. Mutaciones, una a la vez y revertidas: sin cancelar al vencer el plazo → falla `shouldCancelWhenTheDeadlinePasses`; sin cancelar ante `IOException` → `shouldCancelWhenTheConnectionFails`; `timeout_exception` como error → `shouldKeepWaitingAfterATimeoutException`; sin `failures` → `shouldFailWhenTheTaskReportsFailures`; sin `timed_out` → `shouldFailWhenTheTaskTimedOut`; id vacío como copia terminada → `shouldFailWhenThereIsNoTaskId`; `ImportJob` sin pasar la señal de cancelación → `ImportJobTest.shouldCancelTheCopyBeforeDeletingTheTemp`. `CatalogIndexIT` e `IngestIT` no se corrieron: no hay `.env` (ver «Bloqueos»). |
 | S-02 | pendiente | — | «Cargar datos» sigue sin reproducir `Ingest.dc.html`: contenedor, botones y estilos |
 | S-03 | pendiente | — | «Cargar datos»: faltan datos y textos del trabajo de carga |
 | S-04 | pendiente | — | Publicación: proteger el temporal ya publicado y no borrar ante un fallo que no es 4xx |
@@ -67,9 +67,9 @@ Vacío.
 ## Última verificación
 
 - **Comando:** `./mvnw verify`
-- **Resultado:** BUILD SUCCESS: 193 unitarias (core 39, search 58, ingest 63, web 33), 0 fallos; Checkstyle y
+- **Resultado:** BUILD SUCCESS: 200 unitarias (core 45, search 58, ingest 64, web 33), 0 fallos; Checkstyle y
   PMD en 0. `./mvnw verify -Pit` no se pudo correr: en esta máquina no hay `.env`.
-- **Fecha:** 2026-10-18 19:57 UTC
+- **Fecha:** 2026-10-18 20:11 UTC
 
 ## Decisiones
 
@@ -98,4 +98,8 @@ Vacío.
 
 ## Bloqueos y solicitudes
 
-Vacío.
+- 2026-10-18: en esta máquina (Codespace) no hay `.env`. Sin él no corren `./mvnw verify -Pit` ni las
+  pruebas de integración que tocan S-01 (`CatalogIndexIT`, `IngestIT`), y no se pueden hacer S-18
+  (capturas con datos reales) ni S-19 (corrida en un proyecto Serverless sin el índice). Las tareas siguen
+  con pruebas unitarias. Hace falta que Adolfo agregue el `.env` (o los secretos del Codespace) antes de
+  cerrar la unidad.

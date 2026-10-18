@@ -3,9 +3,11 @@ package com.bigfito.elastiflix.core.catalog;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
@@ -39,6 +41,7 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     private final ElasticsearchClient client;
     private final IndexMapping mapping;
     private final IndexNames names;
+    private final Clock clock;
 
     /**
      * Crea la puerta de acceso al catálogo.
@@ -46,11 +49,14 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
      * @param client  cliente de Elasticsearch
      * @param mapping mapping empaquetado
      * @param names   patrón de los índices de esta demo
+     * @param clock   reloj del plazo de la copia
      */
-    public ElasticsearchCatalogIndex(ElasticsearchClient client, IndexMapping mapping, IndexNames names) {
+    public ElasticsearchCatalogIndex(
+            ElasticsearchClient client, IndexMapping mapping, IndexNames names, Clock clock) {
         this.client = client;
         this.mapping = mapping;
         this.names = names;
+        this.clock = clock;
     }
 
     @Override
@@ -76,9 +82,9 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     }
 
     @Override
-    public void reindex(String source, String target) {
+    public void reindex(String source, String target, BooleanSupplier stop) {
         call(source, () -> {
-            new ReindexTasks(client).copy(source, target);
+            new ReindexTasks(client, clock).copy(source, target, stop);
             return null;
         });
     }

@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.core.catalog;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
@@ -107,7 +108,7 @@ class CatalogStatusServiceTest {
         }
 
         @Override
-        public void reindex(String source, String target) {
+        public void reindex(String source, String target, BooleanSupplier stop) {
             unused();
         }
 

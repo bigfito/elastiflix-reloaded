@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-01: bucle de espera de `_tasks` con plazo total, revisión de `failures`/`timed_out` y
-  cancelación antes de borrar el temporal (ver `progreso/revision-2.md`).
-- **Última actualización:** 2026-10-18 19:58 UTC
+- **Próximo paso:** S-02: completar el CSS y la estructura de «Cargar datos» según `Ingest.dc.html` (ver
+  `progreso/revision-2.md`). S-01 terminada. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
+- **Última actualización:** 2026-10-18 20:12 UTC
 
 ## Fases
 

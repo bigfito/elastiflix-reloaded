@@ -57,7 +57,7 @@ public class CatalogBootstrap {
     }
 
     private long verifiedCount(String alias, String target) {
-        catalog.reindex(alias, target);
+        catalog.reindex(alias, target, () -> false);
         catalog.refresh(target);
         long copied = catalog.count(target);
         if (catalog.count(alias) != copied) {

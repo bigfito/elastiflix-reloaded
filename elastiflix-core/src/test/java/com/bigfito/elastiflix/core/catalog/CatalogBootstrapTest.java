@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
@@ -188,7 +189,7 @@ class CatalogBootstrapTest {
         }
 
         @Override
-        public void reindex(String source, String target) {
+        public void reindex(String source, String target, BooleanSupplier stop) {
             calls.add("reindex");
         }
 
