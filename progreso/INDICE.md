@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-13: estilos pendientes de Resultados (ver `progreso/revision-2.md`). S-01 a S-12
-  terminadas. Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
-- **Última actualización:** 2026-10-19 00:05 UTC
+- **Próximo paso:** S-14: las pruebas que pedía R-18 (ver `progreso/revision-2.md`). S-01 a S-13 terminadas.
+  Falta `.env` para `-Pit` (ver «Bloqueos» de la unidad).
+- **Última actualización:** 2026-10-19 00:40 UTC
 
 ## Fases
 
