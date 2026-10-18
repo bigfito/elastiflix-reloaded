@@ -20,9 +20,9 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 </div>
 
 > [!NOTE]
-> ✅ **Estado actual:** las siete fases del plan están terminadas en esta rama. `./mvnw verify -Pit`
+> ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. `./mvnw verify -Pit`
 > corre unitarias, arquitectura, integración y el smoke. La aplicación lee `elastiflix-reloaded`
-> y no lo modifica al arrancar. El cierre pide la revisión final del usuario. El avance está en
+> y no lo modifica al arrancar. El avance está en
 > [`progreso/INDICE.md`](progreso/INDICE.md).
 
 ---
