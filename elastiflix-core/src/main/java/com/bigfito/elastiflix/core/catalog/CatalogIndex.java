@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.core.catalog;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bigfito.elastiflix.core.model.Movie;
 
@@ -88,4 +89,33 @@ public interface CatalogIndex {
      * @return películas leídas
      */
     List<Movie> readAllWithVectors(String name, int limit);
+
+    /**
+     * Dice cuáles de esos {@code _id} ya están. No pide el documento.
+     *
+     * <p>Pregunta de 500 en 500. Una lista vacía no llama al clúster.</p>
+     *
+     * @param name índice o alias
+     * @param ids  identificadores a consultar
+     * @return los que ya existen
+     */
+    Set<String> existingIds(String name, List<String> ids);
+
+    /**
+     * Escribe el lote en el índice concreto. {@code _id} es {@code id}. Reemplaza si ya estaba.
+     *
+     * <p>No hace {@code refresh}. Si un ítem viene rechazado, lanza {@code EFX-IMP-001}.</p>
+     *
+     * @param indexName índice concreto
+     * @param movies    películas del lote
+     */
+    void writeAll(String indexName, List<Movie> movies);
+
+    /**
+     * Indexa una película en el alias, con {@code refresh=wait_for}, y reemplaza ese {@code _id}.
+     *
+     * @param name  alias del catálogo
+     * @param movie película ya vectorizada
+     */
+    void indexOne(String name, Movie movie);
 }

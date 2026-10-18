@@ -140,7 +140,133 @@ public enum ErrorCode {
     PAGE_TOO_SMALL("EFX-SRCH-011",
             "La página debe ser un entero mayor o igual que 1",
             "La página es menor que 1",
-            "Empieza en la página 1");
+            "Empieza en la página 1"),
+
+    /** El nombre no termina en {@code .json} ni en {@code .csv}. */
+    BAD_EXTENSION("EFX-ING-001",
+            "La extensión no es .json ni .csv",
+            "El nombre no tiene punto, o el sufijo es otro",
+            "Elige un archivo .json o .csv"),
+
+    /** El nombre tiene más de un punto. */
+    DOUBLE_EXTENSION("EFX-ING-002",
+            "El archivo tiene más de una extensión",
+            "El nombre tiene más de un punto",
+            "Renombra el archivo para que solo termine en .json o .csv"),
+
+    /** El archivo pesa más que el límite configurado. */
+    FILE_TOO_LARGE("EFX-ING-003",
+            "El archivo supera el tamaño máximo",
+            "Pesa más que el límite configurado",
+            "Parte el archivo o súbelo por debajo del límite"),
+
+    /** Hay bytes que no son UTF-8. */
+    INVALID_UTF8("EFX-ING-004",
+            "El archivo no es texto UTF-8",
+            "Hay bytes que no decodifican como UTF-8",
+            "Guarda el archivo como UTF-8 y vuelve a subirlo"),
+
+    /** La casilla de encabezado del CSV llegó desmarcada. */
+    HEADER_NOT_CONFIRMED("EFX-ING-005",
+            "El CSV no confirma que la primera fila sea el encabezado",
+            "La casilla de encabezado llegó desmarcada",
+            "Marca que la primera fila trae los nombres de columna"),
+
+    /** La primera fila no sirve como encabezado. */
+    INVALID_HEADER("EFX-ING-006",
+            "La primera fila no tiene nombres de columna válidos",
+            "Faltan id, title o plot, o hay un nombre vacío o repetido",
+            "Pon en la primera fila los nombres del mapping, con id, title y plot"),
+
+    /** Una columna o un campo no está en el mapping. */
+    UNKNOWN_FIELD("EFX-ING-007",
+            "Hay un campo que no existe en el mapping",
+            "La columna o el campo no está en el índice",
+            "Quita el campo o renómbralo a uno del mapping"),
+
+    /** El mismo {@code id} aparece dos veces. */
+    DUPLICATE_ID("EFX-ING-009",
+            "Hay un id repetido",
+            "El mismo id aparece dos veces",
+            "Deja una sola fila por id"),
+
+    /** El metadato {@code _id} no coincide con {@code id}. */
+    ID_MISMATCH("EFX-ING-010",
+            "_id no es igual a id",
+            "Vino el metadato y, ya como texto, no coincide",
+            "Haz que _id y id sean el mismo texto"),
+
+    /** Falta {@code id}, {@code title} o {@code plot}. */
+    REQUIRED_FIELD("EFX-ING-011",
+            "Faltan id, title o plot",
+            "Uno de los tres no viene, viene null o viene en blanco",
+            "Completa id, title y plot"),
+
+    /** El valor no encaja con el tipo del campo. */
+    TYPE_MISMATCH("EFX-ING-012",
+            "El valor no tiene el tipo del mapping",
+            "La fecha, el booleano, el número, la lista o el objeto no encajan",
+            "Corrige el valor para que coincida con el tipo del campo"),
+
+    /** El archivo trae vectores y se ignoran. */
+    VECTORS_IGNORED("EFX-ING-020",
+            "Los vectores del archivo se ignoran: se generarán con el servicio de inferencia",
+            "El archivo trae plot_256, plot_512 o plot_1024",
+            "No hace falta traer esos campos; la demo los calcula"),
+
+    /** Un hueco dentro de una lista se omitió. */
+    EMPTY_LIST_VALUE("EFX-ING-021",
+            "Un valor vacío dentro de una lista se omitió",
+            "Había un texto vacío o un hueco en una lista",
+            "Quita el hueco o escribe el texto"),
+
+    /** Un texto opcional quedó en blanco y se guardó sin valor. */
+    EMPTY_TEXT("EFX-ING-022",
+            "Un texto vacío se guardó sin valor",
+            "Un texto opcional solo tiene espacios",
+            "No hace falta traer el campo si no tiene texto"),
+
+    /** {@code document_count} no coincide con la lista {@code documents}. */
+    DOCUMENT_COUNT_MISMATCH("EFX-ING-008",
+            "document_count no coincide con los documentos",
+            "El objeto de exportación trae un conteo distinto del largo de documents",
+            "Corrige document_count o la lista de documentos y vuelve a subir el archivo"),
+
+    /** El JSON del archivo o de una celda no se puede leer. */
+    UNREADABLE_JSON("EFX-ING-013",
+            "El JSON no se puede leer",
+            "El archivo, o el JSON de una celda, está mal formado",
+            "Revisa el JSON y vuelve a subir el archivo"),
+
+    /** Un ítem del lote fue rechazado. */
+    BULK_REJECTED("EFX-IMP-001",
+            "Elasticsearch rechazó un documento del lote",
+            "Un ítem del lote trae error",
+            "Se borró el índice temporal. El catálogo anterior sigue igual. Revisa el archivo y vuelve a importar"),
+
+    /** El conteo después de los lotes no es el esperado. */
+    IMPORT_COUNT_MISMATCH("EFX-IMP-002",
+            "El conteo del índice nuevo no es el esperado",
+            "Después de los lotes, el conteo no cuadra",
+            "Se borró el índice temporal y no se publicó. Vuelve a importar"),
+
+    /** Alguien pidió cancelar la importación. */
+    IMPORT_CANCELLED("EFX-IMP-003",
+            "La importación se canceló",
+            "Alguien pidió cancelar",
+            "Se borró el índice temporal si existía. El catálogo anterior sigue igual"),
+
+    /** El nombre configurado es un índice concreto, no un alias. */
+    CATALOG_NOT_ALIAS("EFX-IMP-004",
+            "El catálogo configurado no es un alias",
+            "El nombre es un índice concreto",
+            "Publica el catálogo como alias antes de importar"),
+
+    /** El identificador del trabajo no está en memoria. */
+    UNKNOWN_JOB("EFX-IMP-005",
+            "No está ese trabajo de importación",
+            "El identificador no está en memoria",
+            "Vuelve a subir el archivo");
 
     private final String code;
     private final String whatHappened;

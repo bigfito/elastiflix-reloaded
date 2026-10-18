@@ -80,4 +80,21 @@ public record Movie(
         float[] plot512,
         float[] plot1024,
         Double userScore) {
+
+    /**
+     * Copia la película con los tres vectores de la sinopsis.
+     *
+     * @param plot256  vector de 256, ya renormalizado
+     * @param plot512  vector de 512, ya renormalizado
+     * @param plot1024 vector de 1024 que devolvió el modelo
+     * @return la misma película con esos vectores
+     */
+    public Movie withPlotVectors(float[] plot256, float[] plot512, float[] plot1024) {
+        return new Movie(
+                id, imdbId, title, originalTitle, originalLanguage, releaseDate, runtime, status,
+                adult, video, tagline, overview, plot, genres, keywords, cast, belongsToCollection,
+                budget, revenue, popularity, voteAverage, voteCount, rating, homepage, posterPath,
+                backdropPath, productionCompanies, productionCountries, spokenLanguages,
+                plot256, plot512, plot1024, userScore);
+    }
 }

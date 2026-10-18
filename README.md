@@ -13,8 +13,8 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
-![Estado](https://img.shields.io/badge/estado-fase_2_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
-![Fases](https://img.shields.io/badge/fases-3%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
+![Estado](https://img.shields.io/badge/estado-fase_3_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
+![Fases](https://img.shields.io/badge/fases-4%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
 </div>
@@ -212,7 +212,7 @@ elastiflix-reloaded/
 ## 🚀 Puesta en marcha
 
 > [!IMPORTANT]
-> Comandos ejecutados con éxito al cerrar la Fase 2. La Fase 4 documentará el arranque de las
+> Comandos ejecutados con éxito al cerrar la Fase 3. La Fase 4 documentará el arranque de las
 > páginas. La Fase 6 vuelve a verificar esta sección.
 
 **Prerrequisitos**
@@ -238,6 +238,7 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 ./mvnw verify                                    # unitarias, ArchUnit, Checkstyle y PMD
 ./mvnw verify -Pit -pl elastiflix-core -am       # integración de core (requiere .env local)
 ./mvnw verify -Pit -pl elastiflix-search -am     # integración de búsqueda, solo lectura del alias
+./mvnw verify -Pit -pl elastiflix-ingest -am     # integración de carga sobre elastiflix-it-<aleatorio>
 ./mvnw -q install -DskipTests
 ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
 ```
@@ -255,6 +256,13 @@ sin cambiar nada. El alias quedó en `elastiflix-reloaded-20261018-003535`, con 
   con los totales y posiciones de la tabla de verificación.
 - Filtros, facetas, paginación y los dos estados vacíos en `SearchService`. Las páginas llegan en
   la Fase 4.
+- Carga de un `.json` o un `.csv`: comprobación de nombre, tamaño y UTF-8, validación todo o nada
+  contra el mapping e informe de errores.
+- Importación al catálogo por un alias propio de prueba: índice temporal, lotes de 100, vectores
+  generados con inferencia, publicación en una sola llamada y vuelta atrás si falla o se cancela.
+- Registro individual directo al alias, visible en la lectura siguiente.
+- Las páginas de carga llegan en la Fase 4. El texto del mockup «Los vectores del archivo se usan tal
+  cual» queda pendiente de corrección: los vectores siempre se generan.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
 YAML: sus valores por defecto viven en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id
@@ -305,7 +313,7 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 | 0 | 🏗️ Andamiaje y calidad | — | ✅ terminado |
 | 1 | ⚙️ Núcleo: conexión, catálogo y embeddings | 🔒 | ✅ terminado |
 | 2 | 🔎 Búsqueda | 🔒 | ✅ terminado |
-| 3 | 📥 Carga de datos | 🔒 | ⏳ no iniciado |
+| 3 | 📥 Carga de datos | 🔒 | ✅ terminado |
 | 4 | 🌐 Interfaz web | — | ⏳ no iniciado |
 | 5 | 🧪 Pruebas integrales y smoke test | — | ⏳ no iniciado |
 | 6 | 📚 Documentación y cierre | — | ⏳ no iniciado |

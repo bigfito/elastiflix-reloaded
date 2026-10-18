@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
@@ -14,11 +15,11 @@ import com.bigfito.elastiflix.core.model.Movie;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.Refresh;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
-import co.elastic.clients.elasticsearch.core.search.SourceConfig;
-import co.elastic.clients.elasticsearch.indices.update_aliases.Action;
 import co.elastic.clients.util.ObjectBuilder;
 
 import org.slf4j.Logger;
@@ -77,7 +78,7 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     public void reindex(String source, String target) {
         call(source, () -> {
             client.reindex(request -> request
-                    .source(origin -> origin.index(source).sourceFields(withVectors()))
+                    .source(origin -> origin.index(source).sourceFields(CatalogRequests.withVectors()))
                     .dest(destination -> destination.index(target))
                     .waitForCompletion(true));
             return null;
@@ -101,7 +102,7 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     public void publish(String alias, String newIndex, String previousIndex) {
         call(alias, () -> {
             client.indices().updateAliases(request -> request.actions(
-                    add(alias, newIndex), remove(previousIndex)));
+                    CatalogRequests.add(alias, newIndex), CatalogRequests.remove(previousIndex)));
             return null;
         });
     }
@@ -142,6 +143,37 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
         return search(name, limit, query -> query.matchAll(match -> match));
     }
 
+    @Override
+    public Set<String> existingIds(String name, List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Set.of();
+        }
+        return call(name, () -> CatalogRequests.existingIds(client, name, ids));
+    }
+
+    @Override
+    public void writeAll(String indexName, List<Movie> movies) {
+        if (movies.isEmpty()) {
+            return;
+        }
+        BulkResponse response = call(indexName, () -> client.bulk(request -> request
+                .index(indexName)
+                .operations(CatalogRequests.operations(movies))));
+        CatalogRequests.requireAccepted(indexName, response);
+    }
+
+    @Override
+    public void indexOne(String name, Movie movie) {
+        call(name, () -> {
+            client.index(request -> request
+                    .index(name)
+                    .id(movie.id())
+                    .document(movie)
+                    .refresh(Refresh.WaitFor));
+            return null;
+        });
+    }
+
     private CatalogName fromAlias(String name) {
         List<String> targets = call(name, () -> List.copyOf(
                 client.indices().getAlias(request -> request.name(name)).aliases().keySet()));
@@ -168,7 +200,7 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
                 .index(name)
                 .size(size)
                 .query(query)
-                .source(withVectors()), Movie.class));
+                .source(CatalogRequests.withVectors()), Movie.class));
         return sources(response);
     }
 
@@ -180,18 +212,6 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
             }
         }
         return movies;
-    }
-
-    private static SourceConfig withVectors() {
-        return SourceConfig.of(source -> source.filter(filter -> filter.excludeVectors(false)));
-    }
-
-    private static Action add(String alias, String index) {
-        return Action.of(action -> action.add(add -> add.alias(alias).index(index)));
-    }
-
-    private static Action remove(String index) {
-        return Action.of(action -> action.removeIndex(remove -> remove.index(index)));
     }
 
     private <T> T call(String target, IoSupplier<T> supplier) {

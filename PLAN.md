@@ -793,7 +793,7 @@ resumen de diseño y revisión de convenciones en `progreso/2.md`.
 **Objetivo:** `elastiflix-ingest` valida archivos completos contra el mapping y los importa sin dejar
 nunca el catálogo a medias.
 
-- [ ] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura en streaming de 150 MB, dos pasadas validación →
+- [x] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura en streaming de 150 MB, dos pasadas validación →
   importación, estado del trabajo, cancelación, swap y vuelta atrás). Commit y **detente** hasta la
   aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
   - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
@@ -802,7 +802,7 @@ nunca el catálogo a medias.
   - un CSV **sin encabezado se rechaza**;
   - `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución con el servicio de
     inferencia; los vectores que traiga el archivo se ignoran.
-- [ ] **3.1** Comprobaciones del archivo (las mismas que hace el navegador, repetidas en el servidor):
+- [x] **3.1** Comprobaciones del archivo (las mismas que hace el navegador, repetidas en el servidor):
   solo `.json`/`.csv`, sin dobles extensiones, máximo 150 MB, contenido UTF-8 válido (con o sin BOM).
   Límites de multipart y de Tomcat según §7 (`max-file-size` 150 MB, `max-request-size` 151 MB,
   `max-swallow-size` -1), para que un archivo de más de 150 MB reciba su `EFX-ING-*` y no un corte de
@@ -810,11 +810,11 @@ nunca el catálogo a medias.
   - Criterio: pruebas unitarias aceptan `elastiflix-reloaded.json`, `peliculas_2026.csv` y rechazan
     `peliculas.txt`, `peliculas`, `peliculas.csv.exe`, `peliculas.exe.csv`, `peliculas.json.csv`, un
     archivo de 150 MB + 1 byte y uno con bytes no UTF-8, cada uno con su código `EFX-ING-*`.
-- [ ] **3.2** `JsonMovieReader`: objeto de exportación, arreglo o NDJSON, en streaming con Jackson 3;
+- [x] **3.2** `JsonMovieReader`: objeto de exportación, arreglo o NDJSON, en streaming con Jackson 3;
   verifica `document_count` si viene.
   - Criterio: lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` y las mismas
     convertidas a arreglo y a NDJSON en las pruebas.
-- [ ] **3.3** `CsvMovieReader`: BOM opcional, separador elegido (coma por defecto, `;`, tabulador),
+- [x] **3.3** `CsvMovieReader`: BOM opcional, separador elegido (coma por defecto, `;`, tabulador),
   **encabezado obligatorio**, celdas multilínea entre comillas, JSON dentro de celdas; tabla de
   correspondencia columna → campo (columnas desconocidas = error). Columnas válidas: los campos del
   mapping, el metadato `_id` y las columnas `plot_256`, `plot_512` y `plot_1024` (que se ignoran con
@@ -824,7 +824,7 @@ nunca el catálogo a medias.
     errores y, entre sus advertencias, la de vectores ignorados, y produce los mismos valores que el JSON para las 4
     películas; el mismo archivo sin su primera fila se rechaza con su código; una columna `director` se
     rechaza como columna desconocida.
-- [ ] **3.4** `MappingValidator`: cada campo existe y tiene su tipo (`keyword` texto o lista de textos,
+- [x] **3.4** `MappingValidator`: cada campo existe y tiene su tipo (`keyword` texto o lista de textos,
   `text`, `boolean`, `integer`/`long`, `float`, `date` `yyyy-MM-dd` estricto, `nested` con sus
   subcampos); `id`, `title` y `plot` obligatorios; los demás campos pueden faltar o venir en `null`
   (se guardan sin valor); `id` no se repite; `_id` igual a `id`. Los campos
@@ -834,14 +834,14 @@ nunca el catálogo a medias.
   Informe completo exportable a CSV (registro, id, campo, recibido, esperado).
   - Criterio: pruebas con variantes inválidas de los fixtures (creadas en `src/test/resources`) producen
     exactamente los errores esperados; los fixtures válidos producen 0 errores.
-- [ ] **3.5** Vectores: para **cada** registro (archivo o formulario), `plot_1024` se genera desde
+- [x] **3.5** Vectores: para **cada** registro (archivo o formulario), `plot_1024` se genera desde
   `plot` con `EmbeddingService` (servicio de inferencia de Elasticsearch, con el `input_type` y el
   prefijo calibrados en 1.9), en lotes, y `plot_512` y `plot_256` se derivan con `VectorProjector`. Los vectores del archivo se
   descartan. Si la inferencia falla, la importación se detiene con `EFX-EMB-*` y se aplica la vuelta
   atrás. El progreso informa los registros vectorizados.
   - Criterio: prueba unitaria con `EmbeddingService` simulado verifica que se llama para todos los
     registros, incluso los que traen vectores, y que un fallo detiene la importación sin publicar.
-- [ ] **3.6** `ImportJob`: crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, copia el
+- [x] **3.6** `ImportJob`: crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, copia el
   índice vigente (`_reindex`), escribe en lotes de 100 (`_id` = `id`, reemplaza si existe), revisa
   cada respuesta `bulk`, `refresh`, verifica el conteo esperado (anterior + nuevos) y publica en **una
   sola llamada** a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice anterior.
@@ -854,13 +854,13 @@ nunca el catálogo a medias.
     misma llamada del swap), lote rechazado, conteo que no cuadra, fallo de inferencia, cancelación y
     limpieza de huérfanos; la limpieza con el alias `elastiflix-it-x7k2` nunca borra
     `elastiflix-reloaded-20261020-153000` ni el índice detrás de su alias.
-- [ ] **3.7** Registro individual: valida los campos del formulario (`id`, `title` y `plot`
+- [x] **3.7** Registro individual: valida los campos del formulario (`id`, `title` y `plot`
   obligatorios) con el mismo `MappingValidator`, genera los vectores y lo escribe **directamente en el
   catálogo** (a través del alias, `_id` = `id`, reemplaza si existe) con `refresh=wait_for` para que se
   vea en la siguiente búsqueda.
   - Criterio: prueba unitaria del flujo completo con dobles (la prueba contra Elasticsearch está en
     3.8).
-- [ ] **3.8** `IngestService` (fachada) y pruebas de integración. `IngestIT` usa su propio alias
+- [x] **3.8** `IngestService` (fachada) y pruebas de integración. `IngestIT` usa su propio alias
   `elastiflix-it-<aleatorio>` (configurado como `elastiflix.index.alias` de la prueba):
   1. **Preparación:** crea `<alias>-<marca de tiempo>` con el mapping, carga las 4 películas de
      `movies-sample.json` **con** sus vectores y apunta el alias a ese índice. Guarda el orden de esas 4
@@ -878,7 +878,7 @@ nunca el catálogo a medias.
   Todas borran sus índices y su alias al terminar, pasen o fallen.
   - Criterio: `./mvnw verify -Pit -pl elastiflix-ingest -am` en verde; **ninguna** prueba toca
     `elastiflix-reloaded`.
-- [ ] **3.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [x] **3.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/3.md` qué se
   actualizó.

@@ -17,7 +17,7 @@ flowchart LR
       facade_i["IngestService"]
       readers["Validación de archivo<br/>lectores JSON / CSV"]
       validator["Validación contra<br/>el mapping"]
-      job["Trabajo de importación<br/>lotes de 100 · índice temporal · swap de alias"]
+      job["Trabajo de importación<br/>lotes de 100 · índice temporal · swap de alias<br/>vectores siempre por inferencia · vuelta atrás"]
     end
     subgraph core["elastiflix-core"]
       client["Cliente Java de Elasticsearch 9.x<br/>Jackson3JsonpMapper"]

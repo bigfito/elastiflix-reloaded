@@ -170,5 +170,20 @@ class CatalogBootstrapTest {
         public List<Movie> readAllWithVectors(String name, int limit) {
             return List.of();
         }
+
+        @Override
+        public java.util.Set<String> existingIds(String name, List<String> ids) {
+            return java.util.Set.of();
+        }
+
+        @Override
+        public void writeAll(String indexName, List<Movie> movies) {
+            calls.add("write");
+        }
+
+        @Override
+        public void indexOne(String name, Movie movie) {
+            calls.add("indexOne");
+        }
     }
 }
