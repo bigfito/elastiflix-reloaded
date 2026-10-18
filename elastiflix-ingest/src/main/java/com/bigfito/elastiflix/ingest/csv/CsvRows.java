@@ -86,7 +86,7 @@ final class CsvRows implements AutoCloseable {
         while (true) {
             int ch = read();
             if (ch < 0) {
-                throw new IngestValidationException(ErrorCode.UNREADABLE_JSON);
+                throw new IngestValidationException(ErrorCode.UNREADABLE_CSV);
             }
             if (ch == QUOTE && !escapedQuote(text)) {
                 return text.toString();
@@ -120,7 +120,7 @@ final class CsvRows implements AutoCloseable {
         try {
             return reader.read();
         } catch (IOException exception) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON, exception);
+            throw new IngestValidationException(ErrorCode.UNREADABLE_CSV, exception);
         }
     }
 
@@ -128,7 +128,7 @@ final class CsvRows implements AutoCloseable {
         try {
             reader.unread(ch);
         } catch (IOException exception) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON, exception);
+            throw new IngestValidationException(ErrorCode.UNREADABLE_CSV, exception);
         }
     }
 }

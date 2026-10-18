@@ -219,13 +219,21 @@ public final class ImportJob {
         }
     }
 
+    private static String causeType(ElastiflixException exception) {
+        Throwable cause = exception.getCause();
+        if (cause == null) {
+            return exception.getClass().getSimpleName();
+        }
+        return cause.getClass().getSimpleName();
+    }
+
     private static void logFailure(ElastiflixException exception, String temp) {
         String code = exception.errorCode().code();
         if (ErrorCode.IMPORT_CANCELLED.code().equals(code)) {
             LOG.info("{}: se canceló {}", code, temp);
             return;
         }
-        LOG.error("{} en el índice {}", code, temp);
+        LOG.error("{} en el índice {} tipo={}", code, temp, causeType(exception));
     }
 
     private static void logBatch(WriteTotals done) {

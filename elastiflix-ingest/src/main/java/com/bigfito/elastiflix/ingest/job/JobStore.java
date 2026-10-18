@@ -143,7 +143,7 @@ public final class JobStore implements ImportListener {
     public void failed(String jobId, ElastiflixException exception) {
         ImportWork work = require(jobId);
         work.failed(exception.errorCode().code());
-        LOG.error("{} en el trabajo {}", exception.errorCode().code(), jobId);
+        LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, causeType(exception));
         discardIfTerminal(work);
     }
 
@@ -173,7 +173,7 @@ public final class JobStore implements ImportListener {
             LOG.info("{}: se canceló el trabajo {}", exception.errorCode().code(), jobId);
         } else {
             work.failed(exception.errorCode().code());
-            LOG.error("{} en el trabajo {}", exception.errorCode().code(), jobId);
+            LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, causeType(exception));
         }
         discardIfTerminal(work);
     }
@@ -217,6 +217,14 @@ public final class JobStore implements ImportListener {
         } catch (IOException exception) {
             LOG.warn("No se pudo borrar el archivo local del trabajo {}", work.id());
         }
+    }
+
+    private static String causeType(ElastiflixException exception) {
+        Throwable cause = exception.getCause();
+        if (cause == null) {
+            return exception.getClass().getSimpleName();
+        }
+        return cause.getClass().getSimpleName();
     }
 
     private static void logValidation(ImportWork work) {

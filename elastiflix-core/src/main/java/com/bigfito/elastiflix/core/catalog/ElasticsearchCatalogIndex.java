@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
+import com.bigfito.elastiflix.core.error.ElasticsearchDiagnostics;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.core.model.Movie;
@@ -124,9 +125,9 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
             if (exception.status() == NOT_FOUND) {
                 return List.of();
             }
-            throw unavailable(alias, exception);
+            throw failure(alias, exception);
         } catch (IOException exception) {
-            throw unavailable(alias, exception);
+            throw failure(alias, exception);
         }
     }
 
@@ -215,13 +216,15 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
         try {
             return supplier.get();
         } catch (IOException | ElasticsearchException exception) {
-            throw unavailable(target, exception);
+            throw failure(target, exception);
         }
     }
 
-    private ElasticsearchAccessException unavailable(String target, Exception cause) {
-        LOG.error("EFX-ES-001 en {}", target);
-        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, cause);
+    private ElasticsearchAccessException failure(String target, Exception cause) {
+        int status = cause instanceof ElasticsearchException elastic ? elastic.status() : 0;
+        ErrorCode code = ElasticsearchDiagnostics.codeFor(status);
+        LOG.error("{} en {} tipo={}", code.code(), target, ElasticsearchDiagnostics.typeOf(cause));
+        return new ElasticsearchAccessException(code, cause);
     }
 
     @FunctionalInterface

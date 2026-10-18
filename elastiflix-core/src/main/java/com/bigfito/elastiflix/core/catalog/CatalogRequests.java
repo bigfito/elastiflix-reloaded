@@ -14,6 +14,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
+import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 import co.elastic.clients.elasticsearch.indices.update_aliases.Action;
@@ -56,8 +57,26 @@ final class CatalogRequests {
         if (!response.errors()) {
             return;
         }
-        LOG.error("EFX-IMP-001 en {}", indexName);
+        BulkResponseItem failed = firstFailure(response);
+        LOG.error("{} en {} id={} tipo={}", ErrorCode.BULK_REJECTED.code(), indexName,
+                failed == null ? "" : failed.id(), errorType(failed));
         throw new ImportException(ErrorCode.BULK_REJECTED);
+    }
+
+    private static BulkResponseItem firstFailure(BulkResponse response) {
+        for (BulkResponseItem item : response.items()) {
+            if (item.error() != null) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    private static String errorType(BulkResponseItem item) {
+        if (item == null || item.error() == null || item.error().type() == null) {
+            return "";
+        }
+        return item.error().type();
     }
 
     static Set<String> existingIds(ElasticsearchClient client, String name, List<String> ids)

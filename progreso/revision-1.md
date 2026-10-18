@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-23
+- **Tarea actual:** R-24
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-24. Distinguir un 4xx de Elasticsearch de un fallo de red y registrar tipo e id.
-- **Última actualización:** 2026-10-18 17:49 UTC
+- **Próximo paso:** R-25. Reutilizar el vector de la consulta y no pedir el `_source` de las listas de apoyo.
+- **Última actualización:** 2026-10-18 17:53 UTC
 
 ## Tareas
 
@@ -47,8 +47,8 @@ en curso
 | R-20 | terminada | `5a5ffc6` | Hashes verificados con `git log` en las 24 filas. La 2.3 queda `7a878d6` y `8bf3c1a`. Aprobaciones incluye el PR #9 (`dc44535`). `progreso/6.md` anota `2a3aaea`. La plantilla dice que el hash se completa en la tarea siguiente. |
 | R-21 | terminada | `ab50458` | Cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada), copiadas también a `attachments/` del store. Comparación en `progreso/4.md`. La fila de aprobación queda sin marcar. |
 | R-22 | terminada | `6f44800` | `CatalogBootstrapRunnerTest`: con `servlet` responde `EFX-CFG-004` y no cierra el cliente; con `none` migra y lo cierra. El log de una migración exitosa reutiliza el conteo ya verificado. Si ese conteo falla en un alias que ya existe, la migración sigue. Checkstyle y PMD en 0. |
-| R-23 | terminada | se anota en R-24 | `InferenceEmbeddingServiceTest`: un lote con menos vectores que textos lanza `EFX-EMB-002`. Checkstyle y PMD en 0. |
-| R-24 | pendiente | | |
+| R-23 | terminada | `0c28269` | `InferenceEmbeddingServiceTest`: un lote con menos vectores que textos lanza `EFX-EMB-002`. Checkstyle y PMD en 0. |
+| R-24 | terminada | se anota en R-25 | Un 4xx es `EFX-ES-007` y un corte de red sigue en `EFX-ES-001`. El log de `_msearch` usa el alias de la cabecera. El bulk registra id y tipo. El CSV ilegible es `EFX-ING-015`. La columna recibido de un rechazo de archivo ya no repite el código. Checkstyle y PMD en 0. |
 | R-25 | pendiente | | |
 | R-26 | pendiente | | |
 | R-27 | pendiente | | |
@@ -62,9 +62,9 @@ Vacío al cerrar R-19.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-core test -Dtest=InferenceEmbeddingServiceTest checkstyle:check pmd:check`
-- **Resultado:** BUILD SUCCESS. 2 pruebas, 0 fallos. Checkstyle y PMD en 0.
-- **Fecha:** 2026-10-18 17:49 UTC
+- **Comando:** `./mvnw -pl elastiflix-core,elastiflix-search,elastiflix-ingest -am test -Dtest=ElasticsearchDiagnosticsTest,ErrorCodeTest,CsvRowsTest,CsvMovieReaderTest,ImportJobTest,JobThreadFailureTest,HybridRequestBuilderTest checkstyle:check pmd:check`
+- **Resultado:** BUILD SUCCESS. Diagnóstico 1, ErrorCode 3, CsvRows 1, CsvMovieReader 11, ImportJob 11, JobThread 3, HybridRequest 3. Checkstyle y PMD en 0.
+- **Fecha:** 2026-10-18 17:53 UTC
 
 ## Decisiones
 

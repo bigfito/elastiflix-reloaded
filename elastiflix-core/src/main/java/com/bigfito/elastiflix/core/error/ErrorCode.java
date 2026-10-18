@@ -64,6 +64,12 @@ public enum ErrorCode {
             "Se borró el índice temporal. El catálogo anterior sigue igual. "
                     + "Revisa el catálogo y vuelve a intentarlo"),
 
+    /** Elasticsearch respondió 4xx. No es un fallo de red. */
+    ELASTICSEARCH_REJECTED("EFX-ES-007",
+            "Elasticsearch rechazó la operación",
+            "El proyecto respondió un error 4xx",
+            "Revisa el tipo de error en el log y corrige la petición"),
+
     /** El alias apunta a más de un índice. */
     ALIAS_AMBIGUOUS("EFX-ES-005",
             "El alias apunta a más de un índice",
@@ -249,6 +255,12 @@ public enum ErrorCode {
             "El JSON no se puede leer",
             "El archivo, o el JSON de una celda, está mal formado",
             "Revisa el JSON y vuelve a subir el archivo"),
+
+    /** El archivo CSV no se puede leer. */
+    UNREADABLE_CSV("EFX-ING-015",
+            "El CSV no se puede leer",
+            "El archivo CSV está mal formado",
+            "Revisa el CSV y vuelve a subir el archivo"),
 
     /** Una fila del CSV no trae una celda por cada columna del encabezado. */
     COLUMN_COUNT("EFX-ING-014",

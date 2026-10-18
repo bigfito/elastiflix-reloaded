@@ -12,6 +12,7 @@ import com.bigfito.elastiflix.search.query.SearchMode;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.transport.SearchTransport;
 
+import co.elastic.clients.elasticsearch._types.ErrorResponse;
 import co.elastic.clients.elasticsearch.core.MsearchResponse;
 import co.elastic.clients.elasticsearch.core.msearch.MultiSearchItem;
 import co.elastic.clients.elasticsearch.core.msearch.MultiSearchResponseItem;
@@ -83,7 +84,7 @@ public class HybridSearchStrategy implements SearchStrategy {
     private List<RankedHit> join(SearchQuery query, MsearchResponse<Movie> response) {
         List<MultiSearchResponseItem<Movie>> parts = response.responses();
         if (parts.size() != PARTS) {
-            throw unavailable();
+            throw rejected("respuesta");
         }
         List<RankedHit> fused = HitReader.hits(part(parts.get(FUSED)));
         List<RankedHit> lexical = HitReader.hits(part(parts.get(LEXICAL)));
@@ -93,13 +94,21 @@ public class HybridSearchStrategy implements SearchStrategy {
 
     private MultiSearchItem<Movie> part(MultiSearchResponseItem<Movie> item) {
         if (item.isFailure()) {
-            throw unavailable();
+            throw rejected(failureType(item.failure()));
         }
         return item.result();
     }
 
-    private ElasticsearchAccessException unavailable() {
-        LOG.error("EFX-ES-001 en {}", properties.index().alias());
-        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+    private static String failureType(ErrorResponse failure) {
+        if (failure == null || failure.error() == null || failure.error().type() == null
+                || failure.error().type().isBlank()) {
+            return "desconocido";
+        }
+        return failure.error().type();
+    }
+
+    private ElasticsearchAccessException rejected(String type) {
+        LOG.error("{} en {} tipo={}", ErrorCode.ELASTICSEARCH_REJECTED.code(), properties.index().alias(), type);
+        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_REJECTED);
     }
 }

@@ -56,7 +56,7 @@ public final class CsvMovieReader {
             skipBom(input);
             return readRows(rows);
         } catch (IOException exception) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON, exception);
+            throw new IngestValidationException(ErrorCode.UNREADABLE_CSV, exception);
         }
     }
 

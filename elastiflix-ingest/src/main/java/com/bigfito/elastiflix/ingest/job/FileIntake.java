@@ -128,8 +128,8 @@ public final class FileIntake {
                 "archivo",
                 "—",
                 "archivo",
-                exception.errorCode().code(),
-                exception.errorCode().userMessage(),
+                "—",
+                exception.errorCode().summary(),
                 false)));
     }
 }
