@@ -763,7 +763,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
   seleccionados siempre visibles aunque tengan 0, rango de fechas de los resultados; desde agregaciones
   (Full-text) o desde los resultados (Vectorial e Híbrida).
   - Criterio: pruebas unitarias con listas de resultados construidas a mano.
-- [ ] **2.7** Paginación: página, total de páginas, rango («1–25 de 100»), límites por modo (Full-text
+- [x] **2.7** Paginación: página, total de páginas, rango («1–25 de 100»), límites por modo (Full-text
   hasta 10 000; Vectorial e Híbrida hasta `k`).
   - Criterio: pruebas unitarias de bordes (última página parcial, `k` no múltiplo del tamaño).
 - [ ] **2.8** `SearchService` (fachada): elige la estrategia, mide el tiempo, registra en `INFO` (modo,
