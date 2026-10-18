@@ -1,0 +1,5 @@
+org.springframework.boot.EnvironmentPostProcessor=\
+com.bigfito.elastiflix.core.config.ElasticsearchCredentialsEnvironmentPostProcessor
+
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+com.bigfito.elastiflix.core.config.ElasticsearchCredentialsFailureAnalyzer

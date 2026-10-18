@@ -606,15 +606,15 @@ Criterio: Maven 3.10.0 y Java 25; `verify` en verde con 0 violaciones y `Archite
 **Objetivo:** `elastiflix-core` se conecta a Elasticsearch Serverless, conoce el mapping, administra el
 alias y sus índices, y genera vectores de consulta y de documento idénticos a los del catálogo.
 
-- [ ] **1.0** 🔒 Diseño: `docs/diseno/1.md` desde `docs/diseno/_PLANTILLA.md` (clases, contratos de
+- [x] **1.0** 🔒 Diseño: `docs/diseno/1.md` desde `docs/diseno/_PLANTILLA.md` (clases, contratos de
   `CatalogIndex`, `EmbeddingService`, `IndexMapping`, `CatalogStatusService`, catálogo de errores,
   configuración, secuencia de la migración a alias, calibración de embeddings). Commit y **detente**
   hasta la aprobación del usuario.
-- [ ] **1.1** Catálogo de errores en `core/.../core/error/`: `ErrorCode` y la jerarquía de
+- [x] **1.1** Catálogo de errores en `core/.../core/error/`: `ErrorCode` y la jerarquía de
   `ElastiflixException` (`docs/convenciones-java.md` §7).
   - Criterio: pruebas unitarias verifican el formato `<código> · <qué pasó>. Causa probable: … Acción
     sugerida: …` y que los códigos son únicos.
-- [ ] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
+- [x] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
   las propiedades `elastiflix.*` de §7: `elasticsearch.url`, `elasticsearch.api-key`, `index.alias`,
   `inference.id`, `ingest.max-file-size`, `ingest.batch-size`, `poster.base-url`, `bootstrap.enabled` y
   `embedding.*` (valores por defecto provisionales `document-input-type: ingest` y
@@ -628,14 +628,14 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     `web-application-type=none` y `elastiflix.elasticsearch.url` vacía: no arranca, no intenta conectarse
     y el análisis de la falla contiene `EFX-CFG-001` y «Revisa ELASTICSEARCH_URL»; lo mismo con la API key
     vacía y `EFX-CFG-002`.
-- [ ] **1.3** `ElasticsearchClient` con la **autoconfiguración de Spring Boot 4.1.1**
+- [x] **1.3** `ElasticsearchClient` con la **autoconfiguración de Spring Boot 4.1.1**
   (`spring-boot-starter-elasticsearch`: cliente sobre `Rest5Client`, `spring.elasticsearch.uris` y
   `spring.elasticsearch.api-key` de §7, `Jackson3JsonpMapper`). Personalizaciones solo con
   `Rest5ClientBuilderCustomizer`. El indicador de salud de Boot queda desactivado
   (`management.health.elasticsearch.enabled=false`).
   - Criterio: prueba con `ApplicationContextRunner` confirma que el mapper del cliente es
     `Jackson3JsonpMapper`; `ElasticsearchClientIT` (`-Pit`) ejecuta `info()` sin error.
-- [ ] **1.4** Modelo de dominio en `core/.../core/model/`: `Movie` (los 33 campos del mapping),
+- [x] **1.4** Modelo de dominio en `core/.../core/model/`: `Movie` (los 33 campos del mapping),
   `MovieCollection`, `MovieKeyword`; serialización con Jackson 3 (`snake_case`), `release_date` como
   `LocalDate`, vectores como `float[]`; los campos opcionales pueden faltar o venir en `null` (en la
   exportación real faltan o son `null`, por ejemplo, `rating`, `poster_path` y `user_score`); el metadato
@@ -643,7 +643,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   - Criterio: `MovieJsonTest` lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` (las
     pruebas leen los fixtures desde `../elasticsearch/fixtures/`, relativo a la carpeta del módulo), las
     vuelve a escribir y obtiene los mismos valores (incluida `belongs_to_collection` de `345887`).
-- [ ] **1.5** `IndexMapping`: carga `elasticsearch/elastiflix-reloaded-mapping.json` como recurso del
+- [x] **1.5** `IndexMapping`: carga `elasticsearch/elastiflix-reloaded-mapping.json` como recurso del
   jar (en el `pom.xml` de core, un `<resource>` adicional con `<directory>${project.basedir}/../elasticsearch</directory>`,
   `<includes>` solo de ese archivo y `<targetPath>elasticsearch</targetPath>`, sin copiarlo; al declarar
   `<resources>` hay que **volver a declarar `src/main/resources`**, o core pierde sus propios recursos,
@@ -651,7 +651,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   subcampos de los `nested` y las dimensiones de los vectores.
   - Criterio: prueba unitaria verifica 33 campos, `release_date` con formato `yyyy-MM-dd` y
     `plot_512` con 512 dimensiones.
-- [ ] **1.6** `CatalogIndex` (gateway): resolver el índice detrás del alias, crear un índice con el
+- [x] **1.6** `CatalogIndex` (gateway): resolver el índice detrás del alias, crear un índice con el
   mapping, `_reindex` de un índice a otro, `refresh`, `_count`, publicar (en una sola llamada a
   `_aliases`: `add` del alias al índice nuevo y `remove_index` del anterior), borrar índice, comprobar si
   un nombre es alias o índice, listar índices `<alias>-*`, y leer documentos **con** sus vectores (en
@@ -662,11 +662,11 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     existe, que el conteo se conserva y que los vectores leídos de `-b` tienen coseno ≥ 0.9999 con los del
     fixture (el reindex los conserva). Borra todo al terminar, aun si la prueba falla. (Confirma en el
     proyecto Serverless real el mecanismo que usan 1.8 y 3.6.)
-- [ ] **1.7** `CatalogStatusService`: devuelve alias, índice vigente, conteo y estado (conectado / sin
+- [x] **1.7** `CatalogStatusService`: devuelve alias, índice vigente, conteo y estado (conectado / sin
   conexión) con el código de error correspondiente. Funciona tanto si `elastiflix-reloaded` todavía es
   un índice concreto (antes de 1.8) como si ya es alias.
   - Criterio: `CatalogStatusServiceIT` devuelve `documents = 4322` para `elastiflix-reloaded`.
-- [ ] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
+- [x] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
   `elastiflix.bootstrap.enabled=true` (no requiere aprobación previa del usuario; decisión del 2026-10-17):
   1. Si `elastiflix-reloaded` ya es alias → no hace nada y lo registra.
   2. Si es índice concreto → crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, reindexa y verifica que
@@ -684,7 +684,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     coincide; después de la ejecución real, agrega a `CatalogStatusServiceIT` la aserción de que
     `elastiflix-reloaded` es un alias que apunta a `elastiflix-reloaded-…` con 4 322 documentos (hasta 1.7
     solo se comprobaba el conteo); una segunda ejecución termina en 0 sin cambiar nada.
-- [ ] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
+- [x] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
   `ELASTIFLIX_INFERENCE_ID`, en lotes; `VectorProjector` recorta a 512 y 256 y renormaliza. Consultas:
   `input_type: search` y prefijo `Query: `. Documentos: la combinación que determine la calibración:
   1. **Calibración** (`DocumentEmbeddingCalibrationIT`): para las películas `597`, `27205`, `10681`,
@@ -702,7 +702,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     consulta generado y el de `elasticsearch/fixtures/query-vector-titanic.json` tienen coseno ≥ 0.999,
     y con la combinación fijada, los vectores de documento regenerados para las cinco películas tienen
     coseno ≥ 0.999 con su `plot_1024` y ≥ 0.995 con su `plot_512` y su `plot_256`.
-- [ ] **1.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [x] **1.10** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/1.md` qué se
   actualizó.

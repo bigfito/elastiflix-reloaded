@@ -1,0 +1,214 @@
+package com.bigfito.elastiflix.core.catalog;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
+import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
+import com.bigfito.elastiflix.core.error.ErrorCode;
+import com.bigfito.elastiflix.core.mapping.IndexMapping;
+import com.bigfito.elastiflix.core.model.Movie;
+
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.search.SourceConfig;
+import co.elastic.clients.elasticsearch.indices.update_aliases.Action;
+import co.elastic.clients.util.ObjectBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+/**
+ * Traduce {@link CatalogIndex} a las llamadas del cliente Java de Elasticsearch.
+ */
+@Component
+public class ElasticsearchCatalogIndex implements CatalogIndex {
+
+    private static final int NOT_FOUND = 404;
+    private static final Logger LOG = LoggerFactory.getLogger(ElasticsearchCatalogIndex.class);
+
+    private final ElasticsearchClient client;
+    private final IndexMapping mapping;
+    private final IndexNames names;
+
+    /**
+     * Crea la puerta de acceso al catálogo.
+     *
+     * @param client  cliente de Elasticsearch
+     * @param mapping mapping empaquetado
+     * @param names   patrón de los índices de esta demo
+     */
+    public ElasticsearchCatalogIndex(ElasticsearchClient client, IndexMapping mapping, IndexNames names) {
+        this.client = client;
+        this.mapping = mapping;
+        this.names = names;
+    }
+
+    @Override
+    public CatalogName describe(String name) {
+        if (existsAlias(name)) {
+            return fromAlias(name);
+        }
+        if (existsIndex(name)) {
+            return new CatalogName.ConcreteIndex(name);
+        }
+        return new CatalogName.Missing(name);
+    }
+
+    @Override
+    public void createWithMapping(String indexName) {
+        byte[] body = mapping.mappings().getBytes(StandardCharsets.UTF_8);
+        call(indexName, () -> {
+            client.indices().create(request -> request
+                    .index(indexName)
+                    .mappings(builder -> builder.withJson(new ByteArrayInputStream(body))));
+            return null;
+        });
+    }
+
+    @Override
+    public void reindex(String source, String target) {
+        call(source, () -> {
+            client.reindex(request -> request
+                    .source(origin -> origin.index(source).sourceFields(withVectors()))
+                    .dest(destination -> destination.index(target))
+                    .waitForCompletion(true));
+            return null;
+        });
+    }
+
+    @Override
+    public void refresh(String name) {
+        call(name, () -> {
+            client.indices().refresh(request -> request.index(name));
+            return null;
+        });
+    }
+
+    @Override
+    public long count(String name) {
+        return call(name, () -> client.count(request -> request.index(name)).count());
+    }
+
+    @Override
+    public void publish(String alias, String newIndex, String previousIndex) {
+        call(alias, () -> {
+            client.indices().updateAliases(request -> request.actions(
+                    add(alias, newIndex), remove(previousIndex)));
+            return null;
+        });
+    }
+
+    @Override
+    public void deleteIndex(String indexName) {
+        call(indexName, () -> {
+            client.indices().delete(request -> request.index(indexName));
+            return null;
+        });
+    }
+
+    @Override
+    public List<String> listOwnedIndexes(String alias) {
+        try {
+            String pattern = alias + "-*";
+            return client.indices().get(request -> request.index(pattern)).indices().keySet().stream()
+                    .filter(index -> names.isOwnedBy(alias, index))
+                    .sorted()
+                    .toList();
+        } catch (ElasticsearchException exception) {
+            if (exception.status() == NOT_FOUND) {
+                return List.of();
+            }
+            throw unavailable(alias, exception);
+        } catch (IOException exception) {
+            throw unavailable(alias, exception);
+        }
+    }
+
+    @Override
+    public List<Movie> readWithVectors(String name, List<String> ids) {
+        return search(name, ids.size(), query -> query.ids(idsQuery -> idsQuery.values(ids)));
+    }
+
+    @Override
+    public List<Movie> readAllWithVectors(String name, int limit) {
+        return search(name, limit, query -> query.matchAll(match -> match));
+    }
+
+    private CatalogName fromAlias(String name) {
+        List<String> targets = call(name, () -> List.copyOf(
+                client.indices().getAlias(request -> request.name(name)).aliases().keySet()));
+        if (targets.size() > 1) {
+            return new CatalogName.Ambiguous(name);
+        }
+        if (targets.isEmpty()) {
+            return new CatalogName.Missing(name);
+        }
+        return new CatalogName.Alias(name, targets.getFirst());
+    }
+
+    private boolean existsAlias(String name) {
+        return call(name, () -> client.indices().existsAlias(request -> request.name(name)).value());
+    }
+
+    private boolean existsIndex(String name) {
+        return call(name, () -> client.indices().exists(request -> request.index(name)).value());
+    }
+
+    private List<Movie> search(String name, int size,
+            Function<Query.Builder, ObjectBuilder<Query>> query) {
+        SearchResponse<Movie> response = call(name, () -> client.search(request -> request
+                .index(name)
+                .size(size)
+                .query(query)
+                .source(withVectors()), Movie.class));
+        return sources(response);
+    }
+
+    private static List<Movie> sources(SearchResponse<Movie> response) {
+        List<Movie> movies = new ArrayList<>();
+        for (Hit<Movie> hit : response.hits().hits()) {
+            if (hit.source() != null) {
+                movies.add(hit.source());
+            }
+        }
+        return movies;
+    }
+
+    private static SourceConfig withVectors() {
+        return SourceConfig.of(source -> source.filter(filter -> filter.excludeVectors(false)));
+    }
+
+    private static Action add(String alias, String index) {
+        return Action.of(action -> action.add(add -> add.alias(alias).index(index)));
+    }
+
+    private static Action remove(String index) {
+        return Action.of(action -> action.removeIndex(remove -> remove.index(index)));
+    }
+
+    private <T> T call(String target, IoSupplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (IOException | ElasticsearchException exception) {
+            throw unavailable(target, exception);
+        }
+    }
+
+    private ElasticsearchAccessException unavailable(String target, Exception cause) {
+        LOG.error("EFX-ES-001 en {}", target);
+        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, cause);
+    }
+
+    @FunctionalInterface
+    private interface IoSupplier<T> {
+        T get() throws IOException;
+    }
+}
