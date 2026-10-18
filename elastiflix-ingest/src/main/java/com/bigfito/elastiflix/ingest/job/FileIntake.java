@@ -7,6 +7,8 @@ import java.util.Set;
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
+import com.bigfito.elastiflix.core.error.ErrorCode;
+import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
@@ -60,6 +62,14 @@ public final class FileIntake {
             store.invalid(jobId, report(exception));
         } catch (ElastiflixException exception) {
             store.failed(jobId, exception);
+        } finally {
+            closeIfStill(jobId, JobStatus.VALIDATING);
+        }
+    }
+
+    private void closeIfStill(String jobId, JobStatus open) {
+        if (store.view(jobId).status().equals(open.label())) {
+            store.failed(jobId, new ImportException(ErrorCode.JOB_FAILED));
         }
     }
 

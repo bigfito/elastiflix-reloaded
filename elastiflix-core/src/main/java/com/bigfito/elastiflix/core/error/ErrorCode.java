@@ -276,7 +276,13 @@ public enum ErrorCode {
     PUBLISH_UNCERTAIN("EFX-IMP-006",
             "No se sabe si el alias se publicó",
             "La respuesta no llegó y no se pudo leer el alias",
-            "Estado incierto: revisa el alias manualmente. El índice temporal se dejó sin borrar");
+            "Estado incierto: revisa el alias manualmente. El índice temporal se dejó sin borrar"),
+
+    /** La validación o la importación salió por un error que no es de la demo. */
+    JOB_FAILED("EFX-IMP-007",
+            "El trabajo de carga se interrumpió",
+            "Ocurrió un error no previsto durante la validación o la importación",
+            "Vuelve a subir el archivo. El catálogo anterior no se publicó por este error");
 
     private final String code;
     private final String whatHappened;

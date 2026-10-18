@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-09
+- **Tarea actual:** R-10
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-10. Acerca de y el plan dicen la combinación calibrada, sin prefijo Document:.
-- **Última actualización:** 2026-10-18 17:21 UTC
+- **Próximo paso:** R-11. Un error imprevisto cierra el trabajo y un número enorme no tumba la página.
+- **Última actualización:** 2026-10-18 17:22 UTC
 
 ## Tareas
 
@@ -33,8 +33,8 @@ en curso
 | R-06 | terminada | `2793d22` | MockMvc: títulos Puntuación, Similitud y Puntuación en cada lista; «Mostrando 1–1 de 1 resultados»; chips «Géneros: Drama»; `<select id="page-size">`; fecha invertida con el texto del mockup y el formulario visible. Captura `docs/capturas/resultados.png`. Checkstyle y PMD en 0. |
 | R-07 | terminada | `3614553` | `IngestJobErrorTest`: archivo de 64 B con tope 32 B responde 413 y `EFX-ING-003`. Trabajo desconocido responde 404 JSON `EFX-IMP-005`. Checkstyle y PMD en 0. |
 | R-08 | terminada | `bf58431` | `CatalogHealthIndicatorTest`: desconectado queda `DOWN`, `errorCode=EFX-ES-001` y ningún detalle nulo. Checkstyle y PMD en 0. |
-| R-09 | terminada | se anota en R-10 | `ElastiflixPropertiesTest`: consulta `search` / `Query: `; documento `ingest` / prefijo vacío. `embedQuery` lee esos campos. Checkstyle y PMD en 0. |
-| R-10 | pendiente | | |
+| R-09 | terminada | `c4f0d23` | `ElastiflixPropertiesTest`: consulta `search` / `Query: `; documento `ingest` / prefijo vacío. `embedQuery` lee esos campos. Checkstyle y PMD en 0. |
+| R-10 | terminada | se anota en R-11 | `about.html` y `PLAN.md` §2 y las tareas 1.2 y 1.9 dicen `ingest` y sin prefijo. La matriz de calibración sigue listando `Document: ` como combinación medida, no como la elegida. |
 | R-11 | pendiente | | |
 | R-12 | pendiente | | |
 | R-13 | pendiente | | |
