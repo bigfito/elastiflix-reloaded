@@ -82,6 +82,20 @@ public record Movie(
         Double userScore) {
 
     /**
+     * Película que solo lleva el id. Sirve para un hit sin {@code _source}.
+     *
+     * @param id identificador del documento
+     * @return película con el resto de los campos vacíos
+     */
+    public static Movie identified(String id) {
+        return new Movie(
+                id, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null);
+    }
+
+    /**
      * Copia la película con los tres vectores de la sinopsis.
      *
      * @param plot256  vector de 256, ya renormalizado

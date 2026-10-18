@@ -95,7 +95,7 @@ public class HybridRequestBuilder {
     public MsearchRequest build(String alias, SearchQuery query, float[] vector, String preference, int size) {
         SearchRequest fused = fused(alias, query, vector, preference, size);
         SearchRequest words = words(alias, query, preference, size);
-        SearchRequest nearest = vectors.build(alias, query, vector, preference, size);
+        SearchRequest nearest = vectors.ids(alias, query, vector, preference, size);
         return MsearchRequest.of(request -> request.searches(
                 item(alias, preference, fused),
                 item(alias, preference, words),
@@ -146,7 +146,7 @@ public class HybridRequestBuilder {
                 .index(alias)
                 .preference(preference)
                 .size(size)
-                .source(SearchSource.withoutVectors())
+                .source(SearchSource.idsOnly())
                 .query(lexical.withFilters(query)));
     }
 

@@ -48,7 +48,7 @@ public class FullTextSearchStrategy implements SearchStrategy {
     }
 
     @Override
-    public long foundWithoutFilters(SearchQuery query) {
+    public long foundWithoutFilters(SearchQuery query, float[] vector) {
         return transport.count(requests.count(properties.index().alias(), query.withoutFilters()));
     }
 }

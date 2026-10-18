@@ -79,7 +79,7 @@ public class SearchService {
                 facetValues(query, found),
                 pagination(query, found.total()),
                 AdjustmentLabels.of(query),
-                empty(query, strategy, found.total()));
+                empty(query, strategy, found));
     }
 
     private List<RankedHit> page(SearchQuery query, StrategyResult found) {
@@ -107,11 +107,11 @@ public class SearchService {
         return query.knn().k();
     }
 
-    private EmptyState empty(SearchQuery query, SearchStrategy strategy, long total) {
-        if (total > 0) {
+    private EmptyState empty(SearchQuery query, SearchStrategy strategy, StrategyResult found) {
+        if (found.total() > 0) {
             return null;
         }
-        if (!query.filters().isEmpty() && strategy.foundWithoutFilters(query) > 0) {
+        if (!query.filters().isEmpty() && strategy.foundWithoutFilters(query, found.queryVector()) > 0) {
             return EmptyState.filtered();
         }
         return EmptyState.none(query.text(), query.mode());

@@ -29,8 +29,9 @@ public interface SearchStrategy {
      * <p>En full-text es un conteo. En vectorial e híbrida la búsqueda pide un solo documento:
      * basta saber si hay alguno.</p>
      *
-     * @param query consulta válida
+     * @param query  consulta válida
+     * @param vector vector ya calculado para esta consulta, o {@code null} en full-text
      * @return el total sin filtros; en vectorial e híbrida, 0 o 1
      */
-    long foundWithoutFilters(SearchQuery query);
+    long foundWithoutFilters(SearchQuery query, float[] vector);
 }

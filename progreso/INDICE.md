@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-25, reutilizar el vector y aligerar las listas híbridas
-- **Última actualización:** 2026-10-18 17:53 UTC
+- **Próximo paso:** R-26, enmascarar la API key
+- **Última actualización:** 2026-10-18 17:57 UTC
 
 ## Fases
 

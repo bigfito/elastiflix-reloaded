@@ -20,6 +20,20 @@ public final class HitReader {
     }
 
     /**
+     * Lee solo el id y la puntuación. El documento no vino en la respuesta.
+     *
+     * @param response parte léxica o vectorial del {@code _msearch}
+     * @return hits con una película que solo tiene id
+     */
+    public static List<RankedHit> ids(ResponseBody<Movie> response) {
+        List<RankedHit> hits = new ArrayList<>();
+        for (Hit<Movie> hit : response.hits().hits()) {
+            addId(hits, hit);
+        }
+        return hits;
+    }
+
+    /**
      * Lee las películas de una respuesta. Omite un hit sin documento.
      *
      * @param response respuesta de {@code _search} o una parte de {@code _msearch}
@@ -54,6 +68,12 @@ public final class HitReader {
             return Map.of();
         }
         return response.aggregations();
+    }
+
+    private static void addId(List<RankedHit> hits, Hit<Movie> hit) {
+        if (hit.id() != null) {
+            hits.add(RankedHit.scored(Movie.identified(hit.id()), hit.score()));
+        }
     }
 
     private static void add(List<RankedHit> hits, Hit<Movie> hit) {

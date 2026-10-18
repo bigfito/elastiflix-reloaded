@@ -323,7 +323,7 @@ class SearchServiceTest {
         }
 
         @Override
-        public long foundWithoutFilters(SearchQuery query) {
+        public long foundWithoutFilters(SearchQuery query, float[] vector) {
             unfilteredCalls++;
             return unfiltered;
         }

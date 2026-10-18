@@ -48,18 +48,29 @@ public class VectorSearchStrategy implements SearchStrategy {
 
     @Override
     public StrategyResult search(SearchQuery query) {
-        List<RankedHit> hits = HitReader.hits(execute(query, query.knn().k()));
-        return new StrategyResult(hits, hits.size(), Map.of());
+        float[] vector = vectorOf(query);
+        List<RankedHit> hits = HitReader.hits(execute(query, vector, query.knn().k()));
+        return new StrategyResult(hits, hits.size(), Map.of(), vector);
     }
 
     @Override
-    public long foundWithoutFilters(SearchQuery query) {
+    public long foundWithoutFilters(SearchQuery query, float[] vector) {
         SearchQuery open = query.withoutFilters();
-        return HitReader.hits(execute(open, 1)).size();
+        return HitReader.hits(execute(open, vectorOf(query, vector), 1)).size();
     }
 
-    private SearchResponse<Movie> execute(SearchQuery query, int size) {
-        float[] vector = QueryVector.forField(embeddings.embedQuery(query.text()), query.knn().field());
+    private float[] vectorOf(SearchQuery query) {
+        return vectorOf(query, null);
+    }
+
+    private float[] vectorOf(SearchQuery query, float[] vector) {
+        if (vector != null) {
+            return vector;
+        }
+        return QueryVector.forField(embeddings.embedQuery(query.text()), query.knn().field());
+    }
+
+    private SearchResponse<Movie> execute(SearchQuery query, float[] vector, int size) {
         return transport.search(
                 requests.build(properties.index().alias(), query, vector, null, size), Movie.class);
     }

@@ -13,6 +13,15 @@ public final class SearchSource {
     }
 
     /**
+     * No pide el documento. El id viaja igual en el hit.
+     *
+     * @return {@code _source: false}
+     */
+    public static SourceConfig idsOnly() {
+        return SourceConfig.of(source -> source.fetch(false));
+    }
+
+    /**
      * Excluye {@code plot_256}, {@code plot_512} y {@code plot_1024}.
      *
      * @return la configuración de {@code _source}
