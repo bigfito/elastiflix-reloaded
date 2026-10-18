@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-25
+- **Tarea actual:** R-26
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-26. Enmascarar la API key en `toString`.
-- **Última actualización:** 2026-10-18 17:57 UTC
+- **Próximo paso:** R-27. Corregir el Javadoc del mapping y de `Movie`, y borrar sobrecargas sin uso.
+- **Última actualización:** 2026-10-18 17:58 UTC
 
 ## Tareas
 
@@ -49,8 +49,8 @@ en curso
 | R-22 | terminada | `6f44800` | `CatalogBootstrapRunnerTest`: con `servlet` responde `EFX-CFG-004` y no cierra el cliente; con `none` migra y lo cierra. El log de una migración exitosa reutiliza el conteo ya verificado. Si ese conteo falla en un alias que ya existe, la migración sigue. Checkstyle y PMD en 0. |
 | R-23 | terminada | `0c28269` | `InferenceEmbeddingServiceTest`: un lote con menos vectores que textos lanza `EFX-EMB-002`. Checkstyle y PMD en 0. |
 | R-24 | terminada | `8706b83` | Un 4xx es `EFX-ES-007` y un corte de red sigue en `EFX-ES-001`. El log de `_msearch` usa el alias de la cabecera. El bulk registra id y tipo. El CSV ilegible es `EFX-ING-015`. La columna recibido de un rechazo de archivo ya no repite el código. Checkstyle y PMD en 0. |
-| R-25 | terminada | se anota en R-26 | El estado vacío reutiliza `queryVector` y no vuelve a llamar a la inferencia. Las listas de apoyo de la híbrida piden `_source: false` y se leen por `hit.id()`. `HybridRequestBuilderTest` 3, `SearchServiceTest` 13, 0 fallos. Checkstyle y PMD en 0. |
-| R-26 | pendiente | | |
+| R-25 | terminada | `aa3bcb6` | El estado vacío reutiliza `queryVector` y no vuelve a llamar a la inferencia. Las listas de apoyo de la híbrida piden `_source: false` y se leen por `hit.id()`. `HybridRequestBuilderTest` 3, `SearchServiceTest` 13, 0 fallos. Checkstyle y PMD en 0. |
+| R-26 | terminada | se anota en R-27 | `ElastiflixPropertiesTest`: `toString` de la conexión y del registro padre contiene `apiKey=****` y no la clave `test-key`. Checkstyle y PMD en 0. |
 | R-27 | pendiente | | |
 | R-28 | pendiente | | |
 | R-29 | pendiente | | |
@@ -62,9 +62,9 @@ Vacío al cerrar R-19.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-search -am test -Dtest=HybridRequestBuilderTest,VectorRequestBuilderTest,SearchServiceTest,FullTextRequestBuilderTest -Dsurefire.failIfNoSpecifiedTests=false checkstyle:check pmd:check`
-- **Resultado:** BUILD SUCCESS. 24 pruebas en search, 0 fallos. Checkstyle y PMD en 0.
-- **Fecha:** 2026-10-18 17:56 UTC
+- **Comando:** `./mvnw -pl elastiflix-core test -Dtest=ElastiflixPropertiesTest checkstyle:check pmd:check`
+- **Resultado:** BUILD SUCCESS. 1 prueba, 0 fallos. Checkstyle y PMD en 0.
+- **Fecha:** 2026-10-18 17:57 UTC
 
 ## Decisiones
 

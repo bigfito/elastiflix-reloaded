@@ -34,6 +34,8 @@ class ElastiflixPropertiesTest {
             assertThat(properties.embedding().queryPrefix()).isEqualTo("Query: ");
             assertThat(properties.embedding().documentInputType()).isEqualTo("ingest");
             assertThat(properties.embedding().documentPrefix()).isEmpty();
+            assertThat(properties.elasticsearch().toString()).contains("apiKey=****").doesNotContain("test-key");
+            assertThat(properties.toString()).doesNotContain("test-key");
         });
     }
 

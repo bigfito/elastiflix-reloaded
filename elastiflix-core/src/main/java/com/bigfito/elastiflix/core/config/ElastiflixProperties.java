@@ -50,6 +50,16 @@ public record ElastiflixProperties(
      * @param apiKey valor de {@code ELASTICSEARCH_API_KEY}
      */
     public record Elasticsearch(String url, String apiKey) {
+
+        /**
+         * No incluye la API key. Un log de esta propiedad solo ve la máscara.
+         *
+         * @return la URL y {@code ****} en lugar de la clave
+         */
+        @Override
+        public String toString() {
+            return "Elasticsearch[url=" + url + ", apiKey=****]";
+        }
     }
 
     /**

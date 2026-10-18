@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-26, enmascarar la API key
-- **Última actualización:** 2026-10-18 17:57 UTC
+- **Próximo paso:** R-27, Javadoc y sobrecargas sin uso
+- **Última actualización:** 2026-10-18 17:58 UTC
 
 ## Fases
 
