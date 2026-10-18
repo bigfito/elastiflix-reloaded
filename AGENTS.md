@@ -46,7 +46,7 @@ Serverless** (índice `elastiflix-reloaded-20261018-054429`), con filtros dinám
 segura de datos (.json/.csv). Java 25, Spring Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de
 Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. El plan está cerrado en `main`. Las
 verificaciones de las fases contaron 4 322 películas, el catálogo anterior a la importación del
-2026-10-18; `SmokeIT` y `CatalogStatusServiceIT` siguen con ese número.
+2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`.
 
 ## Regla de oro sobre el orden de trabajo
 

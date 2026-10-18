@@ -23,9 +23,9 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. El alias
 > `elastiflix-reloaded` apunta a `elastiflix-reloaded-20261018-054429`, con 6 899 documentos, desde
 > la importación del 2026-10-18. `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
-> `./mvnw verify -Pit` añade integración y el smoke; `SmokeIT` y `CatalogStatusServiceIT` siguen
-> esperando 4 322 documentos, el conteo anterior a esa importación. La aplicación no modifica el
-> alias al arrancar. El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
+> `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias
+> con `_count` y exigen que sea mayor que cero. La aplicación no modifica el alias al arrancar.
+> El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
 
 ---
 
@@ -246,11 +246,12 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 
 La migración solo cambia el catálogo si el nombre configurado todavía es un índice concreto. Si ya es
 un alias, no crea ni borra índices: el log dice a cuál apunta y el proceso termina con código 0. En
-la ejecución de la mañana del 2026-10-18 el alias `elastiflix-reloaded` siguió en
-`elastiflix-reloaded-20261018-003535`, con 4 322 documentos. Esa tarde, con la aprobación de Adolfo,
-la página de carga importó `movies.json` (6 899 registros, 0 errores) y el alias pasó a
-`elastiflix-reloaded-20261018-054429`; el índice anterior se borró. `spring-boot:run` abre
-http://localhost:8080 y solo lee ese alias. `GET /` respondió 200 en la corrida de la mañana.
+la ejecución del 2026-10-18 04:47 UTC el alias `elastiflix-reloaded` siguió en
+`elastiflix-reloaded-20261018-003535`, con 4 322 documentos. El 2026-10-18 05:44 UTC, con la
+aprobación de Adolfo, la página de carga importó `movies.json` (6 899 registros, 0 errores) y a las
+05:49 UTC el alias pasó a `elastiflix-reloaded-20261018-054429`; el índice anterior se borró.
+`spring-boot:run` abre http://localhost:8080 y solo lee ese alias. `GET /` respondió 200 en la
+corrida de las 04:49 UTC.
 
 Las capturas de la aplicación en marcha están en [docs/capturas/](docs/capturas/).
 
@@ -260,8 +261,9 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
 - Estado del catálogo: alias, índice vigente y conteo.
 - Vectores de consulta (`search`, prefijo `Query: `) y de sinopsis (`ingest`, sin prefijo).
 - Recorte de un vector de 1024 a 512 y a 256, con norma 1.
-- Búsqueda de solo lectura sobre el alias: full-text (BM25), vectorial (k-NN) e híbrida (RRF),
-  con los totales y posiciones de la tabla de verificación.
+- Búsqueda de solo lectura sobre el alias: full-text (BM25), vectorial (k-NN) e híbrida (RRF).
+  Las pruebas no fijan los totales del catálogo de 4 322: OR tiene que encontrar películas y AND
+  no supera ese total; la película de cada fila vectorial sigue entre los `k` resultados.
 - Filtros, facetas, paginación y los dos estados vacíos, en `SearchService` y en la página de
   resultados.
 - Carga de un `.json` o un `.csv`: comprobación de nombre, tamaño y UTF-8, validación todo o nada
@@ -274,10 +276,10 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
   (tabla de precisión y créditos de TMDB). `GET /actuator/health` incluye el indicador del catálogo.
 - Una excepción `EFX-*` no capturada muestra su código, y una ruta desconocida muestra un 404 con
   navegación.
-- Smoke de punta a punta, escrito para el catálogo de 4 322 documentos: `GET /actuator/health` en
-  `UP`; `/`, `/acerca` y `/cargar` responden 200; una sugerencia de cada modo devuelve resultados;
-  subir `elasticsearch/fixtures/movies-sample.csv` lo deja validado, con 0 errores y la advertencia
-  `EFX-ING-020`, sin importar. Contra el catálogo de 6 899, la afirmación del conteo ya no coincide.
+- Smoke de punta a punta: `GET /actuator/health` en `UP`, con el mismo conteo que `_count` y mayor
+  que cero; `/`, `/acerca` y `/cargar` responden 200; una sugerencia de cada modo devuelve
+  resultados; subir `elasticsearch/fixtures/movies-sample.csv` lo deja validado, con 0 errores y la
+  advertencia `EFX-ING-020`, sin importar. Alias, índice y conteo quedan iguales antes y después.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
 YAML: sus valores por defecto viven en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id

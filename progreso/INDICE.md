@@ -11,7 +11,7 @@
 - **Estado de la fase:** las fases 0 a 6 están en `terminado`
 - **Rama:** `main` (en `origin` solo queda esta rama; las `cursor/*` se borraron el 2026-10-18)
 - **Próximo paso:** ninguno
-- **Última actualización:** 2026-10-18 06:10 UTC
+- **Última actualización:** 2026-10-18 06:20 UTC
 
 ## Fases
 
@@ -51,10 +51,10 @@
 - **Índice:** `elastiflix-reloaded-20261018-054429`
 - **Documentos:** 6899, con `title`, `plot` y los tres vectores en todos
 - **Índice anterior:** `elastiflix-reloaded-20261018-003535` (4322 documentos), borrado al publicar
-- **Pruebas:** `SmokeIT` y `CatalogStatusServiceIT` siguen comparando el conteo con 4322. `./mvnw verify` no las ejecuta. `./mvnw verify -Pit` contra este catálogo falla en ese número.
+- **Pruebas:** `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y exigen que sea mayor que cero. No escriben en este alias.
 
 ## Última verificación
 
 - **Comando:** `./mvnw verify -Pit`
-- **Resultado:** BUILD SUCCESS. Checkstyle 0. `SmokeIT` 4/4. La escritura usó `elastiflix-it-34da60644e14`. El alias real siguió en `elastiflix-reloaded-20261018-003535` con 4322 documentos.
-- **Fecha:** 2026-10-18 04:52 UTC. Esta corrida es anterior a la importación de las 05:44 UTC.
+- **Resultado:** BUILD SUCCESS a las 06:20:36 UTC (1 min 4 s). 168 pruebas, 0 fallos: 141 unitarias y 27 de integración. Checkstyle 0. `SmokeIT` 4/4. La escritura usó `elastiflix-it-021b536192a8` y lo borró. El alias real siguió en `elastiflix-reloaded-20261018-054429` con 6899 documentos.
+- **Fecha:** 2026-10-18 06:20 UTC. La corrida anterior, de las 04:52 UTC, fue sobre `elastiflix-reloaded-20261018-003535` con 4322 documentos, antes de la importación de las 05:44 UTC.
