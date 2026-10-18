@@ -126,9 +126,9 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 - Lectura siempre por el alias `elastiflix-reloaded` (configurable). Importación: índice temporal
   `<alias>-<AAAAMMDD-HHMMSS>`, copia con `_reindex` en segundo plano (`_tasks`) y publicación en una
   sola llamada a `_aliases` (`add` al nuevo + `remove_index` del anterior). Si falla antes de publicar,
-  se borra el temporal. Si `publish` no confirma, `describe` decide: alias en el anterior borra el
-  temporal (`EFX-ES-004`); alias en el temporal se trata como publicado; si no se puede leer,
-  `EFX-IMP-006` y el temporal se deja. Al empezar a importar se suelta la lista de películas. La
+  se borra el temporal. Si `publish` no confirma, `describe` decide: rechazo 4xx con el alias en el
+  anterior borra el temporal (`EFX-ES-004`); alias en el temporal se trata como publicado; corte, 5xx
+  o `describe` ilegible: `EFX-IMP-006` y el temporal se deja. Al empezar a importar se suelta la lista de películas. La
   limpieza de huérfanos solo toca índices `<alias>-<AAAAMMDD-HHMMSS>` de su propio alias. La migración
   a alias usa ese mismo criterio de `describe`.
 - Registro individual: directo al catálogo por el alias.

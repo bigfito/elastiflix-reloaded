@@ -702,9 +702,10 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
      sigue por `_tasks`) y verifica que el conteo coincida. Si la tarea falla, se detiene con
      `EFX-ES-006`. Si el conteo no coincide, borra el índice nuevo y se detiene con `EFX-ES-003`.
   3. En una sola llamada a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice
-     original. Si esa llamada falla, `describe` decide: alias en el índice nuevo cuenta como
-     publicada; el nombre sigue siendo índice concreto borra el nuevo y responde `EFX-ES-004`;
-     si no se puede leer, o el alias no quedó ahí, `EFX-IMP-006` y el índice nuevo se deja.
+     original, con `master_timeout` y `timeout` de 10 s. Si esa llamada falla, `describe` decide:
+     alias en el índice nuevo cuenta como publicada; un rechazo 4xx con el nombre todavía índice
+     concreto borra el nuevo y responde `EFX-ES-004`; en cualquier otro caso (corte, 5xx, no se puede
+     leer, el alias no quedó ahí), `EFX-IMP-006` y el índice nuevo se deja.
   4. Al terminar, cierra el contexto de Spring y la aplicación sale con código 0 (o distinto de 0 si
      falló), para que el comando no quede esperando.
   - Ejecución real (desde la raíz, en Git Bash):
@@ -881,8 +882,9 @@ nunca el catálogo a medias.
   al índice nuevo y `remove_index` del índice anterior. Ante un lote rechazado, un conteo que no
   cuadra, un fallo de inferencia, una tarea de reindex que no termina o una cancelación: borra el
   índice temporal y deja el alias y el índice anterior intactos. Si `publish` no confirma, `describe`
-  decide: alias en el anterior borra el temporal (`EFX-ES-004`); alias en el temporal cuenta como
-  publicado; si no se puede leer, `EFX-IMP-006` y el temporal se deja. Al empezar a importar, el
+  decide: un rechazo 4xx con el alias en el anterior borra el temporal (`EFX-ES-004`); alias en el
+  temporal cuenta como publicado; un corte, un 5xx o un `describe` que no se puede leer dan
+  `EFX-IMP-006` y el temporal se deja. Una vez publicado, ningún fallo posterior borra el temporal. Al empezar a importar, el
   trabajo suelta la lista de películas. Al iniciar, limpia (con `WARN`) los
   índices huérfanos **de su propio alias**: los que cumplen exactamente `<alias>-<AAAAMMDD-HHMMSS>` y no
   están detrás del alias. Nunca toca índices con otro prefijo. Publica el progreso por el listener (paso

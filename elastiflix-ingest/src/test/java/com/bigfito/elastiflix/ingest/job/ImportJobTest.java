@@ -1,5 +1,6 @@
 package com.bigfito.elastiflix.ingest.job;
 
+import java.io.IOException;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -20,6 +21,9 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.vector.PlotVectorizer;
+
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.ErrorResponse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -220,7 +224,7 @@ class ImportJobTest {
     @Test
     @DisplayName("si publicar falla y el alias ya apunta al temporal, queda publicado")
     void shouldTreatThePublishAsDoneWhenTheAliasPointsAtTheTemp() {
-        reachPublish(new CatalogName.Alias(ALIAS, temp));
+        reachPublish(new CatalogName.Alias(ALIAS, temp), new IOException("corte"));
 
         job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
 
@@ -229,9 +233,53 @@ class ImportJobTest {
     }
 
     @Test
-    @DisplayName("si publicar falla y el alias sigue en el anterior, borra el temporal")
+    @DisplayName("si publicar se corta (IOException) y el alias sigue en el anterior, no borra y da EFX-IMP-006")
+    void shouldKeepTheTempWhenPublishIsCutOff() {
+        reachPublish(new CatalogName.Alias(ALIAS, LIVE), new IOException("socket timeout"));
+
+        assertThatThrownBy(() -> runOne()).isInstanceOf(ImportException.class)
+                .extracting(error -> ((ImportException) error).errorCode())
+                .isEqualTo(ErrorCode.PUBLISH_UNCERTAIN);
+        verify(catalog, never()).deleteIndex(temp);
+    }
+
+    @Test
+    @DisplayName("un listener que lanza en el paso 5 no borra el temporal ya publicado")
+    void shouldKeepThePublishedTempWhenTheListenerFails() {
+        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        when(catalog.count(temp)).thenReturn(4L, 5L);
+        when(catalog.count(LIVE)).thenReturn(4L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+        ImportListener failsOnPublish = notice -> {
+            if (notice.step() == 5) {
+                throw new ImportException(ErrorCode.JOB_FAILED);
+            }
+        };
+
+        assertThatThrownBy(() -> job.run(
+                ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, failsOnPublish, () -> false))
+                .isInstanceOf(ImportException.class);
+        verify(catalog).publish(ALIAS, temp, LIVE);
+        verify(catalog, never()).deleteIndex(temp);
+    }
+
+    @Test
+    @DisplayName("una excepción ajena antes de publicar también borra el temporal")
+    void shouldDeleteTheTempOnAnUnexpectedFailure() {
+        readyToCopy();
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+        doThrow(new IllegalStateException("inesperada")).when(catalog).writeAll(anyString(), anyList());
+
+        assertThatThrownBy(() -> runOne()).isInstanceOf(IllegalStateException.class);
+        verify(catalog).deleteIndex(temp);
+        verify(catalog, never()).publish(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    @DisplayName("si _aliases responde 4xx y el alias sigue en el anterior, borra el temporal")
     void shouldDeleteTheTempWhenTheAliasStaysOnThePreviousIndex() {
-        reachPublish(new CatalogName.Alias(ALIAS, LIVE));
+        reachPublish(new CatalogName.Alias(ALIAS, LIVE), rejected());
 
         assertThatThrownBy(() -> runOne()).isInstanceOf(ElasticsearchAccessException.class)
                 .extracting(error -> ((ElasticsearchAccessException) error).errorCode())
@@ -250,7 +298,7 @@ class ImportJobTest {
         when(catalog.count(temp)).thenReturn(4L, 5L);
         when(catalog.count(LIVE)).thenReturn(4L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
-        doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE))
+        doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, new IOException("corte")))
                 .when(catalog).publish(ALIAS, temp, LIVE);
 
         assertThatThrownBy(() -> runOne()).isInstanceOf(ImportException.class)
@@ -262,7 +310,7 @@ class ImportJobTest {
     @Test
     @DisplayName("si publicar falla y el alias ya no existe, no borra el temporal")
     void shouldLeaveTheTempWhenTheAliasIsMissing() {
-        reachPublish(new CatalogName.Missing(ALIAS));
+        reachPublish(new CatalogName.Missing(ALIAS), new IOException("corte"));
 
         assertThatThrownBy(() -> runOne()).isInstanceOf(ImportException.class)
                 .extracting(error -> ((ImportException) error).errorCode())
@@ -289,14 +337,19 @@ class ImportJobTest {
         when(catalog.count(LIVE)).thenReturn(4L);
     }
 
-    private void reachPublish(CatalogName afterPublish) {
+    private void reachPublish(CatalogName afterPublish, Throwable cause) {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE), afterPublish);
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
         when(catalog.count(temp)).thenReturn(4L, 5L);
         when(catalog.count(LIVE)).thenReturn(4L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
-        doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE))
+        doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, cause))
                 .when(catalog).publish(ALIAS, temp, LIVE);
+    }
+
+    private static ElasticsearchException rejected() {
+        return new ElasticsearchException("indices.update_aliases", ErrorResponse.of(response -> response
+                .status(400).error(cause -> cause.type("illegal_argument_exception").reason("rechazo"))));
     }
 
     private void runOne() {

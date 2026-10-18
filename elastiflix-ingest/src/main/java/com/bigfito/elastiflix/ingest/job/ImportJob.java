@@ -7,6 +7,7 @@ import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.catalog.CatalogName;
 import com.bigfito.elastiflix.core.catalog.IndexNames;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
+import com.bigfito.elastiflix.core.error.ElasticsearchDiagnostics;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
@@ -20,7 +21,8 @@ import org.springframework.stereotype.Component;
  * Copia el catálogo, escribe los lotes y publica.
  *
  * <p>Si algo falla antes de publicar, borra el temporal. Si {@code publish} falla, primero lee el
- * alias: solo borra el temporal cuando el alias sigue en el índice anterior.</p>
+ * alias: solo borra el temporal cuando Elasticsearch rechazó la publicación con un 4xx y el alias sigue
+ * en el índice anterior.</p>
  */
 @Component
 public final class ImportJob {
@@ -77,19 +79,38 @@ public final class ImportJob {
         cleaner.clean(catalog, alias, found.concreteIndex());
         String temp = names.timestamped(alias, clock);
         catalog.createWithMapping(temp);
-        listener.onProgress(new ImportProgress(IMPORT_STEP, 0, 0, 0, 0, temp));
         importInto(new ImportContext(
                 alias, found.concreteIndex(), temp, source, counts, listener, cancelled));
     }
 
+    /**
+     * Copia, escribe y publica. El {@code finally} borra el temporal solo si nunca llegó a ser el índice
+     * vigente: antes de {@code _aliases} siempre, y después solo si Elasticsearch rechazó la publicación con
+     * un 4xx y {@code describe} confirmó el índice anterior. Así ni una falla del aviso de progreso ni una
+     * excepción inesperada pueden borrar el catálogo publicado.
+     */
     private void importInto(ImportContext context) {
+        boolean deleteTemp = true;
+        WriteTotals totals;
+        long expected;
         try {
+            context.listener().onProgress(new ImportProgress(IMPORT_STEP, 0, 0, 0, 0, context.temp()));
             long copied = copy(context);
-            WriteTotals totals = writeBatches(context);
-            publish(context, copied, totals);
+            totals = writeBatches(context);
+            expected = verifiedCount(context, copied, totals);
+            ensureRunning(context.cancelled());
+            deleteTemp = false;
+            swap(context);
         } catch (ElastiflixException exception) {
-            rollback(context.temp(), exception);
+            deleteTemp = deleteTemp || exception.errorCode() == ErrorCode.ALIAS_PUBLISH_FAILED;
+            logFailure(exception, context.temp());
+            throw exception;
+        } finally {
+            if (deleteTemp) {
+                deleteTemp(context.temp());
+            }
         }
+        published(context, totals, expected);
     }
 
     private CatalogName.Alias requireAlias(String alias) {
@@ -126,17 +147,20 @@ public final class ImportJob {
         return new BatchWriter(catalog, vectorizer).write(context);
     }
 
-    private void publish(ImportContext context, long copied, WriteTotals totals) {
+    private long verifiedCount(ImportContext context, long copied, WriteTotals totals) {
         catalog.refresh(context.temp());
         long expected = copied + context.counts().fileCount() - totals.replaced();
         if (catalog.count(context.temp()) != expected) {
             throw new ImportException(ErrorCode.IMPORT_COUNT_MISMATCH);
         }
-        ensureRunning(context.cancelled());
-        swap(context);
-        context.listener().onProgress(totals.notice(PUBLISH_STEP, context.temp()));
+        return expected;
+    }
+
+    /** Ya publicado: un fallo de aquí en adelante no toca el índice nuevo. */
+    private void published(ImportContext context, WriteTotals totals, long expected) {
         LOG.info("La importación publicó {} en {} y borró {} ({} documentos)",
                 context.alias(), context.temp(), context.previous(), expected);
+        context.listener().onProgress(totals.notice(PUBLISH_STEP, context.temp()));
     }
 
     private void swap(ImportContext context) {
@@ -147,13 +171,16 @@ public final class ImportJob {
         }
     }
 
+    /**
+     * Un corte de red, un timeout del cliente o un 5xx no son un rechazo: {@code _aliases} pudo aplicarse
+     * después. Solo un 4xx con el alias todavía en el índice anterior permite borrar el temporal.
+     */
     private void resolvePublish(ImportContext context, ElasticsearchAccessException failure) {
-        // Un corte de red no es un rechazo. Solo se borra si describe confirma el índice anterior.
         CatalogName described = aliasAfter(context.alias());
         if (pointsTo(described, context.temp())) {
             return;
         }
-        if (pointsTo(described, context.previous())) {
+        if (ElasticsearchDiagnostics.isClientRejection(failure) && pointsTo(described, context.previous())) {
             throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, failure);
         }
         throw uncertain(failure);
@@ -179,14 +206,6 @@ public final class ImportJob {
         if (cancelled.getAsBoolean()) {
             throw new ImportException(ErrorCode.IMPORT_CANCELLED);
         }
-    }
-
-    private void rollback(String temp, ElastiflixException exception) {
-        if (exception.errorCode() != ErrorCode.PUBLISH_UNCERTAIN) {
-            deleteTemp(temp);
-        }
-        logFailure(exception, temp);
-        throw exception;
     }
 
     private void deleteTemp(String temp) {

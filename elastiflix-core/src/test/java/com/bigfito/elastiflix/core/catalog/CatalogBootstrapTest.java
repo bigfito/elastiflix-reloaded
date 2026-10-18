@@ -1,5 +1,6 @@
 package com.bigfito.elastiflix.core.catalog;
 
+import java.io.IOException;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -11,6 +12,9 @@ import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
+
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.ErrorResponse;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -89,15 +93,31 @@ class CatalogBootstrapTest {
     }
 
     @Test
-    @DisplayName("si la publicación falla y el original sigue, borra solo el índice nuevo")
+    @DisplayName("si _aliases responde 4xx y el original sigue, borra solo el índice nuevo")
     void shouldDeleteTheNewIndexWhenPublishFails() {
         FakeCatalog catalog = new FakeCatalog(new CatalogName.ConcreteIndex(ALIAS), false, true);
+        catalog.publishCause = rejected();
 
         assertThatThrownBy(() -> bootstrap(catalog).migrate())
                 .isInstanceOf(ElasticsearchAccessException.class)
                 .extracting(thrown -> ((ElasticsearchAccessException) thrown).errorCode())
                 .isEqualTo(ErrorCode.ALIAS_PUBLISH_FAILED);
         assertThat(catalog.deleted).isEqualTo(NEW_INDEX);
+    }
+
+    @Test
+    @DisplayName("si publicar se corta (IOException) y el original sigue, no borra y responde EFX-IMP-006")
+    void shouldKeepTheNewIndexWhenPublishIsCutOff() {
+        // given
+        FakeCatalog catalog = new FakeCatalog(new CatalogName.ConcreteIndex(ALIAS), false, true);
+        catalog.publishCause = new IOException("socket timeout");
+
+        // when / then
+        assertThatThrownBy(() -> bootstrap(catalog).migrate())
+                .isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(thrown -> ((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.PUBLISH_UNCERTAIN);
+        assertThat(catalog.deleted).isNull();
     }
 
     @Test
@@ -151,6 +171,11 @@ class CatalogBootstrapTest {
         return new CatalogBootstrap(catalog, properties, new IndexNames(), CLOCK);
     }
 
+    private static ElasticsearchException rejected() {
+        return new ElasticsearchException("indices.update_aliases", ErrorResponse.of(response -> response
+                .status(400).error(cause -> cause.type("illegal_argument_exception").reason("rechazo"))));
+    }
+
     private static final class FakeCatalog implements CatalogIndex {
 
         private final boolean mismatch;
@@ -158,6 +183,7 @@ class CatalogBootstrapTest {
         private boolean failCount;
         private boolean failDescribeAfterPublish;
         private CatalogName afterPublish;
+        private Throwable publishCause;
         private final List<String> calls = new ArrayList<>();
         private CatalogName described;
         private String created;
@@ -215,7 +241,7 @@ class CatalogBootstrapTest {
             calls.add("publish");
             publishedPrevious = previousIndex;
             if (failPublish) {
-                throw new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+                throw new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, publishCause);
             }
         }
 

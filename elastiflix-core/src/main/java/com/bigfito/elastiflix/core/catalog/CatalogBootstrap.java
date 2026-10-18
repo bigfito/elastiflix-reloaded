@@ -4,6 +4,7 @@ import java.time.Clock;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
+import com.bigfito.elastiflix.core.error.ElasticsearchDiagnostics;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 
 import org.slf4j.Logger;
@@ -14,8 +15,9 @@ import org.springframework.stereotype.Component;
  * Pasa el catálogo de un índice concreto a un alias, sin tocar nada si ya es alias.
  *
  * <p>Si publicar falla, lee el nombre otra vez. Alias en el índice nuevo: ya quedó publicado.
- * Sigue siendo índice concreto: borra el nuevo y responde {@code EFX-ES-004}. Si no se puede
- * leer, o no quedó en el índice nuevo: deja el nuevo y responde {@code EFX-IMP-006}.</p>
+ * Elasticsearch rechazó {@code _aliases} con un 4xx y el nombre sigue siendo índice concreto: borra el
+ * nuevo y responde {@code EFX-ES-004}. En cualquier otro caso (corte, 5xx, no se puede leer): deja el
+ * nuevo y responde {@code EFX-IMP-006}.</p>
  */
 @Component
 public class CatalogBootstrap {
@@ -104,7 +106,8 @@ public class CatalogBootstrap {
         if (pointsTo(described, target)) {
             return;
         }
-        if (described instanceof CatalogName.ConcreteIndex) {
+        // Solo un 4xx es un rechazo seguro: un corte o un 5xx pudo aplicar _aliases después de describe.
+        if (ElasticsearchDiagnostics.isClientRejection(failure) && described instanceof CatalogName.ConcreteIndex) {
             deleteNew(target);
             throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, failure);
         }

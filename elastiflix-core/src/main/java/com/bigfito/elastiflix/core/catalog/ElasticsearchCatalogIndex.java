@@ -23,6 +23,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.json.JsonpMappingException;
 import co.elastic.clients.util.ObjectBuilder;
 
 import org.slf4j.Logger;
@@ -36,6 +37,9 @@ import org.springframework.stereotype.Component;
 public class ElasticsearchCatalogIndex implements CatalogIndex {
 
     private static final int NOT_FOUND = 404;
+
+    /** Tope de {@code _aliases}, por debajo del socket-timeout de 30 s del cliente. */
+    private static final String PUBLISH_LIMIT = "10s";
     private static final Logger LOG = LoggerFactory.getLogger(ElasticsearchCatalogIndex.class);
 
     private final ElasticsearchClient client;
@@ -105,8 +109,10 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     @Override
     public void publish(String alias, String newIndex, String previousIndex) {
         call(alias, () -> {
-            client.indices().updateAliases(request -> request.actions(
-                    CatalogRequests.add(alias, newIndex), CatalogRequests.remove(previousIndex)));
+            client.indices().updateAliases(request -> request
+                    .masterTimeout(limit -> limit.time(PUBLISH_LIMIT))
+                    .timeout(limit -> limit.time(PUBLISH_LIMIT))
+                    .actions(CatalogRequests.add(alias, newIndex), CatalogRequests.remove(previousIndex)));
             return null;
         });
     }
@@ -173,7 +179,8 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
                     .index(name)
                     .id(movie.id())
                     .document(movie)
-                    .refresh(Refresh.WaitFor));
+                    .refresh(Refresh.WaitFor)
+                    .requireAlias(true));
             return null;
         });
     }
@@ -221,7 +228,8 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     private <T> T call(String target, IoSupplier<T> supplier) {
         try {
             return supplier.get();
-        } catch (IOException | ElasticsearchException exception) {
+        } catch (IOException | ElasticsearchException | JsonpMappingException exception) {
+            // JsonpMappingException: llegó una respuesta que no se pudo leer. No es un rechazo 4xx.
             throw failure(target, exception);
         }
     }

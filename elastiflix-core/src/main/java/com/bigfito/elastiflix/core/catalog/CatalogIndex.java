@@ -56,6 +56,9 @@ public interface CatalogIndex {
     /**
      * Publica el alias en una sola llamada: lo agrega al índice nuevo y borra el anterior.
      *
+     * <p>Pide {@code master_timeout} y {@code timeout} de 10 s, por debajo del socket-timeout del cliente.
+     * Si falla, la causa dice si fue un rechazo 4xx o un corte que pudo dejar la operación aplicada.</p>
+     *
      * @param alias         alias del catálogo
      * @param newIndex      índice que se queda con el alias
      * @param previousIndex índice que se borra en la misma llamada
@@ -118,6 +121,9 @@ public interface CatalogIndex {
 
     /**
      * Indexa una película en el alias, con {@code refresh=wait_for}, y reemplaza ese {@code _id}.
+     *
+     * <p>Pide {@code require_alias=true}: si el alias no existe, Elasticsearch rechaza la escritura en lugar
+     * de crear un índice concreto con ese nombre.</p>
      *
      * @param name  alias del catálogo
      * @param movie película ya vectorizada

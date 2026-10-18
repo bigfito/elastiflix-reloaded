@@ -24,6 +24,19 @@ public final class ElasticsearchDiagnostics {
     }
 
     /**
+     * Dice si la falla es un rechazo seguro: Elasticsearch respondió con un 4xx.
+     *
+     * <p>Un corte de red, un timeout del cliente o un 5xx no lo son: la operación pudo aplicarse.</p>
+     *
+     * @param failure excepción del catálogo; se mira su causa
+     * @return {@code true} solo si la causa es un {@code ElasticsearchException} 4xx
+     */
+    public static boolean isClientRejection(Throwable failure) {
+        return failure != null && failure.getCause() instanceof ElasticsearchException elastic
+                && clientError(elastic.status());
+    }
+
+    /**
      * Tipo del error de Elasticsearch, o el nombre de la clase si no hay tipo.
      *
      * @param cause excepción capturada
