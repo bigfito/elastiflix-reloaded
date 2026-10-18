@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-22, cierre del cliente en la migración
-- **Última actualización:** 2026-10-18 17:50 UTC
+- **Próximo paso:** R-23, conteo de vectores de inferencia
+- **Última actualización:** 2026-10-18 17:49 UTC
 
 ## Fases
 

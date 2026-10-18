@@ -26,6 +26,12 @@ public enum ErrorCode {
             "No se empaquetó elasticsearch/elastiflix-reloaded-mapping.json",
             "Reconstruye elastiflix-core con el recurso del mapping"),
 
+    /** La migración se lanzó con el servidor web encendido. */
+    BOOTSTRAP_WITH_WEB("EFX-CFG-004",
+            "La migración no puede convivir con el servidor web",
+            "Falta --spring.main.web-application-type=none",
+            "Vuelve a lanzar la migración con ese argumento"),
+
     /** No se pudo hablar con Elasticsearch. */
     ELASTICSEARCH_UNAVAILABLE("EFX-ES-001",
             "No se pudo conectar con Elasticsearch",
