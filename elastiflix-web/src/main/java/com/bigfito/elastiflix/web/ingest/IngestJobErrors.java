@@ -30,7 +30,7 @@ public class IngestJobErrors {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<Map<String, String>> tooLarge(MaxUploadSizeExceededException exception) {
         LOG.warn("{}: la subida supera {} bytes", ErrorCode.FILE_TOO_LARGE.code(), exception.getMaxUploadSize());
-        return body(HttpStatus.PAYLOAD_TOO_LARGE, ErrorCode.FILE_TOO_LARGE);
+        return body(HttpStatus.CONTENT_TOO_LARGE, ErrorCode.FILE_TOO_LARGE);
     }
 
     /**
