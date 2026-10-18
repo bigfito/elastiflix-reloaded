@@ -13,10 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-19: corregir el README (creación del índice, privilegio de `_tasks`, bloque tras
-  «Configuración» con `set -a; . ./.env; set +a`, tres detalles). Adolfo pidió actualizar el README sin repetir
-  la corrida en un proyecto Serverless vacío. S-01 a S-18 y S-20 a S-27 terminadas.
-- **Última actualización:** 2026-10-18 23:04 UTC
+- **Próximo paso:** cierre de la Revisión 2: resumen de diseño y revisión de convenciones en
+  `progreso/revision-2.md`, `./mvnw verify` y PR de `revision-2` hacia `main`. S-01 a S-27 terminadas.
+- **Última actualización:** 2026-10-18 23:05 UTC
 
 ## Fases
 
