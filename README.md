@@ -13,17 +13,18 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
-![Estado](https://img.shields.io/badge/estado-fase_1_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
-![Fases](https://img.shields.io/badge/fases-2%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
+![Estado](https://img.shields.io/badge/estado-fase_2_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
+![Fases](https://img.shields.io/badge/fases-3%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
 </div>
 
 > [!NOTE]
-> 🚧 **Estado actual:** la Fase 1 (núcleo) está terminada. El alias `elastiflix-reloaded` apunta a
-> `elastiflix-reloaded-20261018-003535` y tiene 4 322 documentos. Las consultas se vectorizan con
+> 🚧 **Estado actual:** la Fase 2 (búsqueda) está terminada. El alias `elastiflix-reloaded` apunta a
+> `elastiflix-reloaded-20261018-003535` y tiene 4 322 documentos. `elastiflix-search` ejecuta
+> full-text, k-NN e híbrida con filtros, facetas y paginación. Las consultas se vectorizan con
 > `input_type=search` y el prefijo `Query: `; las sinopsis, con `input_type=ingest` y sin prefijo.
-> La búsqueda, la carga de archivos y las páginas siguen el plan. El avance está en
+> La carga de archivos y las páginas siguen el plan. El avance está en
 > [`progreso/INDICE.md`](progreso/INDICE.md).
 
 ---
@@ -211,7 +212,7 @@ elastiflix-reloaded/
 ## 🚀 Puesta en marcha
 
 > [!IMPORTANT]
-> Comandos ejecutados con éxito al cerrar la Fase 1. La Fase 4 documentará el arranque de las
+> Comandos ejecutados con éxito al cerrar la Fase 2. La Fase 4 documentará el arranque de las
 > páginas. La Fase 6 vuelve a verificar esta sección.
 
 **Prerrequisitos**
@@ -236,6 +237,7 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 ./mvnw -q -DskipTests package                    # jar de elastiflix-web
 ./mvnw verify                                    # unitarias, ArchUnit, Checkstyle y PMD
 ./mvnw verify -Pit -pl elastiflix-core -am       # integración de core (requiere .env local)
+./mvnw verify -Pit -pl elastiflix-search -am     # integración de búsqueda, solo lectura del alias
 ./mvnw -q install -DskipTests
 ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
 ```
@@ -249,6 +251,10 @@ sin cambiar nada. El alias quedó en `elastiflix-reloaded-20261018-003535`, con 
 - Estado del catálogo: alias, índice vigente y conteo.
 - Vectores de consulta (`search`, prefijo `Query: `) y de sinopsis (`ingest`, sin prefijo).
 - Recorte de un vector de 1024 a 512 y a 256, con norma 1.
+- Búsqueda de solo lectura sobre el alias: full-text (BM25), vectorial (k-NN) e híbrida (RRF),
+  con los totales y posiciones de la tabla de verificación.
+- Filtros, facetas, paginación y los dos estados vacíos en `SearchService`. Las páginas llegan en
+  la Fase 4.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
 YAML: sus valores por defecto viven en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id
@@ -298,7 +304,7 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 |---|---|---|---|
 | 0 | 🏗️ Andamiaje y calidad | — | ✅ terminado |
 | 1 | ⚙️ Núcleo: conexión, catálogo y embeddings | 🔒 | ✅ terminado |
-| 2 | 🔎 Búsqueda | 🔒 | ⏳ no iniciado |
+| 2 | 🔎 Búsqueda | 🔒 | ✅ terminado |
 | 3 | 📥 Carga de datos | 🔒 | ⏳ no iniciado |
 | 4 | 🌐 Interfaz web | — | ⏳ no iniciado |
 | 5 | 🧪 Pruebas integrales y smoke test | — | ⏳ no iniciado |
@@ -340,6 +346,7 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo se escribe el código |
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos |
 | ⚙️ [`docs/diseno/1.md`](docs/diseno/1.md) | Diseño aprobado del núcleo y tabla de calibración |
+| 🔎 [`docs/diseno/2.md`](docs/diseno/2.md) | Diseño aprobado de la búsqueda |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice |
 | 🎨 [`design/README.md`](design/README.md) | Mockups y tokens de diseño |
 

@@ -771,7 +771,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
   de ajustes) y distingue los estados vacíos «sin resultados» y «sin resultados con estos filtros»
   (este último confirma con un conteo sin filtros).
   - Criterio: pruebas unitarias con estrategias simuladas cubren los tres modos y los dos estados vacíos.
-- [ ] **2.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [x] **2.9** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/2.md` qué se
   actualizó.

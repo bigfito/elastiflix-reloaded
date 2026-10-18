@@ -8,9 +8,9 @@
 ## Punto de reanudación
 
 - **Fase actual:** 2
-- **Estado de la fase:** en curso
+- **Estado de la fase:** terminado
 - **Herramienta prevista:** Cursor (rama `cursor/fase-2-diseno-29a6`)
-- **Próximo paso:** Tarea 2.9: documentación, verificación de la fase y cierre. No empezar la Fase 3.
+- **Próximo paso:** Tarea 3.0, diseño en `docs/diseno/3.md`. Es compuerta: hay que detenerse hasta la aprobación. Esta sesión no la inicia.
 - **Última actualización:** 2026-10-18 01:52 UTC
 
 ## Fases
@@ -19,7 +19,7 @@
 |---|---|---|---|---|---|
 | 0 | Andamiaje y calidad | — | terminado | `progreso/0.md` | 2026-10-17 en verde |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | terminado | `progreso/1.md` | 2026-10-18 en verde |
-| 2 | Búsqueda | 🔒 | en curso | `progreso/2.md` | — |
+| 2 | Búsqueda | 🔒 | terminado | `progreso/2.md` | 2026-10-18 en verde |
 | 3 | Carga de datos | 🔒 | no iniciado | `progreso/3.md` | — |
 | 4 | Interfaz web | — | no iniciado | `progreso/4.md` | — |
 | 5 | Pruebas integrales y smoke test | — | no iniciado | `progreso/5.md` | — |
@@ -39,6 +39,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-search -am verify -Dtest=SearchServiceTest,FullTextRequestBuilderTest,VectorRequestBuilderTest,HybridRequestBuilderTest -Dsurefire.failIfNoSpecifiedTests=false`
-- **Resultado:** BUILD SUCCESS. `SearchServiceTest`: 10 pruebas, 0 fallos. Checkstyle y PMD: 0 violaciones.
-- **Fecha:** 2026-10-18 01:49 UTC
+- **Comando:** `./mvnw verify` y `./mvnw verify -Pit -pl elastiflix-search -am`
+- **Resultado:** BUILD SUCCESS en los dos. Checkstyle: 0 violaciones. PMD en verde. `ArchitectureTest`: 7 pruebas, 0 fallos. Integración de search: `FullTextSearchIT` 8, `VectorSearchIT` 4 y `HybridSearchIT` 2, todas con 0 fallos.
+- **Fecha:** 2026-10-18 01:51 UTC
