@@ -69,19 +69,46 @@ public final class CsvMovieReader {
         if (!new ValidationReport(issues).accepted()) {
             return new CsvRead(List.of(), new ValidationReport(issues));
         }
-        return new CsvRead(documents(rows, columns.get()), new ValidationReport(issues));
+        return new CsvRead(documents(rows, columns.get(), issues), new ValidationReport(issues));
     }
 
-    private static List<JsonNode> documents(CsvRows rows, List<String> columns) {
+    private static List<JsonNode> documents(CsvRows rows, List<String> columns, List<ValidationIssue> issues) {
         List<JsonNode> documents = new ArrayList<>();
         Optional<List<String>> row = rows.nextRow();
+        int number = 2;
         while (row.isPresent()) {
-            if (!blank(row.get())) {
-                documents.add(document(columns, row.get()));
-            }
+            addRow(documents, issues, columns, row.get(), number);
+            number++;
             row = rows.nextRow();
         }
         return documents;
+    }
+
+    private static void addRow(
+            List<JsonNode> documents,
+            List<ValidationIssue> issues,
+            List<String> columns,
+            List<String> row,
+            int number) {
+        if (blank(row)) {
+            return;
+        }
+        if (row.size() != columns.size()) {
+            issues.add(width(number, columns.size(), row.size()));
+            return;
+        }
+        documents.add(document(columns, row));
+    }
+
+    private static ValidationIssue width(int number, int expected, int received) {
+        return new ValidationIssue(
+                ErrorCode.COLUMN_COUNT.code(),
+                Integer.toString(number),
+                "—",
+                "",
+                Integer.toString(received),
+                Integer.toString(expected) + " celdas",
+                false);
     }
 
     private static ObjectNode document(List<String> columns, List<String> row) {

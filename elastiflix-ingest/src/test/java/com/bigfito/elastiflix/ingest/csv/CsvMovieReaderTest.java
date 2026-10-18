@@ -71,6 +71,21 @@ class CsvMovieReaderTest {
     }
 
     @Test
+    @DisplayName("una fila con menos o más celdas que el encabezado se rechaza")
+    void shouldRejectARowWhoseWidthDoesNotMatchTheHeader() throws Exception {
+        Path file = folder.resolve("ancho.csv");
+        Files.writeString(file, "id,title,plot\n1,Una\n2,Dos,texto,sobra\n");
+
+        CsvRead read = reader.read(file, CsvSettings.withHeader());
+
+        assertThat(read.report().accepted()).isFalse();
+        assertThat(read.report().errors()).extracting(ValidationIssue::code, ValidationIssue::recordLabel)
+                .contains(
+                        tuple(ErrorCode.COLUMN_COUNT.code(), "2"),
+                        tuple(ErrorCode.COLUMN_COUNT.code(), "3"));
+    }
+
+    @Test
     @DisplayName("una columna director no existe en el mapping")
     void shouldRejectAnUnknownColumn() throws Exception {
         Path file = folder.resolve("director.csv");

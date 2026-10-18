@@ -238,6 +238,12 @@ public enum ErrorCode {
             "El archivo, o el JSON de una celda, está mal formado",
             "Revisa el JSON y vuelve a subir el archivo"),
 
+    /** Una fila del CSV no trae una celda por cada columna del encabezado. */
+    COLUMN_COUNT("EFX-ING-014",
+            "Una fila no tiene las mismas celdas que el encabezado",
+            "Faltan o sobran columnas en esa fila",
+            "Corrige la fila para que tenga una celda por cada columna del encabezado"),
+
     /** Un ítem del lote fue rechazado. */
     BULK_REJECTED("EFX-IMP-001",
             "Elasticsearch rechazó un documento del lote",
