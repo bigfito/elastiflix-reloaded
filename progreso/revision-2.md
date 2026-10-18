@@ -14,15 +14,14 @@
 
 ## Estado general
 
-en curso
+terminada (PR hacia `main` abierto)
 
 ## Punto de reanudación
 
-- **Tarea actual:** cierre de la Revisión 2
+- **Tarea actual:** ninguna; S-01 a S-27 terminadas
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** cierre: «Resumen de diseño» y «Revisión de convenciones» en este archivo, `./mvnw verify`,
-  estado terminado en `progreso/INDICE.md`, commit, push y PR de `revision-2` hacia `main`.
-- **Última actualización:** 2026-10-18 23:05 UTC
+- **Próximo paso:** Adolfo revisa y fusiona el PR de `revision-2` hacia `main`.
+- **Última actualización:** 2026-10-18 23:06 UTC
 
 ## Tareas
 
@@ -145,11 +144,39 @@ Vacío.
 
 ## Resumen de diseño
 
-<Al cerrar la unidad: estructura final, decisiones relevantes y diferencias con los diseños `docs/diseno/<fase>.md` que se tocaron.>
+La revisión no abre un diseño nuevo: cada `S-NN` corrige el código o la documentación hacia lo que ya decían
+`PLAN.md`, los mockups y las decisiones D1–D3. Los cambios de estructura quedaron en las secciones «Cambios»
+de `docs/diseno/1.md`, `3.md`, `4.md` y `5.md` (S-26). Los más relevantes:
+
+- **Copia con `_reindex` (S-01):** `ReindexTasks` lanza la copia en segundo plano, la sigue en `_tasks/<id>`
+  con lecturas de 20 s hasta un plazo de 30 min (`Clock`), la cancela si el usuario cancela o vence el plazo y
+  revisa `error`, `failures` y `timed_out` antes de dar la copia por buena.
+- **Publicación (S-04):** `_aliases` con `timeout` de 10 s y sin `master_timeout`, que Serverless rechaza; si
+  no confirma, `describe` decide si se borra el temporal. El registro individual usa `require_alias`.
+- **Pantalla de carga (S-02, S-03):** `JobView` lleva al navegador lo que dibuja el mockup (pasos, cifras,
+  correspondencia de columnas, lotes, índice temporal); los textos salen de `JobTexts` en la web.
+- **Memoria y retención (S-06):** el archivo subido se borra al leerlo, los vectores se quitan al validar y
+  `JobRetention` suelta los trabajos terminados (20) y los validados sin usar (30 min).
+- **Validación (S-07, S-08):** rangos numéricos reales y filas del CSV con su número de línea.
+- Sin clases de patrones nuevos: los tipos agregados (`JobRetention`, `CsvColumnRows`, `JobScreen`,
+  `UploadSizeErrors`…) son records o clases de una responsabilidad.
 
 ## Revisión de convenciones
 
-<Al cerrar la unidad, responde cada punto de la lista de revisión de `docs/convenciones-java.md`.>
+- [x] Diseño previo y aprobado: no hay fase nueva; las correcciones siguen `docs/revisiones/revision-2.md` y
+  los diseños vigentes. Las aprobaciones D1–D3 y B-05 quedaron registradas (S-15).
+- [x] Código y diseño coinciden: S-26 llevó a los diseños y al README lo que hace el código.
+- [x] `./mvnw verify`: BUILD SUCCESS, 264 unitarias (core 50, search 62, ingest 97, web 55), 0 violaciones
+  de Checkstyle y PMD, ArchUnit 7/7. `./mvnw verify -Pit`: BUILD SUCCESS con 29 pruebas de integración.
+- [x] Una responsabilidad por clase: cada clase nueva se describe en una frase en su Javadoc.
+- [x] Solo patrones de §4: Strategy, Facade, Factory, Gateway/Adapter y Observer ya existentes; nada nuevo.
+- [x] Errores: no hay códigos `EFX-…` nuevos; se reescribieron mensajes de `ErrorCode` para que la acción
+  sugerida diga lo que pasa con el índice temporal (S-01, S-04). 401 y 403 se reportan como `EFX-ES-001` (S-20).
+- [x] Logs: sin API key, vectores ni documentos completos; el log de `_reindex` solo nombra índices y la tarea.
+- [x] Supresiones: ninguna nueva (`git diff main..HEAD` sin `@SuppressWarnings`, `NOPMD` ni `CHECKSTYLE`).
+- [x] Pruebas de escritura con alias propio `elastiflix-it-*` que se borra (`IngestIT` con `try/finally`,
+  S-24); tras `-Pit` no quedó ningún `elastiflix-it-*` y el alias real siguió con 6 899 documentos.
+- [x] Junior: clases cortas, nombres en inglés y Javadoc en español; `AGENTS.md` en 11 637 caracteres (límite 12 000).
 
 ## Bloqueos y solicitudes
 
