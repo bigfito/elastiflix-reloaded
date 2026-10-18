@@ -793,7 +793,7 @@ resumen de diseño y revisión de convenciones en `progreso/2.md`.
 **Objetivo:** `elastiflix-ingest` valida archivos completos contra el mapping y los importa sin dejar
 nunca el catálogo a medias.
 
-- [ ] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura en streaming de 150 MB, dos pasadas validación →
+- [x] **3.0** 🔒 Diseño: `docs/diseno/3.md` (lectura en streaming de 150 MB, dos pasadas validación →
   importación, estado del trabajo, cancelación, swap y vuelta atrás). Commit y **detente** hasta la
   aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
   - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
