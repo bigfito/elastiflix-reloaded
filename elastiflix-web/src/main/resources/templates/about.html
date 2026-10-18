@@ -108,7 +108,7 @@
         <div><dt>k</dt><dd>Número máximo de resultados que devuelve la búsqueda vectorial, después de combinar los candidatos de todos los shards; se reparten en páginas de 25, 50 o 100. Debe ser menor o igual que <code>num_candidates</code>. Valor inicial: 100.</dd></div>
         <div><dt>num_candidates</dt><dd>Candidatos que se evalúan en cada shard antes de quedarse con los <code>k</code> mejores. Subirlo tiende a mejorar la precisión, a cambio de más tiempo de respuesta. Máximo 10 000. Valor inicial: 200.</dd></div>
       </dl>
-      <p>Nota de implementación: para recuperación, el modelo espera el prefijo <code>Query: </code> en las consultas y <code>Document: </code> en las sinopsis.</p>
+      <p>Nota de implementación: para recuperación, el modelo espera el prefijo <code>Query: </code> en las consultas. Las sinopsis se vectorizan con <code>input_type</code> <code>ingest</code> y sin prefijo.</p>
       <p class="docs"><span>Documentación</span>
         <a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/retrievers/knn-retriever">kNN retriever</a>
         <a href="https://www.elastic.co/docs/solutions/search/vector/knn/approximate-knn">Approximate kNN</a>
@@ -189,7 +189,7 @@
       </dl>
       <h3>Importación</h3>
       <dl>
-        <div><dt>Vectores</dt><dd>Los tres vectores se generan siempre desde <code>plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, prefijo <code>Document: </code>). Si el archivo trae <code>plot_256</code>, <code>plot_512</code> o <code>plot_1024</code>, se ignoran.</dd></div>
+        <div><dt>Vectores</dt><dd>Los tres vectores se generan siempre desde <code>plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, <code>input_type</code> <code>ingest</code> y sin prefijo). Si el archivo trae <code>plot_256</code>, <code>plot_512</code> o <code>plot_1024</code>, se ignoran.</dd></div>
         <div><dt>Índice temporal</dt><dd>Los registros se escriben en lotes de 100 en un índice temporal que empieza como copia del catálogo actual. Si un <code>id</code> ya existe, el registro reemplaza a la película.</dd></div>
         <div><dt>Publicación</dt><dd>Al terminar se comprueba el conteo y el alias <code>elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd></div>
         <div><dt>Si falla</dt><dd>Si Elasticsearch rechaza un lote o la comprobación no cuadra, se borra el índice temporal y el catálogo queda exactamente como estaba.</dd></div>

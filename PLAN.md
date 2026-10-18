@@ -290,8 +290,9 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
 | `rating` | keyword (`G`, `PG`, `PG-13`, `R`, `NC-17`, `NR`) | Filtro |
 | `keywords`, `belongs_to_collection` | nested | Se capturan en la carga |
 
-- **Vectores:** 512 y 256 son los primeros N valores del vector de 1024, renormalizados (L2). Prefijos:
-  `Query: ` en consultas (`input_type: search`) y `Document: ` en sinopsis.
+- **Vectores:** 512 y 256 son los primeros N valores del vector de 1024, renormalizados (L2). Consultas:
+  `input_type: search` y prefijo `Query: `. Sinopsis: `input_type: ingest` y sin prefijo (la calibración
+  de la tarea 1.9; `Document: ` no alcanzó coseno 0.999).
 - **En cada carga (archivo o registro individual), `plot_256`, `plot_512` y `plot_1024` se llenan en
   tiempo de ejecución** llamando al modelo de embeddings a través del servicio de inferencia de
   Elasticsearch. Los archivos de importación **no necesitan** traer esos campos y el formulario **no los
@@ -631,8 +632,8 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 - [x] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
   las propiedades `elastiflix.*` de §7: `elasticsearch.url`, `elasticsearch.api-key`, `index.alias`,
   `inference.id`, `ingest.max-file-size`, `ingest.batch-size`, `poster.base-url`, `bootstrap.enabled` y
-  `embedding.*` (valores por defecto provisionales `document-input-type: ingest` y
-  `document-prefix: "Document: "`, que la tarea 1.9 confirma o reemplaza). Un `EnvironmentPostProcessor`
+  `embedding.*` (la tarea 1.9 dejó `document-input-type: ingest` y `document-prefix` vacío;
+  el prefijo provisional `Document: ` no se usa). Un `EnvironmentPostProcessor`
   de core (registrado en `META-INF/spring.factories` con la clave de la interfaz en Spring Boot 4,
   `org.springframework.boot.EnvironmentPostProcessor`; verifícala en la documentación de 4.1.1) comprueba **antes de crear cualquier bean**, incluido
   el cliente de Elasticsearch, que `elastiflix.elasticsearch.url` y `elastiflix.elasticsearch.api-key` no
@@ -709,7 +710,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
      `docs/diseno/1.md` y en `progreso/1.md`.
   2. Fija como valores por defecto (`@DefaultValue`) del `record` de propiedades
      (`elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix`) la combinación
-     con coseno ≥ 0.999 en las cinco películas.
+     con coseno ≥ 0.999 en las cinco películas. Quedó `ingest` y sin prefijo.
   3. Si ninguna llega a 0.999, marca la tarea `bloqueado` con la tabla y pregunta al usuario: sin esa
      coherencia, las películas cargadas quedarían mal ubicadas en la búsqueda vectorial.
   - Criterio: `VectorProjectorTest` (norma 1 ± 1e-6; el recorte de un `plot_1024` del fixture
