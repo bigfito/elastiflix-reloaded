@@ -917,7 +917,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   `Main.dc.html` (textos, emojis y etiquetas fijas; ver §1).
   - Criterio: pruebas MockMvc verifican los textos clave y que cada sugerencia lleva a `/buscar` con
     los parámetros de su modo.
-- [ ] **4.3** Resultados (`GET /buscar`): caja de consulta, chip del modo y ajustes con «Cambiar
+- [x] **4.3** Resultados (`GET /buscar`): caja de consulta, chip del modo y ajustes con «Cambiar
   ajustes», tarjetas de resultado (posición, póster de TMDB con `alt` = título y marcador si falta,
   título, original_title · fecha · duración · géneros,
   sinopsis en 3 líneas, calificación y votos, panel de puntuación por modo), selector 25 · 50 · 100,

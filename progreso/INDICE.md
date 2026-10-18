@@ -10,8 +10,8 @@
 - **Fase actual:** 4
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (`cursor/fase-4-interfaz-29a6`)
-- **Próximo paso:** Tarea 4.3, página de resultados.
-- **Última actualización:** 2026-10-18 03:11 UTC
+- **Próximo paso:** Tarea 4.4, página de carga de datos.
+- **Última actualización:** 2026-10-18 03:16 UTC
 
 ## Fases
 
