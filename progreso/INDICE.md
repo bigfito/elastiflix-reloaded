@@ -15,7 +15,7 @@
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
 - **Próximo paso:** S-18: capturas con datos reales y confirmación visual de Adolfo; después S-19 (ver
   `progreso/revision-2.md`). S-01 a S-17 y S-20 a S-27 terminadas; `./mvnw verify -Pit` en verde.
-- **Última actualización:** 2026-10-19 23:00 UTC
+- **Última actualización:** 2026-10-18 22:55 UTC
 
 ## Fases
 

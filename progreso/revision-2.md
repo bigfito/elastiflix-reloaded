@@ -24,7 +24,7 @@ en curso
   (Inicio; Resultados en los tres modos; Cargar datos en sus tres escenarios; Acerca de; 404) a
   `docs/capturas/`, escribir la comparación página por página en `progreso/4.md` y pedir a Adolfo la
   confirmación visual. Después, S-19.
-- **Última actualización:** 2026-10-19 23:00 UTC
+- **Última actualización:** 2026-10-18 22:55 UTC
 
 ## Tareas
 
@@ -72,7 +72,7 @@ Vacío.
   integración (core 9, search 14, ingest 2, web 4), 0 fallos, 0 omitidas; Checkstyle y PMD en 0. Después, el
   alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con 6 899 documentos y no quedó
   ningún índice `elastiflix-it-*`.
-- **Fecha:** 2026-10-19 (22:51–22:53 UTC del reloj del Codespace)
+- **Fecha:** 2026-10-18 22:51–22:53 UTC
 
 ## Decisiones
 
@@ -113,23 +113,27 @@ Vacío.
   navegador con Playwright en `elastiflix-web/src/test/browser/`, fuera de `./mvnw verify` (necesitan Node.js
   y Chromium). No agregan dependencias Maven; Playwright es dependencia de desarrollo de esa carpeta.
 
-- 2026-10-19, S-14: al probar el `/error` real pareció un fallo que `/buscar?k=abc` respondiera 500. En S-22
+- 2026-10-18, S-14: al probar el `/error` real pareció un fallo que `/buscar?k=abc` respondiera 500. En S-22
   se vio que no lo es: en full-text `k` no se usa y la búsqueda llega a Elasticsearch, que en esta máquina no
   existe (`EFX-ES-001`, 500). Con `modo=vectorial` responde la validación de `k`.
 
-- 2026-10-19 (decisión del agente): S-18 (capturas con datos reales y nueva aprobación de Adolfo) y S-19
+- 2026-10-18 (decisión del agente): S-18 (capturas con datos reales y nueva aprobación de Adolfo) y S-19
   (corrida del README en un proyecto Serverless sin el índice) necesitan el `.env`, que esta máquina no tiene.
   En lugar de detener la unidad, se atienden S-20 a S-27, que no dependen de ellas, y S-18 y S-19 se hacen
   al final. Es el único desvío del orden de la lista.
 
-- Sesión reanudada 2026-10-19 con Claude Code (Opus 5.5): `.env` disponible; árbol limpio en `325976d`.
-- 2026-10-19, S-04 (corrección): la primera corrida de `./mvnw verify -Pit` falló en
+- Sesión reanudada 2026-10-18 22:45 UTC con Claude Code (Opus 5.5): `.env` disponible; árbol limpio en `325976d`.
+- 2026-10-18, S-04 (corrección): la primera corrida de `./mvnw verify -Pit` falló en
   `CatalogIndexIT.shouldPublishOneAliasWhenTheCopyKeepsTheVectors` con `EFX-ES-007`. Serverless rechaza
   `master_timeout` en `_aliases` (`status_exception`: «not permitted when running in serverless mode»;
   `timeout` sí se acepta, comprobado con `curl`). Se quitó `masterTimeout`; queda `timeout(10s)`. Sin esta
   corrida, toda importación y la migración habrían fallado al publicar. `SmokeIT` también se ajustó a la
   respuesta `{job, texts}` de S-03. Las pruebas nuevas contra Serverless pasan, incluida
   `CatalogIndexIT.shouldNotCreateAnIndexWhenTheAliasIsMissing` (`require_alias` de S-04).
+
+- 2026-10-18 22:55 UTC: corrección de fechas. Desde S-14, las líneas «Última actualización» se escribieron con
+  horas inventadas del 2026-10-19 en lugar del reloj (`date -u`). Todo ocurrió el 2026-10-18 entre las 19:50 y
+  las 22:55 UTC; la hora real de cada tarea es la de su commit (`git log --date=iso`).
 
 ## Resumen de diseño
 
@@ -141,7 +145,7 @@ Vacío.
 
 ## Bloqueos y solicitudes
 
-- Resuelto el 2026-10-19: Adolfo dejó el `.env` en la raíz. Antes: en esta máquina (Codespace) no había `.env`. Sin él no corren `./mvnw verify -Pit` ni las
+- Resuelto el 2026-10-18: Adolfo dejó el `.env` en la raíz. Antes: en esta máquina (Codespace) no había `.env`. Sin él no corren `./mvnw verify -Pit` ni las
   pruebas de integración que tocan S-01 (`CatalogIndexIT`, `IngestIT`), y no se pueden hacer S-18
   (capturas con datos reales) ni S-19 (corrida en un proyecto Serverless sin el índice). Las tareas siguen
   con pruebas unitarias. Hace falta que Adolfo agregue el `.env` (o los secretos del Codespace) antes de
