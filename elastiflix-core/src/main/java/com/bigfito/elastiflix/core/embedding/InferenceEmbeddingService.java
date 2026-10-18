@@ -32,8 +32,6 @@ public class InferenceEmbeddingService implements EmbeddingService {
     static final int BATCH_SIZE = 16;
 
     private static final int MODEL_DIMENSIONS = VectorProjector.MODEL_DIMENSIONS;
-    private static final String QUERY_INPUT_TYPE = "search";
-    private static final String QUERY_PREFIX = "Query: ";
     private static final Logger LOG = LoggerFactory.getLogger(InferenceEmbeddingService.class);
 
     private final ElasticsearchClient client;
@@ -52,7 +50,8 @@ public class InferenceEmbeddingService implements EmbeddingService {
 
     @Override
     public float[] embedQuery(String text) {
-        return one(text, QUERY_INPUT_TYPE, QUERY_PREFIX);
+        ElastiflixProperties.Embedding embedding = properties.embedding();
+        return one(text, embedding.queryInputType(), embedding.queryPrefix());
     }
 
     @Override
