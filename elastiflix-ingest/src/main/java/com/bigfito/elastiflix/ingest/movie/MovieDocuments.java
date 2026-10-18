@@ -9,7 +9,6 @@ import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
 
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.JsonParser;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ObjectNode;
@@ -36,16 +35,6 @@ public final class MovieDocuments {
             }
         });
         object.remove(blank);
-    }
-
-    /**
-     * Lee el valor actual del parser como película.
-     *
-     * @param parser posicionado al inicio del objeto
-     * @return película sin vectores
-     */
-    public static Movie read(JsonParser parser) {
-        return fromNode((JsonNode) parser.readValueAsTree());
     }
 
     /**

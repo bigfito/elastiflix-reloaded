@@ -22,7 +22,7 @@ class PaginatorTest {
     @Test
     @DisplayName("la primera página usa el guion largo")
     void shouldDescribeTheFirstPageWhenTheTotalFillsIt() {
-        Pagination page = paginator.describe(100, 1, 25);
+        Pagination page = paginator.describe(100, 1, 25, 100);
 
         assertThat(page.range()).isEqualTo(FIRST_PAGE);
         assertThat(page.pageCount()).isEqualTo(4);
@@ -33,7 +33,7 @@ class PaginatorTest {
     @DisplayName("k = 30 y tamaño 25 dejan cinco resultados en la segunda página")
     void shouldEndTheRangeAtTheTotalWhenTheLastPageIsPartial() {
         List<Integer> hits = IntStream.rangeClosed(1, 30).boxed().toList();
-        Pagination page = paginator.describe(hits.size(), 2, 25);
+        Pagination page = paginator.describe(hits.size(), 2, 25, hits.size());
 
         assertThat(page.pageCount()).isEqualTo(2);
         assertThat(page.range()).isEqualTo(PARTIAL_PAGE);
@@ -43,7 +43,7 @@ class PaginatorTest {
     @Test
     @DisplayName("una página más allá del total, pero dentro de la ventana, no es un error")
     void shouldReturnAnEmptySliceWhenThePageIsPastTheTotal() {
-        Pagination page = paginator.describe(10, 2, 25);
+        Pagination page = paginator.describe(10, 2, 25, 10);
 
         assertThat(page.pageCount()).isEqualTo(1);
         assertThat(page.total()).isEqualTo(10);
@@ -57,9 +57,9 @@ class PaginatorTest {
         List<Integer> hits = IntStream.rangeClosed(1, 100).boxed().toList();
 
         assertThat(paginator.slice(hits, 1, 50)).hasSize(50);
-        assertThat(paginator.describe(hits.size(), 1, 50).pageCount()).isEqualTo(2);
+        assertThat(paginator.describe(hits.size(), 1, 50, hits.size()).pageCount()).isEqualTo(2);
         assertThat(paginator.slice(hits, 1, 100)).hasSize(100);
-        assertThat(paginator.describe(hits.size(), 1, 100).pageCount()).isEqualTo(1);
+        assertThat(paginator.describe(hits.size(), 1, 100, hits.size()).pageCount()).isEqualTo(1);
     }
 
     @Test
@@ -74,7 +74,7 @@ class PaginatorTest {
     @Test
     @DisplayName("sin resultados hay cero páginas")
     void shouldReportZeroPagesWhenTheTotalIsZero() {
-        Pagination page = paginator.describe(0, 1, 25);
+        Pagination page = paginator.describe(0, 1, 25, 0);
 
         assertThat(page.pageCount()).isZero();
         assertThat(page.range()).isEqualTo("0–0 de 0");
