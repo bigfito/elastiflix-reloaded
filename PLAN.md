@@ -312,7 +312,7 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
 |---|---|---|
 | `match` · `title` | `dark knight` | OR 40 · AND 3 |
 | `match` · `title` | `love story` | OR 65 · AND 1 |
-| `match` · `title` | `Kolejne 365 dni` | 0 |
+| `match` · `title` | `Kolejne 365 dni` | OR 1 · AND 0 |
 | `match` · `original_title` | `el secreto` | OR 16 · AND 1 |
 | `match` · `original_title` | `le fabuleux destin` | OR 14 · AND 1 |
 | `multi_match` | `heaven cielo` | OR 6 · AND 0 |
@@ -739,7 +739,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
   (`terms`); `release_date` como `range` con `gte`/`lte`; `adult` booleano.
   - Criterio: pruebas unitarias comparan el JSON generado con el esperado para cada filtro y su
     combinación.
-- [ ] **2.3** Estrategia Full-text: `match` (campo elegido, operador) o `multi_match` `best_fields`
+- [x] **2.3** Estrategia Full-text: `match` (campo elegido, operador) o `multi_match` `best_fields`
   sobre `title` y `original_title` (operador); filtros en contexto `filter`; `from`/`size`;
   `track_total_hits: true`; agregaciones `terms` de `genres`, `spoken_languages`, `rating` y `adult` con
   `size: 100` (el catálogo tiene 19 géneros, 64 idiomas y 6 clasificaciones; la interfaz muestra los

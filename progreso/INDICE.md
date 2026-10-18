@@ -8,10 +8,10 @@
 ## Punto de reanudación
 
 - **Fase actual:** 2
-- **Estado de la fase:** bloqueado
+- **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-2-diseno-29a6`)
-- **Próximo paso:** Esperar la decisión sobre la fila `Kolejne 365 dni` de §6. El `match` sobre `title` midió OR 1 y AND 0. El diseño aprobado dice 0 en las dos. No seguir con 2.4 hasta esa respuesta.
-- **Última actualización:** 2026-10-18 01:22 UTC
+- **Próximo paso:** Tarea 2.4: estrategia vectorial y `VectorSearchIT`.
+- **Última actualización:** 2026-10-18 01:28 UTC
 
 ## Fases
 
@@ -19,7 +19,7 @@
 |---|---|---|---|---|---|
 | 0 | Andamiaje y calidad | — | terminado | `progreso/0.md` | 2026-10-17 en verde |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | terminado | `progreso/1.md` | 2026-10-18 en verde |
-| 2 | Búsqueda | 🔒 | bloqueado | `progreso/2.md` | — |
+| 2 | Búsqueda | 🔒 | en curso | `progreso/2.md` | — |
 | 3 | Carga de datos | 🔒 | no iniciado | `progreso/3.md` | — |
 | 4 | Interfaz web | — | no iniciado | `progreso/4.md` | — |
 | 5 | Pruebas integrales y smoke test | — | no iniciado | `progreso/5.md` | — |
@@ -35,9 +35,10 @@
 | 2026-10-18 | Diseño de la Fase 1 y sus cinco supuestos | Adolfo aprobó `docs/diseno/1.md` tal cual: lotes de 16, no crear catálogo vacío, `belongs_to_collection` como objeto, códigos de otras fases más tarde y tabla de calibración vacía hasta la tarea 1.9. |
 | 2026-10-18 | Fase 1 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 1. El PR #2 quedó fusionado en `main` (merge commit `b85555b`). |
 | 2026-10-18 | Diseño de la Fase 2 y sus seis supuestos | Adolfo aprobó `docs/diseno/2.md` tal cual: la búsqueda habla con Elasticsearch solo por `SearchTransport`; vectorial e híbrida piden `k` y parten la página en la aplicación; el estado vacío no cuenta el catálogo entero; una página fuera del total pero dentro de la ventana no es un error; las etiquetas «Todos», «Solo no adultos» y «Ver todos» llegan en la Fase 4; «fuera de su top» usa el `k` real. |
+| 2026-10-18 | Fila full-text `Kolejne 365 dni` | Adolfo aceptó OR 1 · AND 0 como resultado esperado del `match` sobre `title`. El token `365` coincide con «The Next 365 Days» (`829560`). |
 
 ## Última verificación
 
 - **Comando:** `./mvnw -pl elastiflix-search -am verify -Pit -Dit.test=FullTextSearchIT -Dfailsafe.failIfNoSpecifiedTests=false`
-- **Resultado:** Checkstyle y PMD en 0. Surefire de search: 24 pruebas, 0 fallos. `FullTextSearchIT`: 7 filas en verde y 1 fallo. `Kolejne 365 dni` con `match` sobre `title` da OR 1 (película `829560`, título «The Next 365 Days») y AND 0. El diseño aprobado dice 0 en las dos.
-- **Fecha:** 2026-10-18 01:22 UTC
+- **Resultado:** BUILD SUCCESS. Checkstyle y PMD: 0 violaciones. `FullTextSearchIT`: 8 pruebas, 0 fallos. `Kolejne 365 dni` queda OR 1 · AND 0, como aceptó el usuario.
+- **Fecha:** 2026-10-18 01:28 UTC

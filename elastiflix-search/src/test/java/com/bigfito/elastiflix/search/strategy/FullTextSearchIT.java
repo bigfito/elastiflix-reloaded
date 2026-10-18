@@ -64,7 +64,7 @@ class FullTextSearchIT {
         return Stream.of(
                 row("dark knight", MatchType.MATCH, TextField.TITLE, 40, 3),
                 row("love story", MatchType.MATCH, TextField.TITLE, 65, 1),
-                row("Kolejne 365 dni", MatchType.MATCH, TextField.TITLE, 0, 0),
+                row("Kolejne 365 dni", MatchType.MATCH, TextField.TITLE, 1, 0),
                 row("el secreto", MatchType.MATCH, TextField.ORIGINAL_TITLE, 16, 1),
                 row("le fabuleux destin", MatchType.MATCH, TextField.ORIGINAL_TITLE, 14, 1),
                 row("heaven cielo", MatchType.MULTI_MATCH, null, 6, 0),
