@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
-import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvMovieReader;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.json.JsonMovieReader;
@@ -61,11 +60,11 @@ class MappingValidatorTest {
     @Test
     @DisplayName("el CSV de cuatro películas, ya leído, tampoco tiene errores de tipo")
     void shouldAcceptTheCsvFixture() {
-        List<Movie> movies = new CsvMovieReader(new IndexMapping())
+        List<JsonNode> documents = new CsvMovieReader(new IndexMapping())
                 .read(CSV, CsvSettings.withHeader())
-                .movies();
+                .documents();
 
-        ValidatedMovies result = validator.validate(nodesOf(movies), Set.of());
+        ValidatedMovies result = validator.validate(documents, Set.of());
 
         assertThat(result.report().errors()).isEmpty();
         assertThat(result.movies()).hasSize(4);
@@ -134,14 +133,6 @@ class MappingValidatorTest {
         try (InputStream input = MappingValidatorTest.class.getResourceAsStream(name)) {
             return children(MAPPER.readTree(input));
         }
-    }
-
-    private static List<JsonNode> nodesOf(List<Movie> movies) {
-        List<JsonNode> nodes = new ArrayList<>();
-        for (Movie movie : movies) {
-            nodes.add(MAPPER.valueToTree(movie));
-        }
-        return nodes;
     }
 
     private static List<JsonNode> children(JsonNode array) {

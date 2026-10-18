@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-03, el CSV pasa por `MappingValidator`
-- **Última actualización:** 2026-10-18 16:34 UTC
+- **Próximo paso:** R-04, «Cargar datos» coincide con el mockup
+- **Última actualización:** 2026-10-18 16:41 UTC
 
 ## Fases
 

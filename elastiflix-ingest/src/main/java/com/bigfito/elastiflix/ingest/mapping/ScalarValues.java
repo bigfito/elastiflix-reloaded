@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.ingest.mapping;
 
+import java.math.BigDecimal;
+
 import com.bigfito.elastiflix.core.error.ErrorCode;
 
 import tools.jackson.databind.JsonNode;
@@ -73,7 +75,7 @@ final class ScalarValues {
         if (value == null || value.isNull()) {
             return;
         }
-        if (value.isIntegralNumber() && fitsInt(value)) {
+        if (fitsInt(value)) {
             scope.target().set(name, value);
             return;
         }
@@ -103,7 +105,22 @@ final class ScalarValues {
     }
 
     private static boolean fitsInt(JsonNode value) {
+        if (value.isBigDecimal()) {
+            return exactInt(value.decimalValue());
+        }
+        if (!value.isIntegralNumber()) {
+            return false;
+        }
         long number = value.longValue();
         return number >= Integer.MIN_VALUE && number <= Integer.MAX_VALUE;
+    }
+
+    private static boolean exactInt(BigDecimal value) {
+        try {
+            value.intValueExact();
+            return true;
+        } catch (ArithmeticException exception) {
+            return false;
+        }
     }
 }

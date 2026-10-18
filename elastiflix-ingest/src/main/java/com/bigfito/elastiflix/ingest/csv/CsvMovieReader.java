@@ -12,11 +12,11 @@ import java.util.Optional;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
-import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.mapping.CsvValues;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
-import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 
+import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.node.ObjectNode;
 
 /**
@@ -41,11 +41,11 @@ public final class CsvMovieReader {
     }
 
     /**
-     * Lee las películas. Si el encabezado no sirve, la lista viene vacía y el informe trae el error.
+     * Lee las filas como objetos JSON. Si el encabezado no sirve, la lista viene vacía.
      *
      * @param path     archivo CSV
      * @param settings separador y casilla de encabezado
-     * @return películas sin vectores, y el informe
+     * @return objetos crudos, con {@code _id} y los subcampos, y el informe del encabezado
      */
     public CsvRead read(Path path, CsvSettings settings) {
         if (!settings.headerPresent()) {
@@ -69,38 +69,38 @@ public final class CsvMovieReader {
         if (!new ValidationReport(issues).accepted()) {
             return new CsvRead(List.of(), new ValidationReport(issues));
         }
-        return new CsvRead(movies(rows, columns.get()), new ValidationReport(issues));
+        return new CsvRead(documents(rows, columns.get()), new ValidationReport(issues));
     }
 
-    private static List<Movie> movies(CsvRows rows, List<String> columns) {
-        List<Movie> movies = new ArrayList<>();
+    private static List<JsonNode> documents(CsvRows rows, List<String> columns) {
+        List<JsonNode> documents = new ArrayList<>();
         Optional<List<String>> row = rows.nextRow();
         while (row.isPresent()) {
             if (!blank(row.get())) {
-                movies.add(movie(columns, row.get()));
+                documents.add(document(columns, row.get()));
             }
             row = rows.nextRow();
         }
-        return movies;
+        return documents;
     }
 
-    private static Movie movie(List<String> columns, List<String> row) {
-        ObjectNode object = CsvCells.mapper().createObjectNode();
+    private static ObjectNode document(List<String> columns, List<String> row) {
+        ObjectNode object = CsvValues.newObject();
         int fields = Math.min(columns.size(), row.size());
         for (int index = 0; index < fields; index++) {
             put(object, columns.get(index), row.get(index));
         }
-        return MovieDocuments.fromNode(object);
+        return object;
     }
 
     private static void put(ObjectNode object, String name, String cell) {
-        if (CsvHeader.DOCUMENT_ID.equals(name) || cell.isEmpty()) {
+        if (cell.isEmpty()) {
             return;
         }
-        if (name.startsWith("plot_")) {
-            return;
+        JsonNode value = CsvValues.read(name, cell);
+        if (value != null) {
+            object.set(name, value);
         }
-        object.set(name, CsvCells.toNode(cell));
     }
 
     private static boolean blank(List<String> row) {
