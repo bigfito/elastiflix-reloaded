@@ -614,7 +614,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   `ElastiflixException` (`docs/convenciones-java.md` §7).
   - Criterio: pruebas unitarias verifican el formato `<código> · <qué pasó>. Causa probable: … Acción
     sugerida: …` y que los códigos son únicos.
-- [ ] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
+- [x] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
   las propiedades `elastiflix.*` de §7: `elasticsearch.url`, `elasticsearch.api-key`, `index.alias`,
   `inference.id`, `ingest.max-file-size`, `ingest.batch-size`, `poster.base-url`, `bootstrap.enabled` y
   `embedding.*` (valores por defecto provisionales `document-input-type: ingest` y

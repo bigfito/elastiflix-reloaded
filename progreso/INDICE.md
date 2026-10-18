@@ -10,8 +10,8 @@
 - **Fase actual:** 1
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Tarea 1.2: propiedades `elastiflix.*`, `EnvironmentPostProcessor` de credenciales y `FailureAnalyzer`. La prueba con URL vacía debe mostrar `EFX-CFG-001` y «Revisa ELASTICSEARCH_URL» sin conectarse.
-- **Última actualización:** 2026-10-18 00:08 UTC
+- **Próximo paso:** Tarea 1.3: `ApplicationContextRunner` comprueba `Jackson3JsonpMapper` y `ElasticsearchClientIT` ejecuta `info()`.
+- **Última actualización:** 2026-10-18 00:12 UTC
 
 ## Fases
 
@@ -36,6 +36,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-core -am verify`
-- **Resultado:** en verde (código 0). `ErrorCodeTest`: 3 pruebas, 0 fallos.
-- **Fecha:** 2026-10-18 00:08 UTC
+- **Comando:** `./mvnw -q verify` y `./mvnw -q verify -Pit -pl elastiflix-core -am`
+- **Resultado:** ambos en verde (código 0).
+- **Fecha:** 2026-10-18 00:12 UTC
