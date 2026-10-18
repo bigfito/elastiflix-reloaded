@@ -313,26 +313,29 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
     entre comillas; listas y objetos anidados como JSON dentro de la celda.
   - En ambos formatos puede venir el metadato `_id`; si viene, debe ser igual a `id`. `id` puede llegar
     como número y se guarda como texto.
-- **Datos de verificación** (catálogo intacto de 4 322 películas, `k = 100`, `num_candidates = 200`):
+- **Datos de verificación** (medidos el 2026-10-18 sobre el catálogo vigente de **6 899** películas,
+  `k = 100`, `num_candidates = 200`; solo lectura de `elastiflix-reloaded`):
 
 | Modo y ajustes | Consulta | Esperado |
 |---|---|---|
-| `match` · `title` | `dark knight` | OR 40 · AND 3 |
-| `match` · `title` | `love story` | OR 65 · AND 1 |
-| `match` · `title` | `Kolejne 365 dni` | OR 1 · AND 0 |
-| `match` · `original_title` | `el secreto` | OR 16 · AND 1 |
-| `match` · `original_title` | `le fabuleux destin` | OR 14 · AND 1 |
-| `multi_match` | `heaven cielo` | OR 6 · AND 0 |
-| `multi_match` | `next kolejne` | OR 11 · AND 0 |
+| `match` · `title` | `dark knight` | OR 57 · AND 5 |
+| `match` · `title` | `love story` | OR 107 · AND 3 |
+| `match` · `title` | `Kolejne 365 dni` | OR 3 · AND 0 |
+| `match` · `original_title` | `el secreto` | OR 35 · AND 2 |
+| `match` · `original_title` | `le fabuleux destin` | OR 26 · AND 1 |
+| `multi_match` | `heaven cielo` | OR 10 · AND 0 |
+| `multi_match` | `next kolejne` | OR 15 · AND 0 |
 | `multi_match` | `parasite 기생충` | OR 1 · AND 0 |
-| Vectorial | `un barco de lujo choca con un iceberg en su viaje inaugural` | Titanic (`597`): 4.º en `plot_256`, 3.º en `plot_512`, 1.º en `plot_1024` |
-| Vectorial | `un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano` | Life of Pi (`87827`): 10.º · 3.º · 2.º |
+| Vectorial | `un barco de lujo choca con un iceberg en su viaje inaugural` | Titanic (`597`): 36.º en `plot_256`, 7.º en `plot_512`, 4.º en `plot_1024` |
+| Vectorial | `un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano` | Life of Pi (`87827`): 30.º · 7.º · 4.º |
 | Vectorial | `un robot solitario que limpia la Tierra` | WALL·E (`10681`): 1.º en los tres campos |
 | Híbrida · `match` `title` AND | `toy story juguetes que cobran vida` | componente léxico vacío; los `k` resultados vienen del vectorial |
 
-Esos totales y posiciones son del catálogo de 4 322 películas. En el de 6 899 cambian.
-`FullTextSearchIT` exige que OR sea mayor que cero y que AND no lo supere.
-`VectorSearchIT` exige que la película de la fila siga entre los `k` resultados.
+`FullTextSearchIT` afirma esos ocho pares OR/AND. `VectorSearchIT` afirma esas posiciones.
+`HybridSearchIT` afirma la fila híbrida (léxico vacío y orden vectorial). `CatalogStatusServiceIT`
+y el conteo de `SmokeIT` afirman 6 899 documentos. Cada una empieza con
+`Assumptions.assumeTrue(count == 6899, "El catálogo cambió: …")`: si el conteo no es 6 899, la
+prueba se omite y no pasa en falso. No se afloja el criterio en el código.
 
 ## 7. Convenciones del proyecto
 
@@ -676,7 +679,8 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 - [x] **1.7** `CatalogStatusService`: devuelve alias, índice vigente, conteo y estado (conectado / sin
   conexión) con el código de error correspondiente. Funciona tanto si `elastiflix-reloaded` todavía es
   un índice concreto (antes de 1.8) como si ya es alias.
-  - Criterio: `CatalogStatusServiceIT` devuelve `documents = 4322` para `elastiflix-reloaded`.
+  - Criterio: `CatalogStatusServiceIT` afirma los 6 899 documentos de §6 para `elastiflix-reloaded`
+    cuando `_count` coincide; si el catálogo cambió, la prueba se omite.
 - [x] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
   `elastiflix.bootstrap.enabled=true` (no requiere aprobación previa del usuario; decisión del 2026-10-17):
   1. Si `elastiflix-reloaded` ya es alias → no hace nada y lo registra.
@@ -984,7 +988,8 @@ arquitectura en verde; resumen de diseño y revisión de convenciones en `progre
 - [x] **5.0** Diseño: `docs/diseno/5.md` (alcance del smoke test, datos y limpieza). Commit antes del
   código.
 - [x] **5.1** `SmokeIT` en `web` (`@SpringBootTest(webEnvironment = RANDOM_PORT)`, corre con `-Pit`):
-  `GET /actuator/health` `UP` con 4 322 documentos; `GET /`, `/acerca`, `/cargar` responden 200; una
+  `GET /actuator/health` `UP` con los 6 899 documentos de §6 (se omite si el conteo cambió); `GET /`,
+  `/acerca`, `/cargar` responden 200; una
   búsqueda por modo con una sugerencia del mockup devuelve resultados; subir
   `elasticsearch/fixtures/movies-sample.csv` deja el paso 4 en «listo para empezar» con 0 errores y la
   advertencia de vectores ignorados (no importa).
@@ -1036,7 +1041,9 @@ Criterio: Definición de Hecho completa.
 
 - [x] Los tres modos de búsqueda, los filtros, la paginación y la carga de datos funcionan como describe
   §1 y los mockups.
-- [x] Todos los datos de verificación de §6 pasan en las pruebas de integración.
+- [x] Todos los datos de verificación de §6 pasan en las pruebas de integración: los totales OR/AND,
+  las posiciones vectoriales y la fila híbrida de la tabla de 6 899 películas, con `assumeTrue` si
+  el conteo cambió.
 - [x] `elastiflix-reloaded` es un alias; una carga publica con swap atómico y borra el índice anterior;
   una falla deja el catálogo intacto (demostrado en pruebas).
 - [x] `./mvnw verify -Pit` en verde: unitarias, arquitectura, integración y smoke.

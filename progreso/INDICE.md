@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-05, valores exactos de §6 sobre el catálogo vigente
-- **Última actualización:** 2026-10-18 16:57 UTC
+- **Próximo paso:** R-06, Resultados coincide con el mockup
+- **Última actualización:** 2026-10-18 17:20 UTC
 
 ## Fases
 
@@ -52,7 +52,7 @@
 - **Índice:** `elastiflix-reloaded-20261018-054429`
 - **Documentos:** 6899, con `title`, `plot` y los tres vectores en todos
 - **Índice anterior:** `elastiflix-reloaded-20261018-003535` (4322 documentos), borrado al publicar
-- **Pruebas:** `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y exigen que sea mayor que cero. No escriben en este alias.
+- **Pruebas:** `SmokeIT`, `CatalogStatusServiceIT`, `FullTextSearchIT`, `VectorSearchIT` y `HybridSearchIT` afirman la tabla de §6 (6 899 películas) y se omiten si `_count` cambió. No escriben en este alias.
 
 ## Última verificación
 
