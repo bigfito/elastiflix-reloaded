@@ -36,7 +36,8 @@ public final class ModeCopies {
         if (query.mode() == SearchMode.HYBRID) {
             return hybrid(query.knn().k());
         }
-        return new ModeCopy("Full-text", "tone-sky", "Ordenados por puntuación BM25", BM25, "");
+        return new ModeCopy(
+                "Full-text", "tone-sky", "Ordenados por puntuación BM25", BM25, "", "Puntuación");
     }
 
     private static ModeCopy vector(int k) {
@@ -44,7 +45,8 @@ public final class ModeCopies {
                 + "), repartidos en páginas. Los filtros se aplican dentro de la búsqueda k-NN, "
                 + "así que las k películas devueltas los cumplen, y sus valores se calculan sobre "
                 + "esos resultados.";
-        return new ModeCopy("Vectorial", "tone-mint", "Ordenados por similitud k-NN", COSINE, limit);
+        return new ModeCopy(
+                "Vectorial", "tone-mint", "Ordenados por similitud k-NN", COSINE, limit, "Similitud");
     }
 
     private static ModeCopy hybrid(int k) {
@@ -53,6 +55,8 @@ public final class ModeCopies {
                 + ") y permite recorrer hasta " + k
                 + " resultados combinados. Los valores de los filtros se calculan sobre esa lista "
                 + "combinada.";
-        return new ModeCopy("Híbrida", "tone-lavender", "Ordenados por fusión RRF", HYBRID, limit);
+        return new ModeCopy(
+                "Híbrida", "tone-lavender", "Ordenados por fusión RRF", HYBRID, limit,
+                "Puntuación en cada lista");
     }
 }

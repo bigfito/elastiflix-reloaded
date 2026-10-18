@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-05
+- **Tarea actual:** R-06
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-06. Resultados coincide con el mockup: títulos del panel, rango, chips y error de fechas.
-- **Última actualización:** 2026-10-18 17:20 UTC
+- **Próximo paso:** R-07. Los endpoints JSON de la carga responden 413 y 404 en JSON.
+- **Última actualización:** 2026-10-18 17:13 UTC
 
 ## Tareas
 
@@ -29,8 +29,8 @@ en curso
 | R-02 | terminada | `125d049` | `ImportJobTest` 11 pruebas, 0 fallos. Alias en el temporal: sin `deleteIndex(temp)` y paso 5. Alias en el anterior: `EFX-ES-004` y se borra el temporal. `describe` falla o el alias no existe: `EFX-IMP-006` y no se borra nada. Checkstyle y PMD de core e ingest en 0. |
 | R-03 | terminada | `f24bb4d` | Variantes CSV: `_id` ≠ `id` (`EFX-ING-010`), fecha `16/07/1999`, `adult=yes` y `genres=Drama` (`EFX-ING-012`), subcampo `extra` en keywords (`EFX-ING-007`). `[REC]` y `007` se conservan. `movies-sample.csv` con 0 errores. Checkstyle y PMD de ingest en 0. |
 | R-04 | terminada | `90b96ce` | MockMvc ve las tarjetas, la tabla «Se recibió / El mapping espera», «Archivo JSON», «Importación bloqueada» y el paso 4. `SmokeIT` espera el paso 4. Captura `docs/capturas/cargar.png`. Checkstyle y PMD en 0. |
-| R-05 | terminada | se anota en R-06 | Tabla de §6 medida sobre 6 899: dark knight 57/5, love story 107/3, Kolejne 3/0, el secreto 35/2, le fabuleux 26/1, heaven 10/0, next 15/0, parasite 1/0. Titanic 36/7/4, Life of Pi 30/7/4, WALL·E 1/1/1. `assumeTrue(count == 6899)`. |
-| R-06 | pendiente | | |
+| R-05 | terminada | `46aeda4` | Tabla de §6 medida sobre 6 899: dark knight 57/5, love story 107/3, Kolejne 3/0, el secreto 35/2, le fabuleux 26/1, heaven 10/0, next 15/0, parasite 1/0. Titanic 36/7/4, Life of Pi 30/7/4, WALL·E 1/1/1. `assumeTrue(count == 6899)`. FullText 8, Vector 4, Hybrid 2, CatalogStatus 1 y Smoke 4, 0 omitidas. |
+| R-06 | terminada | se anota en R-07 | MockMvc: títulos Puntuación, Similitud y Puntuación en cada lista; «Mostrando 1–1 de 1 resultados»; chips «Géneros: Drama»; `<select id="page-size">`; fecha invertida con el texto del mockup y el formulario visible. Captura `docs/capturas/resultados.png`. Checkstyle y PMD en 0. |
 | R-07 | pendiente | | |
 | R-08 | pendiente | | |
 | R-09 | pendiente | | |
@@ -58,13 +58,13 @@ en curso
 
 ## Cambios sin commit
 
-Vacío al cerrar R-05.
+Vacío al cerrar R-06.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-core,elastiflix-search,elastiflix-web -am verify -Pit -Dit.test=FullTextSearchIT,VectorSearchIT,HybridSearchIT,CatalogStatusServiceIT,SmokeIT -Dfailsafe.failIfNoSpecifiedTests=false`
-- **Resultado:** BUILD SUCCESS. FullTextSearchIT 8, VectorSearchIT 4, HybridSearchIT 2, CatalogStatusServiceIT 1 y SmokeIT 4, todas con 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
-- **Fecha:** 2026-10-18 17:05 UTC
+- **Comando:** `./mvnw -pl elastiflix-web -am test -Dtest=ResultsPageTest,ErrorPageTest,ErrorCodeTest` y `checkstyle:check pmd:check`
+- **Resultado:** BUILD SUCCESS. ResultsPageTest 5, ErrorPageTest 2, ErrorCodeTest 3, 0 fallos. Checkstyle y PMD en 0. La página en vivo de «dark knight» dice «57 resultados» y «Mostrando 1–25 de 57 resultados».
+- **Fecha:** 2026-10-18 17:12 UTC
 
 ## Decisiones
 

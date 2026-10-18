@@ -1,5 +1,6 @@
 package com.bigfito.elastiflix.web.search;
 
+import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.SearchValidationException;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.result.SearchService;
@@ -53,8 +54,8 @@ public class SearchController {
         try {
             found(model, form);
         } catch (SearchValidationException exception) {
-            model.addAttribute("errorCode", exception.errorCode().code());
-            model.addAttribute("errorMessage", exception.getMessage());
+            pages.rejected(model, form, exception.errorCode() == ErrorCode.DATE_RANGE_REVERSED);
+            model.addAttribute("errorSummary", exception.errorCode().summary());
         }
     }
 

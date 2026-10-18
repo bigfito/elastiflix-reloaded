@@ -300,6 +300,17 @@ public enum ErrorCode {
     }
 
     /**
+     * Devuelve solo qué pasó, sin el código ni la causa.
+     *
+     * <p>La página de resultados lo muestra junto al campo. La página de error lo antepone al código.</p>
+     *
+     * @return el texto corto del error
+     */
+    public String summary() {
+        return whatHappened;
+    }
+
+    /**
      * Compone el mensaje en el formato del proyecto.
      *
      * @return mensaje con qué pasó, causa probable y acción sugerida

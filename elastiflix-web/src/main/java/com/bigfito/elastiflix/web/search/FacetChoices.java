@@ -52,6 +52,20 @@ public final class FacetChoices {
     }
 
     /**
+     * Conserva los valores de la URL cuando la búsqueda no llegó a ejecutarse.
+     *
+     * @param selected valores marcados
+     * @return opciones ya seleccionadas, con conteo 0
+     */
+    public static List<FacetChoice> kept(List<String> selected) {
+        List<FacetChoice> choices = new ArrayList<>();
+        for (String value : selected) {
+            choices.add(new FacetChoice(value, 0, true, false));
+        }
+        return List.copyOf(choices);
+    }
+
+    /**
      * Conteo de un valor, o 0 si no está.
      *
      * @param values faceta

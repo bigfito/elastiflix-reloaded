@@ -33,19 +33,43 @@ public class ResultsPage {
      * @param query  modo y k
      */
     public void fill(Model model, SearchForm form, SearchResult result, SearchQuery query) {
-        heading(model, form, result, query);
+        heading(model, result, query);
         filters(model, form, result);
         pages(model, form, result.pagination());
     }
 
-    private void heading(Model model, SearchForm form, SearchResult result, SearchQuery query) {
+    private void heading(Model model, SearchResult result, SearchQuery query) {
         model.addAttribute("copy", ModeCopies.of(query));
         model.addAttribute("adjustments", result.adjustments());
         model.addAttribute("countTitle", countTitle(result.total()));
         model.addAttribute("cards", cards.of(result, query.mode()));
         model.addAttribute("empty", result.empty());
-        model.addAttribute("clearHref", SearchLinks.cleared(form));
         model.addAttribute("changeHref", "/");
+    }
+
+    private static void applied(Model model, SearchForm form) {
+        model.addAttribute("facetNote", AppliedFilters.note(form));
+        model.addAttribute("chips", AppliedFilters.chips(form));
+    }
+
+    /**
+     * Deja el formulario de filtros visible cuando la URL no se puede buscar.
+     *
+     * @param model     vista
+     * @param form      URL actual
+     * @param dateError si «Desde» es posterior a «Hasta»
+     */
+    public void rejected(Model model, SearchForm form, boolean dateError) {
+        model.addAttribute("genres", FacetChoices.kept(form.genres()));
+        model.addAttribute("languages", FacetChoices.kept(form.languages()));
+        model.addAttribute("ratings", FacetChoices.kept(form.ratings()));
+        model.addAttribute("adultAll", 0);
+        model.addAttribute("adultSafe", 0);
+        model.addAttribute("safeOnly", form.adult().contains("false"));
+        model.addAttribute("dateNote", "En estos resultados: sin fechas de estreno.");
+        model.addAttribute("clearHref", SearchLinks.cleared(form));
+        model.addAttribute("dateError", dateError);
+        applied(model, form);
     }
 
     private static void filters(Model model, SearchForm form, SearchResult result) {
@@ -56,10 +80,13 @@ public class ResultsPage {
         model.addAttribute("adultSafe", FacetChoices.countOf(result.facets().adult(), "false"));
         model.addAttribute("safeOnly", form.adult().contains("false"));
         model.addAttribute("dateNote", dateNote(result));
+        model.addAttribute("dateError", false);
+        model.addAttribute("clearHref", SearchLinks.cleared(form));
+        applied(model, form);
     }
 
     private static void pages(Model model, SearchForm form, Pagination pagination) {
-        model.addAttribute("range", pagination.range());
+        model.addAttribute("range", "Mostrando " + pagination.range() + " resultados");
         model.addAttribute("pages", PageButtons.of(form, pagination));
         model.addAttribute("previous", previous(form, pagination));
         model.addAttribute("next", next(form, pagination));
@@ -80,7 +107,7 @@ public class ResultsPage {
             return "En estos resultados: sin fechas de estreno.";
         }
         return "En estos resultados: de " + result.facets().earliestRelease()
-                + " a " + result.facets().latestRelease() + ".";
+                + " a " + result.facets().latestRelease();
     }
 
     private static String previous(SearchForm form, Pagination pagination) {

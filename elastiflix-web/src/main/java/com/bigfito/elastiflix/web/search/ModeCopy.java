@@ -6,8 +6,10 @@ package com.bigfito.elastiflix.web.search;
  * @param label     chip del modo
  * @param tone      clase de color
  * @param orderedBy cómo se ordenó la lista
- * @param legend    explicación del pie
- * @param limit     nota de k, o vacía en full-text
+ * @param legend     explicación del pie
+ * @param limit      nota de k, o vacía en full-text
+ * @param scoreTitle título del panel: Puntuación, Similitud o Puntuación en cada lista
  */
-public record ModeCopy(String label, String tone, String orderedBy, String legend, String limit) {
+public record ModeCopy(
+        String label, String tone, String orderedBy, String legend, String limit, String scoreTitle) {
 }
