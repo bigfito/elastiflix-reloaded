@@ -37,4 +37,20 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <resources>
+            <!-- Hay que repetir los recursos propios: si no, se pierde META-INF/spring.factories. -->
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/../elasticsearch</directory>
+                <includes>
+                    <include>elastiflix-reloaded-mapping.json</include>
+                </includes>
+                <targetPath>elasticsearch</targetPath>
+            </resource>
+        </resources>
+    </build>
 </project>

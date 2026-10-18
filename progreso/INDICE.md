@@ -10,8 +10,8 @@
 - **Fase actual:** 1
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Tarea 1.5: `IndexMapping` y prueba de 33 campos, formato de `release_date` y dimensiones de `plot_512`.
-- **Última actualización:** 2026-10-18 00:21 UTC
+- **Próximo paso:** Tarea 1.6: `CatalogIndex` y `CatalogIndexIT`.
+- **Última actualización:** 2026-10-18 00:24 UTC
 
 ## Fases
 
@@ -37,5 +37,5 @@
 ## Última verificación
 
 - **Comando:** `./mvnw -q verify`
-- **Resultado:** en verde (código 0). `MovieJsonTest`: 1 prueba, 0 fallos.
-- **Fecha:** 2026-10-18 00:21 UTC
+- **Resultado:** en verde (código 0). `IndexMappingTest`: 2 pruebas, 0 fallos.
+- **Fecha:** 2026-10-18 00:24 UTC

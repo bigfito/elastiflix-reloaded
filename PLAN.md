@@ -643,7 +643,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   - Criterio: `MovieJsonTest` lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` (las
     pruebas leen los fixtures desde `../elasticsearch/fixtures/`, relativo a la carpeta del módulo), las
     vuelve a escribir y obtiene los mismos valores (incluida `belongs_to_collection` de `345887`).
-- [ ] **1.5** `IndexMapping`: carga `elasticsearch/elastiflix-reloaded-mapping.json` como recurso del
+- [x] **1.5** `IndexMapping`: carga `elasticsearch/elastiflix-reloaded-mapping.json` como recurso del
   jar (en el `pom.xml` de core, un `<resource>` adicional con `<directory>${project.basedir}/../elasticsearch</directory>`,
   `<includes>` solo de ese archivo y `<targetPath>elasticsearch</targetPath>`, sin copiarlo; al declarar
   `<resources>` hay que **volver a declarar `src/main/resources`**, o core pierde sus propios recursos,
