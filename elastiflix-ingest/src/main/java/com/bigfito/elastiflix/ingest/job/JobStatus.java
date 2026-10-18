@@ -43,4 +43,13 @@ public enum JobStatus {
     public String label() {
         return label;
     }
+
+    /**
+     * Dice si el trabajo ya no va a cambiar: inválido, publicado, fallido o cancelado.
+     *
+     * @return {@code true} en un estado final
+     */
+    public boolean terminal() {
+        return this == INVALID || this == PUBLISHED || this == FAILED || this == CANCELLED;
+    }
 }

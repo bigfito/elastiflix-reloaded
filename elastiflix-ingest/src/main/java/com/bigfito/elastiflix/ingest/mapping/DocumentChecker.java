@@ -18,7 +18,6 @@ final class DocumentChecker {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocumentChecker.class);
     private static final String NOT_IN_MAPPING = "Ese campo no existe en el mapping del índice";
-    private static final String WILL_GENERATE = "se generarán con el servicio de inferencia";
 
     CheckedDocument check(JsonNode node, int number, Set<String> warnedVectors) {
         String record = Integer.toString(number);
@@ -73,14 +72,7 @@ final class DocumentChecker {
             return;
         }
         LOG.warn("{}: se ignora la columna {}", ErrorCode.VECTORS_IGNORED.code(), name);
-        scope.issues().add(new ValidationIssue(
-                ErrorCode.VECTORS_IGNORED.code(),
-                FieldNames.FILE,
-                FieldNames.MISSING,
-                name,
-                name,
-                WILL_GENERATE,
-                true));
+        scope.issues().add(VectorFields.ignored(name));
     }
 
     private void copy(String name, JsonNode value, CheckScope scope) {

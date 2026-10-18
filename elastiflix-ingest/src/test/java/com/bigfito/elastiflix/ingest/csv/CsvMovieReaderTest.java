@@ -54,7 +54,7 @@ class CsvMovieReaderTest {
         assertThat(checked.report().errors()).isEmpty();
         assertThat(checked.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(json.read(JSON).stream().map(MovieDocuments::fromNode).toList());
+                .isEqualTo(json.read(JSON).documents().stream().map(MovieDocuments::fromNode).toList());
     }
 
     @Test

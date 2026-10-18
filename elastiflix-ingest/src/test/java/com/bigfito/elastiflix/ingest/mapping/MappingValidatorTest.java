@@ -41,6 +41,20 @@ class MappingValidatorTest {
     private final MappingValidator validator = new MappingValidator();
 
     @Test
+    @DisplayName("validateAndRelease suelta cada nodo crudo de la lista a medida que lo revisa")
+    void shouldReleaseRawNodesWhileValidating() {
+        // given
+        List<JsonNode> documents = new ArrayList<>(new JsonDocuments().read(JSON).documents());
+
+        // when
+        ValidatedMovies checked = validator.validateAndRelease(documents, Set.of());
+
+        // then
+        assertThat(checked.movies()).hasSize(4);
+        assertThat(documents).hasSize(4).containsOnlyNulls();
+    }
+
+    @Test
     @DisplayName("el JSON de cuatro películas no tiene errores y avisa vectores y el texto vacío")
     void shouldAcceptTheJsonFixture() {
         ValidatedMovies result = validator.validate(documentsOf(JSON), Set.of("597", "999"));
@@ -61,7 +75,7 @@ class MappingValidatorTest {
         });
         assertThat(result.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(moviesOf(new JsonDocuments().read(JSON)));
+                .isEqualTo(moviesOf(new JsonDocuments().read(JSON).documents()));
     }
 
     @Test

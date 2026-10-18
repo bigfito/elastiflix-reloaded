@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.ingest.job;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +20,8 @@ import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 import com.bigfito.elastiflix.ingest.service.LoadedDocuments;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import tools.jackson.databind.JsonNode;
@@ -29,6 +33,8 @@ import tools.jackson.databind.JsonNode;
 public final class FileIntake {
 
     private final FileGate gate;
+    private static final Logger LOG = LoggerFactory.getLogger(FileIntake.class);
+
     private final MappingValidator validator = new MappingValidator();
     private final CatalogIndex catalog;
     private final ElastiflixProperties properties;
@@ -64,7 +70,18 @@ public final class FileIntake {
         } catch (ElastiflixException exception) {
             store.failed(jobId, exception);
         } finally {
+            deleteUploaded(work);
             closeIfStill(jobId, JobStatus.VALIDATING);
+        }
+    }
+
+    /** Después de validar el archivo ya no se relee: las películas quedan en el trabajo. */
+    private static void deleteUploaded(ImportWork work) {
+        try {
+            Files.deleteIfExists(work.path());
+        } catch (IOException exception) {
+            LOG.warn("No se pudo borrar el archivo local del trabajo {} tipo={}", work.id(),
+                    exception.getClass().getSimpleName());
         }
     }
 
@@ -81,7 +98,8 @@ public final class FileIntake {
             store.invalid(jobId, loaded.report());
             return;
         }
-        ValidatedMovies checked = validator.validate(loaded.documents(), existing(loaded.documents()));
+        Set<String> existing = existing(loaded.documents());
+        ValidatedMovies checked = validator.validateAndRelease(loaded.documents(), existing);
         storeOutcome(jobId, loaded.report(), checked);
     }
 

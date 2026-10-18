@@ -83,7 +83,7 @@ class IngestServiceTest {
     private IngestService service() {
         ElastiflixProperties properties = new ElastiflixProperties(
                 null, new ElastiflixProperties.Index(ALIAS), null, null, null, null, null);
-        JobStore store = new JobStore(properties);
+        JobStore store = new JobStore(properties, Clock.systemUTC());
         IndexNames names = new IndexNames();
         PlotVectorizer vectorizer = new PlotVectorizer(embeddings);
         return new IngestService(

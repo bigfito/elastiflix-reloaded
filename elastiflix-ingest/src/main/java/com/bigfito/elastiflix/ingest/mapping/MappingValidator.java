@@ -2,16 +2,15 @@ package com.bigfito.elastiflix.ingest.mapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
-import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.movie.MovieDocuments;
 
 import org.springframework.stereotype.Component;
 
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.node.ObjectNode;
 
 /**
  * Revisa un archivo completo contra el mapping y solo deja pasar uno sin errores.
@@ -24,16 +23,29 @@ public final class MappingValidator {
     /**
      * Valida los documentos en orden. Si hay un error, no devuelve películas.
      *
-     * @param documents   objetos JSON, uno por película
+     * @param documents   objetos JSON, uno por película; la lista no cambia
      * @param existingIds ids que ya están en el catálogo; vacío si no se sabe
      * @return películas aceptadas, el informe y cuántos id se reemplazarían
      */
     public ValidatedMovies validate(List<JsonNode> documents, Set<String> existingIds) {
+        return validateAndRelease(new ArrayList<>(documents), existingIds);
+    }
+
+    /**
+     * Valida igual que {@link #validate} y suelta cada nodo de la lista apenas lo revisa, para que el
+     * archivo crudo y las películas no convivan enteros en memoria.
+     *
+     * @param documents   lista modificable; al terminar solo tiene {@code null}
+     * @param existingIds ids que ya están en el catálogo; vacío si no se sabe
+     * @return películas aceptadas, el informe y cuántos id se reemplazarían
+     */
+    public ValidatedMovies validateAndRelease(List<JsonNode> documents, Set<String> existingIds) {
         ValidationRun run = new ValidationRun();
-        int number = 1;
-        for (JsonNode document : documents) {
-            accept(document, number, run);
-            number++;
+        ListIterator<JsonNode> pending = documents.listIterator();
+        while (pending.hasNext()) {
+            JsonNode document = pending.next();
+            pending.set(null);
+            accept(document, pending.nextIndex(), run);
         }
         noteEmpty(documents, run);
         return result(run, existingIds);
@@ -41,16 +53,10 @@ public final class MappingValidator {
 
     private void accept(JsonNode document, int number, ValidationRun run) {
         CheckedDocument checked = checker.check(document, number, run.warned());
-        run.issues().addAll(checked.issues());
-        dropVectors(document);
-        dropVectors(checked.body());
-        run.bodies().add(checked.body());
+        run.addAll(checked.issues());
         remember(checked, number, run);
-    }
-
-    private static void dropVectors(JsonNode node) {
-        if (node instanceof ObjectNode object) {
-            object.remove(List.of("plot_256", "plot_512", "plot_1024"));
+        if (!run.failed()) {
+            run.movies().add(MovieDocuments.fromNode(checked.body()));
         }
     }
 
@@ -59,7 +65,7 @@ public final class MappingValidator {
             return;
         }
         if (!run.seen().add(checked.id())) {
-            run.issues().add(duplicate(checked, number));
+            run.add(duplicate(checked, number));
             return;
         }
         run.ids().add(checked.id());
@@ -80,7 +86,7 @@ public final class MappingValidator {
         if (!documents.isEmpty()) {
             return;
         }
-        run.issues().add(new ValidationIssue(
+        run.add(new ValidationIssue(
                 ErrorCode.REQUIRED_FIELD.code(),
                 FieldNames.FILE,
                 FieldNames.MISSING,
@@ -96,7 +102,7 @@ public final class MappingValidator {
         if (!report.accepted()) {
             return new ValidatedMovies(List.of(), report, replace);
         }
-        return new ValidatedMovies(movies(run.bodies()), report, replace);
+        return new ValidatedMovies(run.movies(), report, replace);
     }
 
     private static int replacements(Set<String> ids, Set<String> existingIds) {
@@ -110,14 +116,5 @@ public final class MappingValidator {
             }
         }
         return count;
-    }
-
-    private static List<Movie> movies(List<ObjectNode> bodies) {
-        List<Movie> movies = new ArrayList<>();
-        for (ObjectNode body : bodies) {
-            movies.add(MovieDocuments.fromNode(body));
-        }
-        bodies.clear();
-        return movies;
     }
 }

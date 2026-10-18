@@ -3,7 +3,6 @@ package com.bigfito.elastiflix.ingest.job;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
@@ -104,8 +103,8 @@ final class ImportWork {
         return new ImportCounts(fileCount, replaceCount, batchSize);
     }
 
-    BooleanSupplier cancelledFlag() {
-        return cancelled::get;
+    boolean isCancelled() {
+        return cancelled.get();
     }
 
     synchronized void validating() {

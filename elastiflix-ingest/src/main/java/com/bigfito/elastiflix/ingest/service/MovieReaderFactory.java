@@ -10,9 +10,8 @@ import com.bigfito.elastiflix.ingest.csv.CsvRead;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.file.FileKind;
 import com.bigfito.elastiflix.ingest.json.JsonDocuments;
+import com.bigfito.elastiflix.ingest.json.JsonRead;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
-
-import tools.jackson.databind.JsonNode;
 
 import org.springframework.stereotype.Component;
 
@@ -46,8 +45,9 @@ public final class MovieReaderFactory {
      */
     public LoadedDocuments load(FileKind kind, Path path, CsvSettings settings) {
         if (kind == FileKind.JSON) {
-            List<JsonNode> documents = json.read(path);
-            return new LoadedDocuments(documents, ValidationReport.empty(), documents.size(), List.of());
+            JsonRead read = json.read(path);
+            return new LoadedDocuments(read.documents(), new ValidationReport(read.warnings()),
+                    read.documents().size(), List.of());
         }
         return csvDocuments(path, settings);
     }

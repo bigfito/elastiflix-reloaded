@@ -15,6 +15,7 @@ import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.mapping.CsvValues;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
+import com.bigfito.elastiflix.ingest.mapping.VectorFields;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.node.ObjectNode;
@@ -130,7 +131,8 @@ public final class CsvMovieReader {
         ObjectNode object = CsvValues.newObject();
         for (int index = 0; index < columns.size(); index++) {
             String name = columns.get(index);
-            if (header.knows(name)) {
+            // Los vectores no se convierten: la advertencia ya está en el encabezado y se generan desde plot.
+            if (header.knows(name) && !VectorFields.isVector(name)) {
                 put(object, name, row.get(index));
             }
         }

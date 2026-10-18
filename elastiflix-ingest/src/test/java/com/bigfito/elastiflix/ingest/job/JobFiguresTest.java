@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Clock;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
@@ -85,7 +86,8 @@ class JobFiguresTest {
 
     private JobStore store(int batchSize) {
         return new JobStore(new ElastiflixProperties(null, null, null,
-                new ElastiflixProperties.Ingest(DataSize.ofMegabytes(150), batchSize), null, null, null));
+                new ElastiflixProperties.Ingest(DataSize.ofMegabytes(150), batchSize), null, null, null),
+                Clock.systemUTC());
     }
 
     private Path file() throws Exception {
