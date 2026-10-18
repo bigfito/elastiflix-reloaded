@@ -1092,6 +1092,15 @@ La sincronización de documentación de 2026-10-18 volvió a medir:
 - Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con
   6 899 documentos.
 
+La corrección de los cinco bugs (rama `cursor/bugs-revision-29a6`) volvió a medir:
+
+- `./mvnw verify` en BUILD SUCCESS el 2026-10-18 19:05 UTC (23 s): 193 unitarias, 0 fallos.
+  Checkstyle y PMD en 0.
+- `./mvnw verify -Pit` en BUILD SUCCESS el 2026-10-18 19:07 UTC (1 min 8 s): 193 unitarias y 27 de
+  integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
+- Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con
+  6 899 documentos.
+
 ## Variables de entorno (`.env.example`)
 
 ```dotenv
