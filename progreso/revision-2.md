@@ -135,6 +135,11 @@ Vacío.
   horas inventadas del 2026-10-19 en lugar del reloj (`date -u`). Todo ocurrió el 2026-10-18 entre las 19:50 y
   las 22:55 UTC; la hora real de cada tarea es la de su commit (`git log --date=iso`).
 
+- 2026-10-18, S-18 (ajuste de S-03): en la captura real de un CSV, la tabla «Correspondencia de columnas»
+  describía `genres` como «Texto o lista JSON de textos» y `rating` (keyword de un valor) igual. Ahora las
+  listas de texto (`CsvValues.isTextList`) dicen «Lista JSON de textos», como el mockup, y los keyword de un
+  valor dicen «Texto». `CsvColumnRowsTest` cubre ambas columnas; PLAN §1 al día.
+
 ## Resumen de diseño
 
 <Al cerrar la unidad: estructura final, decisiones relevantes y diferencias con los diseños `docs/diseno/<fase>.md` que se tocaron.>

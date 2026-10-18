@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.bigfito.elastiflix.core.mapping.FieldMapping;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
+import com.bigfito.elastiflix.ingest.mapping.CsvValues;
 import com.bigfito.elastiflix.ingest.mapping.Thousands;
 
 /**
@@ -30,7 +31,7 @@ public final class CsvColumnRows {
     private static final Set<String> LISTS = Set.of("keywords");
     private static final Map<String, String> KINDS = Map.of(
             "text", "Texto",
-            "keyword", "Texto o lista JSON de textos",
+            "keyword", "Texto",
             "integer", "Número entero",
             "long", "Número entero",
             "float", "Número",
@@ -107,9 +108,13 @@ public final class CsvColumnRows {
         if (CsvHeader.ID.equals(field.name())) {
             return "Texto o número, se guarda como texto (keyword)";
         }
-        if ("nested".equals(field.type())) {
-            return LISTS.contains(field.name()) ? "Lista JSON de objetos anidados" : "Objeto JSON anidado";
+        if (CsvValues.isTextList(field.name())) {
+            return "Lista JSON de textos";
         }
-        return KINDS.getOrDefault(field.type(), field.type());
+        return "nested".equals(field.type()) ? nested(field) : KINDS.getOrDefault(field.type(), field.type());
+    }
+
+    private static String nested(FieldMapping field) {
+        return LISTS.contains(field.name()) ? "Lista JSON de objetos anidados" : "Objeto JSON anidado";
     }
 }

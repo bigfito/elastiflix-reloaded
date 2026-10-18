@@ -56,6 +56,16 @@ public final class CsvValues {
         };
     }
 
+    /**
+     * Dice si la columna es una lista de textos ({@code genres}, {@code cast}…), que en la celda va como JSON.
+     *
+     * @param column nombre de la columna
+     * @return {@code true} para las listas de textos del mapping
+     */
+    public static boolean isTextList(String column) {
+        return FieldRules.kind(column) == FieldKind.TEXT_LIST;
+    }
+
     private static JsonNode textOrStructure(FieldKind kind, String text) {
         if (structured(kind)) {
             return jsonOrText(text);
