@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-19
+- **Tarea actual:** R-20
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-20. Sustituir «este commit» por los hashes verificados en `progreso/`.
-- **Última actualización:** 2026-10-18 17:45 UTC
+- **Próximo paso:** R-21. Rehacer las cinco capturas y compararlas con los mockups, sin marcar la aprobación.
+- **Última actualización:** 2026-10-18 17:50 UTC
 
 ## Tareas
 
@@ -43,8 +43,8 @@ en curso
 | R-16 | terminada | `95f9996` | `home.js` reescribe `k`, `candidatos` y `vector` de cada sugerencia con los valores del formulario. |
 | R-17 | terminada | `4218be1` | El `img` del póster trae `onerror` y `results.js` también sustituye una imagen que ya falló antes de enganchar el evento. |
 | R-18 | terminada | `8ab53f8` | `SmokeIT` lee el alias de `ElastiflixProperties`, no de un literal. Compila con `test-compile`. Checkstyle y PMD en 0. |
-| R-19 | terminada | se anota en R-20 | README: se quitó «Maven ≥ 3.6.3 solo para generar el wrapper»; el alias y el id de inferencia salen de `application.yml` o de `.env`. Nueva subsección «Datos y proyecto Serverless» (exportación no versionada, índice concreto de la tarea 1.8, películas `597` `27205` `10681` `345887` `134` `87827`, endpoint `.jina-embeddings-v5-omni-small` y privilegios de la API key, cada uno con comando o enlace). |
-| R-20 | pendiente | | |
+| R-19 | terminada | `6794f28` | README: se quitó «Maven ≥ 3.6.3 solo para generar el wrapper»; el alias y el id de inferencia salen de `application.yml` o de `.env`. Nueva subsección «Datos y proyecto Serverless» (exportación no versionada, índice concreto de la tarea 1.8, películas `597` `27205` `10681` `345887` `134` `87827`, endpoint `.jina-embeddings-v5-omni-small` y privilegios de la API key, cada uno con comando o enlace). |
+| R-20 | terminada | se anota en R-21 | Hashes verificados con `git log` en las 24 filas. La 2.3 queda `7a878d6` y `8bf3c1a`. Aprobaciones incluye el PR #9 (`dc44535`). `progreso/6.md` anota `2a3aaea`. La plantilla dice que el hash se completa en la tarea siguiente. |
 | R-21 | pendiente | | |
 | R-22 | pendiente | | |
 | R-23 | pendiente | | |
@@ -62,9 +62,9 @@ Vacío al cerrar R-19.
 
 ## Última verificación
 
-- **Comando:** lectura de `README.md` («Prerrequisitos», «Datos y proyecto Serverless» y el párrafo del alias)
-- **Resultado:** el wrapper ya versionado sustituye la nota de Maven 3.6.3; alias e inferencia apuntan a `application.yml` o `.env`; la subsección cubre exportación, tarea 1.8, películas de integración, endpoint y privilegios.
-- **Fecha:** 2026-10-18 17:45 UTC
+- **Comando:** `git log` de los 24 hashes y búsqueda de la frase genérica de hash pendiente en `progreso/`
+- **Resultado:** los 24 hashes existen y las filas de `progreso/0.md` a `6.md` ya nombran el hash, no la frase genérica.
+- **Fecha:** 2026-10-18 17:50 UTC
 
 ## Decisiones
 

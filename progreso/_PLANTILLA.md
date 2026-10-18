@@ -23,6 +23,8 @@
 
 ## Tareas
 
+> El hash de una tarea se completa en el commit de la tarea siguiente. La fila que se cierra puede decir «se anota en …» hasta ese commit.
+
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
 | <id> | <pendiente \| en curso \| terminada \| bloqueada> | <hash corto> | <comando ejecutado y resultado> |

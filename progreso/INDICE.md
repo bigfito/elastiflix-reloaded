@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-20, hashes reales en `progreso/`
-- **Última actualización:** 2026-10-18 17:45 UTC
+- **Próximo paso:** R-21, capturas y comparación con mockups
+- **Última actualización:** 2026-10-18 17:50 UTC
 
 ## Fases
 
@@ -43,7 +43,8 @@
 | 2026-10-18 | Fase 4 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 4, incluida la interfaz de las capturas. El PR #5 quedó fusionado en `main` (merge commit `c64aa8a`). |
 | 2026-10-18 | Fase 5 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 5. El PR #6 quedó fusionado en `main` (merge commit `68c1a24`). |
 | 2026-10-18 | Fase 6 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 6. El PR #7 quedó fusionado en `main` (merge commit `eb309d9`). |
-| 2026-10-18 | Corrección de documentación fusionada en `main` | Adolfo aprobó el PR #8. Quedó fusionado en `main` (merge commit `22dac52`). Después se borraron las ramas remotas `cursor/*`. |
+| 2026-10-18 | Corrección de documentación fusionada en `main` | Adolfo aprobó el PR #8. Quedó fusionado en `main` (merge commit `22dac52`). Después se borraron las ramas remotas `cursor/*` de las fases 0 a 6. |
+| 2026-10-18 | Criterios de §6 relajados, fusionados en `main` | El PR #9 (`cursor/revision-docs-29a6`, merge `dc44535`, commit `2a3aaea`) dejó de afirmar los totales de 4 322 y lee `_count`. La revisión 1 (R-05, D1) restituye los valores exactos sobre 6 899 películas. |
 | 2026-10-18 | Importación de `movies.json` al catálogo real | Adolfo eligió reemplazar el índice de `elastiflix-reloaded`. Arranque 05:44:29 UTC y publicación 05:49:22 UTC (unos 4 min 54 s). Arreglo JSON de 6899 registros, validación `valido`, 0 errores y 5055 advertencias (`EFX-ING-022`: 4960, `EFX-ING-021`: 95). Índice nuevo `elastiflix-reloaded-20261018-054429` con 6899 documentos. Se borró `elastiflix-reloaded-20261018-003535`. Una lectura posterior contó `title`, `plot`, `plot_256`, `plot_512` y `plot_1024` en 6899/6899. |
 
 ## Catálogo vigente
