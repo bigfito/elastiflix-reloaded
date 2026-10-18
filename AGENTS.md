@@ -51,10 +51,10 @@ verificaciones históricas de las fases contaron 4 322 películas, el catálogo 
 ## Trabajo abierto
 
 Las fases 0 a 6 están cerradas. Lo pendiente es lo que diga `progreso/INDICE.md` › «Punto de
-reanudación». La **Revisión 2** está terminada y se integra por PR: correcciones `S-01`…`S-27` en
+reanudación». La **Revisión 2** está terminada y fusionada en `main`: correcciones `S-01`…`S-27` en
 `docs/revisiones/revision-2.md`, con estado en `progreso/revision-2.md`. Cada `S-NN` es una tarea (`S-NN: <resumen>` en el commit) con el
-mismo protocolo, la misma disciplina de estado y las mismas reglas de código. Rama `revision-2`; se
-integra en `main` por PR.
+mismo protocolo, la misma disciplina de estado y las mismas reglas de código. Una revisión nueva usa
+su propia rama y se integra en `main` por PR.
 
 ## Regla de oro sobre el orden de trabajo
 

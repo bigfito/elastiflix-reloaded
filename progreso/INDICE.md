@@ -8,14 +8,14 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 2 — 27 correcciones (`S-01` … `S-27`) de la segunda revisión de `main` en `41c1188`
-- **Estado de la fase:** terminada; PR #13 hacia `main` abierto (Claude Code)
+- **Estado de la fase:** terminada y fusionada en `main` (merge `7f08810`, PR #13)
 - **Rama:** `revision-2`, creada desde `main` en `3d0b8ff`
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** Adolfo revisa y fusiona el PR #13 (`revision-2` → `main`). S-01 a S-27 terminadas;
+- **Próximo paso:** no hay trabajo abierto; esperar indicaciones de Adolfo. S-01 a S-27 terminadas;
   `./mvnw verify` y `./mvnw verify -Pit` en verde.
-- **Última actualización:** 2026-10-18 23:06 UTC
+- **Última actualización:** 2026-10-18 23:10 UTC
 
 ## Fases
 
@@ -31,7 +31,7 @@
 | — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. Nueve R quedaron incompletas y continúan en la revisión 2. |
 | — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
 | — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
-| — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. PR #13 hacia `main` abierto. |
+| — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). |
 
 ## Aprobaciones del usuario
 
@@ -56,6 +56,7 @@
 | 2026-10-18 | Capturas de S-18 | Adolfo Orozco aprobó las nueve capturas de página completa con datos reales en `docs/capturas/` y la comparación de `progreso/4.md` («S-18 apruebo»), después de tomadas (`20b1f59`). |
 | 2026-10-18 | Importación de `movies.json` al catálogo real | Adolfo eligió reemplazar el índice de `elastiflix-reloaded`. Arranque 05:44:29 UTC y publicación 05:49:22 UTC (unos 4 min 54 s). Arreglo JSON de 6899 registros, validación `valido`, 0 errores y 5055 advertencias (`EFX-ING-022`: 4960, `EFX-ING-021`: 95). Índice nuevo `elastiflix-reloaded-20261018-054429` con 6899 documentos. Se borró `elastiflix-reloaded-20261018-003535`. Una lectura posterior contó `title`, `plot`, `plot_256`, `plot_512` y `plot_1024` en 6899/6899. |
 | 2026-10-18 | Revisión 1 fusionada en `main` | Adolfo fusionó el PR #10 (merge `dc9a315`). |
+| 2026-10-18 | Revisión 2 fusionada en `main` | Adolfo pidió fusionar el PR #13 («Fusiona el pr»); merge `7f08810`. Después pidió borrar las ramas que ya no se necesitan: se borró `revision-2`. |
 | 2026-10-18 | Decisión D1 de la revisión 1 (R-05) | Las pruebas de §6 vuelven a afirmar los valores exactos sobre 6 899 películas y se omiten con `assumeTrue` si `_count` cambió. La tomó el agente en la revisión 1 (`progreso/revision-1.md`, «Decisiones»); Adolfo la aceptó al fusionar el PR #10 (`dc9a315`). No hay otra aprobación registrada. |
 | 2026-10-18 | Decisión D2 de la revisión 1 (R-12) | La ingesta trabaja en memoria (hasta 150 MB) en lugar de releer el archivo en streaming: los vectores se quitan al leer y las películas se sueltan al terminar. Mismo origen que D1; aceptada al fusionar el PR #10 (`dc9a315`). La revisión 2 (S-06) completa sus mitigaciones. |
 | 2026-10-18 | Decisión D3 de la revisión 1 (R-30) | «Acerca de» rotula la tabla de precisión y los datos de `adult` y `release_date` como medidos en el catálogo original de 4 322 películas, sin recalcular. Mismo origen que D1; aceptada al fusionar el PR #10 (`dc9a315`). |
