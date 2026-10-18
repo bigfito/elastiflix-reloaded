@@ -8,10 +8,10 @@
 ## Punto de reanudación
 
 - **Fase actual:** 2
-- **Estado de la fase:** en curso
+- **Estado de la fase:** bloqueado
 - **Herramienta prevista:** Cursor (rama `cursor/fase-2-diseno-29a6`)
-- **Próximo paso:** Tarea 2.3: estrategia full-text y `FullTextSearchIT`.
-- **Última actualización:** 2026-10-18 01:16 UTC
+- **Próximo paso:** Esperar la decisión sobre la fila `Kolejne 365 dni` de §6. El `match` sobre `title` midió OR 1 y AND 0. El diseño aprobado dice 0 en las dos. No seguir con 2.4 hasta esa respuesta.
+- **Última actualización:** 2026-10-18 01:22 UTC
 
 ## Fases
 
@@ -19,7 +19,7 @@
 |---|---|---|---|---|---|
 | 0 | Andamiaje y calidad | — | terminado | `progreso/0.md` | 2026-10-17 en verde |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | terminado | `progreso/1.md` | 2026-10-18 en verde |
-| 2 | Búsqueda | 🔒 | en curso | `progreso/2.md` | — |
+| 2 | Búsqueda | 🔒 | bloqueado | `progreso/2.md` | — |
 | 3 | Carga de datos | 🔒 | no iniciado | `progreso/3.md` | — |
 | 4 | Interfaz web | — | no iniciado | `progreso/4.md` | — |
 | 5 | Pruebas integrales y smoke test | — | no iniciado | `progreso/5.md` | — |
@@ -38,6 +38,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify` y `./mvnw verify -Pit -pl elastiflix-core -am`
-- **Resultado:** ambos BUILD SUCCESS. Surefire de core: 26 pruebas, 0 fallos. `ArchitectureTest`: 7 pruebas, 0 fallos. Failsafe: 7 pruebas, 0 fallos. Checkstyle: 0 violaciones. Alias `elastiflix-reloaded` → `elastiflix-reloaded-20261018-003535`, 4322 documentos.
-- **Fecha:** 2026-10-18 00:57 UTC
+- **Comando:** `./mvnw -pl elastiflix-search -am verify -Pit -Dit.test=FullTextSearchIT -Dfailsafe.failIfNoSpecifiedTests=false`
+- **Resultado:** Checkstyle y PMD en 0. Surefire de search: 24 pruebas, 0 fallos. `FullTextSearchIT`: 7 filas en verde y 1 fallo. `Kolejne 365 dni` con `match` sobre `title` da OR 1 (película `829560`, título «The Next 365 Days») y AND 0. El diseño aprobado dice 0 en las dos.
+- **Fecha:** 2026-10-18 01:22 UTC

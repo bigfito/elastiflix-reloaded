@@ -20,8 +20,17 @@ public final class CatalogFields {
     /** Filtro y rango de fecha de estreno. */
     public static final String RELEASE_DATE = "release_date";
 
+    /** Agregación del estreno más antiguo. */
+    public static final String RELEASE_DATE_MIN = "release_date_min";
+
+    /** Agregación del estreno más reciente. */
+    public static final String RELEASE_DATE_MAX = "release_date_max";
+
     /** Formato de {@code release_date} en el índice. */
     public static final String DATE_FORMAT = "yyyy-MM-dd";
+
+    /** Cuántos valores pide cada agregación {@code terms}. */
+    public static final int TERMS_AGGREGATION_SIZE = 100;
 
     private CatalogFields() {
     }
