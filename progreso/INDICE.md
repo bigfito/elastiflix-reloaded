@@ -10,8 +10,8 @@
 - **Fase actual:** 1
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Tarea 1.9: calibración de embeddings de documento.
-- **Última actualización:** 2026-10-18 00:47 UTC
+- **Próximo paso:** Tarea 1.10: documentar la fase y correr la verificación.
+- **Última actualización:** 2026-10-18 00:55 UTC
 
 ## Fases
 
@@ -36,6 +36,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -q verify`
-- **Resultado:** alias `elastiflix-reloaded` → `elastiflix-reloaded-20261018-003535`, 4322 documentos. Segunda ejecución código 0.
-- **Fecha:** 2026-10-18 00:47 UTC
+- **Comando:** `./mvnw -pl elastiflix-core -am verify -Pit -Dit.test=EmbeddingServiceIT -Dfailsafe.failIfNoSpecifiedTests=false`
+- **Resultado:** código 0. `EmbeddingServiceIT`: 2 pruebas, 0 fallos. Checkstyle 0 violaciones. La combinación medida es `ingest` sin prefijo.
+- **Fecha:** 2026-10-18 00:54 UTC

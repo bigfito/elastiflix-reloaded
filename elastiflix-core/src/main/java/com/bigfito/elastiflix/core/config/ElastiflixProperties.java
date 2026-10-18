@@ -189,20 +189,21 @@ public record ElastiflixProperties(
     /**
      * Cómo pide la demo los vectores de una sinopsis.
      *
-     * <p>La tarea 1.9 puede cambiar estos valores por defecto tras medir el catálogo.</p>
+     * <p>La calibración dejó {@code ingest} y sin prefijo: fue la única combinación con coseno
+     * ≥ 0.999 en las cinco películas.</p>
      *
      * @param documentInputType {@code input_type} de los documentos; vacío significa no enviarlo
-     * @param documentPrefix    texto que se antepone a la sinopsis, espacio final incluido
+     * @param documentPrefix    texto que se antepone a la sinopsis; vacío significa no anteponer nada
      */
     public record Embedding(
             @DefaultValue("ingest") String documentInputType,
-            @DefaultValue("Document: ") String documentPrefix) {
+            @DefaultValue("") String documentPrefix) {
 
         private static final String DEFAULT_INPUT_TYPE = "ingest";
-        private static final String DEFAULT_PREFIX = "Document: ";
+        private static final String DEFAULT_PREFIX = "";
 
         /**
-         * Aplica el defecto provisional si Spring no enlazó el valor.
+         * Aplica la combinación calibrada si Spring no enlazó el valor.
          */
         public Embedding {
             if (documentInputType == null) {
@@ -214,9 +215,9 @@ public record ElastiflixProperties(
         }
 
         /**
-         * Combinación provisional hasta la calibración.
+         * Combinación calibrada: {@code ingest} y sin prefijo.
          *
-         * @return {@code ingest} y el prefijo {@code Document: }
+         * @return los valores por defecto de documento
          */
         public static Embedding fallback() {
             return new Embedding(null, null);

@@ -31,7 +31,7 @@ class ElastiflixPropertiesTest {
             assertThat(properties.poster().baseUrl()).isEqualTo("https://image.tmdb.org/t/p/w342");
             assertThat(properties.bootstrap().enabled()).isFalse();
             assertThat(properties.embedding().documentInputType()).isEqualTo("ingest");
-            assertThat(properties.embedding().documentPrefix()).isEqualTo("Document: ");
+            assertThat(properties.embedding().documentPrefix()).isEmpty();
         });
     }
 

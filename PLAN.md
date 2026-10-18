@@ -684,7 +684,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     coincide; después de la ejecución real, agrega a `CatalogStatusServiceIT` la aserción de que
     `elastiflix-reloaded` es un alias que apunta a `elastiflix-reloaded-…` con 4 322 documentos (hasta 1.7
     solo se comprobaba el conteo); una segunda ejecución termina en 0 sin cambiar nada.
-- [ ] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
+- [x] **1.9** `EmbeddingService` (`InferenceEmbeddingService`) sobre `_inference` con el endpoint de
   `ELASTIFLIX_INFERENCE_ID`, en lotes; `VectorProjector` recorta a 512 y 256 y renormaliza. Consultas:
   `input_type: search` y prefijo `Query: `. Documentos: la combinación que determine la calibración:
   1. **Calibración** (`DocumentEmbeddingCalibrationIT`): para las películas `597`, `27205`, `10681`,
