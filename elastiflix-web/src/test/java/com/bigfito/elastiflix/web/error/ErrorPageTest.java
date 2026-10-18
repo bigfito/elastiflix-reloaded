@@ -14,6 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -44,7 +45,8 @@ class ErrorPageTest {
         mvc.perform(get("/probe/elastiflix"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string(containsString("EFX-ES-001")))
-                .andExpect(content().string(containsString("No se pudo conectar con Elasticsearch")));
+                .andExpect(content().string(containsString("No se pudo conectar con Elasticsearch")))
+                .andExpect(content().string(not(containsString("EFX-ES-001 ·"))));
     }
 
     @Test
@@ -54,7 +56,7 @@ class ErrorPageTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(containsString("Esta página no existe")))
                 .andExpect(content().string(containsString("href=\"/\">Buscar")))
-                .andExpect(content().string(containsString("href=\"/buscar\"")))
+                .andExpect(content().string(not(containsString("href=\"/buscar\""))))
                 .andExpect(content().string(containsString("href=\"/cargar\"")))
                 .andExpect(content().string(containsString("href=\"/acerca\"")));
     }

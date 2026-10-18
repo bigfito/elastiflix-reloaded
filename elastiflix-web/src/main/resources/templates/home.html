@@ -20,12 +20,12 @@
         <label class="visually-hidden" for="q">Consulta de búsqueda</label>
         <div class="sbox">
           <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-          <input id="q" name="q" type="search" autocomplete="off" placeholder="Describe la película que buscas…">
+          <input id="q" name="q" type="search" autocomplete="off" placeholder="Describe la película que buscas…" aria-invalid="false" aria-describedby="query-error">
           <button class="go" type="submit">Buscar
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14 M13 6l6 6l-6 6"></path></svg>
           </button>
         </div>
-        <p id="query-error" class="alert" hidden>Escribe qué película buscas antes de pulsar Buscar.</p>
+        <p id="query-error" class="alert" role="alert" hidden>Escribe qué película buscas antes de pulsar Buscar.</p>
         <input type="hidden" name="modo" value="fulltext">
         <input type="hidden" name="tipo" value="match">
         <input type="hidden" name="campo" value="title">
@@ -38,9 +38,9 @@
           <div role="group" aria-label="Modo de búsqueda" class="mode-group">
             <span class="mode-label">Modo</span>
             <div class="pills">
-              <button type="button" class="pill is-on" data-set="modo" data-value="fulltext" aria-pressed="true">Full-text (léxica)</button>
-              <button type="button" class="pill" data-set="modo" data-value="vectorial" aria-pressed="false">Vectorial</button>
-              <button type="button" class="pill" data-set="modo" data-value="hibrida" aria-pressed="false">Híbrida</button>
+              <button type="button" class="pill is-on" data-set="modo" data-value="fulltext" aria-pressed="true"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg>Full-text (léxica)</button>
+              <button type="button" class="pill" data-set="modo" data-value="vectorial" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg>Vectorial</button>
+              <button type="button" class="pill" data-set="modo" data-value="hibrida" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg>Híbrida</button>
             </div>
           </div>
         </div>
@@ -48,21 +48,21 @@
         <div class="panel panel-sky" data-panel="lexical">
           <h3 class="panel-title hybrid-only">Componente full-text · BM25</h3>
           <div role="group" aria-label="Tipo de consulta" class="setting">
-            <span>Tipo de consulta</span>
+            <span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9 M17 6h3 M4 12h3 M11 12h9 M4 18h11 M19 18h1 M15 4v4 M9 10v4 M17 16v4"></path></svg>Tipo de consulta</span>
             <div class="pills">
               <button type="button" class="seg is-on" data-set="tipo" data-value="match" aria-pressed="true">match</button>
               <button type="button" class="seg" data-set="tipo" data-value="multi_match" aria-pressed="false">multi-match</button>
             </div>
           </div>
           <div role="group" aria-label="Campo" class="setting" data-when="match">
-            <span>Campo</span>
+            <span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18v12H3z M8 10v4"></path></svg>Campo</span>
             <div class="pills">
               <button type="button" class="seg is-on" data-set="campo" data-value="title" aria-pressed="true">title</button>
               <button type="button" class="seg" data-set="campo" data-value="original_title" aria-pressed="false">original_title</button>
             </div>
           </div>
           <div role="group" aria-label="Operador" class="setting">
-            <span>Operador</span>
+            <span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10z M15 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10z"></path></svg>Operador</span>
             <div class="pills">
               <button type="button" class="seg is-on" data-set="operador" data-value="or" aria-pressed="true">OR</button>
               <button type="button" class="seg" data-set="operador" data-value="and" aria-pressed="false">AND</button>
@@ -75,7 +75,7 @@
         <div class="panel panel-mint" data-panel="vector" hidden>
           <h3 class="panel-title hybrid-only">Componente vectorial · k-NN</h3>
           <div role="group" aria-label="Campo vectorial" class="setting">
-            <span>Vector k-NN</span>
+            <span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5 M12 5h7v7"></path></svg>Vector k-NN</span>
             <div class="pills">
               <button type="button" class="seg is-on" data-set="vector" data-value="plot_256" aria-pressed="true">plot_256</button>
               <button type="button" class="seg" data-set="vector" data-value="plot_512" aria-pressed="false">plot_512</button>
@@ -84,16 +84,16 @@
           </div>
           <p class="dims"><strong data-dims>256 dimensiones.</strong> Es una de las tres representaciones vectoriales de la sinopsis (<code>plot</code>). Más dimensiones suelen capturar más matices del significado, a cambio de más memoria y de comparaciones más costosas.</p>
           <div class="setting">
-            <label for="knn-k">k</label>
-            <input id="knn-k" type="number" min="1" step="1" value="100">
+            <label for="knn-k"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16 M4 12h10 M4 18h6"></path></svg>k</label>
+            <input id="knn-k" type="number" min="1" step="1" value="100" aria-invalid="false" aria-describedby="knn-error">
           </div>
           <p class="dims">Número máximo de resultados que devuelve la búsqueda vectorial, después de combinar los candidatos de todos los shards; se reparten en páginas de 25, 50 o 100. Debe ser menor o igual que <code>num_candidates</code>. <span class="hybrid-only">En modo híbrido también fija cuántos resultados de cada lista entran a la fusión y cuántos resultados combinados se pueden recorrer.</span></p>
           <div class="setting">
-            <label for="knn-cand">num_candidates</label>
-            <input id="knn-cand" type="number" min="1" max="10000" step="1" value="200">
+            <label for="knn-cand"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h.01 M12 5h.01 M19 5h.01 M5 12h.01 M12 12h.01 M19 12h.01 M5 19h.01 M12 19h.01 M19 19h.01"></path></svg>num_candidates</label>
+            <input id="knn-cand" type="number" min="1" max="10000" step="1" value="200" aria-invalid="false" aria-describedby="knn-error">
           </div>
           <p class="dims">Candidatos que se evalúan en cada shard antes de quedarse con los <code>k</code> mejores. Subirlo tiende a mejorar la precisión, a cambio de más tiempo de respuesta. Máximo 10 000.</p>
-          <p id="knn-error" class="alert" hidden></p>
+          <p id="knn-error" class="alert" role="alert" hidden></p>
           <p class="help"><strong>k-NN (k vecinos más cercanos):</strong> tu consulta se convierte en un vector y se buscan las películas cuya sinopsis tiene el vector más cercano. Elasticsearch lo hace de forma aproximada sobre un grafo HNSW, sin comparar contra todo el catálogo, lo que la hace rápida aunque no siempre exacta.</p>
         </div>
 

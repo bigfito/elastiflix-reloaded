@@ -10,6 +10,8 @@ import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 public class IngestJobController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(IngestJobController.class);
 
     private final IngestService ingest;
     private final UploadCheck uploads;
@@ -66,9 +70,7 @@ public class IngestJobController {
         try {
             uploads.requireAccepted(file);
         } catch (IngestValidationException exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                    "code", exception.errorCode().code(),
-                    "message", exception.getMessage()));
+            return rejected(file, exception);
         }
         String jobId = ingest.acceptFile(file.getOriginalFilename(), copy(file), settings(separator, header));
         return ResponseEntity.ok(Map.of("jobId", jobId));
@@ -118,6 +120,23 @@ public class IngestJobController {
     @GetMapping(value = "/cargar/trabajos/{jobId}/informe.csv", produces = "text/csv")
     public String report(@PathVariable String jobId) {
         return ingest.errorReport(jobId);
+    }
+
+    private static ResponseEntity<Map<String, String>> rejected(
+            MultipartFile file, IngestValidationException exception) {
+        String code = exception.errorCode().code();
+        LOG.warn("{}: se rechazó {}", code, fileName(file));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "code", code,
+                "message", exception.errorCode().summary()));
+    }
+
+    private static String fileName(MultipartFile file) {
+        String name = file.getOriginalFilename();
+        if (name == null || name.isBlank()) {
+            return "sin-nombre";
+        }
+        return name;
     }
 
     private void rejectIfTooLarge(MultipartFile file) {

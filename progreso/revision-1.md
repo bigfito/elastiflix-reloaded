@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-28
+- **Tarea actual:** R-29
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-29. Accesibilidad, tokens visuales, errores, codificación de `+`, logs y el alias del paso 5.
-- **Última actualización:** 2026-10-18 18:09 UTC
+- **Próximo paso:** R-30. Coherencia de la documentación con el catálogo de 6 899, rotulando «Acerca de» como medido en 4 322.
+- **Última actualización:** 2026-10-18 18:19 UTC
 
 ## Tareas
 
@@ -52,19 +52,19 @@ en curso
 | R-25 | terminada | `aa3bcb6` | El estado vacío reutiliza `queryVector` y no vuelve a llamar a la inferencia. Las listas de apoyo de la híbrida piden `_source: false` y se leen por `hit.id()`. `HybridRequestBuilderTest` 3, `SearchServiceTest` 13, 0 fallos. Checkstyle y PMD en 0. |
 | R-26 | terminada | `2bae8ac` | `ElastiflixPropertiesTest`: `toString` de la conexión y del registro padre contiene `apiKey=****` y no la clave `test-key`. Checkstyle y PMD en 0. |
 | R-27 | terminada | `96b9d55` | `fields()` conserva el orden del archivo (`Collections.unmodifiableMap` sobre el `LinkedHashMap`). El Javadoc de `Movie` dice que los vectores participan en `equals` por referencia. Se quitaron las sobrecargas de `build` que nadie llamaba. `IndexMappingTest` 2, `HybridRequestBuilderTest` 3, `VectorRequestBuilderTest` 3 y `SearchServiceTest` 13, 0 fallos. Checkstyle y PMD en 0. |
-| R-28 | terminada | se anota en R-29 | El reemplazo se cuenta con `existingIds` sobre la copia, no con el número de la validación. `IdTexts` es el mismo texto para la búsqueda y el validador. Cada trabajo recibe su listener. Vectorizados y escritos salen juntos, antes de `writeAll`. Un `\r\n` entre comillas queda en `\n`. Lo que sigue al primer JSON es `EFX-ING-013`. Las advertencias del estado se agrupan por código y campo. El CSV de errores lleva BOM y apóstrofo delante de `=`, `+`, `-` y `@`. `IngestIT` cancela y espera un estado final antes de borrar. `ImportJobTest` 12, `MappingValidatorTest` 14, `JsonDocumentsTest` 5, `CsvRowsTest` 2, `JobThreadFailureTest` 4, 0 fallos. Checkstyle y PMD en 0. |
-| R-29 | pendiente | | |
+| R-28 | terminada | `19f0557` | El reemplazo se cuenta con `existingIds` sobre la copia, no con el número de la validación. `IdTexts` es el mismo texto para la búsqueda y el validador. Cada trabajo recibe su listener. Vectorizados y escritos salen juntos, antes de `writeAll`. Un `\r\n` entre comillas queda en `\n`. Lo que sigue al primer JSON es `EFX-ING-013`. Las advertencias del estado se agrupan por código y campo. El CSV de errores lleva BOM y apóstrofo delante de `=`, `+`, `-` y `@`. `IngestIT` cancela y espera un estado final antes de borrar. `ImportJobTest` 12, `MappingValidatorTest` 14, `JsonDocumentsTest` 5, `CsvRowsTest` 2, `JobThreadFailureTest` 4, 0 fallos. Checkstyle y PMD en 0. |
+| R-29 | terminada | se anota en R-30 | No aplica: las pestañas de `ingest.html` ya tienen `role="tab"`, `aria-controls` y `tabpanel`; `ingest.js` actualiza `aria-selected` y `aria-labelledby`. El paso 5 ya escribe `${shell.alias}`. Hecho: `aria-current="page"`; `role="alert"` en los avisos de Inicio; `aria-invalid` y `aria-describedby` en `q`, `knn-k` y `knn-cand`; «Ver todos» solo si hay más de 6, con `aria-expanded`. Seis tonos pastel, iconos de modo y de ajuste, lila `#F3EFFD`. La página de error y el JSON de una subida rechazada ya no repiten el código; el 404 ya no enlaza `/buscar` sin consulta; `+` queda como `%2B`; WARN al rechazar un archivo y al fallar la validación de búsqueda. «Publicación» usa el alias configurado. CSRF anotado en AGENTS (10 400 caracteres) y en el README. 16 pruebas, 0 fallos. Checkstyle y PMD en 0. |
 | R-30 | pendiente | | |
 
 ## Cambios sin commit
 
-Vacío al cerrar R-28.
+Vacío al cerrar R-29.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-ingest,elastiflix-web -am test -Dtest=ImportJobTest,JobThreadFailureTest,MappingValidatorTest,JsonDocumentsTest,CsvRowsTest,CsvMovieReaderTest,IngestServiceTest,IngestPageTest -Dsurefire.failIfNoSpecifiedTests=false checkstyle:check pmd:check`
-- **Resultado:** BUILD SUCCESS. 54 pruebas, 0 fallos. Checkstyle y PMD en 0.
-- **Fecha:** 2026-10-18 18:09 UTC
+- **Comando:** `./mvnw -pl elastiflix-web -am test -Dtest=SearchHrefTest,SearchLinksTest,ErrorPageTest,IngestJobErrorTest,HomePageTest,ResultsPageTest,AboutPageTest -Dsurefire.failIfNoSpecifiedTests=false checkstyle:check pmd:check`
+- **Resultado:** BUILD SUCCESS. 16 pruebas, 0 fallos. Checkstyle y PMD en 0.
+- **Fecha:** 2026-10-18 18:18 UTC
 
 ## Decisiones
 
@@ -72,6 +72,8 @@ Vacío al cerrar R-28.
 - D1: restaurar valores exactos de §6 con `Assumptions.assumeTrue` (R-05).
 - D2: se acepta la ingesta en memoria, quitando vectores al leer y liberando al terminar (R-12).
 - D3: «Acerca de» se rotula como medido en el catálogo de 4 322, sin recalcular (R-30).
+- Sesión reanudada 2026-10-18 18:13 UTC con Cursor: árbol limpio en `19f0557`, siguiente paso R-29.
+- R-29: el enlace «Resultados» del 404 se quita. `/buscar` sin `q` es `EFX-SRCH-001` y no se inventa una consulta.
 
 ## Resumen de diseño
 

@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.web.ingest;
 
+import java.nio.charset.StandardCharsets;
+
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
@@ -49,6 +51,18 @@ class IngestJobErrorTest {
                 .andExpect(status().is(413))
                 .andExpect(jsonPath("$.code").value("EFX-ING-003"))
                 .andExpect(jsonPath("$.message").value("El archivo supera el tamaño máximo"));
+    }
+
+    @Test
+    @DisplayName("una extensión distinta de json o csv responde 400 sin repetir el código")
+    void shouldRejectATextFileWithoutRepeatingTheCode() throws Exception {
+        MockMultipartFile file = new MockMultipartFile(
+                "archivo", "notas.txt", MediaType.TEXT_PLAIN_VALUE, "hola".getBytes(StandardCharsets.UTF_8));
+
+        mvc.perform(multipart("/cargar/archivo").file(file))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("EFX-ING-001"))
+                .andExpect(jsonPath("$.message").value("La extensión no es .json ni .csv"));
     }
 
     @Test

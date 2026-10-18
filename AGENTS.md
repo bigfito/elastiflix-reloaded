@@ -141,7 +141,7 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 
 ## Seguridad y secretos
 
-- Demo sin autenticación (intencional; fuera de alcance).
+- Demo sin autenticación (intencional; fuera de alcance). Los POST no tienen protección CSRF: no hay sesión que proteger y la usa una sola persona.
 - **Nunca** escribas secretos en el código, YAML, pruebas, logs ni commits. Todo por `.env` (ver
   `.env.example`); `.gitignore` excluye `.env`.
 - Si encuentras un secreto en un archivo versionado, detente y avisa al usuario.

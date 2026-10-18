@@ -191,7 +191,7 @@
       <dl>
         <div><dt>Vectores</dt><dd>Los tres vectores se generan siempre desde <code>plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, <code>input_type</code> <code>ingest</code> y sin prefijo). Si el archivo trae <code>plot_256</code>, <code>plot_512</code> o <code>plot_1024</code>, se ignoran.</dd></div>
         <div><dt>Índice temporal</dt><dd>Los registros se escriben en lotes de 100 en un índice temporal que empieza como copia del catálogo actual. Si un <code>id</code> ya existe, el registro reemplaza a la película.</dd></div>
-        <div><dt>Publicación</dt><dd>Al terminar se comprueba el conteo y el alias <code>elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd></div>
+        <div><dt>Publicación</dt><dd>Al terminar se comprueba el conteo y el alias <code th:text="${shell.alias}">elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd></div>
         <div><dt>Si falla</dt><dd>Si Elasticsearch rechaza un lote o la comprobación no cuadra, se borra el índice temporal y el catálogo queda exactamente como estaba.</dd></div>
       </dl>
       <p class="docs"><span>Documentación</span>

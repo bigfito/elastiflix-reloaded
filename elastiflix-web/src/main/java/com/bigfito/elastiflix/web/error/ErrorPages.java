@@ -22,7 +22,7 @@ final class ErrorPages {
     static String filled(Model model, ElastiflixException exception) {
         model.addAttribute("nav", "");
         model.addAttribute("code", exception.errorCode().code());
-        model.addAttribute("message", exception.errorCode().code() + " · " + exception.errorCode().summary());
+        model.addAttribute("message", exception.errorCode().summary());
         return "error";
     }
 }

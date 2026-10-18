@@ -7,6 +7,8 @@ import com.bigfito.elastiflix.search.result.SearchService;
 
 import com.bigfito.elastiflix.web.layout.HtmlPage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class SearchController implements HtmlPage {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
     private final SearchQueryMapper mapper;
     private final SearchService searches;
@@ -56,6 +60,7 @@ public class SearchController implements HtmlPage {
         try {
             found(model, form);
         } catch (SearchValidationException exception) {
+            LOG.warn("{}: la consulta no pasó la validación", exception.errorCode().code());
             pages.rejected(model, form, exception.errorCode() == ErrorCode.DATE_RANGE_REVERSED);
             model.addAttribute("errorSummary", exception.errorCode().summary());
         }

@@ -101,6 +101,9 @@
     }
     box.textContent = text;
     show(box, text !== "");
+    var invalid = text !== "";
+    document.getElementById("knn-k").setAttribute("aria-invalid", invalid ? "true" : "false");
+    document.getElementById("knn-cand").setAttribute("aria-invalid", invalid ? "true" : "false");
     if (text === "") {
       setValue("k", String(k));
       setValue("candidatos", String(candidates));
@@ -119,12 +122,15 @@
   form.addEventListener("submit", function (event) {
     var query = document.getElementById("q").value.trim();
     var queryError = document.getElementById("query-error");
+    var queryBox = document.getElementById("q");
     if (query === "") {
       event.preventDefault();
       show(queryError, true);
+      queryBox.setAttribute("aria-invalid", "true");
       return;
     }
     show(queryError, false);
+    queryBox.setAttribute("aria-invalid", "false");
     var mode = value("modo");
     if ((mode === "vectorial" || mode === "hibrida") && !checkKnn()) {
       event.preventDefault();

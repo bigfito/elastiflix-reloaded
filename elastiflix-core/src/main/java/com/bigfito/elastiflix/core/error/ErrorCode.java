@@ -338,7 +338,8 @@ public enum ErrorCode {
     /**
      * Devuelve solo qué pasó, sin el código ni la causa.
      *
-     * <p>La página de resultados lo muestra junto al campo. La página de error lo antepone al código.</p>
+     * <p>La página de resultados lo muestra junto al campo. La de error lo pone bajo el código,
+     * que va en el título.</p>
      *
      * @return el texto corto del error
      */

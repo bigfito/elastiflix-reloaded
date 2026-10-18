@@ -4,6 +4,7 @@
       var box = button.closest("[data-facet]");
       if (box) {
         box.classList.toggle("show-extra");
+        button.setAttribute("aria-expanded", box.classList.contains("show-extra") ? "true" : "false");
       }
     });
   });

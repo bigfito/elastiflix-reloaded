@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-29, detalles de la web
-- **Última actualización:** 2026-10-18 18:09 UTC
+- **Próximo paso:** R-30, coherencia de la documentación con el catálogo de 6 899
+- **Última actualización:** 2026-10-18 18:19 UTC
 
 ## Fases
 

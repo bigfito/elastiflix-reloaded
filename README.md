@@ -319,6 +319,10 @@ de inferencia salen de `application.yml` (valores por defecto) o de `.env`
 
 En Windows, ejecuta estos comandos en **Git Bash** (ver `AGENTS.md` › Comandos).
 
+## 🔐 Seguridad y secretos
+
+La demo no tiene autenticación (es intencional y está fuera de alcance). Los POST no tienen protección CSRF: no hay sesión que proteger y la usa una sola persona. Los secretos van solo en `.env` (ver `.env.example`); no se escriben en el código, el YAML, las pruebas ni los logs.
+
 ## 🤖 Desarrollo con agentes de IA
 
 El plan está preparado para que **cualquiera de estos agentes** lo ejecute o lo retome donde otro lo dejó:

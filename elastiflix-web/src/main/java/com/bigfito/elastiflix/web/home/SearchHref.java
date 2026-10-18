@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.web.home;
 
+import com.bigfito.elastiflix.web.EncodedQuery;
+
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -32,7 +34,7 @@ public final class SearchHref {
         if (!field.isBlank()) {
             builder.queryParam("campo", field);
         }
-        return builder.build().encode().toUriString();
+        return EncodedQuery.of(builder);
     }
 
     /**
@@ -43,7 +45,7 @@ public final class SearchHref {
      * @return ruta con {@code k} 100 y {@code candidatos} 200
      */
     public static String vector(String query, String vector) {
-        return knn(base(query, "vectorial"), vector).build().encode().toUriString();
+        return EncodedQuery.of(knn(base(query, "vectorial"), vector));
     }
 
     /**
@@ -58,7 +60,7 @@ public final class SearchHref {
                 .queryParam("tipo", "match")
                 .queryParam("campo", "title")
                 .queryParam("operador", operator);
-        return knn(builder, "plot_256").build().encode().toUriString();
+        return EncodedQuery.of(knn(builder, "plot_256"));
     }
 
     private static UriComponentsBuilder base(String query, String mode) {
