@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.core.catalog;
 
+import java.util.regex.Pattern;
+
 import com.bigfito.elastiflix.core.TestApplication;
 
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +41,6 @@ class CatalogStatusServiceIT {
         assertThat(status.connected()).isTrue();
         assertThat(status.documentCount()).isEqualTo(CATALOG_DOCUMENTS);
         assertThat(status.errorCode()).isNull();
-        assertThat(status.concreteIndex()).isNotBlank();
+        assertThat(status.concreteIndex()).matches(Pattern.quote(status.name()) + "-\\d{8}-\\d{6}");
     }
 }

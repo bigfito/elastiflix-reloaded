@@ -666,7 +666,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   conexión) con el código de error correspondiente. Funciona tanto si `elastiflix-reloaded` todavía es
   un índice concreto (antes de 1.8) como si ya es alias.
   - Criterio: `CatalogStatusServiceIT` devuelve `documents = 4322` para `elastiflix-reloaded`.
-- [ ] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
+- [x] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
   `elastiflix.bootstrap.enabled=true` (no requiere aprobación previa del usuario; decisión del 2026-10-17):
   1. Si `elastiflix-reloaded` ya es alias → no hace nada y lo registra.
   2. Si es índice concreto → crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, reindexa y verifica que

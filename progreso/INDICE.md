@@ -10,8 +10,8 @@
 - **Fase actual:** 1
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Tarea 1.8: migración del índice concreto a alias.
-- **Última actualización:** 2026-10-18 00:33 UTC
+- **Próximo paso:** Tarea 1.9: calibración de embeddings de documento.
+- **Última actualización:** 2026-10-18 00:47 UTC
 
 ## Fases
 
@@ -37,5 +37,5 @@
 ## Última verificación
 
 - **Comando:** `./mvnw -q verify`
-- **Resultado:** en verde (código 0). `CatalogStatusServiceIT`: 4322 documentos.
-- **Fecha:** 2026-10-18 00:33 UTC
+- **Resultado:** alias `elastiflix-reloaded` → `elastiflix-reloaded-20261018-003535`, 4322 documentos. Segunda ejecución código 0.
+- **Fecha:** 2026-10-18 00:47 UTC
