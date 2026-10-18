@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
@@ -47,8 +48,14 @@ public final class FileGate {
         try {
             return read(work);
         } catch (IOException exception) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON, exception);
+            throw new IngestValidationException(unreadable(work.fileName()), exception);
         }
+    }
+
+    /** Un CSV que no se puede leer no es «El JSON no se puede leer». */
+    private static ErrorCode unreadable(String fileName) {
+        boolean csv = fileName != null && fileName.toLowerCase(Locale.ROOT).endsWith(".csv");
+        return csv ? ErrorCode.UNREADABLE_CSV : ErrorCode.UNREADABLE_JSON;
     }
 
     private LoadedDocuments read(ImportWork work) throws IOException {

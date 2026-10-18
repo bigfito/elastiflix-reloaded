@@ -48,21 +48,22 @@ public enum ErrorCode {
     REINDEX_COUNT_MISMATCH("EFX-ES-003",
             "El índice nuevo no tiene los mismos documentos que el original",
             "El reindex no copió todos los documentos",
-            "No se publicó el alias. El índice nuevo se borró y el original sigue igual. "
-                    + "Vuelve a ejecutar la migración"),
+            "No se publicó el alias y el catálogo original sigue igual; el índice nuevo se borra. "
+                    + "Vuelve a ejecutar la importación o la migración"),
 
     /** La tarea de {@code _reindex} terminó con error o no llegó a completarse. */
     REINDEX_FAILED("EFX-ES-006",
             "No se pudo copiar el catálogo al índice nuevo",
             "La tarea de reindex terminó con error o no se completó",
-            "No se publicó el alias. El índice temporal se borra y el original sigue igual. Vuelve a importar"),
+            "No se publicó el alias y el catálogo original sigue igual. La tarea se canceló y el índice nuevo se "
+                    + "borra si el original sigue en su lugar. Vuelve a ejecutar la importación o la migración"),
 
     /** La llamada única a {@code _aliases} no movió el alias: sigue en el índice anterior. */
     ALIAS_PUBLISH_FAILED("EFX-ES-004",
             "No se pudo publicar el alias",
             "Elasticsearch rechazó la publicación y el alias sigue en el índice anterior",
-            "Se borró el índice temporal. El catálogo anterior sigue igual. "
-                    + "Revisa el catálogo y vuelve a intentarlo"),
+            "El catálogo anterior sigue igual. El índice nuevo se borra; si no se pudo, lo limpia la "
+                    + "próxima importación. Revisa el catálogo y vuelve a intentarlo"),
 
     /** Elasticsearch respondió 4xx. No es un fallo de red. */
     ELASTICSEARCH_REJECTED("EFX-ES-007",
@@ -312,7 +313,8 @@ public enum ErrorCode {
      */
     PUBLISH_UNCERTAIN("EFX-IMP-006",
             "No se sabe si el alias se publicó",
-            "La respuesta no llegó y no se pudo leer el alias",
+            "_aliases no confirmó el cambio y el alias no se pudo leer o no quedó en un estado que permita "
+                    + "borrar el índice nuevo",
             "Estado incierto: revisa el alias manualmente. El índice temporal se dejó sin borrar"),
 
     /** La validación o la importación salió por un error que no es de la demo. */

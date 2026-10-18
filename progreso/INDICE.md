@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-21: códigos y textos de error según el contexto (ver `progreso/revision-2.md`). S-01 a S-17
-  y S-20 terminadas; S-18 y S-19 esperan el `.env`.
-- **Última actualización:** 2026-10-19 02:10 UTC
+- **Próximo paso:** S-22: mensajes y página de error genérica (ver `progreso/revision-2.md`). S-01 a S-17, S-20 y
+  S-21 terminadas; S-18 y S-19 esperan el `.env`.
+- **Última actualización:** 2026-10-19 02:25 UTC
 
 ## Fases
 

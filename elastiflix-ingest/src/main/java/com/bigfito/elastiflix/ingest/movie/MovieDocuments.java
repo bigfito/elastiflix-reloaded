@@ -49,21 +49,22 @@ public final class MovieDocuments {
     }
 
     /**
-     * Convierte un objeto JSON. Un valor que no es objeto no se puede leer.
+     * Convierte un objeto ya validado en película. Sirve igual para JSON y para CSV.
      *
      * @param node valor de una película
      * @return película sin vectores
+     * @throws IngestValidationException {@code EFX-ING-012} si el valor no es un objeto o no encaja en el modelo
      */
     public static Movie fromNode(JsonNode node) {
         if (!(node instanceof ObjectNode object)) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON);
+            throw new IngestValidationException(ErrorCode.TYPE_MISMATCH);
         }
         dropBlankText(object);
         object.remove(IGNORED);
         try {
             return MAPPER.treeToValue(object, Movie.class);
         } catch (JacksonException exception) {
-            throw new IngestValidationException(ErrorCode.UNREADABLE_JSON, exception);
+            throw new IngestValidationException(ErrorCode.TYPE_MISMATCH, exception);
         }
     }
 }

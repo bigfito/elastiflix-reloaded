@@ -18,13 +18,12 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** S-21
+- **Tarea actual:** S-22
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** S-21: textos de error neutros entre importación y migración (`REINDEX_COUNT_MISMATCH`,
-  `REINDEX_FAILED`, `PUBLISH_UNCERTAIN`, `ALIAS_PUBLISH_FAILED`), Javadoc de `ElasticsearchAccessException`,
-  y `EFX-ING-013`/`EFX-ING-015` según `FileKind` en `FileGate.open` y `MovieDocuments.fromNode`. S-18 y S-19
-  esperan el `.env` y quedan para el final.
-- **Última actualización:** 2026-10-19 02:10 UTC
+- **Próximo paso:** S-22: punto final en los mensajes de `summary()` que se muestran, `ErrorPageController` sin
+  llamar dos veces a `catalog.status()`, pie sin conexión «conteo no disponible», PLAN 4.3 y Javadoc de
+  `ResultsPageTest`; además `/buscar?k=abc` responde 500 (encontrado en S-14). S-18 y S-19 esperan el `.env`.
+- **Última actualización:** 2026-10-19 02:25 UTC
 
 ## Tareas
 
@@ -52,8 +51,8 @@ en curso
 | S-17 | terminada | `fed7249` | `README.md`, `PLAN.md` (nota del catálogo), `AGENTS.md` (línea del catálogo; 11 617 caracteres), `docs/diseno/1.md` (l. 23 y tabla de pruebas), `docs/diseno/5.md` (nota, punto 1 y tabla) y `progreso/5.md` (l. 88 y 112) dicen que las pruebas afirman los 6 899 documentos y los valores de §6 y se omiten con `assumeTrue` si el conteo cambió. `diseno/5.md` registra R-05/D1 en «Cambios». `grep -rn` del criterio sobre `README.md PLAN.md AGENTS.md docs progreso` solo encuentra la propia especificación (`docs/revisiones/revision-2.md`, que no se edita). |
 | S-18 | pendiente | — | Las capturas y la comparación de R-21 no reflejan la interfaz real |
 | S-19 | pendiente | — | Con solo el README todavía no se puede preparar el catálogo |
-| S-20 | terminada | se anota en S-21 | `ElasticsearchDiagnostics.codeFor`: 401 y 403 → `EFX-ES-001` («La URL o la API key no son válidas…»), igual que el pie; el resto de los 4xx → `EFX-ES-007`. `HybridSearchStrategy.rejected` usa `codeFor(status del ítem)`. `docs/diseno/2.md` actualizado (errores y log). Pruebas: `ElasticsearchDiagnosticsTest.shouldTreatBadCredentialsAsUnavailable` (401, 403, 500, 400) y `KnnStrategiesTest.shouldFailWhenAPartOfTheMultiSearchFails` (ítem 500 → `EFX-ES-001`). Mutaciones, una a la vez y revertidas: 401 tratado como 4xx → la primera; híbrida con `EFX-ES-007` fijo → la segunda. `./mvnw verify`: BUILD SUCCESS. |
-| S-21 | pendiente | — | Códigos y textos de error que no corresponden al contexto |
+| S-20 | terminada | `496a9b1` | `ElasticsearchDiagnostics.codeFor`: 401 y 403 → `EFX-ES-001` («La URL o la API key no son válidas…»), igual que el pie; el resto de los 4xx → `EFX-ES-007`. `HybridSearchStrategy.rejected` usa `codeFor(status del ítem)`. `docs/diseno/2.md` actualizado (errores y log). Pruebas: `ElasticsearchDiagnosticsTest.shouldTreatBadCredentialsAsUnavailable` (401, 403, 500, 400) y `KnnStrategiesTest.shouldFailWhenAPartOfTheMultiSearchFails` (ítem 500 → `EFX-ES-001`). Mutaciones, una a la vez y revertidas: 401 tratado como 4xx → la primera; híbrida con `EFX-ES-007` fijo → la segunda. `./mvnw verify`: BUILD SUCCESS. |
+| S-21 | terminada | se anota en S-22 | Textos neutros: `REINDEX_COUNT_MISMATCH` y `REINDEX_FAILED` dicen «Vuelve a ejecutar la importación o la migración» y que el índice nuevo se borra (si el original sigue, en `REINDEX_FAILED`); `ALIAS_PUBLISH_FAILED` ya no afirma «Se borró el índice temporal» (dice que se borra y, si no se pudo, lo limpia la próxima importación); `PUBLISH_UNCERTAIN` da una causa que también vale cuando `describe` respondió. Javadoc de `ElasticsearchAccessException` con `EFX-IMP-006`. `FileGate.open` elige `EFX-ING-015` para un `.csv` ilegible y `EFX-ING-013` para un JSON; `MovieDocuments.fromNode` usa `EFX-ING-012` (sirve a los dos formatos). `PlotVectorizer.attach` ya usaba `EFX-EMB-004` desde S-14. Pruebas: `ErrorContextTest` (CSV → 015, JSON → 013, `fromNode` → 012, textos neutros). Mutaciones, una a la vez y revertidas: `FileGate` siempre JSON → `shouldNameTheFileKindWhenTheFileCannotBeRead`; `fromNode` con 013 → `shouldUseTheTypeCodeWhenAValueDoesNotFitTheModel`. `./mvnw verify`: BUILD SUCCESS. |
 | S-22 | pendiente | — | Mensajes y página de error genérica |
 | S-23 | pendiente | — | Errores JSON de la carga con alcance incompleto |
 | S-24 | pendiente | — | Detalles de la ingesta |
