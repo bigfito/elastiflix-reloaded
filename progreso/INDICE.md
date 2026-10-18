@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-14, retirar JsonMovieReader
-- **Última actualización:** 2026-10-18 17:29 UTC
+- **Próximo paso:** R-16, sugerencias que conservan ajustes
+- **Última actualización:** 2026-10-18 17:33 UTC
 
 ## Fases
 

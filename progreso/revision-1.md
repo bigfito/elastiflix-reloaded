@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-13
+- **Tarea actual:** R-15
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-14. Quitar JsonMovieReader si la carga ya no lo usa.
-- **Última actualización:** 2026-10-18 17:29 UTC
+- **Próximo paso:** R-16. Las sugerencias de Inicio conservan los ajustes elegidos.
+- **Última actualización:** 2026-10-18 17:33 UTC
 
 ## Tareas
 
@@ -37,9 +37,9 @@ en curso
 | R-10 | terminada | `f62b84b` | `about.html` y `PLAN.md` §2 y las tareas 1.2 y 1.9 dicen `ingest` y sin prefijo. La matriz de calibración sigue listando `Document: ` como combinación medida, no como la elegida. |
 | R-11 | terminada | `7dd6329` | `JobThreadFailureTest`: una excepción imprevista deja el trabajo en `fallido` con `EFX-IMP-007`. `SearchQueryMapperTest`: página `999999999999` queda en 1; un `k` enorme es `SearchValidationException`. Checkstyle y PMD en 0. |
 | R-12 | terminada | `f3f144a` | Tras el aviso `EFX-ING-020` los vectores salen del nodo. `plot_256/512/1024` quedan nulos. Al cerrar el trabajo, `movies()` queda vacío. Checkstyle y PMD en 0. |
-| R-13 | terminada | se anota en R-14 | `CsvMovieReaderTest`: fila 2 con 2 celdas y fila 3 con 4, frente a un encabezado de 3, dan `EFX-ING-014`. El fixture de 4 películas sigue con 0 errores. Checkstyle y PMD en 0. |
-| R-14 | pendiente | | |
-| R-15 | pendiente | | |
+| R-13 | terminada | `11ce6d8` | `CsvMovieReaderTest`: fila 2 con 2 celdas y fila 3 con 4, frente a un encabezado de 3, dan `EFX-ING-014`. El fixture de 4 películas sigue con 0 errores. Checkstyle y PMD en 0. |
+| R-14 | terminada | `6e93147` | Se eliminó `JsonMovieReader`. `JsonDocumentsTest` cubre exportación, arreglo, NDJSON, conteo y JSON roto. Checkstyle y PMD en 0. |
+| R-15 | terminada | se anota en R-16 | `ReindexTasksTest`: `wait_for_completion` queda en falso y la copia espera dos lecturas de `_tasks` hasta `completed`. Si la tarea falla, `EFX-ES-006`. Checkstyle y PMD en 0. |
 | R-16 | pendiente | | |
 | R-17 | pendiente | | |
 | R-18 | pendiente | | |

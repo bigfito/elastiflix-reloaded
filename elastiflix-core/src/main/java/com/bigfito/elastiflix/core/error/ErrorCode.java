@@ -45,6 +45,12 @@ public enum ErrorCode {
             "No se publicó el alias. El índice nuevo se borró y el original sigue igual. "
                     + "Vuelve a ejecutar la migración"),
 
+    /** La tarea de {@code _reindex} terminó con error o no llegó a completarse. */
+    REINDEX_FAILED("EFX-ES-006",
+            "No se pudo copiar el catálogo al índice nuevo",
+            "La tarea de reindex terminó con error o no se completó",
+            "No se publicó el alias. El índice temporal se borra y el original sigue igual. Vuelve a importar"),
+
     /** La llamada única a {@code _aliases} no movió el alias: sigue en el índice anterior. */
     ALIAS_PUBLISH_FAILED("EFX-ES-004",
             "No se pudo publicar el alias",

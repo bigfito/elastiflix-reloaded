@@ -77,10 +77,7 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     @Override
     public void reindex(String source, String target) {
         call(source, () -> {
-            client.reindex(request -> request
-                    .source(origin -> origin.index(source).sourceFields(CatalogRequests.withVectors()))
-                    .dest(destination -> destination.index(target))
-                    .waitForCompletion(true));
+            new ReindexTasks(client).copy(source, target);
             return null;
         });
     }
