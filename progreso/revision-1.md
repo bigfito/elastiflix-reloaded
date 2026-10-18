@@ -16,10 +16,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-30
-- **Subpaso en curso:** commit y push
-- **Próximo paso:** Regenerar las cinco capturas, correr `./mvnw verify` y `./mvnw verify -Pit`, y confirmar el catálogo real.
-- **Última actualización:** 2026-10-18 18:23 UTC
+- **Tarea actual:** cierre
+- **Subpaso en curso:** commit y push de capturas y verificación
+- **Próximo paso:** El PR #10 sigue en borrador. La fila de capturas de R-21 sigue sin marcar.
+- **Última actualización:** 2026-10-18 18:27 UTC
 
 ## Tareas
 
@@ -54,17 +54,17 @@ en curso
 | R-27 | terminada | `96b9d55` | `fields()` conserva el orden del archivo (`Collections.unmodifiableMap` sobre el `LinkedHashMap`). El Javadoc de `Movie` dice que los vectores participan en `equals` por referencia. Se quitaron las sobrecargas de `build` que nadie llamaba. `IndexMappingTest` 2, `HybridRequestBuilderTest` 3, `VectorRequestBuilderTest` 3 y `SearchServiceTest` 13, 0 fallos. Checkstyle y PMD en 0. |
 | R-28 | terminada | `19f0557` | El reemplazo se cuenta con `existingIds` sobre la copia, no con el número de la validación. `IdTexts` es el mismo texto para la búsqueda y el validador. Cada trabajo recibe su listener. Vectorizados y escritos salen juntos, antes de `writeAll`. Un `\r\n` entre comillas queda en `\n`. Lo que sigue al primer JSON es `EFX-ING-013`. Las advertencias del estado se agrupan por código y campo. El CSV de errores lleva BOM y apóstrofo delante de `=`, `+`, `-` y `@`. `IngestIT` cancela y espera un estado final antes de borrar. `ImportJobTest` 12, `MappingValidatorTest` 14, `JsonDocumentsTest` 5, `CsvRowsTest` 2, `JobThreadFailureTest` 4, 0 fallos. Checkstyle y PMD en 0. |
 | R-29 | terminada | `4e4b865` | No aplica: las pestañas de `ingest.html` ya tienen `role="tab"`, `aria-controls` y `tabpanel`; `ingest.js` actualiza `aria-selected` y `aria-labelledby`. El paso 5 ya escribe `${shell.alias}`. Hecho: `aria-current="page"`; `role="alert"` en los avisos de Inicio; `aria-invalid` y `aria-describedby` en `q`, `knn-k` y `knn-cand`; «Ver todos» solo si hay más de 6, con `aria-expanded`. Seis tonos pastel, iconos de modo y de ajuste, lila `#F3EFFD`. La página de error y el JSON de una subida rechazada ya no repiten el código; el 404 ya no enlaza `/buscar` sin consulta; `+` queda como `%2B`; WARN al rechazar un archivo y al fallar la validación de búsqueda. «Publicación» usa el alias configurado. CSRF anotado en AGENTS (10 400 caracteres) y en el README. 16 pruebas, 0 fallos. Checkstyle y PMD en 0. |
-| R-30 | terminada | se anota en el cierre | «Acerca de» rotula la precisión, `adult` y `release_date` como medidos en el catálogo original de 4 322, sin recalcular. El pie de §5 y el criterio 4.1 dicen que el conteo es el real. Portada de README y de AGENTS apuntan a `progreso/INDICE.md` › «Catálogo vigente»; AGENTS queda en 10 428 caracteres. El bloque de variables de `PLAN.md` es copia exacta de `.env.example`. `docs/diseno/3.md` anota que `MovieBulk` no existe. Las convenciones citan `MovieReaderFactory` y `SearchStrategy`. `progreso/0.md` ya no trae la ruta local del JDK. `grep -rn "4 322\|4322"` en README, AGENTS, PLAN y las plantillas solo deja menciones históricas. `AboutPageTest` en verde. |
+| R-30 | terminada | `2ec4f5e` | «Acerca de» rotula la precisión, `adult` y `release_date` como medidos en el catálogo original de 4 322, sin recalcular. El pie de §5 y el criterio 4.1 dicen que el conteo es el real. Portada de README y de AGENTS apuntan a `progreso/INDICE.md` › «Catálogo vigente»; AGENTS queda en 10 428 caracteres. El bloque de variables de `PLAN.md` es copia exacta de `.env.example`. `docs/diseno/3.md` anota que `MovieBulk` no existe. Las convenciones citan `MovieReaderFactory` y `SearchStrategy`. `progreso/0.md` ya no trae la ruta local del JDK. `grep -rn "4 322\|4322"` en README, AGENTS, PLAN y las plantillas solo deja menciones históricas. `AboutPageTest` en verde. |
 
 ## Cambios sin commit
 
-Vacío al cerrar R-30.
+Vacío al cerrar la verificación.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-web -am test -Dtest=AboutPageTest -Dsurefire.failIfNoSpecifiedTests=false` y `./mvnw -pl elastiflix-web checkstyle:check`
-- **Resultado:** BUILD SUCCESS. `AboutPageTest` 1 prueba, 0 fallos. Checkstyle de web en 0. `AGENTS.md` 10 428 caracteres. El bloque dotenv de `PLAN.md` coincide con `.env.example`.
-- **Fecha:** 2026-10-18 18:22 UTC
+- **Comando:** `./mvnw verify` y `./mvnw verify -Pit`
+- **Resultado:** Los dos en BUILD SUCCESS. `verify` (2026-10-18 18:24 UTC, 21 s): 187 pruebas unitarias, 0 fallos, Checkstyle y PMD en 0. `verify -Pit` (2026-10-18 18:26 UTC, 1 min 5 s): 187 unitarias y 27 de integración, 0 fallos y 0 omitidas, Checkstyle y PMD en 0. Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con 6 899 documentos.
+- **Fecha:** 2026-10-18 18:26 UTC
 
 ## Decisiones
 
@@ -77,11 +77,11 @@ Vacío al cerrar R-30.
 
 ## Resumen de diseño
 
-Pendiente al cerrar la revisión.
+La revisión no abre un diseño nuevo. Cada corrección sigue el informe y las decisiones D1, D2 y D3. Donde el código ya cumplía (pestañas de Cargar datos y el alias del paso 5), la fila lo deja como «no aplica» con el archivo que lo demuestra.
 
 ## Revisión de convenciones
 
-Pendiente al cerrar la revisión.
+`./mvnw verify` y `./mvnw verify -Pit` terminan con 0 violaciones de Checkstyle y PMD. `AGENTS.md` queda en 10 428 caracteres. `EncodedQuery` es un método estático compartido, no un patrón nuevo. No hay supresiones nuevas.
 
 ## Bloqueos y solicitudes
 

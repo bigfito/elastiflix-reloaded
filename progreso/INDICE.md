@@ -8,10 +8,10 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 1
-- **Estado de la fase:** en curso
+- **Estado de la fase:** en curso (R-01 a R-30 terminadas; el PR #10 sigue en borrador)
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** Regenerar las cinco capturas y correr `./mvnw verify` y `./mvnw verify -Pit`
-- **Última actualización:** 2026-10-18 18:23 UTC
+- **Próximo paso:** Revisar el PR #10. La fila de capturas de R-21 sigue sin marcar.
+- **Última actualización:** 2026-10-18 18:27 UTC
 
 ## Fases
 
@@ -24,7 +24,7 @@
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
 | 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
 | 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
-| — | Revisión 1 | — | en curso | `progreso/revision-1.md` | pendiente |
+| — | Revisión 1 | — | en curso | `progreso/revision-1.md` | `verify` y `verify -Pit` en verde el 2026-10-18 18:26 UTC; la aprobación de capturas sigue sin marcar |
 
 ## Aprobaciones del usuario
 

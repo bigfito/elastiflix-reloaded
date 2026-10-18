@@ -403,7 +403,8 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 ## 📸 Capturas
 
 Tomadas el 2026-10-18 con la aplicación en http://localhost:8080, leyendo el alias
-`elastiflix-reloaded` cuando el catálogo histórico tenía 4 322 películas. El pie de esas imágenes es el de ese momento.
+`elastiflix-reloaded`. El pie muestra el conteo real. El índice y el número vigentes están en
+[`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
 
 | Página | Captura |
 |---|---|

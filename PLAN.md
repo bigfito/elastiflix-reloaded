@@ -1064,6 +1064,15 @@ La evidencia de cada punto está en `progreso/6.md`. Las tareas de la Fase 6 est
 (merge `eb309d9` del PR #7). El PR #8 (`22dac52`) registró esa fusión. Después se borraron las ramas
 remotas `cursor/*`. El catálogo vigente está en `progreso/INDICE.md`.
 
+Revisión 1 (R-01 a R-30), en la rama `cursor/revision-1-29a6` y en el PR #10, que sigue en borrador:
+
+- `./mvnw verify` terminó en BUILD SUCCESS el 2026-10-18 18:24 UTC (21 s): 187 pruebas unitarias,
+  0 fallos. Checkstyle y PMD en 0.
+- `./mvnw verify -Pit` terminó en BUILD SUCCESS el 2026-10-18 18:26 UTC (1 min 5 s): 187 unitarias y
+  27 de integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
+- Después de esa corrida, el alias `elastiflix-reloaded` seguía en
+  `elastiflix-reloaded-20261018-054429` con 6 899 documentos.
+
 ## Variables de entorno (`.env.example`)
 
 ```dotenv
