@@ -144,7 +144,7 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 - Vectores: 1024 del modelo; 512 y 256 = primeros N valores renormalizados. Consultas: `input_type:
   search` y prefijo `Query: `. Documentos: `input_type: ingest` y sin prefijo (calibración 1.9;
   `Document: ` se midió y no se eligió). k-NN: `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`. RRF: `rank_constant 60`,
-  `rank_window_size = k`. Full-text: `from + size ≤ 10 000`.
+  `rank_window_size = k`. Full-text: `from < 10 000`.
 - Facetas de Vectorial e Híbrida se calculan en la aplicación sobre los resultados devueltos.
 - Fechas en UTC; `release_date` `yyyy-MM-dd`. Interfaz en español, con los textos de los mockups.
 - **Pruebas de integración:** lectura sobre `elastiflix-reloaded` sin modificarlo; escritura solo sobre

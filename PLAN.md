@@ -57,12 +57,10 @@ búsqueda sobre el mismo catálogo (el pie muestra el conteo real; el vigente es
 `progreso/INDICE.md` › «Catálogo vigente»), acotar los resultados con filtros dinámicos y
 cargar nuevas películas sin dejar nunca el catálogo a medias.
 
-> **Catálogo vigente (2026-10-18 05:49 UTC).** El alias `elastiflix-reloaded` apunta a
-> `elastiflix-reloaded-20261018-054429` y tiene **6 899** documentos. Lo dejó la importación de
-> `movies.json`, aprobada por Adolfo, que reemplazó y borró `elastiflix-reloaded-20261018-003535`
-> (catálogo histórico de 4 322 documentos). Los conteos de 4 322 de este plan son los de las verificaciones históricas anteriores a
-> esa carga. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`,
-> afirman los 6 899 documentos y los valores de §6; se omiten con `assumeTrue` si el conteo cambió.
+> **Catálogo vigente:** índice, conteo y fecha en `progreso/INDICE.md` › «Catálogo vigente». Los conteos de
+> 4 322 de este plan son los del catálogo histórico, anterior a la importación de `movies.json`.
+> `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`, afirman los 6 899 documentos y los
+> valores de §6; se omiten con `assumeTrue` si el conteo cambió.
 
 **Qué debe lograr.**
 
@@ -766,7 +764,8 @@ puntuaciones, y reproduce los datos de verificación de §6.
 - [x] **2.1** Modelo de entrada en `search/.../search/query/`: `SearchQuery` con texto, modo y ajustes
   (`FullTextSettings`, `KnnSettings`), filtros, página y tamaño; validación con códigos `EFX-SRCH-*`:
   texto vacío, `k < 1`, `num_candidates < k` o `> 10000`, `campo` con `multi_match`, `tamano` fuera de
-  {25, 50, 100}, `desde > hasta`, full-text con `from + size > 10000`.
+  {25, 50, 100}, `desde > hasta`, full-text con `from ≥ 10000` (una página que empieza dentro de la ventana y
+  pasa de 10 000 se recorta a la ventana; revisión 1, R-01).
   - Criterio: una prueba unitaria por regla, que verifica el código `EFX-SRCH-*`. Cuando el mockup tiene
     un mensaje para esa regla, el «qué pasó» del código es ese texto (por ejemplo «num_candidates debe ser
     mayor o igual que k»): la interfaz lo muestra junto al campo, tal como en el mockup, y el código

@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-26: documentación técnica desactualizada (ver `progreso/revision-2.md`). S-01 a S-17 y S-20
-  a S-25 terminadas; S-18 y S-19 esperan el `.env`.
-- **Última actualización:** 2026-10-19 03:20 UTC
+- **Próximo paso:** S-27: notas de evidencia histórica (ver `progreso/revision-2.md`). S-01 a S-17 y S-20 a S-26
+  terminadas; S-18 y S-19 esperan el `.env`.
+- **Última actualización:** 2026-10-19 03:35 UTC
 
 ## Fases
 
