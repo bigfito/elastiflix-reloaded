@@ -8,10 +8,10 @@
 ## Punto de reanudación
 
 - **Fase actual:** 5
-- **Estado de la fase:** en curso
+- **Estado de la fase:** terminado
 - **Herramienta prevista:** Cursor (`cursor/fase-5-pruebas-29a6`)
-- **Próximo paso:** Tarea 5.3, documentación y cierre de la fase. No empezar la Fase 6.
-- **Última actualización:** 2026-10-18 04:12 UTC
+- **Próximo paso:** Fase 6, no iniciada. No empezar sin que el usuario lo pida.
+- **Última actualización:** 2026-10-18 04:14 UTC
 
 ## Fases
 
@@ -22,7 +22,7 @@
 | 2 | Búsqueda | 🔒 | terminado | `progreso/2.md` | 2026-10-18 en verde |
 | 3 | Carga de datos | 🔒 | terminado | `progreso/3.md` | 2026-10-18 en verde |
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
-| 5 | Pruebas integrales y smoke test | — | en curso | `progreso/5.md` | — |
+| 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
 | 6 | Documentación y cierre | — | no iniciado | `progreso/6.md` | — |
 
 ## Aprobaciones del usuario
@@ -48,5 +48,5 @@
 ## Última verificación
 
 - **Comando:** `./mvnw verify -Pit`
-- **Resultado:** BUILD SUCCESS. `SmokeIT` validó el CSV de muestra y no lo importó. El catálogo real no se modificó. `IngestIT` escribió solo en `elastiflix-it-5e7fcecfbc7c`.
-- **Fecha:** 2026-10-18 04:08 UTC
+- **Resultado:** BUILD SUCCESS. Checkstyle 0. `SmokeIT` validó el CSV de muestra y no lo importó. El catálogo real no se modificó. `IngestIT` escribió solo en `elastiflix-it-f40962764503`.
+- **Fecha:** 2026-10-18 04:12 UTC

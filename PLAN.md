@@ -981,7 +981,7 @@ arquitectura en verde; resumen de diseño y revisión de convenciones en `progre
 - [x] **5.2** Revisión de cobertura funcional: tabla en `progreso/5.md` que enlaza cada capacidad de §1
   y cada fila de datos de verificación de §6 con la prueba que la cubre.
   - Criterio: ninguna capacidad sin prueba.
-- [ ] **5.3** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases,
+- [x] **5.3** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases,
   cómo correr las pruebas de integración y el smoke test) y los documentos afectados; registra en
   `progreso/5.md` qué se actualizó.
   - Criterio: en `README.md`, la fila de la Fase 5 dice `✅ terminado`, la insignia dice `fases-6/7`
