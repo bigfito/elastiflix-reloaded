@@ -8,10 +8,10 @@
 ## Punto de reanudación
 
 - **Fase actual:** 6
-- **Estado de la fase:** en curso
+- **Estado de la fase:** terminado
 - **Herramienta prevista:** Cursor (`cursor/fase-6-cierre-29a6`)
-- **Próximo paso:** Tarea 6.3, cerrar el índice y las insignias, y pedir la revisión final.
-- **Última actualización:** 2026-10-18 04:50 UTC
+- **Próximo paso:** Revisión final del usuario. No hay más fases. El PR de esta rama pide esa revisión.
+- **Última actualización:** 2026-10-18 04:55 UTC
 
 ## Fases
 
@@ -23,7 +23,7 @@
 | 3 | Carga de datos | 🔒 | terminado | `progreso/3.md` | 2026-10-18 en verde |
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
 | 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
-| 6 | Documentación y cierre | — | en curso | `progreso/6.md` | — |
+| 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
 
 ## Aprobaciones del usuario
 
@@ -48,6 +48,6 @@
 
 ## Última verificación
 
-- **Comando:** clone limpio y la lista de «Puesta en marcha» del README, incluida la migración y `spring-boot:run`
-- **Resultado:** código 0. El alias siguió en `elastiflix-reloaded-20261018-003535` con 4322 documentos. `GET /` respondió 200.
-- **Fecha:** 2026-10-18 04:49 UTC
+- **Comando:** `./mvnw verify -Pit`
+- **Resultado:** BUILD SUCCESS. Checkstyle 0. `SmokeIT` 4/4. La escritura usó `elastiflix-it-34da60644e14`. El alias real siguió en `elastiflix-reloaded-20261018-003535` con 4322 documentos.
+- **Fecha:** 2026-10-18 04:52 UTC

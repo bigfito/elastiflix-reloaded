@@ -1008,7 +1008,7 @@ resumen de diseño y revisión de convenciones en `progreso/5.md`.
 - [x] **6.2** Recorre la [Definición de Hecho](#definición-de-hecho-global) y marca cada punto con su
   evidencia en `progreso/6.md`.
   - Criterio: todos los puntos marcados.
-- [ ] **6.3** Cierra `progreso/INDICE.md` (todas las fases `terminado`), deja en `README.md` la
+- [x] **6.3** Cierra `progreso/INDICE.md` (todas las fases `terminado`), deja en `README.md` la
   insignia `fases-7/7` y la de estado en `terminado`, y pide al usuario la revisión final.
   - Criterio: `git status -sb` limpio, sin commits pendientes de push, y todo en `origin/main`.
 
@@ -1023,22 +1023,25 @@ Criterio: Definición de Hecho completa.
 
 ## Definición de Hecho (global)
 
-- [ ] Los tres modos de búsqueda, los filtros, la paginación y la carga de datos funcionan como describe
+- [x] Los tres modos de búsqueda, los filtros, la paginación y la carga de datos funcionan como describe
   §1 y los mockups.
-- [ ] Todos los datos de verificación de §6 pasan en las pruebas de integración.
-- [ ] `elastiflix-reloaded` es un alias; una carga publica con swap atómico y borra el índice anterior;
+- [x] Todos los datos de verificación de §6 pasan en las pruebas de integración.
+- [x] `elastiflix-reloaded` es un alias; una carga publica con swap atómico y borra el índice anterior;
   una falla deja el catálogo intacto (demostrado en pruebas).
-- [ ] `./mvnw verify -Pit` en verde: unitarias, arquitectura, integración y smoke.
-- [ ] 0 violaciones de Checkstyle y PMD; ArchUnit en verde; supresiones justificadas y registradas.
-- [ ] Cada fase con código tiene su diseño (aprobado en las fases 🔒), su resumen de diseño y su revisión
+- [x] `./mvnw verify -Pit` en verde: unitarias, arquitectura, integración y smoke.
+- [x] 0 violaciones de Checkstyle y PMD; ArchUnit en verde; supresiones justificadas y registradas.
+- [x] Cada fase con código tiene su diseño (aprobado en las fases 🔒), su resumen de diseño y su revisión
   de convenciones.
-- [ ] Ningún secreto en el repositorio: estos dos comandos no devuelven nada:
+- [x] Ningún secreto en el repositorio: estos dos comandos no devuelven nada:
   `git grep -n -i -P "api[_-]?key\s*[:=]\s*[\"']?[A-Za-z0-9_=+/-]{16,}"` y
   `git grep -n -i -P "\.es\.[a-z0-9-]+\.(gcp|aws|azure)\.elastic\.cloud"`.
-- [ ] `README.md` actualizado al cierre de cada fase y con los comandos reales.
-- [ ] Cada tarea tiene su commit `<id>: …` publicado en `origin/main`, con su estado actualizado.
-- [ ] Todos los archivos de `progreso/` en `terminado`, sin cambios sin commit, e `INDICE.md` con todas
+- [x] `README.md` actualizado al cierre de cada fase y con los comandos reales.
+- [x] Cada tarea tiene su commit `<id>: …` publicado en `origin/main`, con su estado actualizado.
+- [x] Todos los archivos de `progreso/` en `terminado`, sin cambios sin commit, e `INDICE.md` con todas
   las fases cerradas.
+
+La evidencia de cada punto está en `progreso/6.md`. Las tareas de la Fase 6 entran en `origin/main`
+al fusionar el PR de este cierre.
 
 ## Variables de entorno (`.env.example`)
 
