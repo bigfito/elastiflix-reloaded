@@ -16,17 +16,17 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** R-01
+- **Tarea actual:** R-02
 - **Subpaso en curso:** commit y push
-- **Próximo paso:** R-02. Si `publish` falla, consultar `describe` antes de borrar el índice temporal.
-- **Última actualización:** 2026-10-18 16:26 UTC
+- **Próximo paso:** R-03. El CSV debe producir `ObjectNode` crudos y pasar por `MappingValidator`.
+- **Última actualización:** 2026-10-18 16:34 UTC
 
 ## Tareas
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| R-01 | terminada | se anota en R-02 | `./mvnw -pl elastiflix-search,elastiflix-core test` código 0. Checkstyle y PMD de esos módulos en 0. `k=10, tamano=25, pagina=1` devuelve 10; `k=150, tamano=100, pagina=2` devuelve 50; full-text página 400 aceptada y el conteo de páginas se corta en 10 000. |
-| R-02 | pendiente | | |
+| R-01 | terminada | `2f7df05` | `./mvnw -pl elastiflix-search,elastiflix-core test` código 0. Checkstyle y PMD de esos módulos en 0. `k=10, tamano=25, pagina=1` devuelve 10; `k=150, tamano=100, pagina=2` devuelve 50; full-text página 400 aceptada y el conteo de páginas se corta en 10 000. |
+| R-02 | terminada | se anota en R-03 | `ImportJobTest` 11 pruebas, 0 fallos. Alias en el temporal: sin `deleteIndex(temp)` y paso 5. Alias en el anterior: `EFX-ES-004` y se borra el temporal. `describe` falla o el alias no existe: `EFX-IMP-006` y no se borra nada. Checkstyle y PMD de core e ingest en 0. |
 | R-03 | pendiente | | |
 | R-04 | pendiente | | |
 | R-05 | pendiente | | |
@@ -58,13 +58,13 @@ en curso
 
 ## Cambios sin commit
 
-Vacío al cerrar R-01.
+Vacío al cerrar R-02.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-search,elastiflix-core test` y `checkstyle:check pmd:check`
-- **Resultado:** en verde
-- **Fecha:** 2026-10-18 16:26 UTC
+- **Comando:** `./mvnw -pl elastiflix-ingest,elastiflix-core test` y `checkstyle:check pmd:check`
+- **Resultado:** en verde (ingest 45 pruebas, 0 fallos)
+- **Fecha:** 2026-10-18 16:33 UTC
 
 ## Decisiones
 

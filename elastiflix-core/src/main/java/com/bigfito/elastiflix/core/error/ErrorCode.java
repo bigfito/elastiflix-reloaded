@@ -45,11 +45,11 @@ public enum ErrorCode {
             "No se publicó el alias. El índice nuevo se borró y el original sigue igual. "
                     + "Vuelve a ejecutar la migración"),
 
-    /** La llamada única a {@code _aliases} fue rechazada. */
+    /** La llamada única a {@code _aliases} no movió el alias: sigue en el índice anterior. */
     ALIAS_PUBLISH_FAILED("EFX-ES-004",
             "No se pudo publicar el alias",
-            "Elasticsearch rechazó la publicación",
-            "El índice original no se tocó. Si quedó un índice nuevo, se intenta borrar. "
+            "Elasticsearch rechazó la publicación y el alias sigue en el índice anterior",
+            "Se borró el índice temporal. El catálogo anterior sigue igual. "
                     + "Revisa el catálogo y vuelve a intentarlo"),
 
     /** El alias apunta a más de un índice. */
@@ -266,7 +266,17 @@ public enum ErrorCode {
     UNKNOWN_JOB("EFX-IMP-005",
             "No está ese trabajo de importación",
             "El identificador no está en memoria",
-            "Vuelve a subir el archivo");
+            "Vuelve a subir el archivo"),
+
+    /**
+     * La publicación no confirmó el resultado y no se pudo leer el alias.
+     *
+     * <p>El índice temporal se deja: borrarlo podría vaciar el catálogo si el alias ya apunta a él.</p>
+     */
+    PUBLISH_UNCERTAIN("EFX-IMP-006",
+            "No se sabe si el alias se publicó",
+            "La respuesta no llegó y no se pudo leer el alias",
+            "Estado incierto: revisa el alias manualmente. El índice temporal se dejó sin borrar");
 
     private final String code;
     private final String whatHappened;

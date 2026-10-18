@@ -19,7 +19,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Copia el catálogo, escribe los lotes y publica, o borra el temporal si algo falla.
+ * Copia el catálogo, escribe los lotes y publica.
+ *
+ * <p>Si algo falla antes de publicar, borra el temporal. Si {@code publish} falla, primero lee el
+ * alias: solo borra el temporal cuando el alias sigue en el índice anterior.</p>
  */
 @Component
 public final class ImportJob {
@@ -162,8 +165,36 @@ public final class ImportJob {
         try {
             catalog.publish(context.alias(), context.temp(), context.previous());
         } catch (ElasticsearchAccessException exception) {
-            throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, exception);
+            resolvePublish(context, exception);
         }
+    }
+
+    private void resolvePublish(ImportContext context, ElasticsearchAccessException failure) {
+        // Un corte de red no es un rechazo. Solo se borra si describe confirma el índice anterior.
+        CatalogName described = aliasAfter(context.alias());
+        if (pointsTo(described, context.temp())) {
+            return;
+        }
+        if (pointsTo(described, context.previous())) {
+            throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, failure);
+        }
+        throw uncertain(failure);
+    }
+
+    private CatalogName aliasAfter(String alias) {
+        try {
+            return catalog.describe(alias);
+        } catch (ElastiflixException exception) {
+            throw uncertain(exception);
+        }
+    }
+
+    private static boolean pointsTo(CatalogName described, String index) {
+        return described instanceof CatalogName.Alias alias && index.equals(alias.concreteIndex());
+    }
+
+    private static ImportException uncertain(ElastiflixException cause) {
+        return new ImportException(ErrorCode.PUBLISH_UNCERTAIN, cause);
     }
 
     private static void ensureRunning(BooleanSupplier cancelled) {
@@ -173,7 +204,9 @@ public final class ImportJob {
     }
 
     private void rollback(String temp, ElastiflixException exception) {
-        deleteTemp(temp);
+        if (exception.errorCode() != ErrorCode.PUBLISH_UNCERTAIN) {
+            deleteTemp(temp);
+        }
         logFailure(exception, temp);
         throw exception;
     }
