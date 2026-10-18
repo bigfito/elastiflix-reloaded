@@ -12,14 +12,16 @@
 
 ## Estado general
 
-en curso — las cinco correcciones están hechas; el PR queda en borrador
+terminado — el PR #12 se fusionó en `main` (`41c1188`)
 
 ## Punto de reanudación
 
 - **Tarea actual:** B-05
 - **Subpaso en curso:** cerrada
-- **Próximo paso:** revisar el PR en borrador. No marcarlo listo ni fusionarlo.
-- **Última actualización:** 2026-10-18 19:07 UTC
+- **Próximo paso:** nada pendiente en esta unidad. El PR #12 se fusionó en `main` (`41c1188`) y la rama remota
+  `cursor/bugs-revision-29a6` se borró. La revisión 2 (`progreso/revision-2.md`) revisó estas correcciones;
+  B-04 continúa en S-01.
+- **Última actualización:** 2026-10-18 19:42 UTC
 
 ## Tareas
 
@@ -31,7 +33,7 @@ en curso — las cinco correcciones están hechas; el PR queda en borrador
 | B-02 | terminada | `19cfd70` | `./mvnw -pl elastiflix-core test -Dtest=InferenceEmbeddingServiceTest,ErrorCodeTest,VectorProjectorTest checkstyle:check pmd:check` BUILD SUCCESS, 2026-10-18 19:00 UTC. 8 pruebas, 0 fallos. Un lote con menos vectores que textos es `EFX-EMB-004`. La dimensión distinta sigue en `EFX-EMB-002`. |
 | B-03 | terminada | `3929d4c` | `./mvnw -pl elastiflix-web -am test -Dtest=IngestJobErrorTest -Dsurefire.failIfNoSpecifiedTests=false checkstyle:check pmd:check` BUILD SUCCESS, 2026-10-18 19:01 UTC. 3 pruebas, 0 fallos. Sigue respondiendo 413 con `EFX-ING-003`. Checkstyle y PMD en 0. La compilación ya no avisa de `PAYLOAD_TOO_LARGE`. |
 | B-04 | terminada | `54ccf60` | `./mvnw -pl elastiflix-core test -Dtest=ReindexTasksTest checkstyle:check pmd:check` BUILD SUCCESS, 2026-10-18 19:02 UTC. 4 pruebas, 0 fallos. Una lectura de `_tasks` con `wait_for_completion` y tope `30m`. No hay `Thread.sleep`. Checkstyle y PMD en 0. |
-| B-05 | terminada | este commit | Dos frases de `design/mockups/About.dc.html`: las consultas siguen con `Query: `; las sinopsis dicen `input_type` `ingest` y sin prefijo. Los estilos en línea no cambian. `./mvnw verify` BUILD SUCCESS, 2026-10-18 19:05 UTC, 23 s, 193 unitarias, 0 fallos. `./mvnw verify -Pit` BUILD SUCCESS, 2026-10-18 19:07 UTC, 1 min 8 s, 193 unitarias y 27 de integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0. |
+| B-05 | terminada | `8cbfa49` | Dos frases de `design/mockups/About.dc.html`: las consultas siguen con `Query: `; las sinopsis dicen `input_type` `ingest` y sin prefijo. Los estilos en línea no cambian. `./mvnw verify` BUILD SUCCESS, 2026-10-18 19:05 UTC, 23 s, 193 unitarias, 0 fallos. `./mvnw verify -Pit` BUILD SUCCESS, 2026-10-18 19:07 UTC, 1 min 8 s, 193 unitarias y 27 de integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0. |
 
 ## Cambios sin commit
 

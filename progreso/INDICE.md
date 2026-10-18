@@ -7,11 +7,15 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** corrección de los 5 bugs de la sincronización de documentación
-- **Estado de la fase:** en curso — cinco correcciones hechas; el PR queda en borrador
-- **Rama:** `cursor/bugs-revision-29a6` (desde `main` en `2f6f9ed`, fusión del PR #11)
-- **Próximo paso:** revisar el PR en borrador. No marcarlo listo ni fusionarlo.
-- **Última actualización:** 2026-10-18 19:07 UTC
+- **Fase actual:** Revisión 2 — 27 correcciones (`S-01` … `S-27`) de la segunda revisión de `main` en `41c1188`
+- **Estado de la fase:** no iniciado
+- **Rama:** `revision-2`, por crear desde `main`
+- **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
+  problema, corrección y criterio de cada una)
+- **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
+- **Próximo paso:** aplica el protocolo de reanudación de `AGENTS.md`, crea la rama `revision-2` desde
+  `main`, marca la Revisión 2 `en curso` y empieza S-01.
+- **Última actualización:** 2026-10-18 19:42 UTC
 
 ## Fases
 
@@ -24,9 +28,10 @@
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
 | 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
 | 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
-| — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. |
+| — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. Nueve R quedaron incompletas y continúan en la revisión 2. |
 | — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
-| — | Bugs de la revisión de documentación | — | en curso | `progreso/bugs.md` | B-01 a B-05 terminadas. El PR queda en borrador. |
+| — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
+| — | Revisión 2 | — | no iniciado | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. |
 
 ## Aprobaciones del usuario
 
@@ -49,6 +54,10 @@
 | 2026-10-18 | Criterios de §6 relajados, fusionados en `main` | El PR #9 (`cursor/revision-docs-29a6`, merge `dc44535`, commit `2a3aaea`) dejó de afirmar los totales de 4 322 y lee `_count`. La revisión 1 (R-05, D1) restituye los valores exactos sobre 6 899 películas. |
 | 2026-10-18 | Capturas de R-21 | Adolfo Orozco aprobó la fidelidad visual de las cinco capturas en `docs/capturas/` (inicio, resultados, cargar, acerca, no-encontrada). |
 | 2026-10-18 | Importación de `movies.json` al catálogo real | Adolfo eligió reemplazar el índice de `elastiflix-reloaded`. Arranque 05:44:29 UTC y publicación 05:49:22 UTC (unos 4 min 54 s). Arreglo JSON de 6899 registros, validación `valido`, 0 errores y 5055 advertencias (`EFX-ING-022`: 4960, `EFX-ING-021`: 95). Índice nuevo `elastiflix-reloaded-20261018-054429` con 6899 documentos. Se borró `elastiflix-reloaded-20261018-003535`. Una lectura posterior contó `title`, `plot`, `plot_256`, `plot_512` y `plot_1024` en 6899/6899. |
+| 2026-10-18 | Revisión 1 fusionada en `main` | Adolfo fusionó el PR #10 (merge `dc9a315`). |
+| 2026-10-18 | Sincronización de documentación fusionada en `main` | Adolfo fusionó el PR #11 (merge `2f6f9ed`). |
+| 2026-10-18 | Bugs B-01 a B-05 fusionados en `main` | Adolfo fusionó el PR #12 (merge `41c1188`). |
+| 2026-10-18 | Revisión 2 encargada a otro agente | Adolfo pidió pasar la lista de correcciones al repositorio (`docs/revisiones/revision-2.md`) para que la tome un agente de Claude Code, Google Antigravity o JetBrains Junie. Ya no se le encarga al agente de grokbot (Cursor). Las decisiones abiertas de S-03, S-05 y S-06 las toma el agente y las registra en `progreso/revision-2.md`. |
 
 ## Catálogo vigente
 

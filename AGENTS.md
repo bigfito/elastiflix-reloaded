@@ -48,6 +48,14 @@ Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. El plan está cerra
 verificaciones históricas de las fases contaron 4 322 películas, el catálogo anterior a la importación del
 2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`.
 
+## Trabajo abierto
+
+Las fases 0 a 6 están cerradas. Lo pendiente es lo que diga `progreso/INDICE.md` › «Punto de
+reanudación». Hoy es la **Revisión 2**: correcciones `S-01`…`S-27` en `docs/revisiones/revision-2.md`,
+con estado en `progreso/revision-2.md`. Cada `S-NN` es una tarea (`S-NN: <resumen>` en el commit) con el
+mismo protocolo, la misma disciplina de estado y las mismas reglas de código. Rama `revision-2`; se
+integra en `main` por PR.
+
 ## Regla de oro sobre el orden de trabajo
 
 1. Lee `PLAN.md` completo antes de tocar código.

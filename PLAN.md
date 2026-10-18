@@ -197,7 +197,8 @@ elastiflix-reloaded/
 ├── docs/
 │   ├── arquitectura.mermaid
 │   ├── convenciones-java.md
-│   └── diseno/_PLANTILLA.md    ← y un <fase>.md por fase con código
+│   ├── diseno/_PLANTILLA.md    ← y un <fase>.md por fase con código
+│   └── revisiones/             ← listas de correcciones posteriores al cierre (revision-2.md)
 ├── design/
 │   ├── README.md               ← tokens de diseño y cómo usar los mockups
 │   └── mockups/                ← Main · Results · Ingest · About (.dc.html)
@@ -1100,6 +1101,28 @@ La corrección de los cinco bugs (rama `cursor/bugs-revision-29a6`) volvió a me
   integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
 - Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con
   6 899 documentos.
+
+El PR #12 se fusionó en `main` (`41c1188`).
+
+### Revisión 2 (abierta)
+
+La segunda revisión de `main` en `41c1188` encontró 27 correcciones (`S-01` … `S-27`): 3 críticas, 16
+importantes y 8 menores. Algunas son pendientes de R-04, R-09, R-11, R-12, R-15, R-16, R-18, R-19 y
+R-21, que se habían marcado terminadas. Mientras no se cierren, los puntos de la Definición de Hecho que
+tocan no se cumplen del todo, aunque sigan marcados `[x]`. Las tres críticas son:
+
+- la copia del índice se corta a los 30 s;
+- «Cargar datos» no reproduce el mockup;
+- faltan datos del trabajo de carga.
+
+Dónde está cada cosa:
+
+- **Lista (especificación):** `docs/revisiones/revision-2.md`, con dónde, problema, corrección y
+  criterio de cada corrección, y cómo trabajarla.
+- **Estado:** `progreso/revision-2.md` y `progreso/INDICE.md`.
+- **Quién:** un agente de Claude Code, Google Antigravity o JetBrains Junie. Todos leen `AGENTS.md`.
+- **Cómo:** cada `S-NN` es una tarea con la disciplina de §9 (commit `S-NN: <resumen>` y push por
+  corrección) en la rama `revision-2`, que se integra en `main` por PR.
 
 ## Variables de entorno (`.env.example`)
 
