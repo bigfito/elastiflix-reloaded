@@ -13,11 +13,11 @@ componentes y comportamiento. No se rediseñan.
 | `mockups/Main.dc.html` | Inicio · búsqueda | `GET /` | modo, ajustes, sugerencias dinámicas |
 | `mockups/Results.dc.html` | Resultados | `GET /buscar` | modo: Full-text · Vectorial · Híbrida; estado: Con resultados · Sin resultados · Sin resultados con filtros |
 | `mockups/Ingest.dc.html` | Cargar datos | `GET /cargar` | escenario: Archivo válido · No coincide con el mapping · Archivo rechazado |
-
-Pendiente de la Fase 4: en ese mockup, la frase «Los vectores del archivo se usan tal cual» no describe
-el comportamiento. Los vectores se generan con el servicio de inferencia. Si el archivo los trae, se
-ignoran con advertencia.
 | `mockups/About.dc.html` | Acerca de la demo | `GET /acerca` | — |
+
+En Cargar datos y en Acerca de, los vectores de la sinopsis se generan con el servicio de inferencia.
+Si el archivo los trae, se ignoran. Al publicar, el índice anterior se borra. Un CSV sin encabezado
+se rechaza.
 
 > Los valores entre corchetes de los mockups (`[release_date]`, `[vote_count]`…) y las variables
 > `{{…}}` se sustituyen por datos reales. Los números de ejemplo de Resultados e Ingesta son reales

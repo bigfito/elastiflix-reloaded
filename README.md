@@ -13,19 +13,17 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
-![Estado](https://img.shields.io/badge/estado-fase_3_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
-![Fases](https://img.shields.io/badge/fases-4%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
+![Estado](https://img.shields.io/badge/estado-fase_4_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
+![Fases](https://img.shields.io/badge/fases-5%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
 </div>
 
 > [!NOTE]
-> 🚧 **Estado actual:** la Fase 2 (búsqueda) está terminada. El alias `elastiflix-reloaded` apunta a
-> `elastiflix-reloaded-20261018-003535` y tiene 4 322 documentos. `elastiflix-search` ejecuta
-> full-text, k-NN e híbrida con filtros, facetas y paginación. Las consultas se vectorizan con
-> `input_type=search` y el prefijo `Query: `; las sinopsis, con `input_type=ingest` y sin prefijo.
-> La carga de archivos y las páginas siguen el plan. El avance está en
-> [`progreso/INDICE.md`](progreso/INDICE.md).
+> 🚧 **Estado actual:** la Fase 4 (interfaz web) está terminada. Las cuatro páginas se sirven en
+> http://localhost:8080 : Inicio, Resultados, Cargar datos y Acerca de. El alias
+> `elastiflix-reloaded` no se modifica al navegar: la aplicación solo lo lee. Los vectores de la
+> sinopsis se generan con inferencia. El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
 
 ---
 
@@ -212,8 +210,7 @@ elastiflix-reloaded/
 ## 🚀 Puesta en marcha
 
 > [!IMPORTANT]
-> Comandos ejecutados con éxito al cerrar la Fase 3. La Fase 4 documentará el arranque de las
-> páginas. La Fase 6 vuelve a verificar esta sección.
+> Comandos ejecutados con éxito al cerrar la Fase 4. La Fase 6 vuelve a verificar esta sección.
 
 **Prerrequisitos**
 
@@ -241,10 +238,12 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 ./mvnw verify -Pit -pl elastiflix-ingest -am     # integración de carga sobre elastiflix-it-<aleatorio>
 ./mvnw -q install -DskipTests
 ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
+./mvnw -pl elastiflix-web spring-boot:run
 ```
 
-El último comando migró el índice concreto al alias y, en una segunda ejecución, terminó con código 0
-sin cambiar nada. El alias quedó en `elastiflix-reloaded-20261018-003535`, con 4 322 documentos.
+La migración dejó el alias en `elastiflix-reloaded-20261018-003535`, con 4 322 documentos, y una
+segunda ejecución terminó con código 0 sin cambiar nada. `spring-boot:run` abre http://localhost:8080
+y solo lee ese alias.
 
 **Qué ya funciona**
 
@@ -254,15 +253,18 @@ sin cambiar nada. El alias quedó en `elastiflix-reloaded-20261018-003535`, con 
 - Recorte de un vector de 1024 a 512 y a 256, con norma 1.
 - Búsqueda de solo lectura sobre el alias: full-text (BM25), vectorial (k-NN) e híbrida (RRF),
   con los totales y posiciones de la tabla de verificación.
-- Filtros, facetas, paginación y los dos estados vacíos en `SearchService`. Las páginas llegan en
-  la Fase 4.
+- Filtros, facetas, paginación y los dos estados vacíos, en `SearchService` y en la página de
+  resultados.
 - Carga de un `.json` o un `.csv`: comprobación de nombre, tamaño y UTF-8, validación todo o nada
-  contra el mapping e informe de errores.
-- Importación al catálogo por un alias propio de prueba: índice temporal, lotes de 100, vectores
-  generados con inferencia, publicación en una sola llamada y vuelta atrás si falla o se cancela.
+  contra el mapping e informe de errores. Los vectores de la sinopsis se generan con inferencia;
+  si el archivo los trae, se ignoran.
+- Importación al catálogo por un alias propio de prueba: índice temporal, lotes de 100, publicación
+  en una sola llamada (el índice anterior se borra) y vuelta atrás si falla o se cancela.
 - Registro individual directo al alias, visible en la lectura siguiente.
-- Las páginas de carga llegan en la Fase 4. El texto del mockup «Los vectores del archivo se usan tal
-  cual» queda pendiente de corrección: los vectores siempre se generan.
+- Cuatro páginas: Inicio con los tres modos y sugerencias, Resultados, Cargar datos y Acerca de
+  (tabla de precisión y créditos de TMDB). `GET /actuator/health` incluye el indicador del catálogo.
+- Una excepción `EFX-*` no capturada muestra su código, y una ruta desconocida muestra un 404 con
+  navegación.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
 YAML: sus valores por defecto viven en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id
@@ -314,7 +316,7 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 | 1 | ⚙️ Núcleo: conexión, catálogo y embeddings | 🔒 | ✅ terminado |
 | 2 | 🔎 Búsqueda | 🔒 | ✅ terminado |
 | 3 | 📥 Carga de datos | 🔒 | ✅ terminado |
-| 4 | 🌐 Interfaz web | — | ⏳ no iniciado |
+| 4 | 🌐 Interfaz web | — | ✅ terminado |
 | 5 | 🧪 Pruebas integrales y smoke test | — | ⏳ no iniciado |
 | 6 | 📚 Documentación y cierre | — | ⏳ no iniciado |
 
@@ -355,6 +357,8 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos |
 | ⚙️ [`docs/diseno/1.md`](docs/diseno/1.md) | Diseño aprobado del núcleo y tabla de calibración |
 | 🔎 [`docs/diseno/2.md`](docs/diseno/2.md) | Diseño aprobado de la búsqueda |
+| 📥 [`docs/diseno/3.md`](docs/diseno/3.md) | Diseño aprobado de la carga |
+| 🌐 [`docs/diseno/4.md`](docs/diseno/4.md) | Diseño de la interfaz web |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice |
 | 🎨 [`design/README.md`](design/README.md) | Mockups y tokens de diseño |
 

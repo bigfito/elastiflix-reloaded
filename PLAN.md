@@ -948,7 +948,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   `elastiflix-web/src/test/resources/archunit.properties` (vuelve `archRule.failOnEmptyShould=true`) para
   que una regla con un patrón de paquete mal escrito no pase en silencio.
   - Criterio: `./mvnw verify` sigue en verde con `ArchitectureTest` y sin `archunit.properties`.
-- [ ] **4.8** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [x] **4.8** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/4.md` qué se
   actualizó.

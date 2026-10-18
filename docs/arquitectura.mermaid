@@ -4,7 +4,7 @@ flowchart LR
   subgraph app["Elastiflix-Movies Java · Spring Boot 4.1.1 · Java 25"]
     direction TB
     subgraph web["elastiflix-web"]
-      pages["Páginas Thymeleaf<br/>Inicio · Resultados · Cargar datos · Acerca de"]
+      pages["Páginas Thymeleaf<br/>Inicio · Resultados · Cargar datos · Acerca de<br/>error EFX-* · 404"]
       ctrl["Controladores MVC<br/>y ControllerAdvice"]
       health["Actuator /health<br/>indicador del catálogo"]
     end
