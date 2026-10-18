@@ -26,7 +26,7 @@ public final class CatalogTexts {
      *
      * @param alias nombre del alias
      * @param count documentos, o {@code null} si no hay conteo
-     * @return por ejemplo {@code Índice: elastiflix-reloaded · 4 322 películas}
+     * @return por ejemplo {@code Índice: elastiflix-reloaded · 6 899 películas}
      */
     public static String indexLine(String alias, Long count) {
         return "Índice: " + alias + " · " + movies(count);
@@ -49,7 +49,7 @@ public final class CatalogTexts {
      * Frase del conteo para Acerca de.
      *
      * @param count documentos, o {@code null} si no hay conteo
-     * @return por ejemplo {@code Tiene 4 322 películas.}
+     * @return por ejemplo {@code Tiene 6 899 películas.}
      */
     public static String moviePhrase(Long count) {
         if (count == null) {

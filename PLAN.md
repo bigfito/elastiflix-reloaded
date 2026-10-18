@@ -56,6 +56,12 @@
 búsqueda sobre el mismo catálogo de **4 322 películas**, acotar los resultados con filtros dinámicos y
 cargar nuevas películas sin dejar nunca el catálogo a medias.
 
+> **Catálogo vigente (2026-10-18 05:49 UTC).** El alias `elastiflix-reloaded` apunta a
+> `elastiflix-reloaded-20261018-054429` y tiene **6 899** documentos. Lo dejó la importación de
+> `movies.json`, aprobada por Adolfo, que reemplazó y borró `elastiflix-reloaded-20261018-003535`
+> (4 322 documentos). Los conteos de 4 322 de este plan son los de las verificaciones anteriores a
+> esa carga. `SmokeIT` y `CatalogStatusServiceIT` siguen afirmando 4 322.
+
 **Qué debe lograr.**
 
 | Capacidad | Resumen |
@@ -1041,7 +1047,8 @@ Criterio: Definición de Hecho completa.
   las fases cerradas.
 
 La evidencia de cada punto está en `progreso/6.md`. Las tareas de la Fase 6 están en `origin/main`
-(merge `eb309d9` del PR #7).
+(merge `eb309d9` del PR #7). El PR #8 (`22dac52`) registró esa fusión. Después se borraron las ramas
+remotas `cursor/*`. El catálogo vigente está en `progreso/INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 

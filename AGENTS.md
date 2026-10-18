@@ -41,9 +41,12 @@ cerrada, cambio de agente). **Al iniciar cualquier sesión, antes de escribir c�
 ## Qué es este proyecto
 
 **Elastiflix-Movies Java**: demo web que compara búsqueda **full-text (BM25)**, **vectorial (k-NN)** e
-**híbrida (RRF)** sobre 4 322 películas en el alias `elastiflix-reloaded` de **Elasticsearch
-Serverless**, con filtros dinámicos, paginación y carga segura de datos (.json/.csv). Java 25, Spring
-Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de Elasticsearch 9.x, Maven mono-repo con 4 módulos.
+**híbrida (RRF)** sobre 6 899 películas en el alias `elastiflix-reloaded` de **Elasticsearch
+Serverless** (índice `elastiflix-reloaded-20261018-054429`), con filtros dinámicos, paginación y carga
+segura de datos (.json/.csv). Java 25, Spring Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de
+Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. El plan está cerrado en `main`. Las
+verificaciones de las fases contaron 4 322 películas, el catálogo anterior a la importación del
+2026-10-18; `SmokeIT` y `CatalogStatusServiceIT` siguen con ese número.
 
 ## Regla de oro sobre el orden de trabajo
 
