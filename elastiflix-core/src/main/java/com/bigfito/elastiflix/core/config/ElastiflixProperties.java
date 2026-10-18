@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
  * @param ingest        tamaño de archivo y de lote
  * @param poster        prefijo del CDN de pósters
  * @param bootstrap     si la migración a alias debe ejecutarse
-     * @param embedding     cómo se vectorizan consultas y sinopsis
+ * @param embedding     cómo se vectorizan consultas y sinopsis
  */
 @ConfigurationProperties(prefix = "elastiflix")
 @Validated

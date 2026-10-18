@@ -245,10 +245,11 @@ elastiflix-reloaded/
 
   ```bash
   curl -sS -H "Authorization: ApiKey $ELASTICSEARCH_API_KEY" \
-    "$ELASTICSEARCH_URL/_inference/text_embedding/.jina-embeddings-v5-omni-small"
+    "$ELASTICSEARCH_URL/_inference/embedding/.jina-embeddings-v5-omni-small"
   ```
 
-  La referencia de esa API está en la
+  El modelo es de tipo `embedding`. El cliente Java pide los vectores con `TaskType.Embedding`.
+  `text_embedding` no es el tipo de este endpoint. La referencia de esa API está en la
   [operación Get inference](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-inference-get).
 - La API key necesita crear y borrar índices `elastiflix-*`, usar `_aliases`, `_reindex` e
   `_inference`, y escribir en esos índices. Cómo se declaran los privilegios:

@@ -115,10 +115,13 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 
 ## Reglas del dominio
 
-- Lectura siempre por el alias `elastiflix-reloaded` (configurable). Importación de archivo: índice
-  temporal `<alias>-<AAAAMMDD-HHMMSS>` y publicación en una sola llamada a `_aliases` (`add` al nuevo +
-  `remove_index` del anterior); si algo falla, se borra el temporal y nada más cambia. La limpieza de
-  huérfanos solo toca índices `<alias>-<AAAAMMDD-HHMMSS>` de su propio alias.
+- Lectura siempre por el alias `elastiflix-reloaded` (configurable). Importación: índice temporal
+  `<alias>-<AAAAMMDD-HHMMSS>`, copia con `_reindex` en segundo plano (`_tasks`) y publicación en una
+  sola llamada a `_aliases` (`add` al nuevo + `remove_index` del anterior). Si falla antes de publicar,
+  se borra el temporal. Si `publish` no confirma, `describe` decide: alias en el anterior borra el
+  temporal (`EFX-ES-004`); alias en el temporal se trata como publicado; si no se puede leer,
+  `EFX-IMP-006` y el temporal se deja. Al empezar a importar se suelta la lista de películas. La
+  limpieza de huérfanos solo toca índices `<alias>-<AAAAMMDD-HHMMSS>` de su propio alias.
 - Registro individual: directo al catálogo por el alias.
 - Un solo usuario a la vez (demo académica): sin controles de concurrencia.
 - Validación de cargas **todo o nada** contra `elasticsearch/elastiflix-reloaded-mapping.json`;
@@ -130,7 +133,8 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 - Pósters desde el CDN de TMDB (`elastiflix.poster.base-url` + `poster_path`); atribución de TMDB en el
   pie (solo texto) y en «Acerca de» › «Créditos» (texto + logo aprobado), ver `PLAN.md` §1.
 - Vectores: 1024 del modelo; 512 y 256 = primeros N valores renormalizados. Consultas: `input_type:
-  search` y prefijo `Query: `. Documentos: `input_type` y prefijo calibrados en la tarea 1.9. k-NN: `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`. RRF: `rank_constant 60`,
+  search` y prefijo `Query: `. Documentos: `input_type: ingest` y sin prefijo (calibración 1.9;
+  `Document: ` se midió y no se eligió). k-NN: `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`. RRF: `rank_constant 60`,
   `rank_window_size = k`. Full-text: `from + size ≤ 10 000`.
 - Facetas de Vectorial e Híbrida se calculan en la aplicación sobre los resultados devueltos.
 - Fechas en UTC; `release_date` `yyyy-MM-dd`. Interfaz en español, con los textos de los mockups.

@@ -668,7 +668,8 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
   - Criterio: prueba unitaria verifica 33 campos, `release_date` con formato `yyyy-MM-dd` y
     `plot_512` con 512 dimensiones.
 - [x] **1.6** `CatalogIndex` (gateway): resolver el índice detrás del alias, crear un índice con el
-  mapping, `_reindex` de un índice a otro, `refresh`, `_count`, publicar (en una sola llamada a
+  mapping, `_reindex` de un índice a otro (`wait_for_completion: false`; `ReindexTasks` espera la
+  tarea en `_tasks`), `refresh`, `_count`, publicar (en una sola llamada a
   `_aliases`: `add` del alias al índice nuevo y `remove_index` del anterior), borrar índice, comprobar si
   un nombre es alias o índice, listar índices `<alias>-*`, y leer documentos **con** sus vectores (en
   Serverless los `dense_vector` se excluyen de `_source` por defecto: usa `"_source": {"exclude_vectors": false}`).
@@ -686,8 +687,9 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
 - [x] **1.8** Migración del índice concreto a alias (`CatalogBootstrap`), idempotente, que corre con
   `elastiflix.bootstrap.enabled=true` (no requiere aprobación previa del usuario; decisión del 2026-10-17):
   1. Si `elastiflix-reloaded` ya es alias → no hace nada y lo registra.
-  2. Si es índice concreto → crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, reindexa y verifica que
-     el conteo coincida. Si no coincide, borra el índice nuevo y se detiene con su código.
+  2. Si es índice concreto → crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, reindexa (la copia se
+     sigue por `_tasks`) y verifica que el conteo coincida. Si la tarea falla, se detiene con
+     `EFX-ES-006`. Si el conteo no coincide, borra el índice nuevo y se detiene con `EFX-ES-003`.
   3. En una sola llamada a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice
      original.
   4. Al terminar, cierra el contexto de Spring y la aplicación sale con código 0 (o distinto de 0 si
@@ -827,8 +829,9 @@ nunca el catálogo a medias.
   - Criterio: pruebas unitarias aceptan `elastiflix-reloaded.json`, `peliculas_2026.csv` y rechazan
     `peliculas.txt`, `peliculas`, `peliculas.csv.exe`, `peliculas.exe.csv`, `peliculas.json.csv`, un
     archivo de 150 MB + 1 byte y uno con bytes no UTF-8, cada uno con su código `EFX-ING-*`.
-- [x] **3.2** `JsonMovieReader`: objeto de exportación, arreglo o NDJSON, en streaming con Jackson 3;
-  verifica `document_count` si viene.
+- [x] **3.2** `JsonDocuments`: objeto de exportación, arreglo o NDJSON, en streaming con Jackson 3;
+  verifica `document_count` si viene. La revisión 1 (R-14) eliminó `JsonMovieReader`. Las pruebas
+  viven en `JsonDocumentsTest`.
   - Criterio: lee las 4 películas de `elasticsearch/fixtures/movies-sample.json` y las mismas
     convertidas a arreglo y a NDJSON en las pruebas.
 - [x] **3.3** `CsvMovieReader`: BOM opcional, separador elegido (coma por defecto, `;`, tabulador),
@@ -859,11 +862,15 @@ nunca el catálogo a medias.
   - Criterio: prueba unitaria con `EmbeddingService` simulado verifica que se llama para todos los
     registros, incluso los que traen vectores, y que un fallo detiene la importación sin publicar.
 - [x] **3.6** `ImportJob`: crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, copia el
-  índice vigente (`_reindex`), escribe en lotes de 100 (`_id` = `id`, reemplaza si existe), revisa
-  cada respuesta `bulk`, `refresh`, verifica el conteo esperado (anterior + nuevos) y publica en **una
-  sola llamada** a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice anterior.
-  Ante un lote rechazado, un conteo que no cuadra, un fallo de inferencia o una cancelación: borra el
-  índice temporal y deja el alias y el índice anterior intactos. Al iniciar, limpia (con `WARN`) los
+  índice vigente (`_reindex` con `wait_for_completion: false` y espera en `_tasks`), escribe en lotes
+  de 100 (`_id` = `id`, reemplaza si existe), revisa cada respuesta `bulk`, `refresh`, verifica el
+  conteo esperado (anterior + nuevos) y publica en **una sola llamada** a `_aliases`: `add` del alias
+  al índice nuevo y `remove_index` del índice anterior. Ante un lote rechazado, un conteo que no
+  cuadra, un fallo de inferencia, una tarea de reindex que no termina o una cancelación: borra el
+  índice temporal y deja el alias y el índice anterior intactos. Si `publish` no confirma, `describe`
+  decide: alias en el anterior borra el temporal (`EFX-ES-004`); alias en el temporal cuenta como
+  publicado; si no se puede leer, `EFX-IMP-006` y el temporal se deja. Al empezar a importar, el
+  trabajo suelta la lista de películas. Al iniciar, limpia (con `WARN`) los
   índices huérfanos **de su propio alias**: los que cumplen exactamente `<alias>-<AAAAMMDD-HHMMSS>` y no
   están detrás del alias. Nunca toca índices con otro prefijo. Publica el progreso por el listener (paso
   1–5 del mockup, lote actual, registros vectorizados y escritos).
@@ -1064,14 +1071,24 @@ La evidencia de cada punto está en `progreso/6.md`. Las tareas de la Fase 6 est
 (merge `eb309d9` del PR #7). El PR #8 (`22dac52`) registró esa fusión. Después se borraron las ramas
 remotas `cursor/*`. El catálogo vigente está en `progreso/INDICE.md`.
 
-Revisión 1 (R-01 a R-30), en la rama `cursor/revision-1-29a6` y en el PR #10, que sigue en borrador:
+Revisión 1 (R-01 a R-30) está en `main`. El PR #10 se fusionó en `dc9a315`. La rama remota
+`cursor/revision-1-29a6` se borró. Esa corrida, antes de la fusión, dejó:
 
-- `./mvnw verify` terminó en BUILD SUCCESS el 2026-10-18 18:24 UTC (21 s): 187 pruebas unitarias,
-  0 fallos. Checkstyle y PMD en 0.
-- `./mvnw verify -Pit` terminó en BUILD SUCCESS el 2026-10-18 18:26 UTC (1 min 5 s): 187 unitarias y
-  27 de integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
+- `./mvnw verify` en BUILD SUCCESS el 2026-10-18 18:24 UTC (21 s): 187 pruebas unitarias, 0 fallos.
+  Checkstyle y PMD en 0.
+- `./mvnw verify -Pit` en BUILD SUCCESS el 2026-10-18 18:26 UTC (1 min 5 s): 187 unitarias y 27 de
+  integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
 - Después de esa corrida, el alias `elastiflix-reloaded` seguía en
   `elastiflix-reloaded-20261018-054429` con 6 899 documentos.
+
+La sincronización de documentación de 2026-10-18 volvió a medir:
+
+- `./mvnw verify` en BUILD SUCCESS el 2026-10-18 18:48 UTC (24 s): 187 unitarias, 0 fallos.
+  Checkstyle y PMD en 0.
+- `./mvnw verify -Pit` en BUILD SUCCESS el 2026-10-18 18:49 UTC (1 min 8 s): 187 unitarias y 27 de
+  integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
+- Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con
+  6 899 documentos.
 
 ## Variables de entorno (`.env.example`)
 

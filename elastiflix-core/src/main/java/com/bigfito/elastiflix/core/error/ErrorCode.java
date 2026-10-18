@@ -4,7 +4,7 @@ package com.bigfito.elastiflix.core.error;
  * Catálogo de códigos de error de Elastiflix.
  *
  * <p>Cada código explica qué pasó, la causa probable y la acción sugerida, para que quien use la
- * demo sepa cómo resolver o reportar la falla. Las fases posteriores agregan sus constantes aquí.</p>
+ * demo sepa cómo resolver o reportar la falla. Este enum es la lista completa.</p>
  */
 public enum ErrorCode {
 

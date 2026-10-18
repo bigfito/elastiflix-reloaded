@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** Revisión 1
-- **Estado de la fase:** en curso (R-01 a R-30 terminadas; el PR #10 sigue en borrador)
-- **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** Revisar el PR #10. Sigue en borrador.
-- **Última actualización:** 2026-10-18 18:32 UTC
+- **Fase actual:** sincronización de documentación (las fases 0 a 6 y la revisión 1 están cerradas)
+- **Estado de la fase:** en curso
+- **Rama:** `cursor/docs-sync-29a6` (desde `main` en `dc9a315`, fusión del PR #10)
+- **Próximo paso:** Revisar el PR en borrador de esta rama. No marcarlo listo ni fusionarlo.
+- **Última actualización:** 2026-10-18 18:49 UTC
 
 ## Fases
 
@@ -24,7 +24,7 @@
 | 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
 | 5 | Pruebas integrales y smoke test | — | terminado | `progreso/5.md` | 2026-10-18 en verde |
 | 6 | Documentación y cierre | — | terminado | `progreso/6.md` | 2026-10-18 en verde |
-| — | Revisión 1 | — | en curso | `progreso/revision-1.md` | `verify` y `verify -Pit` en verde el 2026-10-18 18:26 UTC. Adolfo Orozco aprobó las capturas de R-21. |
+| — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. |
 
 ## Aprobaciones del usuario
 
@@ -58,6 +58,7 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify -Pit`
-- **Resultado:** BUILD SUCCESS a las 06:20:36 UTC (1 min 4 s). 168 pruebas, 0 fallos: 141 unitarias y 27 de integración. Checkstyle 0. `SmokeIT` 4/4. La escritura usó `elastiflix-it-021b536192a8` y lo borró. El alias real siguió en `elastiflix-reloaded-20261018-054429` con 6899 documentos.
-- **Fecha:** 2026-10-18 06:20 UTC. La corrida anterior, de las 04:52 UTC, fue sobre `elastiflix-reloaded-20261018-003535` con 4322 documentos, antes de la importación de las 05:44 UTC.
+- **Comando:** `./mvnw verify` y `./mvnw verify -Pit`
+- **Resultado:** Los dos en BUILD SUCCESS. `verify` (2026-10-18 18:48 UTC, 24 s): 187 unitarias, 0 fallos, Checkstyle y PMD en 0. `verify -Pit` (2026-10-18 18:49 UTC, 1 min 8 s): 187 unitarias y 27 de integración, 0 fallos y 0 omitidas, Checkstyle y PMD en 0. Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con 6899 documentos.
+- **Fecha:** 2026-10-18 18:49 UTC.
+- **Corrida anterior:** 2026-10-18 06:20 UTC, `./mvnw verify -Pit`, 168 pruebas (141 unitarias y 27 de integración) sobre el mismo índice. La de las 04:52 UTC fue sobre `elastiflix-reloaded-20261018-003535` con 4322 documentos, antes de la importación de las 05:44 UTC.
