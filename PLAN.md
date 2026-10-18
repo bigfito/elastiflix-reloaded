@@ -834,7 +834,7 @@ nunca el catálogo a medias.
   Informe completo exportable a CSV (registro, id, campo, recibido, esperado).
   - Criterio: pruebas con variantes inválidas de los fixtures (creadas en `src/test/resources`) producen
     exactamente los errores esperados; los fixtures válidos producen 0 errores.
-- [ ] **3.5** Vectores: para **cada** registro (archivo o formulario), `plot_1024` se genera desde
+- [x] **3.5** Vectores: para **cada** registro (archivo o formulario), `plot_1024` se genera desde
   `plot` con `EmbeddingService` (servicio de inferencia de Elasticsearch, con el `input_type` y el
   prefijo calibrados en 1.9), en lotes, y `plot_512` y `plot_256` se derivan con `VectorProjector`. Los vectores del archivo se
   descartan. Si la inferencia falla, la importación se detiene con `EFX-EMB-*` y se aplica la vuelta
