@@ -854,7 +854,7 @@ nunca el catálogo a medias.
     misma llamada del swap), lote rechazado, conteo que no cuadra, fallo de inferencia, cancelación y
     limpieza de huérfanos; la limpieza con el alias `elastiflix-it-x7k2` nunca borra
     `elastiflix-reloaded-20261020-153000` ni el índice detrás de su alias.
-- [ ] **3.7** Registro individual: valida los campos del formulario (`id`, `title` y `plot`
+- [x] **3.7** Registro individual: valida los campos del formulario (`id`, `title` y `plot`
   obligatorios) con el mismo `MappingValidator`, genera los vectores y lo escribe **directamente en el
   catálogo** (a través del alias, `_id` = `id`, reemplaza si existe) con `refresh=wait_for` para que se
   vea en la siguiente búsqueda.
