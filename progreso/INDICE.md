@@ -10,8 +10,8 @@
 - **Fase actual:** 5
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (`cursor/fase-5-pruebas-29a6`)
-- **Próximo paso:** Tarea 5.2, tabla de cobertura de §1 y §6.
-- **Última actualización:** 2026-10-18 04:10 UTC
+- **Próximo paso:** Tarea 5.3, documentación y cierre de la fase. No empezar la Fase 6.
+- **Última actualización:** 2026-10-18 04:12 UTC
 
 ## Fases
 

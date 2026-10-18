@@ -978,7 +978,7 @@ arquitectura en verde; resumen de diseño y revisión de convenciones en `progre
   `elasticsearch/fixtures/movies-sample.csv` deja el paso 4 en «listo para empezar» con 0 errores y la
   advertencia de vectores ignorados (no importa).
   - Criterio: `./mvnw verify -Pit` en verde.
-- [ ] **5.2** Revisión de cobertura funcional: tabla en `progreso/5.md` que enlaza cada capacidad de §1
+- [x] **5.2** Revisión de cobertura funcional: tabla en `progreso/5.md` que enlaza cada capacidad de §1
   y cada fila de datos de verificación de §6 con la prueba que la cubre.
   - Criterio: ninguna capacidad sin prueba.
 - [ ] **5.3** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de fases,

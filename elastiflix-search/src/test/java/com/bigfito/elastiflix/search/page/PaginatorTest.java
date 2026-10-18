@@ -52,6 +52,17 @@ class PaginatorTest {
     }
 
     @Test
+    @DisplayName("50 y 100 también parten la lista")
+    void shouldSliceWhenThePageHasFiftyOrOneHundredRows() {
+        List<Integer> hits = IntStream.rangeClosed(1, 100).boxed().toList();
+
+        assertThat(paginator.slice(hits, 1, 50)).hasSize(50);
+        assertThat(paginator.describe(hits.size(), 1, 50).pageCount()).isEqualTo(2);
+        assertThat(paginator.slice(hits, 1, 100)).hasSize(100);
+        assertThat(paginator.describe(hits.size(), 1, 100).pageCount()).isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("sin resultados hay cero páginas")
     void shouldReportZeroPagesWhenTheTotalIsZero() {
         Pagination page = paginator.describe(0, 1, 25);

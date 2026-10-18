@@ -71,6 +71,14 @@ class SearchQueryValidatorTest {
     }
 
     @Test
+    @DisplayName("25, 50 y 100 pasan la validación")
+    void shouldAcceptTheThreePageSizes() {
+        assertThatCode(() -> validator.validate(sized(SearchQuery.PAGE_25))).doesNotThrowAnyException();
+        assertThatCode(() -> validator.validate(sized(SearchQuery.PAGE_50))).doesNotThrowAnyException();
+        assertThatCode(() -> validator.validate(sized(SearchQuery.PAGE_100))).doesNotThrowAnyException();
+    }
+
+    @Test
     @DisplayName("el tamaño de página solo puede ser 25, 50 o 100")
     void shouldRejectWhenThePageSizeIsNotAllowed() {
         SearchQuery query = new SearchQuery(
@@ -135,6 +143,11 @@ class SearchQueryValidatorTest {
                     assertThat(error.errorCode()).isEqualTo(code);
                     assertThat(error).hasMessageContaining(whatHappened);
                 });
+    }
+
+    private static SearchQuery sized(int pageSize) {
+        return new SearchQuery("titanic", SearchMode.FULL_TEXT, matchTitle(), null,
+                SearchFilters.none(), 1, pageSize);
     }
 
     private static SearchQuery fullText(String text) {
