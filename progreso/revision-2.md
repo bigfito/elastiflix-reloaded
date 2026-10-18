@@ -14,13 +14,13 @@
 
 ## Estado general
 
-terminada (PR hacia `main` abierto)
+terminada (PR #13 hacia `main` abierto)
 
 ## Punto de reanudación
 
 - **Tarea actual:** ninguna; S-01 a S-27 terminadas
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** Adolfo revisa y fusiona el PR de `revision-2` hacia `main`.
+- **Próximo paso:** Adolfo revisa y fusiona el PR #13 (`revision-2` → `main`).
 - **Última actualización:** 2026-10-18 23:06 UTC
 
 ## Tareas

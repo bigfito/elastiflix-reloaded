@@ -8,12 +8,12 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 2 — 27 correcciones (`S-01` … `S-27`) de la segunda revisión de `main` en `41c1188`
-- **Estado de la fase:** terminada; PR hacia `main` abierto (Claude Code)
+- **Estado de la fase:** terminada; PR #13 hacia `main` abierto (Claude Code)
 - **Rama:** `revision-2`, creada desde `main` en `3d0b8ff`
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** Adolfo revisa y fusiona el PR de `revision-2` hacia `main`. S-01 a S-27 terminadas;
+- **Próximo paso:** Adolfo revisa y fusiona el PR #13 (`revision-2` → `main`). S-01 a S-27 terminadas;
   `./mvnw verify` y `./mvnw verify -Pit` en verde.
 - **Última actualización:** 2026-10-18 23:06 UTC
 
@@ -31,7 +31,7 @@
 | — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. Nueve R quedaron incompletas y continúan en la revisión 2. |
 | — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
 | — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
-| — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. PR hacia `main` abierto. |
+| — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. PR #13 hacia `main` abierto. |
 
 ## Aprobaciones del usuario
 
