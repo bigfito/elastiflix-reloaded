@@ -154,6 +154,7 @@ final class ImportWork {
         batch = progress.batch();
         vectorized = progress.vectorized();
         written = progress.written();
+        replaceCount = progress.replaced();
     }
 
     synchronized void become(JobStatus next) {
@@ -185,7 +186,7 @@ final class ImportWork {
                 fileCount,
                 replaceCount,
                 preview(report.errors()),
-                report.warnings(),
+                report.groupedWarnings(),
                 failureCode,
                 JobFigures.failureMessage(failureCode),
                 JobFigures.checks(errors, fileCount),

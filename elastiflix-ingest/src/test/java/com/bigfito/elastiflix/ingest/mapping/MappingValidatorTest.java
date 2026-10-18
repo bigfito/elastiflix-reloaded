@@ -115,10 +115,52 @@ class MappingValidatorTest {
 
         String csv = new ValidationReport(List.of(issue, warning)).toErrorCsv();
 
-        assertThat(csv).isEqualTo("""
+        assertThat(csv).isEqualTo("\uFEFF" + """
                 registro,id,campo,recibido,esperado
                 1,7,plot,"hola, mundo",un texto
                 """);
+    }
+
+    @Test
+    @DisplayName("una celda que parece fórmula lleva apóstrofo")
+    void shouldNeutralizeFormulaCells() {
+        ValidationIssue issue = new ValidationIssue(
+                ErrorCode.TYPE_MISMATCH.code(), "=1", "+2", "-3", "@4", "un texto", false);
+
+        String csv = new ValidationReport(List.of(issue)).toErrorCsv();
+
+        assertThat(csv).contains("'=1,'+2,'-3,'@4,un texto");
+    }
+
+    @Test
+    @DisplayName("las advertencias del estado se agrupan por código y campo")
+    void shouldGroupWarningsByCodeAndField() {
+        ValidationIssue first = new ValidationIssue(
+                ErrorCode.EMPTY_TEXT.code(), "1", "7", "tagline", "", "sin valor", true);
+        ValidationIssue second = new ValidationIssue(
+                ErrorCode.EMPTY_TEXT.code(), "2", "8", "tagline", "", "sin valor", true);
+        ValidationIssue other = new ValidationIssue(
+                ErrorCode.EMPTY_LIST_VALUE.code(), "2", "8", "genres", "", "se omite", true);
+
+        assertThat(new ValidationReport(List.of(first, second, other)).groupedWarnings())
+                .containsExactly(
+                        new WarningCount(ErrorCode.EMPTY_TEXT.code(), "tagline", 2, "sin valor"),
+                        new WarningCount(ErrorCode.EMPTY_LIST_VALUE.code(), "genres", 1, "se omite"));
+    }
+
+    @Test
+    @DisplayName("un id con espacio se busca con ese mismo texto")
+    void shouldKeepTheSpaceInsideAnId() {
+        JsonNode documents = MAPPER.readTree("""
+                [{"id":" 7","title":"Una","plot":"texto"}]
+                """);
+        JsonNode id = children(documents).getFirst().get("id");
+
+        ValidatedMovies result = validator.validate(children(documents), Set.of(IdTexts.of(id)));
+
+        assertThat(IdTexts.of(id)).isEqualTo(" 7");
+        assertThat(result.replaceCount()).isEqualTo(1);
+        assertThat(result.movies().getFirst().id()).isEqualTo(" 7");
     }
 
     private static Stream<Arguments> invalidFiles() {

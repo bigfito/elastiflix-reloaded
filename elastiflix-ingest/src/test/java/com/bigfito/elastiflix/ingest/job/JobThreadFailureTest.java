@@ -78,6 +78,20 @@ class JobThreadFailureTest {
         assertThat(store.require(jobId).movies()).isEmpty();
     }
 
+    @Test
+    @DisplayName("el avance de un trabajo no se anota en otro")
+    void shouldKeepProgressOnTheJobThatMoved() throws Exception {
+        JobStore store = new JobStore();
+        String first = store.open("a.json", temp(), CsvSettings.withHeader());
+        String second = store.open("b.json", temp(), CsvSettings.withHeader());
+        store.onProgress(first, new ImportProgress(4, 1, 3, 3, 1));
+
+        assertThat(store.view(first).written()).isEqualTo(3);
+        assertThat(store.view(first).vectorized()).isEqualTo(3);
+        assertThat(store.view(first).replaceCount()).isEqualTo(1);
+        assertThat(store.view(second).written()).isZero();
+    }
+
     private static Path temp() throws Exception {
         return Files.createTempFile("elastiflix-job-", ".json");
     }

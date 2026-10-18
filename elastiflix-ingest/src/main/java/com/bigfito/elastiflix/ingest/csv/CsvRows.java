@@ -91,10 +91,30 @@ final class CsvRows implements AutoCloseable {
             if (ch == QUOTE && !escapedQuote(text)) {
                 return text.toString();
             }
-            if (ch != QUOTE) {
-                text.append((char) ch);
-            }
+            appendChar(text, ch);
         }
+    }
+
+    private void appendChar(StringBuilder text, int ch) {
+        if (ch == QUOTE) {
+            return;
+        }
+        if (ch == CR) {
+            text.append(breakChar());
+            return;
+        }
+        text.append((char) ch);
+    }
+
+    private char breakChar() {
+        int next = read();
+        if (next == LF) {
+            return LF;
+        }
+        if (next >= 0) {
+            unread(next);
+        }
+        return CR;
     }
 
     private boolean escapedQuote(StringBuilder text) {

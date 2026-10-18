@@ -282,7 +282,8 @@
         vectors = true;
         return;
       }
-      lines.push((issue.field || "") + ": " + (issue.expected || issue.received || ""));
+      var times = issue.count > 1 ? " (" + issue.count + ")" : "";
+      lines.push((issue.field || "") + ": " + (issue.message || issue.expected || "") + times);
     });
     if (vectors) {
       lines.unshift("El archivo trae plot_256, plot_512 y plot_1024: se ignorarán y se generarán con el servicio de inferencia.");

@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
@@ -30,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -88,6 +90,27 @@ class ImportJobTest {
         verify(catalog, never()).deleteIndex(LIVE);
         verify(catalog, never()).deleteIndex(temp);
         assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 5);
+    }
+
+    @Test
+    @DisplayName("el reemplazo se cuenta en la copia y el aviso sale antes de escribir")
+    void shouldCountReplacementsOnTheCopyBeforeWriting() {
+        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        when(catalog.existingIds(eq(temp), anyList())).thenReturn(Set.of("1"));
+        when(catalog.count(temp)).thenReturn(4L, 4L);
+        when(catalog.count(LIVE)).thenReturn(4L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+        doAnswer(invocation -> {
+            assertThat(progress).singleElement()
+                    .extracting(ImportProgress::vectorized, ImportProgress::written)
+                    .containsExactly(1, 1);
+            return null;
+        }).when(catalog).writeAll(eq(temp), anyList());
+
+        job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
+
+        verify(catalog).publish(ALIAS, temp, LIVE);
     }
 
     @Test

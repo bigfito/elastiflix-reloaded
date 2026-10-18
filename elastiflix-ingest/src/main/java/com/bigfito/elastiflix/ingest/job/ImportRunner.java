@@ -45,7 +45,7 @@ public final class ImportRunner {
                     properties.index().alias(),
                     source,
                     counts,
-                    store,
+                    progress -> store.onProgress(jobId, progress),
                     work.cancelledFlag());
             store.published(jobId);
         } catch (ElastiflixException exception) {

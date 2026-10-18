@@ -10,8 +10,8 @@
 - **Fase actual:** Revisión 1
 - **Estado de la fase:** en curso
 - **Rama:** `cursor/revision-1-29a6`
-- **Próximo paso:** R-28, detalles de la ingesta
-- **Última actualización:** 2026-10-18 18:00 UTC
+- **Próximo paso:** R-29, detalles de la web
+- **Última actualización:** 2026-10-18 18:09 UTC
 
 ## Fases
 

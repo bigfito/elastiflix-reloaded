@@ -10,6 +10,7 @@ import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
+import com.bigfito.elastiflix.ingest.mapping.IdTexts;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
@@ -106,11 +107,8 @@ public final class FileIntake {
     }
 
     private static void addId(List<String> ids, JsonNode id) {
-        if (id == null || id.isNull()) {
-            return;
-        }
-        String text = id.asString().trim();
-        if (!text.isEmpty()) {
+        String text = IdTexts.of(id);
+        if (text != null) {
             ids.add(text);
         }
     }

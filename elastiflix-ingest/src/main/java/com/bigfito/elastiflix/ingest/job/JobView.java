@@ -3,6 +3,7 @@ package com.bigfito.elastiflix.ingest.job;
 import java.util.List;
 
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
+import com.bigfito.elastiflix.ingest.mapping.WarningCount;
 
 /**
  * Copia del trabajo que puede leer la página. No cambia si el trabajo sigue.
@@ -16,7 +17,7 @@ import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
  * @param fileCount    registros del archivo
  * @param replaceCount ids que reemplazan un documento ya copiado
  * @param errors       como mucho los primeros 6 errores
- * @param warnings        todas las advertencias
+ * @param warnings        advertencias agrupadas por código y campo
  * @param failureCode     código de la excepción, o vacío si no falló
  * @param failureMessage  mensaje de ese código, o vacío
  * @param checks          comprobaciones superadas; vacío si la carga no está lista
@@ -34,7 +35,7 @@ public record JobView(
         int fileCount,
         int replaceCount,
         List<ValidationIssue> errors,
-        List<ValidationIssue> warnings,
+        List<WarningCount> warnings,
         String failureCode,
         String failureMessage,
         List<String> checks,

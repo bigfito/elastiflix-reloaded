@@ -95,6 +95,24 @@ class JsonDocumentsTest {
                 .isEqualTo(ErrorCode.UNREADABLE_JSON);
     }
 
+    @Test
+    @DisplayName("lo que sigue al primer valor JSON se rechaza")
+    void shouldRejectContentAfterTheFirstValue() throws Exception {
+        Path array = folder.resolve("sobra-arreglo.json");
+        Path export = folder.resolve("sobra-exportacion.json");
+        Files.writeString(array, "[{\"id\":1}] {\"id\":2}");
+        Files.writeString(export, "{\"documents\":[]} true");
+
+        assertThatThrownBy(() -> reader.read(array))
+                .isInstanceOf(IngestValidationException.class)
+                .extracting(thrown -> ((IngestValidationException) thrown).errorCode())
+                .isEqualTo(ErrorCode.UNREADABLE_JSON);
+        assertThatThrownBy(() -> reader.read(export))
+                .isInstanceOf(IngestValidationException.class)
+                .extracting(thrown -> ((IngestValidationException) thrown).errorCode())
+                .isEqualTo(ErrorCode.UNREADABLE_JSON);
+    }
+
     private Path writeArray(JsonNode documents) {
         Path file = folder.resolve("arreglo.json");
         mapper.writeValue(file.toFile(), documents);

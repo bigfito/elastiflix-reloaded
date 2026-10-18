@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.ingest.csv;
 
 import java.io.StringReader;
+import java.util.List;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
@@ -8,6 +9,7 @@ import com.bigfito.elastiflix.core.error.IngestValidationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
@@ -24,5 +26,13 @@ class CsvRowsTest {
                 .isInstanceOf(IngestValidationException.class)
                 .extracting(thrown -> ((IngestValidationException) thrown).errorCode())
                 .isEqualTo(ErrorCode.UNREADABLE_CSV);
+    }
+
+    @Test
+    @DisplayName("un salto de Windows dentro de comillas queda en un salto")
+    void shouldTurnQuotedCrLfIntoLf() {
+        CsvRows rows = new CsvRows(new StringReader("\"linea\r\nsigue\"\n"), ',');
+
+        assertThat(rows.nextRow()).contains(List.of("linea\nsigue"));
     }
 }
