@@ -56,7 +56,8 @@ public interface CatalogIndex {
     /**
      * Publica el alias en una sola llamada: lo agrega al índice nuevo y borra el anterior.
      *
-     * <p>Pide {@code master_timeout} y {@code timeout} de 10 s, por debajo del socket-timeout del cliente.
+     * <p>Pide {@code timeout} de 10 s, por debajo del socket-timeout del cliente ({@code master_timeout} no existe
+     * en Serverless).
      * Si falla, la causa dice si fue un rechazo 4xx o un corte que pudo dejar la operación aplicada.</p>
      *
      * @param alias         alias del catálogo

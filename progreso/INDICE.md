@@ -13,9 +13,9 @@
 - **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
   problema, corrección y criterio de cada una)
 - **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** S-18 y S-19, que necesitan el `.env` (ver «Bloqueos» de `progreso/revision-2.md`). S-01 a
-  S-17 y S-20 a S-27 terminadas.
-- **Última actualización:** 2026-10-19 03:45 UTC
+- **Próximo paso:** S-18: capturas con datos reales y confirmación visual de Adolfo; después S-19 (ver
+  `progreso/revision-2.md`). S-01 a S-17 y S-20 a S-27 terminadas; `./mvnw verify -Pit` en verde.
+- **Última actualización:** 2026-10-19 23:00 UTC
 
 ## Fases
 

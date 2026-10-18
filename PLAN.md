@@ -703,7 +703,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
      sigue por `_tasks`) y verifica que el conteo coincida. Si la tarea falla, se detiene con
      `EFX-ES-006`. Si el conteo no coincide, borra el índice nuevo y se detiene con `EFX-ES-003`.
   3. En una sola llamada a `_aliases`: `add` del alias al índice nuevo y `remove_index` del índice
-     original, con `master_timeout` y `timeout` de 10 s. Si esa llamada falla, `describe` decide:
+     original, con `timeout` de 10 s (Serverless no acepta `master_timeout`). Si esa llamada falla, `describe` decide:
      alias en el índice nuevo cuenta como publicada; un rechazo 4xx con el nombre todavía índice
      concreto borra el nuevo y responde `EFX-ES-004`; en cualquier otro caso (corte, 5xx, no se puede
      leer, el alias no quedó ahí), `EFX-IMP-006` y el índice nuevo se deja.

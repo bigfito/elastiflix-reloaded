@@ -38,7 +38,10 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
 
     private static final int NOT_FOUND = 404;
 
-    /** Tope de {@code _aliases}, por debajo del socket-timeout de 30 s del cliente. */
+    /**
+     * Tope de {@code _aliases}, por debajo del socket-timeout de 30 s del cliente. Solo {@code timeout}:
+     * Serverless rechaza {@code master_timeout} («not permitted when running in serverless mode»).
+     */
     private static final String PUBLISH_LIMIT = "10s";
     private static final Logger LOG = LoggerFactory.getLogger(ElasticsearchCatalogIndex.class);
 
@@ -110,7 +113,6 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     public void publish(String alias, String newIndex, String previousIndex) {
         call(alias, () -> {
             client.indices().updateAliases(request -> request
-                    .masterTimeout(limit -> limit.time(PUBLISH_LIMIT))
                     .timeout(limit -> limit.time(PUBLISH_LIMIT))
                     .actions(CatalogRequests.add(alias, newIndex), CatalogRequests.remove(previousIndex)));
             return null;
