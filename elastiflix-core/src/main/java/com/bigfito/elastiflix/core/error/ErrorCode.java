@@ -140,7 +140,31 @@ public enum ErrorCode {
     PAGE_TOO_SMALL("EFX-SRCH-011",
             "La página debe ser un entero mayor o igual que 1",
             "La página es menor que 1",
-            "Empieza en la página 1");
+            "Empieza en la página 1"),
+
+    /** El nombre no termina en {@code .json} ni en {@code .csv}. */
+    BAD_EXTENSION("EFX-ING-001",
+            "La extensión no es .json ni .csv",
+            "El nombre no tiene punto, o el sufijo es otro",
+            "Elige un archivo .json o .csv"),
+
+    /** El nombre tiene más de un punto. */
+    DOUBLE_EXTENSION("EFX-ING-002",
+            "El archivo tiene más de una extensión",
+            "El nombre tiene más de un punto",
+            "Renombra el archivo para que solo termine en .json o .csv"),
+
+    /** El archivo pesa más que el límite configurado. */
+    FILE_TOO_LARGE("EFX-ING-003",
+            "El archivo supera el tamaño máximo",
+            "Pesa más que el límite configurado",
+            "Parte el archivo o súbelo por debajo del límite"),
+
+    /** Hay bytes que no son UTF-8. */
+    INVALID_UTF8("EFX-ING-004",
+            "El archivo no es texto UTF-8",
+            "Hay bytes que no decodifican como UTF-8",
+            "Guarda el archivo como UTF-8 y vuelve a subirlo");
 
     private final String code;
     private final String whatHappened;

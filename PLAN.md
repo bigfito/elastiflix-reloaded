@@ -802,7 +802,7 @@ nunca el catálogo a medias.
   - un CSV **sin encabezado se rechaza**;
   - `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución con el servicio de
     inferencia; los vectores que traiga el archivo se ignoran.
-- [ ] **3.1** Comprobaciones del archivo (las mismas que hace el navegador, repetidas en el servidor):
+- [x] **3.1** Comprobaciones del archivo (las mismas que hace el navegador, repetidas en el servidor):
   solo `.json`/`.csv`, sin dobles extensiones, máximo 150 MB, contenido UTF-8 válido (con o sin BOM).
   Límites de multipart y de Tomcat según §7 (`max-file-size` 150 MB, `max-request-size` 151 MB,
   `max-swallow-size` -1), para que un archivo de más de 150 MB reciba su `EFX-ING-*` y no un corte de

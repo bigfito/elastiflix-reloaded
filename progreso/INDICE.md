@@ -8,10 +8,10 @@
 ## Punto de reanudación
 
 - **Fase actual:** 3
-- **Estado de la fase:** esperando aprobación de diseño
-- **Herramienta prevista:** Cursor (rama `cursor/fase-3-diseno-29a6`)
-- **Próximo paso:** No escribir código. Esperar la aprobación de `docs/diseno/3.md`. No empezar la tarea 3.1.
-- **Última actualización:** 2026-10-18 02:01 UTC
+- **Estado de la fase:** en curso
+- **Herramienta prevista:** Cursor (rama `cursor/fase-3-diseno-29a6`, PR #4)
+- **Próximo paso:** Tarea 3.2, `JsonMovieReader`.
+- **Última actualización:** 2026-10-18 02:10 UTC
 
 ## Fases
 
@@ -20,7 +20,7 @@
 | 0 | Andamiaje y calidad | — | terminado | `progreso/0.md` | 2026-10-17 en verde |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | terminado | `progreso/1.md` | 2026-10-18 en verde |
 | 2 | Búsqueda | 🔒 | terminado | `progreso/2.md` | 2026-10-18 en verde |
-| 3 | Carga de datos | 🔒 | esperando aprobación de diseño | `progreso/3.md` | — |
+| 3 | Carga de datos | 🔒 | en curso | `progreso/3.md` | — |
 | 4 | Interfaz web | — | no iniciado | `progreso/4.md` | — |
 | 5 | Pruebas integrales y smoke test | — | no iniciado | `progreso/5.md` | — |
 | 6 | Documentación y cierre | — | no iniciado | `progreso/6.md` | — |
@@ -37,9 +37,14 @@
 | 2026-10-18 | Diseño de la Fase 2 y sus seis supuestos | Adolfo aprobó `docs/diseno/2.md` tal cual: la búsqueda habla con Elasticsearch solo por `SearchTransport`; vectorial e híbrida piden `k` y parten la página en la aplicación; el estado vacío no cuenta el catálogo entero; una página fuera del total pero dentro de la ventana no es un error; las etiquetas «Todos», «Solo no adultos» y «Ver todos» llegan en la Fase 4; «fuera de su top» usa el `k` real. |
 | 2026-10-18 | Fila full-text `Kolejne 365 dni` | Adolfo aceptó OR 1 · AND 0 como resultado esperado del `match` sobre `title`. El token `365` coincide con «The Next 365 Days» (`829560`). |
 | 2026-10-18 | Fase 2 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 2. El PR #3 quedó fusionado en `main` (merge commit `6d98bb9`). |
+| 2026-10-18 | Diseño de la Fase 3 y sus supuestos | Adolfo aprobó `docs/diseno/3.md` tal cual. Incluye borrar el índice anterior al publicar, el registro individual directo al alias, sin controles de concurrencia, rechazar un CSV sin encabezado y generar siempre los vectores con inferencia. |
+
+## Pendiente para la Fase 4
+
+- Corregir en el mockup `design/mockups/Ingest.dc.html` el texto «Los vectores del archivo se usan tal cual». Los vectores siempre se generan con el servicio de inferencia; si el archivo los trae, se ignoran con advertencia.
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify` y `./mvnw verify -Pit -pl elastiflix-search -am`
-- **Resultado:** BUILD SUCCESS en los dos. Checkstyle: 0 violaciones. PMD en verde. `ArchitectureTest`: 7 pruebas, 0 fallos. Integración de search: `FullTextSearchIT` 8, `VectorSearchIT` 4 y `HybridSearchIT` 2, todas con 0 fallos.
-- **Fecha:** 2026-10-18 01:51 UTC
+- **Comando:** `./mvnw -pl elastiflix-ingest,elastiflix-web -am verify`
+- **Resultado:** BUILD SUCCESS. `FileCheckerTest` 8, `MultipartLimitsTest` 1, Checkstyle 0, PMD en verde. No se usó el perfil `it` ni el catálogo real.
+- **Fecha:** 2026-10-18 02:10 UTC
