@@ -7,11 +7,11 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 1
-- **Estado de la fase:** terminado
-- **Herramienta prevista:** Cursor (rama `cursor/fase-1-diseno-29a6`)
-- **Próximo paso:** Ninguno en esta fase. La siguiente sesión empieza por la tarea 2.0 (diseño en `docs/diseno/2.md`) y se detiene hasta la aprobación. Esta sesión no la inicia.
-- **Última actualización:** 2026-10-18 00:58 UTC
+- **Fase actual:** 2
+- **Estado de la fase:** esperando aprobación de diseño
+- **Herramienta prevista:** Cursor (rama `cursor/fase-2-diseno-29a6`)
+- **Próximo paso:** No escribir código. Esperar la aprobación de `docs/diseno/2.md`. Si se aprueba, empezar la tarea 2.1. Si se piden cambios, actualizar el diseño y volver a pedir aprobación.
+- **Última actualización:** 2026-10-18 01:10 UTC
 
 ## Fases
 
@@ -19,7 +19,7 @@
 |---|---|---|---|---|---|
 | 0 | Andamiaje y calidad | — | terminado | `progreso/0.md` | 2026-10-17 en verde |
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | terminado | `progreso/1.md` | 2026-10-18 en verde |
-| 2 | Búsqueda | 🔒 | no iniciado | `progreso/2.md` | — |
+| 2 | Búsqueda | 🔒 | esperando aprobación de diseño | `progreso/2.md` | — |
 | 3 | Carga de datos | 🔒 | no iniciado | `progreso/3.md` | — |
 | 4 | Interfaz web | — | no iniciado | `progreso/4.md` | — |
 | 5 | Pruebas integrales y smoke test | — | no iniciado | `progreso/5.md` | — |
@@ -33,6 +33,7 @@
 | 2026-10-17 | Visto bueno del plan e inicio de la Fase 0 | Adolfo (bigfito) pidió explícitamente ejecutar la Fase 0. El agente de Cursor arranca por la tarea 0.1. |
 | 2026-10-17 | Fase 0 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 0. El PR #1 quedó fusionado en `main` (merge commit `275478f`). |
 | 2026-10-18 | Diseño de la Fase 1 y sus cinco supuestos | Adolfo aprobó `docs/diseno/1.md` tal cual: lotes de 16, no crear catálogo vacío, `belongs_to_collection` como objeto, códigos de otras fases más tarde y tabla de calibración vacía hasta la tarea 1.9. |
+| 2026-10-18 | Fase 1 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 1. El PR #2 quedó fusionado en `main` (merge commit `b85555b`). |
 
 ## Última verificación
 

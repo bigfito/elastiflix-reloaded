@@ -724,7 +724,7 @@ Criterio: todas las pruebas en verde; alias `elastiflix-reloaded` operativo con 
 **Objetivo:** `elastiflix-search` ejecuta los tres modos con filtros, facetas, paginación y
 puntuaciones, y reproduce los datos de verificación de §6.
 
-- [ ] **2.0** 🔒 Diseño: `docs/diseno/2.md` (estrategias por modo, construcción de peticiones,
+- [x] **2.0** 🔒 Diseño: `docs/diseno/2.md` (estrategias por modo, construcción de peticiones,
   `_msearch` de la híbrida, cálculo de facetas, paginación, estados vacíos). Commit y **detente** hasta
   la aprobación del usuario.
 - [ ] **2.1** Modelo de entrada en `search/.../search/query/`: `SearchQuery` con texto, modo y ajustes
