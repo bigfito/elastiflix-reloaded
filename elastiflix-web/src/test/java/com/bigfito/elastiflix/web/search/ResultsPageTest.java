@@ -67,6 +67,7 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("alt=\"Titanic\"")))
                 .andExpect(content().string(containsString("pagina=1")))
                 .andExpect(content().string(containsString("tamano=50")))
+                .andExpect(content().string(containsString("tamano=100")))
                 .andExpect(content().string(containsString("APLICAR")))
                 .andExpect(content().string(containsString("Tienes cambios sin aplicar.")))
                 .andExpect(content().string(containsString("Ver todos los géneros")));
