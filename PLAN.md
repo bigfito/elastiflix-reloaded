@@ -944,7 +944,7 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
 - [x] **4.6** Errores: `@ControllerAdvice` muestra una página con el código `EFX-*` y el mensaje del
   catálogo; 404 propio con navegación.
   - Criterio: pruebas MockMvc para `ElastiflixException` y ruta inexistente.
-- [ ] **4.7** Ya hay clases en los cuatro módulos: borra
+- [x] **4.7** Ya hay clases en los cuatro módulos: borra
   `elastiflix-web/src/test/resources/archunit.properties` (vuelve `archRule.failOnEmptyShould=true`) para
   que una regla con un patrón de paquete mal escrito no pase en silencio.
   - Criterio: `./mvnw verify` sigue en verde con `ArchitectureTest` y sin `archunit.properties`.

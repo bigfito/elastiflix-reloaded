@@ -10,8 +10,8 @@
 - **Fase actual:** 4
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (`cursor/fase-4-interfaz-29a6`)
-- **Próximo paso:** Tarea 4.7, quitar `archunit.properties`.
-- **Última actualización:** 2026-10-18 03:28 UTC
+- **Próximo paso:** Tarea 4.8, documentación y cierre de la interfaz.
+- **Última actualización:** 2026-10-18 03:30 UTC
 
 ## Fases
 
