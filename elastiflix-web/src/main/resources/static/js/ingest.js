@@ -52,6 +52,7 @@
     document.getElementById("file-hint").textContent = csv
       ? "Texto UTF-8 (con o sin BOM), una película por fila y la primera fila con los nombres de columna. Las listas y los objetos anidados van como JSON dentro de la celda; los textos pueden tener saltos de línea entre comillas."
       : "El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.";
+    document.getElementById("drop-only").textContent = csv ? "Solo .csv" : "Solo .json";
     input.setAttribute("accept", csv ? ".csv,text/csv" : ".json,application/json");
   }
 
@@ -173,6 +174,7 @@
         show(document.getElementById("file-block"), false);
         jobId = result.data.jobId;
         show(document.getElementById("job"), true);
+        show(document.getElementById("job-import-card"), true);
         document.getElementById("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
         poll();
       })
@@ -218,7 +220,7 @@
       var state = stepState(index, job);
       item.className = "is-" + state;
       item.querySelector(".mark").textContent = marks[state] || String(index);
-      item.querySelector("em").textContent = "· " + labels[state];
+      item.querySelector(".state").textContent = "· " + labels[state];
     });
   }
 
@@ -315,7 +317,7 @@
     var cancel = document.getElementById("job-cancel");
     var ready = job.status === "valido";
     button.disabled = !ready;
-    button.textContent = ready ? "Importar " + job.fileCount + " registros" : "Importación bloqueada";
+    document.getElementById("job-import-label").textContent = ready ? "Importar " + job.fileCount + " registros" : "Importación bloqueada";
     cancel.disabled = job.status !== "valido" && job.status !== "importando";
     var max = job.fileCount || 0;
     var bar = document.getElementById("progress");
