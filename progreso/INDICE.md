@@ -10,8 +10,8 @@
 - **Fase actual:** 2
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-2-diseno-29a6`)
-- **Próximo paso:** Tarea 2.2: traducir `SearchFilters` a cláusulas de filtro.
-- **Última actualización:** 2026-10-18 01:15 UTC
+- **Próximo paso:** Tarea 2.3: estrategia full-text y `FullTextSearchIT`.
+- **Última actualización:** 2026-10-18 01:16 UTC
 
 ## Fases
 

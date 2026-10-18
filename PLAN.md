@@ -735,7 +735,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
     un mensaje para esa regla, el «qué pasó» del código es ese texto (por ejemplo «num_candidates debe ser
     mayor o igual que k»): la interfaz lo muestra junto al campo, tal como en el mockup, y el código
     completo va al log y a la página de error (tarea 4.6).
-- [ ] **2.2** `SearchFilters` → cláusulas de filtro: entre filtros distintos AND; dentro de un filtro OR
+- [x] **2.2** `SearchFilters` → cláusulas de filtro: entre filtros distintos AND; dentro de un filtro OR
   (`terms`); `release_date` como `range` con `gte`/`lte`; `adult` booleano.
   - Criterio: pruebas unitarias comparan el JSON generado con el esperado para cada filtro y su
     combinación.
