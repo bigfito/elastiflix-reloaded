@@ -759,7 +759,7 @@ puntuaciones, y reproduce los datos de verificación de §6.
   puntuación RRF.
   - Criterio: `HybridSearchIT`: para cada resultado, `RRF = Σ 1 / (60 + posición)` con tolerancia 1e-6
     respecto a la puntuación de Elasticsearch; la fila híbrida de §6 se cumple.
-- [ ] **2.6** `FacetCalculator`: conteos por valor (orden: conteo desc, luego etiqueta), valores
+- [x] **2.6** `FacetCalculator`: conteos por valor (orden: conteo desc, luego etiqueta), valores
   seleccionados siempre visibles aunque tengan 0, rango de fechas de los resultados; desde agregaciones
   (Full-text) o desde los resultados (Vectorial e Híbrida).
   - Criterio: pruebas unitarias con listas de resultados construidas a mano.

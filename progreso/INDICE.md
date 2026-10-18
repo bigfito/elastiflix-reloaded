@@ -10,8 +10,8 @@
 - **Fase actual:** 2
 - **Estado de la fase:** en curso
 - **Herramienta prevista:** Cursor (rama `cursor/fase-2-diseno-29a6`)
-- **Próximo paso:** Tarea 2.6: `FacetCalculator` y pruebas con películas construidas a mano.
-- **Última actualización:** 2026-10-18 01:40 UTC
+- **Próximo paso:** Tarea 2.7: `Paginator` y pruebas de la última página parcial.
+- **Última actualización:** 2026-10-18 01:45 UTC
 
 ## Fases
 
@@ -39,6 +39,6 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-search -am verify -Pit -Dit.test=HybridSearchIT -Dfailsafe.failIfNoSpecifiedTests=false`
-- **Resultado:** BUILD SUCCESS. `HybridSearchIT`: 2 pruebas, 0 fallos. La fila híbrida de §6 coincide en `plot_1024` y la fórmula RRF cabe en 1e-6. Checkstyle y PMD: 0 violaciones.
-- **Fecha:** 2026-10-18 01:37 UTC
+- **Comando:** `./mvnw -pl elastiflix-search -am verify -Dtest=FacetCalculatorTest -Dsurefire.failIfNoSpecifiedTests=false`
+- **Resultado:** BUILD SUCCESS. `FacetCalculatorTest`: 3 pruebas, 0 fallos. Checkstyle y PMD: 0 violaciones.
+- **Fecha:** 2026-10-18 01:43 UTC
