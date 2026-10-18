@@ -68,8 +68,6 @@ class ArchitectureTest {
 
     /**
      * Un controlador vive en el módulo web y su nombre termina en {@code Controller}.
-     * En la Fase 0 aún no hay controladores: {@code archunit.properties} permite que la regla
-     * no falle por estar vacía. La tarea 4.7 quita esa tolerancia.
      */
     @ArchTest
     static final ArchRule controllersLiveOnlyInWeb = classes()

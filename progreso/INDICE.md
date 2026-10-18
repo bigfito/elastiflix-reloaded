@@ -8,10 +8,10 @@
 ## Punto de reanudación
 
 - **Fase actual:** 4
-- **Estado de la fase:** no iniciado
-- **Herramienta prevista:** Cursor (la Fase 3 quedó en `cursor/fase-3-diseno-29a6`, PR #4)
-- **Próximo paso:** Tarea 4.0, diseño de la interfaz web. No está empezada. Corregir el mockup «Los vectores del archivo se usan tal cual».
-- **Última actualización:** 2026-10-18 02:56 UTC
+- **Estado de la fase:** terminado
+- **Herramienta prevista:** Cursor (`cursor/fase-4-interfaz-29a6`)
+- **Próximo paso:** Fase 5, no iniciada. No empezar sin que el usuario lo pida.
+- **Última actualización:** 2026-10-18 03:50 UTC
 
 ## Fases
 
@@ -21,7 +21,7 @@
 | 1 | Núcleo: conexión, catálogo y embeddings | 🔒 | terminado | `progreso/1.md` | 2026-10-18 en verde |
 | 2 | Búsqueda | 🔒 | terminado | `progreso/2.md` | 2026-10-18 en verde |
 | 3 | Carga de datos | 🔒 | terminado | `progreso/3.md` | 2026-10-18 en verde |
-| 4 | Interfaz web | — | no iniciado | `progreso/4.md` | — |
+| 4 | Interfaz web | — | terminado | `progreso/4.md` | 2026-10-18 en verde |
 | 5 | Pruebas integrales y smoke test | — | no iniciado | `progreso/5.md` | — |
 | 6 | Documentación y cierre | — | no iniciado | `progreso/6.md` | — |
 
@@ -38,13 +38,14 @@
 | 2026-10-18 | Fila full-text `Kolejne 365 dni` | Adolfo aceptó OR 1 · AND 0 como resultado esperado del `match` sobre `title`. El token `365` coincide con «The Next 365 Days» (`829560`). |
 | 2026-10-18 | Fase 2 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 2. El PR #3 quedó fusionado en `main` (merge commit `6d98bb9`). |
 | 2026-10-18 | Diseño de la Fase 3 y sus supuestos | Adolfo aprobó `docs/diseno/3.md` tal cual. Incluye borrar el índice anterior al publicar, el registro individual directo al alias, sin controles de concurrencia, rechazar un CSV sin encabezado y generar siempre los vectores con inferencia. |
+| 2026-10-18 | Fase 3 aprobada y fusionada en `main` | Adolfo revisó y aprobó la Fase 3. El PR #4 quedó fusionado en `main` (merge commit `05ad8f8`). |
 
 ## Pendiente para la Fase 4
 
-- Corregir en el mockup `design/mockups/Ingest.dc.html` el texto «Los vectores del archivo se usan tal cual». Los vectores siempre se generan con el servicio de inferencia; si el archivo los trae, se ignoran con advertencia.
+- Hecho en la tarea 4.4: el mockup y la página dicen que los vectores de la sinopsis se generan con inferencia.
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify` y `./mvnw verify -Pit -pl elastiflix-ingest -am`
-- **Resultado:** los dos BUILD SUCCESS. Checkstyle 0, PMD y ArchUnit en verde. `IngestIT` usó `elastiflix-it-bbb09e8de378` y lo borró. No se escribió en `elastiflix-reloaded`.
-- **Fecha:** 2026-10-18 02:56 UTC
+- **Comando:** `./mvnw clean verify` y `./mvnw -pl elastiflix-web spring-boot:run`
+- **Resultado:** BUILD SUCCESS. Checkstyle 0, PMD y ArchUnit en verde, sin `archunit.properties`. La aplicación leyó `elastiflix-reloaded` (4322 documentos, índice `elastiflix-reloaded-20261018-003535`) y no lo modificó.
+- **Fecha:** 2026-10-18 03:31 UTC

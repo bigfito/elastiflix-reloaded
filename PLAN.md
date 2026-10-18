@@ -899,25 +899,25 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
 
 **Objetivo:** las cuatro páginas de los mockups, servidas por Thymeleaf, cableadas a las fachadas.
 
-- [ ] **4.0** Diseño: `docs/diseno/4.md` (plantillas y fragmentos, controladores, modelo de cada vista,
+- [x] **4.0** Diseño: `docs/diseno/4.md` (plantillas y fragmentos, controladores, modelo de cada vista,
   JavaScript mínimo, CSS con los tokens de `design/README.md`). Commit antes del código. Los pósters se
   cargan del CDN de TMDB (decisión del usuario; ver §5) y la atribución de TMDB va en el pie y en
   «Acerca de» (ver §1).
-- [ ] **4.1** Layout común: `templates/fragments/` (franja pastel, header con logo, navegación Buscar ·
+- [x] **4.1** Layout común: `templates/fragments/` (franja pastel, header con logo, navegación Buscar ·
   Cargar datos · Acerca de la demo y estado de conexión; pie con alias y conteo), CSS con los tokens y
   las fuentes Bricolage Grotesque, IBM Plex Sans e IBM Plex Mono; aviso de atribución de TMDB en el pie
   (solo texto). `CatalogHealthIndicator` (`elastiflixCatalog`) en Actuator.
   - Criterio: `GET /actuator/health` → `UP` con `alias`, `index` y `documents`; el header muestra
     «Conectado · Elasticsearch Serverless» y el pie «Índice: elastiflix-reloaded · 4 322 películas» y
     «This product uses the TMDB API but is not endorsed or certified by TMDB.» en todas las páginas.
-- [ ] **4.2** Inicio (`GET /`): caja de búsqueda con su validación, selector de modo y paneles
+- [x] **4.2** Inicio (`GET /`): caja de búsqueda con su validación, selector de modo y paneles
   (Full-text: tipo de consulta, campo solo con `match`, operador y textos de ayuda; Vectorial: campo de
   vector con sus dimensiones, `k` y `num_candidates` con sus validaciones; Híbrida: ambos y la
   explicación RRF), y las **sugerencias dinámicas por modo y ajustes** exactamente como en
   `Main.dc.html` (textos, emojis y etiquetas fijas; ver §1).
   - Criterio: pruebas MockMvc verifican los textos clave y que cada sugerencia lleva a `/buscar` con
     los parámetros de su modo.
-- [ ] **4.3** Resultados (`GET /buscar`): caja de consulta, chip del modo y ajustes con «Cambiar
+- [x] **4.3** Resultados (`GET /buscar`): caja de consulta, chip del modo y ajustes con «Cambiar
   ajustes», tarjetas de resultado (posición, póster de TMDB con `alt` = título y marcador si falta,
   título, original_title · fecha · duración · géneros,
   sinopsis en 3 líneas, calificación y votos, panel de puntuación por modo), selector 25 · 50 · 100,
@@ -926,14 +926,14 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   Cambiar el tamaño o aplicar filtros vuelve a la página 1.
   - Criterio: pruebas MockMvc para los tres modos, los dos estados vacíos y un error de validación
     (`candidatos < k`) mostrado con su código.
-- [ ] **4.4** Cargar datos (`GET /cargar` y endpoints de §5): pestañas, formulario completo del mockup,
+- [x] **4.4** Cargar datos (`GET /cargar` y endpoints de §5): pestañas, formulario completo del mockup,
   zona de arrastre con las comprobaciones del navegador, opciones de CSV, proceso en 5 pasos, tarjetas
   de conteo, tabla de errores (6 primeros + descarga del informe), comprobaciones superadas,
   advertencias, botón de importar, progreso y cancelación (consulta periódica del estado del trabajo),
   con los ajustes de texto autorizados en §1 (casilla de encabezado, vectores fuera de las reglas).
   - Criterio: pruebas MockMvc del flujo validar → importar → estado → cancelar con `IngestService`
     simulado; un archivo `.txt` se rechaza con su código.
-- [ ] **4.5** Acerca de (`GET /acerca`): contenido de `About.dc.html` (tres modos, BM25, k-NN, tabla de
+- [x] **4.5** Acerca de (`GET /acerca`): contenido de `About.dc.html` (tres modos, BM25, k-NN, tabla de
   precisión por dimensión, RRF, resultados y filtros, carga de datos, catálogo) con alias y conteo
   reales, los enlaces a la documentación oficial y los ajustes de texto autorizados en §1 (vectores
   siempre generados, borrado del índice anterior, CSV con encabezado obligatorio) y la sección
@@ -941,14 +941,14 @@ verde; resumen de diseño y revisión de convenciones en `progreso/3.md`.
   https://www.themoviedb.org/about/logos-attribution sin modificar color, proporción ni orientación,
   guardado en `elastiflix-web/src/main/resources/static/img/tmdb/`, más pequeño que el logo de la demo).
   - Criterio: prueba MockMvc verifica las secciones, la tabla de precisión y la sección «Créditos».
-- [ ] **4.6** Errores: `@ControllerAdvice` muestra una página con el código `EFX-*` y el mensaje del
+- [x] **4.6** Errores: `@ControllerAdvice` muestra una página con el código `EFX-*` y el mensaje del
   catálogo; 404 propio con navegación.
   - Criterio: pruebas MockMvc para `ElastiflixException` y ruta inexistente.
-- [ ] **4.7** Ya hay clases en los cuatro módulos: borra
+- [x] **4.7** Ya hay clases en los cuatro módulos: borra
   `elastiflix-web/src/test/resources/archunit.properties` (vuelve `archRule.failOnEmptyShould=true`) para
   que una regla con un patrón de paquete mal escrito no pase en silencio.
   - Criterio: `./mvnw verify` sigue en verde con `ArchitectureTest` y sin `archunit.properties`.
-- [ ] **4.8** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
+- [x] **4.8** Documentación de la fase: actualiza `README.md` (tabla «Plan y estado», insignia de
   fases y lo que ya funciona: comandos, capacidades, configuración) y los documentos afectados
   (`docs/arquitectura.mermaid`, `design/README.md`, `.env.example`); registra en `progreso/4.md` qué se
   actualizó.

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragments/head :: head('Resultados')}"></th:block>
+</head>
+<body>
+<div class="page">
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+  <header th:replace="~{fragments/chrome :: header}"></header>
+  <main class="results">
+    <form class="query-bar" role="search" th:action="@{/buscar}" method="get">
+      <label class="visually-hidden" for="q">Consulta de búsqueda</label>
+      <div class="sbox compact">
+        <input id="q" name="q" type="search" th:value="${form.query}">
+        <button class="go" type="submit">Buscar</button>
+        <input type="hidden" name="modo" th:value="${form.mode}">
+        <input type="hidden" name="tipo" th:value="${form.type}">
+        <input type="hidden" name="campo" th:value="${form.field}">
+        <input type="hidden" name="operador" th:value="${form.operator}">
+        <input type="hidden" name="vector" th:value="${form.vector}">
+        <input type="hidden" name="k" th:value="${form.k}">
+        <input type="hidden" name="candidatos" th:value="${form.candidates}">
+      </div>
+      <p class="alert" th:if="${errorCode != null}" role="alert">
+        <span th:text="${errorCode}">EFX-SRCH-003</span>
+        <span th:text="${errorMessage}">mensaje</span>
+      </p>
+    </form>
+
+    <div class="adjust-row" th:if="${copy != null}">
+      <span class="mode-chip" th:classappend="${copy.tone}" th:text="${copy.label}">Modo</span>
+      <span class="adjust" th:each="label : ${adjustments}" th:text="${label}">match · title</span>
+      <a th:href="@{/}">Cambiar ajustes</a>
+    </div>
+
+    <div class="results-layout" th:if="${copy != null}">
+      <aside class="filters" aria-labelledby="f-title">
+        <div class="filters-head">
+          <h2 id="f-title">Filtros</h2>
+          <a th:href="${clearHref}">Limpiar</a>
+        </div>
+        <p class="dims">Entre filtros distintos se cumplen todos; dentro de un mismo filtro basta con uno de los valores marcados.</p>
+        <p class="dims">Los valores salen de los resultados actuales y se actualizan cada vez que cambian.</p>
+        <form id="filter-form" th:action="@{/buscar}" method="get">
+          <input type="hidden" name="q" th:value="${form.query}">
+          <input type="hidden" name="modo" th:value="${form.mode}">
+          <input type="hidden" name="tipo" th:value="${form.type}">
+          <input type="hidden" name="campo" th:value="${form.field}">
+          <input type="hidden" name="operador" th:value="${form.operator}">
+          <input type="hidden" name="vector" th:value="${form.vector}">
+          <input type="hidden" name="k" th:value="${form.k}">
+          <input type="hidden" name="candidatos" th:value="${form.candidates}">
+          <input type="hidden" name="pagina" value="1">
+          <input type="hidden" name="tamano" th:value="${form.pageSize}">
+
+          <fieldset>
+            <legend>Contenido para adultos <code>adult</code></legend>
+            <label><input type="radio" name="adult" value="" th:checked="${!safeOnly}"> <span>Todos</span> <span th:text="${adultAll}">0</span></label>
+            <label><input type="radio" name="adult" value="false" th:checked="${safeOnly}"> <span>Solo no adultos</span> <span th:text="${adultSafe}">0</span></label>
+          </fieldset>
+
+          <fieldset data-facet>
+            <legend>Géneros <code>genres</code></legend>
+            <label th:each="choice : ${genres}" th:classappend="${choice.extra} ? 'extra' : ''">
+              <input type="checkbox" name="genero" th:value="${choice.value}" th:checked="${choice.selected}">
+              <span th:text="${choice.value}">Drama</span>
+              <span th:text="${choice.count}">1</span>
+            </label>
+            <button type="button" class="linkish" data-expand>Ver todos los géneros</button>
+          </fieldset>
+
+          <fieldset>
+            <legend>Fecha de estreno <code>release_date</code></legend>
+            <label>Desde <input type="date" name="desde" th:value="${form.from}"></label>
+            <label>Hasta <input type="date" name="hasta" th:value="${form.to}"></label>
+            <p class="dims" th:text="${dateNote}">En estos resultados: de … a …</p>
+          </fieldset>
+
+          <fieldset data-facet>
+            <legend>Idiomas hablados <code>spoken_languages</code></legend>
+            <label th:each="choice : ${languages}" th:classappend="${choice.extra} ? 'extra' : ''">
+              <input type="checkbox" name="idioma" th:value="${choice.value}" th:checked="${choice.selected}">
+              <span th:text="${choice.value}">English</span>
+              <span th:text="${choice.count}">1</span>
+            </label>
+            <button type="button" class="linkish" data-expand>Ver todos los idiomas</button>
+          </fieldset>
+
+          <fieldset>
+            <legend>Clasificación <code>rating</code></legend>
+            <label th:each="choice : ${ratings}">
+              <input type="checkbox" name="clasificacion" th:value="${choice.value}" th:checked="${choice.selected}">
+              <span th:text="${choice.value}">PG</span>
+              <span th:text="${choice.count}">1</span>
+            </label>
+          </fieldset>
+
+          <p id="dirty" class="alert" hidden>Tienes cambios sin aplicar.</p>
+          <button class="apply" type="submit">APLICAR</button>
+        </form>
+      </aside>
+
+      <section>
+        <div class="results-head">
+          <div>
+            <h1 th:text="${countTitle}">0 resultados</h1>
+            <p class="dims" th:text="${copy.orderedBy}">Ordenados por puntuación BM25</p>
+          </div>
+          <div class="sizes">Resultados por página
+            <a th:href="${size25}">25</a>
+            <a th:href="${size50}">50</a>
+            <a th:href="${size100}">100</a>
+          </div>
+        </div>
+
+        <p class="dims" th:if="${copy.limit != ''}" th:text="${copy.limit}">límite</p>
+
+        <div class="empty" th:if="${empty != null}" role="status">
+          <h2 th:text="${empty.title}">No encontramos películas</h2>
+          <p th:text="${empty.text}">explicación</p>
+          <ul>
+            <li th:each="tip : ${empty.tips}" th:text="${tip}">consejo</li>
+          </ul>
+          <a th:if="${empty.title == 'Ningún resultado cumple los filtros'}" th:href="${clearHref}">Quitar filtros</a>
+          <a th:href="@{/}">Cambiar ajustes de búsqueda</a>
+        </div>
+
+        <ol class="hit-list" th:if="${empty == null}">
+          <li class="hit" th:each="card : ${cards}">
+            <div class="hit-main">
+              <span class="rank" th:text="|#${card.rank}|">#1</span>
+              <img th:if="${!card.posterUrl.isEmpty()}" th:src="${card.posterUrl}" th:alt="${card.title}" class="poster" width="80" height="120">
+              <div th:if="${card.posterUrl.isEmpty()}" class="poster missing" role="img" th:attr="aria-label=|Póster de ${card.title}|">poster_path</div>
+              <div>
+                <h3 th:text="${card.title}">Título</h3>
+                <p class="meta" th:text="${card.meta}">original · fecha · min · géneros</p>
+                <p class="plot" th:text="${card.plot}">sinopsis</p>
+                <p class="votes" th:text="${card.votes}">0 · 0 votos</p>
+              </div>
+            </div>
+            <div class="score-panel">
+              <span class="eyebrow">Puntuación</span>
+              <div th:each="score : ${card.scores}">
+                <div class="score-line">
+                  <span th:text="${score.label}">BM25</span>
+                  <span th:text="${score.value}">0</span>
+                </div>
+                <span class="dims" th:if="${!score.position.isEmpty()}" th:text="|posición en su lista: ${score.position}|">posición</span>
+              </div>
+              <div class="score-line" th:if="${!card.rrf.isEmpty()}">
+                <span>RRF</span>
+                <span th:text="${card.rrf}">0</span>
+              </div>
+            </div>
+          </li>
+        </ol>
+
+        <nav th:if="${empty == null}" aria-label="Paginación de resultados" class="pager">
+          <p th:text="${range}">1–25 de 100</p>
+          <a th:if="${!previous.isEmpty()}" th:href="${previous}">Anterior</a>
+          <span th:if="${previous.isEmpty()}">Anterior</span>
+          <a th:each="button : ${pages}" th:href="${button.href}" th:text="${button.number}"
+             th:attr="aria-current=${button.current} ? 'page' : null">1</a>
+          <a th:if="${!next.isEmpty()}" th:href="${next}">Siguiente</a>
+          <span th:if="${next.isEmpty()}">Siguiente</span>
+        </nav>
+
+        <p class="legend" th:text="${copy.legend}">leyenda</p>
+      </section>
+    </div>
+  </main>
+  <footer th:replace="~{fragments/chrome :: footer}"></footer>
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+</div>
+<script th:src="@{/js/results.js}"></script>
+</body>
+</html>

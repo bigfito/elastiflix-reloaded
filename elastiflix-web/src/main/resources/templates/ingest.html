@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragments/head :: head('Cargar datos')}"></th:block>
+</head>
+<body>
+<div class="page">
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+  <header th:replace="~{fragments/chrome :: header}"></header>
+  <main class="ingest">
+    <h1>Cargar datos</h1>
+    <p class="lead">Agrega películas al catálogo una por una o importa un archivo. Los tres vectores de la sinopsis (<code>plot_256</code>, <code>plot_512</code>, <code>plot_1024</code>) se generan automáticamente a partir de <code>plot</code> con jina-embeddings-v5-omni-small.</p>
+    <p class="alert" th:if="${savedTitle != null}">Se guardó <span th:text="${savedTitle}">título</span>.</p>
+    <ul class="alert" th:if="${rejected != null}">
+      <li th:each="issue : ${rejected}" th:text="|${issue.code} · ${issue.field} · ${issue.expected}|">error</li>
+    </ul>
+
+    <div role="tablist" aria-label="Forma de carga" class="tabs">
+      <button type="button" class="pill is-on" data-tab="single" aria-selected="true">Registro individual</button>
+      <button type="button" class="pill" data-tab="json" aria-selected="false">Importar .json</button>
+      <button type="button" class="pill" data-tab="csv" aria-selected="false">Importar .csv</button>
+    </div>
+
+    <form th:action="@{/cargar/registro}" method="post" data-panel="single" class="record">
+      <h2>Identificación y títulos</h2>
+      <label>ID * <code>id</code><input name="id" required><span class="dims">Si el id ya existe, la película se reemplaza.</span></label>
+      <label>ID de IMDb <code>imdb_id</code><input name="imdb_id"></label>
+      <label>Título * <code>title</code><input name="title" required></label>
+      <label>Título original <code>original_title</code><input name="original_title"></label>
+      <label>Idioma original <code>original_language</code><input name="original_language" placeholder="es, en, ja…"></label>
+      <h2>Sinopsis y textos</h2>
+      <label>Sinopsis * <code>plot</code><textarea name="plot" rows="4" required></textarea><span class="dims">Obligatoria: de aquí se generan los tres vectores de la búsqueda vectorial.</span></label>
+      <label>Resumen <code>overview</code><textarea name="overview" rows="3"></textarea></label>
+      <label>Frase promocional <code>tagline</code><input name="tagline"></label>
+      <h2>Clasificación, fecha y estado</h2>
+      <label>Géneros <code>genres</code><input name="genres" placeholder="Separados por comas"></label>
+      <label>Palabras clave <code>keywords.name</code><input name="keywords" placeholder="Separadas por comas"></label>
+      <label>Clasificación <code>rating</code>
+        <select name="rating"><option value="">Sin clasificación</option><option>G</option><option>PG</option><option>PG-13</option><option>R</option><option>NC-17</option><option>NR</option></select>
+      </label>
+      <label>Fecha de estreno <code>release_date</code><input type="date" name="release_date"></label>
+      <label>Duración (min) <code>runtime</code><input type="number" name="runtime" min="0" step="1"></label>
+      <label>Estado <code>status</code><input name="status" list="status-list" placeholder="Released"></label>
+      <datalist id="status-list"><option value="Released"></option><option value="Post Production"></option><option value="In Production"></option></datalist>
+      <label><input type="checkbox" name="adult" value="true"> Contenido para adultos <code>adult</code></label>
+      <label><input type="checkbox" name="video" value="true"> Es un video <code>video</code></label>
+      <h2>Métricas</h2>
+      <label>Popularidad <code>popularity</code><input type="number" name="popularity" step="any"></label>
+      <label>Calificación promedio <code>vote_average</code><input type="number" name="vote_average" step="any"></label>
+      <label>Número de votos <code>vote_count</code><input type="number" name="vote_count" min="0" step="1"></label>
+      <label>Puntuación de usuarios <code>user_score</code><input type="number" name="user_score" step="any"></label>
+      <label>Presupuesto <code>budget</code><input type="number" name="budget" step="any"></label>
+      <label>Recaudación <code>revenue</code><input type="number" name="revenue" step="any"></label>
+      <h2>Reparto, producción y medios</h2>
+      <label>Reparto <code>cast</code><input name="cast" placeholder="Separado por comas"></label>
+      <label>Productoras <code>production_companies</code><input name="production_companies"></label>
+      <label>Países <code>production_countries</code><input name="production_countries"></label>
+      <label>Idiomas hablados <code>spoken_languages</code><input name="spoken_languages"></label>
+      <label>Póster <code>poster_path</code><input name="poster_path"></label>
+      <label>Imagen de fondo <code>backdrop_path</code><input name="backdrop_path"></label>
+      <label>Sitio web <code>homepage</code><input name="homepage"></label>
+      <label>Colección <code>belongs_to_collection.name</code><input name="collection"></label>
+      <p class="dims">* Campos obligatorios. El formulario no captura vectores.</p>
+      <button type="reset">Limpiar</button>
+      <button type="submit">Guardar película</button>
+    </form>
+
+    <section data-panel="file" hidden>
+      <h2 id="file-title">Importar .json</h2>
+      <form id="file-form">
+        <label class="drop" for="archivo">Arrastra tu archivo aquí o haz clic para elegirlo
+          <span>Solo .json o .csv</span><span>Máximo 150 MB</span><span>Texto UTF-8</span>
+        </label>
+        <input id="archivo" name="archivo" type="file" accept=".json,.csv">
+        <p id="file-error" class="alert" hidden></p>
+        <div data-csv hidden>
+          <label>Separador
+            <select name="separador"><option value=",">coma</option><option value=";">punto y coma</option><option value="tab">tabulador</option></select>
+          </label>
+          <label><input type="checkbox" name="encabezado" value="true" checked> La primera fila contiene los nombres de columna</label>
+          <p class="dims">Si se desmarca, el archivo se rechaza. Un CSV sin encabezado no se importa.</p>
+          <p class="dims">Las listas y los objetos anidados van como JSON dentro de la celda.</p>
+        </div>
+        <button type="submit">Validar archivo</button>
+      </form>
+
+      <ol class="steps">
+        <li><strong>Comprobación en el navegador</strong> Extensión, tipo y tamaño (máximo 150 MB) antes de subir nada.</li>
+        <li><strong>Subida al servidor</strong> El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.</li>
+        <li><strong>Validación contra el mapping</strong> Tipo de cada campo de cada registro; si algo no coincide, se detiene todo. <code>id</code>, <code>title</code> y <code>plot</code> son obligatorios.</li>
+        <li><strong>Importación en un índice temporal</strong> El índice se llama <code>&lt;alias&gt;-&lt;AAAAMMDD-HHMMSS&gt;</code>. Copia del catálogo actual más los registros del archivo, en lotes de 100.</li>
+        <li><strong>Publicación</strong> El alias elastiflix-reloaded pasa al índice nuevo y el índice anterior se borra, en una sola operación.</li>
+      </ol>
+      <p class="dims">Los vectores de la sinopsis se generan para cada película con el servicio de inferencia de Elasticsearch.</p>
+      <p class="dims">Reglas: cada campo debe existir en el mapping y tener su tipo (<code>release_date</code> en yyyy-MM-dd, <code>adult</code> booleano, <code>keywords</code> y <code>belongs_to_collection</code> como objetos anidados); <code>id</code>, <code>title</code> y <code>plot</code> son obligatorios y <code>id</code> no se puede repetir. Se valida el archivo completo antes de escribir nada: si un solo registro no coincide, no se importa ninguno.</p>
+      <p class="dims">Correspondencia de columnas de vector: <code>plot_256</code>, <code>plot_512</code> y <code>plot_1024</code> se ignoran · se generarán desde plot.</p>
+
+      <div id="job" hidden>
+        <p>Estado: <span id="job-status"></span> · paso <span id="job-step"></span></p>
+        <p id="job-counts"></p>
+        <table>
+          <caption>Errores (primeros 6)</caption>
+          <thead><tr><th>Código</th><th>Registro</th><th>Id</th><th>Campo</th><th>Recibido</th><th>Esperado</th></tr></thead>
+          <tbody id="job-errors"></tbody>
+        </table>
+        <ul id="job-warnings"></ul>
+        <p><a id="job-report" href="#">Descargar informe CSV</a></p>
+        <button type="button" id="job-import">Importar</button>
+        <button type="button" id="job-cancel">Cancelar</button>
+      </div>
+    </section>
+  </main>
+  <footer th:replace="~{fragments/chrome :: footer}"></footer>
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+</div>
+<script th:src="@{/js/ingest.js}"></script>
+</body>
+</html>
