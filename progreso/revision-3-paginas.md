@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-25 (`PosterUrls`)
+- **Tarea actual:** T-26 (Resultados y CSS)
 - **Subpaso en curso:** por empezar
-- **Próximo paso:** haz que `PosterUrls` reciba `ElastiflixProperties` (sin `ObjectProvider` ni `Poster.fallback()`) y que las pruebas que lo usan declaren `@EnableConfigurationProperties(ElastiflixProperties.class)`.
-- **Última actualización:** 2026-10-19 02:47 UTC
+- **Próximo paso:** en `results.html`: `aria-describedby="q-error"` solo si hay error, `h1 id="r-title" aria-live="polite"` y `section aria-labelledby="r-title"`, separador `border-top` antes de APLICAR; en el CSS, `.drop:focus-within` y el foco visible de las pestañas de «Cargar datos».
+- **Última actualización:** 2026-10-19 02:49 UTC
 
 ## Tareas
 
@@ -39,8 +39,8 @@ en curso
 | T-20 (página de error) | terminada | `5eeb292` | Parte de E: `ErrorPages.filled` pone `summary() + "."`; `ErrorPageTest.shouldShowTheCatalogMessage` afirma `<p>No se pudo conectar con Elasticsearch.</p>`. Filas de PLAN §1 de la página de error y del 404 en «Notas para el cierre». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 10 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (sin el punto): falla `shouldShowTheCatalogMessage`; revertido. La parte de `ingest.html` y `JobTexts` es del carril F. |
 | T-21 | terminada | `74a89d5` | `FacetChoices.hasExtra` (`anyMatch(FacetChoice::extra)`) da `genresExtra` y `languagesExtra` al modelo; `results.html` los usa en lugar de `size() > 6`. Prueba nueva `ResultsPageTest.shouldNotOfferExpandWhenNothingIsHidden`: 6 géneros más `genero=Western` (marcado y sin conteo) dan 7 opciones, ninguna `extra`, y no aparece «Ver todos los géneros»; `shouldOfferExpandOnlyPastSixValues` sigue mostrándolo con 7 valores. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 14 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver a `genres.size() > 6`): falla `shouldNotOfferExpandWhenNothingIsHidden`; revertido. |
 | T-22 | terminada | `f2b7b4a` | `elastiflix.css` pasa de 645 a 625 líneas: cada pareja repetida de la lista quedó en una regla (`.fh`, `.filters legend`, `.poster.missing`, `.extra`/`.show-extra .extra`, `.results h1`/`.results-head h1`, `.filters fieldset`, `.results-layout`, `.rrf-value`, `.filters .date-field`, `.hit-list`, `.mode-cards`, `.filters-head h2` y `.legend` dentro de `.results .legend`) y se quitaron las muertas (`.score-panel .eyebrow`, `.sizes`, `.page-size select`, `#job-ok[hidden]`, `.file-chip[hidden]`). Capturas antes y después: 60 de 60 archivos idénticos byte a byte (estilos calculados de todos los elementos y PNG de página completa; 15 pantallas de Resultados, Cargar, Acerca, Inicio y 404 en 1440 y 390 px). Método en «Decisiones». Cambio solo de CSS: lo que se rompería es lo que se ve, y la comparación lo cubre. |
-| T-23 | terminada | (hash en el commit siguiente) | Un solo helper: se quitó `CatalogTexts.grouped`/`rest` y la web usa `ingest.mapping.Thousands.of` (sin cambios) en el pie y «Acerca de» (`CatalogTexts`), en los votos (`ResultCards.count`) y en el título del conteo (`ResultsPage.countTitle`). Prueba nueva `ResultsPageTest.shouldGroupThousandsInVotesAndCount` («7.9 · 21 911 votos» y `<h1>1 234 resultados</h1>`); `shouldRenderFullText` pasa a «1 000 votos»; `LayoutPageTest` y `AboutPageTest` siguen afirmando «4 322 películas». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,LayoutPageTest,AboutPageTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 26 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (votos con `Integer.toString`): fallan `shouldGroupThousandsInVotesAndCount` y `shouldRenderFullText`; revertido. |
-| T-25 (`PosterUrls`) | pendiente | — | Configuración y beans armados para las pruebas |
+| T-23 | terminada | `d2d3d9b` | Un solo helper: se quitó `CatalogTexts.grouped`/`rest` y la web usa `ingest.mapping.Thousands.of` (sin cambios) en el pie y «Acerca de» (`CatalogTexts`), en los votos (`ResultCards.count`) y en el título del conteo (`ResultsPage.countTitle`). Prueba nueva `ResultsPageTest.shouldGroupThousandsInVotesAndCount` («7.9 · 21 911 votos» y `<h1>1 234 resultados</h1>`); `shouldRenderFullText` pasa a «1 000 votos»; `LayoutPageTest` y `AboutPageTest` siguen afirmando «4 322 películas». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,LayoutPageTest,AboutPageTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 26 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (votos con `Integer.toString`): fallan `shouldGroupThousandsInVotesAndCount` y `shouldRenderFullText`; revertido. |
+| T-25 (`PosterUrls`) | terminada | (hash en el commit siguiente) | Parte de E: `PosterUrls` recibe `ElastiflixProperties` por constructor; sin `ObjectProvider` ni `Poster.fallback()`. `ResultsPageTest` declara `@EnableConfigurationProperties(ElastiflixProperties.class)` (regla 7) y fija `ELASTIFLIX_POSTER_BASE_URL=https://posters.test/w92`; `shouldRenderFullText` afirma `src=\"https://posters.test/w92/t.jpg\"`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 29 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver al CDN de respaldo): falla `shouldRenderFullText`; revertido. `IngestLimits` es del carril F. |
 | T-26 (Resultados y CSS) | pendiente | — | Accesibilidad |
 | T-27 (`ErrorPageTest`) | pendiente | — | Pruebas que no pueden fallar, débiles o con higiene pendiente |
 
@@ -111,6 +111,9 @@ Vacío.
   queda una cifra sin agrupar: el rango de la paginación («Mostrando 1–25 de 1234 resultados») lo arma
   `Pagination.range()` en `elastiflix-search` (carril B). Si Z quiere cerrarlo, es un cambio de B; no se
   tocó aquí.
+- **T-25 (parte de E) · regla 1:** `PosterUrls` ya no usa `ElastiflixProperties.Poster.fallback()`. Cuando F
+  quite el relleno de `IngestLimits`, Z puede quitar `Poster.fallback()` (y el relleno de `null` de
+  `ElastiflixProperties`, si A no lo hizo) de `elastiflix-core`: en la web ya nadie lo usa.
 
 ## Bloqueos y solicitudes
 

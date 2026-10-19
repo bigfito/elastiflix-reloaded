@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.search.facet.FacetValue;
 import com.bigfito.elastiflix.search.facet.Facets;
 import com.bigfito.elastiflix.search.page.Pagination;
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -40,8 +42,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Resultados muestra los tres modos, los dos vacíos y, si candidatos es menor que k, el «qué pasó» junto al campo.
  */
 @WebMvcTest(controllers = SearchController.class, properties = {
-        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test",
+        "ELASTIFLIX_POSTER_BASE_URL=https://posters.test/w92"})
 @Import({LayoutAdvice.class, SearchQueryMapper.class, ResultsPage.class, ResultCards.class, PosterUrls.class})
+@EnableConfigurationProperties(ElastiflixProperties.class)
 class ResultsPageTest {
 
     @Autowired
@@ -75,7 +79,7 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("7.9 · 1 000 votos")))
                 .andExpect(content().string(containsString("En estos resultados: de 1997-01-01 a 1997-12-19")))
                 .andExpect(content().string(not(containsString("1997-12-19."))))
-                .andExpect(content().string(containsString("alt=\"Titanic\"")))
+                .andExpect(content().string(containsString("src=\"https://posters.test/w92/t.jpg\" alt=\"Titanic\"")))
                 .andExpect(content().string(containsString("pagina=1")))
                 .andExpect(content().string(containsString("tamano=50")))
                 .andExpect(content().string(containsString("tamano=100")))

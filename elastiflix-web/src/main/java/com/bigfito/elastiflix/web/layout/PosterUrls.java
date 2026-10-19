@@ -2,7 +2,6 @@ package com.bigfito.elastiflix.web.layout;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,17 +13,12 @@ public class PosterUrls {
     private final String baseUrl;
 
     /**
-     * Usa la propiedad {@code elastiflix.poster.base-url}, o el CDN w342 si no hay contexto.
+     * Usa la propiedad {@code elastiflix.poster.base-url}.
      *
-     * @param properties propiedades, si el contexto las creó
+     * @param properties configuración de {@code elastiflix.*}
      */
-    public PosterUrls(ObjectProvider<ElastiflixProperties> properties) {
-        ElastiflixProperties found = properties.getIfAvailable();
-        if (found == null) {
-            this.baseUrl = ElastiflixProperties.Poster.fallback().baseUrl();
-        } else {
-            this.baseUrl = found.poster().baseUrl();
-        }
+    public PosterUrls(ElastiflixProperties properties) {
+        this.baseUrl = properties.poster().baseUrl();
     }
 
     /**
