@@ -1155,7 +1155,7 @@ en `main` (PR #13, merge `7f08810`; estado posterior en el PR #14, `27fcdef`). E
   documentos.
 - `763f71e` (S-18) cambió Java después de esa corrida y no tiene un `verify` completo registrado.
 
-### Revisión 3 (abierta)
+### Revisión 3 (terminada)
 
 La tercera revisión de `main` en `27fcdef` (2026-10-19 UTC) encontró 27 correcciones de código
 (`T-01` … `T-27`): 13 importantes y 14 menores, ninguna crítica. Algunas son restos de S-01, S-03, S-05,
@@ -1179,6 +1179,11 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
 - **Excepción a §9 durante la revisión 3:** los carriles A–F no escriben `progreso/INDICE.md`, el tablero,
   PLAN, README ni `docs/`, para no chocar en git; anotan esos cambios en «Notas para el cierre» de su
   archivo y Z los aplica.
+- **Resultado (2026-10-19):** las 27 correcciones terminadas. Seis agentes de Claude Code hicieron los carriles
+  A–F a la vez (PR #15 a #20, fusionados por Adolfo); Z cerró en `revision-3-cierre`. Z agregó dos puntos que
+  Adolfo pidió: el rango de la paginación agrupa los miles y la híbrida ya no recibe un `preference` sin uso.
+  `./mvnw verify -Pit`: 326 unitarias y 29 de integración en verde; pruebas de navegador 11 de 11. Estado y
+  evidencia: `progreso/revision-3.md`.
 
 ## Requerimientos nuevos (después de la revisión 3)
 

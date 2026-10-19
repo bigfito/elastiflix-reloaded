@@ -8,21 +8,18 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 3 — 27 correcciones de código (`T-01` … `T-27`) de la tercera revisión de `main` en `27fcdef`, **en carriles paralelos**
-- **Estado de la fase:** no iniciado
-- **Ramas:** una por carril (`revision-3-core`, `-busqueda`, `-trabajos`, `-lectura`, `-paginas`, `-cargar`), y
-  `revision-3-cierre` al final. Hoy en el remoto solo existe `main`
+- **Estado de la fase:** terminada en `revision-3-cierre`; falta que Adolfo fusione el PR del cierre
+- **Ramas:** las seis de A–F, fusionadas (PR #15 a #20) y con sus worktrees locales quitados; `revision-3-cierre`
+  con el PR del cierre
 - **Lista de correcciones y reglas de los carriles:** [`docs/revisiones/revision-3.md`](../docs/revisiones/revision-3.md)
   › «Cómo trabajar en paralelo»
 - **Estado:** tablero [`progreso/revision-3.md`](revision-3.md) y un archivo por carril (`progreso/revision-3-<carril>.md`)
-- **Próximo paso:** cada agente aplica el protocolo de reanudación de `AGENTS.md`, toma un carril libre de A–F
-  (`git ls-remote --heads origin 'revision-3-*'`) y sigue los «Pasos de un carril». El carril Z (cierre)
-  empieza cuando los PR de A–F están fusionados.
+- **Próximo paso:** Adolfo revisa y fusiona el PR de `revision-3-cierre`. Después no queda trabajo de revisión
+  abierto.
 - **Después:** los cuatro «Requerimientos nuevos» de `PLAN.md` (1: página de detalle de película; 2: interfaz
-  en español e inglés; 3: archivos de hasta 25 MB; 4: carga en modo
-  append o bulk) esperan a que termine la revisión 3 y a que Adolfo dé su consentimiento. Nadie los implementa antes.
-- **Quién actualiza este índice durante la revisión 3:** solo el carril Z. Los carriles A–F escriben su propio
-  archivo, para no chocar en git.
-- **Última actualización:** 2026-10-19 00:45 UTC
+  en español e inglés; 3: archivos de hasta 25 MB; 4: carga en modo append o bulk) esperan el consentimiento de
+  Adolfo. Nadie los implementa antes.
+- **Última actualización:** 2026-10-19 03:18 UTC
 
 ## Fases
 
@@ -39,7 +36,7 @@
 | — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
 | — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
 | — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). El estado posterior entró con el PR #14 (`27fcdef`). La revisión 3 encontró restos de S-01, S-03, S-05, S-06, S-14, S-21 y S-22. |
-| — | Revisión 3 | — | no iniciado | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md` (solo código; la documentación se alineó al escribirla). Seis carriles paralelos A–F y un cierre Z. |
+| — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z en `revision-3-cierre`. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
 
 ## Aprobaciones del usuario
 
@@ -82,6 +79,8 @@
 | 2026-10-19 | Requerimiento 3: archivos de hasta 25 MB | Adolfo pidió que el tamaño máximo de los archivos `.json` y `.csv` sea 25 MB, con todas las demás validaciones. Decidió que sea fijo, sin configuración (se quita `ELASTIFLIX_INGEST_MAX_FILE_SIZE`). Cómo cargar un catálogo más grande lo aclara el requerimiento 4. Mockups de «Cargar datos» y «Acerca de» actualizados a 25 MB. |
 | 2026-10-19 | Requerimiento 4: carga en modo append o bulk | Adolfo pidió dos modos para cargar archivos: bulk (índice temporal, alias y borrado del original) y append (sin índice temporal, directo al índice actual). Decidió: bulk carga solo el archivo (reemplaza el catálogo, sin copiarlo); en append un `id` existente se reemplaza; si append falla o se cancela, lo escrito se queda y se informa; append es el modo por defecto. Un catálogo de más de 25 MB se carga con un bulk y varios append. Mockups de «Cargar datos» y «Acerca de» actualizados. |
 | 2026-10-19 | Mockups del requerimiento 4 aprobados | Adolfo aceptó los mockups de «Cargar datos» y «Acerca de» en los dos idiomas («Si. Acepto los mockups»), con el selector de modo y los textos restaurados de las fases 4.4, 4.5 y B-05. Los cuatro requerimientos nuevos quedan definidos en PLAN; se implementan cuando termine la revisión 3 y Adolfo dé su consentimiento. |
+| 2026-10-19 | Revisión 3: carriles A–F fusionados | Adolfo pidió «Procede con la revisión 3» y después «Fusiona los PR del 15 al 20». Los seis PR quedaron en `main` (`7e360b4`). |
+| 2026-10-19 | Revisión 3: dos puntos fuera de la lista en el cierre | Adolfo pidió incluir en el cierre («Inclúyelas en el cierre») el agrupado de miles del rango de paginación y quitar el `preference` sin uso de la híbrida. |
 
 ## Catálogo vigente
 

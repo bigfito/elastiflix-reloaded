@@ -14,7 +14,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
-![Estado](https://img.shields.io/badge/estado-revisi%C3%B3n_3_pendiente-FBE7A1?style=flat-square&labelColor=3A3548)
+![Estado](https://img.shields.io/badge/estado-revisi%C3%B3n_3_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
 ![Fases](https://img.shields.io/badge/fases-7%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
@@ -23,9 +23,10 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > [!NOTE]
 > ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. La
 > **Revisión 2** ([`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md)) está terminada y
-> fusionada en `main` (PR #13). Queda abierta la **Revisión 3**: 27 correcciones de código en
-> [`docs/revisiones/revision-3.md`](docs/revisiones/revision-3.md), con estado en
-> [`progreso/revision-3.md`](progreso/revision-3.md). El índice y el conteo
+> fusionada en `main` (PR #13). La **Revisión 3** (27 correcciones de código de
+> [`docs/revisiones/revision-3.md`](docs/revisiones/revision-3.md)) está terminada, con estado en
+> [`progreso/revision-3.md`](progreso/revision-3.md). Los «Requerimientos nuevos» de `PLAN.md` esperan el
+> consentimiento de Adolfo. El índice y el conteo
 > del alias `elastiflix-reloaded` están en [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
 > `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
 > `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias con
@@ -377,7 +378,7 @@ El plan está preparado para que **cualquiera de estos agentes** lo ejecute o lo
 
 ### ▶️ Para empezar
 
-El plan ya está ejecutado: las siete fases y las revisiones 1 y 2 están en `main`. La orden de arranque
+El plan ya está ejecutado: las siete fases y las revisiones 1, 2 y 3 están en `main`. La orden de arranque
 original («Apruebo el plan… ejecuta las fases en orden desde la Fase 0») ya no aplica.
 
 ### 🛠️ Para trabajar en las correcciones de la Revisión 3
@@ -414,6 +415,10 @@ Si una sesión se corta, el mismo pedido continúa el carril donde quedó: el av
 `progreso/` y en su rama. Toda revisión sigue esta forma: lista en `docs/revisiones/revision-N.md`, estado
 en `progreso/`, ramas propias y PR hacia `main`.
 
+La Revisión 3 está terminada (2026-10-19): seis agentes de Claude Code hicieron los carriles A–F a la vez y
+el cierre Z integró la documentación. El pedido queda como referencia para una revisión siguiente en
+carriles.
+
 ### 🔁 Si una sesión se interrumpe
 
 Sin tokens, contexto lleno, herramienta cerrada o cambio de agente — no se pierde el avance: al terminar
@@ -444,7 +449,7 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 | 5 | 🧪 Pruebas integrales y smoke test | — | ✅ terminado |
 | 6 | 📚 Documentación y cierre | — | ✅ terminado |
 | — | 🔧 Revisión 2 (`S-01` … `S-27`) | — | ✅ terminado |
-| — | 🔧 Revisión 3 (`T-01` … `T-27`) | — | ⏳ no iniciado |
+| — | 🔧 Revisión 3 (`T-01` … `T-27`) | — | ✅ terminado |
 
 El estado vigente siempre es el de [`progreso/INDICE.md`](progreso/INDICE.md); esta tabla se actualiza
 al cerrar cada fase.
@@ -498,7 +503,7 @@ Capturas de página completa tomadas el 2026-10-18 con la aplicación conectada 
 | 🗺️ [`PLAN.md`](PLAN.md) | Plan de implementación por fases (fuente única de verdad) |
 | 🤖 [`AGENTS.md`](AGENTS.md) · [`CLAUDE.md`](CLAUDE.md) | Reglas para los agentes de IA |
 | 📍 [`progreso/INDICE.md`](progreso/INDICE.md) | Estado actual y próximo paso |
-| 🔧 [`docs/revisiones/revision-3.md`](docs/revisiones/revision-3.md) | Correcciones abiertas de la Revisión 3 (estado en [`progreso/revision-3.md`](progreso/revision-3.md)) |
+| 🔧 [`docs/revisiones/revision-3.md`](docs/revisiones/revision-3.md) | Correcciones de la Revisión 3, terminadas (evidencia en [`progreso/revision-3.md`](progreso/revision-3.md)) |
 | 🔧 [`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md) | Correcciones de la Revisión 2, terminadas (evidencia en [`progreso/revision-2.md`](progreso/revision-2.md)) |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo se escribe el código |
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos |

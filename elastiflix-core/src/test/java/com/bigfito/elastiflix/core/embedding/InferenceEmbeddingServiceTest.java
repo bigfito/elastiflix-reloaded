@@ -75,6 +75,7 @@ class InferenceEmbeddingServiceTest {
 
     @Test
     @DisplayName("embedQuery envía input_type=search y antepone «Query: » a la consulta")
+    // Mockito entrega la función del cliente sin el tipo genérico.
     @SuppressWarnings("unchecked")
     void shouldSendTheSearchInputTypeAndTheQueryPrefix() throws Exception {
         // given
