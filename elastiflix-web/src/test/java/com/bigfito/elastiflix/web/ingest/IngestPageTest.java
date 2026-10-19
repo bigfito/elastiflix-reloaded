@@ -12,6 +12,7 @@ import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.job.SaveResult;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
+import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.WarningCount;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
@@ -42,6 +43,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -77,6 +79,14 @@ class IngestPageTest {
     void shouldShowTheAuthorizedCopy() throws Exception {
         mvc.perform(get("/cargar"))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute("nav", "cargar"))
+                .andExpect(model().attribute("maxFileLabel", "150 MB"))
+                .andExpect(model().attribute("maxFileBytes", 150L * MEGABYTE))
+                .andExpect(model().attribute("batchSize", 100))
+                .andExpect(content().string(containsString("Índice elastiflix-reloaded")))
+                .andExpect(content().string(containsString("data-alias=\"elastiflix-reloaded\"")))
+                .andExpect(content().string(containsString("id=\"tab-json\" data-tab=\"json\" aria-selected=\"false\" "
+                        + "tabindex=\"-1\"")))
                 .andExpect(content().string(containsString("Registro individual")))
                 .andExpect(content().string(containsString("Archivo JSON")))
                 .andExpect(content().string(containsString("Campos obligatorios.")))
@@ -98,6 +108,8 @@ class IngestPageTest {
     @DisplayName("escenario «Archivo rechazado»: el bloque del navegador trae los textos del mockup")
     void shouldShowTheRejectedFileCopy() throws Exception {
         mvc.perform(get("/cargar"))
+                .andExpect(model().attribute("maxFileLabel", "150 MB"))
+                .andExpect(model().attribute("batchSize", 100))
                 .andExpect(content().string(containsString("No se puede cargar este archivo")))
                 .andExpect(content().string(containsString("El archivo se rechazó en el navegador, antes de subirlo, "
                         + "así que no salió de tu equipo ni se importó nada.")))
@@ -270,7 +282,25 @@ class IngestPageTest {
 
         mvc.perform(post("/cargar/registro").param("id", "1").param("title", "A").param("plot", "B"))
                 .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/cargar"));
+                .andExpect(redirectedUrl("/cargar"))
+                .andExpect(flash().attribute("savedTitle", "A"))
+                .andExpect(flash().attribute("rejected", (Object) null));
+        mvc.perform(get("/cargar").flashAttr("savedTitle", "A"))
+                .andExpect(content().string(containsString("Se guardó <span>A</span>.")));
+    }
+
+    @Test
+    @DisplayName("un registro que Elasticsearch o el mapping rechaza vuelve con sus errores y sin título guardado")
+    void shouldRedirectWithTheIssuesWhenTheMovieIsRejected() throws Exception {
+        ValidationIssue issue = new ValidationIssue("EFX-ING-010", "formulario", "1", "release_date",
+                "\"1999\"", "date con formato yyyy-MM-dd", false);
+        when(ingest.saveOne(any(Movie.class))).thenReturn(new SaveResult.Rejected(
+                new ValidationReport(List.of(issue))));
+
+        mvc.perform(post("/cargar/registro").param("id", "1").param("title", "A").param("plot", "B"))
+                .andExpect(redirectedUrl("/cargar"))
+                .andExpect(flash().attribute("rejected", List.of(issue)))
+                .andExpect(flash().attribute("savedTitle", (Object) null));
     }
 
     private static JobView validJson() {
