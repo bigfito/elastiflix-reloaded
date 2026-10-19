@@ -13,7 +13,7 @@ import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
-import com.bigfito.elastiflix.ingest.mapping.IdTexts;
+import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
@@ -24,8 +24,6 @@ import com.bigfito.elastiflix.ingest.service.LoadedDocuments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import tools.jackson.databind.JsonNode;
 
 /**
  * Paso 2 y paso 3: comprueba el archivo y lo valida entero, en un hilo virtual.
@@ -104,45 +102,26 @@ public final class FileIntake {
             store.invalid(jobId, loaded.report(), VALIDATION_STEP);
             return;
         }
-        Set<String> existing = existing(loaded.documents());
-        ValidatedMovies checked = validator.validateAndRelease(loaded.documents(), loaded.labels(), existing);
-        storeOutcome(jobId, loaded.report(), checked);
-    }
-
-    private void storeOutcome(String jobId, ValidationReport header, ValidatedMovies checked) {
-        ValidatedMovies merged = new ValidatedMovies(
-                checked.movies(), join(header, checked.report()), checked.replaceCount());
-        if (merged.report().accepted()) {
-            store.ready(jobId, merged);
+        ValidatedMovies checked = validator.validateAndRelease(loaded.documents(), loaded.labels(), Set.of());
+        ValidationReport report = ReportOrder.join(loaded.report(), checked.report());
+        if (!report.accepted()) {
+            store.invalid(jobId, report, VALIDATION_STEP);
             return;
         }
-        store.invalid(jobId, merged.report(), VALIDATION_STEP);
+        store.ready(jobId, new ValidatedMovies(checked.movies(), report, replacements(checked.movies())));
     }
 
-    private Set<String> existing(List<JsonNode> documents) {
-        return catalog.existingIds(properties.index().alias(), ids(documents));
-    }
-
-    private static List<String> ids(List<JsonNode> documents) {
+    /**
+     * Cuántos ids del archivo ya están en el catálogo. Se pregunta solo con el archivo ya válido: con
+     * Elasticsearch caído, un archivo con errores igual muestra sus errores. Los ids no se repiten, porque
+     * un id repetido es un error.
+     */
+    private int replacements(List<Movie> movies) {
         List<String> ids = new ArrayList<>();
-        for (JsonNode document : documents) {
-            addId(ids, document.get("id"));
+        for (Movie movie : movies) {
+            ids.add(movie.id());
         }
-        return ids;
-    }
-
-    private static void addId(List<String> ids, JsonNode id) {
-        String text = IdTexts.of(id);
-        if (text != null) {
-            ids.add(text);
-        }
-    }
-
-    private static ValidationReport join(ValidationReport header, ValidationReport fields) {
-        List<ValidationIssue> issues = new ArrayList<>();
-        issues.addAll(header.issues());
-        issues.addAll(fields.issues());
-        return new ValidationReport(issues);
+        return catalog.existingIds(properties.index().alias(), ids).size();
     }
 
     /** {@code EFX-ING-001} a {@code 004} son las comprobaciones del paso 2; lo demás ya es el paso 3. */

@@ -113,6 +113,39 @@ class JobRetentionTest {
         assertThat(store.require(jobId).movies()).isEmpty();
     }
 
+    @Test
+    @DisplayName("un valido vence también cuando la página consulta otro trabajo, sin otra subida")
+    void shouldExpireAnIdleValidJobWhenAnotherJobIsViewed() throws Exception {
+        // given
+        String idle = store.open("a.json", upload(), CsvSettings.withHeader());
+        store.ready(idle, validated());
+        String other = store.open("b.json", upload(), CsvSettings.withHeader());
+        clock.advance(JobRetention.IDLE_VALID.plusMinutes(1));
+
+        // when
+        store.view(other);
+
+        // then
+        assertThat(store.require(idle).status()).isEqualTo(JobStatus.CANCELLED);
+        assertThat(store.require(idle).movies()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("un valido vencido ya no se importa")
+    void shouldNotImportAnExpiredValidJob() throws Exception {
+        // given
+        String jobId = store.open("a.json", upload(), CsvSettings.withHeader());
+        store.ready(jobId, validated());
+        clock.advance(JobRetention.IDLE_VALID.plusMinutes(1));
+
+        // when
+        boolean started = store.beginImport(jobId);
+
+        // then
+        assertThat(started).isFalse();
+        assertThat(store.view(jobId).status()).isEqualTo("cancelado");
+    }
+
     private void assertUnknown(String jobId) {
         assertThatThrownBy(() -> store.view(jobId)).isInstanceOf(ImportException.class);
     }

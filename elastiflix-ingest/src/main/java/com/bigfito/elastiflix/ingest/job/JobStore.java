@@ -66,12 +66,14 @@ public final class JobStore {
     }
 
     /**
-     * Copia del trabajo. Si el id no está, {@code EFX-IMP-005}.
+     * Copia del trabajo. Si el id no está, {@code EFX-IMP-005}. Antes revisa los trabajos vencidos, para
+     * que un {@code valido} olvidado suelte sus películas aunque nadie suba otro archivo.
      *
      * @param jobId identificador
      * @return copia que no cambia
      */
     public JobView view(String jobId) {
+        evict();
         return require(jobId).view(properties.ingest().batchSize());
     }
 
@@ -101,12 +103,13 @@ public final class JobStore {
     }
 
     /**
-     * Marca el trabajo como {@code importando} si se puede.
+     * Marca el trabajo como {@code importando} si se puede. Un {@code valido} vencido ya no se importa.
      *
      * @param jobId identificador
      * @return {@code false} si no estaba {@code valido}
      */
     public boolean beginImport(String jobId) {
+        evict();
         ImportWork work = require(jobId);
         if (!work.beginImport()) {
             discardIfTerminal(work);

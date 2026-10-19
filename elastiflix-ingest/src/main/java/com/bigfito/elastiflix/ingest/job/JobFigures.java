@@ -87,7 +87,7 @@ final class JobFigures {
         return "";
     }
 
-    private static boolean isRecordNumber(String label) {
+    static boolean isRecordNumber(String label) {
         if (label == null || label.isEmpty()) {
             return false;
         }
