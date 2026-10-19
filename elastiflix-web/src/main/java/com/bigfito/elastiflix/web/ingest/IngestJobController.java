@@ -15,10 +15,8 @@ import com.bigfito.elastiflix.ingest.service.IngestService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.unit.DataSize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,25 +36,18 @@ public class IngestJobController {
     private final IngestService ingest;
     private final UploadCheck uploads;
     private final IngestLimits limits;
-    private final long maxFileBytes;
 
     /**
      * Crea el controlador.
      *
-     * @param ingest      fachada
-     * @param uploads     extensión, tamaño y UTF-8
-     * @param limits      alias del catálogo para los textos
-     * @param maxFileSize mismo tope que {@code spring.servlet.multipart.max-file-size}
+     * @param ingest  fachada
+     * @param uploads extensión, tamaño y UTF-8
+     * @param limits  tamaño máximo del archivo y alias del catálogo para los textos
      */
-    public IngestJobController(
-            IngestService ingest,
-            UploadCheck uploads,
-            IngestLimits limits,
-            @Value("${spring.servlet.multipart.max-file-size:150MB}") DataSize maxFileSize) {
+    public IngestJobController(IngestService ingest, UploadCheck uploads, IngestLimits limits) {
         this.ingest = ingest;
         this.uploads = uploads;
         this.limits = limits;
-        this.maxFileBytes = maxFileSize.toBytes();
     }
 
     /**
@@ -159,6 +150,7 @@ public class IngestJobController {
     }
 
     private void rejectIfTooLarge(MultipartFile file) {
+        long maxFileBytes = limits.maxFileSize().toBytes();
         if (file.getSize() > maxFileBytes) {
             throw new MaxUploadSizeExceededException(maxFileBytes);
         }
