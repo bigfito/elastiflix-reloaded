@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-22
+- **Tarea actual:** T-23
 - **Subpaso en curso:** por empezar
-- **Próximo paso:** arranca la app en el puerto 8095, captura Resultados, Cargar y Acerca con Playwright (estilos calculados de cada elemento y PNG) con el CSS actual y con el CSS unificado servido por `page.route`, une las reglas repetidas, quita las muertas y compara.
-- **Última actualización:** 2026-10-19 02:38 UTC
+- **Próximo paso:** usa `com.bigfito.elastiflix.ingest.mapping.Thousands.of` en `CatalogTexts` (en lugar de `grouped`), en los votos de `ResultCards` y en el título del conteo de `ResultsPage`; prueba MockMvc con «21 911 votos».
+- **Última actualización:** 2026-10-19 02:45 UTC
 
 ## Tareas
 
@@ -37,8 +37,8 @@ en curso
 | T-14 | terminada | `36f85bc` | `LayoutAdvice.shell(HttpServletRequest)` guarda el cromo en `PageShells.REQUEST_ATTRIBUTE`; `WebExceptionHandler.elastiflix` lo reutiliza y solo llama a `catalog.status()` si falta. Prueba nueva `ErrorPageTest.shouldReadTheCatalogOnceForAnElastiflixError` (`/probe/elastiflix` → 500 con el pie y `verify(catalog, times(1)).status()`). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,LayoutPageTest,IngestPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (ignorar el atributo y volver a leer): falla con `TooManyActualInvocations` (2 lecturas); revertido. |
 | T-19 (`SearchController`) | terminada | `5a7a6c8` | Parte de E: Javadoc de clase y de `search` en `SearchController` fiel al comportamiento (solo `summary()` con punto junto al campo; el código al log en `WARN`). `git grep -n "con su código" elastiflix-web/src/main/java/com/bigfito/elastiflix/web/search` no devuelve nada. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 13 pruebas, 0 fallos, Checkstyle y PMD en 0. Solo cambia Javadoc: no hay comportamiento que romper. Las partes de A y C son de sus carriles. |
 | T-20 (página de error) | terminada | `5eeb292` | Parte de E: `ErrorPages.filled` pone `summary() + "."`; `ErrorPageTest.shouldShowTheCatalogMessage` afirma `<p>No se pudo conectar con Elasticsearch.</p>`. Filas de PLAN §1 de la página de error y del 404 en «Notas para el cierre». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 10 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (sin el punto): falla `shouldShowTheCatalogMessage`; revertido. La parte de `ingest.html` y `JobTexts` es del carril F. |
-| T-21 | terminada | (hash en el commit siguiente) | `FacetChoices.hasExtra` (`anyMatch(FacetChoice::extra)`) da `genresExtra` y `languagesExtra` al modelo; `results.html` los usa en lugar de `size() > 6`. Prueba nueva `ResultsPageTest.shouldNotOfferExpandWhenNothingIsHidden`: 6 géneros más `genero=Western` (marcado y sin conteo) dan 7 opciones, ninguna `extra`, y no aparece «Ver todos los géneros»; `shouldOfferExpandOnlyPastSixValues` sigue mostrándolo con 7 valores. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 14 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver a `genres.size() > 6`): falla `shouldNotOfferExpandWhenNothingIsHidden`; revertido. |
-| T-22 | pendiente | — | CSS duplicado y muerto |
+| T-21 | terminada | `74a89d5` | `FacetChoices.hasExtra` (`anyMatch(FacetChoice::extra)`) da `genresExtra` y `languagesExtra` al modelo; `results.html` los usa en lugar de `size() > 6`. Prueba nueva `ResultsPageTest.shouldNotOfferExpandWhenNothingIsHidden`: 6 géneros más `genero=Western` (marcado y sin conteo) dan 7 opciones, ninguna `extra`, y no aparece «Ver todos los géneros»; `shouldOfferExpandOnlyPastSixValues` sigue mostrándolo con 7 valores. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 14 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver a `genres.size() > 6`): falla `shouldNotOfferExpandWhenNothingIsHidden`; revertido. |
+| T-22 | terminada | (hash en el commit siguiente) | `elastiflix.css` pasa de 645 a 625 líneas: cada pareja repetida de la lista quedó en una regla (`.fh`, `.filters legend`, `.poster.missing`, `.extra`/`.show-extra .extra`, `.results h1`/`.results-head h1`, `.filters fieldset`, `.results-layout`, `.rrf-value`, `.filters .date-field`, `.hit-list`, `.mode-cards`, `.filters-head h2` y `.legend` dentro de `.results .legend`) y se quitaron las muertas (`.score-panel .eyebrow`, `.sizes`, `.page-size select`, `#job-ok[hidden]`, `.file-chip[hidden]`). Capturas antes y después: 60 de 60 archivos idénticos byte a byte (estilos calculados de todos los elementos y PNG de página completa; 15 pantallas de Resultados, Cargar, Acerca, Inicio y 404 en 1440 y 390 px). Método en «Decisiones». Cambio solo de CSS: lo que se rompería es lo que se ve, y la comparación lo cubre. |
 | T-23 | pendiente | — | Tres maneras de agrupar miles, y cifras sin agrupar |
 | T-25 (`PosterUrls`) | pendiente | — | Configuración y beans armados para las pruebas |
 | T-26 (Resultados y CSS) | pendiente | — | Accesibilidad |
@@ -67,6 +67,19 @@ Vacío.
 - **T-20 (decisión, parte de E):** se agrega el punto en `ErrorPages.filled` (no en `ErrorCode`, que es de
   A y cuyo `summary()` afirman otras pruebas, regla 2), y se anotan en «Notas para el cierre» las filas de
   PLAN §1 de las páginas de error, que no tienen mockup.
+- **T-22 (cómo se comparó):** en lugar de comparar a ojo, un script de Playwright (fuera del repo, en
+  `/tmp/claude-1000/lane-paginas/cap/`) abre la aplicación del carril (jar en el puerto 8095, contra el
+  Elasticsearch real de `.env`), sirve `elastiflix.css` con `page.route` (el de `HEAD` o el nuevo), bloquea
+  los pósters de TMDB para que el resultado no dependa de la red, espera las fuentes y guarda, por pantalla y
+  ancho, el `getComputedStyle` de **cada** elemento (y de sus `::before`/`::after`) y una captura PNG de
+  página completa. 15 pantallas × 2 anchos (1440 y 390 px): Inicio; Resultados full-text con «Ver todos»
+  abierto, con filtros, vectorial, híbrida, sin resultados, sin resultados por filtros, consulta vacía,
+  fechas invertidas y `candidatos < k`; Cargar (pestañas registro, JSON y CSV); Acerca; 404. Dos corridas con
+  el CSS viejo dieron 60 de 60 archivos idénticos byte a byte (el método es determinista); el CSS nuevo contra
+  el viejo, también 60 de 60.
+- Además de las reglas que nombra la lista, se unieron las otras parejas con el mismo selector que la
+  hoja repetía (`.results`, `.results section`, `.filters`, `.score-panel`, `.score-line`, `.hit-main`),
+  con la misma comparación.
 - **T-19 (decisión del texto, parte de E):** el Javadoc de `SearchController` dice ahora que el error de
   validación se muestra junto al campo solo con su «qué pasó» (`summary()`) y punto final, y que el código
   `EFX-*` va al log en `WARN`; el de `search` dice «muestra qué pasó junto al campo y registra el código».
@@ -91,6 +104,8 @@ Vacío.
   - Página 404 (`not-found.html`) | — | Etiqueta «404», título «Esta página no existe», texto «La dirección
     no corresponde a ninguna pantalla de la demo.» y los enlaces Buscar · Cargar datos · Acerca de la demo.
   - Si `docs/diseno/4.md` describe la página de error, decir que el mensaje es `summary()` más el punto.
+- **T-22:** el criterio pide anotar la comparación de capturas en `progreso/revision-3.md`, que es de Z:
+  copiar de aquí la evidencia de la fila T-22 y la decisión «T-22 (cómo se comparó)».
 
 ## Bloqueos y solicitudes
 
