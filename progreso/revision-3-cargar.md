@@ -19,11 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-04
-- **Subpaso en curso:** carril reservado
-- **Próximo paso:** corre `./mvnw -q -pl elastiflix-web -am verify` sobre `main` y corrige T-04 en `ingest.js`
-  (bandera `actionError` que `paint()` respeta).
-- **Última actualización:** 2026-10-19 02:10 UTC
+- **Tarea actual:** T-05
+- **Subpaso en curso:** T-04 terminada
+- **Próximo paso:** T-05 en `ingest.js`: `input.value = ""` en `choose()` y rehabilitar «Validar archivo» al cambiar separador o encabezado.
+- **Última actualización:** 2026-10-19 02:16 UTC
 
 ## Tareas
 
@@ -31,7 +30,7 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-04 | pendiente | — | «Cargar datos»: el aviso de un 409 o 404 al importar o cancelar se borra al instante |
+| T-04 | terminada | se anota en el commit siguiente | `ingest.js`: bandera `actionError` que pone `act()` ante un 4xx o una caída de red; `paint()` ya no oculta `#server-error` mientras esté puesta y el siguiente clic la limpia. Prueba: `BASE_URL=http://localhost:8096 node --test ingest.test.js` → «T-04: un 409 al importar deja el aviso visible después del siguiente sondeo» ✔. Con `ingest.js` de `main` falla (`actual: false, expected: true`); se restauró la corrección. |
 | T-05 | pendiente | — | «Cargar datos»: no se puede volver a validar el mismo archivo con otro separador |
 | T-11 | pendiente | — | El manejo de estados de `ingest.js` no tiene prueba automática |
 | T-13 («Cargar datos» y `application.yml`) | pendiente | — | Límites de carga con dos orígenes y valores escritos a mano |
@@ -48,8 +47,8 @@ Vacío.
 ## Última verificación
 
 - **Comando:** `./mvnw -pl elastiflix-web -am verify` (y al final `./mvnw verify` completo)
-- **Resultado:** —
-- **Fecha:** —
+- **Resultado:** `main` de partida (`6c403f4`) en verde (EXIT 0)
+- **Fecha:** 2026-10-19 02:13 UTC
 
 ## Decisiones
 

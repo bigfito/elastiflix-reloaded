@@ -23,6 +23,8 @@
   var jobId = "";
   var timer = 0;
   var busy = false;
+  // Aviso de un 4xx o de una caída de red al importar o cancelar: lo limpia el siguiente clic, no el sondeo.
+  var actionError = false;
 
   function byId(id) {
     return document.getElementById(id);
@@ -74,6 +76,7 @@
     stopPolling();
     jobId = "";
     busy = false;
+    actionError = false;
     ["file-block", "columns-card", "job", "job-import-card", "server-error"].forEach(function (id) {
       show(byId(id), false);
     });
@@ -300,13 +303,16 @@
         if (current !== jobId) {
           return;
         }
-        serverError(POLL_RETRY);
+        if (!actionError) {
+          serverError(POLL_RETRY);
+        }
         timer = window.setTimeout(poll, 3000);
       });
   }
 
   function act(path) {
     busy = true;
+    actionError = false;
     importButton.disabled = true;
     cancelButton.disabled = true;
     stopPolling();
@@ -319,17 +325,23 @@
           return;
         }
         if (!result.ok) {
-          serverError(errorText(result.data));
-          poll();
+          actionFailed(errorText(result.data));
           return;
         }
         paint(result.data);
       })
       .catch(function () {
         busy = false;
-        serverError(NETWORK_ERROR);
-        poll();
+        if (current === jobId) {
+          actionFailed(NETWORK_ERROR);
+        }
       });
+  }
+
+  function actionFailed(text) {
+    actionError = true;
+    serverError(text);
+    poll();
   }
 
   importButton.addEventListener("click", function () { act("importar"); });
@@ -338,7 +350,7 @@
   function paint(screen) {
     var job = screen.job;
     var texts = screen.texts;
-    show(byId("server-error"), false);
+    show(byId("server-error"), actionError);
     paintSteps(job);
     if (job.fileCount > 0) {
       setText("file-meta", texts.fileMeta);
