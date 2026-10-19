@@ -70,7 +70,7 @@ public class IngestJobController {
         } catch (IngestValidationException exception) {
             return rejected(file, exception);
         }
-        String jobId = ingest.acceptFile(file.getOriginalFilename(), copy(file), settings(separator, header));
+        String jobId = start(file, copy(file), settings(separator, header));
         return ResponseEntity.ok(Map.of("jobId", jobId));
     }
 
@@ -156,10 +156,45 @@ public class IngestJobController {
         }
     }
 
+    /**
+     * Entrega el temporal al trabajo. Si {@code acceptFile} lanza, nadie más lo borraría: se borra aquí y la
+     * excepción sigue a {@link IngestJobErrors}. Un {@code finally} con bandera evita atrapar
+     * {@code RuntimeException} (regla {@code JM-ERR-01}).
+     */
+    private String start(MultipartFile file, Path temp, CsvSettings settings) {
+        boolean handedOver = false;
+        try {
+            String jobId = ingest.acceptFile(file.getOriginalFilename(), temp, settings);
+            handedOver = true;
+            return jobId;
+        } finally {
+            if (!handedOver) {
+                deleteTemp(temp);
+            }
+        }
+    }
+
     private static Path copy(MultipartFile file) throws IOException {
         Path path = Files.createTempFile("elastiflix-upload-", ".bin");
-        file.transferTo(path);
-        return path;
+        boolean copied = false;
+        try {
+            file.transferTo(path);
+            copied = true;
+            return path;
+        } finally {
+            if (!copied) {
+                deleteTemp(path);
+            }
+        }
+    }
+
+    private static void deleteTemp(Path temp) {
+        try {
+            Files.deleteIfExists(temp);
+        } catch (IOException exception) {
+            LOG.warn("No se pudo borrar el temporal de una subida rechazada {} tipo={}",
+                    temp.getFileName(), exception.getClass().getSimpleName());
+        }
     }
 
     private static CsvSettings settings(String separator, String header) {

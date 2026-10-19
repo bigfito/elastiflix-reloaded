@@ -76,6 +76,20 @@ public class IngestJobErrors {
         return body(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.JOB_FAILED);
     }
 
+    /**
+     * Una falla sin código, por ejemplo un {@code IllegalStateException}. Sin este manejador saldría como
+     * página HTML por {@code /error}, y la página de carga la mostraría como «sin conexión».
+     *
+     * @param exception falla no prevista; Spring elige antes los manejadores más específicos
+     * @return 500 con {@code EFX-IMP-007}
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> unexpected(RuntimeException exception) {
+        LOG.error("{} en un endpoint de carga tipo={}", ErrorCode.JOB_FAILED.code(),
+                exception.getClass().getSimpleName(), exception);
+        return body(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.JOB_FAILED);
+    }
+
     private static ResponseEntity<Map<String, String>> body(HttpStatus status, ErrorCode code) {
         return ResponseEntity.status(status).body(Map.of("code", code.code(), "message", code.summary()));
     }
