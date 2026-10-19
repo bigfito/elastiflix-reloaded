@@ -61,7 +61,10 @@ class ErrorContextTest {
         assertThat(ErrorCode.REINDEX_COUNT_MISMATCH.userMessage()).contains("importación o la migración");
         assertThat(ErrorCode.REINDEX_FAILED.userMessage()).contains("importación o la migración")
                 .doesNotContain("El índice temporal se borra");
-        assertThat(ErrorCode.ALIAS_PUBLISH_FAILED.userMessage()).doesNotContain("Se borró el índice temporal");
-        assertThat(ErrorCode.PUBLISH_UNCERTAIN.userMessage()).doesNotContain("La respuesta no llegó");
+        assertThat(ErrorCode.ALIAS_PUBLISH_FAILED.userMessage()).doesNotContain("Se borró el índice temporal")
+                .doesNotContain("lo limpia la próxima importación").contains("si quedó, bórralo a mano");
+        assertThat(ErrorCode.PUBLISH_UNCERTAIN.userMessage()).doesNotContain("La respuesta no llegó")
+                .doesNotContain("índice temporal").contains("El índice nuevo se dejó sin borrar");
+        assertThat(ErrorCode.UNREADABLE_JSON.userMessage()).doesNotContain("celda");
     }
 }

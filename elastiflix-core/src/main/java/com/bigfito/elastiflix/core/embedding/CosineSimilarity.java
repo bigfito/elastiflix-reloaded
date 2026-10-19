@@ -1,7 +1,10 @@
 package com.bigfito.elastiflix.core.embedding;
 
 /**
- * Coseno entre dos vectores. Lo usan las pruebas que comparan embeddings.
+ * Coseno entre dos vectores.
+ *
+ * <p>El código de producción no la usa: la usan las pruebas de core e ingest que comparan embeddings. Vive en
+ * {@code src/main} porque un módulo no ve las clases de prueba de otro.</p>
  */
 public final class CosineSimilarity {
 
