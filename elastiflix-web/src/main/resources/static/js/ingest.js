@@ -94,22 +94,50 @@
     resetJob();
   }
 
-  document.querySelectorAll("[data-tab]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      tab = button.getAttribute("data-tab");
-      document.querySelectorAll("[data-tab]").forEach(function (other) {
-        var on = other === button;
-        other.classList.toggle("is-on", on);
-        other.setAttribute("aria-selected", on ? "true" : "false");
-      });
-      show(single, tab === "single");
-      show(filePanel, tab !== "single");
-      document.querySelectorAll("[data-csv]").forEach(function (node) {
-        show(node, tab === "csv");
-      });
-      filePanel.setAttribute("aria-labelledby", button.id);
-      paintFileCopy();
-      resetFile();
+  var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
+
+  // Solo la pestaña elegida entra en el orden de Tab (tabindex itinerante); las flechas cambian de pestaña.
+  function selectTab(button) {
+    tab = button.getAttribute("data-tab");
+    tabs.forEach(function (other) {
+      var on = other === button;
+      other.classList.toggle("is-on", on);
+      other.setAttribute("aria-selected", on ? "true" : "false");
+      other.tabIndex = on ? 0 : -1;
+    });
+    show(single, tab === "single");
+    show(filePanel, tab !== "single");
+    document.querySelectorAll("[data-csv]").forEach(function (node) {
+      show(node, tab === "csv");
+    });
+    filePanel.setAttribute("aria-labelledby", button.id);
+    paintFileCopy();
+    resetFile();
+  }
+
+  var TAB_KEYS = { ArrowRight: 1, ArrowLeft: -1, Home: "first", End: "last" };
+
+  function tabAfterKey(button, key) {
+    var move = TAB_KEYS[key];
+    if (move === "first") {
+      return tabs[0];
+    }
+    if (move === "last") {
+      return tabs[tabs.length - 1];
+    }
+    return tabs[(tabs.indexOf(button) + move + tabs.length) % tabs.length];
+  }
+
+  tabs.forEach(function (button) {
+    button.addEventListener("click", function () { selectTab(button); });
+    button.addEventListener("keydown", function (event) {
+      if (!(event.key in TAB_KEYS)) {
+        return;
+      }
+      event.preventDefault();
+      var next = tabAfterKey(button, event.key);
+      next.focus();
+      selectTab(next);
     });
   });
 

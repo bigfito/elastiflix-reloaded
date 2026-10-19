@@ -173,3 +173,44 @@ test('T-11: una caída de red al subir detiene el paso 2 con el aviso de red', a
     assert.equal(await page.isEnabled('#file-submit'), true);
   });
 });
+
+async function tabState(page) {
+  return page.$$eval('[role="tab"]', (items) => items.map((item) => ({
+    id: item.id, selected: item.getAttribute('aria-selected'), tabIndex: item.tabIndex,
+    focused: document.activeElement === item
+  })));
+}
+
+function selectedOnly(state, id) {
+  return state.every((item) => (item.id === id
+    ? item.selected === 'true' && item.tabIndex === 0 && item.focused
+    : item.selected === 'false' && item.tabIndex === -1 && !item.focused));
+}
+
+test('T-26: las pestañas usan tabindex itinerante y se recorren con flechas, Inicio y Fin', async () => {
+  await withPage(async (page) => {
+    await page.goto(BASE_URL + '/cargar');
+    assert.deepEqual((await tabState(page)).map((item) => item.tabIndex), [0, -1, -1]);
+    await page.focus('#tab-single');
+
+    await page.keyboard.press('ArrowRight');
+    assert.ok(selectedOnly(await tabState(page), 'tab-json'), JSON.stringify(await tabState(page)));
+    assert.equal(await page.isVisible('#panel-file'), true);
+    assert.equal(await page.textContent('#file-title'), 'Archivo JSON');
+
+    await page.keyboard.press('ArrowRight');
+    assert.ok(selectedOnly(await tabState(page), 'tab-csv'));
+    assert.equal(await page.textContent('#file-title'), 'Archivo CSV');
+
+    await page.keyboard.press('ArrowRight');
+    assert.ok(selectedOnly(await tabState(page), 'tab-single'), 'la flecha da la vuelta');
+    assert.equal(await page.isVisible('#panel-single'), true);
+
+    await page.keyboard.press('ArrowLeft');
+    assert.ok(selectedOnly(await tabState(page), 'tab-csv'));
+    await page.keyboard.press('Home');
+    assert.ok(selectedOnly(await tabState(page), 'tab-single'));
+    await page.keyboard.press('End');
+    assert.ok(selectedOnly(await tabState(page), 'tab-csv'));
+  });
+});
