@@ -59,6 +59,30 @@ class ElastiflixPropertiesTest {
         });
     }
 
+    @Test
+    @DisplayName("con la URL en blanco, @Validated detiene el enlace y nombra elastiflix.elasticsearch.url")
+    void shouldRejectABlankUrlWhenBinding() {
+        // given
+        ApplicationContextRunner withoutUrl = new ApplicationContextRunner()
+                .withUserConfiguration(PropertiesOnly.class)
+                .withPropertyValues("elastiflix.elasticsearch.url= ", "elastiflix.elasticsearch.api-key=test-key");
+
+        // when / then
+        withoutUrl.run(context -> assertThat(context).hasFailed()
+                .getFailure().rootCause().hasMessageContaining("elastiflix.elasticsearch.url"));
+    }
+
+    @Test
+    @DisplayName("un alias o un id de inferencia en blanco no fallan: el constructor ya los rellenó")
+    void shouldFillTheBlankAliasAndInferenceIdBeforeValidating() {
+        runner.withPropertyValues("elastiflix.index.alias= ", "elastiflix.inference.id= ").run(context -> {
+            assertThat(context).hasNotFailed();
+            ElastiflixProperties properties = context.getBean(ElastiflixProperties.class);
+            assertThat(properties.index().alias()).isEqualTo("elastiflix-reloaded");
+            assertThat(properties.inference().id()).isEqualTo(".jina-embeddings-v5-omni-small");
+        });
+    }
+
     /**
      * Solo enlaza las propiedades. No arranca el cliente de Elasticsearch.
      */
