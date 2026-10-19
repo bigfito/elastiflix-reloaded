@@ -19,9 +19,9 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-05
-- **Subpaso en curso:** T-04 terminada
-- **Próximo paso:** T-05 en `ingest.js`: `input.value = ""` en `choose()` y rehabilitar «Validar archivo» al cambiar separador o encabezado.
+- **Tarea actual:** T-11
+- **Subpaso en curso:** T-05 terminada
+- **Próximo paso:** T-11: completar `ingest.test.js` (cancelado, doble clic, caída de red) y que `suggestions.test.js` intercepte `/buscar`.
 - **Última actualización:** 2026-10-19 02:16 UTC
 
 ## Tareas
@@ -30,8 +30,8 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-04 | terminada | se anota en el commit siguiente | `ingest.js`: bandera `actionError` que pone `act()` ante un 4xx o una caída de red; `paint()` ya no oculta `#server-error` mientras esté puesta y el siguiente clic la limpia. Prueba: `BASE_URL=http://localhost:8096 node --test ingest.test.js` → «T-04: un 409 al importar deja el aviso visible después del siguiente sondeo» ✔. Con `ingest.js` de `main` falla (`actual: false, expected: true`); se restauró la corrección. |
-| T-05 | pendiente | — | «Cargar datos»: no se puede volver a validar el mismo archivo con otro separador |
+| T-04 | terminada | `3c6319f` | `ingest.js`: bandera `actionError` que pone `act()` ante un 4xx o una caída de red; `paint()` ya no oculta `#server-error` mientras esté puesta y el siguiente clic la limpia. Prueba: `BASE_URL=http://localhost:8096 node --test ingest.test.js` → «T-04: un 409 al importar deja el aviso visible después del siguiente sondeo» ✔. Con `ingest.js` de `main` falla (`actual: false, expected: true`); se restauró la corrección. |
+| T-05 | terminada | se anota en el commit siguiente | `ingest.js`: `choose()` vacía `input.value` tras guardar el archivo; un `change` del separador o de la casilla de encabezado rehabilita «Validar archivo» si hay un archivo que pasó la comprobación del navegador; `upload()` quita la marca «rechazado» de la ficha. Prueba: «T-05: validar un CSV, cambiar el separador y validar el mismo archivo hace un segundo POST» ✔ (dos POST, con `,` y `;`). Con `ingest.js` sin T-05 falla en el input (`actual: 'C:\\fakepath\\peliculas.csv'`); sin el `change` del separador falla en el botón (`actual: false`); se restauró la corrección. |
 | T-11 | pendiente | — | El manejo de estados de `ingest.js` no tiene prueba automática |
 | T-13 («Cargar datos» y `application.yml`) | pendiente | — | Límites de carga con dos orígenes y valores escritos a mano |
 | T-15 | pendiente | — | La API de carga: un error sin código se muestra como «sin conexión», y la subida deja un temporal |

@@ -20,6 +20,8 @@
 
   var tab = "json";
   var chosen = null;
+  // El archivo elegido pasó la comprobación del navegador: otro separador u otra casilla permiten validarlo otra vez.
+  var chosenOk = false;
   var jobId = "";
   var timer = 0;
   var busy = false;
@@ -85,6 +87,7 @@
 
   function resetFile() {
     chosen = null;
+    chosenOk = false;
     input.value = "";
     show(byId("file-chip"), false);
     submit.disabled = true;
@@ -138,11 +141,21 @@
   input.addEventListener("change", function () {
     choose(input.files[0] || null);
   });
+  form.querySelectorAll('[name="separador"], [name="encabezado"]').forEach(function (option) {
+    option.addEventListener("change", function () {
+      if (chosen && chosenOk) {
+        submit.disabled = false;
+      }
+    });
+  });
 
   // Paso 1: la comprobación del navegador corre apenas se elige el archivo.
   function choose(file) {
     resetJob();
     chosen = file;
+    chosenOk = false;
+    // Vaciar el input deja elegir otra vez el mismo archivo: sin esto, «Cambiar archivo» no dispara change.
+    input.value = "";
     submit.disabled = true;
     if (!file) {
       show(byId("file-chip"), false);
@@ -161,6 +174,7 @@
         rejectInBrowser(reasons);
         return;
       }
+      chosenOk = true;
       setStep(1, "done");
       submit.disabled = false;
     });
@@ -249,6 +263,8 @@
 
   function upload(file) {
     resetJob();
+    setText("file-meta", megabytes(file.size));
+    byId("file-chip").classList.remove("is-rejected");
     setStep(1, "done");
     setStep(2, "current");
     submit.disabled = true;

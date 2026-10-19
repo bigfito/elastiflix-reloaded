@@ -85,3 +85,29 @@ test('T-04: un 409 al importar deja el aviso visible después del siguiente sond
       'EFX-IMP-003 · El trabajo no está listo para importar.');
   });
 });
+
+// El cuerpo multipart trae cada campo como «name="separador"» seguido de una línea vacía y su valor.
+function separatorOf(body) {
+  const match = /name="separador"\r\n\r\n([^\r]*)\r\n/.exec(body);
+  return match ? match[1] : null;
+}
+
+test('T-05: validar un CSV, cambiar el separador y validar el mismo archivo hace un segundo POST', async () => {
+  await withPage(async (page) => {
+    const calls = await serveJob(page, [screen('invalido', 3)]);
+    await chooseFile(page, 'csv', 'peliculas.csv', CSV);
+    assert.equal(await page.inputValue('#archivo'), '', 'el input se vacía para poder elegir el mismo archivo');
+
+    await page.click('#file-submit');
+    await page.waitForFunction(() => document.querySelector('#steps li[data-step="3"]').className === 'is-failed');
+    assert.equal(await page.isDisabled('#file-submit'), true);
+    await page.selectOption('[name="separador"]', ';');
+    assert.equal(await page.isEnabled('#file-submit'), true);
+    await page.click('#file-submit');
+    await page.waitForFunction(() => document.querySelector('#steps li[data-step="3"]').className === 'is-failed');
+
+    assert.equal(calls.uploads.length, 2);
+    assert.equal(separatorOf(calls.uploads[0]), ',');
+    assert.equal(separatorOf(calls.uploads[1]), ';');
+  });
+});
