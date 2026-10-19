@@ -19,7 +19,6 @@ final class ValidationRun {
     private final List<Movie> movies = new ArrayList<>();
     private final Set<String> seen = new HashSet<>();
     private final Set<String> ids = new HashSet<>();
-    private final Set<String> warned = new HashSet<>();
     private boolean failed;
 
     void add(ValidationIssue issue) {
@@ -54,9 +53,5 @@ final class ValidationRun {
 
     Set<String> ids() {
         return ids;
-    }
-
-    Set<String> warned() {
-        return warned;
     }
 }

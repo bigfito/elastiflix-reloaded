@@ -24,7 +24,7 @@ final class NestedValues {
             case TEXT_LIST -> textList(name, value, scope);
             case COLLECTION -> collection(name, value, scope);
             case KEYWORDS -> keywords(name, value, scope);
-            default -> { /* los escalares los revisa ScalarValues */ }
+            default -> { /* los escalares los revisa ScalarValues; un vector no se copia: se genera desde plot */ }
         }
     }
 

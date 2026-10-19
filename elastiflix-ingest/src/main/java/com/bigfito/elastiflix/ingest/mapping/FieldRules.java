@@ -22,10 +22,6 @@ final class FieldRules {
         return KINDS.containsKey(name);
     }
 
-    static boolean vector(String name) {
-        return KINDS.get(name) == FieldKind.VECTOR;
-    }
-
     static boolean required(String name) {
         return FieldNames.REQUIRED.contains(name);
     }
@@ -79,8 +75,8 @@ final class FieldRules {
         map.put("spoken_languages", FieldKind.TEXT_LIST);
         map.put("belongs_to_collection", FieldKind.COLLECTION);
         map.put("keywords", FieldKind.KEYWORDS);
-        map.put("plot_256", FieldKind.VECTOR);
-        map.put("plot_512", FieldKind.VECTOR);
-        map.put("plot_1024", FieldKind.VECTOR);
+        for (String vector : VectorFields.NAMES) {
+            map.put(vector, FieldKind.VECTOR);
+        }
     }
 }

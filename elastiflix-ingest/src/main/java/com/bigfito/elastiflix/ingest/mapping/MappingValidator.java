@@ -60,7 +60,7 @@ public final class MappingValidator {
     }
 
     private void accept(JsonNode document, String label, ValidationRun run) {
-        CheckedDocument checked = checker.check(document, label, run.warned());
+        CheckedDocument checked = checker.check(document, label);
         run.addAll(checked.issues());
         remember(checked, label, run);
         if (!run.failed()) {

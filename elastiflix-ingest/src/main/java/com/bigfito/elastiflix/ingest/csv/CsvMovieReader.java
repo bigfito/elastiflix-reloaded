@@ -148,10 +148,7 @@ public final class CsvMovieReader {
         if (cell.isBlank()) {
             return;
         }
-        JsonNode value = CsvValues.read(name, cell);
-        if (value != null) {
-            object.set(name, value);
-        }
+        object.set(name, CsvValues.read(name, cell));
     }
 
     private static boolean blank(List<String> row) {
