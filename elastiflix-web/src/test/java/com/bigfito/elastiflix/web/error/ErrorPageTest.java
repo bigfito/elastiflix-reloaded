@@ -48,7 +48,7 @@ class ErrorPageTest {
         mvc.perform(get("/probe/elastiflix"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string(containsString("EFX-ES-001")))
-                .andExpect(content().string(containsString("No se pudo conectar con Elasticsearch")))
+                .andExpect(content().string(containsString("<p>No se pudo conectar con Elasticsearch.</p>")))
                 .andExpect(content().string(not(containsString("EFX-ES-001 ·"))));
     }
 

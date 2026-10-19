@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-20 (página de error)
+- **Tarea actual:** T-21
 - **Subpaso en curso:** por empezar
-- **Próximo paso:** agrega el punto final al «qué pasó» en `ErrorPages.filled` y afírmalo en `ErrorPageTest`; anota la fila de PLAN §1 en «Notas para el cierre».
-- **Última actualización:** 2026-10-19 02:33 UTC
+- **Próximo paso:** agrega `genresExtra` y `languagesExtra` (`anyMatch(FacetChoice::extra)`) al modelo de `ResultsPage`, úsalos en `results.html` en lugar de `size() > 6`, y prueba con 6 valores más un marcado que falta.
+- **Última actualización:** 2026-10-19 02:36 UTC
 
 ## Tareas
 
@@ -35,8 +35,8 @@ en curso
 | T-12 (`changeHref`) | terminada | `e160ec0` | Se quitó `model.addAttribute("changeHref", "/")` de `ResultsPage.heading`; «Cambiar ajustes» sigue con `@{/}`. `git grep -n changeHref -- '*/src/main/*'` no devuelve nada (código 1). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 20 pruebas, 0 fallos, Checkstyle y PMD en 0. Es una eliminación de código muerto: no hay comportamiento que romper a mano. El `./mvnw verify` completo va al cierre del carril. |
 | T-13 («Acerca de») | terminada | `5e30db1` | Parte de E: `AboutController` recibe `IngestLimits` y pone `maxFileLabel` y `batchSize` en el modelo; `about.html` los usa en «Antes de subir» y «Índice temporal». Prueba nueva `AboutLimitsTest` (`ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB`, `ELASTIFLIX_INGEST_BATCH_SIZE=50`): muestra «de máximo 200 MB» y «lotes de 50» y no «150 MB» ni «lotes de 100»; `AboutPageTest` afirma los valores por defecto. Las dos declaran `@EnableConfigurationProperties(ElastiflixProperties.class)` e importan `IngestLimits` (regla 7). `./mvnw -q -pl elastiflix-web -am verify -Dtest='About*Test' -Dsurefire.failIfNoSpecifiedTests=false`: 2 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (cifras otra vez fijas en la plantilla): falla `AboutLimitsTest`; revertido. La parte de «Cargar datos» es del carril F. |
 | T-14 | terminada | `36f85bc` | `LayoutAdvice.shell(HttpServletRequest)` guarda el cromo en `PageShells.REQUEST_ATTRIBUTE`; `WebExceptionHandler.elastiflix` lo reutiliza y solo llama a `catalog.status()` si falta. Prueba nueva `ErrorPageTest.shouldReadTheCatalogOnceForAnElastiflixError` (`/probe/elastiflix` → 500 con el pie y `verify(catalog, times(1)).status()`). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,LayoutPageTest,IngestPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (ignorar el atributo y volver a leer): falla con `TooManyActualInvocations` (2 lecturas); revertido. |
-| T-19 (`SearchController`) | terminada | (hash en el commit siguiente) | Parte de E: Javadoc de clase y de `search` en `SearchController` fiel al comportamiento (solo `summary()` con punto junto al campo; el código al log en `WARN`). `git grep -n "con su código" elastiflix-web/src/main/java/com/bigfito/elastiflix/web/search` no devuelve nada. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 13 pruebas, 0 fallos, Checkstyle y PMD en 0. Solo cambia Javadoc: no hay comportamiento que romper. Las partes de A y C son de sus carriles. |
-| T-20 (página de error) | pendiente | — | Textos visibles sin punto final o sin fila en PLAN §1 |
+| T-19 (`SearchController`) | terminada | `5a7a6c8` | Parte de E: Javadoc de clase y de `search` en `SearchController` fiel al comportamiento (solo `summary()` con punto junto al campo; el código al log en `WARN`). `git grep -n "con su código" elastiflix-web/src/main/java/com/bigfito/elastiflix/web/search` no devuelve nada. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 13 pruebas, 0 fallos, Checkstyle y PMD en 0. Solo cambia Javadoc: no hay comportamiento que romper. Las partes de A y C son de sus carriles. |
+| T-20 (página de error) | terminada | (hash en el commit siguiente) | Parte de E: `ErrorPages.filled` pone `summary() + "."`; `ErrorPageTest.shouldShowTheCatalogMessage` afirma `<p>No se pudo conectar con Elasticsearch.</p>`. Filas de PLAN §1 de la página de error y del 404 en «Notas para el cierre». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 10 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (sin el punto): falla `shouldShowTheCatalogMessage`; revertido. La parte de `ingest.html` y `JobTexts` es del carril F. |
 | T-21 | pendiente | — | «Ver todos» aparece aunque no oculte nada |
 | T-22 | pendiente | — | CSS duplicado y muerto |
 | T-23 | pendiente | — | Tres maneras de agrupar miles, y cifras sin agrupar |
@@ -64,6 +64,9 @@ Vacío.
   no pide `/favicon.ico`, y el ícono lo sirve el manejador de recursos estáticos, que no pasa por
   `NotFoundAdvice`. Va en `static/img/` y no en la raíz de `static/` porque esa carpeta es la que la tabla
   de carriles asigna a E.
+- **T-20 (decisión, parte de E):** se agrega el punto en `ErrorPages.filled` (no en `ErrorCode`, que es de
+  A y cuyo `summary()` afirman otras pruebas, regla 2), y se anotan en «Notas para el cierre» las filas de
+  PLAN §1 de las páginas de error, que no tienen mockup.
 - **T-19 (decisión del texto, parte de E):** el Javadoc de `SearchController` dice ahora que el error de
   validación se muestra junto al campo solo con su «qué pasó» (`summary()`) y punto final, y que el código
   `EFX-*` va al log en `WARN`; el de `search` dice «muestra qué pasó junto al campo y registra el código».
@@ -79,6 +82,15 @@ Vacío.
 - **T-14:** `docs/diseno/4.md` (cromo y errores): `LayoutAdvice.shell` deja el `PageShell` en el atributo de
   petición `PageShells.REQUEST_ATTRIBUTE`, y `WebExceptionHandler` lo reutiliza; solo lee el catálogo si la
   petición no lo trae.
+- **T-20 (parte de E) · PLAN §1, filas nuevas** (las páginas de error no tienen mockup):
+  - Página de error de la demo (`error.html`) | — | Etiqueta «No se pudo completar», título con el código
+    (`EFX-…`) y debajo el «qué pasó» del catálogo **con punto final** (`<summary()>.`, por ejemplo «No se
+    pudo conectar con Elasticsearch.»); enlace «Volver a buscar».
+  - Error sin código `EFX` (400, 405… del contenedor) | — | Título «Error <estado HTTP>» y el texto
+    «Ocurrió un error inesperado. Vuelve a intentarlo.»
+  - Página 404 (`not-found.html`) | — | Etiqueta «404», título «Esta página no existe», texto «La dirección
+    no corresponde a ninguna pantalla de la demo.» y los enlaces Buscar · Cargar datos · Acerca de la demo.
+  - Si `docs/diseno/4.md` describe la página de error, decir que el mensaje es `summary()` más el punto.
 
 ## Bloqueos y solicitudes
 

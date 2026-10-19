@@ -13,7 +13,10 @@ final class ErrorPages {
     }
 
     /**
-     * Pone el código y el mensaje del catálogo en el modelo.
+     * Pone el código y el «qué pasó» del catálogo en el modelo.
+     *
+     * <p>{@code summary()} no trae punto final; la página lo agrega para que el texto visible sea una frase
+     * completa, como el resto de la interfaz.</p>
      *
      * @param model     vista de error
      * @param exception falla de la demo
@@ -22,7 +25,7 @@ final class ErrorPages {
     static String filled(Model model, ElastiflixException exception) {
         model.addAttribute("nav", "");
         model.addAttribute("code", exception.errorCode().code());
-        model.addAttribute("message", exception.errorCode().summary());
+        model.addAttribute("message", exception.errorCode().summary() + ".");
         return "error";
     }
 }
