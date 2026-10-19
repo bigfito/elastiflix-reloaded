@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.web.error;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.web.layout.CatalogTexts;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -43,13 +44,16 @@ class ErrorPageTest {
     }
 
     @Test
-    @DisplayName("ElastiflixException muestra el código y el mensaje del catálogo")
+    @DisplayName("ElastiflixException muestra el código, el mensaje del catálogo y el pie con TMDB")
     void shouldShowTheCatalogMessage() throws Exception {
         mvc.perform(get("/probe/elastiflix"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string(containsString("EFX-ES-001")))
                 .andExpect(content().string(containsString("<p>No se pudo conectar con Elasticsearch.</p>")))
-                .andExpect(content().string(not(containsString("EFX-ES-001 ·"))));
+                .andExpect(content().string(not(containsString("EFX-ES-001 ·"))))
+                .andExpect(content().string(containsString("<footer class=\"site-footer\">")))
+                .andExpect(content().string(containsString("Índice: elastiflix-reloaded · 4 322 películas")))
+                .andExpect(content().string(containsString(CatalogTexts.TMDB)));
     }
 
     @Test
