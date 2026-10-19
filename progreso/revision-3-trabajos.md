@@ -15,14 +15,15 @@
 
 ## Estado general
 
-en curso
+terminado (PR hacia `main` abierto; lo fusiona el usuario)
 
 ## Punto de reanudación
 
-- **Tarea actual:** cierre del carril
+- **Tarea actual:** ninguna (carril terminado)
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** `git merge origin/main`, `./mvnw verify` y `./mvnw verify -Pit` en verde, estado `terminado`, push y PR hacia `main`.
-- **Última actualización:** 2026-10-19 02:51 UTC
+- **Próximo paso:** el usuario revisa y fusiona el PR «Revisión 3 · carril C (Carga: trabajos)»; después, el carril Z
+  aplica las «Notas para el cierre».
+- **Última actualización:** 2026-10-19 02:54 UTC
 
 ## Tareas
 
@@ -30,7 +31,7 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-08 | terminada | sobre `1801d02` | `JobFigures.checks` recibe el estado: solo hay comprobaciones en `valido`, `importando` y `publicado`. `./mvnw -q -pl elastiflix-ingest -am test -Dtest=JobFiguresTest` → 8 pruebas, 0 fallos; con el filtro de estado quitado a mano fallan `shouldShowNoChecksWhenTheJobIsStillValidating` y `shouldShowNoChecksWhenTheJobFailed` (revertido). Checkstyle y PMD de ingest en 0 (`verify -DskipTests`). |
+| T-08 | terminada | `f0da59b` (sobre `1801d02`) | `JobFigures.checks` recibe el estado: solo hay comprobaciones en `valido`, `importando` y `publicado`. `./mvnw -q -pl elastiflix-ingest -am test -Dtest=JobFiguresTest` → 8 pruebas, 0 fallos; con el filtro de estado quitado a mano fallan `shouldShowNoChecksWhenTheJobIsStillValidating` y `shouldShowNoChecksWhenTheJobFailed` (revertido). Checkstyle y PMD de ingest en 0 (`verify -DskipTests`). |
 | T-09 | terminada | `585e978` (sobre `f0da59b`) | `FileIntake` pasa el paso detenido a `JobStore.invalid(jobId, informe, paso)`: 2 para `EFX-ING-001` a `004` y 3 en los demás; `ImportWork.describe()` pasa el trabajo al paso 3. Nueva `FileIntakeTest` (3 pruebas: `EFX-ING-002` → paso 2; `EFX-ING-012` → paso 3; validando → paso 3). Rompiendo a mano: `stepOf` siempre 3 → falla `shouldStopStepTwoWhenTheFileHasTwoExtensions`; sin `step = VALIDATION_STEP` en `describe` → falla `shouldMoveToStepThreeWhenTheMappingValidationStarts`; el informe de campos con paso 2 → falla `shouldStopStepThreeWhenAFieldHasTheWrongType` (revertidos). `./mvnw -q -pl elastiflix-ingest -am verify` → BUILD SUCCESS (exit 0). |
 | T-10 (`ImportJob`, `ImportRunner`, `JobStore`) | terminada | `c53d542` (sobre `585e978`) | Nuevas `ImportJobEdgeTest` (7 pruebas: `REINDEX_COUNT_MISMATCH` en la copia, `CATALOG_NOT_FOUND`, `ALIAS_AMBIGUOUS`, 5 películas en 3 lotes de 2, cancelar entre lotes, cancelar justo antes de `swap`, `deleteTemp` que falla con su `WARN` capturado con `ListAppender`) e `ImportRunnerTest` (3: éxito → `publicado` en el paso 5; `IMPORT_CANCELLED` → `cancelado`; `BULK_REJECTED` → `fallido`). `ImportJobTest` ya tiene 375 líneas: las pruebas nuevas van en otra clase (ver «Decisiones»). Rompiendo a mano, una a la vez y revirtiendo: sin la comparación de conteos de `copy` → falla `shouldRollBackWhenTheCopyCountDoesNotMatch`; `Missing` y `Ambiguous` como `CATALOG_NOT_ALIAS` → fallan `shouldRefuseAMissingCatalog` y `shouldRefuseAnAmbiguousAlias`; un solo lote → falla `shouldWriteSeveralBatches`; sin `ensureRunning` en `BatchWriter.writeOne` → falla `shouldStopBetweenBatchesWhenCancelled`; sin `ensureRunning` antes de `swap` → falla `shouldStopRightBeforeTheSwapWhenCancelled`; sin el `LOG.warn` de `deleteTemp` → falla `shouldWarnAndKeepTheOriginalErrorWhenTheTempCannotBeDeleted`; sin `store.published` → falla `shouldPublishWhenTheImportSucceeds`; `importStopped` sin distinguir la cancelación → falla `shouldCancelWhenTheImportIsCancelled`. `./mvnw -q -pl elastiflix-ingest -am test -Dtest='ImportJobEdgeTest,ImportRunnerTest'` → exit 0. |
 | T-12 (`ImportCounts`, `ImportProgress`) | terminada | `07efc7f` (sobre `c53d542`) | `ImportCounts` queda `(fileCount, batchSize)` e `ImportProgress` `(step, batch, vectorized, written, tempIndex)`; `WriteTotals.replaced` se queda porque `ImportJob.verifiedCount` lo usa para el conteo esperado. `git grep -nE 'counts\(\)\.replaceCount|ImportProgress.*replaced|progress\.replaced' -- 'elastiflix-*/src/main'` sin resultados (`replaceCount` de `ValidatedMovies`, `ImportWork` y `JobView` es la cifra de la validación y sí se lee). `./mvnw -q -pl elastiflix-ingest -am verify` → exit 0. |
@@ -38,7 +39,7 @@ en curso
 | T-17 (`FileIntake` y `JobStore`) | terminada | `d7a9067` (sobre `3a55699`) | Parte C (la de `document_count` es del carril D). (1) `FileIntake` valida con `Set.of()` y solo con el archivo válido pide `existingIds` de los ids de las películas: `FileIntakeTest.shouldReportTheErrorsWithoutAskingTheCatalogWhenTheFileIsInvalid` (catálogo que lanza `EFX-ES-001` → `invalido` con `EFX-ING-012` y sin llamada) y `shouldCountReplacementsWhenTheFileIsValid`. (2) Nueva `ReportOrder.join`: encabezado y errores del archivo primero, después por número de fila, orden estable; `CsvRowNumbersTest.shouldReportWidthAndFieldErrorsTogether` pasa a `containsExactly` (filas 2, 4, 5). (3) `JobStore.view` y `beginImport` también llaman a `evict()`: `JobRetentionTest.shouldExpireAnIdleValidJobWhenAnotherJobIsViewed` y `shouldNotImportAnExpiredValidJob`. Rompiendo a mano y revirtiendo: `existingIds` antes de validar → falla la primera; sin el `sort` → falla `shouldReportWidthAndFieldErrorsTogether`; sin `evict()` en `view` / en `beginImport` → falla la prueba de cada uno. `./mvnw -q -pl elastiflix-ingest -am verify` → exit 0. |
 | T-19 (Javadoc y `JobStatus`) | terminada | `dc9c84a` (sobre `d7a9067`) | Parte C (la de `ErrorCode`, `ErrorCodeTest`, `ErrorContextTest` y `CosineSimilarity` es del carril A; la de `SearchController`, del E). Javadoc fiel: `JobView` `@param step` empieza en 1; `ImportRunner` y `ImportJob.run` cuentan el borrado del temporal que puede fallar con `WARN` y el caso `EFX-IMP-006` (el temporal se deja); `BatchWriter` avisa antes y después de escribir cada lote; `JobStatus.CANCELLED`: «El índice temporal, si existía, se borra; si no se pudo borrar, queda un WARN con su nombre y hay que borrarlo a mano». Solo Javadoc: no hay comportamiento que romper. `grep -rn "Se borró el índice temporal" elastiflix-ingest/src/main elastiflix-web/src/main` → 0 líneas (las 3 que quedan están en `ErrorCode`, del carril A). `./mvnw -q -pl elastiflix-ingest -am verify -DskipTests` (Checkstyle y PMD) → exit 0. |
 | T-24 (`job/`) | terminada | `504b412` (sobre `dc9c84a`) | Parte C (BOM y nombres de vectores en `csv/`, `mapping/` y `movie/` son del carril D). Duplicados: `causeType` → nueva `CauseType.of`; `ensureRunning` queda solo en `ImportJob` (paquete) y lo llama `BatchWriter`; los pasos 1 a 5 → nueva `JobSteps` (ya no hay `*_STEP` en `ImportJob`, `BatchWriter`, `ImportWork` ni `FileIntake`); JSON/CSV por nombre → `JobFigures.isCsv`, que usan `kindOf` y `FileGate.unreadable`; `IndividualRecord.VECTORS` e `ImportSample.DROPPED` usan `VectorFields.NAMES`. `FileIntake` recibe el `MappingValidator` por constructor. Costo por sondeo: nueva `ReportFigures` (vista previa, total, registros inválidos y advertencias agrupadas) se calcula en `ready` e `invalid`; `view` ya no recorre el informe. Prueba: `JobFiguresTest.shouldReuseTheReportFiguresWhenThePagePolls` (dos consultas devuelven las mismas listas); con `ReportFigures.of` dentro de `view` falla (revertido). `git grep -nE '"plot_256"|_STEP =|causeType|new MappingValidator\(\)'` en `job/` y `service/` de `src/main` → sin resultados. `./mvnw -q -pl elastiflix-ingest -am verify` → exit 0. |
-| T-27 (`job/`) | terminada | sobre `504b412` | Filas del carril C. `ImportJobTest.shouldCancelTheCopyBeforeDeletingTheTemp`: `reindex` lanza `EFX-ES-006`, `InOrder` entre `reindex` y `deleteIndex(temp)` y un solo `deleteIndex`; falla si `ImportJob` no borra el temporal (`deleteTemp = false` de inicio) o si lo borra dos veces (revertido). `JobFiguresTest.shouldGiveTheSummaryWithoutTheCode`: `isEqualTo(ErrorCode.JOB_FAILED.summary())`; falla si `failureMessage` devuelve `""` (revertido). `JobThreadFailureTest` usa `@TempDir`: `/tmp/elastiflix-job-*` tenía 44 archivos (de corridas anteriores) antes y después de correrla. Líneas de más de 120 partidas en `JobThreadFailureTest` (36, 51, 69, 85), `JobRetentionTest` (34) y la nueva `JobThreadsTest`; `awk 'length > 120'` sobre las pruebas de `job/`, `service/` y `vector/` → nada. `./mvnw -q -pl elastiflix-ingest -am verify` → exit 0. |
+| T-27 (`job/`) | terminada | `148b58a` (sobre `504b412`) | Filas del carril C. `ImportJobTest.shouldCancelTheCopyBeforeDeletingTheTemp`: `reindex` lanza `EFX-ES-006`, `InOrder` entre `reindex` y `deleteIndex(temp)` y un solo `deleteIndex`; falla si `ImportJob` no borra el temporal (`deleteTemp = false` de inicio) o si lo borra dos veces (revertido). `JobFiguresTest.shouldGiveTheSummaryWithoutTheCode`: `isEqualTo(ErrorCode.JOB_FAILED.summary())`; falla si `failureMessage` devuelve `""` (revertido). `JobThreadFailureTest` usa `@TempDir`: `/tmp/elastiflix-job-*` tenía 44 archivos (de corridas anteriores) antes y después de correrla. Líneas de más de 120 partidas en `JobThreadFailureTest` (36, 51, 69, 85), `JobRetentionTest` (34) y la nueva `JobThreadsTest`; `awk 'length > 120'` sobre las pruebas de `job/`, `service/` y `vector/` → nada. `./mvnw -q -pl elastiflix-ingest -am verify` → exit 0. |
 
 ## Cambios sin commit
 
@@ -46,9 +47,13 @@ Vacío.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-ingest -am verify` (y al final `./mvnw verify` completo)
-- **Resultado:** —
-- **Fecha:** —
+- **Comando:** `git merge origin/main` (ya al día con `6c403f4`), `./mvnw verify` y `./mvnw verify -Pit`, con el árbol
+  de `148b58a`
+- **Resultado:** `./mvnw verify` → BUILD SUCCESS en 1 min 4 s: 287 unitarias (core 50, search 62, ingest 121,
+  web 54), 0 fallos; Checkstyle 0 en los 5 módulos y PMD sin violaciones. `./mvnw verify -Pit` → BUILD SUCCESS
+  en 2 min 3 s: las mismas 287 unitarias y 29 de integración (core 9, search 14, ingest 2, web 4), 0 fallos y 0
+  omitidas.
+- **Fecha:** 2026-10-19 02:51 UTC (`verify`) y 02:52–02:54 UTC (`verify -Pit`)
 
 ## Decisiones
 
