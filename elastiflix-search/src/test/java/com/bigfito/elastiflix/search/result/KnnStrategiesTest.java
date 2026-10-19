@@ -45,6 +45,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -112,6 +113,23 @@ class KnnStrategiesTest {
     }
 
     @Test
+    @DisplayName("un ítem del _msearch rechazado con 4xx da EFX-ES-007, no «sin conexión»")
+    void shouldGiveTheRejectedCodeWhenAPartOfTheMultiSearchIsAClientError() {
+        // given
+        when(embeddings.embedQuery(anyString())).thenReturn(unit());
+        MultiSearchResponseItem<Movie> rejected = failure(400, "illegal_argument_exception");
+        when(transport.msearch(any(MsearchRequest.class), eq(Movie.class)))
+                .thenReturn(msearch(ok(1), ok(1), rejected));
+
+        // when
+        var thrown = catchThrowableOfType(ElasticsearchAccessException.class,
+                () -> service.search(query(SearchMode.HYBRID, SearchFilters.none())));
+
+        // then
+        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.ELASTICSEARCH_REJECTED);
+    }
+
+    @Test
     @DisplayName("un _msearch que no trae exactamente tres partes lanza")
     void shouldFailWhenTheMultiSearchHasTheWrongNumberOfParts() {
         when(embeddings.embedQuery(anyString())).thenReturn(unit());
@@ -142,6 +160,11 @@ class KnnStrategiesTest {
         return SearchResponse.of(response -> response.took(1).timedOut(false)
                 .shards(shards -> shards.total(1).successful(1).failed(0))
                 .hits(hits -> hits.total(total -> total.value(count).relation(TotalHitsRelation.Eq)).hits(hits(count))));
+    }
+
+    private static MultiSearchResponseItem<Movie> failure(int status, String type) {
+        return MultiSearchResponseItem.of(item -> item.failure(ErrorResponse.of(
+                error -> error.status(status).error(cause -> cause.type(type).reason("x")))));
     }
 
     private static MultiSearchResponseItem<Movie> ok(int count) {
