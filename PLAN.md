@@ -1398,7 +1398,7 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
   - `Ingest.dc.html` e `Ingest-en.dc.html` tienen la tarjeta «Modo de carga» / «Load mode» (append
     seleccionado), el aviso de bulk y los textos, pasos y botones de cada modo;
   - `About.dc.html` y `About-en.dc.html` describen los dos modos en «Carga de datos»;
-  - **pendientes de aprobación de Adolfo.**
+  - **aprobados por Adolfo el 2026-10-19.**
 - **Documentación que cambia al implementarlo:** las reglas del dominio de `AGENTS.md`, PLAN §1, §2 y
   §5, `docs/diseno/3.md` y README. Hoy todos describen la importación con copia del catálogo.
 - **Relación con la revisión 3:** sus correcciones (T-01, T-08, T-09, T-16…) se hacen sobre el flujo

@@ -12,7 +12,7 @@ componentes y comportamiento. No se rediseñan.
 |---|---|---|---|
 | `mockups/Main.dc.html` | Inicio · búsqueda | `GET /` | modo, ajustes, sugerencias dinámicas |
 | `mockups/Results.dc.html` | Resultados | `GET /buscar` | modo: Full-text · Vectorial · Híbrida; estado: Con resultados · Sin resultados · Sin resultados con filtros |
-| `mockups/Ingest.dc.html` | Cargar datos | `GET /cargar` | escenario: Archivo válido · No coincide con el mapping · Archivo rechazado; modo de carga append · bulk (requerimiento 4, **pendiente de aprobación**) |
+| `mockups/Ingest.dc.html` | Cargar datos | `GET /cargar` | escenario: Archivo válido · No coincide con el mapping · Archivo rechazado; modo de carga append · bulk (requerimiento 4, aprobado el 2026-10-19; **pendiente de implementar**) |
 | `mockups/About.dc.html` | Acerca de la demo | `GET /acerca` | — |
 | `mockups/Detail.dc.html` | Detalle de película (**pendiente de implementar**, ver PLAN › «Requerimientos nuevos») | `GET /pelicula/{id}` | película: Inception · The Equalizer 2 |
 | `mockups/<Página>-en.dc.html` | Versión en inglés de cada página (aprobada el 2026-10-19; **pendiente de implementar**, requerimiento 2) | la misma ruta con `?lang=en` | las mismas que su versión en español |
