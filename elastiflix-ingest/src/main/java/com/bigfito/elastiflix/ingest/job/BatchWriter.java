@@ -13,7 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Escribe los lotes en el índice temporal y avisa el avance antes de cada escritura.
+ * Escribe los lotes en el índice temporal. Avisa el avance dos veces por lote: antes de escribir, con el
+ * lote ya vectorizado, y después, cuando Elasticsearch aceptó el lote.
  */
 final class BatchWriter {
 

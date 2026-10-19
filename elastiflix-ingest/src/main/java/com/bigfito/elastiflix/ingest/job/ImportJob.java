@@ -60,7 +60,11 @@ public final class ImportJob {
     }
 
     /**
-     * Importa si el nombre es un alias de un solo índice. Si falla, el alias queda como estaba.
+     * Importa si el nombre es un alias de un solo índice.
+     *
+     * <p>Si falla antes de {@code _aliases}, el alias queda como estaba y el temporal se borra (si el borrado
+     * falla, queda un {@code WARN}). Si {@code _aliases} no confirma, {@code describe} decide; con
+     * {@code EFX-IMP-006} no se sabe dónde quedó el alias y el temporal se deja.</p>
      *
      * @param alias     alias del catálogo
      * @param source    películas ya validadas, por lotes

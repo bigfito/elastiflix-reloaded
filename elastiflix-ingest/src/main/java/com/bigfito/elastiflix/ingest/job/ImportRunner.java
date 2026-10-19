@@ -8,7 +8,11 @@ import com.bigfito.elastiflix.core.error.ImportException;
 import org.springframework.stereotype.Component;
 
 /**
- * Paso 4 y paso 5: copia, escribe y publica, o deja el temporal borrado.
+ * Paso 4 y paso 5: copia, escribe y publica, y deja el estado final del trabajo.
+ *
+ * <p>Si la importación para antes de publicar, {@link ImportJob} borra el temporal; si ese borrado falla,
+ * el temporal queda y hay que borrarlo a mano. Si {@code _aliases} no confirma y no se puede saber dónde
+ * quedó el alias ({@code EFX-IMP-006}), el temporal se deja a propósito.</p>
  */
 @Component
 public final class ImportRunner {
