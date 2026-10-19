@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
-import com.bigfito.elastiflix.core.error.ErrorCode;
-import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.vector.PlotVectorizer;
 
@@ -18,7 +16,6 @@ import org.slf4j.LoggerFactory;
  */
 final class BatchWriter {
 
-    private static final int IMPORT_STEP = 4;
     private static final Logger LOG = LoggerFactory.getLogger(BatchWriter.class);
 
     private final CatalogIndex catalog;
@@ -52,13 +49,13 @@ final class BatchWriter {
     }
 
     private WriteTotals writeOne(ImportContext context, List<Movie> movies, WriteTotals totals) {
-        ensureRunning(context);
+        ImportJob.ensureRunning(context.cancelled());
         List<Movie> ready = vectorizer.apply(movies);
         WriteTotals done = advanced(totals, ready.size(), replacements(context.temp(), ready));
         // Primero se avisan los vectorizados; los escritos, solo cuando Elasticsearch aceptó el lote.
-        context.listener().onProgress(done.withWritten(totals.written()).notice(IMPORT_STEP, context.temp()));
+        context.listener().onProgress(done.withWritten(totals.written()).notice(JobSteps.IMPORT, context.temp()));
         catalog.writeAll(context.temp(), ready);
-        context.listener().onProgress(done.notice(IMPORT_STEP, context.temp()));
+        context.listener().onProgress(done.notice(JobSteps.IMPORT, context.temp()));
         logBatch(done);
         return done;
     }
@@ -83,12 +80,6 @@ final class BatchWriter {
                 totals.vectorized() + ready,
                 totals.written() + ready,
                 totals.replaced() + replaced);
-    }
-
-    private static void ensureRunning(ImportContext context) {
-        if (context.cancelled().getAsBoolean()) {
-            throw new ImportException(ErrorCode.IMPORT_CANCELLED);
-        }
     }
 
     private static void logBatch(WriteTotals done) {

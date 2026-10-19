@@ -89,7 +89,7 @@ class IngestServiceTest {
         return new IngestService(
                 store,
                 new FileIntake(new FileGate(new MovieReaderFactory(new IndexMapping()), properties),
-                        catalog, properties, store),
+                        new MappingValidator(), catalog, properties, store),
                 new ImportRunner(new ImportJob(
                         catalog, names, Clock.systemUTC(), vectorizer, new OrphanCleaner(names)),
                         store, properties),

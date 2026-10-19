@@ -70,8 +70,12 @@ final class JobFigures {
     }
 
     static String kindOf(String fileName) {
-        boolean csv = fileName != null && fileName.toLowerCase(Locale.ROOT).endsWith(".csv");
-        return csv ? "csv" : "json";
+        return isCsv(fileName) ? "csv" : "json";
+    }
+
+    /** El tipo sale de la extensión del nombre original: la página y el código de lectura usan esta regla. */
+    static boolean isCsv(String fileName) {
+        return fileName != null && fileName.toLowerCase(Locale.ROOT).endsWith(".csv");
     }
 
     /** Solo el «qué pasó»: la página ya antepone el código. */

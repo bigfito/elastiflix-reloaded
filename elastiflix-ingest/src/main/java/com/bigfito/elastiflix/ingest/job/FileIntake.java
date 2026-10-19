@@ -32,14 +32,12 @@ import org.springframework.stereotype.Component;
 public final class FileIntake {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileIntake.class);
-    private static final int UPLOAD_STEP = 2;
-    private static final int VALIDATION_STEP = 3;
     private static final Set<ErrorCode> FILE_CHECKS = EnumSet.of(
             ErrorCode.BAD_EXTENSION, ErrorCode.DOUBLE_EXTENSION, ErrorCode.FILE_TOO_LARGE, ErrorCode.INVALID_UTF8);
 
     private final FileGate gate;
 
-    private final MappingValidator validator = new MappingValidator();
+    private final MappingValidator validator;
     private final CatalogIndex catalog;
     private final ElastiflixProperties properties;
     private final JobStore store;
@@ -48,12 +46,19 @@ public final class FileIntake {
      * Crea la validación con las mismas reglas que un registro suelto.
      *
      * @param gate       comprobación y lectura
+     * @param validator  reglas del mapping, el mismo bean que usa el registro individual
      * @param catalog    solo pregunta qué ids ya existen
      * @param properties alias del catálogo
      * @param store      dónde queda el informe
      */
-    public FileIntake(FileGate gate, CatalogIndex catalog, ElastiflixProperties properties, JobStore store) {
+    public FileIntake(
+            FileGate gate,
+            MappingValidator validator,
+            CatalogIndex catalog,
+            ElastiflixProperties properties,
+            JobStore store) {
         this.gate = gate;
+        this.validator = validator;
         this.catalog = catalog;
         this.properties = properties;
         this.store = store;
@@ -99,13 +104,13 @@ public final class FileIntake {
         LoadedDocuments loaded = gate.open(work);
         store.fileRead(jobId, loaded.recordCount(), loaded.columns());
         if (loaded.documents().isEmpty() && !loaded.report().accepted()) {
-            store.invalid(jobId, loaded.report(), VALIDATION_STEP);
+            store.invalid(jobId, loaded.report(), JobSteps.VALIDATION);
             return;
         }
         ValidatedMovies checked = validator.validateAndRelease(loaded.documents(), loaded.labels(), Set.of());
         ValidationReport report = ReportOrder.join(loaded.report(), checked.report());
         if (!report.accepted()) {
-            store.invalid(jobId, report, VALIDATION_STEP);
+            store.invalid(jobId, report, JobSteps.VALIDATION);
             return;
         }
         store.ready(jobId, new ValidatedMovies(checked.movies(), report, replacements(checked.movies())));
@@ -126,7 +131,7 @@ public final class FileIntake {
 
     /** {@code EFX-ING-001} a {@code 004} son las comprobaciones del paso 2; lo demás ya es el paso 3. */
     private static int stepOf(ErrorCode code) {
-        return FILE_CHECKS.contains(code) ? UPLOAD_STEP : VALIDATION_STEP;
+        return FILE_CHECKS.contains(code) ? JobSteps.UPLOAD : JobSteps.VALIDATION;
     }
 
     private static ValidationReport report(IngestValidationException exception) {

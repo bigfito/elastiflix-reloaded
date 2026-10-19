@@ -180,7 +180,7 @@ public final class JobStore {
     public void failed(String jobId, ElastiflixException exception) {
         ImportWork work = require(jobId);
         work.failed(exception.errorCode().code());
-        LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, causeType(exception));
+        LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, CauseType.of(exception));
         discardIfTerminal(work);
     }
 
@@ -208,7 +208,7 @@ public final class JobStore {
             LOG.info("{}: se canceló el trabajo {}", exception.errorCode().code(), jobId);
         } else {
             work.failed(exception.errorCode().code());
-            LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, causeType(exception));
+            LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, CauseType.of(exception));
         }
         discardIfTerminal(work);
     }
@@ -272,13 +272,6 @@ public final class JobStore {
         }
     }
 
-    private static String causeType(ElastiflixException exception) {
-        Throwable cause = exception.getCause();
-        if (cause == null) {
-            return exception.getClass().getSimpleName();
-        }
-        return cause.getClass().getSimpleName();
-    }
 
     private static void logValidation(ImportWork work) {
         ValidationReport report = work.report();

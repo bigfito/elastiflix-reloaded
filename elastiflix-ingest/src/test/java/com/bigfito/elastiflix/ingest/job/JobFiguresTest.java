@@ -54,6 +54,24 @@ class JobFiguresTest {
     }
 
     @Test
+    @DisplayName("cada consulta de estado reutiliza las cifras del informe en lugar de recalcularlas")
+    void shouldReuseTheReportFiguresWhenThePagePolls() throws Exception {
+        // given
+        JobStore store = store(100);
+        String jobId = store.open("peliculas-nuevas.csv", file(), CsvSettings.withHeader());
+        store.invalid(jobId, new ValidationReport(errorsInRecords(23, 17)), 3);
+
+        // when
+        JobView first = store.view(jobId);
+        JobView second = store.view(jobId);
+
+        // then
+        assertThat(second.errors()).isSameAs(first.errors());
+        assertThat(second.warnings()).isSameAs(first.warnings());
+        assertThat(second.invalidRecords()).isEqualTo(17);
+    }
+
+    @Test
     @DisplayName("un error del encabezado no resta registros válidos")
     void shouldNotCountHeaderErrorsAsRecords() {
         List<ValidationIssue> errors = List.of(

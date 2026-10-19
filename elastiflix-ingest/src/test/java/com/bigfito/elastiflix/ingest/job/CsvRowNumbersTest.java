@@ -10,6 +10,7 @@ import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
+import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.service.MovieReaderFactory;
 
@@ -30,7 +31,7 @@ class CsvRowNumbersTest {
     private final JobStore store = new JobStore(properties, Clock.systemUTC());
     private final FileIntake intake = new FileIntake(
             new FileGate(new MovieReaderFactory(new IndexMapping()), properties),
-            mock(CatalogIndex.class), properties, store);
+            new MappingValidator(), mock(CatalogIndex.class), properties, store);
 
     @TempDir
     private Path folder;

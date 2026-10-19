@@ -7,7 +7,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
-import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 
@@ -15,11 +14,6 @@ import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
  * Un trabajo de esta JVM. Lo cambia el hilo de la carga y lo lee la página.
  */
 final class ImportWork {
-
-    private static final int UPLOAD_STEP = 2;
-    private static final int VALIDATION_STEP = 3;
-    private static final int IMPORT_STEP = 4;
-    private static final int PUBLISH_STEP = 5;
 
     private final String id;
     private final Path path;
@@ -30,11 +24,12 @@ final class ImportWork {
 
     private JobStatus status = JobStatus.RECEIVED;
     private ValidationReport report = ValidationReport.empty();
+    private ReportFigures figures = ReportFigures.of(report);
     private List<Movie> movies = List.of();
     private List<CsvColumnRow> columns = List.of();
     private int fileCount;
     private int replaceCount;
-    private int step = 1;
+    private int step = JobSteps.RECEIVED;
     private int batch;
     private int vectorized;
     private int written;
@@ -112,7 +107,7 @@ final class ImportWork {
             return;
         }
         status = JobStatus.VALIDATING;
-        step = UPLOAD_STEP;
+        step = JobSteps.UPLOAD;
     }
 
     /**
@@ -125,7 +120,7 @@ final class ImportWork {
     synchronized void describe(int records, List<CsvColumnRow> read) {
         fileCount = records;
         columns = List.copyOf(read);
-        step = VALIDATION_STEP;
+        step = JobSteps.VALIDATION;
     }
 
     synchronized void ready(ValidatedMovies checked) {
@@ -133,11 +128,12 @@ final class ImportWork {
             return;
         }
         report = checked.report();
+        figures = ReportFigures.of(report);
         movies = List.copyOf(checked.movies());
         fileCount = movies.size();
         replaceCount = checked.replaceCount();
         status = JobStatus.VALID;
-        step = IMPORT_STEP;
+        step = JobSteps.IMPORT;
     }
 
     /**
@@ -148,6 +144,7 @@ final class ImportWork {
      */
     synchronized void invalid(ValidationReport issues, int stopped) {
         report = issues;
+        figures = ReportFigures.of(report);
         status = JobStatus.INVALID;
         step = stopped;
     }
@@ -170,7 +167,7 @@ final class ImportWork {
             return false;
         }
         status = JobStatus.IMPORTING;
-        step = IMPORT_STEP;
+        step = JobSteps.IMPORT;
         return true;
     }
 
@@ -185,7 +182,7 @@ final class ImportWork {
     synchronized void become(JobStatus next) {
         status = next;
         if (next == JobStatus.PUBLISHED) {
-            step = PUBLISH_STEP;
+            step = JobSteps.PUBLISH;
         }
     }
 
@@ -200,19 +197,19 @@ final class ImportWork {
     }
 
     /**
-     * Copia para la página. {@code replaceCount} es el de la validación: el avance no lo cambia.
+     * Copia para la página. {@code replaceCount} es el de la validación: el avance no lo cambia. Las cifras
+     * del informe ya están calculadas desde {@link #ready} o {@link #invalid}.
      *
      * @param batchSize películas por lote configuradas
      * @return copia que no cambia
      */
     synchronized JobView view(int batchSize) {
-        List<ValidationIssue> errors = report.errors();
-        int invalidRecords = JobFigures.invalidRecords(errors);
+        int invalidRecords = figures.invalidRecords();
         return new JobView(id, status.label(), JobFigures.kindOf(fileName), fileSize,
                 step, batch, vectorized, written,
                 fileCount, JobFigures.validCount(fileCount, invalidRecords), invalidRecords, replaceCount,
-                errors.size(), JobFigures.preview(errors), report.groupedWarnings(),
-                JobFigures.checks(status, errors.size(), fileCount), columns,
+                figures.errorTotal(), figures.preview(), figures.warnings(),
+                JobFigures.checks(status, figures.errorTotal(), fileCount), columns,
                 failureCode, JobFigures.failureMessage(failureCode),
                 batchSize, JobFigures.batches(fileCount, batchSize), tempIndex);
     }

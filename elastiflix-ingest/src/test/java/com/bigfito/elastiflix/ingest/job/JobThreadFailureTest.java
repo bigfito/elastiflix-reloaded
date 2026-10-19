@@ -37,7 +37,7 @@ class JobThreadFailureTest {
         String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader());
         FileGate gate = mock(FileGate.class);
         doThrow(new IllegalStateException("lectura")).when(gate).open(any());
-        FileIntake intake = new FileIntake(gate, mock(CatalogIndex.class), null, store);
+        FileIntake intake = new FileIntake(gate, new MappingValidator(), mock(CatalogIndex.class), null, store);
 
         assertThatThrownBy(() -> intake.validate(jobId)).isInstanceOf(IllegalStateException.class);
 
