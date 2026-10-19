@@ -12,8 +12,12 @@
 > aquí exige cambiar código o pruebas. Cuando una corrección cambia un comportamiento documentado, dice qué
 > documento actualizar.
 >
-> **Estado del trabajo:** `progreso/revision-3.md` y `progreso/INDICE.md`. Esta lista es la
-> especificación; no marques nada aquí, solo en `progreso/`.
+> **Estado del trabajo:** el tablero `progreso/revision-3.md` y un archivo por carril,
+> `progreso/revision-3-<carril>.md`. Esta lista es la especificación; no marques nada aquí, solo en
+> `progreso/`.
+>
+> **Se trabaja en paralelo:** seis carriles (A–F) que no comparten archivos ni dependen entre sí, y un
+> carril de cierre (Z) que integra al final. Ver «Cómo trabajar en paralelo».
 >
 > **La revisión 2 quedó bien en lo esencial.** Cumplen su criterio:
 >
@@ -28,46 +32,134 @@
 
 ---
 
-## Cómo trabajar esta lista
+## Cómo trabajar en paralelo
 
-Sirve igual para **Claude Code**, **Google Antigravity** o **JetBrains Junie**: todos leen `AGENTS.md` en
-la raíz (Claude Code lo importa desde `CLAUDE.md`).
+Varios agentes (**Claude Code**, **Google Antigravity** o **JetBrains Junie**, en cualquier mezcla) pueden
+trabajar a la vez: cada uno toma un **carril**. Los carriles A–F no comparten archivos, no esperan a otro
+carril y se integran en `main` en cualquier orden. Un solo agente también puede hacerlos uno tras otro.
+
+### Carriles
+
+| Carril | Rama | Archivo de estado | Correcciones (o su parte) |
+|---|---|---|---|
+| **A · Núcleo** | `revision-3-core` | `progreso/revision-3-core.md` | T-01; T-02 (inferencia); T-10 (core); T-12 (core); T-19 (`ErrorCode` y `CosineSimilarity`); T-25 (`@Validated` y grupos); T-27 (core) |
+| **B · Búsqueda** | `revision-3-busqueda` | `progreso/revision-3-busqueda.md` | T-02 (transporte); T-03; T-10 (`KnnStrategiesTest`); T-12 (search); T-18; T-27 (search) |
+| **C · Carga: trabajos** | `revision-3-trabajos` | `progreso/revision-3-trabajos.md` | T-08; T-09; T-10 (`ImportJob`, `ImportRunner`, `JobStore`); T-12 (`ImportCounts`, `ImportProgress`); T-16; T-17 (`FileIntake` y `JobStore`); T-19 (Javadoc y `JobStatus`); T-24 (`job/`); T-27 (`job/`) |
+| **D · Carga: lectura** | `revision-3-lectura` | `progreso/revision-3-lectura.md` | T-12 (lectores y validador); T-17 (`document_count`); T-24 (BOM y nombres de vectores); T-27 (`mapping/`) |
+| **E · Web: páginas** | `revision-3-paginas` | `progreso/revision-3-paginas.md` | T-06; T-07; T-12 (`changeHref`); T-13 («Acerca de»); T-14; T-19 (`SearchController`); T-20 (página de error); T-21; T-22; T-23; T-25 (`PosterUrls`); T-26 (Resultados y todo el CSS); T-27 (`ErrorPageTest`) |
+| **F · Web: Cargar datos** | `revision-3-cargar` | `progreso/revision-3-cargar.md` | T-04; T-05; T-11; T-13 («Cargar datos» y `application.yml`); T-15; T-20 («Cargar datos» y `JobTexts`); T-25 (`IngestLimits`); T-26 (teclado de las pestañas); T-27 (`IngestPageTest`) |
+| **Z · Cierre** | `revision-3-cierre` | `progreso/revision-3.md` (tablero) | Empieza cuando A–F están en `main`. Aplica las notas de documentación, corre todo y cierra la revisión. |
+
+Cada sección `T-NN` de abajo dice su carril y, si tiene partes, qué hace cada carril.
+
+### Archivos de cada carril
+
+Un carril **solo modifica sus archivos**. Las pruebas van con el paquete que prueban.
+
+| Carril | Archivos |
+|---|---|
+| A | `elastiflix-core/**` (código, pruebas, recursos y pom) y `elastiflix-ingest/src/test/.../ingest/job/ErrorContextTest.java` (afirma textos de `ErrorCode`) |
+| B | `elastiflix-search/**` |
+| C | `elastiflix-ingest/src/{main,test}/.../ingest/` paquetes `job/`, `service/` y `vector/`, y `TestApplication.java`; **salvo** `ErrorContextTest.java` (carril A) |
+| D | `elastiflix-ingest/src/{main,test}/.../ingest/` paquetes `csv/`, `json/`, `mapping/`, `movie/` y `file/`; `elastiflix-ingest/src/test/resources/**` |
+| E | `elastiflix-web/src/{main,test}/.../web/` salvo el paquete `ingest/`, `MultipartLimitsTest.java` y las aserciones de «Cargar datos» de `SmokeIT.java` (regla 8); todas las plantillas salvo `ingest.html`; `static/css/**`, `static/img/**`, `static/js/home.js` y `results.js` |
+| F | `elastiflix-web/src/{main,test}/.../web/ingest/**`, `MultipartLimitsTest.java`, las aserciones de «Cargar datos» de `SmokeIT.java` (regla 8), `templates/ingest.html`, `static/js/ingest.js`, `src/main/resources/application.yml` y `src/test/browser/**` |
+| Z | `PLAN.md`, `README.md`, `AGENTS.md`, `CLAUDE.md`, `docs/**`, `design/**`, `progreso/INDICE.md` y `progreso/revision-3.md` |
+
+Cada carril escribe además **su** `progreso/revision-3-<carril>.md`. Ninguno de A–F toca `PLAN.md`,
+`README.md`, `docs/`, `progreso/INDICE.md` ni el tablero `progreso/revision-3.md`. Lo que haya que cambiar
+ahí (filas de PLAN §1, propiedades de §7, «Cambios respecto al diseño aprobado», tablas de errores de
+`docs/diseno/`) se anota en la sección «Notas para el cierre» del archivo del carril, y lo aplica Z.
+
+### Reglas para no bloquear a otro carril
+
+1. **Firmas públicas congeladas entre módulos.** Un carril no quita ni cambia la firma de un tipo o método
+   público que use otro módulo. Si lo necesita, agrega lo nuevo y deja lo viejo; Z lo limpia. Casos
+   conocidos:
+   - A conserva `ErrorCode` (constantes y `summary()`), los constructores de `ElastiflixProperties`
+     (incluido el relleno de `null`, que usan `IngestLimits` y `PosterUrls`), `Poster.fallback()`,
+     `CatalogIndex` y `CatalogIndex.readWithVectors` / `readAllWithVectors`, que usan las IT de core e
+     ingest. T-12 no los quita: agrega Javadoc «Lo usan las pruebas de integración».
+   - B conserva `RankedHit.rrf()`, que usa `ResultCards`. Si quita el campo, `rrf()` queda como método
+     que devuelve `score`.
+   - C conserva `JobView`, `IngestService`, `JobStatus` y `ImportException`, que usa la web.
+   - D conserva las firmas públicas de `MappingValidator`, `JsonDocuments`, `CsvMovieReader`,
+     `MovieReaderFactory`, `VectorFields.NAMES` y `Thousands`, que usan `job/` y la web.
+2. **Textos de error.** T-19 (A) cambia la causa y la acción de los códigos, nunca el `summary()` («qué
+   pasó»), que afirman las pruebas de otros módulos.
+3. **CSS.** Todo `elastiflix.css` es de E, incluidas las reglas que pide T-26 para «Cargar datos»
+   (`.drop:focus-within` y foco de pestañas). F hace solo el JavaScript.
+4. **Decisiones abiertas:** T-07 (E), T-15 (F), T-19 (A, C y E en su parte) y T-20 (E y F en su parte). Las
+   toma el carril. Elige la opción más simple que cumpla el criterio y regístrala en «Decisiones» de su
+   archivo.
+5. **Si el `main` de partida falla.** El primer `./mvnw verify` de cada carril puede fallar por código
+   anterior a la revisión, por ejemplo `763f71e`, que no tiene un `verify` registrado.
+   - Si la falla está en un archivo de **otro** carril: anótala en «Bloqueos y solicitudes» y sigue
+     verificando con `./mvnw -pl <tu módulo> -am verify`. El dueño del archivo la corrige.
+   - Si está en un archivo **tuyo**: corrígela como primera tarea del carril.
+6. **Elasticsearch compartido.** `./mvnw verify -Pit` puede correr en varios carriles a la vez: las IT
+   leen `elastiflix-reloaded` sin modificarlo y escriben solo en alias `elastiflix-it-<aleatorio>`.
+7. **Beans de prueba en web (T-13 y T-25).** E y F cambian cómo se crean `IngestLimits` y `PosterUrls`.
+   Cada prueba `@WebMvcTest` que toquen declara explícitamente los beans que necesita (por ejemplo
+   `ElastiflixProperties` con `@EnableConfigurationProperties`), para que pase antes y después de que se
+   fusione el otro carril.
+8. **`SmokeIT` es compartido entre E y F.** E solo toca las aserciones de Inicio, Resultados, «Acerca de» y
+   error; F, las de «Cargar datos». Son bloques distintos del archivo; si git marca conflicto, conserva los
+   dos cambios.
+9. **Preguntas al usuario.** Pregunta solo si un criterio no se puede cumplir o si una corrección cambia lo
+   que se ve en una pantalla aprobada más allá de lo que pide la lista. Mientras esperas la respuesta,
+   deja esa corrección `bloqueada` y sigue con la siguiente de tu carril.
+
+### Pasos de un carril (A–F)
 
 1. Aplica el protocolo de reanudación de `AGENTS.md` y lee `PLAN.md`, `AGENTS.md` y
-   `docs/convenciones-java.md`. Las reglas no cambian: mismas convenciones, mismos umbrales y `config/`
-   congelado.
-2. El estado vive en `progreso/revision-3.md` (unidad «Revisión 3», tareas `T-01` … `T-27`) y en
-   `progreso/INDICE.md`.
-   - Si la unidad dice `no iniciado`, márcala `en curso` al empezar T-01 y anota la herramienta.
-   - Si ya hay avance, continúa desde su «Próximo paso».
-3. Trabaja en la rama `revision-3`, creada desde `main`. Si ya existe en `origin`, continúa en ella. No
-   hagas push directo a `main`: al terminar, abre un PR hacia `main` y deja que el usuario lo fusione.
-4. Atiende las correcciones **en el orden de la lista**.
-5. **No marques una corrección como terminada si no cumples su criterio completo.**
-   - La evidencia nombra la prueba que falla si se rompe el comportamiento.
-   - Compruébalo rompiendo el código a mano y revirtiendo.
-   - Si algo del criterio no se puede hacer, deja la corrección `bloqueada`, explica qué falta y pregunta.
-6. **Al terminar cada corrección:**
-   - cumple su criterio;
-   - actualiza `progreso/revision-3.md` y `progreso/INDICE.md` con la evidencia y el **hash real** del
-     commit anterior (nunca «este commit»);
-   - haz un commit `T-NN: <resumen>`;
-   - haz `git push` de la rama.
-7. Si cambias algo de un diseño aprobado, anótalo en «Cambios respecto al diseño aprobado» de
-   `docs/diseno/<fase>.md`. Si cambias o agregas un texto visible, agrégalo a la tabla de ajustes
-   autorizados de PLAN §1.
-8. **Las decisiones abiertas las tomas tú:** T-07, T-15, T-19 y T-20. Elige la opción más simple que cumpla
-   el criterio y regístrala en «Decisiones» de `progreso/revision-3.md`.
-   - Detente a preguntar al usuario solo si un criterio no se puede cumplir.
-   - Detente también si la corrección cambia lo que se ve en una pantalla aprobada más allá de lo que pide
-     la lista.
-9. **Al final:**
-   - `./mvnw verify` y `./mvnw verify -Pit` en verde, registrados con fecha, conteos y el commit sobre el
-     que corrieron;
-   - las pruebas de navegador (`elastiflix-web/src/test/browser/`) en verde;
-   - `README.md`, PLAN y `progreso/` al día;
-   - estado `terminado` en `progreso/revision-3.md` y en `progreso/INDICE.md`;
-   - abre el PR, detente y entrega un resumen con la evidencia de cada `T-NN`.
+   `docs/convenciones-java.md`. Mismas convenciones, mismos umbrales, `config/` congelado.
+2. **Toma un carril libre.**
+   - `git fetch` y `git ls-remote --heads origin 'revision-3-*'`: una rama remota del carril significa que
+     ya lo tomó alguien. Si la rama existe y el archivo del carril dice `en curso`, continúa desde su
+     «Próximo paso» (reanudación).
+   - Si está libre:
+     - crea un clon o un worktree propio y la rama desde `main`
+       (`git worktree add ../elastiflix-<carril> -b revision-3-<carril> origin/main`);
+     - marca tu archivo `en curso`, anota la herramienta, haz commit y push de la rama. El push es la
+       reserva.
+3. Atiende **tus** correcciones en el orden de la lista. Si una corrección tiene partes de otros carriles,
+   haz solo la tuya.
+4. **No marques una corrección terminada sin su criterio completo.**
+   - La evidencia nombra la prueba que falla si se rompe el comportamiento; compruébalo rompiendo el
+     código a mano y revirtiendo.
+   - Si no se puede cumplir, deja la corrección `bloqueada`, explica qué falta y sigue con la siguiente
+     de tu carril. Un bloqueo no detiene a los otros carriles.
+5. **Al terminar cada corrección:**
+   - actualiza tu archivo de carril: evidencia, hash real del commit anterior (nunca «este commit») y
+     próximo paso;
+   - haz un commit `T-NN (<carril>): <resumen>`;
+   - haz `git push` de tu rama.
+6. **Al terminar el carril:**
+   - `git merge origin/main`: no debería haber conflictos, porque los archivos no se cruzan. Si los hay,
+     alguien salió de sus archivos: resuélvelo conservando los dos cambios y anótalo;
+   - `./mvnw verify` completo en verde y `./mvnw verify -Pit` si tienes `.env` (F además corre las
+     pruebas de navegador);
+   - estado `terminado` en tu archivo;
+   - abre un PR hacia `main` con la evidencia de cada `T-NN` y detente. El usuario fusiona.
+
+### Pasos del cierre (Z)
+
+Empieza cuando los PR de A–F están fusionados (`git ls-remote --heads origin 'revision-3-*'` ya no los
+muestra, o el tablero los marca fusionados).
+
+1. Rama `revision-3-cierre` desde `main`.
+2. Limpia lo que la regla 1 dejó pendiente (firmas viejas sin uso).
+3. Aplica las «Notas para el cierre» de cada carril:
+   - PLAN §1, §7 y el resto de PLAN;
+   - `docs/diseno/1.md` a `4.md`, en «Cambios» y en las tablas de errores;
+   - `README.md`.
+4. `./mvnw verify`, `./mvnw verify -Pit` y las pruebas de navegador en verde. Registra la fecha, los
+   conteos y el commit.
+5. Marca cada `T-NN` en el tablero `progreso/revision-3.md`: está terminada cuando todas sus partes lo
+   están.
+6. Pon el estado `terminado` en el tablero y en `progreso/INDICE.md`, abre el PR y entrega un resumen con
+   la evidencia.
 
 ---
 
@@ -75,6 +167,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 
 ### T-01 — La copia del índice no se cancela ante una respuesta ilegible de `_tasks`
 *(Resto de S-01)*
+
+**Carril:** A.
 
 - **Dónde:** `elastiflix-core/.../catalog/ReindexTasks.java` (`copy`, l. 63-73; `cancel`, aprox. l. 129;
   `hasFailures`, aprox. l. 150).
@@ -100,6 +194,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   - `failures: [..]` → `EFX-ES-006`.
 
 ### T-02 — Búsqueda e inferencia no traducen una respuesta ilegible a un código EFX
+**Carril:** A (inferencia: `InferenceEmbeddingService`) y B (transporte: `ElasticsearchSearchTransport`).
+
 - **Dónde:**
   - `elastiflix-search/.../transport/ElasticsearchSearchTransport.java`, l. 59;
   - `elastiflix-core/.../embedding/InferenceEmbeddingService.java`, l. 102.
@@ -112,6 +208,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   afirman el código EFX.
 
 ### T-03 — Validación k-NN: un vector de consulta sin campo da NPE
+**Carril:** B.
+
 - **Dónde:** `elastiflix-search/.../SearchQueryValidator.java` (`requireKnn`, l. 47-60).
 - **Problema:** no se comprueba `knn.field() == null`. El valor termina en un NPE en
   `QueryVector.forField`, `SearchLog.vectorField` y `AdjustmentLabels`, en lugar de `EFX-SRCH-010`.
@@ -119,6 +217,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 - **Criterio:** una prueba de `SearchQueryValidator` con `field` nulo da el código de ajustes faltantes.
 
 ### T-04 — «Cargar datos»: el aviso de un 409 o 404 al importar o cancelar se borra al instante
+**Carril:** F.
+
 - **Dónde:** `elastiflix-web/src/main/resources/static/js/ingest.js` (`act`, l. 315-332; `paint`, l. 341).
 - **Problema:** tras un 4xx o una caída de red, `act()` llama a `serverError(...)` y después a `poll()`. La
   respuesta de `poll()` llama a `paint()`, que oculta `#server-error`. El texto `EFX-IMP-*` desaparece en
@@ -129,6 +229,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   visible después del siguiente sondeo.
 
 ### T-05 — «Cargar datos»: no se puede volver a validar el mismo archivo con otro separador
+**Carril:** F.
+
 - **Dónde:** `static/js/ingest.js` (`upload`, l. 251-276; `choose`; el `change` del input, l. 135-137).
 - **Problema:**
   - `upload()` deja «Validar archivo» deshabilitado y solo lo rehabilita si la subida falla.
@@ -143,6 +245,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   archivo hace un segundo POST.
 
 ### T-06 — Resultados: el filtro `adult=true` se pierde sin aviso
+**Carril:** E.
+
 - **Dónde:** `templates/results.html`, l. 62-66; `AppliedFilters.java`, l. 46-47.
 - **Problema:** `adult=true` es válido (PLAN §5) y el chip muestra «Adultos: Solo adultos». Pero el
   formulario solo tiene «Todos» y «Solo no adultos», y marca «Todos». El siguiente APLICAR envía
@@ -152,6 +256,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 - **Criterio:** una prueba MockMvc con `adult=true` muestra la opción marcada.
 
 ### T-07 — Cada página pide `/favicon.ico`, y ese 404 consulta Elasticsearch
+**Carril:** E.
+
 - **Dónde:** `templates/fragments/head.html` (sin `<link rel="icon">`); `static/` (sin ícono);
   `error/NotFoundAdvice.java` (`missing`).
 - **Problema:** el navegador pide `/favicon.ico` en cada carga. El 404 pasa por
@@ -165,6 +271,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   - `LayoutPageTest` ve el `<link rel="icon">` si se elige el ícono.
 
 ### T-08 — «Archivo válido» aparece antes de terminar la validación y en trabajos fallidos
+**Carril:** C.
+
 - **Dónde:** `elastiflix-ingest/.../job/JobFigures.java` (`checks`, l. 48-55); `ImportWork.java` (`view`);
   `FileIntake.java`, l. 96.
 - **Problema:** `checks(errors, fileCount)` solo mira cifras. `fileCount` se fija al leer el archivo, antes
@@ -177,6 +285,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   `valido` → las dos frases.
 
 ### T-09 — Un rechazo de archivo detiene el paso equivocado
+**Carril:** C.
+
 - **Dónde:** `job/ImportWork.java` (`invalid`, l. 141-145; `validating`, l. 115); `FileIntake.java`.
 - **Problema:**
   - `invalid()` siempre pone `step = 3`. `docs/diseno/3.md` dice que `EFX-ING-001` a `004` detienen el
@@ -193,6 +303,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   - durante la validación → paso 3 en curso.
 
 ### T-10 — Faltan pruebas unitarias de ramas importantes
+**Carril:** A (filas `CatalogBootstrapTest`, `ElasticsearchCatalogIndex` e `InferenceEmbeddingServiceTest`), B (fila `KnnStrategiesTest`) y C (filas `ImportJobTest` e `ImportRunner` / `JobStore`).
+
 - **Problema y corrección:**
 
   | Clase | Prueba que falta |
@@ -209,6 +321,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 
 ### T-11 — El manejo de estados de `ingest.js` no tiene prueba automática
 *(Resto de S-03)*
+
+**Carril:** F.
 
 - **Dónde:** `elastiflix-web/src/test/browser/` (hoy solo `encoding` de S-09 y `suggestions` de S-10).
 - **Problema:**
@@ -231,6 +345,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 ### T-12 — Código muerto y campos que nadie lee
 *(Resto de S-25)*
 
+**Carril:** A (filas core), B (filas search), C (`ImportCounts` e `ImportProgress`), D (`DocumentChecker`, `ValidationRun`, `MovieDocuments`, `CsvValues` y `CsvMovieReader`) y E (`changeHref`). A conserva `CatalogIndex.readWithVectors` y `readAllWithVectors` (regla 1).
+
 - **Problema y corrección:**
 
   | Módulo | Qué sobra | Qué hacer |
@@ -240,16 +356,18 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   | ingest | La rama VECTOR de `CsvValues` y la comprobación de nulo en `CsvMovieReader.put`. | Quitarlas. |
   | ingest | `ImportCounts.replaceCount` e `ImportProgress.replaced`: nadie los lee desde S-03. | Quitarlos. |
   | core | `IndexMapping.field()` y `document()` (solo pruebas; `field` lanza `IllegalArgumentException`). | Quitarlos o mover su uso a las firmas reales. |
-  | core | `CatalogIndex.readWithVectors` y `readAllWithVectors` (solo las IT). | Quitarlos o mover su uso a las firmas reales. |
+  | core | `CatalogIndex.readWithVectors` y `readAllWithVectors` (solo las IT de core e ingest). | Conservarlos (regla 1) y agregar en su Javadoc «Lo usan las pruebas de integración». |
   | core | `InferenceEmbeddingService.requireSameSize` (expuesto para dos pruebas que ya sobran). | Quitarlos o mover su uso a las firmas reales. |
   | search | `Rrf.term(int)` y `TextOperator.elasticsearchOperator()` (duplica `LexicalQueryBuilder.elasticsearch()`). | Quitarlos o mover su uso a las firmas reales. |
-  | search | `RankedHit.rrf`: siempre es igual a `score`. | Dejar un solo campo. |
+  | search | `RankedHit.rrf`: siempre es igual a `score`. | Dejar un solo campo y conservar `rrf()` como método que devuelve `score`, porque lo usa `ResultCards` (regla 1). |
   | search | El parámetro `preference` de `VectorRequestBuilder.build`, que siempre llega `null`. | Quitarlo. |
   | web | El atributo de modelo `changeHref` (`ResultsPage.java`, l. 47): la plantilla usa `@{/}`. | Quitarlo. |
 
 - **Criterio:** `./mvnw verify` en verde y `git grep` de cada nombre quitado sin resultados en `src/main`.
 
 ### T-13 — Límites de carga con dos orígenes y valores escritos a mano
+**Carril:** E («Acerca de»: `AboutController` y `about.html`, con los getters que ya tiene `IngestLimits`) y F (`IngestJobController`, `IngestLimits` y `application.yml`).
+
 - **Dónde:**
   - `elastiflix-web/.../ingest/IngestJobController.java`, l. 55: `@Value("${spring.servlet.multipart.max-file-size:150MB}")`;
   - `application.yml` (`max-request-size: 151MB`);
@@ -273,6 +391,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 ### T-14 — Una página de error EFX lee el catálogo dos veces
 *(Resto de S-22)*
 
+**Carril:** E.
+
 - `LayoutAdvice.shell()` ya corrió para el controlador. Después, `WebExceptionHandler.shell()` vuelve a
   llamar a `catalog.status()`. Con Elasticsearch caído, son dos rondas de timeouts.
 - `ServedPagesTest.shouldReadTheCatalogOnceForAnErrorPage` solo cubre el 405.
@@ -280,6 +400,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 - **Criterio:** una prueba con una `ElastiflixException` verifica `times(1)` en `catalog.status()`.
 
 ### T-15 — La API de carga: un error sin código se muestra como «sin conexión», y la subida deja un temporal
+**Carril:** F.
+
 - Una `RuntimeException` que no es `ElastiflixException` en `IngestJobController` sale como HTML por
   `/error`. `ingest.js` (`readJson` / `errorText`) muestra «No se pudo conectar con el servidor de la
   demo», que es falso.
@@ -293,6 +415,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   que el temporal se borra.
 
 ### T-16 — Hilos de la carga: estado final, excepciones y nombres
+**Carril:** C.
+
 - **Estado final equivocado:** si el aviso del paso 5 lanza después de que `_aliases` respondió bien,
   `ImportRunner` llama a `importStopped` y el trabajo queda `fallido`. El texto de `JOB_FAILED` dice
   entonces que «El catálogo anterior no se publicó», que es falso.
@@ -310,6 +434,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   - una prueba del manejador de hilos verifica el log.
 
 ### T-17 — Detalles de la validación de archivos
+**Carril:** C (`existingIds`, orden del informe y vencimiento) y D (`document_count`).
+
 - **Elasticsearch caído oculta los errores:** `FileIntake` (l. 101) lee los ids existentes **antes** de
   validar. Con el clúster caído, un archivo inválido termina `fallido` `EFX-ES-001` en lugar de mostrar
   sus errores.
@@ -326,6 +452,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 - **Criterio:** una prueba por cada punto.
 
 ### T-18 — Códigos de error equivocados en búsqueda y mapping
+**Carril:** B (el `_msearch`). La parte de `IndexMapping.field` la hace A dentro de T-12.
+
 - `HybridSearchStrategy` (l. 95): un `_msearch` con partes de más o de menos llama a
   `rejected("respuesta", 0)`, que da `EFX-ES-001` («No se pudo conectar…»).
   `KnnStrategiesTest.shouldFailWhenTheMultiSearchHasTheWrongNumberOfParts` solo afirma
@@ -337,6 +465,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 
 ### T-19 — Textos de error y Javadoc que no corresponden al comportamiento
 *(Resto de S-21)*
+
+**Carril:** A (`ErrorCode`, `ErrorCodeTest`, `ErrorContextTest` y `CosineSimilarity`), C (Javadoc de `JobView`, `ImportRunner`, `ImportJob` y `BatchWriter`, y el texto de `JobStatus.CANCELLED`) y E (Javadoc de `SearchController`). Las tablas de `docs/diseno/` las copia Z.
 
 - **`ErrorCode`:**
   - `ALIAS_PUBLISH_FAILED` dice «si no se pudo, lo limpia la próxima importación». Tras una migración
@@ -365,6 +495,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 ### T-20 — Textos visibles sin punto final o sin fila en PLAN §1
 *(Resto de S-03, S-16 y S-22)*
 
+**Carril:** E (`error.html`, `ErrorPages` y `ErrorPageTest`) y F (`ingest.html` y `JobTexts`). Las filas de PLAN §1 las anota cada carril y las copia Z.
+
 - **Sin punto final:**
   - `templates/error.html` muestra `ErrorPages.filled` → `summary()` sin punto («No se pudo conectar con
     Elasticsearch»);
@@ -381,12 +513,16 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   - cada texto de `ingest.html` y `JobTexts` está en el mockup o en §1.
 
 ### T-21 — «Ver todos» aparece aunque no oculte nada
+**Carril:** E.
+
 - `results.html` (l. 75 y 95) usa `genres.size() > 6`. Desde S-11, 6 valores de faceta más un marcado que
   falta dan 7 opciones, ninguna `extra`, y el botón no hace nada.
 - **Corrección:** un booleano `hasExtra` en el modelo (`anyMatch(FacetChoice::extra)`).
 - **Criterio:** una prueba MockMvc con esas 7 opciones no muestra «Ver todos».
 
 ### T-22 — CSS duplicado y muerto
+**Carril:** E.
+
 - **Reglas repetidas** en `static/css/elastiflix.css`: `.fh`, `.filters legend`, `.poster.missing`,
   `.filters .extra` / `.show-extra .extra`, `.results h1`, `.filters fieldset`, `.results-layout`,
   `.rrf-value`, `.filters .date-field`, `.hit-list`, `.mode-cards`, `.filters-head h2`, y `.legend`, que
@@ -401,6 +537,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   píxel o a ojo y anotadas en `progreso/revision-3.md`.
 
 ### T-23 — Tres maneras de agrupar miles, y cifras sin agrupar
+**Carril:** E (usa `ingest.mapping.Thousands` tal como está).
+
 - `CatalogTexts.grouped` (web) e `ingest.mapping.Thousands` hacen lo mismo.
 - Los votos salen sin separador («21911 votos», `ResultCards`, l. 135-140), igual que el título del conteo
   de Resultados (`ResultsPage`, l. 98-103).
@@ -408,6 +546,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 - **Criterio:** MockMvc muestra «21 911 votos».
 
 ### T-24 — Duplicados y costo por sondeo en la carga
+**Carril:** C (duplicados de `job/`, `FileIntake` con el `MappingValidator` inyectado, `IndividualRecord.VECTORS` y el costo por sondeo) y D (BOM y nombres de vectores en `csv/`, `mapping/` y `movie/`).
+
 - **Duplicados:**
   - `causeType` está en `ImportJob` y en `JobStore`;
   - `ensureRunning` está en `ImportJob` y en `BatchWriter`;
@@ -424,6 +564,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   `'﻿'`.
 
 ### T-25 — Configuración y beans armados para las pruebas
+**Carril:** A (`@Validated` y grupos de `ElastiflixProperties`), E (`PosterUrls`) y F (`IngestLimits`). A no quita el relleno de `null` ni `Poster.fallback()` (regla 1).
+
 - **Respaldos solo para pruebas:** `IngestLimits` construye `new ElastiflixProperties(null, …)` si falta
   el bean, y `PosterUrls` usa `Poster.fallback()`. Es código de producción hecho para las pruebas.
   Inyectar `ElastiflixProperties` y que las pruebas lo importen.
@@ -435,6 +577,8 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
   quitarlos.
 
 ### T-26 — Accesibilidad
+**Carril:** E (Resultados y todo el CSS, incluidas las reglas de «Cargar datos») y F (teclado de las pestañas en `ingest.js`).
+
 - Las pestañas `role="tab"` de «Cargar datos» no usan `tabindex` itinerante ni flechas.
 - `#archivo` oculto puede recibir el foco sin que se vea, porque `.drop` no tiene `:focus-within`.
 - `results.html` (l. 15) deja `aria-describedby="q-error"` aunque `#q-error` no exista.
@@ -445,11 +589,13 @@ la raíz (Claude Code lo importa desde `CLAUDE.md`).
 ### T-27 — Pruebas que no pueden fallar, débiles o con higiene pendiente
 *(Resto de S-01, S-05 y S-14)*
 
+**Carril:** cada fila, del carril dueño del archivo: A (`CatalogIndexIT`, `ElastiflixPropertiesTest`, `EnvironmentIT`, `ElasticsearchClientConfigTest` y la línea de `InferenceEmbeddingServiceTest`), B (`ScoreJoinerTest` y `KnnStrategiesTest`), C (`ImportJobTest`, `JobFiguresTest`, `JobThreadFailureTest` y `JobRetentionTest`), D (`MappingValidatorTest` y `NumberRangeTest`), E (`ErrorPageTest`) y F (`IngestPageTest`). En `ElastiflixPropertiesTest`, A elige la opción de anotarlo en Decisiones (regla 1).
+
 | Prueba | Problema | Corrección |
 |---|---|---|
 | `CatalogIndexIT`, l. 91 | `listOwnedIndexes(alias).isEmpty()` siempre es verdadero: `-a` y `-b` no llevan fecha. `IngestIT` ya cubre un índice con fecha. | Afirmar un índice con fecha, o quitar la aserción. |
 | `ImportJobTest.shouldCancelTheCopyBeforeDeletingTheTemp` | El orden lo garantiza el propio doble. No cubre «si la copia falla». | `reindex` lanza `EFX-ES-006`; `InOrder` entre `reindex` y `deleteIndex(temp)`; un solo `deleteIndex`. |
-| `ElastiflixPropertiesTest` (S-05) | Pasa aunque se quite cualquiera de los dos `@DefaultValue`, porque los constructores compactos rellenan lo mismo. La tercera prueba repite la primera. | Quitar el relleno de `null` del camino de enlace, o anotar en Decisiones que no se puede distinguir. Quitar la prueba repetida. |
+| `ElastiflixPropertiesTest` (S-05) | Pasa aunque se quite cualquiera de los dos `@DefaultValue`, porque los constructores compactos rellenan lo mismo. La tercera prueba repite la primera. | Anotar en Decisiones que no se puede distinguir sin quitar el relleno de `null`, que usan `IngestLimits` y `PosterUrls` (regla 1). Quitar la prueba repetida. |
 | `MappingValidatorTest.shouldAcceptTheJsonFixture` | Los vectores se quitan en tres capas. | Queda resuelta con T-12. |
 | `ScoreJoinerTest`, l. 39 | Prueba la fórmula del helper, no el joiner. | Probar el joiner. |
 | `EnvironmentIT` | Su aserción nunca falla: el `EnvironmentPostProcessor` corta antes. | Probar el post-procesador o quitarla. |

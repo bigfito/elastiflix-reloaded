@@ -6,10 +6,11 @@
 > **`PLAN.md`**. Este archivo solo agrega lo específico de Claude Code.
 >
 > Las fases 0 a 6, la revisión 1, los bugs B-01 a B-05 y la revisión 2 (PR #13) ya están en `main`. El
-> trabajo abierto es la **Revisión 3** (`T-01`…`T-27`, solo código): la lista está en
-> `docs/revisiones/revision-3.md` y el estado en `progreso/revision-3.md`. Antes de empezar, lee
-> `progreso/INDICE.md`: ahí están el catálogo vigente y el próximo paso. Para pedirlo en Claude Code basta
-> con «Retoma el trabajo» (ver `README.md`).
+> trabajo abierto es la **Revisión 3** (`T-01`…`T-27`, solo código), repartida en carriles paralelos: la
+> lista y sus reglas están en `docs/revisiones/revision-3.md` › «Cómo trabajar en paralelo», el tablero en
+> `progreso/revision-3.md` y el estado de cada carril en `progreso/revision-3-<carril>.md`. Antes de
+> empezar, lee `progreso/INDICE.md`: ahí están el catálogo vigente y el próximo paso. Para pedirlo en
+> Claude Code, usa el pedido de `README.md` › «Para trabajar en las correcciones de la Revisión 3».
 
 ## Antes de empezar
 
@@ -19,8 +20,9 @@
 2. Lee **`docs/convenciones-java.md`** completo, **aunque tengas instalada la skill `java-developer`**:
    el documento tiene umbrales y desviaciones del proyecto y manda sobre la skill.
 3. Trabaja **fase por fase, en orden**; corre la "Verificación de fase" antes de avanzar.
-4. En una revisión, cada corrección es una tarea: atiéndelas en orden, con su criterio completo, en la
-   rama propia de esa revisión.
+4. En una revisión, cada corrección es una tarea: atiéndelas en orden, con su criterio completo. En la
+   revisión 3, toma un carril libre y trabaja en un worktree propio (`git worktree add`) con su rama
+   `revision-3-<carril>`; varias sesiones de Claude Code pueden llevar carriles distintos a la vez.
 
 ## Sugerencias de uso con Claude Code
 

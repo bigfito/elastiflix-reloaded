@@ -52,10 +52,11 @@ valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 ## Trabajo abierto
 
 Las fases 0 a 6 están cerradas. Lo pendiente es lo que diga `progreso/INDICE.md` › «Punto de
-reanudación». Hoy es la **Revisión 3**: correcciones de código `T-01`…`T-27` en
-`docs/revisiones/revision-3.md`, con estado en `progreso/revision-3.md` (la 2 está terminada). Cada `T-NN`
-es una tarea (`T-NN: <resumen>` en el commit) con el mismo protocolo, la misma disciplina de estado y las
-mismas reglas de código. Rama `revision-3`; se integra en `main` por PR.
+reanudación». Hoy es la **Revisión 3** (`T-01`…`T-27`, `docs/revisiones/revision-3.md`), **en carriles
+paralelos**: cada agente toma un carril libre (A–F), con rama `revision-3-<carril>`, PR propio y solo sus
+archivos. Su estado va en `progreso/revision-3-<carril>.md`; el tablero, `INDICE.md`, PLAN, README y
+`docs/` los escribe solo el carril de cierre (Z). Reglas: «Cómo trabajar en paralelo» de esa lista.
+Mismo protocolo y mismas reglas de código.
 
 ## Regla de oro sobre el orden de trabajo
 

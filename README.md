@@ -382,17 +382,37 @@ original («Apruebo el plan… ejecuta las fases en orden desde la Fase 0») ya 
 
 ### 🛠️ Para trabajar en las correcciones de la Revisión 3
 
-Las 27 correcciones de código (`T-01` … `T-27`) las puede tomar **Claude Code**, **Google Antigravity** o
-**JetBrains Junie**. Abre la carpeta del repositorio en tu herramienta y pide:
+Las 27 correcciones de código (`T-01` … `T-27`) están repartidas en **seis carriles paralelos** (A–F) que
+no comparten archivos, más un carril de cierre (Z). Varios agentes (**Claude Code**, **Google
+Antigravity** o **JetBrains Junie**, en cualquier mezcla) pueden trabajar a la vez, cada uno en su carril,
+su rama y su clon o worktree:
+
+| Carril | Qué cubre | Rama |
+|---|---|---|
+| A | Núcleo (`elastiflix-core`) | `revision-3-core` |
+| B | Búsqueda (`elastiflix-search`) | `revision-3-busqueda` |
+| C | Carga: trabajos (`job/`, `service/`) | `revision-3-trabajos` |
+| D | Carga: lectura y validación (`csv/`, `json/`, `mapping/`) | `revision-3-lectura` |
+| E | Web: Resultados, error, «Acerca de» y CSS | `revision-3-paginas` |
+| F | Web: «Cargar datos» y pruebas de navegador | `revision-3-cargar` |
+| Z | Cierre: documentación, verificación completa y estado | `revision-3-cierre` |
+
+Abre una carpeta propia del repositorio en cada herramienta y pide (cambia la letra del carril, o déjala
+para que el agente tome el primero libre):
 
 > Lee `PLAN.md`, `AGENTS.md`, `docs/convenciones-java.md` y `docs/revisiones/revision-3.md`. Aplica el
-> protocolo de reanudación y atiende la Revisión 3 en orden desde el próximo paso de
-> `progreso/revision-3.md`: un commit y un push por corrección en la rama `revision-3`. Al final corre
-> `./mvnw verify -Pit` y las pruebas de navegador, y abre un PR hacia `main`.
+> protocolo de reanudación y toma el carril **A** de la Revisión 3 (si está tomado, el primero libre)
+> siguiendo «Cómo trabajar en paralelo»: un worktree propio, la rama del carril, solo sus archivos, un
+> commit y un push por corrección y su archivo `progreso/revision-3-<carril>.md` al día. Al final corre
+> `./mvnw verify` y abre un PR hacia `main`.
 
-Si otra herramienta ya empezó, el mismo pedido continúa donde se quedó: el avance está en
-`progreso/revision-3.md` y en la rama `revision-3`. Toda revisión sigue esta forma: lista en
-`docs/revisiones/revision-N.md`, estado en `progreso/revision-N.md`, rama propia y PR hacia `main`.
+Cuando estén fusionados los PR de A–F, pide el cierre:
+
+> Toma el carril Z (cierre) de la Revisión 3 según `docs/revisiones/revision-3.md`.
+
+Si una sesión se corta, el mismo pedido continúa el carril donde quedó: el avance está en su archivo de
+`progreso/` y en su rama. Toda revisión sigue esta forma: lista en `docs/revisiones/revision-N.md`, estado
+en `progreso/`, ramas propias y PR hacia `main`.
 
 ### 🔁 Si una sesión se interrumpe
 

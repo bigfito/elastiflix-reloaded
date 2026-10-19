@@ -7,15 +7,19 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** Revisión 3 — 27 correcciones de código (`T-01` … `T-27`) de la tercera revisión de `main` en `27fcdef`
+- **Fase actual:** Revisión 3 — 27 correcciones de código (`T-01` … `T-27`) de la tercera revisión de `main` en `27fcdef`, **en carriles paralelos**
 - **Estado de la fase:** no iniciado
-- **Rama:** `revision-3`, por crear desde `main` (en el remoto solo existe `main`)
-- **Lista de correcciones:** [`docs/revisiones/revision-3.md`](../docs/revisiones/revision-3.md) (dónde,
-  problema, corrección y criterio de cada una)
-- **Estado de las tareas:** [`progreso/revision-3.md`](revision-3.md)
-- **Próximo paso:** aplica el protocolo de reanudación de `AGENTS.md`, crea la rama `revision-3` desde
-  `main`, marca la Revisión 3 `en curso` y empieza T-01.
-- **Última actualización:** 2026-10-19 00:20 UTC
+- **Ramas:** una por carril (`revision-3-core`, `-busqueda`, `-trabajos`, `-lectura`, `-paginas`, `-cargar`), y
+  `revision-3-cierre` al final. Hoy en el remoto solo existe `main`
+- **Lista de correcciones y reglas de los carriles:** [`docs/revisiones/revision-3.md`](../docs/revisiones/revision-3.md)
+  › «Cómo trabajar en paralelo»
+- **Estado:** tablero [`progreso/revision-3.md`](revision-3.md) y un archivo por carril (`progreso/revision-3-<carril>.md`)
+- **Próximo paso:** cada agente aplica el protocolo de reanudación de `AGENTS.md`, toma un carril libre de A–F
+  (`git ls-remote --heads origin 'revision-3-*'`) y sigue los «Pasos de un carril». El carril Z (cierre)
+  empieza cuando los PR de A–F están fusionados.
+- **Quién actualiza este índice durante la revisión 3:** solo el carril Z. Los carriles A–F escriben su propio
+  archivo, para no chocar en git.
+- **Última actualización:** 2026-10-19 00:45 UTC
 
 ## Fases
 
@@ -32,7 +36,7 @@
 | — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
 | — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
 | — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). El estado posterior entró con el PR #14 (`27fcdef`). La revisión 3 encontró restos de S-01, S-03, S-05, S-06, S-14, S-21 y S-22. |
-| — | Revisión 3 | — | no iniciado | `progreso/revision-3.md` | Lista en `docs/revisiones/revision-3.md` (solo código; la documentación se alineó al escribirla). |
+| — | Revisión 3 | — | no iniciado | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md` (solo código; la documentación se alineó al escribirla). Seis carriles paralelos A–F y un cierre Z. |
 
 ## Aprobaciones del usuario
 
@@ -67,6 +71,7 @@
 | 2026-10-18 | Revisión 2 encargada a otro agente | Adolfo pidió pasar la lista de correcciones al repositorio (`docs/revisiones/revision-2.md`) para que la tome un agente de Claude Code, Google Antigravity o JetBrains Junie. Ya no se le encarga al agente de grokbot (Cursor). Las decisiones abiertas de S-03, S-05 y S-06 las toma el agente y las registra en `progreso/revision-2.md`. |
 | 2026-10-18 | Estado posterior a la Revisión 2 fusionado en `main` | Adolfo pidió fusionar el PR #14 (merge `27fcdef`, commit `ef53328`) y borrar las ramas que ya no se necesitan. Se borró `estado-revision-2`; en el remoto solo queda `main`. |
 | 2026-10-19 | Revisión 3: solo documentar el código, directo a `main` | Adolfo pidió una revisión exhaustiva del código y de la documentación. Eligió que los problemas de código **solo se documenten** (`docs/revisiones/revision-3.md`, T-01 a T-27) y que la documentación alineada se suba **directo a `main`**. La revisión no pudo compilar ni correr pruebas en su entorno. |
+| 2026-10-19 | Revisión 3 en carriles paralelos | Adolfo pidió que la revisión 3 se planifique para varios agentes en paralelo, sin dependencias que obliguen a detenerse. Quedó en seis carriles con archivos disjuntos (A–F) y un carril de cierre (Z); reglas en `docs/revisiones/revision-3.md` › «Cómo trabajar en paralelo». |
 
 ## Catálogo vigente
 

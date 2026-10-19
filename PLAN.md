@@ -1149,10 +1149,21 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
 
 - **Lista (especificación):** `docs/revisiones/revision-3.md`, con dónde, problema, corrección y criterio de
   cada corrección, y cómo trabajarla.
-- **Estado:** `progreso/revision-3.md` y `progreso/INDICE.md`.
-- **Quién:** un agente de Claude Code, Google Antigravity o JetBrains Junie. Todos leen `AGENTS.md`.
-- **Cómo:** cada `T-NN` es una tarea con la disciplina de §9 (commit `T-NN: <resumen>` y push por
-  corrección) en la rama `revision-3`, que se integra en `main` por PR.
+- **Estado:** tablero `progreso/revision-3.md`, un archivo por carril (`progreso/revision-3-<carril>.md`) y
+  `progreso/INDICE.md`.
+- **Quién:** varios agentes a la vez (Claude Code, Google Antigravity o JetBrains Junie), uno por carril.
+  Todos leen `AGENTS.md`.
+- **Cómo:** en **carriles paralelos** que no comparten archivos ni dependen entre sí:
+  - A núcleo, B búsqueda, C carga (trabajos), D carga (lectura), E web (páginas) y F web («Cargar datos»);
+  - cada carril tiene su rama `revision-3-<carril>`, su PR hacia `main` (en cualquier orden) y la
+    disciplina de §9 sobre su propio archivo (commit `T-NN (<carril>): <resumen>` y push por corrección);
+  - las firmas públicas que usa otro módulo quedan congeladas durante los carriles;
+  - el carril Z (cierre) empieza cuando A–F están en `main`: aplica la documentación compartida (PLAN,
+    README, `docs/diseno/`), corre todo y cierra.
+  - Reglas completas: `docs/revisiones/revision-3.md` › «Cómo trabajar en paralelo».
+- **Excepción a §9 durante la revisión 3:** los carriles A–F no escriben `progreso/INDICE.md`, el tablero,
+  PLAN, README ni `docs/`, para no chocar en git; anotan esos cambios en «Notas para el cierre» de su
+  archivo y Z los aplica.
 
 ## Variables de entorno (`.env.example`)
 
