@@ -85,7 +85,7 @@ public class HybridSearchStrategy implements SearchStrategy {
 
     private List<RankedHit> ranked(SearchQuery query, float[] vector, int size) {
         MsearchResponse<Movie> response = transport.msearch(
-                requests.build(properties.index().alias(), query, vector, null, size), Movie.class);
+                requests.build(properties.index().alias(), query, vector, size), Movie.class);
         return join(query, response);
     }
 

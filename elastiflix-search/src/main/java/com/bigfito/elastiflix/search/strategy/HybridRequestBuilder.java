@@ -43,18 +43,17 @@ public class HybridRequestBuilder {
     /**
      * Tres búsquedas. {@code rank_window_size} sigue siendo {@code k}.
      *
-     * <p>Si {@code preference} es {@code null}, se genera una. La confirmación de un vacío usa
-     * {@code size} 1.</p>
+     * <p>Las tres comparten un {@code preference} nuevo ({@code elastiflix-<uuid>}), para que lean las mismas
+     * copias del índice. La confirmación de un vacío usa {@code size} 1.</p>
      *
-     * @param alias      nombre configurado del catálogo
-     * @param query      consulta ya validada
-     * @param vector     vector de consulta, ya recortado
-     * @param preference valor compartido, o {@code null} para generar uno
-     * @param size       {@code size} de las tres búsquedas
+     * @param alias  nombre configurado del catálogo
+     * @param query  consulta ya validada
+     * @param vector vector de consulta, ya recortado
+     * @param size   {@code size} de las tres búsquedas
      * @return la petición {@code _msearch}
      */
-    public MsearchRequest build(String alias, SearchQuery query, float[] vector, String preference, int size) {
-        String chosen = preference == null ? "elastiflix-" + UUID.randomUUID() : preference;
+    public MsearchRequest build(String alias, SearchQuery query, float[] vector, int size) {
+        String chosen = "elastiflix-" + UUID.randomUUID();
         SearchRequest fused = fused(alias, query, vector, chosen, size);
         SearchRequest words = words(alias, query, chosen, size);
         SearchRequest nearest = vectors.ids(alias, query, vector, chosen, size);

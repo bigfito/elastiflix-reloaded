@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.bigfito.elastiflix.ingest.mapping.Thousands;
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.search.query.SearchMode;
 import com.bigfito.elastiflix.search.result.SearchHit;
 import com.bigfito.elastiflix.search.result.SearchResult;

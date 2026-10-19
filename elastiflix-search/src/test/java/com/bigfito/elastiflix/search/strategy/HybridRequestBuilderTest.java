@@ -1,6 +1,8 @@
 package com.bigfito.elastiflix.search.strategy;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.bigfito.elastiflix.search.JsonDocuments;
 import com.bigfito.elastiflix.search.filter.FilterQueryBuilder;
@@ -26,6 +28,9 @@ class HybridRequestBuilderTest {
 
     private static final float[] VECTOR = {0.5f, 0.25f};
     private static final String PREFERENCE = "elastiflix-test";
+    private static final Pattern GENERATED = Pattern.compile("elastiflix-[0-9a-f-]{36}");
+    /** Una por cabecera del {@code _msearch}: las tres búsquedas comparten el mismo valor. */
+    private static final int SHARED_PREFERENCES = 3;
     private static final String HEADER =
             "\"header\":{\"index\":[\"catalogo\"],\"preference\":\"elastiflix-test\"}";
     private static final String SOURCE = "\"_source\":{\"excludes\":[\"plot_256\",\"plot_512\",\"plot_1024\"]}";
@@ -92,6 +97,11 @@ class HybridRequestBuilderTest {
                 filters,
                 1,
                 SearchQuery.PAGE_25);
-        return JsonDocuments.of(builder.build("catalogo", query, VECTOR, PREFERENCE, size));
+        String body = JsonDocuments.of(builder.build("catalogo", query, VECTOR, size));
+        Matcher preference = GENERATED.matcher(body);
+        assertThat(preference.find()).isTrue();
+        String generated = preference.group();
+        assertThat(body.split(Pattern.quote(generated), -1)).hasSize(SHARED_PREFERENCES + 1);
+        return body.replace(generated, PREFERENCE);
     }
 }

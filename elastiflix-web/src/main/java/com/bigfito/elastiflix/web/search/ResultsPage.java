@@ -2,7 +2,7 @@ package com.bigfito.elastiflix.web.search;
 
 import java.util.List;
 
-import com.bigfito.elastiflix.ingest.mapping.Thousands;
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.search.page.Pagination;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.result.SearchResult;

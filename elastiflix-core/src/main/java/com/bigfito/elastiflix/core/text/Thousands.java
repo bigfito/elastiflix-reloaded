@@ -1,7 +1,8 @@
-package com.bigfito.elastiflix.ingest.mapping;
+package com.bigfito.elastiflix.core.text;
 
 /**
  * Escribe cifras con un espacio cada tres dígitos, como los mockups: {@code 4 322}.
+ * La usan la búsqueda, la carga y la web.
  */
 public final class Thousands {
 

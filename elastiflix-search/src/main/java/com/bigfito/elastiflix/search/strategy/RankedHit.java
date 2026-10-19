@@ -20,20 +20,6 @@ public record RankedHit(
         ComponentScore vector) {
 
     /**
-     * La puntuación RRF: en la híbrida es la misma {@code score}.
-     *
-     * <p>Fuera de la híbrida no hay componentes y devuelve {@code null}, como antes de quitar el campo.</p>
-     *
-     * @return {@code score} si el resultado tiene componentes; si no, {@code null}
-     */
-    public Double rrf() {
-        if (lexical == null && vector == null) {
-            return null;
-        }
-        return score;
-    }
-
-    /**
      * Una película de una sola lista, sin componentes híbridos.
      *
      * @param movie película

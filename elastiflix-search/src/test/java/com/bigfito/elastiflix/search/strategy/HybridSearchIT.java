@@ -98,7 +98,7 @@ class HybridSearchIT {
 
     private static void assertFormula(List<RankedHit> hits) {
         for (RankedHit hit : hits) {
-            assertThat(hit.rrf())
+            assertThat(hit.score())
                     .as("id %s léxico %s vector %s", hit.movie().id(),
                             hit.lexical().position(), hit.vector().position())
                     .isCloseTo(expected(hit), within(TOLERANCE));

@@ -125,6 +125,7 @@ class SearchServiceTest {
 
         assertThat(result.hits()).hasSize(5);
         assertThat(result.hits().getFirst().id()).isEqualTo("25");
+        assertThat(result.hits().getFirst().rrf()).as("fuera de la híbrida no hay RRF").isNull();
         assertThat(result.facets().genres()).containsExactly(
                 new FacetValue("Action", 25),
                 new FacetValue("Drama", 5));
@@ -134,7 +135,7 @@ class SearchServiceTest {
     }
 
     @Test
-    @DisplayName("híbrida etiqueta el vector, k y RRF")
+    @DisplayName("híbrida etiqueta el vector, k y RRF, y su puntuación es la de RRF")
     void shouldLabelRrfWhenTheModeIsHybrid() {
         hybrid.next = new StrategyResult(List.of(hit("1", "Drama")), 1, Map.of());
         SearchQuery query = new SearchQuery(
@@ -146,8 +147,11 @@ class SearchServiceTest {
                 1,
                 SearchQuery.PAGE_25);
 
-        assertThat(service.search(query).adjustments()).containsExactly(
+        SearchResult result = service.search(query);
+
+        assertThat(result.adjustments()).containsExactly(
                 "match · title", "AND", "plot_1024", "k 100", "num_candidates 200", "RRF");
+        assertThat(result.hits().getFirst().rrf()).as("en la híbrida la puntuación es la de RRF").isEqualTo(1.0);
     }
 
     @Test

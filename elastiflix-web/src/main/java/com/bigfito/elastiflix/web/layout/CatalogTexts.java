@@ -1,6 +1,6 @@
 package com.bigfito.elastiflix.web.layout;
 
-import com.bigfito.elastiflix.ingest.mapping.Thousands;
+import com.bigfito.elastiflix.core.text.Thousands;
 
 /**
  * Textos fijos de la cabecera y del pie, compartidos por todas las páginas.

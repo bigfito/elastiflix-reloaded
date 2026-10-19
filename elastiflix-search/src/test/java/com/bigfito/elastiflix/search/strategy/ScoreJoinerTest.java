@@ -34,7 +34,7 @@ class ScoreJoinerTest {
         assertThat(inBoth.lexical().position()).isEqualTo("1");
         assertThat(inBoth.vector().score()).isEqualTo(0.8);
         assertThat(inBoth.vector().position()).isEqualTo("2");
-        assertThat(inBoth.rrf()).isEqualTo(0.032);
+        assertThat(inBoth.score()).isEqualTo(0.032);
 
         RankedHit lexicalMiss = joined.get(1);
         assertThat(lexicalMiss.lexical().score()).isNull();
@@ -63,7 +63,6 @@ class ScoreJoinerTest {
         // then
         assertThat(joined).extracting(hit -> hit.movie().id()).containsExactly("3", "1", "2");
         assertThat(joined).extracting(RankedHit::score).containsExactly(0.05, 0.03, 0.01);
-        assertThat(joined).extracting(RankedHit::rrf).containsExactly(0.05, 0.03, 0.01);
         RankedHit outside = joined.getFirst();
         assertThat(outside.lexical()).isEqualTo(new ComponentScore(null, Rrf.OUTSIDE_PREFIX + K));
         assertThat(outside.vector()).isEqualTo(new ComponentScore(null, Rrf.OUTSIDE_PREFIX + K));

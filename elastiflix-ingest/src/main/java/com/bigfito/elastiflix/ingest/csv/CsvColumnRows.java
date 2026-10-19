@@ -8,7 +8,7 @@ import java.util.Set;
 import com.bigfito.elastiflix.core.mapping.FieldMapping;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.mapping.CsvValues;
-import com.bigfito.elastiflix.ingest.mapping.Thousands;
+import com.bigfito.elastiflix.core.text.Thousands;
 
 /**
  * Arma la tabla «Correspondencia de columnas»: cada columna del CSV va al campo del mismo nombre.

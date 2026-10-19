@@ -21,11 +21,11 @@ en curso (cierre Z)
 ## Punto de reanudación
 
 - **Tarea actual:** cierre Z en la rama `revision-3-cierre`
-- **Subpaso en curso:** reserva del carril
+- **Subpaso en curso:** código de Z hecho; sigue la documentación
 - **Próximo paso:** Z: quitar las firmas viejas (regla 1), agrupar los miles del rango de paginación y quitar el
   `preference` sin uso de la híbrida (pedidos por Adolfo), aplicar las «Notas para el cierre» de A–F, correr
   `verify`, `-Pit` y las pruebas de navegador, marcar cada T-NN y abrir el PR.
-- **Última actualización:** 2026-10-19 03:05 UTC
+- **Última actualización:** 2026-10-19 03:10 UTC
 
 ## Carriles
 
@@ -83,9 +83,9 @@ Vacío.
 
 ## Última verificación
 
-- **Comando:** ninguno en esta unidad todavía. La última corrida registrada está en `progreso/INDICE.md`.
-- **Resultado:** —
-- **Fecha:** —
+- **Comando:** `./mvnw verify` sobre la rama `revision-3-cierre` con el código de Z
+- **Resultado:** BUILD SUCCESS, 326 unitarias (core 63, search 69, ingest 123, web 71), Checkstyle y PMD en 0
+- **Fecha:** 2026-10-19 03:10 UTC
 
 ## Decisiones
 
@@ -99,6 +99,27 @@ Vacío.
   `ErrorContextTest` y los textos de `ErrorCode` en A, todo el CSS en E, y la documentación compartida en Z.
 - 2026-10-19: las decisiones abiertas de T-07, T-15, T-19 y T-20 las toma el carril que hace cada parte y
   las registra en su archivo.
+
+- 2026-10-19, Z: los seis carriles los hicieron seis agentes de Claude Code en paralelo, cada uno en su worktree
+  (`/workspaces/elastiflix-<carril>`), sin `./mvnw install` para no compartir `~/.m2`. Antes de fusionar, Z
+  fusionó las seis ramas en un worktree temporal: sin conflictos y `./mvnw verify -Pit` en verde. Adolfo fusionó
+  los PR #15 a #20 («Fusiona los PR del 15 al 20»); `./mvnw verify` sobre `main` en `7e360b4`: 323 unitarias.
+- 2026-10-19, Z (pedido de Adolfo, «Inclúyelas en el cierre»): dos puntos que los carriles dejaron fuera de la
+  lista entran en el cierre:
+  - el rango de la paginación agrupa los miles («976–1 000 de 1 234»). `Thousands` pasa de
+    `ingest.mapping` a `core.text` para que lo use también la búsqueda (un solo helper en los cuatro módulos,
+    como pedía T-23). Prueba: `PaginatorTest.shouldGroupThousandsWhenTheTotalIsLarge`; falla si el total se
+    escribe sin agrupar. `ThousandsTest` nueva en core;
+  - `HybridRequestBuilder.build` ya no recibe `preference` (siempre llegaba `null`): genera el valor compartido.
+    `HybridRequestBuilderTest` afirma que las tres cabeceras del `_msearch` llevan el mismo `elastiflix-<uuid>`;
+    falla si una cabecera usa otro valor.
+- 2026-10-19, Z (regla 1): se quitó `RankedHit.rrf()`. `SearchService` pone la puntuación RRF solo en la híbrida
+  (`SearchServiceTest`: `rrf` es la puntuación en híbrida y `null` en vectorial; falla si se copia siempre).
+  Se conservan, por decisión de Z:
+  - el relleno de `null` de `ElastiflixProperties` y los `fallback()` de cada grupo (incluido
+    `Poster.fallback()`): los usa el propio relleno, el contexto de prueba de core y 17 construcciones en pruebas
+    de los cuatro módulos. Ya no lo usa ningún bean de la web;
+  - `CatalogIndex.readWithVectors` y `readAllWithVectors`: los usan las IT de core e ingest.
 
 ## Resumen de diseño
 

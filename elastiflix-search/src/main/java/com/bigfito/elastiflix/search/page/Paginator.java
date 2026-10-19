@@ -2,6 +2,8 @@ package com.bigfito.elastiflix.search.page;
 
 import java.util.List;
 
+import com.bigfito.elastiflix.core.text.Thousands;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -58,9 +60,9 @@ public class Paginator {
 
     private static String range(long total, long start, int pageSize) {
         if (total <= 0 || start >= total) {
-            return "0" + DASH + "0 de " + total;
+            return "0" + DASH + "0 de " + Thousands.of(total);
         }
         long end = Math.min(start + pageSize, total);
-        return (start + 1) + DASH + end + " de " + total;
+        return Thousands.of(start + 1) + DASH + Thousands.of(end) + " de " + Thousands.of(total);
     }
 }
