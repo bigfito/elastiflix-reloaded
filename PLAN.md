@@ -1239,7 +1239,70 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
   - un `id` que no existe responde la página «no encontrada» (404);
   - Elasticsearch caído o con error responde la página de error EFX existente.
 
-### Requerimientos 2 a 4
+### Requerimiento 2 — Interfaz en español e inglés
+
+- **Origen:** segundo de los cuatro requerimientos nuevos de Adolfo (2026-10-19). Hoy todas las páginas
+  están en español.
+- **Qué pide:**
+  - cada página existente tiene su versión en inglés: Inicio, Resultados, Cargar datos, Acerca de y,
+    con el requerimiento 1, Detalle de película;
+  - todos los textos se traducen de forma coherente;
+  - la persona cambia de español a inglés y de vuelta cuando quiera.
+- **Selector de idioma:**
+  - el header de cada página tiene un botón por idioma: «ES» y «EN», con nombre accesible «Español» y
+    «English», `lang` y `hreflang`, y el idioma activo marcado con `aria-current`;
+  - al hacer clic se carga la **misma página** en el idioma elegido;
+  - se conservan todos sus parámetros: la búsqueda, los filtros, la página, el tamaño de página y los
+    parámetros del detalle.
+- **Decisiones de Adolfo (2026-10-19):**
+  - **Idioma en la dirección:** las rutas no cambian (`/buscar`, `/cargar`…). El idioma va en el
+    parámetro `lang` (`es` o `en`) y la elección se recuerda en una cookie para las páginas siguientes.
+    En Spring: `CookieLocaleResolver` y `LocaleChangeInterceptor` con el parámetro `lang`. Un valor
+    distinto de `es` o `en` se ignora y se queda el idioma actual.
+  - **Idioma inicial:** español siempre, hasta que la persona elija inglés. No se usa `Accept-Language`.
+  - **Qué se traduce:** todo lo que escribe la aplicación:
+    - los textos de las páginas, `<title>`, `aria-label` y `<html lang>`;
+    - «Acerca de» completa;
+    - los mensajes de error EFX que ve la persona («qué pasó · causa probable · acción sugerida»);
+    - los textos de la carga: el JSON `texts` de `/cargar/trabajos/{jobId}` y los textos de `ingest.js`,
+      `home.js` y `results.js`;
+    - el informe de errores CSV.
+  - **Qué no se traduce:**
+    - los datos del catálogo, que se muestran tal como están en el índice: títulos, sinopsis, géneros,
+      palabras clave, idiomas, reparto y productoras;
+    - los nombres de campos, las rutas y los códigos `EFX`;
+    - las consultas de ejemplo y las sugerencias, que son consultas verificadas contra el índice;
+    - los logs, que siguen en español (convenciones).
+  - **Aprobación:** las versiones en inglés se aprueban como mockups en el canvas antes de implementarlas.
+- **Mockups:**
+  - `design/mockups/Main-en.dc.html`, `Results-en.dc.html`, `Ingest-en.dc.html`, `About-en.dc.html` y
+    `Detail-en.dc.html`, con los enlaces entre páginas en inglés;
+  - las cinco pantallas en español llevan el mismo selector en el header;
+  - **pendiente de aprobación de Adolfo.**
+- **Coherencia de la traducción:** `docs/i18n/glosario-en.md` fija el término en inglés de cada concepto
+  (Vectorial → Vector, Híbrida → Hybrid, Cargar datos → Load data, APLICAR → APPLY…), el tono y los
+  formatos. Toda traducción nueva lo sigue y lo amplía.
+- **Formatos por idioma:**
+  - miles con espacio en español («6 899») y con coma en inglés («6,899»), y punto decimal en los dos;
+  - las fechas siguen en `yyyy-MM-dd`;
+  - la atribución de TMDB usa en inglés el texto oficial: «This product uses the TMDB API but is not
+    endorsed or certified by TMDB.».
+- **Implementación esperada** (la confirma el diseño de la fase):
+  - **Textos de las páginas:** `messages_es.properties` y `messages_en.properties` (UTF-8) en
+    `elastiflix-web`, leídos con `#{…}` desde Thymeleaf. El JavaScript no lleva textos fijos: los recibe
+    del servidor.
+  - **Mensajes EFX:** la web los resuelve por código y por idioma, y `ErrorCode` conserva el texto en
+    español para los logs.
+- **Criterios de aceptación:**
+  - una prueba falla si una clave falta en alguno de los dos archivos;
+  - ninguna plantilla ni archivo JS conserva textos fijos en español;
+  - MockMvc con `lang=en` muestra los textos en inglés y deja la cookie;
+  - sin cookie, la página sale en español aunque el navegador pida inglés;
+  - el selector conserva los parámetros de la página.
+- **Pendiente de definir al diseñar la fase:** qué pasa al cambiar de idioma en «Cargar datos» con un
+  trabajo de validación o importación en curso, o con el formulario de registro a medio llenar.
+
+### Requerimientos 3 y 4
 
 Pendientes: Adolfo los compartirá uno por uno.
 
