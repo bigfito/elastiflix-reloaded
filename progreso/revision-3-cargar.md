@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-11
-- **Subpaso en curso:** T-05 terminada
-- **Próximo paso:** T-11: completar `ingest.test.js` (cancelado, doble clic, caída de red) y que `suggestions.test.js` intercepte `/buscar`.
-- **Última actualización:** 2026-10-19 02:16 UTC
+- **Tarea actual:** T-13
+- **Subpaso en curso:** T-11 terminada
+- **Próximo paso:** T-13: `IngestJobController` usa `limits.maxFileSize()` (sin `@Value`) y un `MultipartConfigElement` derivado del mismo valor reemplaza `max-file-size`/`max-request-size` del YAML.
+- **Última actualización:** 2026-10-19 02:18 UTC
 
 ## Tareas
 
@@ -31,8 +31,8 @@ en curso
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
 | T-04 | terminada | `3c6319f` | `ingest.js`: bandera `actionError` que pone `act()` ante un 4xx o una caída de red; `paint()` ya no oculta `#server-error` mientras esté puesta y el siguiente clic la limpia. Prueba: `BASE_URL=http://localhost:8096 node --test ingest.test.js` → «T-04: un 409 al importar deja el aviso visible después del siguiente sondeo» ✔. Con `ingest.js` de `main` falla (`actual: false, expected: true`); se restauró la corrección. |
-| T-05 | terminada | se anota en el commit siguiente | `ingest.js`: `choose()` vacía `input.value` tras guardar el archivo; un `change` del separador o de la casilla de encabezado rehabilita «Validar archivo» si hay un archivo que pasó la comprobación del navegador; `upload()` quita la marca «rechazado» de la ficha. Prueba: «T-05: validar un CSV, cambiar el separador y validar el mismo archivo hace un segundo POST» ✔ (dos POST, con `,` y `;`). Con `ingest.js` sin T-05 falla en el input (`actual: 'C:\\fakepath\\peliculas.csv'`); sin el `change` del separador falla en el botón (`actual: false`); se restauró la corrección. |
-| T-11 | pendiente | — | El manejo de estados de `ingest.js` no tiene prueba automática |
+| T-05 | terminada | `12ca067` | `ingest.js`: `choose()` vacía `input.value` tras guardar el archivo; un `change` del separador o de la casilla de encabezado rehabilita «Validar archivo» si hay un archivo que pasó la comprobación del navegador; `upload()` quita la marca «rechazado» de la ficha. Prueba: «T-05: validar un CSV, cambiar el separador y validar el mismo archivo hace un segundo POST» ✔ (dos POST, con `,` y `;`). Con `ingest.js` sin T-05 falla en el input (`actual: 'C:\\fakepath\\peliculas.csv'`); sin el `change` del separador falla en el botón (`actual: false`); se restauró la corrección. |
+| T-11 | terminada | se anota en el commit siguiente | Nuevo `src/test/browser/ingest.test.js` con `page.route()` sobre `/cargar/archivo` y `/cargar/trabajos/*`: 409 al importar (T-04), revalidar el mismo archivo con otro separador (T-05), `cancelado` → paso 4 detenido, doble clic en Importar → un POST, caída de red al importar y al subir → aviso de red. `suggestions.test.js` intercepta `/buscar`. `BASE_URL=http://localhost:8096 npm test` (app con `ELASTICSEARCH_URL=http://localhost:9200`, sin Elasticsearch): 10 de 10 ✔. Rotura a mano: sin `cancelado` en `stepState`, sin `importButton.disabled = true` en `act`, sin el aviso en el `catch` de `upload` y sin la bandera en el `catch` de `act` → los cuatro casos nuevos ✖; T-04 y T-05 ya se rompieron en sus filas; se restauró. README de la carpeta actualizado. |
 | T-13 («Cargar datos» y `application.yml`) | pendiente | — | Límites de carga con dos orígenes y valores escritos a mano |
 | T-15 | pendiente | — | La API de carga: un error sin código se muestra como «sin conexión», y la subida deja un temporal |
 | T-20 («Cargar datos» y `JobTexts`) | pendiente | — | Textos visibles sin punto final o sin fila en PLAN §1 |
@@ -56,9 +56,11 @@ Vacío.
 
 ## Notas para el cierre
 
-<Cambios de documentación que aplicará el carril Z: filas de PLAN §1 (texto exacto), propiedades de §7,
-«Cambios respecto al diseño aprobado» de `docs/diseno/<fase>.md`, tablas de errores y README. También las
-firmas viejas que la regla 1 obligó a conservar y que Z puede quitar.>
+- **T-11 · `docs/diseno/4.md`** (lista de cambios de la Fase 4, después de S-10): agregar «Revisión 3, T-04,
+  T-05 y T-11: `ingest.js` conserva el aviso de un 4xx o de una caída de red al importar o cancelar hasta el
+  siguiente clic (bandera `actionError`), vacía el `<input type=file>` al elegir y rehabilita «Validar
+  archivo» al cambiar el separador o la casilla de encabezado. `src/test/browser/ingest.test.js` prueba esos
+  estados con `page.route()`, sin Elasticsearch; `suggestions.test.js` intercepta `/buscar`.»
 
 ## Bloqueos y solicitudes
 

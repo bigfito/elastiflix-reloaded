@@ -111,3 +111,65 @@ test('T-05: validar un CSV, cambiar el separador y validar el mismo archivo hace
     assert.equal(separatorOf(calls.uploads[1]), ';');
   });
 });
+
+test('T-11: un trabajo cancelado deja el paso 4 detenido', async () => {
+  await withPage(async (page) => {
+    await serveJob(page, [screen('cancelado', 4)]);
+    await chooseFile(page, 'json', 'peliculas.json', VALID_JSON);
+
+    await page.click('#file-submit');
+    await page.waitForFunction(() => document.querySelector('#steps li[data-step="1"]').className === 'is-done'
+      && document.querySelector('#steps li[data-step="4"]').className !== '');
+
+    const classes = await page.$$eval('#steps li', (items) => items.map((item) => item.className));
+    assert.deepEqual(classes, ['is-done', 'is-done', 'is-done', 'is-failed', '']);
+    assert.equal(await page.textContent('#steps li[data-step="4"] .state'), '· detenido');
+  });
+});
+
+test('T-11: un doble clic en Importar hace un solo POST', async () => {
+  await withPage(async (page) => {
+    await validJob(page);
+    let imports = 0;
+    await page.route('**/cargar/trabajos/' + JOB + '/importar', async (route) => {
+      imports++;
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await json(route, 200, screen('publicado', 5));
+    });
+
+    await page.dblclick('#job-import');
+    await page.waitForFunction(() => document.querySelector('#steps li[data-step="5"]').className === 'is-done');
+
+    assert.equal(imports, 1);
+  });
+});
+
+test('T-11: una caída de red al importar muestra el aviso de red', async () => {
+  await withPage(async (page) => {
+    const calls = await validJob(page);
+    await page.route('**/cargar/trabajos/' + JOB + '/importar', (route) => route.abort('failed'));
+    const before = calls.polls;
+
+    await page.click('#job-import');
+    await waitForPolls(page, calls, before + 1);
+    await page.waitForTimeout(300);
+
+    assert.equal(await page.isVisible('#server-error'), true);
+    assert.equal(await page.textContent('#server-error'), 'No se pudo conectar con el servidor de la demo. '
+      + 'Revisa que siga en marcha y vuelve a intentarlo.');
+  });
+});
+
+test('T-11: una caída de red al subir detiene el paso 2 con el aviso de red', async () => {
+  await withPage(async (page) => {
+    await page.route('**/cargar/archivo', (route) => route.abort('failed'));
+    await chooseFile(page, 'json', 'peliculas.json', VALID_JSON);
+
+    await page.click('#file-submit');
+    await page.waitForSelector('#server-error:not([hidden])');
+
+    assert.equal(await page.getAttribute('#steps li[data-step="2"]', 'class'), 'is-failed');
+    assert.match(await page.textContent('#server-error'), /^No se pudo conectar con el servidor de la demo\./);
+    assert.equal(await page.isEnabled('#file-submit'), true);
+  });
+});
