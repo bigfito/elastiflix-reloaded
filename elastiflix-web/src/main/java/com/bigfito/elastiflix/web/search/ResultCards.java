@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.bigfito.elastiflix.ingest.mapping.Thousands;
 import com.bigfito.elastiflix.search.query.SearchMode;
 import com.bigfito.elastiflix.search.result.SearchHit;
 import com.bigfito.elastiflix.search.result.SearchResult;
@@ -136,7 +137,7 @@ public class ResultCards {
         if (value == null) {
             return "0";
         }
-        return Integer.toString(value);
+        return Thousands.of(value);
     }
 
     private static String number(Double value) {

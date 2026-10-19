@@ -72,7 +72,7 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("Géneros: Drama")))
                 .andExpect(content().string(containsString("Valores actualizados con los resultados filtrados.")))
                 .andExpect(content().string(containsString("<select id=\"page-size\" class=\"inp\">")))
-                .andExpect(content().string(containsString("7.9 · 1000 votos")))
+                .andExpect(content().string(containsString("7.9 · 1 000 votos")))
                 .andExpect(content().string(containsString("En estos resultados: de 1997-01-01 a 1997-12-19")))
                 .andExpect(content().string(not(containsString("1997-12-19."))))
                 .andExpect(content().string(containsString("alt=\"Titanic\"")))
@@ -83,6 +83,22 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("M4 7V5h16v2")))
                 .andExpect(content().string(not(containsString("Ver todos los géneros"))))
                 .andExpect(content().string(not(containsString("Ver todos los idiomas"))));
+    }
+
+    @Test
+    @DisplayName("los votos y el título del conteo agrupan los miles: «21 911 votos» y «1 234 resultados»")
+    void shouldGroupThousandsInVotesAndCount() throws Exception {
+        SearchHit hit = new SearchHit(
+                "1", "Titanic", "Titanic", "Un barco", "/t.jpg",
+                LocalDate.of(1997, 12, 19), 194, List.of("Drama"), 7.9, 21_911, "PG-13",
+                12.5, null, null, null);
+        when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(List.of(hit), 1234,
+                facets(), new Pagination(1, 50, 1234, 25, "1–25 de 1234"), List.of("match · title"), null));
+
+        mvc.perform(get("/buscar").param("q", "titanic"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("7.9 · 21 911 votos")))
+                .andExpect(content().string(containsString("<h1>1 234 resultados</h1>")));
     }
 
     @Test
