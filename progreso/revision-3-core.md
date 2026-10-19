@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-10 (core)
-- **Subpaso en curso:** T-02 terminada
-- **Próximo paso:** agregar a `CatalogBootstrapTest` publish 5xx → EFX-IMP-006 sin borrar y reindex EFX-ES-006 con el original ya no concreto; a una prueba nueva de `ElasticsearchCatalogIndex` publish con `timeout(10s)` e `indexOne` con `require_alias=true`; a `InferenceEmbeddingServiceTest` `embedQuery` con `input_type=search` y prefijo `Query: `.
-- **Última actualización:** 2026-10-19 02:19 UTC
+- **Tarea actual:** T-12 (core)
+- **Subpaso en curso:** T-10 terminada
+- **Próximo paso:** quitar `IndexMapping.field()` y `document()` y `InferenceEmbeddingService.requireSameSize` (mover su uso a las firmas reales), y agregar «Lo usan las pruebas de integración» al Javadoc de `CatalogIndex.readWithVectors` / `readAllWithVectors`.
+- **Última actualización:** 2026-10-19 02:26 UTC
 
 ## Tareas
 
@@ -31,8 +31,8 @@ en curso
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
 | T-01 | terminada | `5f67007` | `copy` cancela también ante `JsonpMappingException`; `cancel` pide `wait_for_completion=false` y confirma con hasta 3 lecturas de `_tasks` de 20 s (WARN con el id si no se confirma); `hasFailures` mira `getValueType()`. `ReindexTasksTest` (14 pruebas, verde): `shouldCancelWhenTheTaskResponseIsUnreadable`, `shouldRetryTheCancelConfirmationUntilTheTaskStops`, `shouldStopConfirmingAfterThreeReads`, `shouldAcceptANullFailuresValue` y `shouldFailWhenTheTaskReportsFailures` (EFX-ES-006). Roturas a mano y revertidas: sin `JsonpMappingException` en `copy` → falla `shouldCancelWhenTheTaskResponseIsUnreadable`; una sola lectura → fallan `shouldStopConfirmingAfterThreeReads` y `shouldRetry…`; `wait_for_completion=true` → falla `shouldRetry…`; `getJsonArray` viejo → falla `shouldAcceptANullFailuresValue`. `./mvnw -q -pl elastiflix-core verify` exit 0 (2026-10-19 02:17 UTC). `shouldCancelWhenStopIsRequested` ahora espera 1 lectura (la de confirmación). |
-| T-02 (inferencia) | terminada | sobre `5f67007` | `InferenceEmbeddingService.call` atrapa también `JsonpMappingException` y la traduce a `EFX-EMB-001` conservando la causa. Prueba `InferenceEmbeddingServiceTest.shouldTranslateAnUnreadableResponse` (cliente simulado lanza `JsonpMappingException`; afirma código y causa). Rotura a mano (quitar `JsonpMappingException` del multi-catch) → esa prueba falla; revertido. `-Dtest=InferenceEmbeddingServiceTest` 4/4 y `./mvnw -q -pl elastiflix-core verify -DskipTests` exit 0 (2026-10-19 02:19 UTC). La parte de transporte es del carril B. |
-| T-10 (core) | pendiente | — | Faltan pruebas unitarias de ramas importantes |
+| T-02 (inferencia) | terminada | `6144997` | `InferenceEmbeddingService.call` atrapa también `JsonpMappingException` y la traduce a `EFX-EMB-001` conservando la causa. Prueba `InferenceEmbeddingServiceTest.shouldTranslateAnUnreadableResponse` (cliente simulado lanza `JsonpMappingException`; afirma código y causa). Rotura a mano (quitar `JsonpMappingException` del multi-catch) → esa prueba falla; revertido. `-Dtest=InferenceEmbeddingServiceTest` 4/4 y `./mvnw -q -pl elastiflix-core verify -DskipTests` exit 0 (2026-10-19 02:19 UTC). La parte de transporte es del carril B. |
+| T-10 (core) | terminada | sobre `6144997` | Pruebas nuevas: `CatalogBootstrapTest.shouldKeepTheNewIndexWhenPublishGetsAServerError` (503 → EFX-IMP-006, sin borrar), `shouldKeepTheNewIndexWhenTheReindexFailsAndTheOriginalIsGone` (EFX-ES-006 y el nombre ya es alias → no borra) y su pareja `shouldDeleteTheNewIndexWhenTheReindexFailsAndTheOriginalRemains`; `ElasticsearchCatalogIndexTest` (nueva) `shouldPublishWithATenSecondTimeoutInOneCall` y `shouldIndexOneMovieOnlyThroughTheAlias` (petición construida desde la función capturada al cliente simulado); `InferenceEmbeddingServiceTest.shouldSendTheSearchInputTypeAndTheQueryPrefix`. Roturas a mano y revertidas: quitar `isClientRejection` en `confirmOrReject` → fallan `…PublishGetsAServerError` y `…PublishIsCutOff`; borrar siempre en `deleteNewIfOriginalRemains` → falla `…OriginalIsGone`; `PUBLISH_LIMIT` 30s → falla `shouldPublishWithATenSecondTimeoutInOneCall`; `requireAlias(false)` → falla `shouldIndexOneMovieOnlyThroughTheAlias`; `input_type` ingest o prefijo vacío → falla `shouldSendTheSearchInputTypeAndTheQueryPrefix`. Las tres clases en verde (5 + 13 + 2) y `./mvnw -q -pl elastiflix-core verify -DskipTests` exit 0 (2026-10-19 02:26 UTC). |
 | T-12 (core) | pendiente | — | Código muerto y campos que nadie lee |
 | T-19 (`ErrorCode` y `CosineSimilarity`) | pendiente | — | Textos de error y Javadoc que no corresponden al comportamiento |
 | T-25 (`@Validated` y grupos) | pendiente | — | Configuración y beans armados para las pruebas |

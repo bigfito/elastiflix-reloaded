@@ -12,16 +12,20 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.inference.DenseEmbeddingResult;
 import co.elastic.clients.elasticsearch.inference.ElasticsearchInferenceClient;
+import co.elastic.clients.elasticsearch.inference.InferenceRequest;
 import co.elastic.clients.elasticsearch.inference.InferenceResponse;
 import co.elastic.clients.json.JsonpMappingException;
+import co.elastic.clients.util.ObjectBuilder;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -83,6 +87,32 @@ class InferenceEmbeddingServiceTest {
                 .hasCauseInstanceOf(JsonpMappingException.class)
                 .extracting(thrown -> ((EmbeddingException) thrown).errorCode())
                 .isEqualTo(ErrorCode.INFERENCE_UNAVAILABLE);
+    }
+
+    @Test
+    @DisplayName("embedQuery envía input_type=search y antepone «Query: » a la consulta")
+    @SuppressWarnings("unchecked")
+    void shouldSendTheSearchInputTypeAndTheQueryPrefix() throws Exception {
+        // given
+        ElasticsearchClient client = mock(ElasticsearchClient.class);
+        ElasticsearchInferenceClient inference = mock(ElasticsearchInferenceClient.class);
+        when(client.inference()).thenReturn(inference);
+        when(inference.inference(any(Function.class))).thenReturn(InferenceResponse.of(response -> response
+                .result(result -> result.embeddings(List.of(DenseEmbeddingResult.of(row -> row
+                        .embedding(modelVector())))))));
+        InferenceEmbeddingService service = new InferenceEmbeddingService(
+                client, new ElastiflixProperties(null, null, null, null, null, null, null));
+        ArgumentCaptor<Function<InferenceRequest.Builder, ObjectBuilder<InferenceRequest>>> captor =
+                ArgumentCaptor.forClass(Function.class);
+
+        // when
+        service.embedQuery("titanic");
+
+        // then
+        verify(inference).inference(captor.capture());
+        InferenceRequest sent = captor.getValue().apply(new InferenceRequest.Builder()).build();
+        assertThat(sent.inputType()).isEqualTo("search");
+        assertThat(sent.input()).containsExactly("Query: titanic");
     }
 
     /** Un vector válido de 1024 dimensiones: así falla solo el tamaño del lote. */

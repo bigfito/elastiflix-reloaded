@@ -165,6 +165,54 @@ class CatalogBootstrapTest {
         assertThat(catalog.deleted).isNull();
     }
 
+    @Test
+    @DisplayName("si publicar responde 5xx y el original sigue, no borra y responde EFX-IMP-006")
+    void shouldKeepTheNewIndexWhenPublishGetsAServerError() {
+        // given
+        FakeCatalog catalog = new FakeCatalog(new CatalogName.ConcreteIndex(ALIAS), false, true);
+        catalog.publishCause = serverError();
+
+        // when / then
+        assertThatThrownBy(() -> bootstrap(catalog).migrate())
+                .isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(thrown -> ((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.PUBLISH_UNCERTAIN);
+        assertThat(catalog.deleted).isNull();
+        assertThat(catalog.calls).doesNotContain("delete");
+    }
+
+    @Test
+    @DisplayName("si el reindex falla con EFX-ES-006 y el original ya no es índice concreto, no borra el nuevo")
+    void shouldKeepTheNewIndexWhenTheReindexFailsAndTheOriginalIsGone() {
+        // given
+        FakeCatalog catalog = new FakeCatalog(new CatalogName.ConcreteIndex(ALIAS), false, false);
+        catalog.failReindex = true;
+        catalog.afterReindex = new CatalogName.Alias(ALIAS, NEW_INDEX);
+
+        // when / then
+        assertThatThrownBy(() -> bootstrap(catalog).migrate())
+                .isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(thrown -> ((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.REINDEX_FAILED);
+        assertThat(catalog.deleted).isNull();
+        assertThat(catalog.calls).containsExactly("describe", "create", "reindex", "describe");
+    }
+
+    @Test
+    @DisplayName("si el reindex falla con EFX-ES-006 y el original sigue, borra el índice nuevo")
+    void shouldDeleteTheNewIndexWhenTheReindexFailsAndTheOriginalRemains() {
+        // given
+        FakeCatalog catalog = new FakeCatalog(new CatalogName.ConcreteIndex(ALIAS), false, false);
+        catalog.failReindex = true;
+
+        // when / then
+        assertThatThrownBy(() -> bootstrap(catalog).migrate())
+                .isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(thrown -> ((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.REINDEX_FAILED);
+        assertThat(catalog.deleted).isEqualTo(NEW_INDEX);
+    }
+
     private static CatalogBootstrap bootstrap(FakeCatalog catalog) {
         ElastiflixProperties properties = new ElastiflixProperties(
                 null, new ElastiflixProperties.Index(ALIAS), null, null, null, null, null);
@@ -176,12 +224,20 @@ class CatalogBootstrapTest {
                 .status(400).error(cause -> cause.type("illegal_argument_exception").reason("rechazo"))));
     }
 
+    private static ElasticsearchException serverError() {
+        return new ElasticsearchException("indices.update_aliases", ErrorResponse.of(response -> response
+                .status(503).error(cause -> cause.type("unavailable_shards_exception").reason("sin respuesta"))));
+    }
+
     private static final class FakeCatalog implements CatalogIndex {
 
         private final boolean mismatch;
         private final boolean failPublish;
         private boolean failCount;
         private boolean failDescribeAfterPublish;
+        private boolean failReindex;
+        private boolean reindexed;
+        private CatalogName afterReindex;
         private CatalogName afterPublish;
         private Throwable publishCause;
         private final List<String> calls = new ArrayList<>();
@@ -205,6 +261,9 @@ class CatalogBootstrapTest {
             if (publishedPrevious != null && afterPublish != null) {
                 return afterPublish;
             }
+            if (reindexed && afterReindex != null) {
+                return afterReindex;
+            }
             return described;
         }
 
@@ -217,6 +276,10 @@ class CatalogBootstrapTest {
         @Override
         public void reindex(String source, String target, BooleanSupplier stop) {
             calls.add("reindex");
+            reindexed = true;
+            if (failReindex) {
+                throw new ElasticsearchAccessException(ErrorCode.REINDEX_FAILED);
+            }
         }
 
         @Override
