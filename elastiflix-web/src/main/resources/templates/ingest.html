@@ -15,7 +15,7 @@
     </section>
     <p class="notice-ok" role="status" th:if="${savedTitle != null}">Se guardó <span th:text="${savedTitle}">título</span>.</p>
     <ul class="alert" th:if="${rejected != null}">
-      <li th:each="issue : ${rejected}" th:text="|${issue.code} · ${issue.field} · ${issue.expected}|">error</li>
+      <li th:each="issue : ${rejected}" th:text="|${issue.code} · ${issue.field} · ${issue.expected}.|">error</li>
     </ul>
 
     <div role="tablist" aria-label="Forma de carga" class="tabs">

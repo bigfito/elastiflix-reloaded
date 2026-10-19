@@ -11,6 +11,7 @@ import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.job.SaveResult;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
+import com.bigfito.elastiflix.ingest.mapping.WarningCount;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 
@@ -159,6 +160,31 @@ class IngestPageTest {
     }
 
     @Test
+    @DisplayName("las advertencias reales terminan en punto, con su conteo, y la de vectores va primero")
+    void shouldEndEachWarningWithAPeriod() throws Exception {
+        when(ingest.job(JOB)).thenReturn(withWarnings(List.of(
+                new WarningCount("EFX-ING-021", "spoken_languages", 62, "se omite"),
+                new WarningCount("EFX-ING-022", "tagline", 1, "sin valor"),
+                new WarningCount("EFX-ING-020", "plot_256", 4322, "se generará desde plot"))));
+
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.texts.warnings[0]").value("El archivo trae plot_256, plot_512 y plot_1024: "
+                        + "se ignorarán y se generarán con el servicio de inferencia."))
+                .andExpect(jsonPath("$.texts.warnings[1]").value("spoken_languages: se omite (62)."))
+                .andExpect(jsonPath("$.texts.warnings[2]").value("tagline: sin valor."));
+    }
+
+    @Test
+    @DisplayName("un registro individual rechazado muestra «código · campo · esperado.» con punto final")
+    void shouldEndEachRejectionWithAPeriod() throws Exception {
+        List<ValidationIssue> rejected = List.of(new ValidationIssue("EFX-ING-012", "formulario", "1",
+                "vote_count", "1e3", "un número entero", false));
+
+        mvc.perform(get("/cargar").flashAttr("rejected", rejected))
+                .andExpect(content().string(containsString("<li>EFX-ING-012 · vote_count · un número entero.</li>")));
+    }
+
+    @Test
     @DisplayName("un trabajo fallido muestra el código una sola vez")
     void shouldShowTheFailureCodeOnce() throws Exception {
         when(ingest.job(JOB)).thenReturn(job("fallido", "json", 4, 0, 0, List.of(), List.of(),
@@ -246,6 +272,11 @@ class IngestPageTest {
 
     private static JobView validJson() {
         return job("valido", "json", 4322, 0, 0, List.of(), List.of(), "", "");
+    }
+
+    private static JobView withWarnings(List<WarningCount> warnings) {
+        return new JobView(JOB, "valido", "json", MEGABYTE, 4, 0, 0, 0, 4322, 4322, 0, 0, 0,
+                List.of(), warnings, List.of(), List.of(), "", "", 100, 44, "");
     }
 
     private static JobView inState(String status) {
