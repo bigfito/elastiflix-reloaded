@@ -102,7 +102,23 @@ class ResultsPageTest {
         mvc.perform(get("/buscar").param("q", "titanic"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("7.9 · 21 911 votos")))
-                .andExpect(content().string(containsString("<h1>1 234 resultados</h1>")));
+                .andExpect(content().string(containsString("<h1 id=\"r-title\" aria-live=\"polite\">1 234 resultados</h1>")));
+    }
+
+    @Test
+    @DisplayName("el título del conteo se anuncia, rotula la sección, y APLICAR va tras su separador")
+    void shouldAnnounceTheCountAndLabelTheSection() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "match · title"));
+
+        mvc.perform(get("/buscar").param("q", "titanic"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<section aria-labelledby=\"r-title\">")))
+                .andExpect(content().string(containsString("<h1 id=\"r-title\" aria-live=\"polite\">1 resultado</h1>")))
+                .andExpect(content().string(not(containsString("aria-describedby=\"q-error\""))))
+                .andExpect(content().string(not(containsString("id=\"q-error\""))))
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).containsPattern(
+                        "<div class=\"apply-row\">\\s*<p id=\"dirty\" class=\"pending\" hidden>Tienes cambios sin aplicar.</p>"
+                                + "\\s*<button class=\"apply\" type=\"submit\">APLICAR</button>\\s*</div>"));
     }
 
     @Test
@@ -231,6 +247,7 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("value=\"2020-01-02\"")))
                 .andExpect(content().string(containsString("value=\"1999-01-01\"")))
                 .andExpect(content().string(containsString("disabled=\"disabled\"")))
+                .andExpect(content().string(not(containsString("aria-describedby"))))
                 .andExpect(content().string(containsString("Drama")));
     }
 

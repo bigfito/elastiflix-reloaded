@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-26 (Resultados y CSS)
+- **Tarea actual:** T-27 (`ErrorPageTest`)
 - **Subpaso en curso:** por empezar
-- **Próximo paso:** en `results.html`: `aria-describedby="q-error"` solo si hay error, `h1 id="r-title" aria-live="polite"` y `section aria-labelledby="r-title"`, separador `border-top` antes de APLICAR; en el CSS, `.drop:focus-within` y el foco visible de las pestañas de «Cargar datos».
-- **Última actualización:** 2026-10-19 02:49 UTC
+- **Próximo paso:** agrega a `ErrorPageTest.shouldShowTheCatalogMessage` la aserción del pie (alias, conteo y atribución de TMDB) en la página EFX.
+- **Última actualización:** 2026-10-19 02:52 UTC
 
 ## Tareas
 
@@ -40,8 +40,8 @@ en curso
 | T-21 | terminada | `74a89d5` | `FacetChoices.hasExtra` (`anyMatch(FacetChoice::extra)`) da `genresExtra` y `languagesExtra` al modelo; `results.html` los usa en lugar de `size() > 6`. Prueba nueva `ResultsPageTest.shouldNotOfferExpandWhenNothingIsHidden`: 6 géneros más `genero=Western` (marcado y sin conteo) dan 7 opciones, ninguna `extra`, y no aparece «Ver todos los géneros»; `shouldOfferExpandOnlyPastSixValues` sigue mostrándolo con 7 valores. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 14 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver a `genres.size() > 6`): falla `shouldNotOfferExpandWhenNothingIsHidden`; revertido. |
 | T-22 | terminada | `f2b7b4a` | `elastiflix.css` pasa de 645 a 625 líneas: cada pareja repetida de la lista quedó en una regla (`.fh`, `.filters legend`, `.poster.missing`, `.extra`/`.show-extra .extra`, `.results h1`/`.results-head h1`, `.filters fieldset`, `.results-layout`, `.rrf-value`, `.filters .date-field`, `.hit-list`, `.mode-cards`, `.filters-head h2` y `.legend` dentro de `.results .legend`) y se quitaron las muertas (`.score-panel .eyebrow`, `.sizes`, `.page-size select`, `#job-ok[hidden]`, `.file-chip[hidden]`). Capturas antes y después: 60 de 60 archivos idénticos byte a byte (estilos calculados de todos los elementos y PNG de página completa; 15 pantallas de Resultados, Cargar, Acerca, Inicio y 404 en 1440 y 390 px). Método en «Decisiones». Cambio solo de CSS: lo que se rompería es lo que se ve, y la comparación lo cubre. |
 | T-23 | terminada | `d2d3d9b` | Un solo helper: se quitó `CatalogTexts.grouped`/`rest` y la web usa `ingest.mapping.Thousands.of` (sin cambios) en el pie y «Acerca de» (`CatalogTexts`), en los votos (`ResultCards.count`) y en el título del conteo (`ResultsPage.countTitle`). Prueba nueva `ResultsPageTest.shouldGroupThousandsInVotesAndCount` («7.9 · 21 911 votos» y `<h1>1 234 resultados</h1>`); `shouldRenderFullText` pasa a «1 000 votos»; `LayoutPageTest` y `AboutPageTest` siguen afirmando «4 322 películas». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,LayoutPageTest,AboutPageTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 26 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (votos con `Integer.toString`): fallan `shouldGroupThousandsInVotesAndCount` y `shouldRenderFullText`; revertido. |
-| T-25 (`PosterUrls`) | terminada | (hash en el commit siguiente) | Parte de E: `PosterUrls` recibe `ElastiflixProperties` por constructor; sin `ObjectProvider` ni `Poster.fallback()`. `ResultsPageTest` declara `@EnableConfigurationProperties(ElastiflixProperties.class)` (regla 7) y fija `ELASTIFLIX_POSTER_BASE_URL=https://posters.test/w92`; `shouldRenderFullText` afirma `src=\"https://posters.test/w92/t.jpg\"`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 29 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver al CDN de respaldo): falla `shouldRenderFullText`; revertido. `IngestLimits` es del carril F. |
-| T-26 (Resultados y CSS) | pendiente | — | Accesibilidad |
+| T-25 (`PosterUrls`) | terminada | `bfd273d` | Parte de E: `PosterUrls` recibe `ElastiflixProperties` por constructor; sin `ObjectProvider` ni `Poster.fallback()`. `ResultsPageTest` declara `@EnableConfigurationProperties(ElastiflixProperties.class)` (regla 7) y fija `ELASTIFLIX_POSTER_BASE_URL=https://posters.test/w92`; `shouldRenderFullText` afirma `src="https://posters.test/w92/t.jpg"`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 29 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver al CDN de respaldo): falla `shouldRenderFullText`; revertido. `IngestLimits` es del carril F. |
+| T-26 (Resultados y CSS) | terminada | (hash en el commit siguiente) | Parte de E. `results.html`: `aria-describedby="q-error"` solo cuando se pinta `#q-error` (error que no es de fechas); `h1 id="r-title" aria-live="polite"`; `section aria-labelledby="r-title"`; separador `.apply-row` antes de APLICAR. CSS: `.apply-row`, `.ingest .drop:focus-within` (y `:has(+ #archivo:focus-visible)`) y `.ingest .tab:focus-visible`. Prueba nueva `ResultsPageTest.shouldAnnounceTheCountAndLabelTheSection` y aserción sin `aria-describedby` en `shouldKeepTheFiltersWhenTheDateRangeIsReversed`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (`aria-describedby` fijo y sección sin `aria-labelledby`): fallan esas dos pruebas; revertido. Navegador (Playwright contra el jar del carril, puerto 8095): `.apply-row` con `border-top: 1px solid rgb(239, 231, 220)`; sin error `#q` no tiene `aria-describedby` y con `q=` sí; `#dirty` aparece al marcar un género; con Tab hasta la pestaña, contorno `solid 2px rgb(169, 80, 42)`; con Tab hasta `#archivo`, `.drop` pasa de `outline: none` a `solid 2px rgb(169, 80, 42)`. El teclado de las pestañas es del carril F. |
 | T-27 (`ErrorPageTest`) | pendiente | — | Pruebas que no pueden fallar, débiles o con higiene pendiente |
 
 ## Cambios sin commit
@@ -80,6 +80,11 @@ Vacío.
 - Además de las reglas que nombra la lista, se unieron las otras parejas con el mismo selector que la
   hoja repetía (`.results`, `.results section`, `.filters`, `.score-panel`, `.score-line`, `.hit-main`),
   con la misma comparación.
+- **T-26 (parte de E):** el separador antes de APLICAR copia el mockup: un `div.apply-row` envuelve «Tienes
+  cambios sin aplicar.» y el botón (`border-top: 1px solid #EFE7DC`, `padding-top: 4px`, `gap: 8px`, margen
+  superior de 8 px en los dos). En «Cargar datos», `#archivo` es **hermano** de `label.drop` (plantilla de F),
+  no hijo; por eso la regla es `.drop:focus-within, .drop:has(+ #archivo:focus-visible)`: contorno de 2 px del
+  color de acento, como el foco de los campos. Las pestañas llevan `:focus-visible` con el mismo contorno.
 - **T-19 (decisión del texto, parte de E):** el Javadoc de `SearchController` dice ahora que el error de
   validación se muestra junto al campo solo con su «qué pasó» (`summary()`) y punto final, y que el código
   `EFX-*` va al log en `WARN`; el de `search` dice «muestra qué pasó junto al campo y registra el código».
@@ -111,6 +116,10 @@ Vacío.
   queda una cifra sin agrupar: el rango de la paginación («Mostrando 1–25 de 1234 resultados») lo arma
   `Pagination.range()` en `elastiflix-search` (carril B). Si Z quiere cerrarlo, es un cambio de B; no se
   tocó aquí.
+- **T-26:** si Z describe la accesibilidad de Resultados en `docs/diseno/4.md`: `aria-describedby="q-error"`
+  solo cuando existe `#q-error`; `h1#r-title` con `aria-live="polite"`; `section aria-labelledby="r-title"`;
+  separador `.apply-row` antes de APLICAR. Si F mueve algún día `#archivo` dentro de `label.drop`, la parte
+  `:has(...)` del CSS sobra.
 - **T-25 (parte de E) · regla 1:** `PosterUrls` ya no usa `ElastiflixProperties.Poster.fallback()`. Cuando F
   quite el relleno de `IngestLimits`, Z puede quitar `Poster.fallback()` (y el relleno de `null` de
   `ElastiflixProperties`, si A no lo hizo) de `elastiflix-core`: en la web ya nadie lo usa.
