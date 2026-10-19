@@ -15,14 +15,14 @@
 
 ## Estado general
 
-en curso
+terminado
 
 ## Punto de reanudación
 
-- **Tarea actual:** cierre del carril
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** `git merge origin/main`, `./mvnw verify`, `./mvnw verify -Pit`, pruebas de navegador, estado `terminado` y PR.
-- **Última actualización:** 2026-10-19 02:39 UTC
+- **Tarea actual:** ninguna; carril terminado
+- **Subpaso en curso:** PR abierto hacia `main`
+- **Próximo paso:** que Adolfo revise y fusione el PR del carril F. Después, el carril Z aplica «Notas para el cierre».
+- **Última actualización:** 2026-10-19 02:50 UTC
 
 ## Tareas
 
@@ -38,7 +38,7 @@ en curso
 | T-20 («Cargar datos» y `JobTexts`) | terminada (parte F) | `cd12a98` | Decisión: agregar el punto y registrar cada texto en PLAN §1 (no se cambia al texto del mockup, que habla de un escenario). `ingest.html`: la lista de rechazos queda `<código> · <campo> · <esperado>.`. `JobTexts`: cada advertencia real queda `<campo>: <mensaje> (N).` (con `(N)` solo si N > 1), con punto como la de vectores. Pruebas nuevas en `IngestPageTest`: `shouldEndEachRejectionWithAPeriod` y `shouldEndEachWarningWithAPeriod`; `./mvnw -q -pl elastiflix-web -am test -Dtest=IngestPageTest` EXIT 0 (12 pruebas). Con `ingest.html` y `JobTexts` de `main` fallan las dos (`…:184` sin el punto; `…:173` `but was:<spoken_languages: se omite (62)>`); se restauró. Las filas de PLAN §1 van en «Notas para el cierre». `error.html` es del carril E. |
 | T-25 (`IngestLimits`) | terminada (parte F) | `254b3d3` | `IngestLimits` recibe `ElastiflixProperties` por constructor: sin `ObjectProvider` ni `new ElastiflixProperties(null, …)`. Las cuatro pruebas `@WebMvcTest` de carga (`IngestPageTest`, `IngestJobJsonErrorsTest`, `IngestJobErrorTest`, `IngestConfiguredLimitsTest`) declaran `@EnableConfigurationProperties(ElastiflixProperties.class)` (regla 7). `./mvnw -q -pl elastiflix-web -am test -Dtest='com/bigfito/elastiflix/web/**/*Test,…/architecture/*Test'` EXIT 0 (62 pruebas) y `verify -DskipTests` EXIT 0. Sin la anotación, `IngestPageTest` no arranca (`No qualifying bean of type '…ElastiflixProperties'`): la página ya no tiene un respaldo hecho para las pruebas; se restauró. `git grep 'new ElastiflixProperties\|ObjectProvider' elastiflix-web/src/main` solo deja `PosterUrls` (carril E). |
 | T-26 (teclado de las pestañas) | terminada (parte F) | `230e505` | `ingest.html`: las pestañas no elegidas llevan `tabindex="-1"`. `ingest.js`: `selectTab()` mueve `tabIndex` 0/-1 con `aria-selected`; ←/→ (con vuelta), Inicio y Fin enfocan y activan la pestaña (activación automática del patrón de pestañas de WAI-ARIA). Prueba: «T-26: las pestañas usan tabindex itinerante y se recorren con flechas, Inicio y Fin» ✔ (`npm test`: 11 de 11). Con `ingest.html` e `ingest.js` sin T-26 ✖; se restauró. El `:focus-within` de `.drop` y el foco visible de las pestañas son CSS del carril E (regla 3). |
-| T-27 (`IngestPageTest`) | terminada (parte F) | se anota en el commit siguiente | `IngestPageTest`: `shouldShowTheAuthorizedCopy` y `shouldShowTheRejectedFileCopy` afirman el modelo (`nav`, `maxFileLabel`, `maxFileBytes`, `batchSize`) y lo que sale del `shell` (alias); `shouldRedirectAfterSavingOneMovie` verifica el flash `savedTitle` = «A», sin `rejected`, y que la página pinta «Se guardó <span>A</span>.»; nueva `shouldRedirectWithTheIssuesWhenTheMovieIsRejected` (flash `rejected` con el informe, sin `savedTitle`). `./mvnw -q -pl elastiflix-web -am test -Dtest=IngestPageTest` EXIT 0 (13 pruebas). Rotura: flash con el id en lugar del título → `shouldRedirectAfterSavingOneMovie:286` ✖ (`expected:<A> but was:<1>`); `maxFileLabel` fijo «149 MB» → `…AuthorizedCopy:83` y `…RejectedFileCopy:111` ✖; se restauró. Un lote escrito a mano como 100 no se distingue aquí (es el valor por defecto): lo detecta `IngestConfiguredLimitsTest` (50). |
+| T-27 (`IngestPageTest`) | terminada (parte F) | `6b1ecac` y el commit de cierre | `IngestPageTest`: `shouldShowTheAuthorizedCopy` y `shouldShowTheRejectedFileCopy` afirman el modelo (`nav`, `maxFileLabel`, `maxFileBytes`, `batchSize`) y lo que sale del `shell` (alias); `shouldRedirectAfterSavingOneMovie` verifica el flash `savedTitle` = «A», sin `rejected`, y que la página pinta «Se guardó <span>A</span>.»; nueva `shouldRedirectWithTheIssuesWhenTheMovieIsRejected` (flash `rejected` con el informe, sin `savedTitle`). `./mvnw -q -pl elastiflix-web -am test -Dtest=IngestPageTest` EXIT 0 (13 pruebas). Rotura: flash con el id en lugar del título → `shouldRedirectAfterSavingOneMovie:286` ✖ (`expected:<A> but was:<1>`); `maxFileLabel` fijo «149 MB» → `…AuthorizedCopy:83` y `…RejectedFileCopy:111` ✖; se restauró. Un lote escrito a mano como 100 no se distingue aquí (es el valor por defecto): lo detecta `IngestConfiguredLimitsTest` (50). Higiene (commit de cierre): en `IngestPageTest.shouldRunTheJobFlow` e `IngestConfiguredLimitsTest` la fachada simulada borra el temporal que recibe, así que ya no quedan `elastiflix-upload-*.bin` de 2 bytes en el tmp del sistema (25 antes y 25 después de correrlas). |
 
 ## Cambios sin commit
 
@@ -46,13 +46,29 @@ Vacío.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-web -am verify` (y al final `./mvnw verify` completo)
-- **Resultado:** `main` de partida (`6c403f4`) en verde (EXIT 0)
-- **Fecha:** 2026-10-19 02:13 UTC
+- **Comando:** `git merge origin/main` (ya al día, `6c403f4`); `./mvnw verify`; `./mvnw verify -Pit`; pruebas de
+  navegador con el jar de la rama (`ELASTICSEARCH_URL=http://localhost:9200 SERVER_PORT=8096`, sin Elasticsearch)
+  y `BASE_URL=http://localhost:8096 npm test`
+- **Resultado:** `verify` BUILD SUCCESS: unitarias 50 core + 62 search + 97 ingest + 63 web = 272, 0 fallas,
+  Checkstyle y PMD en 0. `verify -Pit` BUILD SUCCESS: lo anterior más 29 IT (9 core, 14 search, 2 ingest, 4 web),
+  0 fallas y 0 omitidas. Navegador: 11 de 11 ✔.
+- **Fecha:** 2026-10-19 02:45 UTC
 
 ## Decisiones
 
 - 2026-10-19 02:10 UTC: carril tomado con Claude Code (Opus 5.5), worktree `/workspaces/elastiflix-cargar`.
+- T-04: bandera `actionError` (la opción que sugiere la lista); se sigue sondeando tras un 4xx para que la
+  página refleje el estado real del trabajo. Un fallo de sondeo posterior no tapa el aviso de la acción.
+- T-05: «Validar archivo» se rehabilita solo si el archivo elegido pasó la comprobación del navegador; no se
+  borra el resultado anterior hasta el siguiente POST.
+- T-13: se deriva `max-request-size` en lugar de documentar dos valores: un `MultipartConfigElement`
+  (`UploadMultipartConfig`) con archivo = `elastiflix.ingest.max-file-size` y petición = ese valor + 1 MB.
+  Spring Boot no crea el suyo si ya hay uno (`@ConditionalOnMissingBean`). Se comprobó con la app real.
+- T-15: manejador de Spring para `RuntimeException` en `IngestJobErrors` (no `catch` genérico) y `@Order` en
+  `UploadSizeErrors`; el JS no cambia. El temporal se borra con `finally` y bandera, porque `JM-ERR-01` prohíbe
+  atrapar `RuntimeException`. El log del manejador incluye la traza de la excepción (no hay contenido de archivos).
+- T-20: punto final y filas en PLAN §1 (no se reescriben las advertencias con las frases del mockup).
+- T-26: activación automática al mover con flechas (patrón de pestañas de WAI-ARIA), con vuelta en los extremos.
 
 ## Notas para el cierre
 

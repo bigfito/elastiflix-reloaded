@@ -1,6 +1,8 @@
 package com.bigfito.elastiflix.web.ingest;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,7 +214,11 @@ class IngestPageTest {
     @Test
     @DisplayName("validar, consultar, importar y cancelar usan el trabajo simulado")
     void shouldRunTheJobFlow() throws Exception {
-        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenReturn(JOB);
+        // La fachada simulada no se queda con el temporal: lo borra como lo haría el trabajo real.
+        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenAnswer(call -> {
+            Files.deleteIfExists(call.getArgument(1, Path.class));
+            return JOB;
+        });
         when(ingest.errorReport(JOB)).thenReturn("codigo,campo\n");
         when(ingest.job(JOB)).thenReturn(validJson(), inState("importando"), inState("publicado"));
         MockMultipartFile file = new MockMultipartFile(

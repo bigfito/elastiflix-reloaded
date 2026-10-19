@@ -1,6 +1,8 @@
 package com.bigfito.elastiflix.web.ingest;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
@@ -74,7 +76,11 @@ class IngestConfiguredLimitsTest {
     @Test
     @DisplayName("un archivo de 200 MB pasa el tope del servidor; uno de 200 MB + 1 byte responde 413")
     void shouldUseTheConfiguredLimitWhenTheUploadArrives() throws Exception {
-        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenReturn("job-1");
+        // La fachada simulada no se queda con el temporal: lo borra como lo haría el trabajo real.
+        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenAnswer(call -> {
+            Files.deleteIfExists(call.getArgument(1, Path.class));
+            return "job-1";
+        });
 
         mvc.perform(multipart("/cargar/archivo").file(sized(LIMIT)))
                 .andExpect(status().isOk())
