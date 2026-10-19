@@ -1,5 +1,14 @@
 package com.bigfito.elastiflix.core.config;
 
+import java.util.List;
+
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.metadata.BeanDescriptor;
+import jakarta.validation.metadata.PropertyDescriptor;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -50,13 +59,45 @@ class ElastiflixPropertiesTest {
     }
 
     @Test
-    @DisplayName("sin ninguna propiedad de embeddings quedan los dos valores calibrados")
-    void shouldUseTheCalibratedPairWithoutEmbeddingProperties() {
-        runner.run(context -> {
-            ElastiflixProperties.Embedding embedding = context.getBean(ElastiflixProperties.class).embedding();
-            assertThat(embedding.documentInputType()).isEqualTo("ingest");
-            assertThat(embedding.documentPrefix()).isEqualTo("");
+    @DisplayName("@Validated tiene qué validar: alias e id de inferencia son @NotBlank, en cascada desde el record")
+    void shouldDeclareTheConstraintsThatValidatedChecks() {
+        // given
+        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+            Validator validator = factory.getValidator();
+
+            // when
+            BeanDescriptor root = validator.getConstraintsForClass(ElastiflixProperties.class);
+            PropertyDescriptor alias = validator.getConstraintsForClass(ElastiflixProperties.Index.class)
+                    .getConstraintsForProperty("alias");
+            PropertyDescriptor inferenceId = validator.getConstraintsForClass(ElastiflixProperties.Inference.class)
+                    .getConstraintsForProperty("id");
+
+            // then
+            assertThat(root.getConstraintsForProperty("index").isCascaded()).isTrue();
+            assertThat(root.getConstraintsForProperty("inference").isCascaded()).isTrue();
+            assertThat(annotationsOf(alias)).contains(NotBlank.class);
+            assertThat(annotationsOf(inferenceId)).contains(NotBlank.class);
+            assertThat(validator.validate(new ElastiflixProperties(null, null, null, null, null, null, null)))
+                    .isEmpty();
+        }
+    }
+
+    @Test
+    @DisplayName("un alias o un id de inferencia en blanco no fallan: el constructor ya los rellenó")
+    void shouldFillTheBlankAliasAndInferenceIdBeforeValidating() {
+        runner.withPropertyValues("elastiflix.index.alias= ", "elastiflix.inference.id= ").run(context -> {
+            assertThat(context).hasNotFailed();
+            ElastiflixProperties properties = context.getBean(ElastiflixProperties.class);
+            assertThat(properties.index().alias()).isEqualTo("elastiflix-reloaded");
+            assertThat(properties.inference().id()).isEqualTo(".jina-embeddings-v5-omni-small");
         });
+    }
+
+    private static List<Class<?>> annotationsOf(PropertyDescriptor property) {
+        assertThat(property).as("la propiedad no declara restricciones").isNotNull();
+        return property.getConstraintDescriptors().stream()
+                .<Class<?>>map(constraint -> constraint.getAnnotation().annotationType())
+                .toList();
     }
 
     /**

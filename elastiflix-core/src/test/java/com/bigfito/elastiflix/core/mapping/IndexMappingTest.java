@@ -23,14 +23,14 @@ class IndexMappingTest {
         IndexMapping mapping = new IndexMapping();
 
         assertThat(mapping.fields()).hasSize(FIELD_COUNT);
-        assertThat(mapping.field("release_date").format()).isEqualTo("yyyy-MM-dd");
-        assertThat(mapping.field("plot_512").dimensions()).isEqualTo(PLOT_512_DIMENSIONS);
-        assertThat(mapping.field("plot_256").dimensions()).isEqualTo(256);
-        assertThat(mapping.field("plot_1024").dimensions()).isEqualTo(1024);
-        assertThat(mapping.field("belongs_to_collection").nestedFields())
+        assertThat(field(mapping, "release_date").format()).isEqualTo("yyyy-MM-dd");
+        assertThat(field(mapping, "plot_512").dimensions()).isEqualTo(PLOT_512_DIMENSIONS);
+        assertThat(field(mapping, "plot_256").dimensions()).isEqualTo(256);
+        assertThat(field(mapping, "plot_1024").dimensions()).isEqualTo(1024);
+        assertThat(field(mapping, "belongs_to_collection").nestedFields())
                 .containsExactly("backdrop_path", "id", "name", "poster_path");
-        assertThat(mapping.field("keywords").nestedFields()).containsExactly("id", "name");
-        assertThat(mapping.document()).contains("\"plot_512\"");
+        assertThat(field(mapping, "keywords").nestedFields()).containsExactly("id", "name");
+        assertThat(mapping.mappings()).contains("\"plot_512\"");
         assertThat(IndexMapping.class.getResource("/META-INF/spring.factories")).isNotNull();
     }
 
@@ -41,5 +41,13 @@ class IndexMappingTest {
                 .isInstanceOf(ConfigurationException.class)
                 .extracting(thrown -> ((ConfigurationException) thrown).errorCode())
                 .isEqualTo(ErrorCode.MAPPING_NOT_PACKAGED);
+    }
+
+    /** Busca el campo con la misma firma que usa ingest: la lista de {@code fields()}. */
+    private static FieldMapping field(IndexMapping mapping, String name) {
+        return mapping.fields().stream()
+                .filter(field -> field.name().equals(name))
+                .findFirst()
+                .orElseThrow();
     }
 }

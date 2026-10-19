@@ -17,17 +17,20 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.ErrorResponse;
 import co.elastic.clients.elasticsearch.core.ReindexResponse;
+import co.elastic.clients.elasticsearch.tasks.CancelRequest;
 import co.elastic.clients.elasticsearch.tasks.ElasticsearchTasksClient;
 import co.elastic.clients.elasticsearch.tasks.GetTasksRequest;
 import co.elastic.clients.elasticsearch.tasks.GetTasksResponse;
 import co.elastic.clients.elasticsearch.tasks.TaskInfo;
 import co.elastic.clients.json.JsonData;
+import co.elastic.clients.json.JsonpMappingException;
 import co.elastic.clients.util.ObjectBuilder;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -102,6 +105,71 @@ class ReindexTasksTest {
     }
 
     @Test
+    @DisplayName("failures: null en la respuesta de la tarea no lanza y da la copia por buena")
+    void shouldAcceptANullFailuresValue() throws Exception {
+        // given
+        startsTask(TASK);
+        when(tasks.get(any(Function.class)))
+                .thenReturn(task(true, "{\"failures\":null,\"timed_out\":false}", false));
+
+        // when / then
+        assertThatCode(() -> new ReindexTasks(client, FIXED).copy("origen", "destino", () -> false))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("una respuesta ilegible de _tasks durante la espera cancela la tarea antes de lanzar")
+    void shouldCancelWhenTheTaskResponseIsUnreadable() throws Exception {
+        // given
+        startsTask(TASK);
+        when(tasks.get(any(Function.class)))
+                .thenThrow(new JsonpMappingException("respuesta ilegible", null))
+                .thenReturn(task(true, null, false));
+
+        // when / then
+        assertThatThrownBy(() -> new ReindexTasks(client, FIXED).copy("origen", "destino", () -> false))
+                .isInstanceOf(JsonpMappingException.class);
+        verify(tasks).cancel(any(Function.class));
+    }
+
+    @Test
+    @DisplayName("la cancelación no espera en la llamada y se confirma con otra lectura si la primera no termina")
+    void shouldRetryTheCancelConfirmationUntilTheTaskStops() throws Exception {
+        // given
+        startsTask(TASK);
+        when(tasks.cancel(any(Function.class))).thenAnswer(invocation -> {
+            assertNoWait(invocation.getArgument(0));
+            return null;
+        });
+        when(tasks.get(any(Function.class)))
+                .thenThrow(timeoutException())
+                .thenReturn(task(true, null, false));
+
+        // when
+        assertCode(() -> new ReindexTasks(client, FIXED).copy("origen", "destino", () -> true),
+                ErrorCode.IMPORT_CANCELLED);
+
+        // then
+        verify(tasks).cancel(any(Function.class));
+        verify(tasks, times(2)).get(any(Function.class));
+    }
+
+    @Test
+    @DisplayName("si la cancelación no se confirma en tres lecturas, deja de leer y lanza igual")
+    void shouldStopConfirmingAfterThreeReads() throws Exception {
+        // given
+        startsTask(TASK);
+        when(tasks.get(any(Function.class))).thenThrow(timeoutException());
+
+        // when
+        assertCode(() -> new ReindexTasks(client, FIXED).copy("origen", "destino", () -> true),
+                ErrorCode.IMPORT_CANCELLED);
+
+        // then
+        verify(tasks, times(ReindexTasks.CANCEL_READS)).get(any(Function.class));
+    }
+
+    @Test
     @DisplayName("timed_out=true en la respuesta de la tarea da EFX-ES-006")
     void shouldFailWhenTheTaskTimedOut() throws Exception {
         startsTask(TASK);
@@ -148,11 +216,13 @@ class ReindexTasksTest {
     @DisplayName("si la persona cancela durante la espera, cancela la tarea y da EFX-IMP-003")
     void shouldCancelWhenStopIsRequested() throws Exception {
         startsTask(TASK);
+        when(tasks.get(any(Function.class))).thenReturn(task(true, null, false));
 
         assertCode(() -> new ReindexTasks(client, FIXED).copy("origen", "destino", () -> true),
                 ErrorCode.IMPORT_CANCELLED);
         verify(tasks).cancel(any(Function.class));
-        verify(tasks, never()).get(any(Function.class));
+        // La única lectura es la que confirma la cancelación: no se esperó la copia.
+        verify(tasks, times(1)).get(any(Function.class));
     }
 
     @Test
@@ -194,6 +264,17 @@ class ReindexTasksTest {
         assertThat(built.taskId()).isEqualTo(TASK);
         assertThat(built.waitForCompletion()).isTrue();
         assertThat(built.timeout().time()).isEqualTo("20s");
+    }
+
+    /** Mockito entrega la función del cliente sin el tipo genérico. */
+    @SuppressWarnings("unchecked")
+    private static void assertNoWait(Object raw) {
+        Function<CancelRequest.Builder, ObjectBuilder<CancelRequest>> request =
+                (Function<CancelRequest.Builder, ObjectBuilder<CancelRequest>>) raw;
+        CancelRequest built = request.apply(new CancelRequest.Builder()).build();
+
+        assertThat(built.taskId()).isEqualTo(TASK);
+        assertThat(built.waitForCompletion()).isFalse();
     }
 
     private static GetTasksResponse task(boolean completed, String body, boolean failed) {

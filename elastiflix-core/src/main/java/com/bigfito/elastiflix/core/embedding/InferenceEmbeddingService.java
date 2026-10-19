@@ -15,6 +15,7 @@ import co.elastic.clients.elasticsearch.inference.InferenceRequest;
 import co.elastic.clients.elasticsearch.inference.InferenceResponse;
 import co.elastic.clients.elasticsearch.inference.InferenceResult;
 import co.elastic.clients.elasticsearch.inference.TaskType;
+import co.elastic.clients.json.JsonpMappingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,8 +99,14 @@ public class InferenceEmbeddingService implements EmbeddingService {
         try {
             InferenceResponse response = client.inference()
                     .inference(request -> requestFor(request, prepared, inputType));
-            return requireSameSize(prepared, vectorsOf(response.result()));
-        } catch (IOException | ElasticsearchException exception) {
+            List<float[]> vectors = vectorsOf(response.result());
+            if (vectors.size() != prepared.size()) {
+                // Un vector por cada texto del lote; si no, EFX-EMB-004.
+                throw new EmbeddingException(ErrorCode.INCOMPLETE_EMBEDDING_BATCH);
+            }
+            return vectors;
+        } catch (IOException | ElasticsearchException | JsonpMappingException exception) {
+            // Una respuesta que el cliente no puede leer también es un endpoint que falla: EFX-EMB-001.
             LOG.error("{} en {}", ErrorCode.INFERENCE_UNAVAILABLE.code(), properties.inference().id());
             throw new EmbeddingException(ErrorCode.INFERENCE_UNAVAILABLE, exception);
         }
@@ -136,20 +143,6 @@ public class InferenceEmbeddingService implements EmbeddingService {
         if (text == null || text.isBlank()) {
             throw new EmbeddingException(ErrorCode.EMPTY_EMBEDDING_TEXT);
         }
-    }
-
-    /**
-     * Exige un vector por cada texto del lote. Si no coinciden, el código es {@code EFX-EMB-004}.
-     *
-     * @param prepared textos enviados
-     * @param vectors  vectores recibidos
-     * @return los mismos vectores, si coinciden
-     */
-    static List<float[]> requireSameSize(List<String> prepared, List<float[]> vectors) {
-        if (vectors.size() != prepared.size()) {
-            throw new EmbeddingException(ErrorCode.INCOMPLETE_EMBEDDING_BATCH);
-        }
-        return vectors;
     }
 
     private static List<float[]> vectorsOf(InferenceResult result) {

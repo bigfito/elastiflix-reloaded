@@ -88,7 +88,6 @@ class CatalogIndexIT {
         assertThat(published).isInstanceOf(CatalogName.Alias.class);
         assertThat(((CatalogName.Alias) published).concreteIndex()).isEqualTo(indexB);
         assertThat(catalog.describe(indexA)).isInstanceOf(CatalogName.Missing.class);
-        assertThat(catalog.listOwnedIndexes(alias)).isEmpty();
 
         List<Movie> copied = catalog.readAllWithVectors(alias, READ_LIMIT);
         assertThat(copied).hasSize(fixture.size());

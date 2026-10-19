@@ -1,5 +1,8 @@
 package com.bigfito.elastiflix.core.config;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.util.unit.DataSize;
@@ -10,6 +13,22 @@ import org.springframework.validation.annotation.Validated;
  *
  * <p>Los grupos que no vienen en el entorno usan el mismo valor por defecto que {@code application.yml}.
  * Los de embeddings no están en el YAML: {@link DefaultValue} crea el grupo con los valores calibrados.</p>
+ *
+ * <p>{@link Validated} comprueba al enlazar que {@code index.alias} e {@code inference.id} no queden en
+ * blanco. Su constructor compacto ya los rellena con el valor de la demo, así que la restricción deja escrito
+ * ese invariante y lo vigila si el relleno cambia. La URL no lleva {@code @NotBlank}: la rechaza vacía
+ * {@code ElasticsearchCredentialsEnvironmentPostProcessor} con {@code EFX-CFG-001} antes de enlazar, y los
+ * contextos de prueba que enlazan estas propiedades sin URL (el relleno de {@code null}) tienen que seguir
+ * arrancando.</p>
+ *
+ * <p>Dos grupos no se leen desde Java, y se quedan a propósito:</p>
+ * <ul>
+ *   <li>{@code elasticsearch}: el cliente se arma con {@code spring.elasticsearch.*}, que el YAML deriva de
+ *       estas dos propiedades. El grupo existe para que la configuración tipada tenga las dos propiedades y para
+ *       que un log del bean vea la API key enmascarada ({@link Elasticsearch#toString()}).</li>
+ *   <li>{@code bootstrap}: {@code CatalogBootstrapRunner} lo lee con {@code @ConditionalOnProperty}. El grupo
+ *       documenta la propiedad y su valor por defecto.</li>
+ * </ul>
  *
  * @param elasticsearch URL y API key del proyecto Serverless
  * @param index         nombre del alias del catálogo
@@ -23,8 +42,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public record ElastiflixProperties(
         Elasticsearch elasticsearch,
-        Index index,
-        Inference inference,
+        @Valid Index index,
+        @Valid Inference inference,
         Ingest ingest,
         Poster poster,
         Bootstrap bootstrap,
@@ -67,7 +86,7 @@ public record ElastiflixProperties(
      *
      * @param alias alias o, antes de la migración, índice concreto
      */
-    public record Index(String alias) {
+    public record Index(@NotBlank String alias) {
 
         private static final String DEFAULT_ALIAS = "elastiflix-reloaded";
 
@@ -95,7 +114,7 @@ public record ElastiflixProperties(
      *
      * @param id id del modelo, por ejemplo {@code .jina-embeddings-v5-omni-small}
      */
-    public record Inference(String id) {
+    public record Inference(@NotBlank String id) {
 
         private static final String DEFAULT_ID = ".jina-embeddings-v5-omni-small";
 
