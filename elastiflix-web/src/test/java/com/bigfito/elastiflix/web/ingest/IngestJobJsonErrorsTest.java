@@ -2,15 +2,21 @@ package com.bigfito.elastiflix.web.ingest;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
+import com.bigfito.elastiflix.ingest.file.CheckedFile;
+import com.bigfito.elastiflix.ingest.file.FileKind;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -18,9 +24,11 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -32,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = IngestJobController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
+@EnableConfigurationProperties(ElastiflixProperties.class)
 @Import({IngestJobErrors.class, UploadSizeErrors.class, IngestLimits.class})
 class IngestJobJsonErrorsTest {
 
@@ -69,5 +78,39 @@ class IngestJobJsonErrorsTest {
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value("EFX-ES-001"));
+    }
+
+    @Test
+    @DisplayName("un IllegalStateException sin código responde 500 JSON con EFX-IMP-007, no una página HTML")
+    void shouldAnswerJsonWhenAnUncodedFailureHappens() throws Exception {
+        when(ingest.job("j1")).thenThrow(new IllegalStateException("falla no prevista"));
+
+        mvc.perform(get("/cargar/trabajos/j1"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.code").value("EFX-IMP-007"))
+                .andExpect(jsonPath("$.message").value("El trabajo de carga se interrumpió"));
+    }
+
+    @Test
+    @DisplayName("si acceptFile lanza, el temporal de la subida se borra y la respuesta trae EFX-IMP-007")
+    void shouldDeleteTheUploadCopyWhenTheJobCannotStart() throws Exception {
+        // given
+        AtomicReference<Path> temp = new AtomicReference<>();
+        when(uploads.requireAccepted(any())).thenReturn(new CheckedFile("peliculas.json", FileKind.JSON));
+        when(ingest.acceptFile(any(), any(), any())).thenAnswer(call -> {
+            temp.set(call.getArgument(1));
+            throw new IllegalStateException("sin hilos");
+        });
+        MockMultipartFile file = new MockMultipartFile(
+                "archivo", "peliculas.json", MediaType.APPLICATION_JSON_VALUE, "[]".getBytes(StandardCharsets.UTF_8));
+
+        // when
+        mvc.perform(multipart("/cargar/archivo").file(file))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("EFX-IMP-007"));
+
+        // then
+        assertThat(temp.get()).isNotNull().doesNotExist();
     }
 }

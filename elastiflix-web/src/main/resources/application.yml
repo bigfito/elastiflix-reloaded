@@ -5,14 +5,12 @@ spring:
   elasticsearch:
     uris: ${elastiflix.elasticsearch.url}
     api-key: ${elastiflix.elasticsearch.api-key}
-  servlet:
-    multipart:
-      max-file-size: ${elastiflix.ingest.max-file-size}
-      max-request-size: 151MB
   threads:
     virtual:
       enabled: true
 
+# Los topes del multipart (archivo y petición) no van aquí: los deriva UploadMultipartConfig de
+# elastiflix.ingest.max-file-size, el mismo valor que muestra «Cargar datos».
 server:
   port: ${SERVER_PORT:8080}
   tomcat:

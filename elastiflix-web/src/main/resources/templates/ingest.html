@@ -15,13 +15,13 @@
     </section>
     <p class="notice-ok" role="status" th:if="${savedTitle != null}">Se guardó <span th:text="${savedTitle}">título</span>.</p>
     <ul class="alert" th:if="${rejected != null}">
-      <li th:each="issue : ${rejected}" th:text="|${issue.code} · ${issue.field} · ${issue.expected}|">error</li>
+      <li th:each="issue : ${rejected}" th:text="|${issue.code} · ${issue.field} · ${issue.expected}.|">error</li>
     </ul>
 
     <div role="tablist" aria-label="Forma de carga" class="tabs">
       <button type="button" class="tab is-on" role="tab" id="tab-single" data-tab="single" aria-selected="true" aria-controls="panel-single"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M5 12h14"></path></svg><span>Registro individual</span></button>
-      <button type="button" class="tab" role="tab" id="tab-json" data-tab="json" aria-selected="false" aria-controls="panel-file"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4H6a2 2 0 0 0-2 2v4l-1 2l1 2v4a2 2 0 0 0 2 2h2 M16 4h2a2 2 0 0 1 2 2v4l1 2l-1 2v4a2 2 0 0 1-2 2h-2"></path></svg><span>Importar .json</span></button>
-      <button type="button" class="tab" role="tab" id="tab-csv" data-tab="csv" aria-selected="false" aria-controls="panel-file"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z M4 10h16 M4 15h16 M10 4v16"></path></svg><span>Importar .csv</span></button>
+      <button type="button" class="tab" role="tab" id="tab-json" data-tab="json" aria-selected="false" tabindex="-1" aria-controls="panel-file"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4H6a2 2 0 0 0-2 2v4l-1 2l1 2v4a2 2 0 0 0 2 2h2 M16 4h2a2 2 0 0 1 2 2v4l1 2l-1 2v4a2 2 0 0 1-2 2h-2"></path></svg><span>Importar .json</span></button>
+      <button type="button" class="tab" role="tab" id="tab-csv" data-tab="csv" aria-selected="false" tabindex="-1" aria-controls="panel-file"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z M4 10h16 M4 15h16 M10 4v16"></path></svg><span>Importar .csv</span></button>
     </div>
 
     <form id="panel-single" th:action="@{/cargar/registro}" method="post" data-panel="single" class="record" role="tabpanel" aria-labelledby="tab-single">

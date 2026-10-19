@@ -20,9 +20,13 @@
 
   var tab = "json";
   var chosen = null;
+  // El archivo elegido pasó la comprobación del navegador: otro separador u otra casilla permiten validarlo otra vez.
+  var chosenOk = false;
   var jobId = "";
   var timer = 0;
   var busy = false;
+  // Aviso de un 4xx o de una caída de red al importar o cancelar: lo limpia el siguiente clic, no el sondeo.
+  var actionError = false;
 
   function byId(id) {
     return document.getElementById(id);
@@ -74,6 +78,7 @@
     stopPolling();
     jobId = "";
     busy = false;
+    actionError = false;
     ["file-block", "columns-card", "job", "job-import-card", "server-error"].forEach(function (id) {
       show(byId(id), false);
     });
@@ -82,28 +87,57 @@
 
   function resetFile() {
     chosen = null;
+    chosenOk = false;
     input.value = "";
     show(byId("file-chip"), false);
     submit.disabled = true;
     resetJob();
   }
 
-  document.querySelectorAll("[data-tab]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      tab = button.getAttribute("data-tab");
-      document.querySelectorAll("[data-tab]").forEach(function (other) {
-        var on = other === button;
-        other.classList.toggle("is-on", on);
-        other.setAttribute("aria-selected", on ? "true" : "false");
-      });
-      show(single, tab === "single");
-      show(filePanel, tab !== "single");
-      document.querySelectorAll("[data-csv]").forEach(function (node) {
-        show(node, tab === "csv");
-      });
-      filePanel.setAttribute("aria-labelledby", button.id);
-      paintFileCopy();
-      resetFile();
+  var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
+
+  // Solo la pestaña elegida entra en el orden de Tab (tabindex itinerante); las flechas cambian de pestaña.
+  function selectTab(button) {
+    tab = button.getAttribute("data-tab");
+    tabs.forEach(function (other) {
+      var on = other === button;
+      other.classList.toggle("is-on", on);
+      other.setAttribute("aria-selected", on ? "true" : "false");
+      other.tabIndex = on ? 0 : -1;
+    });
+    show(single, tab === "single");
+    show(filePanel, tab !== "single");
+    document.querySelectorAll("[data-csv]").forEach(function (node) {
+      show(node, tab === "csv");
+    });
+    filePanel.setAttribute("aria-labelledby", button.id);
+    paintFileCopy();
+    resetFile();
+  }
+
+  var TAB_KEYS = { ArrowRight: 1, ArrowLeft: -1, Home: "first", End: "last" };
+
+  function tabAfterKey(button, key) {
+    var move = TAB_KEYS[key];
+    if (move === "first") {
+      return tabs[0];
+    }
+    if (move === "last") {
+      return tabs[tabs.length - 1];
+    }
+    return tabs[(tabs.indexOf(button) + move + tabs.length) % tabs.length];
+  }
+
+  tabs.forEach(function (button) {
+    button.addEventListener("click", function () { selectTab(button); });
+    button.addEventListener("keydown", function (event) {
+      if (!(event.key in TAB_KEYS)) {
+        return;
+      }
+      event.preventDefault();
+      var next = tabAfterKey(button, event.key);
+      next.focus();
+      selectTab(next);
     });
   });
 
@@ -135,11 +169,21 @@
   input.addEventListener("change", function () {
     choose(input.files[0] || null);
   });
+  form.querySelectorAll('[name="separador"], [name="encabezado"]').forEach(function (option) {
+    option.addEventListener("change", function () {
+      if (chosen && chosenOk) {
+        submit.disabled = false;
+      }
+    });
+  });
 
   // Paso 1: la comprobación del navegador corre apenas se elige el archivo.
   function choose(file) {
     resetJob();
     chosen = file;
+    chosenOk = false;
+    // Vaciar el input deja elegir otra vez el mismo archivo: sin esto, «Cambiar archivo» no dispara change.
+    input.value = "";
     submit.disabled = true;
     if (!file) {
       show(byId("file-chip"), false);
@@ -158,6 +202,7 @@
         rejectInBrowser(reasons);
         return;
       }
+      chosenOk = true;
       setStep(1, "done");
       submit.disabled = false;
     });
@@ -246,6 +291,8 @@
 
   function upload(file) {
     resetJob();
+    setText("file-meta", megabytes(file.size));
+    byId("file-chip").classList.remove("is-rejected");
     setStep(1, "done");
     setStep(2, "current");
     submit.disabled = true;
@@ -300,13 +347,16 @@
         if (current !== jobId) {
           return;
         }
-        serverError(POLL_RETRY);
+        if (!actionError) {
+          serverError(POLL_RETRY);
+        }
         timer = window.setTimeout(poll, 3000);
       });
   }
 
   function act(path) {
     busy = true;
+    actionError = false;
     importButton.disabled = true;
     cancelButton.disabled = true;
     stopPolling();
@@ -319,17 +369,23 @@
           return;
         }
         if (!result.ok) {
-          serverError(errorText(result.data));
-          poll();
+          actionFailed(errorText(result.data));
           return;
         }
         paint(result.data);
       })
       .catch(function () {
         busy = false;
-        serverError(NETWORK_ERROR);
-        poll();
+        if (current === jobId) {
+          actionFailed(NETWORK_ERROR);
+        }
       });
+  }
+
+  function actionFailed(text) {
+    actionError = true;
+    serverError(text);
+    poll();
   }
 
   importButton.addEventListener("click", function () { act("importar"); });
@@ -338,7 +394,7 @@
   function paint(screen) {
     var job = screen.job;
     var texts = screen.texts;
-    show(byId("server-error"), false);
+    show(byId("server-error"), actionError);
     paintSteps(job);
     if (job.fileCount > 0) {
       setText("file-meta", texts.fileMeta);

@@ -3,6 +3,7 @@ package com.bigfito.elastiflix.web.ingest;
 import java.nio.charset.StandardCharsets;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.ingest.service.IngestService;
@@ -10,6 +11,7 @@ import com.bigfito.elastiflix.ingest.service.IngestService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -30,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = IngestJobController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @Import({IngestJobErrors.class, UploadSizeErrors.class, UploadCheck.class, IngestLimits.class})
-@TestPropertySource(properties = "spring.servlet.multipart.max-file-size=32B")
+@EnableConfigurationProperties(ElastiflixProperties.class)
+@TestPropertySource(properties = "elastiflix.ingest.max-file-size=32B")
 class IngestJobErrorTest {
 
     @Autowired

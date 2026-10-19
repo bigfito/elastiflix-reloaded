@@ -5,6 +5,9 @@ const { BASE_URL, withPage } = require('./page');
 
 test('en Híbrida, la sugerencia conserva k=50, plot_1024 y multi_match', async () => {
   await withPage(async (page) => {
+    // /buscar se intercepta: sin Elasticsearch, la página real terminaría en EFX-ES-001 y no importa aquí.
+    await page.route('**/buscar?**', (route) =>
+      route.fulfill({ status: 200, contentType: 'text/html', body: '<!DOCTYPE html><title>Resultados</title>' }));
     await page.goto(BASE_URL + '/');
     await page.click('[data-set="modo"][data-value="hibrida"]');
     await page.click('[data-set="tipo"][data-value="multi_match"]');

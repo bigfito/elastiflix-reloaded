@@ -30,7 +30,7 @@ import com.bigfito.elastiflix.ingest.mapping.WarningCount;
  * @param mappingNote   nota de la tabla de columnas; vacía en JSON
  * @param fileMeta      detalle de la ficha del archivo
  * @param failure       código y «qué pasó» de una falla, o vacío
- * @param warnings      advertencias, una línea por grupo
+ * @param warnings      advertencias, una línea por grupo: {@code campo: mensaje (N).}
  */
 public record JobTexts(
         String locationLabel,
@@ -170,7 +170,7 @@ public record JobTexts(
                 vectors = true;
             } else {
                 String times = warning.count() > 1 ? " (" + Thousands.of(warning.count()) + ")" : "";
-                lines.add(warning.field() + ": " + warning.message() + times);
+                lines.add(warning.field() + ": " + warning.message() + times + ".");
             }
         }
         if (vectors) {

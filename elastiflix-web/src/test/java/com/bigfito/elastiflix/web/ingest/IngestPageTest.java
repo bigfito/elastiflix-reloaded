@@ -1,16 +1,21 @@
 package com.bigfito.elastiflix.web.ingest;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.job.SaveResult;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
+import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
+import com.bigfito.elastiflix.ingest.mapping.WarningCount;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 
@@ -18,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -39,6 +45,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,6 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = {IngestController.class, IngestJobController.class}, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
+@EnableConfigurationProperties(ElastiflixProperties.class)
 @Import({LayoutAdvice.class, MovieForms.class, UploadCheck.class, IngestLimits.class})
 class IngestPageTest {
 
@@ -73,6 +81,14 @@ class IngestPageTest {
     void shouldShowTheAuthorizedCopy() throws Exception {
         mvc.perform(get("/cargar"))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute("nav", "cargar"))
+                .andExpect(model().attribute("maxFileLabel", "150 MB"))
+                .andExpect(model().attribute("maxFileBytes", 150L * MEGABYTE))
+                .andExpect(model().attribute("batchSize", 100))
+                .andExpect(content().string(containsString("Índice elastiflix-reloaded")))
+                .andExpect(content().string(containsString("data-alias=\"elastiflix-reloaded\"")))
+                .andExpect(content().string(containsString("id=\"tab-json\" data-tab=\"json\" aria-selected=\"false\" "
+                        + "tabindex=\"-1\"")))
                 .andExpect(content().string(containsString("Registro individual")))
                 .andExpect(content().string(containsString("Archivo JSON")))
                 .andExpect(content().string(containsString("Campos obligatorios.")))
@@ -94,6 +110,8 @@ class IngestPageTest {
     @DisplayName("escenario «Archivo rechazado»: el bloque del navegador trae los textos del mockup")
     void shouldShowTheRejectedFileCopy() throws Exception {
         mvc.perform(get("/cargar"))
+                .andExpect(model().attribute("maxFileLabel", "150 MB"))
+                .andExpect(model().attribute("batchSize", 100))
                 .andExpect(content().string(containsString("No se puede cargar este archivo")))
                 .andExpect(content().string(containsString("El archivo se rechazó en el navegador, antes de subirlo, "
                         + "así que no salió de tu equipo ni se importó nada.")))
@@ -159,6 +177,31 @@ class IngestPageTest {
     }
 
     @Test
+    @DisplayName("las advertencias reales terminan en punto, con su conteo, y la de vectores va primero")
+    void shouldEndEachWarningWithAPeriod() throws Exception {
+        when(ingest.job(JOB)).thenReturn(withWarnings(List.of(
+                new WarningCount("EFX-ING-021", "spoken_languages", 62, "se omite"),
+                new WarningCount("EFX-ING-022", "tagline", 1, "sin valor"),
+                new WarningCount("EFX-ING-020", "plot_256", 4322, "se generará desde plot"))));
+
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.texts.warnings[0]").value("El archivo trae plot_256, plot_512 y plot_1024: "
+                        + "se ignorarán y se generarán con el servicio de inferencia."))
+                .andExpect(jsonPath("$.texts.warnings[1]").value("spoken_languages: se omite (62)."))
+                .andExpect(jsonPath("$.texts.warnings[2]").value("tagline: sin valor."));
+    }
+
+    @Test
+    @DisplayName("un registro individual rechazado muestra «código · campo · esperado.» con punto final")
+    void shouldEndEachRejectionWithAPeriod() throws Exception {
+        List<ValidationIssue> rejected = List.of(new ValidationIssue("EFX-ING-012", "formulario", "1",
+                "vote_count", "1e3", "un número entero", false));
+
+        mvc.perform(get("/cargar").flashAttr("rejected", rejected))
+                .andExpect(content().string(containsString("<li>EFX-ING-012 · vote_count · un número entero.</li>")));
+    }
+
+    @Test
     @DisplayName("un trabajo fallido muestra el código una sola vez")
     void shouldShowTheFailureCodeOnce() throws Exception {
         when(ingest.job(JOB)).thenReturn(job("fallido", "json", 4, 0, 0, List.of(), List.of(),
@@ -171,7 +214,11 @@ class IngestPageTest {
     @Test
     @DisplayName("validar, consultar, importar y cancelar usan el trabajo simulado")
     void shouldRunTheJobFlow() throws Exception {
-        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenReturn(JOB);
+        // La fachada simulada no se queda con el temporal: lo borra como lo haría el trabajo real.
+        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenAnswer(call -> {
+            Files.deleteIfExists(call.getArgument(1, Path.class));
+            return JOB;
+        });
         when(ingest.errorReport(JOB)).thenReturn("codigo,campo\n");
         when(ingest.job(JOB)).thenReturn(validJson(), inState("importando"), inState("publicado"));
         MockMultipartFile file = new MockMultipartFile(
@@ -241,11 +288,34 @@ class IngestPageTest {
 
         mvc.perform(post("/cargar/registro").param("id", "1").param("title", "A").param("plot", "B"))
                 .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/cargar"));
+                .andExpect(redirectedUrl("/cargar"))
+                .andExpect(flash().attribute("savedTitle", "A"))
+                .andExpect(flash().attribute("rejected", (Object) null));
+        mvc.perform(get("/cargar").flashAttr("savedTitle", "A"))
+                .andExpect(content().string(containsString("Se guardó <span>A</span>.")));
+    }
+
+    @Test
+    @DisplayName("un registro que Elasticsearch o el mapping rechaza vuelve con sus errores y sin título guardado")
+    void shouldRedirectWithTheIssuesWhenTheMovieIsRejected() throws Exception {
+        ValidationIssue issue = new ValidationIssue("EFX-ING-010", "formulario", "1", "release_date",
+                "\"1999\"", "date con formato yyyy-MM-dd", false);
+        when(ingest.saveOne(any(Movie.class))).thenReturn(new SaveResult.Rejected(
+                new ValidationReport(List.of(issue))));
+
+        mvc.perform(post("/cargar/registro").param("id", "1").param("title", "A").param("plot", "B"))
+                .andExpect(redirectedUrl("/cargar"))
+                .andExpect(flash().attribute("rejected", List.of(issue)))
+                .andExpect(flash().attribute("savedTitle", (Object) null));
     }
 
     private static JobView validJson() {
         return job("valido", "json", 4322, 0, 0, List.of(), List.of(), "", "");
+    }
+
+    private static JobView withWarnings(List<WarningCount> warnings) {
+        return new JobView(JOB, "valido", "json", MEGABYTE, 4, 0, 0, 0, 4322, 4322, 0, 0, 0,
+                List.of(), warnings, List.of(), List.of(), "", "", 100, 44, "");
     }
 
     private static JobView inState(String status) {

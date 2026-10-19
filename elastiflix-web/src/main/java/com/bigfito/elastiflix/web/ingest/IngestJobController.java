@@ -15,10 +15,8 @@ import com.bigfito.elastiflix.ingest.service.IngestService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.unit.DataSize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,25 +36,18 @@ public class IngestJobController {
     private final IngestService ingest;
     private final UploadCheck uploads;
     private final IngestLimits limits;
-    private final long maxFileBytes;
 
     /**
      * Crea el controlador.
      *
-     * @param ingest      fachada
-     * @param uploads     extensión, tamaño y UTF-8
-     * @param limits      alias del catálogo para los textos
-     * @param maxFileSize mismo tope que {@code spring.servlet.multipart.max-file-size}
+     * @param ingest  fachada
+     * @param uploads extensión, tamaño y UTF-8
+     * @param limits  tamaño máximo del archivo y alias del catálogo para los textos
      */
-    public IngestJobController(
-            IngestService ingest,
-            UploadCheck uploads,
-            IngestLimits limits,
-            @Value("${spring.servlet.multipart.max-file-size:150MB}") DataSize maxFileSize) {
+    public IngestJobController(IngestService ingest, UploadCheck uploads, IngestLimits limits) {
         this.ingest = ingest;
         this.uploads = uploads;
         this.limits = limits;
-        this.maxFileBytes = maxFileSize.toBytes();
     }
 
     /**
@@ -79,7 +70,7 @@ public class IngestJobController {
         } catch (IngestValidationException exception) {
             return rejected(file, exception);
         }
-        String jobId = ingest.acceptFile(file.getOriginalFilename(), copy(file), settings(separator, header));
+        String jobId = start(file, copy(file), settings(separator, header));
         return ResponseEntity.ok(Map.of("jobId", jobId));
     }
 
@@ -159,15 +150,51 @@ public class IngestJobController {
     }
 
     private void rejectIfTooLarge(MultipartFile file) {
+        long maxFileBytes = limits.maxFileSize().toBytes();
         if (file.getSize() > maxFileBytes) {
             throw new MaxUploadSizeExceededException(maxFileBytes);
         }
     }
 
+    /**
+     * Entrega el temporal al trabajo. Si {@code acceptFile} lanza, nadie más lo borraría: se borra aquí y la
+     * excepción sigue a {@link IngestJobErrors}. Un {@code finally} con bandera evita atrapar
+     * {@code RuntimeException} (regla {@code JM-ERR-01}).
+     */
+    private String start(MultipartFile file, Path temp, CsvSettings settings) {
+        boolean handedOver = false;
+        try {
+            String jobId = ingest.acceptFile(file.getOriginalFilename(), temp, settings);
+            handedOver = true;
+            return jobId;
+        } finally {
+            if (!handedOver) {
+                deleteTemp(temp);
+            }
+        }
+    }
+
     private static Path copy(MultipartFile file) throws IOException {
         Path path = Files.createTempFile("elastiflix-upload-", ".bin");
-        file.transferTo(path);
-        return path;
+        boolean copied = false;
+        try {
+            file.transferTo(path);
+            copied = true;
+            return path;
+        } finally {
+            if (!copied) {
+                deleteTemp(path);
+            }
+        }
+    }
+
+    private static void deleteTemp(Path temp) {
+        try {
+            Files.deleteIfExists(temp);
+        } catch (IOException exception) {
+            LOG.warn("No se pudo borrar el temporal de una subida rechazada {} tipo={}",
+                    temp.getFileName(), exception.getClass().getSimpleName());
+        }
     }
 
     private static CsvSettings settings(String separator, String header) {
