@@ -19,11 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-08
-- **Subpaso en curso:** carril reservado; primer `./mvnw -pl elastiflix-ingest -am verify`
-- **Próximo paso:** corre `./mvnw -q -pl elastiflix-ingest -am verify` y empieza T-08 (`JobFigures.checks` con el
-  estado del trabajo).
-- **Última actualización:** 2026-10-19 02:10 UTC
+- **Tarea actual:** T-09
+- **Subpaso en curso:** ninguno
+- **Próximo paso:** T-09: `FileIntake` indica el paso del rechazo (2 para `EFX-ING-001` a `004`, 3 en los demás) y `describe()` pasa el trabajo al paso 3.
+- **Última actualización:** 2026-10-19 02:15 UTC
 
 ## Tareas
 
@@ -31,7 +30,7 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-08 | pendiente | — | «Archivo válido» aparece antes de terminar la validación y en trabajos fallidos |
+| T-08 | terminada | sobre `1801d02` | `JobFigures.checks` recibe el estado: solo hay comprobaciones en `valido`, `importando` y `publicado`. `./mvnw -q -pl elastiflix-ingest -am test -Dtest=JobFiguresTest` → 8 pruebas, 0 fallos; con el filtro de estado quitado a mano fallan `shouldShowNoChecksWhenTheJobIsStillValidating` y `shouldShowNoChecksWhenTheJobFailed` (revertido). Checkstyle y PMD de ingest en 0 (`verify -DskipTests`). |
 | T-09 | pendiente | — | Un rechazo de archivo detiene el paso equivocado |
 | T-10 (`ImportJob`, `ImportRunner`, `JobStore`) | pendiente | — | Faltan pruebas unitarias de ramas importantes |
 | T-12 (`ImportCounts`, `ImportProgress`) | pendiente | — | Código muerto y campos que nadie lee |

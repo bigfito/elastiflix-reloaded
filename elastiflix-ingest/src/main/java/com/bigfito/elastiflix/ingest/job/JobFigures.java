@@ -45,13 +45,21 @@ final class JobFigures {
         return (fileCount + batchSize - 1) / batchSize;
     }
 
-    static List<String> checks(int errors, int fileCount) {
-        if (errors > 0 || fileCount == 0) {
+    /**
+     * Comprobaciones superadas. Solo existen cuando la validación terminó bien: en {@code validando} el
+     * archivo todavía no se comparó con el mapping, y un {@code fallido} no se validó entero.
+     */
+    static List<String> checks(JobStatus status, int errors, int fileCount) {
+        if (!passedValidation(status) || errors > 0 || fileCount == 0) {
             return List.of();
         }
         return List.of(
                 Thousands.of(fileCount) + " registros leídos, con id, title y plot.",
                 "Ningún id repetido.");
+    }
+
+    private static boolean passedValidation(JobStatus status) {
+        return status == JobStatus.VALID || status == JobStatus.IMPORTING || status == JobStatus.PUBLISHED;
     }
 
     static List<ValidationIssue> preview(List<ValidationIssue> errors) {

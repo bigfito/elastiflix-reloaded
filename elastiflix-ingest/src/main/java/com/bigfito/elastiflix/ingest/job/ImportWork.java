@@ -204,7 +204,7 @@ final class ImportWork {
                 step, batch, vectorized, written,
                 fileCount, JobFigures.validCount(fileCount, invalidRecords), invalidRecords, replaceCount,
                 errors.size(), JobFigures.preview(errors), report.groupedWarnings(),
-                JobFigures.checks(errors.size(), fileCount), columns,
+                JobFigures.checks(status, errors.size(), fileCount), columns,
                 failureCode, JobFigures.failureMessage(failureCode),
                 batchSize, JobFigures.batches(fileCount, batchSize), tempIndex);
     }
