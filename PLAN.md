@@ -1264,7 +1264,7 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
   - [x] **7.3** Controlador `MovieDetailController` (`GET /pelicula/{id}`), validación de `q` previo (`EFX-SRCH-012`), 404 si no existe y modelo de vista `MovieDetailPage` con montos USD / «N/A».
   - [x] **7.4** Plantilla Thymeleaf `detail.html`, estilos CSS y actualización de tarjetas de resultados en `results.html` para enlazar el título hacia el detalle.
   - [x] **7.5** Pruebas unitarias completas de la página de detalle (controlador, vistas, formatos de moneda, enlaces de retorno con anclas `#r-<id>` y prueba de error controlado sin `q`).
-  - [ ] **7.6** Verificación de fase con `./mvnw clean verify`, actualización de documentación (`README.md`, `PLAN.md`, `progreso/INDICE.md`) y cierre de la fase.
+  - [x] **7.6** Verificación de fase con `./mvnw clean verify`, actualización de documentación (`README.md`, `PLAN.md`, `progreso/INDICE.md`) y cierre de la fase.
 
 ### Requerimiento 2 — Interfaz en español e inglés
 
