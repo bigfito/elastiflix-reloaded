@@ -44,7 +44,6 @@ public class ResultsPage {
         model.addAttribute("countTitle", countTitle(result.total()));
         model.addAttribute("cards", cards.of(result, query.mode()));
         model.addAttribute("empty", result.empty());
-        model.addAttribute("changeHref", "/");
     }
 
     private static void applied(Model model, SearchForm form) {
