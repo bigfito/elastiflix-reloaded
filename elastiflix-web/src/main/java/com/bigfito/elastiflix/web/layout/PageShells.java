@@ -7,6 +7,14 @@ import com.bigfito.elastiflix.core.catalog.CatalogStatus;
  */
 public final class PageShells {
 
+    /**
+     * Atributo de la petición donde {@link LayoutAdvice} deja el cromo ya armado.
+     *
+     * <p>Así la página de error de la misma petición no vuelve a leer el catálogo: con Elasticsearch caído,
+     * serían dos rondas de timeouts.</p>
+     */
+    public static final String REQUEST_ATTRIBUTE = PageShell.class.getName();
+
     private PageShells() {
     }
 

@@ -12,8 +12,8 @@
       <label class="visually-hidden" for="q">Consulta de búsqueda</label>
       <div class="sbox compact" th:classappend="${queryError} ? 'is-invalid' : ''">
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14z M20 20l-3.5-3.5"></path></svg>
-        <input id="q" name="q" type="search" autocomplete="off" th:value="${form.query}" aria-describedby="q-error"
-               th:attr="aria-invalid=${queryError} ? 'true' : 'false'">
+        <input id="q" name="q" type="search" autocomplete="off" th:value="${form.query}"
+               th:attr="aria-describedby=${errorSummary != null and !dateError} ? 'q-error' : null, aria-invalid=${queryError} ? 'true' : 'false'">
         <button class="go" type="submit">Buscar<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M13 6l6 6l-6 6"></path></svg></button>
         <input type="hidden" name="modo" th:value="${form.mode}">
         <input type="hidden" name="tipo" th:value="${form.type}">
@@ -61,8 +61,9 @@
 
           <fieldset>
             <legend class="fh">Contenido para adultos <code>adult</code></legend>
-            <label class="opt"><input type="radio" name="adult" value="" th:checked="${!safeOnly}"><span class="opt-label">Todos</span><span class="count" th:text="${adultAll}">0</span></label>
+            <label class="opt"><input type="radio" name="adult" value="" th:checked="${!safeOnly and !adultOnly}"><span class="opt-label">Todos</span><span class="count" th:text="${adultAll}">0</span></label>
             <label class="opt"><input type="radio" name="adult" value="false" th:checked="${safeOnly}"><span class="opt-label">Solo no adultos</span><span class="count" th:text="${adultSafe}">0</span></label>
+            <label class="opt" th:if="${adultOnly}"><input type="radio" name="adult" value="true" checked><span class="opt-label">Solo adultos</span><span class="count" th:text="${adultYes}">0</span></label>
           </fieldset>
 
           <fieldset data-facet>
@@ -72,7 +73,7 @@
               <span class="opt-label" th:text="${choice.value}">Drama</span>
               <span class="count" th:text="${choice.count}">1</span>
             </label>
-            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${genres.size() > 6}">Ver todos los géneros</button>
+            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${genresExtra}">Ver todos los géneros</button>
           </fieldset>
 
           <fieldset>
@@ -92,7 +93,7 @@
               <span class="opt-label" th:text="${choice.value}">English</span>
               <span class="count" th:text="${choice.count}">1</span>
             </label>
-            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${languages.size() > 6}">Ver todos los idiomas</button>
+            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${languagesExtra}">Ver todos los idiomas</button>
           </fieldset>
 
           <fieldset>
@@ -104,15 +105,17 @@
             </label>
           </fieldset>
 
-          <p id="dirty" class="pending" hidden>Tienes cambios sin aplicar.</p>
-          <button class="apply" type="submit" th:disabled="${dateError}">APLICAR</button>
+          <div class="apply-row">
+            <p id="dirty" class="pending" hidden>Tienes cambios sin aplicar.</p>
+            <button class="apply" type="submit" th:disabled="${dateError}">APLICAR</button>
+          </div>
         </form>
       </aside>
 
-      <section th:if="${copy != null}">
+      <section th:if="${copy != null}" aria-labelledby="r-title">
         <div class="results-head">
           <div>
-            <h1 th:text="${countTitle}">0 resultados</h1>
+            <h1 id="r-title" aria-live="polite" th:text="${countTitle}">0 resultados</h1>
             <p class="ordered" th:text="${copy.orderedBy}">Ordenados por puntuación BM25</p>
           </div>
           <label class="page-size">Resultados por página

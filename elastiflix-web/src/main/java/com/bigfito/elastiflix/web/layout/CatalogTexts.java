@@ -1,7 +1,11 @@
 package com.bigfito.elastiflix.web.layout;
 
+import com.bigfito.elastiflix.ingest.mapping.Thousands;
+
 /**
  * Textos fijos de la cabecera y del pie, compartidos por todas las páginas.
+ *
+ * <p>Las cifras se agrupan con {@link Thousands}, el mismo helper de «Cargar datos» y de Resultados.</p>
  */
 public final class CatalogTexts {
 
@@ -15,8 +19,6 @@ public final class CatalogTexts {
     /** Traducción de la atribución, en la sección Créditos de Acerca de. */
     public static final String TMDB_ES =
             "Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.";
-
-    private static final int GROUP = 3;
 
     private CatalogTexts() {
     }
@@ -58,7 +60,7 @@ public final class CatalogTexts {
         if (count == 1L) {
             return "Tiene 1 película.";
         }
-        return "Tiene " + grouped(count) + " películas.";
+        return "Tiene " + Thousands.of(count) + " películas.";
     }
 
     private static String movies(Long count) {
@@ -68,29 +70,6 @@ public final class CatalogTexts {
         if (count == 1L) {
             return "1 película";
         }
-        return grouped(count) + " películas";
-    }
-
-    private static String grouped(long value) {
-        String digits = Long.toString(value);
-        StringBuilder text = new StringBuilder();
-        int lead = digits.length() % GROUP;
-        int index = 0;
-        if (lead > 0) {
-            text.append(digits, 0, lead);
-            index = lead;
-        }
-        return rest(digits, text, index);
-    }
-
-    private static String rest(String digits, StringBuilder text, int index) {
-        while (index < digits.length()) {
-            if (!text.isEmpty()) {
-                text.append(' ');
-            }
-            text.append(digits, index, index + GROUP);
-            index = index + GROUP;
-        }
-        return text.toString();
+        return Thousands.of(count) + " películas";
     }
 }

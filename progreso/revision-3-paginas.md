@@ -8,22 +8,21 @@
 
 - **Unidad:** Revisión 3 · carril E
 - **Nombre:** Web: páginas
-- **Rama:** `revision-3-paginas` (por crear desde `main`; si ya existe en `origin`, el carril está tomado)
-- **Carpeta:** clon o worktree propio (por ejemplo `../elastiflix-paginas`)
+- **Rama:** `revision-3-paginas` (creada desde `origin/main` en `6c403f4`)
+- **Carpeta:** worktree `/workspaces/elastiflix-paginas`
 - **Archivos del carril:** web salvo el paquete `ingest/`, `MultipartLimitsTest.java` y las aserciones de «Cargar datos» de `SmokeIT.java` (regla 8); plantillas salvo `ingest.html`; `static/css/**`, `static/img/**`, `home.js` y `results.js`
-- **Herramienta de la última sesión:** ninguna todavía
+- **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-no iniciado
+terminado
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** crea la rama `revision-3-paginas` desde `origin/main` en un clon o worktree propio, marca
-  este archivo `en curso`, haz commit y push (eso reserva el carril) y empieza T-06.
-- **Última actualización:** 2026-10-19 00:34 UTC
+- **Tarea actual:** ninguna (carril terminado)
+- **Subpaso en curso:** PR hacia `main` abierto
+- **Próximo paso:** el usuario revisa y fusiona el PR «Revisión 3 · carril E (Web: páginas)»; después, el carril Z aplica «Notas para el cierre».
+- **Última actualización:** 2026-10-19 02:56 UTC
 
 ## Tareas
 
@@ -31,19 +30,19 @@ no iniciado
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-06 | pendiente | — | Resultados: el filtro `adult=true` se pierde sin aviso |
-| T-07 | pendiente | — | Cada página pide `/favicon.ico`, y ese 404 consulta Elasticsearch |
-| T-12 (`changeHref`) | pendiente | — | Código muerto y campos que nadie lee |
-| T-13 («Acerca de») | pendiente | — | Límites de carga con dos orígenes y valores escritos a mano |
-| T-14 | pendiente | — | Una página de error EFX lee el catálogo dos veces |
-| T-19 (`SearchController`) | pendiente | — | Textos de error y Javadoc que no corresponden al comportamiento |
-| T-20 (página de error) | pendiente | — | Textos visibles sin punto final o sin fila en PLAN §1 |
-| T-21 | pendiente | — | «Ver todos» aparece aunque no oculte nada |
-| T-22 | pendiente | — | CSS duplicado y muerto |
-| T-23 | pendiente | — | Tres maneras de agrupar miles, y cifras sin agrupar |
-| T-25 (`PosterUrls`) | pendiente | — | Configuración y beans armados para las pruebas |
-| T-26 (Resultados y CSS) | pendiente | — | Accesibilidad |
-| T-27 (`ErrorPageTest`) | pendiente | — | Pruebas que no pueden fallar, débiles o con higiene pendiente |
+| T-06 | terminada | `4a21bfd` | Con `adult=true`, `ResultsPage.adultChoice` agrega la opción «Solo adultos» marcada (y «Todos» deja de estarlo), como `mk()` de S-11. Pruebas nuevas `ResultsPageTest.shouldKeepTheAdultOnlyFilterChecked` y `shouldNotOfferAdultOnlyByDefault`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 13 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (`adultOnly` siempre `false`): falla `shouldKeepTheAdultOnlyFilterChecked`; revertido. |
+| T-07 | terminada | `6db5cfd` | Ícono `static/img/favicon.svg` con `<link rel="icon">` en `fragments/head.html` (ver «Decisiones»). `LayoutPageTest` (ahora importa `NotFoundAdvice`): `shouldShowConnectionIndexAndTmdbOnTheHomePage` afirma el `<link>`; `shouldServeTheIconWithoutReadingTheCatalog` pide el ícono, espera 200 `image/svg+xml` y `verify(catalog, never()).status()`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=LayoutPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 3 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (quitar el ícono): falla con 404, y sin la aserción de estado falla `never()` (`NeverWantedButInvoked`, el 404 lee el catálogo); revertido. |
+| T-12 (`changeHref`) | terminada | `e160ec0` | Se quitó `model.addAttribute("changeHref", "/")` de `ResultsPage.heading`; «Cambiar ajustes» sigue con `@{/}`. `git grep -n changeHref -- '*/src/main/*'` no devuelve nada (código 1). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 20 pruebas, 0 fallos, Checkstyle y PMD en 0. Es una eliminación de código muerto: no hay comportamiento que romper a mano. El `./mvnw verify` completo va al cierre del carril. |
+| T-13 («Acerca de») | terminada | `5e30db1` | Parte de E: `AboutController` recibe `IngestLimits` y pone `maxFileLabel` y `batchSize` en el modelo; `about.html` los usa en «Antes de subir» y «Índice temporal». Prueba nueva `AboutLimitsTest` (`ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB`, `ELASTIFLIX_INGEST_BATCH_SIZE=50`): muestra «de máximo 200 MB» y «lotes de 50» y no «150 MB» ni «lotes de 100»; `AboutPageTest` afirma los valores por defecto. Las dos declaran `@EnableConfigurationProperties(ElastiflixProperties.class)` e importan `IngestLimits` (regla 7). `./mvnw -q -pl elastiflix-web -am verify -Dtest='About*Test' -Dsurefire.failIfNoSpecifiedTests=false`: 2 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (cifras otra vez fijas en la plantilla): falla `AboutLimitsTest`; revertido. La parte de «Cargar datos» es del carril F. |
+| T-14 | terminada | `36f85bc` | `LayoutAdvice.shell(HttpServletRequest)` guarda el cromo en `PageShells.REQUEST_ATTRIBUTE`; `WebExceptionHandler.elastiflix` lo reutiliza y solo llama a `catalog.status()` si falta. Prueba nueva `ErrorPageTest.shouldReadTheCatalogOnceForAnElastiflixError` (`/probe/elastiflix` → 500 con el pie y `verify(catalog, times(1)).status()`). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,LayoutPageTest,IngestPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (ignorar el atributo y volver a leer): falla con `TooManyActualInvocations` (2 lecturas); revertido. |
+| T-19 (`SearchController`) | terminada | `5a7a6c8` | Parte de E: Javadoc de clase y de `search` en `SearchController` fiel al comportamiento (solo `summary()` con punto junto al campo; el código al log en `WARN`). `git grep -n "con su código" elastiflix-web/src/main/java/com/bigfito/elastiflix/web/search` no devuelve nada. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 13 pruebas, 0 fallos, Checkstyle y PMD en 0. Solo cambia Javadoc: no hay comportamiento que romper. Las partes de A y C son de sus carriles. |
+| T-20 (página de error) | terminada | `5eeb292` | Parte de E: `ErrorPages.filled` pone `summary() + "."`; `ErrorPageTest.shouldShowTheCatalogMessage` afirma `<p>No se pudo conectar con Elasticsearch.</p>`. Filas de PLAN §1 de la página de error y del 404 en «Notas para el cierre». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 10 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (sin el punto): falla `shouldShowTheCatalogMessage`; revertido. La parte de `ingest.html` y `JobTexts` es del carril F. |
+| T-21 | terminada | `74a89d5` | `FacetChoices.hasExtra` (`anyMatch(FacetChoice::extra)`) da `genresExtra` y `languagesExtra` al modelo; `results.html` los usa en lugar de `size() > 6`. Prueba nueva `ResultsPageTest.shouldNotOfferExpandWhenNothingIsHidden`: 6 géneros más `genero=Western` (marcado y sin conteo) dan 7 opciones, ninguna `extra`, y no aparece «Ver todos los géneros»; `shouldOfferExpandOnlyPastSixValues` sigue mostrándolo con 7 valores. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 14 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver a `genres.size() > 6`): falla `shouldNotOfferExpandWhenNothingIsHidden`; revertido. |
+| T-22 | terminada | `f2b7b4a` | `elastiflix.css` pasa de 645 a 625 líneas: cada pareja repetida de la lista quedó en una regla (`.fh`, `.filters legend`, `.poster.missing`, `.extra`/`.show-extra .extra`, `.results h1`/`.results-head h1`, `.filters fieldset`, `.results-layout`, `.rrf-value`, `.filters .date-field`, `.hit-list`, `.mode-cards`, `.filters-head h2` y `.legend` dentro de `.results .legend`) y se quitaron las muertas (`.score-panel .eyebrow`, `.sizes`, `.page-size select`, `#job-ok[hidden]`, `.file-chip[hidden]`). Capturas antes y después: 60 de 60 archivos idénticos byte a byte (estilos calculados de todos los elementos y PNG de página completa; 15 pantallas de Resultados, Cargar, Acerca, Inicio y 404 en 1440 y 390 px). Método en «Decisiones». Cambio solo de CSS: lo que se rompería es lo que se ve, y la comparación lo cubre. |
+| T-23 | terminada | `d2d3d9b` | Un solo helper: se quitó `CatalogTexts.grouped`/`rest` y la web usa `ingest.mapping.Thousands.of` (sin cambios) en el pie y «Acerca de» (`CatalogTexts`), en los votos (`ResultCards.count`) y en el título del conteo (`ResultsPage.countTitle`). Prueba nueva `ResultsPageTest.shouldGroupThousandsInVotesAndCount` («7.9 · 21 911 votos» y `<h1>1 234 resultados</h1>`); `shouldRenderFullText` pasa a «1 000 votos»; `LayoutPageTest` y `AboutPageTest` siguen afirmando «4 322 películas». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,LayoutPageTest,AboutPageTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 26 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (votos con `Integer.toString`): fallan `shouldGroupThousandsInVotesAndCount` y `shouldRenderFullText`; revertido. |
+| T-25 (`PosterUrls`) | terminada | `bfd273d` | Parte de E: `PosterUrls` recibe `ElastiflixProperties` por constructor; sin `ObjectProvider` ni `Poster.fallback()`. `ResultsPageTest` declara `@EnableConfigurationProperties(ElastiflixProperties.class)` (regla 7) y fija `ELASTIFLIX_POSTER_BASE_URL=https://posters.test/w92`; `shouldRenderFullText` afirma `src="https://posters.test/w92/t.jpg"`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 29 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver al CDN de respaldo): falla `shouldRenderFullText`; revertido. `IngestLimits` es del carril F. |
+| T-26 (Resultados y CSS) | terminada | `1c9fb43` | Parte de E. `results.html`: `aria-describedby="q-error"` solo cuando se pinta `#q-error` (error que no es de fechas); `h1 id="r-title" aria-live="polite"`; `section aria-labelledby="r-title"`; separador `.apply-row` antes de APLICAR. CSS: `.apply-row`, `.ingest .drop:focus-within` (y `:has(+ #archivo:focus-visible)`) y `.ingest .tab:focus-visible`. Prueba nueva `ResultsPageTest.shouldAnnounceTheCountAndLabelTheSection` y aserción sin `aria-describedby` en `shouldKeepTheFiltersWhenTheDateRangeIsReversed`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (`aria-describedby` fijo y sección sin `aria-labelledby`): fallan esas dos pruebas; revertido. Navegador (Playwright contra el jar del carril, puerto 8095): `.apply-row` con `border-top: 1px solid rgb(239, 231, 220)`; sin error `#q` no tiene `aria-describedby` y con `q=` sí; `#dirty` aparece al marcar un género; con Tab hasta la pestaña, contorno `solid 2px rgb(169, 80, 42)`; con Tab hasta `#archivo`, `.drop` pasa de `outline: none` a `solid 2px rgb(169, 80, 42)`. El teclado de las pestañas es del carril F. |
+| T-27 (`ErrorPageTest`) | terminada | `d86d016` | Parte de E: `ErrorPageTest.shouldShowTheCatalogMessage` afirma ahora el pie en la página EFX (`<footer class="site-footer">`, «Índice: elastiflix-reloaded · 4 322 películas» y `CatalogTexts.TMDB`). `./mvnw -q -pl elastiflix-web -am test -Dtest=ErrorPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 3 pruebas, 0 fallos. Rotura a mano (quitar el pie de `error.html`): fallan `shouldShowTheCatalogMessage` y `shouldReadTheCatalogOnceForAnElastiflixError`; revertido. Las otras filas son de otros carriles. |
 
 ## Cambios sin commit
 
@@ -51,19 +50,85 @@ Vacío.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-web -am verify` (y al final `./mvnw verify` completo)
-- **Resultado:** —
-- **Fecha:** —
+- **Comando:** `git merge origin/main` (ya al día: `origin/main` seguía en `6c403f4`), luego `./mvnw verify` y
+  `./mvnw verify -Pit`, con el árbol de `d86d016`.
+- **Resultado:** `./mvnw verify` BUILD SUCCESS en 56 s: 271 pruebas unitarias (core 50, search 62, ingest 97,
+  web 62), 0 fallos, 0 omitidas; Checkstyle 0 violaciones y PMD sin fallas en los cinco módulos.
+  `./mvnw verify -Pit` BUILD SUCCESS en 1 min 41 s: las mismas 271 unitarias y 29 de integración (core 9,
+  search 14, ingest 2, web 4 con `SmokeIT`), 0 fallos, 0 omitidas; Checkstyle y PMD en 0.
+- **Fecha:** 2026-10-19 02:53–02:56 UTC.
+- Pruebas de navegador: no se tocaron `home.js` ni `results.js`. Las comprobaciones de navegador de T-22 y
+  T-26 se hicieron con Playwright contra el jar del carril (ver sus filas y «Decisiones»).
 
 ## Decisiones
 
-<Decisiones abiertas de este carril, con su razón, y cada reanudación.>
+- 2026-10-19 02:10 UTC: Claude Code toma el carril E en el worktree `/workspaces/elastiflix-paginas`. El
+  primer `./mvnw -q -pl elastiflix-web -am verify` sobre `6c403f4` terminó en verde (3 min 48 s, CPU compartida).
+- **T-07 (decisión abierta):** se elige el ícono, no excluir recursos del advice. `static/img/favicon.svg` (el
+  logo del header: cuadro durazno `#FFCDB2` de radio 10 con el triángulo `#2E2A3B`) y
+  `<link rel="icon" type="image/svg+xml">` en `fragments/head.html`. Con el ícono declarado el navegador ya
+  no pide `/favicon.ico`, y el ícono lo sirve el manejador de recursos estáticos, que no pasa por
+  `NotFoundAdvice`. Va en `static/img/` y no en la raíz de `static/` porque esa carpeta es la que la tabla
+  de carriles asigna a E.
+- **T-20 (decisión, parte de E):** se agrega el punto en `ErrorPages.filled` (no en `ErrorCode`, que es de
+  A y cuyo `summary()` afirman otras pruebas, regla 2), y se anotan en «Notas para el cierre» las filas de
+  PLAN §1 de las páginas de error, que no tienen mockup.
+- **T-22 (cómo se comparó):** en lugar de comparar a ojo, un script de Playwright (fuera del repo, en
+  `/tmp/claude-1000/lane-paginas/cap/`) abre la aplicación del carril (jar en el puerto 8095, contra el
+  Elasticsearch real de `.env`), sirve `elastiflix.css` con `page.route` (el de `HEAD` o el nuevo), bloquea
+  los pósters de TMDB para que el resultado no dependa de la red, espera las fuentes y guarda, por pantalla y
+  ancho, el `getComputedStyle` de **cada** elemento (y de sus `::before`/`::after`) y una captura PNG de
+  página completa. 15 pantallas × 2 anchos (1440 y 390 px): Inicio; Resultados full-text con «Ver todos»
+  abierto, con filtros, vectorial, híbrida, sin resultados, sin resultados por filtros, consulta vacía,
+  fechas invertidas y `candidatos < k`; Cargar (pestañas registro, JSON y CSV); Acerca; 404. Dos corridas con
+  el CSS viejo dieron 60 de 60 archivos idénticos byte a byte (el método es determinista); el CSS nuevo contra
+  el viejo, también 60 de 60.
+- Además de las reglas que nombra la lista, se unieron las otras parejas con el mismo selector que la
+  hoja repetía (`.results`, `.results section`, `.filters`, `.score-panel`, `.score-line`, `.hit-main`),
+  con la misma comparación.
+- **T-26 (parte de E):** el separador antes de APLICAR copia el mockup: un `div.apply-row` envuelve «Tienes
+  cambios sin aplicar.» y el botón (`border-top: 1px solid #EFE7DC`, `padding-top: 4px`, `gap: 8px`, margen
+  superior de 8 px en los dos). En «Cargar datos», `#archivo` es **hermano** de `label.drop` (plantilla de F),
+  no hijo; por eso la regla es `.drop:focus-within, .drop:has(+ #archivo:focus-visible)`: contorno de 2 px del
+  color de acento, como el foco de los campos. Las pestañas llevan `:focus-visible` con el mismo contorno.
+- **T-19 (decisión del texto, parte de E):** el Javadoc de `SearchController` dice ahora que el error de
+  validación se muestra junto al campo solo con su «qué pasó» (`summary()`) y punto final, y que el código
+  `EFX-*` va al log en `WARN`; el de `search` dice «muestra qué pasó junto al campo y registra el código».
 
 ## Notas para el cierre
 
-<Cambios de documentación que aplicará el carril Z: filas de PLAN §1 (texto exacto), propiedades de §7,
-«Cambios respecto al diseño aprobado» de `docs/diseno/<fase>.md`, tablas de errores y README. También las
-firmas viejas que la regla 1 obligó a conservar y que Z puede quitar.>
+- **T-06 · PLAN §1, fila nueva:** `Results.dc.html` › filtro «Contenido para adultos» | El mockup solo
+  ofrece «Todos» y «Solo no adultos» | Si la URL trae `adult=true`, se agrega la opción «Solo adultos»,
+  marcada, con su conteo (como `mk()` de las facetas, S-11), para que APLICAR no quite el filtro sin avisar.
+- **T-13 (parte de E):** «Acerca de» ya no escribe 150 MB ni 100 a mano: `AboutController` pasa
+  `maxFileLabel` y `batchSize` de `IngestLimits`. Si Z actualiza `docs/diseno/4.md` (modelo de cada vista),
+  `about` suma esos dos atributos. La parte de F (`@Value`, `max-request-size`) y su nota de PLAN §7 son de F.
+- **T-14:** `docs/diseno/4.md` (cromo y errores): `LayoutAdvice.shell` deja el `PageShell` en el atributo de
+  petición `PageShells.REQUEST_ATTRIBUTE`, y `WebExceptionHandler` lo reutiliza; solo lee el catálogo si la
+  petición no lo trae.
+- **T-20 (parte de E) · PLAN §1, filas nuevas** (las páginas de error no tienen mockup):
+  - Página de error de la demo (`error.html`) | — | Etiqueta «No se pudo completar», título con el código
+    (`EFX-…`) y debajo el «qué pasó» del catálogo **con punto final** (`<summary()>.`, por ejemplo «No se
+    pudo conectar con Elasticsearch.»); enlace «Volver a buscar».
+  - Error sin código `EFX` (400, 405… del contenedor) | — | Título «Error <estado HTTP>» y el texto
+    «Ocurrió un error inesperado. Vuelve a intentarlo.»
+  - Página 404 (`not-found.html`) | — | Etiqueta «404», título «Esta página no existe», texto «La dirección
+    no corresponde a ninguna pantalla de la demo.» y los enlaces Buscar · Cargar datos · Acerca de la demo.
+  - Si `docs/diseno/4.md` describe la página de error, decir que el mensaje es `summary()` más el punto.
+- **T-22:** el criterio pide anotar la comparación de capturas en `progreso/revision-3.md`, que es de Z:
+  copiar de aquí la evidencia de la fila T-22 y la decisión «T-22 (cómo se comparó)».
+- **T-23:** la web ya no tiene helper propio de miles: `CatalogTexts`, `ResultCards` (votos) y
+  `ResultsPage` (título del conteo) usan `ingest.mapping.Thousands`, como `JobTexts`. Fuera del carril E
+  queda una cifra sin agrupar: el rango de la paginación («Mostrando 1–25 de 1234 resultados») lo arma
+  `Pagination.range()` en `elastiflix-search` (carril B). Si Z quiere cerrarlo, es un cambio de B; no se
+  tocó aquí.
+- **T-26:** si Z describe la accesibilidad de Resultados en `docs/diseno/4.md`: `aria-describedby="q-error"`
+  solo cuando existe `#q-error`; `h1#r-title` con `aria-live="polite"`; `section aria-labelledby="r-title"`;
+  separador `.apply-row` antes de APLICAR. Si F mueve algún día `#archivo` dentro de `label.drop`, la parte
+  `:has(...)` del CSS sobra.
+- **T-25 (parte de E) · regla 1:** `PosterUrls` ya no usa `ElastiflixProperties.Poster.fallback()`. Cuando F
+  quite el relleno de `IngestLimits`, Z puede quitar `Poster.fallback()` (y el relleno de `null` de
+  `ElastiflixProperties`, si A no lo hizo) de `elastiflix-core`: en la web ya nadie lo usa.
 
 ## Bloqueos y solicitudes
 

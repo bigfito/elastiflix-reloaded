@@ -1,5 +1,8 @@
 package com.bigfito.elastiflix.web.search;
 
+import java.util.List;
+
+import com.bigfito.elastiflix.ingest.mapping.Thousands;
 import com.bigfito.elastiflix.search.page.Pagination;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.result.SearchResult;
@@ -44,7 +47,6 @@ public class ResultsPage {
         model.addAttribute("countTitle", countTitle(result.total()));
         model.addAttribute("cards", cards.of(result, query.mode()));
         model.addAttribute("empty", result.empty());
-        model.addAttribute("changeHref", "/");
     }
 
     private static void applied(Model model, SearchForm form) {
@@ -60,12 +62,12 @@ public class ResultsPage {
      * @param dateError si «Desde» es posterior a «Hasta»
      */
     public void rejected(Model model, SearchForm form, boolean dateError) {
-        model.addAttribute("genres", FacetChoices.kept(form.genres()));
-        model.addAttribute("languages", FacetChoices.kept(form.languages()));
+        choices(model, FacetChoices.kept(form.genres()), FacetChoices.kept(form.languages()));
         model.addAttribute("ratings", FacetChoices.kept(form.ratings()));
         model.addAttribute("adultAll", 0);
         model.addAttribute("adultSafe", 0);
-        model.addAttribute("safeOnly", form.adult().contains("false"));
+        model.addAttribute("adultYes", 0);
+        adultChoice(model, form);
         model.addAttribute("dateNote", "En estos resultados: sin fechas de estreno.");
         model.addAttribute("clearHref", SearchLinks.cleared(form));
         model.addAttribute("dateError", dateError);
@@ -73,16 +75,37 @@ public class ResultsPage {
     }
 
     private static void filters(Model model, SearchForm form, SearchResult result) {
-        model.addAttribute("genres", FacetChoices.of(result.facets().genres(), form.genres()));
-        model.addAttribute("languages", FacetChoices.of(result.facets().spokenLanguages(), form.languages()));
+        choices(model, FacetChoices.of(result.facets().genres(), form.genres()),
+                FacetChoices.of(result.facets().spokenLanguages(), form.languages()));
         model.addAttribute("ratings", FacetChoices.of(result.facets().ratings(), form.ratings()));
         model.addAttribute("adultAll", FacetChoices.total(result.facets().adult()));
         model.addAttribute("adultSafe", FacetChoices.countOf(result.facets().adult(), "false"));
-        model.addAttribute("safeOnly", form.adult().contains("false"));
+        model.addAttribute("adultYes", FacetChoices.countOf(result.facets().adult(), "true"));
+        adultChoice(model, form);
         model.addAttribute("dateNote", dateNote(result));
         model.addAttribute("dateError", false);
         model.addAttribute("clearHref", SearchLinks.cleared(form));
         applied(model, form);
+    }
+
+    private static void choices(Model model, List<FacetChoice> genres, List<FacetChoice> languages) {
+        model.addAttribute("genres", genres);
+        model.addAttribute("genresExtra", FacetChoices.hasExtra(genres));
+        model.addAttribute("languages", languages);
+        model.addAttribute("languagesExtra", FacetChoices.hasExtra(languages));
+    }
+
+    /**
+     * Qué opción de «Contenido para adultos» queda marcada.
+     *
+     * <p>Como {@code mk(...)} del mockup con las facetas: si la URL trae {@code adult=true}, la opción
+     * «Solo adultos» aparece marcada, para que el siguiente APLICAR no quite el filtro sin avisar. Con
+     * {@code false} y {@code true} a la vez gana {@code false}, igual que en el chip.</p>
+     */
+    private static void adultChoice(Model model, SearchForm form) {
+        boolean safeOnly = form.adult().contains("false");
+        model.addAttribute("safeOnly", safeOnly);
+        model.addAttribute("adultOnly", !safeOnly && form.adult().contains("true"));
     }
 
     private static void pages(Model model, SearchForm form, Pagination pagination) {
@@ -99,7 +122,7 @@ public class ResultsPage {
         if (total == 1) {
             return "1 resultado";
         }
-        return total + " resultados";
+        return Thousands.of(total) + " resultados";
     }
 
     private static String dateNote(SearchResult result) {

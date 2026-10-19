@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.search.facet.FacetValue;
 import com.bigfito.elastiflix.search.facet.Facets;
 import com.bigfito.elastiflix.search.page.Pagination;
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -40,8 +42,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Resultados muestra los tres modos, los dos vacíos y, si candidatos es menor que k, el «qué pasó» junto al campo.
  */
 @WebMvcTest(controllers = SearchController.class, properties = {
-        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
+        "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test",
+        "ELASTIFLIX_POSTER_BASE_URL=https://posters.test/w92"})
 @Import({LayoutAdvice.class, SearchQueryMapper.class, ResultsPage.class, ResultCards.class, PosterUrls.class})
+@EnableConfigurationProperties(ElastiflixProperties.class)
 class ResultsPageTest {
 
     @Autowired
@@ -72,10 +76,10 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("Géneros: Drama")))
                 .andExpect(content().string(containsString("Valores actualizados con los resultados filtrados.")))
                 .andExpect(content().string(containsString("<select id=\"page-size\" class=\"inp\">")))
-                .andExpect(content().string(containsString("7.9 · 1000 votos")))
+                .andExpect(content().string(containsString("7.9 · 1 000 votos")))
                 .andExpect(content().string(containsString("En estos resultados: de 1997-01-01 a 1997-12-19")))
                 .andExpect(content().string(not(containsString("1997-12-19."))))
-                .andExpect(content().string(containsString("alt=\"Titanic\"")))
+                .andExpect(content().string(containsString("src=\"https://posters.test/w92/t.jpg\" alt=\"Titanic\"")))
                 .andExpect(content().string(containsString("pagina=1")))
                 .andExpect(content().string(containsString("tamano=50")))
                 .andExpect(content().string(containsString("tamano=100")))
@@ -83,6 +87,38 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("M4 7V5h16v2")))
                 .andExpect(content().string(not(containsString("Ver todos los géneros"))))
                 .andExpect(content().string(not(containsString("Ver todos los idiomas"))));
+    }
+
+    @Test
+    @DisplayName("los votos y el título del conteo agrupan los miles: «21 911 votos» y «1 234 resultados»")
+    void shouldGroupThousandsInVotesAndCount() throws Exception {
+        SearchHit hit = new SearchHit(
+                "1", "Titanic", "Titanic", "Un barco", "/t.jpg",
+                LocalDate.of(1997, 12, 19), 194, List.of("Drama"), 7.9, 21_911, "PG-13",
+                12.5, null, null, null);
+        when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(List.of(hit), 1234,
+                facets(), new Pagination(1, 50, 1234, 25, "1–25 de 1234"), List.of("match · title"), null));
+
+        mvc.perform(get("/buscar").param("q", "titanic"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("7.9 · 21 911 votos")))
+                .andExpect(content().string(containsString("<h1 id=\"r-title\" aria-live=\"polite\">1 234 resultados</h1>")));
+    }
+
+    @Test
+    @DisplayName("el título del conteo se anuncia, rotula la sección, y APLICAR va tras su separador")
+    void shouldAnnounceTheCountAndLabelTheSection() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "match · title"));
+
+        mvc.perform(get("/buscar").param("q", "titanic"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<section aria-labelledby=\"r-title\">")))
+                .andExpect(content().string(containsString("<h1 id=\"r-title\" aria-live=\"polite\">1 resultado</h1>")))
+                .andExpect(content().string(not(containsString("aria-describedby=\"q-error\""))))
+                .andExpect(content().string(not(containsString("id=\"q-error\""))))
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).containsPattern(
+                        "<div class=\"apply-row\">\\s*<p id=\"dirty\" class=\"pending\" hidden>Tienes cambios sin aplicar.</p>"
+                                + "\\s*<button class=\"apply\" type=\"submit\">APLICAR</button>\\s*</div>"));
     }
 
     @Test
@@ -211,6 +247,7 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("value=\"2020-01-02\"")))
                 .andExpect(content().string(containsString("value=\"1999-01-01\"")))
                 .andExpect(content().string(containsString("disabled=\"disabled\"")))
+                .andExpect(content().string(not(containsString("aria-describedby"))))
                 .andExpect(content().string(containsString("Drama")));
     }
 
@@ -228,6 +265,20 @@ class ResultsPageTest {
     }
 
     @Test
+    @DisplayName("seis valores más un marcado que la faceta no trae no muestran «Ver todos»")
+    void shouldNotOfferExpandWhenNothingIsHidden() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "chip", sixGenres()));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Western"))
+                .andExpect(status().isOk())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString())
+                        .containsPattern("name=\"genero\" value=\"Western\" checked=\"checked\">")
+                        .contains("value=\"Crime\"")
+                        .doesNotContain("Ver todos los géneros")
+                        .doesNotContain("class=\"opt extra\""));
+    }
+
+    @Test
     @DisplayName("un valor marcado en la posición 7 no queda oculto detrás de «Ver todos»")
     void shouldNotHideASelectedValue() throws Exception {
         when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "chip", sevenGenres()));
@@ -237,6 +288,32 @@ class ResultsPageTest {
                 .andExpect(result -> assertThat(result.getResponse().getContentAsString()).containsPattern(
                         "<label class=\"opt\">\\s*<input type=\"checkbox\" name=\"genero\" value=\"Horror\" "
                                 + "checked=\"checked\">"));
+    }
+
+    @Test
+    @DisplayName("con adult=true, «Solo adultos» aparece marcada y «Todos» no")
+    void shouldKeepTheAdultOnlyFilterChecked() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "match · title"));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("adult", "true"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Adultos: Solo adultos")))
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString())
+                        .containsPattern("<input type=\"radio\" name=\"adult\" value=\"true\" checked>"
+                                + "<span class=\"opt-label\">Solo adultos</span>")
+                        .doesNotContainPattern("name=\"adult\" value=\"\" checked"));
+    }
+
+    @Test
+    @DisplayName("sin adult=true no aparece la opción «Solo adultos»")
+    void shouldNotOfferAdultOnlyByDefault() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "match · title"));
+
+        mvc.perform(get("/buscar").param("q", "titanic"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(not(containsString("Solo adultos"))))
+                .andExpect(content().string(containsString(
+                        "<input type=\"radio\" name=\"adult\" value=\"\" checked=\"checked\">")));
     }
 
     private static SearchResult found(ComponentScore lexical, ComponentScore vector, Double rrf, String chip) {
@@ -250,6 +327,22 @@ class ResultsPageTest {
                 LocalDate.of(1997, 12, 19), 194, List.of("Drama"), 7.9, 1000, "PG-13",
                 12.5, lexical, vector, rrf);
         return new SearchResult(List.of(hit), 1, facets, page(1), List.of(chip), null);
+    }
+
+    private static Facets sixGenres() {
+        return new Facets(
+                List.of(
+                        new FacetValue("Drama", 1),
+                        new FacetValue("Comedy", 1),
+                        new FacetValue("Action", 1),
+                        new FacetValue("Thriller", 1),
+                        new FacetValue("Romance", 1),
+                        new FacetValue("Crime", 1)),
+                List.of(),
+                List.of(),
+                List.of(new FacetValue("false", 1)),
+                LocalDate.of(1997, 1, 1),
+                LocalDate.of(1997, 12, 19));
     }
 
     private static Facets sevenGenres() {

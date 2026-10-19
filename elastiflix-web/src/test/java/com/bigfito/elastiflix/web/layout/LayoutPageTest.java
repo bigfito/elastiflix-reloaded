@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.web.layout;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.web.error.NotFoundAdvice;
 import com.bigfito.elastiflix.web.home.HomeController;
 import com.bigfito.elastiflix.web.home.SuggestionCatalog;
 
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -25,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = HomeController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
-@Import({LayoutAdvice.class, SuggestionCatalog.class})
+@Import({LayoutAdvice.class, NotFoundAdvice.class, SuggestionCatalog.class})
 class LayoutPageTest {
 
     @Autowired
@@ -44,7 +47,19 @@ class LayoutPageTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Conectado · Elasticsearch Serverless")))
                 .andExpect(content().string(containsString("Índice: elastiflix-reloaded · 4 322 películas")))
-                .andExpect(content().string(containsString(CatalogTexts.TMDB)));
+                .andExpect(content().string(containsString(CatalogTexts.TMDB)))
+                .andExpect(content().string(containsString(
+                        "<link rel=\"icon\" type=\"image/svg+xml\" href=\"/img/favicon.svg\">")));
+    }
+
+    @Test
+    @DisplayName("el ícono declarado se sirve como recurso estático, sin pasar por el 404 que lee el catálogo")
+    void shouldServeTheIconWithoutReadingTheCatalog() throws Exception {
+        mvc.perform(get("/img/favicon.svg"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("image/svg+xml"));
+
+        verify(catalog, never()).status();
     }
 
     @Test

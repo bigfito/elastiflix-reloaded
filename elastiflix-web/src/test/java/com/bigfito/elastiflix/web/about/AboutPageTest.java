@@ -2,6 +2,8 @@ package com.bigfito.elastiflix.web.about;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
+import com.bigfito.elastiflix.web.ingest.IngestLimits;
 import com.bigfito.elastiflix.web.layout.CatalogTexts;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -25,7 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = AboutController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
-@Import(LayoutAdvice.class)
+@Import({LayoutAdvice.class, IngestLimits.class})
+@EnableConfigurationProperties(ElastiflixProperties.class)
 class AboutPageTest {
 
     @Autowired
@@ -68,6 +72,8 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("se generan siempre")))
                 .andExpect(content().string(containsString("Un CSV sin encabezado se rechaza")))
                 .andExpect(content().string(containsString("El índice anterior se borra")))
+                .andExpect(content().string(containsString("de máximo 150 MB y con contenido")))
+                .andExpect(content().string(containsString("en lotes de 100 en un índice temporal")))
                 .andExpect(content().string(containsString("Similarity (BM25)")))
                 .andExpect(content().string(containsString(
                         "<div class=\"note sky\">\n        <h3>Cómo se calcula la relevancia: BM25</h3>")))
