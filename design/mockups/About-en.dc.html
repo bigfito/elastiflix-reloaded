@@ -216,7 +216,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </div>
 </dl>
 
-<p style="margin: 0; max-width: 760px; font-size: 14px; line-height: 1.6; color: #6B6578">Implementation note: for retrieval, the model expects the <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">Query: </code> prefix on queries and <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">Document: </code> on plots.</p>
+<p style="margin: 0; max-width: 760px; font-size: 14px; line-height: 1.6; color: #6B6578">Implementation note: for retrieval, the model expects the <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">Query: </code> prefix on queries. Plots are vectorized with <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">input_type</code> <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">ingest</code> and no prefix.</p>
 
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 14px">
 <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6578">Documentation</span>
@@ -354,7 +354,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #FFCDB2; border: 1px solid #FFCDB2; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg></span>
 <h2 id="h-carga" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Loading data</h2>
 </div>
-<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">You can add movies one at a time or import a file. The process validates everything before writing and never leaves the catalog half-updated.</p>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">You can add movies one at a time or import a file. A file can be loaded in two modes: append, which adds the movies to the catalog, or bulk, which replaces it. In both, the whole file is validated before anything is written.</p>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Ways to load data</h3>
 <dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
@@ -367,7 +367,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">.csv file</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">UTF-8 text with or without BOM, comma-separated, with a header. Lists, nested objects and vectors go as JSON inside the cell.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">UTF-8 text with or without BOM, comma-separated, with a header. A CSV without a header is rejected. Lists and nested objects go as JSON inside the cell.</dd>
 </div>
 </dl>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Validation</h3>
@@ -378,7 +378,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Against the mapping</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">The whole file is checked: every field must exist in the mapping and have its type (<code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">release_date</code> as yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">adult</code> as a boolean, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">keywords</code> and <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">belongs_to_collection</code> as nested objects, vectors of 256, 512 and 1024 numbers). <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> can't be repeated.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">The whole file is checked: every field must exist in the mapping and have its type (<code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">release_date</code> as yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">adult</code> as a boolean, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">keywords</code> and <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">belongs_to_collection</code> as nested objects). <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> can't be repeated.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">If something doesn't match</dt>
@@ -393,18 +393,22 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Vectors</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">If the file includes valid <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</code> and <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</code>, they're used as is. Otherwise, they're generated from <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> with jina-embeddings-v5-omni-small, using the <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">Document: </code> prefix.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">The three vectors are always generated from <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> with the Elasticsearch inference service (jina-embeddings-v5-omni-small, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">input_type</code> <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">ingest</code> and no prefix). If the file includes <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</code> or <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</code>, they're ignored.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
-<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Temporary index</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Records are written in batches of 100 to a temporary index that starts as a copy of the current catalog. If an <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> already exists, the record replaces that movie.</dd>
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Append mode (default)</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">The movies in the file are added to the current index through the alias, in batches of 100 and with no temporary index. If an <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> already exists, the movie is replaced. If a batch fails or the load is cancelled, whatever was already written stays and the page tells you how many movies were added.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
-<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Publication</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">When it finishes, the count is checked and the <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">elastiflix-reloaded</code> alias moves to the new index in a single atomic operation.</dd>
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Bulk mode</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">The movies in the file are written in batches of 100 to a new temporary index that holds only the movies in the file: the current catalog is not copied.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
-<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">If it fails</dt>
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Publication (bulk)</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">When it finishes, the count is checked and the <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">elastiflix-reloaded</code> alias moves to the new index in a single atomic operation. The previous index is deleted.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">If it fails (bulk)</dt>
 <dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">If Elasticsearch rejects a batch or the check doesn't add up, the temporary index is deleted and the catalog stays exactly as it was.</dd>
 </div>
 </dl>

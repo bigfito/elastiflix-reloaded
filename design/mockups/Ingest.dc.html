@@ -61,7 +61,7 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 <section style="display: flex; flex-direction: column; gap: 12px">
 <p style="margin: 0; display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #A9502A"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>Índice elastiflix-reloaded</p>
 <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(34px, 5vw, 52px); line-height: 1.05; letter-spacing: -0.02em">Cargar datos</h1>
-<p style="margin: 0; max-width: 720px; font-size: 17px; line-height: 1.6; color: #585266">Agrega películas al catálogo una por una o importa un archivo. Los tres vectores de la sinopsis (<code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_512</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_1024</code>) se generan automáticamente a partir de <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot</code> con jina-embeddings-v5-omni-small.</p>
+<p style="margin: 0; max-width: 720px; font-size: 17px; line-height: 1.6; color: #585266">Agrega películas al catálogo una por una, o importa un archivo para agregarlas (append) o para reemplazar el catálogo completo (bulk). Los tres vectores de la sinopsis (<code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_512</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot_1024</code>) se generan automáticamente a partir de <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">plot</code> con jina-embeddings-v5-omni-small.</p>
 </section>
 
 <div role="tablist" aria-label="Forma de carga" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: #FFFFFF; border: 1px solid #E2D8CA; border-radius: 14px; align-self: flex-start">
@@ -145,6 +145,18 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 
 <sc-if value="{{isFile}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 16px">
+
+<div class="card">
+<h2 class="h3" id="modo-titulo">{{modeTitle}}</h2>
+<div role="radiogroup" aria-labelledby="modo-titulo" style="display: flex; flex-wrap: wrap; gap: 12px">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="2">
+<label style="{{m.style}}"><input type="radio" name="modo" value="{{m.code}}" checked="{{m.checked}}" onChange="{{m.pick}}" style="flex: none; width: 18px; height: 18px; margin: 2px 0 0; accent-color: #A9502A"><span style="display: flex; flex-direction: column; gap: 4px; min-width: 0"><span style="font-size: 15px; font-weight: 600; color: #2E2A3B">{{m.label}} <code style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; color: #6B6578">{{m.code}}</code></span><span style="font-size: 13px; line-height: 1.5; color: #585266">{{m.desc}}</span></span></label>
+</sc-for>
+</div>
+<sc-if value="{{isBulk}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: #FFF9E3; border: 1px solid #FBE7A1; border-radius: 12px; font-size: 14px; line-height: 1.5; color: #3A3548"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><path d="M12 4l9 16H3z M12 10v4 M12 17h.01"></path></svg><span>{{bulkWarning}}</span></p>
+</sc-if>
+</div>
 
 <div class="card">
 <h2 class="h3">{{fileTitle}}</h2>
@@ -238,7 +250,7 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 <div style="display: flex; flex-wrap: wrap; gap: 12px">
 <div style="flex: 1 1 150px; padding: 14px 16px; background: #EEF6FD; border: 1px solid #BFE0F6; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Registros leídos</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #2E2A3B">{{readCount}}</p></div>
 <div style="flex: 1 1 150px; padding: 14px 16px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Válidos</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #2E8B6E">{{validCount}}</p></div>
-<div style="flex: 1 1 150px; padding: 14px 16px; background: #FFF9E3; border: 1px solid #FBE7A1; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Reemplazarán existentes</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #8A6A12">{{replaceCount}}</p></div>
+<div style="flex: 1 1 150px; padding: 14px 16px; background: #FFF9E3; border: 1px solid #FBE7A1; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">{{replaceLabel}}</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #8A6A12">{{replaceCount}}</p></div>
 <div style="flex: 1 1 150px; padding: 14px 16px; background: #FDEEF5; border: 1px solid #F7C1D9; border-radius: 12px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Errores</p><p style="margin: 6px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; color: #B9472A">{{errorCount}}</p></div>
 </div>
 
@@ -290,7 +302,7 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 </ul>
 </sc-if>
 
-<p class="hint">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">release_date</code> en yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">adult</code> booleano, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">keywords</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">belongs_to_collection</code> como objetos anidados, vectores con 256, 512 y 1024 números); <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">plot</code> son obligatorios y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> no se puede repetir. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. Si un <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> ya existe en el índice, el registro reemplaza a la película existente.</p>
+<p class="hint">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">release_date</code> en yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">adult</code> booleano, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">keywords</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">belongs_to_collection</code> como objetos anidados); <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">plot</code> son obligatorios y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> no se puede repetir. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. En modo append, si un <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> ya existe en el índice, el registro reemplaza a la película existente; en modo bulk, el catálogo queda solo con las películas del archivo.</p>
 </div>
 
 <div class="card">
@@ -325,7 +337,7 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { tab: 'single' };
+    this.state = { tab: 'single', mode: 'append' };
   }
   renderVals() {
     const s = this.state;
@@ -353,13 +365,14 @@ class Component extends DCLogic {
       ready: { bg: '#FFF1E8', bd: '#FFCDB2', ink: '#A9502A', label: 'listo para empezar' },
       pending: { bg: '#FBF7F1', bd: '#E2D8CA', ink: '#6B6578', label: 'pendiente' }
     };
+    const isBulk = s.mode === 'bulk';
     const stepDefs = [
       ['Comprobación en el navegador', 'Extensión, tipo y tamaño (máximo 25 MB) antes de subir nada.'],
       ['Subida al servidor', 'El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.'],
       ['Validación contra el mapping', 'Tipo de cada campo de cada registro; si algo no coincide, se detiene todo.'],
-      ['Importación en un índice temporal', 'Copia del catálogo actual más los registros del archivo, en lotes de 100.'],
-      ['Publicación', 'El alias elastiflix-reloaded pasa al índice nuevo en una sola operación.']
-    ];
+    ].filter(Boolean).concat(isBulk
+      ? [["Importación en un índice temporal", "Solo los registros del archivo, en lotes de 100; el catálogo actual no se copia."], ["Publicación", "El alias elastiflix-reloaded pasa al índice nuevo y el índice anterior se borra, en una sola operación."]]
+      : [["Escritura en el catálogo", "Los registros se agregan al índice vigente por el alias, en lotes de 100; si un id ya existe, la película se reemplaza."]]);
     const stateSeq = {
       rejected: ['failed', 'pending', 'pending', 'pending', 'pending'],
       mismatch: ['done', 'done', 'failed', 'pending', 'pending'],
@@ -381,6 +394,11 @@ class Component extends DCLogic {
     return {
       accent: this.props.accent ?? '#FFCDB2',
       tabs,
+      modeTitle: "Modo de carga",
+      modes: [{ code: "append", label: "Agregar al catálogo", desc: "Las películas del archivo se agregan al índice actual, sin índice temporal. Si un id ya existe, la película se reemplaza; el resto del catálogo no cambia.", checked: s.mode === "append", style: 'display: flex; align-items: flex-start; gap: 12px; flex: 1 1 280px; min-width: 0; padding: 14px 16px; border-radius: 12px; cursor: pointer; ' + (s.mode === "append" ? 'background: #FFF1E8; border: 1px solid #A9502A' : 'background: #FFFFFF; border: 1px solid #E2D8CA'), pick: () => this.setState({ mode: "append" }) }, { code: "bulk", label: "Reemplazar el catálogo", desc: "Se crea un índice nuevo solo con las películas del archivo y el alias pasa a él. El índice anterior se borra.", checked: s.mode === "bulk", style: 'display: flex; align-items: flex-start; gap: 12px; flex: 1 1 280px; min-width: 0; padding: 14px 16px; border-radius: 12px; cursor: pointer; ' + (s.mode === "bulk" ? 'background: #FFF1E8; border: 1px solid #A9502A' : 'background: #FFFFFF; border: 1px solid #E2D8CA'), pick: () => this.setState({ mode: "bulk" }) }],
+      isBulk,
+      bulkWarning: "Con bulk, el catálogo actual (6 899 películas) se borra al publicar y queda solo con las películas de este archivo.",
+      replaceLabel: isBulk ? "Catálogo actual que se reemplaza" : "Reemplazarán existentes",
       isSingle: s.tab === 'single',
       isFile: s.tab !== 'single',
       isCsv,
@@ -388,7 +406,7 @@ class Component extends DCLogic {
       ext: isCsv ? '.csv' : '.json',
       accept: isCsv ? '.csv,text/csv' : '.json,.ndjson,application/json',
       fileHint: isCsv
-        ? 'Texto UTF-8 (con o sin BOM), una película por fila y la primera fila con los nombres de columna. Las listas, los objetos anidados y los vectores van como JSON dentro de la celda; los textos pueden tener saltos de línea entre comillas.'
+        ? 'Texto UTF-8 (con o sin BOM), una película por fila y la primera fila con los nombres de columna. Las listas y los objetos anidados van como JSON dentro de la celda; los textos pueden tener saltos de línea entre comillas.'
         : 'El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.',
       fileName,
       steps,
@@ -408,7 +426,7 @@ class Component extends DCLogic {
         : '34 de 34 columnas reconocidas: todas tienen el mismo nombre que un campo del índice y se asignaron automáticamente.',
       readCount: scen === 'mismatch' ? '512' : '4 322',
       validCount: scen === 'mismatch' ? '495' : '4 322',
-      replaceCount: '[N]',
+      replaceCount: isBulk ? "6 899" : "[N]",
       errorCount: scen === 'mismatch' ? '23' : '0',
       locLabel: isCsv ? 'Fila' : 'Registro',
       errors: [
@@ -421,12 +439,12 @@ class Component extends DCLogic {
       ],
       importText: scen === 'mismatch'
         ? 'La importación está bloqueada: el archivo no coincide con el mapping del índice y no se escribió ningún registro.'
-        : 'Se importarán 4 322 películas en 44 lotes de 100 dentro de un índice temporal que empieza como copia del catálogo actual. Al terminar se comprueba el conteo y el alias elastiflix-reloaded pasa al índice nuevo en una sola operación. Si Elasticsearch rechaza un lote o la comprobación falla, el índice temporal se borra y el catálogo queda exactamente como estaba. Los vectores del archivo se usan tal cual.',
-      progressText: scen === 'mismatch' ? '0 de 512 importadas' : '0 de 4 322 importadas · lote 0 de 44 · índice temporal elastiflix-reloaded-import-[fecha]',
+        : (isBulk ? "Se importarán 4 322 películas en 44 lotes de 100 dentro de un índice temporal nuevo que contiene solo las películas del archivo. Al terminar se comprueba el conteo, el alias elastiflix-reloaded pasa al índice nuevo y el índice anterior se borra, en una sola operación: el catálogo queda solo con las películas de este archivo. Si Elasticsearch rechaza un lote o la comprobación falla, el índice temporal se borra y el catálogo queda exactamente como estaba. Los vectores de la sinopsis se generan para cada película con el servicio de inferencia de Elasticsearch." : "Se agregarán 4 322 películas al catálogo actual en 44 lotes de 100, directamente en el índice vigente a través del alias elastiflix-reloaded, sin índice temporal. Si un id ya existe, la película se reemplaza. Si Elasticsearch rechaza un lote o cancelas la carga, lo que ya se escribió se queda en el catálogo y la página dice cuántas películas se agregaron. Los vectores de la sinopsis se generan para cada película con el servicio de inferencia de Elasticsearch."),
+      progressText: scen === 'mismatch' ? '0 de 512 importadas' : (isBulk ? "0 de 4 322 importadas · lote 0 de 44 · índice temporal elastiflix-reloaded-import-[fecha]" : "0 de 4 322 agregadas · lote 0 de 44 · índice vigente (alias elastiflix-reloaded)"),
       importDisabled: scen === 'mismatch',
       importBg: scen === 'mismatch' ? '#EFE7DC' : (this.props.accent ?? '#FFCDB2'),
       importColor: scen === 'mismatch' ? '#6B6578' : '#2E2A3B',
-      importLabel: scen === 'mismatch' ? 'Importación bloqueada' : 'Importar 4 322 registros',
+      importLabel: scen === 'mismatch' ? 'Importación bloqueada' : (isBulk ? "Reemplazar el catálogo con 4 322 registros" : "Agregar 4 322 registros"),
       mapping: (scen === 'mismatch' ? [{ col: 'director', field: '— Sin campo en el índice —', kind: 'Texto', status: 'No existe en el mapping', color: '#B9472A' }] : []).concat([
         { col: '_id', field: '(id del documento)', kind: 'Igual a id en todas las filas', status: 'Asignada', color: '#2E8B6E' },
         { col: 'id', field: 'id', kind: 'Número, se guarda como texto (keyword)', status: 'Asignada', color: '#2E8B6E' },
@@ -434,7 +452,7 @@ class Component extends DCLogic {
         { col: 'genres', field: 'genres', kind: 'Lista JSON de textos', status: 'Asignada', color: '#2E8B6E' },
         { col: 'keywords', field: 'keywords', kind: 'Lista JSON de objetos anidados', status: 'Asignada', color: '#2E8B6E' },
         { col: 'belongs_to_collection', field: 'belongs_to_collection', kind: 'Objeto JSON anidado · vacía en 3 091 filas', status: 'Asignada', color: '#2E8B6E' },
-        { col: 'plot_1024', field: 'plot_1024', kind: 'Vector JSON de 1024 números', status: 'Asignada', color: '#2E8B6E' },
+        { col: 'plot_1024', field: 'plot_1024', kind: 'Se ignora · se generará desde plot', status: 'Se ignora', color: '#8A6A12' },
         { col: 'user_score', field: 'user_score', kind: 'Vacía en todas las filas', status: 'Sin datos', color: '#8A6A12' },
         { col: 'rating', field: 'rating', kind: 'Texto · vacía en 417 filas', status: 'Asignada', color: '#2E8B6E' }
       ]),
@@ -445,16 +463,14 @@ class Component extends DCLogic {
         'Listas, objetos anidados y vectores en JSON decodificados sin errores en todas las celdas.',
         '_id igual a id en todas las filas y ningún id repetido.',
         'id, title y plot presentes y no vacíos en todas las filas.',
-        'release_date en formato yyyy-MM-dd en todas las filas (de 1902-04-17 a 2023-07-19).',
-        'Vectores en todas las filas: 256, 512 y 1024 números válidos con norma 1; no hace falta generarlos.'
+        'release_date en formato yyyy-MM-dd en todas las filas (de 1902-04-17 a 2023-07-19).'
       ] : [
         'Archivo .json de [tamaño] MB, dentro del máximo de 25 MB, con contenido JSON en UTF-8.',
         'Exportación reconocida: lista documents con 4 322 películas, igual a document_count.',
         'Índice de origen elastiflix-reloaded; el mapping del archivo coincide con el del índice (vectores hnsw, m 16, ef_construction 100, cosine).',
         '_id igual a id en todos los registros y ningún id repetido.',
         'id, title y plot presentes y no vacíos en todos los registros.',
-        'release_date en formato yyyy-MM-dd en todos los registros (de 1902-04-17 a 2023-07-19).',
-        'Vectores en todos los registros: 256, 512 y 1024 números válidos con norma 1; no hace falta generarlos.'
+        'release_date en formato yyyy-MM-dd en todos los registros (de 1902-04-17 a 2023-07-19).'
       ],
       warnings: isCsv ? [
         '62 películas tienen un idioma vacío dentro de spoken_languages: ese valor se omitirá para que no aparezca como opción de filtro.',

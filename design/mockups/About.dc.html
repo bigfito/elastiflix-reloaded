@@ -216,7 +216,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </div>
 </dl>
 
-<p style="margin: 0; max-width: 760px; font-size: 14px; line-height: 1.6; color: #6B6578">Nota de implementación: para recuperación, el modelo espera el prefijo <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">Query: </code> en las consultas y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">Document: </code> en las sinopsis.</p>
+<p style="margin: 0; max-width: 760px; font-size: 14px; line-height: 1.6; color: #6B6578">Nota de implementación: para recuperación, el modelo espera el prefijo <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">Query: </code> en las consultas. Las sinopsis se vectorizan con <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">input_type</code> <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">ingest</code> y sin prefijo.</p>
 
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 14px">
 <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6578">Documentación</span>
@@ -354,7 +354,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #FFCDB2; border: 1px solid #FFCDB2; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg></span>
 <h2 id="h-carga" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Carga de datos</h2>
 </div>
-<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Se pueden agregar películas una por una o importar un archivo. El proceso valida todo antes de escribir y nunca deja el catálogo a medias.</p>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Se pueden agregar películas una por una o importar un archivo. Un archivo se puede cargar en dos modos: append, que agrega las películas al catálogo, o bulk, que lo reemplaza. En los dos se valida todo el archivo antes de escribir.</p>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Formas de carga</h3>
 <dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
@@ -367,7 +367,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Archivo .csv</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Texto UTF-8 con o sin BOM, separado por comas y con encabezado. Las listas, los objetos anidados y los vectores van como JSON dentro de la celda.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Texto UTF-8 con o sin BOM, separado por comas y con encabezado. Un CSV sin encabezado se rechaza. Las listas y los objetos anidados van como JSON dentro de la celda.</dd>
 </div>
 </dl>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Validaciones</h3>
@@ -378,7 +378,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Contra el mapping</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Se revisa el archivo completo: cada campo debe existir en el mapping y tener su tipo (<code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">release_date</code> en yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">adult</code> booleano, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">keywords</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">belongs_to_collection</code> como objetos anidados, vectores de 256, 512 y 1024 números). <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> no se puede repetir.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Se revisa el archivo completo: cada campo debe existir en el mapping y tener su tipo (<code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">release_date</code> en yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">adult</code> booleano, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">keywords</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">belongs_to_collection</code> como objetos anidados). <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> no se puede repetir.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Si algo no coincide</dt>
@@ -393,18 +393,22 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Vectores</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Si el archivo trae <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</code> válidos, se usan tal cual. Si no, se generan a partir de <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> con jina-embeddings-v5-omni-small, con el prefijo <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">Document: </code>.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Los tres vectores se generan siempre desde <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">input_type</code> <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">ingest</code> y sin prefijo). Si el archivo trae <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</code> o <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</code>, se ignoran.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
-<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Índice temporal</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Los registros se escriben en lotes de 100 en un índice temporal que empieza como copia del catálogo actual. Si un <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> ya existe, el registro reemplaza a la película.</dd>
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Modo append (por defecto)</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Las películas del archivo se agregan al índice vigente a través del alias, en lotes de 100 y sin índice temporal. Si un <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> ya existe, la película se reemplaza. Si un lote falla o se cancela la carga, lo ya escrito se queda y la página dice cuántas películas se agregaron.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
-<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Publicación</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Al terminar se comprueba el conteo y el alias <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica.</dd>
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Modo bulk</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Las películas del archivo se escriben en lotes de 100 en un índice temporal nuevo, que contiene solo las películas del archivo: el catálogo actual no se copia.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
-<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Si falla</dt>
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Publicación (bulk)</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Al terminar se comprueba el conteo y el alias <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Si falla (bulk)</dt>
 <dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Si Elasticsearch rechaza un lote o la comprobación no cuadra, se borra el índice temporal y el catálogo queda exactamente como estaba.</dd>
 </div>
 </dl>

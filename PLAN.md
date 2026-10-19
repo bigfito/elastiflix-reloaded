@@ -1341,13 +1341,68 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
 - **Mockups:** `Ingest.dc.html`, `Ingest-en.dc.html`, `About.dc.html` y `About-en.dc.html` ya dicen
   25 MB. En el escenario «Archivo válido», el tamaño del archivo quedó como `[tamaño]` / `[size]`, porque
   el ejemplo de 4 322 películas (106–107 MB) ya no cabe.
-- **Pendiente:** cómo se carga un catálogo que no cabe en 25 MB. Adolfo lo aclara en el requerimiento 4.
+- **Catálogo de más de 25 MB:** se resuelve con el requerimiento 4. Se carga el primer archivo en modo
+  bulk (reemplaza el catálogo) y los demás en modo append.
 - **Relación con la revisión 3:** T-13 sigue trabajando con el límite actual de 150 MB. El cambio a 25 MB
   se hace en este requerimiento, después de la revisión 3.
 
-### Requerimiento 4
+### Requerimiento 4 — Carga de archivos en modo append o bulk
 
-Pendiente: Adolfo lo compartirá.
+- **Origen:** cuarto de los cuatro requerimientos nuevos de Adolfo (2026-10-19).
+- **Qué pide:** la carga de películas desde archivos `.json` o `.csv` (hasta 25 MB, requerimiento 3) tiene
+  dos modos. El registro individual no cambia: sigue escribiendo directo en el catálogo por el alias.
+  - **Modo 1, bulk:** carga todos los datos del archivo en un índice temporal y publica con el alias; el
+    índice original se borra. Es básicamente el flujo actual.
+  - **Modo 2, append:** no se crea ningún índice temporal; los datos se agregan al índice actual.
+- **Decisiones de Adolfo (2026-10-19):**
+  - **Bulk reemplaza el catálogo con solo el archivo.** El índice temporal se crea con el mapping y
+    contiene únicamente las películas del archivo: **ya no se copia el catálogo actual** (hoy la
+    importación hace `_reindex` del catálogo al temporal). Al publicar, `_aliases` hace `add` al nuevo y
+    `remove_index` del anterior en una sola llamada, así que el catálogo queda solo con las películas del
+    archivo. El resto del flujo actual se mantiene:
+    - los lotes de 100;
+    - la comprobación del conteo, que ahora se compara con el número de películas del archivo;
+    - borrar el temporal si algo falla antes de publicar;
+    - las reglas de `describe` cuando la publicación no se confirma;
+    - la limpieza de huérfanos.
+  - **Append, si el `id` ya existe:** la película se reemplaza (`_id` = `id`), igual que en el registro
+    individual. Antes de empezar, la pantalla dice cuántas se reemplazarán.
+  - **Append, si algo falla o se cancela a la mitad:** lo que ya se escribió se queda en el catálogo. La
+    pantalla dice cuántas películas se agregaron antes del error o de la cancelación.
+  - **Modo por defecto:** append, que no borra nada. Bulk se elige a propósito y la pantalla avisa que el
+    catálogo actual se borra al publicar.
+- **Lo que no cambia en los dos modos:**
+  - las comprobaciones del archivo (requerimiento 3);
+  - la validación todo o nada contra el mapping **antes** de escribir;
+  - los vectores generados siempre con inferencia;
+  - los textos en los dos idiomas (requerimiento 2);
+  - un solo usuario a la vez.
+- **Append, comportamiento esperado:**
+  - comprueba que el alias exista y apunte a un solo índice (`EFX-ES-002`, `EFX-ES-005`; un índice
+    concreto en lugar de alias sigue siendo `EFX-IMP-004`);
+  - escribe por el alias en lotes de 100 con `require_alias=true`, revisa la respuesta de cada lote y
+    hace un `refresh` al final;
+  - un lote rechazado detiene la carga con un código `EFX-IMP` propio, que dice cuántas películas quedaron
+    escritas;
+  - la cancelación, entre lotes;
+  - el estado final dice «N agregadas de M».
+- **Pasos de la pantalla:**
+  - bulk: 1 comprobación en el navegador, 2 subida, 3 validación, 4 importación en un índice temporal
+    (solo el archivo) y 5 publicación (el índice anterior se borra);
+  - append: los mismos 1 a 3 y 4 «Escritura en el catálogo», sin paso 5.
+- **Contrato web:**
+  - `POST /cargar/archivo` recibe `modo` = `append` (por defecto) o `bulk`;
+  - el estado del trabajo (`/cargar/trabajos/{jobId}`) incluye el modo y sus textos;
+  - `importar` usa el modo del trabajo.
+- **Mockups:**
+  - `Ingest.dc.html` e `Ingest-en.dc.html` tienen la tarjeta «Modo de carga» / «Load mode» (append
+    seleccionado), el aviso de bulk y los textos, pasos y botones de cada modo;
+  - `About.dc.html` y `About-en.dc.html` describen los dos modos en «Carga de datos»;
+  - **pendientes de aprobación de Adolfo.**
+- **Documentación que cambia al implementarlo:** las reglas del dominio de `AGENTS.md`, PLAN §1, §2 y
+  §5, `docs/diseno/3.md` y README. Hoy todos describen la importación con copia del catálogo.
+- **Relación con la revisión 3:** sus correcciones (T-01, T-08, T-09, T-16…) se hacen sobre el flujo
+  actual. Este requerimiento se diseña después, sobre el código ya corregido.
 
 ## Variables de entorno (`.env.example`)
 
