@@ -8,22 +8,22 @@
 
 - **Unidad:** Revisión 3 · carril B
 - **Nombre:** Búsqueda
-- **Rama:** `revision-3-busqueda` (por crear desde `main`; si ya existe en `origin`, el carril está tomado)
-- **Carpeta:** clon o worktree propio (por ejemplo `../elastiflix-busqueda`)
+- **Rama:** `revision-3-busqueda` (creada desde `origin/main` en `6c403f4`)
+- **Carpeta:** worktree `/workspaces/elastiflix-busqueda`
 - **Archivos del carril:** `elastiflix-search/**`
-- **Herramienta de la última sesión:** ninguna todavía
+- **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-no iniciado
+en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** crea la rama `revision-3-busqueda` desde `origin/main` en un clon o worktree propio, marca
-  este archivo `en curso`, haz commit y push (eso reserva el carril) y empieza T-02.
-- **Última actualización:** 2026-10-19 00:34 UTC
+- **Tarea actual:** T-02 (transporte)
+- **Subpaso en curso:** carril reservado; falta el primer `./mvnw -pl elastiflix-search -am verify`
+- **Próximo paso:** correr `./mvnw -q -pl elastiflix-search -am verify` en el worktree y empezar T-02:
+  agregar `JsonpMappingException` al multi-catch de `ElasticsearchSearchTransport` con su prueba.
+- **Última actualización:** 2026-10-19 02:10 UTC
 
 ## Tareas
 
@@ -50,7 +50,8 @@ Vacío.
 
 ## Decisiones
 
-<Decisiones abiertas de este carril, con su razón, y cada reanudación.>
+- Sesión iniciada 2026-10-19 02:10 UTC con Claude Code (Opus 5.5): carril libre (`git ls-remote` sin ramas
+  `revision-3-*`); rama creada desde `origin/main` (`6c403f4`) en el worktree `/workspaces/elastiflix-busqueda`.
 
 ## Notas para el cierre
 
