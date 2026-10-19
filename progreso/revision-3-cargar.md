@@ -8,22 +8,22 @@
 
 - **Unidad:** Revisión 3 · carril F
 - **Nombre:** Web: Cargar datos
-- **Rama:** `revision-3-cargar` (por crear desde `main`; si ya existe en `origin`, el carril está tomado)
-- **Carpeta:** clon o worktree propio (por ejemplo `../elastiflix-cargar`)
+- **Rama:** `revision-3-cargar` (creada desde `origin/main` en `6c403f4`)
+- **Carpeta:** worktree `/workspaces/elastiflix-cargar`
 - **Archivos del carril:** paquete `ingest/` de web y sus pruebas, `MultipartLimitsTest.java`, las aserciones de «Cargar datos» de `SmokeIT.java` (regla 8), `ingest.html`, `ingest.js`, `application.yml` de web y `src/test/browser/**`
-- **Herramienta de la última sesión:** ninguna todavía
+- **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-no iniciado
+en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** crea la rama `revision-3-cargar` desde `origin/main` en un clon o worktree propio, marca
-  este archivo `en curso`, haz commit y push (eso reserva el carril) y empieza T-04.
-- **Última actualización:** 2026-10-19 00:34 UTC
+- **Tarea actual:** T-04
+- **Subpaso en curso:** carril reservado
+- **Próximo paso:** corre `./mvnw -q -pl elastiflix-web -am verify` sobre `main` y corrige T-04 en `ingest.js`
+  (bandera `actionError` que `paint()` respeta).
+- **Última actualización:** 2026-10-19 02:10 UTC
 
 ## Tareas
 
@@ -53,7 +53,7 @@ Vacío.
 
 ## Decisiones
 
-<Decisiones abiertas de este carril, con su razón, y cada reanudación.>
+- 2026-10-19 02:10 UTC: carril tomado con Claude Code (Opus 5.5), worktree `/workspaces/elastiflix-cargar`.
 
 ## Notas para el cierre
 
