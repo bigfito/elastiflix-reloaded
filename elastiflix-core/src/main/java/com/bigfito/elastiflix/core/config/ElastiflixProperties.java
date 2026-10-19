@@ -14,17 +14,18 @@ import org.springframework.validation.annotation.Validated;
  * <p>Los grupos que no vienen en el entorno usan el mismo valor por defecto que {@code application.yml}.
  * Los de embeddings no están en el YAML: {@link DefaultValue} crea el grupo con los valores calibrados.</p>
  *
- * <p>{@link Validated} comprueba al enlazar que {@code url}, {@code alias} e {@code inference.id} no estén en
- * blanco. Al arrancar la aplicación, {@code ElasticsearchCredentialsEnvironmentPostProcessor} ya rechaza una
- * URL vacía con {@code EFX-CFG-001}, antes de enlazar; la restricción cuida los contextos que no pasan por
- * él, como los de prueba. {@code alias} e {@code id} se rellenan en su constructor compacto, así que su
- * restricción solo deja escrito ese invariante.</p>
+ * <p>{@link Validated} comprueba al enlazar que {@code index.alias} e {@code inference.id} no queden en
+ * blanco. Su constructor compacto ya los rellena con el valor de la demo, así que la restricción deja escrito
+ * ese invariante y lo vigila si el relleno cambia. La URL no lleva {@code @NotBlank}: la rechaza vacía
+ * {@code ElasticsearchCredentialsEnvironmentPostProcessor} con {@code EFX-CFG-001} antes de enlazar, y los
+ * contextos de prueba que enlazan estas propiedades sin URL (el relleno de {@code null}) tienen que seguir
+ * arrancando.</p>
  *
  * <p>Dos grupos no se leen desde Java, y se quedan a propósito:</p>
  * <ul>
  *   <li>{@code elasticsearch}: el cliente se arma con {@code spring.elasticsearch.*}, que el YAML deriva de
- *       estas dos propiedades. El grupo existe para validar la URL y para que un log del bean vea la API key
- *       enmascarada ({@link Elasticsearch#toString()}).</li>
+ *       estas dos propiedades. El grupo existe para que la configuración tipada tenga las dos propiedades y para
+ *       que un log del bean vea la API key enmascarada ({@link Elasticsearch#toString()}).</li>
  *   <li>{@code bootstrap}: {@code CatalogBootstrapRunner} lo lee con {@code @ConditionalOnProperty}. El grupo
  *       documenta la propiedad y su valor por defecto.</li>
  * </ul>
@@ -40,7 +41,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "elastiflix")
 @Validated
 public record ElastiflixProperties(
-        @Valid Elasticsearch elasticsearch,
+        Elasticsearch elasticsearch,
         @Valid Index index,
         @Valid Inference inference,
         Ingest ingest,
@@ -62,13 +63,12 @@ public record ElastiflixProperties(
     }
 
     /**
-     * Dirección del proyecto y su API key. El arranque rechaza las dos vacías antes de enlazar; al enlazar, la
-     * URL vacía también falla por {@link NotBlank}.
+     * Dirección del proyecto y su API key. Pueden llegar vacías: el arranque las rechaza antes.
      *
      * @param url    valor de {@code ELASTICSEARCH_URL}
      * @param apiKey valor de {@code ELASTICSEARCH_API_KEY}
      */
-    public record Elasticsearch(@NotBlank String url, String apiKey) {
+    public record Elasticsearch(String url, String apiKey) {
 
         /**
          * No incluye la API key. Un log de esta propiedad solo ve la máscara.

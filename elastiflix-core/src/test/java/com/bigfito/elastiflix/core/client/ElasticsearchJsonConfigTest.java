@@ -21,7 +21,6 @@ class ElasticsearchJsonConfigTest {
             .withPropertyValues(
                     "spring.elasticsearch.uris=http://127.0.0.1:9",
                     "spring.elasticsearch.api-key=test-key",
-                    "elastiflix.elasticsearch.url=http://127.0.0.1:9",
                     "management.health.elasticsearch.enabled=false");
 
     @Test
