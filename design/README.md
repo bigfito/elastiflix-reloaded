@@ -15,11 +15,13 @@ componentes y comportamiento. No se rediseñan.
 | `mockups/Ingest.dc.html` | Cargar datos | `GET /cargar` | escenario: Archivo válido · No coincide con el mapping · Archivo rechazado |
 | `mockups/About.dc.html` | Acerca de la demo | `GET /acerca` | — |
 | `mockups/Detail.dc.html` | Detalle de película (**pendiente de implementar**, ver PLAN › «Requerimientos nuevos») | `GET /pelicula/{id}` | película: Inception · The Equalizer 2 |
-| `mockups/<Página>-en.dc.html` | Versión en inglés de cada página (**pendiente de aprobación e implementación**, requerimiento 2) | la misma ruta con `?lang=en` | las mismas que su versión en español |
+| `mockups/<Página>-en.dc.html` | Versión en inglés de cada página (aprobada el 2026-10-19; **pendiente de implementar**, requerimiento 2) | la misma ruta con `?lang=en` | las mismas que su versión en español |
 
 > **Pendiente de implementar:** `Detail.dc.html`, el enlace del título de cada tarjeta de
 > `Results.dc.html` hacia el detalle, las versiones `-en` y el selector «ES · EN» del header son parte de
-> los requerimientos nuevos de `PLAN.md`. La traducción sigue `docs/i18n/glosario-en.md`. No se implementan
+> los requerimientos nuevos de `PLAN.md`. La traducción sigue `docs/i18n/glosario-en.md`.
+> El conteo del pie y de «Acerca de» sale siempre de `_count`; el número de los mockups es un ejemplo. El
+> logo de TMDB de «Créditos» es `elastiflix-web/src/main/resources/static/img/tmdb/…svg`, subido al canvas. No se implementan
 > en la revisión 3: esperan a que termine y a que Adolfo dé su consentimiento.
 
 En Cargar datos y en Acerca de, los vectores de la sinopsis se generan con el servicio de inferencia

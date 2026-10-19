@@ -183,7 +183,7 @@ input::placeholder{color:#6B6578}
 
 <footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">
 <span>Elastiflix-Movies Java · search demo</span>
-<span>Index: elastiflix-reloaded · 4,322 movies</span>
+<span>Index: elastiflix-reloaded · 6,899 movies</span>
 </footer>
 
 <div aria-hidden="true" style="height: 10px; margin: 0 0 14px; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
@@ -259,30 +259,27 @@ class Component extends DCLogic {
         ];
       }
     } else if (s.mode === 'vector') {
-      const titanicPos = { plot_256: '4th place', plot_512: '3rd place', plot_1024: '1st place' }[s.vector];
-      const inceptionPos = { plot_256: 'outside the top 10', plot_512: '4th place', plot_1024: '3rd place' }[s.vector];
-      const lifeOfPiPos = { plot_256: '10th place', plot_512: '3rd place', plot_1024: '2nd place' }[s.vector];
-      const spiritedPos = { plot_256: '4th place', plot_512: '1st place', plot_1024: '1st place' }[s.vector];
-      const etPos = { plot_256: '3rd place', plot_512: '1st place', plot_1024: '1st place' }[s.vector];
+      // English example queries: the positions marked [position] are verified against the index during implementation.
+      // The two WALL·E queries were already verified: 1st place in both languages.
       sug = [
-        { text: 'un barco de lujo choca con un iceberg en su viaje inaugural', tag: 'Titanic: ' + titanicPos },
-        { text: 'un ladrón roba secretos entrando en los sueños de las personas', tag: 'Inception: ' + inceptionPos },
-        { text: 'un robot solitario que limpia la Tierra', tag: 'WALL·E: 1st place' },
-        { text: 'a lonely robot cleaning up Earth', tag: 'in English · WALL·E: 1st place' },
-        { text: 'un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano', tag: 'Life of Pi: ' + lifeOfPiPos },
-        { text: 'una niña queda atrapada en un mundo de espíritus y trabaja en una casa de baños para salvar a sus padres convertidos en cerdos', tag: 'Spirited Away: ' + spiritedPos },
-        { text: 'un niño esconde a un pequeño extraterrestre perdido y lo ayuda a volver a su planeta', tag: 'E.T.: ' + etPos }
+        { text: 'a luxury liner hits an iceberg on its maiden voyage', tag: 'Titanic: [position]' },
+        { text: 'a thief steals secrets by entering people\'s dreams', tag: 'Inception: [position]' },
+        { text: 'a lonely robot cleaning up Earth', tag: 'WALL·E: 1st place' },
+        { text: 'un robot solitario que limpia la Tierra', tag: 'in Spanish · WALL·E: 1st place' },
+        { text: 'a shipwrecked boy shares a lifeboat with a Bengal tiger in the middle of the ocean', tag: 'Life of Pi: [position]' },
+        { text: 'a girl is trapped in a spirit world and works in a bathhouse to save her parents, who were turned into pigs', tag: 'Spirited Away: [position]' },
+        { text: 'a boy hides a small lost alien and helps him get back to his planet', tag: 'E.T.: [position]' }
       ];
     } else if (isAnd) {
       sug = [
-        { text: 'toy story juguetes que cobran vida', tag: 'AND: lexical 0 · vector decides' },
-        { text: 'laberinto fauno niña en la guerra', tag: 'AND: lexical 0 · vector decides' }
+        { text: 'toy story toys that come to life', tag: 'AND: [lexical results] · [to verify]' },
+        { text: 'pan\'s labyrinth faun girl in the war', tag: 'AND: [lexical results] · [to verify]' }
       ];
     } else {
       sug = [
-        { text: 'dark knight joker caos en la ciudad', tag: 'title + plot' },
-        { text: 'titanic historia de amor en un barco que se hunde', tag: 'Titanic: 1st vector, 2nd lexical' },
-        { text: "ocean's eleven robo a casinos", tag: 'title + plot' }
+        { text: 'dark knight joker chaos in the city', tag: 'title + plot' },
+        { text: 'titanic love story on a sinking ship', tag: 'Titanic: [position in each list]' },
+        { text: "ocean's eleven casino heist", tag: 'title + plot' }
       ];
     }
     const emojis = {
@@ -295,18 +292,18 @@ class Component extends DCLogic {
       'heaven cielo': '☁️',
       'next kolejne': '⏭️',
       'parasite 기생충': '🏠',
-      'un barco de lujo choca con un iceberg en su viaje inaugural': '🚢',
-      'un ladrón roba secretos entrando en los sueños de las personas': '🌀',
-      'un robot solitario que limpia la Tierra': '🤖',
+      'a luxury liner hits an iceberg on its maiden voyage': '🚢',
+      "a thief steals secrets by entering people's dreams": '🌀',
       'a lonely robot cleaning up Earth': '🤖',
-      'un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano': '🐅',
-      'una niña queda atrapada en un mundo de espíritus y trabaja en una casa de baños para salvar a sus padres convertidos en cerdos': '🏮',
-      'un niño esconde a un pequeño extraterrestre perdido y lo ayuda a volver a su planeta': '🚲',
-      'toy story juguetes que cobran vida': '🧸',
-      'laberinto fauno niña en la guerra': '🌿',
-      'dark knight joker caos en la ciudad': '🦇',
-      'titanic historia de amor en un barco que se hunde': '🚢',
-      "ocean's eleven robo a casinos": '🎰'
+      'un robot solitario que limpia la Tierra': '🤖',
+      'a shipwrecked boy shares a lifeboat with a Bengal tiger in the middle of the ocean': '🐅',
+      'a girl is trapped in a spirit world and works in a bathhouse to save her parents, who were turned into pigs': '🏮',
+      'a boy hides a small lost alien and helps him get back to his planet': '🚲',
+      'toy story toys that come to life': '🧸',
+      "pan's labyrinth faun girl in the war": '🌿',
+      'dark knight joker chaos in the city': '🦇',
+      'titanic love story on a sinking ship': '🚢',
+      "ocean's eleven casino heist": '🎰'
     };
     const TONES = [['#FFCDB2','#FFF1E8','#A9502A'], ['#BFE0F6','#EEF6FD','#1F6FA8'], ['#BDE8D7','#ECF8F3','#1E7A5C'], ['#CDBDF6','#F3EFFD','#6A50C8'], ['#FBE7A1','#FFF9E3','#8A6A12'], ['#F7C1D9','#FDEEF5','#A8336B']];
     const suggestions = sug.map((x, i) => ({ ...x, bg: TONES[i % TONES.length][1], border: TONES[i % TONES.length][0], ink: TONES[i % TONES.length][2], emoji: emojis[x.text] || '🎬', pick: () => this.setState({ query: x.text }) }));

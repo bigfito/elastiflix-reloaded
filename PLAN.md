@@ -1271,14 +1271,28 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
     - los datos del catálogo, que se muestran tal como están en el índice: títulos, sinopsis, géneros,
       palabras clave, idiomas, reparto y productoras;
     - los nombres de campos, las rutas y los códigos `EFX`;
-    - las consultas de ejemplo y las sugerencias, que son consultas verificadas contra el índice;
     - los logs, que siguen en español (convenciones).
+  - **Consultas de ejemplo:** se traducen y se adaptan al inglés (las sugerencias de Inicio y la consulta
+    de ejemplo de Resultados).
+    - Las consultas por título original se quedan como están, porque eso es lo que demuestran: `Kolejne
+      365 dni`, `el secreto`, `le fabuleux destin`, `heaven cielo`, `next kolejne` y `parasite 기생충`.
+    - En la sugerencia de varios idiomas, la consulta en inglés y la de otro idioma intercambian lugar
+      («un robot solitario que limpia la Tierra» queda como el ejemplo «in Spanish»).
+    - Las posiciones, conteos y resultados de las consultas traducidas aparecen como `[…]` en los
+      mockups. **Al implementar se verifican contra el índice**, igual que se verificaron las de
+      español, y se escriben en los textos.
   - **Aprobación:** las versiones en inglés se aprueban como mockups en el canvas antes de implementarlas.
 - **Mockups:**
   - `design/mockups/Main-en.dc.html`, `Results-en.dc.html`, `Ingest-en.dc.html`, `About-en.dc.html` y
     `Detail-en.dc.html`, con los enlaces entre páginas en inglés;
   - las cinco pantallas en español llevan el mismo selector en el header;
-  - **pendiente de aprobación de Adolfo.**
+  - **aprobados por Adolfo el 2026-10-19**, con tres ajustes ya aplicados: consultas de ejemplo en
+    inglés, conteo actual del catálogo y créditos de TMDB en «Acerca de» en los dos idiomas.
+- **Conteo del catálogo:** el pie y «Acerca de» › «El catálogo» muestran siempre el número de documentos
+  que existen en el índice en ese momento (`_count` por el alias), en los dos idiomas, como ya pide §1.
+  El «6 899» de los mockups es solo el valor de ejemplo; nunca se escribe un número fijo.
+- **Créditos en «Acerca de»:** las dos versiones tienen la sección «Créditos» / «Credits» con el logo de
+  TMDB aprobado y los dos avisos, el oficial en inglés y su traducción al español.
 - **Coherencia de la traducción:** `docs/i18n/glosario-en.md` fija el término en inglés de cada concepto
   (Vectorial → Vector, Híbrida → Hybrid, Cargar datos → Load data, APLICAR → APPLY…), el tono y los
   formatos. Toda traducción nueva lo sigue y lo amplía.

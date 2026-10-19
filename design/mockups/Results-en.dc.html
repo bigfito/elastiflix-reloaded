@@ -246,7 +246,7 @@ input::placeholder{color:#6B6578}
 
 <footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">
 <span>Elastiflix-Movies Java · search demo</span>
-<span>Index: elastiflix-reloaded · 4,322 movies</span>
+<span>Index: elastiflix-reloaded · 6,899 movies</span>
 </footer>
 
 <div aria-hidden="true" style="height: 10px; margin: 0 0 14px; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
@@ -260,7 +260,7 @@ class Component extends DCLogic {
     const empty = { adult: 'all', genres: [], from: '', to: '', langs: [], ratings: [] };
     this.emptyFilters = empty;
     this.state = {
-      query: 'titanic historia de amor en un barco que se hunde',
+      query: 'titanic love story on a sinking ship',
       pageSize: 25,
       page: 1,
       draft: { ...empty },
@@ -325,11 +325,12 @@ class Component extends DCLogic {
       chips = ['multi-match · best_fields', 'OR'];
       orderedBy = 'Sorted by BM25 score';
       scoreTitle = 'Score';
-      baseTotal = 31;
+      baseTotal = null; // English example query: the total is verified against the index during implementation
       limitText = '';
       legend = 'The BM25 score has no fixed scale: it depends on the query and the catalog, so it is only useful for comparing results of the same search.';
-      results = ['Honeymoon with My Mother', 'Titanic', 'Portrait of a Lady on Fire', 'A Prophet', 'Room in Rome']
-        .map((title, i) => ({ rank: i + 1, title, scores: [bm25('#' + (i + 1))] }));
+      // English example query: titles and positions are verified against the index during implementation
+      results = [1, 2, 3, 4, 5]
+        .map((n) => ({ rank: n, title: '[title ' + n + ']', scores: [bm25('#' + n)] }));
     } else if (mode === 'Vectorial') {
       modeIcon = ICON_VEC;
       chips = ['plot_512', 'k 100', 'num_candidates 200'];
@@ -338,9 +339,9 @@ class Component extends DCLogic {
       baseTotal = 100;
       limitText = 'Vector search returns at most k results (k = 100), split into pages. Filters are applied inside the k-NN search, so the k movies returned match them, and their values are computed from those results.';
       legend = 'With cosine similarity, Elasticsearch returns the score (1 + cosine) / 2: it ranges from 0 to 1, and 1 means the plot vector points in the same direction as the query vector.';
-      // Real similarity (1 + cosine) / 2 on plot_512, verified against the index export
-      results = [['Titanic', '0.8441'], ['Adrift', '0.7842'], ['The Perfect Storm', '0.7533'], ['The Impossible', '0.7530'], ['Ghost Ship', '0.7510']]
-        .map(([title, sim], i) => ({ rank: i + 1, title, scores: [knn('#' + (i + 1), sim)] }));
+      // English example query: titles and similarities are verified against the index during implementation
+      results = [1, 2, 3, 4, 5]
+        .map((n) => ({ rank: n, title: '[title ' + n + ']', scores: [knn('#' + n, '[0 – 1]')] }));
     } else {
       modeIcon = ICON_HYB;
       chips = ['multi-match · best_fields', 'OR', 'plot_512', 'k 100', 'num_candidates 200', 'RRF'];
@@ -349,12 +350,13 @@ class Component extends DCLogic {
       baseTotal = 100;
       limitText = 'Hybrid search combines up to k results from each list (rank_window_size = k = 100) and lets you browse up to 100 combined results. Filter values are computed from that combined list.';
       legend = 'In hybrid mode, each result shows its BM25 score and its k-NN similarity, with its position in each list. RRF ranks by those positions, not by the scores. Filters are applied to both searches before fusion.';
+      // English example query: titles, positions and RRF values are verified against the index during implementation
       results = [
-        { title: 'Titanic', lex: '#2', vec: '#1', sim: '0.8441', rrf: '0.0325' },
-        { title: 'Honeymoon with My Mother', lex: '#1', vec: out, rrf: '0.0164' },
-        { title: 'Adrift', lex: out, vec: '#2', sim: '0.7842', rrf: '0.0161' },
-        { title: 'The Perfect Storm', lex: out, vec: '#3', sim: '0.7533', rrf: '0.0159' },
-        { title: 'Portrait of a Lady on Fire', lex: '#3', vec: out, rrf: '0.0159' }
+        { title: '[title 1]', lex: '#[n]', vec: '#[n]', sim: '[0 – 1]', rrf: '[RRF]' },
+        { title: '[title 2]', lex: '#[n]', vec: out, rrf: '[RRF]' },
+        { title: '[title 3]', lex: out, vec: '#[n]', sim: '[0 – 1]', rrf: '[RRF]' },
+        { title: '[title 4]', lex: out, vec: '#[n]', sim: '[0 – 1]', rrf: '[RRF]' },
+        { title: '[title 5]', lex: '#[n]', vec: out, rrf: '[RRF]' }
       ].map((r, i) => ({ rank: i + 1, title: r.title, rrf: r.rrf, scores: [bm25(r.lex), knn(r.vec, r.sim)] }));
     }
 
@@ -388,8 +390,10 @@ class Component extends DCLogic {
     const countTitle = isEmpty ? '0 results' : (total === null ? '[N] results' : total + ' results');
     const shown = page === 1 ? results.length : 0;
     const restFrom = (page - 1) * ps + shown + 1;
-    const restNote = total === null
+    const restNote = total === null && nFilters
       ? '[Results ' + restFrom + '–' + end + ' updated with ' + nFilters + (nFilters === 1 ? ' filter' : ' filters') + ']'
+      : total === null
+      ? '[Results ' + restFrom + '–' + end + ' on this page]'
       : (restFrom <= end ? '[Results ' + restFrom + '–' + end + ' on this page]' : 'End of results');
     const pages = Array.from({ length: nPages }, (_, i) => i + 1).map((n) => ({
       n,
