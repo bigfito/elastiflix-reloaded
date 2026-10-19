@@ -43,10 +43,16 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 <a href="About.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M12 11v5 M12 8h.01"></path></svg>Acerca de la demo</a>
 </nav>
 </div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<nav aria-label="Idioma" style="display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid #E2D8CA; border-radius: 999px; background: #FFFFFF">
+<a href="Ingest.dc.html" lang="es" hreflang="es" title="Español" aria-current="true" style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; padding: 0 12px; border-radius: 999px; background: #FFCDB2; color: #2E2A3B; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; text-decoration: none"><span aria-hidden="true">ES</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Español</span></a>
+<a href="Ingest-en.dc.html" lang="en" hreflang="en" title="English" style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; padding: 0 12px; border-radius: 999px; color: #4F4A5E; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; text-decoration: none"><span aria-hidden="true">EN</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">English</span></a>
+</nav>
 <div style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid #E2D8CA; border-radius: 999px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #4F4A5E">
 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
 <span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #2E8B6E"></span>
 <span>Conectado · Elasticsearch Serverless</span>
+</div>
 </div>
 </header>
 
@@ -284,7 +290,7 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 </ul>
 </sc-if>
 
-<p class="hint">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">release_date</code> en yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">adult</code> booleano, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">keywords</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">belongs_to_collection</code> como objetos anidados); <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">plot</code> son obligatorios y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> no se puede repetir. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. Si un <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> ya existe en el índice, el registro reemplaza a la película existente.</p>
+<p class="hint">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">release_date</code> en yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">adult</code> booleano, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">keywords</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">belongs_to_collection</code> como objetos anidados, vectores con 256, 512 y 1024 números); <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">plot</code> son obligatorios y <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> no se puede repetir. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. Si un <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">id</code> ya existe en el índice, el registro reemplaza a la película existente.</p>
 </div>
 
 <div class="card">
@@ -352,7 +358,7 @@ class Component extends DCLogic {
       ['Subida al servidor', 'El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.'],
       ['Validación contra el mapping', 'Tipo de cada campo de cada registro; si algo no coincide, se detiene todo.'],
       ['Importación en un índice temporal', 'Copia del catálogo actual más los registros del archivo, en lotes de 100.'],
-      ['Publicación', 'El alias elastiflix-reloaded pasa al índice nuevo y el índice anterior se borra, en una sola operación.']
+      ['Publicación', 'El alias elastiflix-reloaded pasa al índice nuevo en una sola operación.']
     ];
     const stateSeq = {
       rejected: ['failed', 'pending', 'pending', 'pending', 'pending'],
@@ -382,7 +388,7 @@ class Component extends DCLogic {
       ext: isCsv ? '.csv' : '.json',
       accept: isCsv ? '.csv,text/csv' : '.json,.ndjson,application/json',
       fileHint: isCsv
-        ? 'Texto UTF-8 (con o sin BOM), una película por fila y la primera fila con los nombres de columna. Las listas y los objetos anidados van como JSON dentro de la celda; los textos pueden tener saltos de línea entre comillas.'
+        ? 'Texto UTF-8 (con o sin BOM), una película por fila y la primera fila con los nombres de columna. Las listas, los objetos anidados y los vectores van como JSON dentro de la celda; los textos pueden tener saltos de línea entre comillas.'
         : 'El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.',
       fileName,
       steps,
@@ -415,7 +421,7 @@ class Component extends DCLogic {
       ],
       importText: scen === 'mismatch'
         ? 'La importación está bloqueada: el archivo no coincide con el mapping del índice y no se escribió ningún registro.'
-        : 'Se importarán 4 322 películas en 44 lotes de 100 dentro de un índice temporal que empieza como copia del catálogo actual. Al terminar se comprueba el conteo y el alias elastiflix-reloaded pasa al índice nuevo y el índice anterior se borra, en una sola operación. Si Elasticsearch rechaza un lote o la comprobación falla, el índice temporal se borra y el catálogo queda exactamente como estaba. Los vectores de la sinopsis se generan para cada película con el servicio de inferencia de Elasticsearch.',
+        : 'Se importarán 4 322 películas en 44 lotes de 100 dentro de un índice temporal que empieza como copia del catálogo actual. Al terminar se comprueba el conteo y el alias elastiflix-reloaded pasa al índice nuevo en una sola operación. Si Elasticsearch rechaza un lote o la comprobación falla, el índice temporal se borra y el catálogo queda exactamente como estaba. Los vectores del archivo se usan tal cual.',
       progressText: scen === 'mismatch' ? '0 de 512 importadas' : '0 de 4 322 importadas · lote 0 de 44 · índice temporal elastiflix-reloaded-import-[fecha]',
       importDisabled: scen === 'mismatch',
       importBg: scen === 'mismatch' ? '#EFE7DC' : (this.props.accent ?? '#FFCDB2'),
@@ -428,7 +434,7 @@ class Component extends DCLogic {
         { col: 'genres', field: 'genres', kind: 'Lista JSON de textos', status: 'Asignada', color: '#2E8B6E' },
         { col: 'keywords', field: 'keywords', kind: 'Lista JSON de objetos anidados', status: 'Asignada', color: '#2E8B6E' },
         { col: 'belongs_to_collection', field: 'belongs_to_collection', kind: 'Objeto JSON anidado · vacía en 3 091 filas', status: 'Asignada', color: '#2E8B6E' },
-        { col: 'plot_1024', field: 'plot_1024', kind: 'Se ignora · se generará desde plot', status: 'Se ignora', color: '#8A6A12' },
+        { col: 'plot_1024', field: 'plot_1024', kind: 'Vector JSON de 1024 números', status: 'Asignada', color: '#2E8B6E' },
         { col: 'user_score', field: 'user_score', kind: 'Vacía en todas las filas', status: 'Sin datos', color: '#8A6A12' },
         { col: 'rating', field: 'rating', kind: 'Texto · vacía en 417 filas', status: 'Asignada', color: '#2E8B6E' }
       ]),
@@ -439,14 +445,16 @@ class Component extends DCLogic {
         'Listas, objetos anidados y vectores en JSON decodificados sin errores en todas las celdas.',
         '_id igual a id en todas las filas y ningún id repetido.',
         'id, title y plot presentes y no vacíos en todas las filas.',
-        'release_date en formato yyyy-MM-dd en todas las filas (de 1902-04-17 a 2023-07-19).'
+        'release_date en formato yyyy-MM-dd en todas las filas (de 1902-04-17 a 2023-07-19).',
+        'Vectores en todas las filas: 256, 512 y 1024 números válidos con norma 1; no hace falta generarlos.'
       ] : [
         'Archivo .json de 107.3 MB, dentro del máximo de 150 MB, con contenido JSON en UTF-8.',
         'Exportación reconocida: lista documents con 4 322 películas, igual a document_count.',
         'Índice de origen elastiflix-reloaded; el mapping del archivo coincide con el del índice (vectores hnsw, m 16, ef_construction 100, cosine).',
         '_id igual a id en todos los registros y ningún id repetido.',
         'id, title y plot presentes y no vacíos en todos los registros.',
-        'release_date en formato yyyy-MM-dd en todos los registros (de 1902-04-17 a 2023-07-19).'
+        'release_date en formato yyyy-MM-dd en todos los registros (de 1902-04-17 a 2023-07-19).',
+        'Vectores en todos los registros: 256, 512 y 1024 números válidos con norma 1; no hace falta generarlos.'
       ],
       warnings: isCsv ? [
         '62 películas tienen un idioma vacío dentro de spoken_languages: ese valor se omitirá para que no aparezca como opción de filtro.',
