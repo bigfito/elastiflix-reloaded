@@ -7,18 +7,14 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** Revisión 3 — 27 correcciones de código (`T-01` … `T-27`) de la tercera revisión de `main` en `27fcdef`, **en carriles paralelos**
-- **Estado de la fase:** terminada y fusionada en `main` (cierre: merge `5c21934`, PR #21)
-- **Ramas:** las siete `revision-3-*` (A–F y cierre) se fusionaron y se borraron, en GitHub y en local. Solo
-  queda `main`
-- **Lista de correcciones y reglas de los carriles:** [`docs/revisiones/revision-3.md`](../docs/revisiones/revision-3.md)
-  › «Cómo trabajar en paralelo»
-- **Estado:** tablero [`progreso/revision-3.md`](revision-3.md) y un archivo por carril (`progreso/revision-3-<carril>.md`)
-- **Próximo paso:** no hay trabajo de revisión abierto; esperar indicaciones de Adolfo.
-- **Después:** los cuatro «Requerimientos nuevos» de `PLAN.md` (1: página de detalle de película; 2: interfaz
-  en español e inglés; 3: archivos de hasta 25 MB; 4: carga en modo append o bulk) esperan el consentimiento de
-  Adolfo. Nadie los implementa antes.
-- **Última actualización:** 2026-10-19 03:23 UTC
+- **Fase actual:** Fase 7 — Detalle de película (`GET /pelicula/{id}`) (Requerimiento 1)
+- **Estado de la fase:** en curso (diseño 7.0 aprobado por Adolfo)
+- **Ramas:** `fase-7-detalle`
+- **Diseño:** [`docs/diseno/7.md`](../docs/diseno/7.md) aprobado el 2026-10-19 20:29 UTC
+- **Estado:** tablero [`progreso/7.md`](7.md)
+- **Tarea actual:** 7.1 Lectura por id en `CatalogIndex`
+- **Próximo paso:** Implementar `findById(name, id)` en `CatalogIndex` y `ElasticsearchCatalogIndex` excluyendo vectores, con pruebas unitarias.
+- **Última actualización:** 2026-10-19 20:30 UTC
 
 ## Fases
 
@@ -36,6 +32,7 @@
 | — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
 | — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). El estado posterior entró con el PR #14 (`27fcdef`). La revisión 3 encontró restos de S-01, S-03, S-05, S-06, S-14, S-21 y S-22. |
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
+| 7 | Detalle de película | 🔒 | en curso | `progreso/7.md` | Tarea 7.0 terminada (`docs/diseno/7.md` aprobado por Adolfo); en curso 7.1. |
 
 ## Aprobaciones del usuario
 
@@ -81,6 +78,7 @@
 | 2026-10-19 | Revisión 3: carriles A–F fusionados | Adolfo pidió «Procede con la revisión 3» y después «Fusiona los PR del 15 al 20». Los seis PR quedaron en `main` (`7e360b4`). |
 | 2026-10-19 | Revisión 3: cierre fusionado y ramas borradas | Adolfo pidió «Fusiona el PR 21 y luego borra las ramas que ya no se necesitan»: merge `5c21934`; se borraron las siete ramas `revision-3-*` después de comprobar que estaban en `main`. |
 | 2026-10-19 | Revisión 3: dos puntos fuera de la lista en el cierre | Adolfo pidió incluir en el cierre («Inclúyelas en el cierre») el agrupado de miles del rango de paginación y quitar el `preference` sin uso de la híbrida. |
+| 2026-10-19 | Inicio del Requerimiento 1 y diseño de la Fase 7 | Adolfo pidió iniciar con el Requerimiento 1 («Si. Inicia con el Requerimiento 1.») y aprobó el diseño `docs/diseno/7.md` tal cual («Apruebo el diseño de docs/diseno/7.md tal cual para proceder con la implementación de las tareas 7.1 a 7.6»). Rama `fase-7-detalle`. |
 
 ## Catálogo vigente
 
