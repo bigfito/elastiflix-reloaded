@@ -30,7 +30,8 @@ import tools.jackson.databind.node.ObjectNode;
  */
 public final class CsvMovieReader {
 
-    private static final char BOM = '﻿';
+    /** Marca de orden de bytes (BOM) de UTF-8, que algunos editores ponen al principio del archivo. */
+    private static final char BOM = '\uFEFF';
 
     private final CsvHeader header;
 
@@ -148,10 +149,7 @@ public final class CsvMovieReader {
         if (cell.isBlank()) {
             return;
         }
-        JsonNode value = CsvValues.read(name, cell);
-        if (value != null) {
-            object.set(name, value);
-        }
+        object.set(name, CsvValues.read(name, cell));
     }
 
     private static boolean blank(List<String> row) {

@@ -104,6 +104,24 @@ class JsonDocumentsTest {
     }
 
     @Test
+    @DisplayName("un document_count de 25 dígitos se rechaza como conteo distinto, no como JSON ilegible")
+    void shouldRejectACountThatDoesNotFitInALong() throws Exception {
+        // given
+        Path file = folder.resolve("enorme.json");
+        Files.writeString(file, """
+                {"document_count": 1234567890123456789012345, "documents": [
+                  {"id": 1, "title": "Una", "plot": "a"}
+                ]}
+                """);
+
+        // when / then
+        assertThatThrownBy(() -> reader.read(file))
+                .isInstanceOf(IngestValidationException.class)
+                .extracting(thrown -> ((IngestValidationException) thrown).errorCode())
+                .isEqualTo(ErrorCode.DOCUMENT_COUNT_MISMATCH);
+    }
+
+    @Test
     @DisplayName("un JSON a medias no se puede leer")
     void shouldRejectABrokenFile() throws Exception {
         Path file = folder.resolve("roto.json");

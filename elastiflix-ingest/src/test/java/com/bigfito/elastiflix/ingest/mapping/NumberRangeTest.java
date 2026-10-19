@@ -45,7 +45,8 @@ class NumberRangeTest {
     @DisplayName("una celda CSV fuera de rango o con decimales en un entero es un error de fila")
     void shouldRejectOutOfRangeCsvCells(String field, String cell) throws Exception {
         // given
-        Path file = Files.writeString(folder.resolve("numeros.csv"), "id,title,plot," + field + "\n1,T,p," + cell + "\n");
+        String content = "id,title,plot," + field + "\n1,T,p," + cell + "\n";
+        Path file = Files.writeString(folder.resolve("numeros.csv"), content);
 
         // when
         CsvRead read = csv.read(file, CsvSettings.withHeader());

@@ -1,8 +1,5 @@
 package com.bigfito.elastiflix.ingest.movie;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
@@ -14,33 +11,22 @@ import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ObjectNode;
 
 /**
- * Construye una película y deja fuera los vectores que pudiera traer el archivo.
+ * Construye una película desde el objeto que armó el validador.
  *
- * <p>Esos vectores se generan después, con el servicio de inferencia. Aquí no se validan.</p>
+ * <p>Ese objeto ya viene sin {@code _id}, sin vectores y sin textos en blanco: los vectores se
+ * generan después, con el servicio de inferencia.</p>
  */
 public final class MovieDocuments {
 
     private static final JsonMapper MAPPER = MovieJsonMapper.create();
-    private static final List<String> IGNORED = List.of(
-            "_id", "plot_256", "plot_512", "plot_1024");
 
     private MovieDocuments() {
-    }
-
-    private static void dropBlankText(ObjectNode object) {
-        List<String> blank = new ArrayList<>();
-        object.forEachEntry((name, value) -> {
-            if (value.isString() && value.asString().isBlank()) {
-                blank.add(name);
-            }
-        });
-        object.remove(blank);
     }
 
     /**
      * Convierte un objeto ya validado en película. Sirve igual para JSON y para CSV.
      *
-     * @param node valor de una película
+     * @param node objeto de una película ya validado
      * @return película sin vectores
      * @throws IngestValidationException {@code EFX-ING-012} si el valor no es un objeto o no encaja en el modelo
      */
@@ -48,8 +34,6 @@ public final class MovieDocuments {
         if (!(node instanceof ObjectNode object)) {
             throw new IngestValidationException(ErrorCode.TYPE_MISMATCH);
         }
-        dropBlankText(object);
-        object.remove(IGNORED);
         try {
             return MAPPER.treeToValue(object, Movie.class);
         } catch (JacksonException exception) {

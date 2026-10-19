@@ -1,35 +1,38 @@
 package com.bigfito.elastiflix.ingest.mapping;
 
 import java.util.List;
-import java.util.Set;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.node.ObjectNode;
 
 /**
  * Revisa un documento y arma el objeto que después se convierte en película.
+ *
+ * <p>El objeto nuevo solo recibe lo que pasa la revisión: nunca el metadato {@code _id}, los vectores
+ * ni los textos en blanco. Los lectores JSON y CSV y el registro individual ya quitan los vectores
+ * antes de validar.</p>
  */
 final class DocumentChecker {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DocumentChecker.class);
     private static final String NOT_IN_MAPPING = "Ese campo no existe en el mapping del índice";
 
-    CheckedDocument check(JsonNode node, String record, Set<String> warnedVectors) {
+    CheckedDocument check(JsonNode node, String record) {
         if (!(node instanceof ObjectNode object)) {
             return notObject(record);
         }
-        return checkObject(object, record, warnedVectors);
+        return checkObject(object, record);
     }
 
-    private CheckedDocument checkObject(ObjectNode object, String record, Set<String> warnedVectors) {
+    private CheckedDocument checkObject(ObjectNode object, String record) {
         String id = idOf(object);
         CheckScope scope = new CheckScope(MovieNodes.MAPPER.createObjectNode(), record, id);
-        object.forEachEntry((name, value) -> write(name, value, scope, warnedVectors));
+        object.forEachEntry((name, value) -> {
+            if (!FieldNames.DOCUMENT_ID.equals(name)) {
+                copy(name, value, scope);
+            }
+        });
         requireFields(scope);
         matchDocumentId(object, id, scope);
         return new CheckedDocument(id, scope.target(), scope.issues());
@@ -53,25 +56,6 @@ final class DocumentChecker {
             return FieldNames.MISSING;
         }
         return id;
-    }
-
-    private void write(String name, JsonNode value, CheckScope scope, Set<String> warnedVectors) {
-        if (FieldNames.DOCUMENT_ID.equals(name)) {
-            return;
-        }
-        if (FieldRules.vector(name)) {
-            warnVector(name, scope, warnedVectors);
-            return;
-        }
-        copy(name, value, scope);
-    }
-
-    private void warnVector(String name, CheckScope scope, Set<String> warnedVectors) {
-        if (!warnedVectors.add(name)) {
-            return;
-        }
-        LOG.warn("{}: se ignora la columna {}", ErrorCode.VECTORS_IGNORED.code(), name);
-        scope.issues().add(VectorFields.ignored(name));
     }
 
     private void copy(String name, JsonNode value, CheckScope scope) {

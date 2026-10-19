@@ -38,7 +38,7 @@ public final class CsvValues {
      *
      * @param column nombre de la columna
      * @param cell   texto de la celda, sin las comillas del CSV
-     * @return valor JSON, o {@code null} si la columna es un vector y no se guarda
+     * @return valor JSON; nunca {@code null}
      */
     public static JsonNode read(String column, String cell) {
         // Sin trim: el espacio es parte del valor (un id " 597" no es "597"). Quien llama ya descartó las
@@ -69,9 +69,6 @@ public final class CsvValues {
     private static JsonNode textOrStructure(FieldKind kind, String text) {
         if (structured(kind)) {
             return jsonOrText(text);
-        }
-        if (kind == FieldKind.VECTOR) {
-            return null;
         }
         return MAPPER.valueToTree(text);
     }

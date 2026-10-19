@@ -55,31 +55,46 @@ class MappingValidatorTest {
     }
 
     @Test
-    @DisplayName("el JSON de cuatro películas no tiene errores y avisa vectores y el texto vacío")
+    @DisplayName("el JSON de cuatro películas, ya leído, no tiene errores y avisa el texto vacío")
     void shouldAcceptTheJsonFixture() {
-        // given: los nodos crudos del fixture traen los tres vectores; el validador no los deja pasar
-        List<JsonNode> raw = documentsOf(JSON);
-        assertThat(raw).allSatisfy(node -> assertThat(node.has("plot_1024") && node.has("plot_256")).isTrue());
+        // given: JsonDocuments ya quitó los vectores; el validador solo revisa campos
+        List<JsonNode> documents = new JsonDocuments().read(JSON).documents();
 
-        ValidatedMovies result = validator.validate(raw, Set.of("597", "999"));
+        // when
+        ValidatedMovies result = validator.validate(documents, Set.of("597", "999"));
 
+        // then
         assertThat(result.report().errors()).isEmpty();
         assertThat(result.report().warnings())
                 .extracting(ValidationIssue::code, ValidationIssue::field)
-                .contains(
-                        tuple(ErrorCode.VECTORS_IGNORED.code(), "plot_256"),
-                        tuple(ErrorCode.VECTORS_IGNORED.code(), "plot_512"),
-                        tuple(ErrorCode.VECTORS_IGNORED.code(), "plot_1024"),
-                        tuple(ErrorCode.EMPTY_TEXT.code(), "homepage"));
+                .containsExactly(tuple(ErrorCode.EMPTY_TEXT.code(), "homepage"));
         assertThat(result.replaceCount()).isEqualTo(1);
-        assertThat(result.movies()).allSatisfy(movie -> {
+        assertThat(result.movies()).filteredOn(movie -> "597".equals(movie.id()))
+                .singleElement()
+                .satisfies(movie -> assertThat(movie.homepage()).isNull());
+        assertThat(result.movies()).usingRecursiveComparison()
+                .withEqualsForType(Arrays::equals, float[].class)
+                .ignoringFields("homepage")
+                .isEqualTo(moviesOf(documents));
+    }
+
+    @Test
+    @DisplayName("un vector o un _id que llegue en el nodo no pasa a la película")
+    void shouldNotCopyVectorsNorTheDocumentId() {
+        // given: los nodos crudos del fixture, con _id y los tres vectores
+        List<JsonNode> raw = documentsOf(JSON);
+        assertThat(raw).allSatisfy(node -> assertThat(node.has("plot_1024") && node.has("_id")).isTrue());
+
+        // when
+        ValidatedMovies result = validator.validate(raw, Set.of());
+
+        // then
+        assertThat(result.report().errors()).isEmpty();
+        assertThat(result.movies()).hasSize(4).allSatisfy(movie -> {
             assertThat(movie.plot256()).isNull();
             assertThat(movie.plot512()).isNull();
             assertThat(movie.plot1024()).isNull();
         });
-        assertThat(result.movies()).usingRecursiveComparison()
-                .withEqualsForType(Arrays::equals, float[].class)
-                .isEqualTo(moviesOf(new JsonDocuments().read(JSON).documents()));
     }
 
     @Test
