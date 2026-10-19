@@ -1180,8 +1180,9 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
 > de la revisión 3. Al arrancar, se planifican como una fase nueva con su diseño (`docs/diseno/<fase>.md`)
 > y la disciplina de §9.
 
-### Página de detalle de película (`GET /pelicula/{id}`)
+### Requerimiento 1 — Página de detalle de película (`GET /pelicula/{id}`)
 
+- **Origen:** primero de los cuatro requerimientos nuevos de Adolfo (2026-10-19).
 - **Mockup:** `design/mockups/Detail.dc.html` (pantalla «Detalle de película» del canvas). Adolfo lo
   aprobó el 2026-10-19 con estos ajustes: paneles informativos a la izquierda, póster más grande
   (260 × 390 px), «N/A» en los campos vacíos, USD en las cifras de dinero y regreso a los resultados con
@@ -1211,8 +1212,10 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
     - `keywords` (nombre e identificador).
   - Cada dato lleva su etiqueta en español y el nombre del campo, como los filtros de Resultados.
 - **Campos vacíos:** un valor ausente, `null`, texto vacío o lista vacía se muestra como «N/A».
-- **Dinero:** `budget` y `revenue` en USD con separador de miles («160 000 000 USD»). Un 0 se muestra
-  como «N/A», porque TMDB usa 0 cuando no conoce la cifra (supuesto; confírmalo al diseñar la fase).
+- **Dinero:** `budget` y `revenue` en USD con separador de miles («160 000 000 USD»).
+  - `budget` vacío o en 0 se muestra como «N/A» (decisión de Adolfo, 2026-10-19).
+  - `revenue` vacío se muestra como «N/A», como cualquier campo. **Pendiente de definir:** qué muestra
+    un `revenue` en 0.
 - **Imágenes:** del CDN de TMDB (`elastiflix.poster.base-url` + la ruta), con el marcador de póster
   faltante de Resultados si no hay ruta o la imagen falla.
 - **Llegada desde Resultados:** el título de cada tarjeta enlaza a `/pelicula/{id}` con los mismos
@@ -1226,13 +1229,19 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
     página, con la película a la vista;
   - una barra muestra el estado que se conserva;
   - no se guarda estado en el servidor, y el botón «Atrás» del navegador también funciona.
+- **Enlace directo (sin búsqueda):** si alguien llega a `/pelicula/{id}` sin los parámetros de una
+  búsqueda (falta `q`) o con parámetros que `/buscar` rechazaría, la página no muestra la ficha: muestra
+  un **error controlado** que le dice que su consulta falló (decisión de Adolfo, 2026-10-19).
+  - Se comprueba antes de leer el documento, así que no consulta Elasticsearch.
+  - Usa la página de error de la aplicación, con un código `EFX` propio y el pie de siempre, y ofrece
+    volver a Inicio para hacer una búsqueda nueva.
+  - El diseño de la fase define el código, el estado HTTP y el texto exacto, y agrega ese estado al
+    mockup para que Adolfo lo apruebe.
 - **Errores:**
   - un `id` que no existe responde la página «no encontrada» (404);
   - Elasticsearch caído o con error responde la página de error EFX existente.
-- **Pendiente de definir al diseñar la fase:** qué muestra el regreso cuando se llega sin parámetros de
-  búsqueda (un enlace directo).
 
-### Requerimientos 1 a 4
+### Requerimientos 2 a 4
 
 Pendientes: Adolfo los compartirá uno por uno.
 

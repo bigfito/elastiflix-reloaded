@@ -17,8 +17,8 @@
 - **Próximo paso:** cada agente aplica el protocolo de reanudación de `AGENTS.md`, toma un carril libre de A–F
   (`git ls-remote --heads origin 'revision-3-*'`) y sigue los «Pasos de un carril». El carril Z (cierre)
   empieza cuando los PR de A–F están fusionados.
-- **Después:** los «Requerimientos nuevos» de `PLAN.md` (página de detalle de película y cuatro más por
-  definir) esperan a que termine la revisión 3 y a que Adolfo dé su consentimiento. Nadie los implementa antes.
+- **Después:** los cuatro «Requerimientos nuevos» de `PLAN.md` (el 1 es la página de detalle de película;
+  los otros tres están por definir) esperan a que termine la revisión 3 y a que Adolfo dé su consentimiento. Nadie los implementa antes.
 - **Quién actualiza este índice durante la revisión 3:** solo el carril Z. Los carriles A–F escriben su propio
   archivo, para no chocar en git.
 - **Última actualización:** 2026-10-19 00:45 UTC
@@ -74,7 +74,8 @@
 | 2026-10-18 | Estado posterior a la Revisión 2 fusionado en `main` | Adolfo pidió fusionar el PR #14 (merge `27fcdef`, commit `ef53328`) y borrar las ramas que ya no se necesitan. Se borró `estado-revision-2`; en el remoto solo queda `main`. |
 | 2026-10-19 | Revisión 3: solo documentar el código, directo a `main` | Adolfo pidió una revisión exhaustiva del código y de la documentación. Eligió que los problemas de código **solo se documenten** (`docs/revisiones/revision-3.md`, T-01 a T-27) y que la documentación alineada se suba **directo a `main`**. La revisión no pudo compilar ni correr pruebas en su entorno. |
 | 2026-10-19 | Revisión 3 en carriles paralelos | Adolfo pidió que la revisión 3 se planifique para varios agentes en paralelo, sin dependencias que obliguen a detenerse. Quedó en seis carriles con archivos disjuntos (A–F) y un carril de cierre (Z); reglas en `docs/revisiones/revision-3.md` › «Cómo trabajar en paralelo». |
-| 2026-10-19 | Mockup de la página de detalle y requerimientos nuevos | Adolfo aprobó `design/mockups/Detail.dc.html` (paneles a la izquierda, póster más grande, «N/A» en campos vacíos, USD y regreso a los resultados con la búsqueda intacta) y el enlace del título en `Results.dc.html`. Pidió documentar la ruta `GET /pelicula/{id}` y cuatro requerimientos nuevos (por compartir) en PLAN › «Requerimientos nuevos». Los cuatro no se implementan hasta que termine la revisión 3 y él dé su consentimiento. La página de detalle quedó en el mismo grupo por decisión de Claude (por confirmar con Adolfo). |
+| 2026-10-19 | Mockup de la página de detalle y requerimientos nuevos | Adolfo aprobó `design/mockups/Detail.dc.html` (paneles a la izquierda, póster más grande, «N/A» en campos vacíos, USD y regreso a los resultados con la búsqueda intacta) y el enlace del título en `Results.dc.html`. Pidió documentar la ruta `GET /pelicula/{id}` y cuatro requerimientos nuevos (por compartir) en PLAN › «Requerimientos nuevos». Ninguno se implementa hasta que termine la revisión 3 y él dé su consentimiento. |
+| 2026-10-19 | Decisiones sobre el requerimiento 1 (detalle de película) | Adolfo confirmó que la página de detalle es el primero de sus cuatro requerimientos nuevos; que un `budget` vacío o en 0 se muestra como «N/A»; y que llegar a la ficha con un enlace directo, sin una búsqueda, muestra un error controlado que dice que su consulta falló. Queda por definir qué muestra un `revenue` en 0. |
 
 ## Catálogo vigente
 
