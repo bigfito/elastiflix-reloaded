@@ -6,8 +6,10 @@ revisión 2 (S-09 y S-10), donde el criterio pide una prueba de JS o de navegado
 
 ## Cómo correrlas
 
-1. Arranca la aplicación. No hace falta Elasticsearch: estas pruebas no buscan ni importan, y simulan
-   las respuestas JSON que necesitan.
+1. Arranca la aplicación. No hace falta Elasticsearch: estas pruebas no importan nada ni simulan
+   respuestas. `utf8.test.js` solo usa la comprobación del navegador en `/cargar`. `suggestions.test.js`
+   afirma la URL a la que navega la sugerencia; sin Elasticsearch, `/buscar` responde con la página de
+   error `EFX-ES-001`, y eso no cambia el resultado.
 
    ```bash
    ./mvnw -q install -DskipTests

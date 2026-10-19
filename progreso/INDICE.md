@@ -7,15 +7,15 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** Revisión 2 — 27 correcciones (`S-01` … `S-27`) de la segunda revisión de `main` en `41c1188`
-- **Estado de la fase:** terminada y fusionada en `main` (merge `7f08810`, PR #13)
-- **Rama:** `revision-2`, creada desde `main` en `3d0b8ff`
-- **Lista de correcciones:** [`docs/revisiones/revision-2.md`](../docs/revisiones/revision-2.md) (dónde,
+- **Fase actual:** Revisión 3 — 27 correcciones de código (`T-01` … `T-27`) de la tercera revisión de `main` en `27fcdef`
+- **Estado de la fase:** no iniciado
+- **Rama:** `revision-3`, por crear desde `main` (en el remoto solo existe `main`)
+- **Lista de correcciones:** [`docs/revisiones/revision-3.md`](../docs/revisiones/revision-3.md) (dónde,
   problema, corrección y criterio de cada una)
-- **Estado de las tareas:** [`progreso/revision-2.md`](revision-2.md)
-- **Próximo paso:** no hay trabajo abierto; esperar indicaciones de Adolfo. S-01 a S-27 terminadas;
-  `./mvnw verify` y `./mvnw verify -Pit` en verde.
-- **Última actualización:** 2026-10-18 23:10 UTC
+- **Estado de las tareas:** [`progreso/revision-3.md`](revision-3.md)
+- **Próximo paso:** aplica el protocolo de reanudación de `AGENTS.md`, crea la rama `revision-3` desde
+  `main`, marca la Revisión 3 `en curso` y empieza T-01.
+- **Última actualización:** 2026-10-19 00:20 UTC
 
 ## Fases
 
@@ -31,7 +31,8 @@
 | — | Revisión 1 | — | terminado | `progreso/revision-1.md` | Fusionada en `main` (`dc9a315`, PR #10). La rama remota `cursor/revision-1-29a6` se borró. Adolfo Orozco aprobó las capturas de R-21. Nueve R quedaron incompletas y continúan en la revisión 2. |
 | — | Sincronización de documentación | — | terminado | `progreso/INDICE.md` | Fusionada en `main` (`2f6f9ed`, PR #11). La rama remota `cursor/docs-sync-29a6` se borró. |
 | — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
-| — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). |
+| — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). El estado posterior entró con el PR #14 (`27fcdef`). La revisión 3 encontró restos de S-01, S-03, S-05, S-06, S-14, S-21 y S-22. |
+| — | Revisión 3 | — | no iniciado | `progreso/revision-3.md` | Lista en `docs/revisiones/revision-3.md` (solo código; la documentación se alineó al escribirla). |
 
 ## Aprobaciones del usuario
 
@@ -64,6 +65,8 @@
 | 2026-10-18 | Sincronización de documentación fusionada en `main` | Adolfo fusionó el PR #11 (merge `2f6f9ed`). |
 | 2026-10-18 | Bugs B-01 a B-05 fusionados en `main` | Adolfo fusionó el PR #12 (merge `41c1188`). |
 | 2026-10-18 | Revisión 2 encargada a otro agente | Adolfo pidió pasar la lista de correcciones al repositorio (`docs/revisiones/revision-2.md`) para que la tome un agente de Claude Code, Google Antigravity o JetBrains Junie. Ya no se le encarga al agente de grokbot (Cursor). Las decisiones abiertas de S-03, S-05 y S-06 las toma el agente y las registra en `progreso/revision-2.md`. |
+| 2026-10-18 | Estado posterior a la Revisión 2 fusionado en `main` | Adolfo pidió fusionar el PR #14 (merge `27fcdef`, commit `ef53328`) y borrar las ramas que ya no se necesitan. Se borró `estado-revision-2`; en el remoto solo queda `main`. |
+| 2026-10-19 | Revisión 3: solo documentar el código, directo a `main` | Adolfo pidió una revisión exhaustiva del código y de la documentación. Eligió que los problemas de código **solo se documenten** (`docs/revisiones/revision-3.md`, T-01 a T-27) y que la documentación alineada se suba **directo a `main`**. La revisión no pudo compilar ni correr pruebas en su entorno. |
 
 ## Catálogo vigente
 
@@ -75,7 +78,13 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify` y `./mvnw verify -Pit`
-- **Resultado:** Los dos en BUILD SUCCESS. `verify` (2026-10-18 19:05 UTC, 23 s): 193 unitarias, 0 fallos, Checkstyle y PMD en 0. `verify -Pit` (2026-10-18 19:07 UTC, 1 min 8 s): 193 unitarias y 27 de integración, 0 fallos y 0 omitidas, Checkstyle y PMD en 0. Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con 6899 documentos.
-- **Fecha:** 2026-10-18 19:07 UTC.
-- **Corrida anterior:** 2026-10-18 18:48–18:49 UTC, sincronización de documentación: 187 unitarias y 27 de integración, 0 fallos, sobre el mismo índice.
+- **Comando:** `./mvnw verify -Pit` (con `.env`)
+- **Resultado:** BUILD SUCCESS en 1 min 39 s: 264 unitarias (core 50, search 62, ingest 97, web 55) y 29 de
+  integración (core 9, search 14, ingest 2, web 4), 0 fallos, 0 omitidas; Checkstyle y PMD en 0. Después, el
+  alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con 6 899 documentos.
+- **Fecha:** 2026-10-18 22:51–22:53 UTC (revisión 2, con el árbol de `630d90a`).
+- **Pendiente:** `763f71e` (S-18, `CsvColumnRows`, `CsvValues` y su prueba) es posterior a esa corrida y no
+  tiene un `verify` completo registrado. La revisión 3 no pudo compilar. El primer paso de la revisión 3
+  vuelve a correr `./mvnw verify` y `-Pit` en `main`.
+- **Corrida anterior:** 2026-10-18 19:05–19:07 UTC, bugs B-01 a B-05: 193 unitarias y 27 de integración,
+  0 fallos.

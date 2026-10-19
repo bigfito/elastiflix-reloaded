@@ -1,5 +1,9 @@
 # Correcciones de la revisión 2 — Elastiflix-Movies Java
 
+> **Terminada y fusionada en `main`** (PR #13, merge `7f08810`; estado posterior en el PR #14, `27fcdef`).
+> No la reabras: es la especificación histórica. La evidencia está en `progreso/revision-2.md` y lo que
+> quedó pendiente continúa en `docs/revisiones/revision-3.md`.
+
 > Segunda revisión exhaustiva del código y la documentación de `main` en el commit `41c1188`
 > (2026-10-18), después de la revisión 1 (R-01…R-30) y de los bugs B-01…B-05.
 > 27 correcciones: 3 críticas, 16 importantes y 8 menores. Cada una se verificó leyendo el código actual.
@@ -32,7 +36,7 @@
 
 ## Cómo trabajar esta lista
 
-Sirve igual para **Claude Code**, **Google Antigravity**, **JetBrains Junie** o **Cursor**: todos leen
+Sirve igual para **Claude Code**, **Google Antigravity** o **JetBrains Junie**: todos leen
 `AGENTS.md` en la raíz (Claude Code lo importa desde `CLAUDE.md`).
 
 1. Aplica el protocolo de reanudación de `AGENTS.md` y lee `PLAN.md`, `AGENTS.md` y

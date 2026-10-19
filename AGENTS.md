@@ -46,20 +46,22 @@ dinámicos, paginación y carga segura de datos (.json/.csv). El índice y el co
 `progreso/INDICE.md` › «Catálogo vigente». Java 25, Spring Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de
 Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. El plan está cerrado en `main`. Las
 verificaciones históricas de las fases contaron 4 322 películas, el catálogo anterior a la importación del
-2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` leen `_count`, afirman los 6 899 documentos y los valores de §6; se omiten con `assumeTrue` si el conteo cambió.
+2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` afirman los 6 899 documentos; las IT de búsqueda, los
+valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 
 ## Trabajo abierto
 
 Las fases 0 a 6 están cerradas. Lo pendiente es lo que diga `progreso/INDICE.md` › «Punto de
-reanudación». La **Revisión 2** está terminada y fusionada en `main`: correcciones `S-01`…`S-27` en
-`docs/revisiones/revision-2.md`, con estado en `progreso/revision-2.md`. Cada `S-NN` es una tarea (`S-NN: <resumen>` en el commit) con el
-mismo protocolo, la misma disciplina de estado y las mismas reglas de código. Una revisión nueva usa
-su propia rama y se integra en `main` por PR.
+reanudación». Hoy es la **Revisión 3**: correcciones de código `T-01`…`T-27` en
+`docs/revisiones/revision-3.md`, con estado en `progreso/revision-3.md` (la 2 está terminada). Cada `T-NN`
+es una tarea (`T-NN: <resumen>` en el commit) con el mismo protocolo, la misma disciplina de estado y las
+mismas reglas de código. Rama `revision-3`; se integra en `main` por PR.
 
 ## Regla de oro sobre el orden de trabajo
 
 1. Lee `PLAN.md` completo antes de tocar código.
-2. Ejecuta **Fase 0 → Fase 6 en orden**. No marques una tarea hecha sin cumplir su criterio.
+2. Las fases 0→6 ya se ejecutaron en orden; una revisión sigue el orden de su lista. No marques una tarea
+   hecha sin cumplir su criterio.
 3. Al terminar cada fase corre su **"Verificación de fase"**; si falla, corrige antes de seguir.
 4. **No agregues funciones que el plan no pide.** Si algo no está definido, pregunta al usuario.
 

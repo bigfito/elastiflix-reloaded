@@ -5,11 +5,11 @@
 > Las reglas comunes están en `AGENTS.md` (importado arriba). La secuencia de trabajo está en
 > **`PLAN.md`**. Este archivo solo agrega lo específico de Claude Code.
 >
-> Las fases 0 a 6, la revisión 1 y los bugs B-01 a B-05 ya están en `main`. La **Revisión 2**
-> (`S-01`…`S-27`, lista en `docs/revisiones/revision-2.md`, estado en `progreso/revision-2.md`) está
-> terminada y fusionada en `main` (PR #13). Antes de empezar, lee `progreso/INDICE.md`: ahí
-> están el catálogo vigente y el próximo paso. Para pedirlo en Claude Code basta con «Retoma el trabajo»
-> (ver `README.md`).
+> Las fases 0 a 6, la revisión 1, los bugs B-01 a B-05 y la revisión 2 (PR #13) ya están en `main`. El
+> trabajo abierto es la **Revisión 3** (`T-01`…`T-27`, solo código): la lista está en
+> `docs/revisiones/revision-3.md` y el estado en `progreso/revision-3.md`. Antes de empezar, lee
+> `progreso/INDICE.md`: ahí están el catálogo vigente y el próximo paso. Para pedirlo en Claude Code basta
+> con «Retoma el trabajo» (ver `README.md`).
 
 ## Antes de empezar
 

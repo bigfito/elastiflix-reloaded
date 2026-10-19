@@ -26,6 +26,7 @@
 ```mermaid
 classDiagram
   %% Contratos que implementa o consume, clases nuevas y sus relaciones.
+  class Ejemplo
 ```
 
 ## Secuencia o flujo

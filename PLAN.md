@@ -59,8 +59,9 @@ cargar nuevas películas sin dejar nunca el catálogo a medias.
 
 > **Catálogo vigente:** índice, conteo y fecha en `progreso/INDICE.md` › «Catálogo vigente». Los conteos de
 > 4 322 de este plan son los del catálogo histórico, anterior a la importación de `movies.json`.
-> `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count`, afirman los 6 899 documentos y los
-> valores de §6; se omiten con `assumeTrue` si el conteo cambió.
+> `SmokeIT` y `CatalogStatusServiceIT` leen el conteo vivo con `_count` y afirman los 6 899 documentos;
+> `FullTextSearchIT`, `VectorSearchIT` y `HybridSearchIT` afirman los valores de §6. Todas se omiten con
+> `assumeTrue` si el conteo cambió.
 
 **Qué debe lograr.**
 
@@ -132,9 +133,9 @@ El diagrama completo, con el flujo numerado de búsqueda (1–7) y de carga (A�
   índice nuevo y publica con **una sola llamada atómica a `_aliases`**: `add` del alias al índice nuevo
   y `remove_index` del índice anterior (el anterior se borra; decisión del usuario). El registro
   individual se escribe directamente en el índice vigente a través del alias.
-- **Estado actual del clúster:** hoy `elastiflix-reloaded` es un **índice concreto**, no un alias. La
-  tarea **1.8** lo migra a alias con el mismo mecanismo (`add` + `remove_index`), sin pedir aprobación
-  (decisión del usuario).
+- **Estado del clúster:** al redactar el plan, `elastiflix-reloaded` era un **índice concreto**. La tarea
+  **1.8** lo migró a alias con el mismo mecanismo (`add` + `remove_index`), sin pedir aprobación
+  (decisión del usuario). Hoy es un alias; el índice vigente está en `progreso/INDICE.md`.
 - **Por qué borrar el índice anterior es seguro** (validado al redactar el plan; la tarea 1.6 lo
   demuestra en el proyecto real):
   1. `add` + `remove_index` en una sola llamada es atómico: nunca hay un momento sin alias ni con el
@@ -203,7 +204,7 @@ elastiflix-reloaded/
 │   ├── arquitectura.mermaid
 │   ├── convenciones-java.md
 │   ├── diseno/_PLANTILLA.md    ← y un <fase>.md por fase con código
-│   └── revisiones/             ← listas de correcciones posteriores al cierre (revision-2.md)
+│   └── revisiones/             ← listas de correcciones posteriores al cierre (revision-2.md, revision-3.md)
 ├── design/
 │   ├── README.md               ← tokens de diseño y cómo usar los mockups
 │   └── mockups/                ← Main · Results · Ingest · About (.dc.html)
@@ -391,7 +392,8 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   modificarlo; las de escritura usan su propio alias `elastiflix-it-<aleatorio>` y lo borran al terminar.
 - **Nombres de índice:** siempre derivados del alias configurado: `<alias>-<AAAAMMDD-HHMMSS>` (UTC). Con
   el alias por defecto, `elastiflix-reloaded-20261020-153000`; en una prueba,
-  `elastiflix-it-x7k2-20261020-153000`. Nada se nombra con `elastiflix-reloaded` escrito en el código.
+  `elastiflix-it-x7k2-20261020-153000`. Nada se nombra con `elastiflix-reloaded` escrito en el código; la
+  única excepción es el valor por defecto de `elastiflix.index.alias` (`ElastiflixProperties.Index`).
 - **Textos de la interfaz:** los de los mockups, palabra por palabra, salvo los ajustes autorizados de §1.
 - **Git:** un commit **y un push** por tarea, con el estado actualizado; documentación del proyecto
   actualizada al cerrar cada fase.
@@ -832,7 +834,8 @@ nunca el catálogo a medias.
   estado del trabajo, cancelación, swap y vuelta atrás). Desde la revisión 1 (decisión D2), el archivo se
   lee una sola vez y las películas validadas quedan en memoria hasta importarse: los vectores se quitan al
   leer, los nodos crudos se sueltan al validar, el archivo local se borra al terminar la validación y los
-  trabajos viejos se olvidan (revisión 2, S-06). La lectura en streaming con dos pasadas quedó como
+  trabajos viejos se olvidan: se conservan los 20 últimos en estado final y un `valido` vence a los 30 min
+  sin actividad, revisado al abrir el siguiente trabajo (`JobRetention`, revisión 2, S-06). La lectura en streaming con dos pasadas quedó como
   alternativa descartada. Commit y **detente** hasta la
   aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
   - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
@@ -901,7 +904,8 @@ nunca el catálogo a medias.
     `elastiflix-reloaded-20261020-153000` ni el índice detrás de su alias.
 - [x] **3.7** Registro individual: valida los campos del formulario (`id`, `title` y `plot`
   obligatorios) con el mismo `MappingValidator`, genera los vectores y lo escribe **directamente en el
-  catálogo** (a través del alias, `_id` = `id`, reemplaza si existe) con `refresh=wait_for` para que se
+  catálogo** (a través del alias, `_id` = `id`, reemplaza si existe) con `refresh=wait_for` y
+  `require_alias=true` (si el alias no existe, no crea un índice con ese nombre) para que se
   vea en la siguiente búsqueda.
   - Criterio: prueba unitaria del flujo completo con dobles (la prueba contra Elasticsearch está en
     3.8).
@@ -1123,25 +1127,32 @@ La corrección de los cinco bugs (rama `cursor/bugs-revision-29a6`) volvió a me
 
 El PR #12 se fusionó en `main` (`41c1188`).
 
-### Revisión 2 (abierta)
+### Revisión 2 (terminada)
 
-La segunda revisión de `main` en `41c1188` encontró 27 correcciones (`S-01` … `S-27`): 3 críticas, 16
-importantes y 8 menores. Algunas son pendientes de R-04, R-09, R-11, R-12, R-15, R-16, R-18, R-19 y
-R-21, que se habían marcado terminadas. Mientras no se cierren, los puntos de la Definición de Hecho que
-tocan no se cumplen del todo, aunque sigan marcados `[x]`. Las tres críticas son:
+La segunda revisión de `main` en `41c1188` (27 correcciones `S-01` … `S-27`) está terminada y fusionada
+en `main` (PR #13, merge `7f08810`; estado posterior en el PR #14, `27fcdef`). Especificación:
+`docs/revisiones/revision-2.md`; evidencia: `progreso/revision-2.md`. Corrida final, con el árbol de
+`630d90a`:
 
-- la copia del índice se corta a los 30 s;
-- «Cargar datos» no reproduce el mockup;
-- faltan datos del trabajo de carga.
+- `./mvnw verify -Pit` en BUILD SUCCESS el 2026-10-18 22:51–22:53 UTC (1 min 39 s): 264 unitarias y 29 de
+  integración, 0 fallos y 0 omitidas. Checkstyle y PMD en 0.
+- Después, el alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con 6 899
+  documentos.
+- `763f71e` (S-18) cambió Java después de esa corrida y no tiene un `verify` completo registrado.
 
-Dónde está cada cosa:
+### Revisión 3 (abierta)
 
-- **Lista (especificación):** `docs/revisiones/revision-2.md`, con dónde, problema, corrección y
-  criterio de cada corrección, y cómo trabajarla.
-- **Estado:** `progreso/revision-2.md` y `progreso/INDICE.md`.
+La tercera revisión de `main` en `27fcdef` (2026-10-19 UTC) encontró 27 correcciones de código
+(`T-01` … `T-27`): 13 importantes y 14 menores, ninguna crítica. Algunas son restos de S-01, S-03, S-05,
+S-06, S-14, S-21 y S-22. Por decisión del usuario, la revisión solo documentó el código; la documentación
+se alineó con el código en el mismo commit. La revisión no pudo compilar ni correr pruebas en su entorno.
+
+- **Lista (especificación):** `docs/revisiones/revision-3.md`, con dónde, problema, corrección y criterio de
+  cada corrección, y cómo trabajarla.
+- **Estado:** `progreso/revision-3.md` y `progreso/INDICE.md`.
 - **Quién:** un agente de Claude Code, Google Antigravity o JetBrains Junie. Todos leen `AGENTS.md`.
-- **Cómo:** cada `S-NN` es una tarea con la disciplina de §9 (commit `S-NN: <resumen>` y push por
-  corrección) en la rama `revision-2`, que se integra en `main` por PR.
+- **Cómo:** cada `T-NN` es una tarea con la disciplina de §9 (commit `T-NN: <resumen>` y push por
+  corrección) en la rama `revision-3`, que se integra en `main` por PR.
 
 ## Variables de entorno (`.env.example`)
 

@@ -14,7 +14,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
-![Estado](https://img.shields.io/badge/estado-revisi%C3%B3n_2_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
+![Estado](https://img.shields.io/badge/estado-revisi%C3%B3n_3_pendiente-FBE7A1?style=flat-square&labelColor=3A3548)
 ![Fases](https://img.shields.io/badge/fases-7%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
@@ -22,12 +22,16 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 
 > [!NOTE]
 > ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. La
-> **Revisión 2** (27 correcciones de [`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md)) está
-> terminada y fusionada en `main` (PR #13), con estado en [`progreso/revision-2.md`](progreso/revision-2.md). El índice y el conteo
+> **Revisión 2** ([`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md)) está terminada y
+> fusionada en `main` (PR #13). Queda abierta la **Revisión 3**: 27 correcciones de código en
+> [`docs/revisiones/revision-3.md`](docs/revisiones/revision-3.md), con estado en
+> [`progreso/revision-3.md`](progreso/revision-3.md). El índice y el conteo
 > del alias `elastiflix-reloaded` están en [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
 > `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
-> `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias
-> con `_count`, afirman los 6 899 documentos y los valores de §6; se omiten con `assumeTrue` si el conteo cambió. La aplicación no modifica el alias al arrancar.
+> `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias con
+> `_count`: `SmokeIT` y `CatalogStatusServiceIT` afirman los 6 899 documentos y las pruebas de búsqueda,
+> los valores de §6; se omiten con `assumeTrue` si el conteo cambió. La aplicación no modifica el alias al
+> arrancar.
 > El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
 
 ---
@@ -149,6 +153,7 @@ flowchart LR
   C -->|"un solo error"| X["⛔ Se detiene<br/>no se importa nada"]
   D --> E["5 · Publicación<br/>swap atómico del alias<br/>y borrado del índice anterior"]
   D -->|"falla"| Y["↩️ Se borra el temporal<br/>catálogo intacto"]
+  E -->|"no se confirma y el alias<br/>no se puede leer"| Z["⚠️ EFX-IMP-006<br/>el temporal se deja"]
 ```
 
 | Forma | Formato |
@@ -305,6 +310,8 @@ La aplicación no crea un catálogo vacío: lee siempre por el alias. En un proy
 ./mvnw -q -DskipTests package                    # jar de elastiflix-web
 ./mvnw verify                                    # unitarias, ArchUnit, Checkstyle y PMD
 ./mvnw verify -Pit                               # lo anterior más integración y smoke (requiere .env)
+# Pruebas de navegador del JavaScript (Node.js y Chromium; fuera de verify):
+# ver elastiflix-web/src/test/browser/README.md
 ./mvnw -q install -DskipTests
 ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
 ./mvnw -pl elastiflix-web spring-boot:run        # http://localhost:8080
@@ -363,35 +370,29 @@ El plan está preparado para que **cualquiera de estos agentes** lo ejecute o lo
 
 | Herramienta | Qué lee | Archivo en este repo |
 |---|---|---|
-| 🟣 **Cursor** *(programó las fases 0 a 6 y la revisión 1)* | `AGENTS.md` en la raíz + reglas `.mdc` | `AGENTS.md`, `.cursor/rules/elastiflix-java.mdc` |
-| 🟠 **Claude Code** | `CLAUDE.md`, que importa `AGENTS.md` | `CLAUDE.md` → `@AGENTS.md` |
+| 🟣 **Cursor** *(programó las fases 0 a 6, la revisión 1 y los bugs B-01 a B-05)* | `AGENTS.md` en la raíz + reglas `.mdc` | `AGENTS.md`, `.cursor/rules/elastiflix-java.mdc` |
+| 🟠 **Claude Code** *(revisión 2)* | `CLAUDE.md`, que importa `AGENTS.md` | `CLAUDE.md` → `@AGENTS.md` |
 | 🔵 **Google Antigravity** | `AGENTS.md` en la raíz (máx. 12 000 caracteres) | `AGENTS.md` |
 | 🟢 **JetBrains Junie** | `AGENTS.md` en la raíz | `AGENTS.md` |
 
 ### ▶️ Para empezar
 
-El plan ya está ejecutado: las siete fases están en `main`. Esta frase era la orden de arranque.
+El plan ya está ejecutado: las siete fases y las revisiones 1 y 2 están en `main`. La orden de arranque
+original («Apruebo el plan… ejecuta las fases en orden desde la Fase 0») ya no aplica.
 
-Abre la carpeta del repositorio en tu herramienta y pide:
+### 🛠️ Para trabajar en las correcciones de la Revisión 3
 
-> Apruebo el plan. Lee `PLAN.md`, `AGENTS.md` y `docs/convenciones-java.md`, aplica el protocolo de
-> reanudación y ejecuta las fases en orden desde la Fase 0.
-
-### 🛠️ Para trabajar en las correcciones de la Revisión 2
-
-Las 27 correcciones (`S-01` … `S-27`) las puede tomar **Claude Code**, **Google Antigravity** o
+Las 27 correcciones de código (`T-01` … `T-27`) las puede tomar **Claude Code**, **Google Antigravity** o
 **JetBrains Junie**. Abre la carpeta del repositorio en tu herramienta y pide:
 
-> Lee `PLAN.md`, `AGENTS.md`, `docs/convenciones-java.md` y `docs/revisiones/revision-2.md`. Aplica el
-> protocolo de reanudación y atiende la Revisión 2 en orden desde el próximo paso de
-> `progreso/revision-2.md`: un commit y un push por corrección en la rama `revision-2`. Detente en S-18
-> para pedirme la aprobación de las capturas, y al final abre un PR hacia `main`.
+> Lee `PLAN.md`, `AGENTS.md`, `docs/convenciones-java.md` y `docs/revisiones/revision-3.md`. Aplica el
+> protocolo de reanudación y atiende la Revisión 3 en orden desde el próximo paso de
+> `progreso/revision-3.md`: un commit y un push por corrección en la rama `revision-3`. Al final corre
+> `./mvnw verify -Pit` y las pruebas de navegador, y abre un PR hacia `main`.
 
 Si otra herramienta ya empezó, el mismo pedido continúa donde se quedó: el avance está en
-`progreso/revision-2.md` y en la rama `revision-2`.
-
-Las 27 correcciones están terminadas (2026-10-18); el pedido queda como referencia para una revisión
-siguiente.
+`progreso/revision-3.md` y en la rama `revision-3`. Toda revisión sigue esta forma: lista en
+`docs/revisiones/revision-N.md`, estado en `progreso/revision-N.md`, rama propia y PR hacia `main`.
 
 ### 🔁 Si una sesión se interrumpe
 
@@ -423,6 +424,7 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 | 5 | 🧪 Pruebas integrales y smoke test | — | ✅ terminado |
 | 6 | 📚 Documentación y cierre | — | ✅ terminado |
 | — | 🔧 Revisión 2 (`S-01` … `S-27`) | — | ✅ terminado |
+| — | 🔧 Revisión 3 (`T-01` … `T-27`) | — | ⏳ no iniciado |
 
 El estado vigente siempre es el de [`progreso/INDICE.md`](progreso/INDICE.md); esta tabla se actualiza
 al cerrar cada fase.
@@ -476,7 +478,8 @@ Capturas de página completa tomadas el 2026-10-18 con la aplicación conectada 
 | 🗺️ [`PLAN.md`](PLAN.md) | Plan de implementación por fases (fuente única de verdad) |
 | 🤖 [`AGENTS.md`](AGENTS.md) · [`CLAUDE.md`](CLAUDE.md) | Reglas para los agentes de IA |
 | 📍 [`progreso/INDICE.md`](progreso/INDICE.md) | Estado actual y próximo paso |
-| 🔧 [`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md) | Correcciones abiertas de la Revisión 2 (estado en [`progreso/revision-2.md`](progreso/revision-2.md)) |
+| 🔧 [`docs/revisiones/revision-3.md`](docs/revisiones/revision-3.md) | Correcciones abiertas de la Revisión 3 (estado en [`progreso/revision-3.md`](progreso/revision-3.md)) |
+| 🔧 [`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md) | Correcciones de la Revisión 2, terminadas (evidencia en [`progreso/revision-2.md`](progreso/revision-2.md)) |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo se escribe el código |
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos |
 | ⚙️ [`docs/diseno/1.md`](docs/diseno/1.md) | Diseño aprobado del núcleo y tabla de calibración |
