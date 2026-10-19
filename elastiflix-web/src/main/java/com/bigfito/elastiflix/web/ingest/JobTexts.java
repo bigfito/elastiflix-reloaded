@@ -8,7 +8,7 @@ import java.util.Set;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRows;
 import com.bigfito.elastiflix.ingest.job.JobView;
-import com.bigfito.elastiflix.ingest.mapping.Thousands;
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.ingest.mapping.WarningCount;
 
 /**

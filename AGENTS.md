@@ -51,13 +51,10 @@ valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 
 ## Trabajo abierto
 
-Las fases 0 a 6 están cerradas. Lo pendiente es lo que diga `progreso/INDICE.md` › «Punto de
-reanudación». Hoy es la **Revisión 3** (`T-01`…`T-27`, `docs/revisiones/revision-3.md`), **en carriles
-paralelos**: cada agente toma un carril libre (A–F), con rama `revision-3-<carril>`, PR propio y solo sus
-archivos. Su estado va en `progreso/revision-3-<carril>.md`; el tablero, `INDICE.md`, PLAN, README y
-`docs/` los escribe solo el carril de cierre (Z). Reglas: «Cómo trabajar en paralelo» de esa lista.
-Mismo protocolo y mismas reglas de código. Los «Requerimientos nuevos» de PLAN esperan al fin de la
-revisión 3 y al consentimiento de Adolfo.
+Las fases 0 a 6 y las revisiones 1, 2 y 3 están cerradas. Lo pendiente es lo que diga
+`progreso/INDICE.md` › «Punto de reanudación». Una revisión en carriles paralelos sigue «Cómo trabajar en
+paralelo» de `docs/revisiones/revision-3.md`: rama y archivo de estado por carril; PLAN, README, `docs/` e
+`INDICE.md` los escribe solo el cierre. Los «Requerimientos nuevos» de PLAN esperan el consentimiento de Adolfo.
 
 ## Regla de oro sobre el orden de trabajo
 

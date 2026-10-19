@@ -30,6 +30,14 @@ class PaginatorTest {
     }
 
     @Test
+    @DisplayName("el rango agrupa los miles como el resto de las cifras visibles")
+    void shouldGroupThousandsWhenTheTotalIsLarge() {
+        Pagination page = paginator.describe(1234, 40, 25, 10_000);
+
+        assertThat(page.range()).isEqualTo("976–1 000 de 1 234");
+    }
+
+    @Test
     @DisplayName("k = 30 y tamaño 25 dejan cinco resultados en la segunda página")
     void shouldEndTheRangeAtTheTotalWhenTheLastPageIsPartial() {
         List<Integer> hits = IntStream.rangeClosed(1, 30).boxed().toList();

@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
-import com.bigfito.elastiflix.ingest.mapping.Thousands;
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 
 /**

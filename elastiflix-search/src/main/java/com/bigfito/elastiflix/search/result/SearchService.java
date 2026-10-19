@@ -74,7 +74,7 @@ public class SearchService {
     private SearchResult assemble(SearchQuery query, SearchStrategy strategy, StrategyResult found) {
         List<RankedHit> page = page(query, found);
         return new SearchResult(
-                hits(page),
+                hits(page, query.mode()),
                 found.total(),
                 facetValues(query, found),
                 pagination(query, found.total()),
@@ -125,15 +125,15 @@ public class SearchService {
         return movies;
     }
 
-    private static List<SearchHit> hits(List<RankedHit> page) {
+    private static List<SearchHit> hits(List<RankedHit> page, SearchMode mode) {
         List<SearchHit> hits = new ArrayList<>();
         for (RankedHit hit : page) {
-            hits.add(hit(hit));
+            hits.add(hit(hit, mode));
         }
         return hits;
     }
 
-    private static SearchHit hit(RankedHit ranked) {
+    private static SearchHit hit(RankedHit ranked, SearchMode mode) {
         Movie movie = ranked.movie();
         return new SearchHit(
                 movie.id(),
@@ -150,6 +150,6 @@ public class SearchService {
                 ranked.score(),
                 ranked.lexical(),
                 ranked.vector(),
-                ranked.rrf());
+                mode == SearchMode.HYBRID ? ranked.score() : null);
     }
 }

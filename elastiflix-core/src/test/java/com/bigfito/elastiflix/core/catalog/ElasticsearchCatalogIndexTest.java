@@ -34,6 +34,7 @@ class ElasticsearchCatalogIndexTest {
 
     @Test
     @DisplayName("publish manda timeout 10s y las dos acciones en una sola llamada a _aliases")
+    // Mockito entrega la función del cliente sin el tipo genérico.
     @SuppressWarnings("unchecked")
     void shouldPublishWithATenSecondTimeoutInOneCall() throws Exception {
         // given
@@ -57,6 +58,7 @@ class ElasticsearchCatalogIndexTest {
 
     @Test
     @DisplayName("indexOne escribe por el alias con require_alias=true y refresh=wait_for")
+    // Mockito entrega la función del cliente sin el tipo genérico.
     @SuppressWarnings("unchecked")
     void shouldIndexOneMovieOnlyThroughTheAlias() throws Exception {
         // given
