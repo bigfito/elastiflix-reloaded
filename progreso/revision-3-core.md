@@ -8,22 +8,23 @@
 
 - **Unidad:** Revisión 3 · carril A
 - **Nombre:** Núcleo
-- **Rama:** `revision-3-core` (por crear desde `main`; si ya existe en `origin`, el carril está tomado)
-- **Carpeta:** clon o worktree propio (por ejemplo `../elastiflix-core`)
+- **Rama:** `revision-3-core` (creada desde `origin/main` en `6c403f4`)
+- **Carpeta:** worktree `/workspaces/elastiflix-core`
 - **Archivos del carril:** `elastiflix-core/**` y `ErrorContextTest.java` de ingest
-- **Herramienta de la última sesión:** ninguna todavía
+- **Herramienta de la última sesión:** Claude Code (Claude Opus 5.5)
 
 ## Estado general
 
-no iniciado
+en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** crea la rama `revision-3-core` desde `origin/main` en un clon o worktree propio, marca
-  este archivo `en curso`, haz commit y push (eso reserva el carril) y empieza T-01.
-- **Última actualización:** 2026-10-19 00:34 UTC
+- **Tarea actual:** T-01
+- **Subpaso en curso:** carril reservado; primer `./mvnw -pl elastiflix-core -am verify`
+- **Próximo paso:** en `ReindexTasks`, agregar `JsonpMappingException` al multi-catch de `copy`, cancelar con
+  `wait_for_completion=false` y confirmar con hasta 3 lecturas de `_tasks`, y proteger `hasFailures` ante
+  `failures: null`; con sus cuatro pruebas en `ReindexTasksTest`.
+- **Última actualización:** 2026-10-19 02:10 UTC
 
 ## Tareas
 
@@ -51,7 +52,7 @@ Vacío.
 
 ## Decisiones
 
-<Decisiones abiertas de este carril, con su razón, y cada reanudación.>
+- Sesión iniciada 2026-10-19 02:10 UTC con Claude Code (Claude Opus 5.5): carril libre, rama creada desde `origin/main` (`6c403f4`).
 
 ## Notas para el cierre
 
