@@ -31,7 +31,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class JobRetentionTest {
 
     private final MovingClock clock = new MovingClock();
-    private final JobStore store = new JobStore(new ElastiflixProperties(null, null, null, null, null, null, null), clock);
+    private final JobStore store =
+            new JobStore(new ElastiflixProperties(null, null, null, null, null, null, null), clock);
 
     @TempDir
     private Path folder;

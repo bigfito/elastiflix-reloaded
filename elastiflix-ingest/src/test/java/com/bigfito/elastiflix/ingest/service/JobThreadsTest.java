@@ -76,7 +76,8 @@ class JobThreadsTest {
         service.acceptFile("a.json", Path.of("a.json"), CsvSettings.withHeader());
 
         // then
-        assertThat(awaitMessages()).containsExactly("EFX-IMP-007 hilo=ingest-validate-job-7 tipo=IllegalStateException");
+        assertThat(awaitMessages())
+                .containsExactly("EFX-IMP-007 hilo=ingest-validate-job-7 tipo=IllegalStateException");
     }
 
     private List<String> awaitMessages() {

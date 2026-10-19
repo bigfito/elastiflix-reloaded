@@ -157,7 +157,7 @@ class JobFiguresTest {
     @Test
     @DisplayName("el mensaje de falla es solo el «qué pasó»; el código lo pone la página")
     void shouldGiveTheSummaryWithoutTheCode() {
-        assertThat(JobFigures.failureMessage("EFX-IMP-007")).doesNotContain("EFX-IMP-007");
+        assertThat(JobFigures.failureMessage("EFX-IMP-007")).isEqualTo(ErrorCode.JOB_FAILED.summary());
     }
 
     private JobStore store(int batchSize) {
