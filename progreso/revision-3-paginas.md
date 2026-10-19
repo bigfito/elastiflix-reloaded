@@ -8,22 +8,22 @@
 
 - **Unidad:** Revisión 3 · carril E
 - **Nombre:** Web: páginas
-- **Rama:** `revision-3-paginas` (por crear desde `main`; si ya existe en `origin`, el carril está tomado)
-- **Carpeta:** clon o worktree propio (por ejemplo `../elastiflix-paginas`)
+- **Rama:** `revision-3-paginas` (creada desde `origin/main` en `6c403f4`)
+- **Carpeta:** worktree `/workspaces/elastiflix-paginas`
 - **Archivos del carril:** web salvo el paquete `ingest/`, `MultipartLimitsTest.java` y las aserciones de «Cargar datos» de `SmokeIT.java` (regla 8); plantillas salvo `ingest.html`; `static/css/**`, `static/img/**`, `home.js` y `results.js`
-- **Herramienta de la última sesión:** ninguna todavía
+- **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-no iniciado
+en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** crea la rama `revision-3-paginas` desde `origin/main` en un clon o worktree propio, marca
-  este archivo `en curso`, haz commit y push (eso reserva el carril) y empieza T-06.
-- **Última actualización:** 2026-10-19 00:34 UTC
+- **Tarea actual:** T-06
+- **Subpaso en curso:** carril reservado; leer `results.html` y `AppliedFilters.java`
+- **Próximo paso:** agrega a `results.html` la opción «Solo adultos» marcada cuando llega `adult=true`, con
+  su prueba MockMvc en `ResultsPageTest`.
+- **Última actualización:** 2026-10-19 02:10 UTC
 
 ## Tareas
 
@@ -57,7 +57,7 @@ Vacío.
 
 ## Decisiones
 
-<Decisiones abiertas de este carril, con su razón, y cada reanudación.>
+- 2026-10-19 02:10 UTC: Claude Code toma el carril E en el worktree `/workspaces/elastiflix-paginas`.
 
 ## Notas para el cierre
 
