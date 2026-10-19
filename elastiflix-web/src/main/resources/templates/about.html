@@ -196,7 +196,7 @@
       </dl>
       <h3>Validaciones</h3>
       <dl>
-        <div><dt>Antes de subir</dt><dd>Solo .json o .csv, sin dobles extensiones, de máximo 150 MB y con contenido de texto UTF-8. El servidor repite estas comprobaciones.</dd></div>
+        <div><dt>Antes de subir</dt><dd>Solo .json o .csv, sin dobles extensiones, de máximo <th:block th:text="${maxFileLabel}">150 MB</th:block> y con contenido de texto UTF-8. El servidor repite estas comprobaciones.</dd></div>
         <div><dt>Contra el mapping</dt><dd>Se revisa el archivo completo: cada campo debe existir en el mapping y tener su tipo (<code>release_date</code> en yyyy-MM-dd, <code>adult</code> booleano, <code>keywords</code> y <code>belongs_to_collection</code> como objetos anidados). <code>id</code> no se puede repetir.</dd></div>
         <div><dt>Si algo no coincide</dt><dd>La carga se detiene y no se importa ningún registro. La página muestra cada error con su registro, <code>id</code>, campo, valor recibido y lo que espera el mapping, y permite descargar el informe completo.</dd></div>
         <div><dt>Advertencias</dt><dd>Lo que no rompe el mapping no detiene la carga: por ejemplo, los valores vacíos dentro de una lista se omiten y los textos vacíos se guardan sin valor.</dd></div>
@@ -204,7 +204,7 @@
       <h3>Importación</h3>
       <dl>
         <div><dt>Vectores</dt><dd>Los tres vectores se generan siempre desde <code>plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, <code>input_type</code> <code>ingest</code> y sin prefijo). Si el archivo trae <code>plot_256</code>, <code>plot_512</code> o <code>plot_1024</code>, se ignoran.</dd></div>
-        <div><dt>Índice temporal</dt><dd>Los registros se escriben en lotes de 100 en un índice temporal que empieza como copia del catálogo actual. Si un <code>id</code> ya existe, el registro reemplaza a la película.</dd></div>
+        <div><dt>Índice temporal</dt><dd>Los registros se escriben en lotes de <th:block th:text="${batchSize}">100</th:block> en un índice temporal que empieza como copia del catálogo actual. Si un <code>id</code> ya existe, el registro reemplaza a la película.</dd></div>
         <div><dt>Publicación</dt><dd>Al terminar se comprueba el conteo y el alias <code th:text="${shell.alias}">elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd></div>
         <div><dt>Si falla</dt><dd>Si Elasticsearch rechaza un lote o la comprobación no cuadra, se borra el índice temporal y el catálogo queda exactamente como estaba.</dd></div>
       </dl>
