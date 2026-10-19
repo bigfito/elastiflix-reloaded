@@ -8,10 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
 
 /**
- * Posiciones de la híbrida y el sumando {@code 1 / (60 + posición)}.
+ * El joiner de la híbrida: puntuación y posición de cada película en las listas léxica y k-NN.
  */
 class ScoreJoinerTest {
 
@@ -36,13 +35,41 @@ class ScoreJoinerTest {
         assertThat(inBoth.vector().score()).isEqualTo(0.8);
         assertThat(inBoth.vector().position()).isEqualTo("2");
         assertThat(inBoth.rrf()).isEqualTo(0.032);
-        assertThat(Rrf.term(1) + Rrf.term(2)).isCloseTo(1d / 61d + 1d / 62d, within(1e-12));
 
         RankedHit lexicalMiss = joined.get(1);
         assertThat(lexicalMiss.lexical().score()).isNull();
         assertThat(lexicalMiss.lexical().position()).isEqualTo(Rrf.OUTSIDE_PREFIX + K);
         assertThat(lexicalMiss.vector().position()).isEqualTo("1");
         assertThat(lexicalMiss.vector().score()).isEqualTo(0.9);
+    }
+
+    @Test
+    @DisplayName("conserva el orden y la puntuación RRF de la lista fusionada, aunque falte en las dos listas")
+    void shouldKeepTheFusedOrderWhenTheMovieIsOutsideBothLists() {
+        // given
+        Movie first = movie("1");
+        Movie second = movie("2");
+        Movie third = movie("3");
+        List<RankedHit> fused = List.of(
+                RankedHit.scored(third, 0.05), RankedHit.scored(first, 0.03), RankedHit.scored(second, 0.01));
+
+        // when
+        List<RankedHit> joined = joiner.join(
+                fused,
+                List.of(RankedHit.scored(second, 7.0), RankedHit.scored(first, 6.0)),
+                List.of(RankedHit.scored(first, 0.7)),
+                K);
+
+        // then
+        assertThat(joined).extracting(hit -> hit.movie().id()).containsExactly("3", "1", "2");
+        assertThat(joined).extracting(RankedHit::score).containsExactly(0.05, 0.03, 0.01);
+        assertThat(joined).extracting(RankedHit::rrf).containsExactly(0.05, 0.03, 0.01);
+        RankedHit outside = joined.getFirst();
+        assertThat(outside.lexical()).isEqualTo(new ComponentScore(null, Rrf.OUTSIDE_PREFIX + K));
+        assertThat(outside.vector()).isEqualTo(new ComponentScore(null, Rrf.OUTSIDE_PREFIX + K));
+        assertThat(joined.get(1).lexical()).isEqualTo(new ComponentScore(6.0, "2"));
+        assertThat(joined.get(1).vector()).isEqualTo(new ComponentScore(0.7, "1"));
+        assertThat(joined.get(2).lexical()).isEqualTo(new ComponentScore(7.0, "1"));
     }
 
     private static Movie movie(String id) {

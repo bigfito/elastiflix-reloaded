@@ -7,7 +7,6 @@ import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.embedding.EmbeddingService;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
-import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.search.facet.FacetCalculator;
@@ -45,6 +44,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -101,8 +101,7 @@ class KnnStrategiesTest {
     @DisplayName("un ítem fallido del _msearch no se toma como lista vacía: lanza")
     void shouldFailWhenAPartOfTheMultiSearchFails() {
         when(embeddings.embedQuery(anyString())).thenReturn(unit());
-        MultiSearchResponseItem<Movie> failed = MultiSearchResponseItem.of(item -> item.failure(ErrorResponse.of(
-                error -> error.status(500).error(cause -> cause.type("search_phase_execution_exception").reason("x")))));
+        MultiSearchResponseItem<Movie> failed = failure(500, "search_phase_execution_exception");
         when(transport.msearch(any(MsearchRequest.class), eq(Movie.class))).thenReturn(msearch(ok(1), failed, ok(1)));
 
         assertThatThrownBy(() -> service.search(query(SearchMode.HYBRID, SearchFilters.none())))
@@ -112,13 +111,35 @@ class KnnStrategiesTest {
     }
 
     @Test
-    @DisplayName("un _msearch que no trae exactamente tres partes lanza")
+    @DisplayName("un ítem del _msearch rechazado con 4xx da EFX-ES-007, no «sin conexión»")
+    void shouldGiveTheRejectedCodeWhenAPartOfTheMultiSearchIsAClientError() {
+        // given
+        when(embeddings.embedQuery(anyString())).thenReturn(unit());
+        MultiSearchResponseItem<Movie> rejected = failure(400, "illegal_argument_exception");
+        when(transport.msearch(any(MsearchRequest.class), eq(Movie.class)))
+                .thenReturn(msearch(ok(1), ok(1), rejected));
+
+        // when
+        var thrown = catchThrowableOfType(ElasticsearchAccessException.class,
+                () -> service.search(query(SearchMode.HYBRID, SearchFilters.none())));
+
+        // then
+        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.ELASTICSEARCH_REJECTED);
+    }
+
+    @Test
+    @DisplayName("un _msearch que no trae exactamente tres partes da EFX-ES-007, no «sin conexión»")
     void shouldFailWhenTheMultiSearchHasTheWrongNumberOfParts() {
+        // given
         when(embeddings.embedQuery(anyString())).thenReturn(unit());
         when(transport.msearch(any(MsearchRequest.class), eq(Movie.class))).thenReturn(msearch(ok(1), ok(1)));
 
-        assertThatThrownBy(() -> service.search(query(SearchMode.HYBRID, SearchFilters.none())))
-                .isInstanceOf(ElastiflixException.class);
+        // when
+        var thrown = catchThrowableOfType(ElasticsearchAccessException.class,
+                () -> service.search(query(SearchMode.HYBRID, SearchFilters.none())));
+
+        // then
+        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.ELASTICSEARCH_REJECTED);
     }
 
     private static SearchQuery query(SearchMode mode, SearchFilters filters) {
@@ -141,7 +162,13 @@ class KnnStrategiesTest {
     private static SearchResponse<Movie> response(int count) {
         return SearchResponse.of(response -> response.took(1).timedOut(false)
                 .shards(shards -> shards.total(1).successful(1).failed(0))
-                .hits(hits -> hits.total(total -> total.value(count).relation(TotalHitsRelation.Eq)).hits(hits(count))));
+                .hits(hits -> hits.total(total -> total.value(count).relation(TotalHitsRelation.Eq))
+                        .hits(hits(count))));
+    }
+
+    private static MultiSearchResponseItem<Movie> failure(int status, String type) {
+        return MultiSearchResponseItem.of(item -> item.failure(ErrorResponse.of(
+                error -> error.status(status).error(cause -> cause.type(type).reason("x")))));
     }
 
     private static MultiSearchResponseItem<Movie> ok(int count) {

@@ -142,6 +142,17 @@ class SearchQueryValidatorTest {
     }
 
     @Test
+    @DisplayName("un vector de consulta sin campo se rechaza como ajustes faltantes")
+    void shouldRejectWhenTheKnnSettingsHaveNoField() {
+        // given
+        SearchQuery query = new SearchQuery("titanic", SearchMode.VECTOR, null,
+                new KnnSettings(null, 100, 200), SearchFilters.none(), 1, SearchQuery.PAGE_25);
+
+        // then
+        assertCode(query, ErrorCode.MISSING_MODE_SETTINGS, "Faltan los ajustes de este modo.");
+    }
+
+    @Test
     @DisplayName("la página empieza en 1")
     void shouldRejectWhenThePageIsBelowOne() {
         SearchQuery query = new SearchQuery(

@@ -92,7 +92,7 @@ public class HybridSearchStrategy implements SearchStrategy {
     private List<RankedHit> join(SearchQuery query, MsearchResponse<Movie> response) {
         List<MultiSearchResponseItem<Movie>> parts = response.responses();
         if (parts.size() != PARTS) {
-            throw rejected("respuesta", 0);
+            throw wrongParts(parts.size());
         }
         List<RankedHit> fused = HitReader.hits(part(parts.get(FUSED)));
         List<RankedHit> lexical = HitReader.ids(part(parts.get(LEXICAL)));
@@ -120,6 +120,16 @@ public class HybridSearchStrategy implements SearchStrategy {
         ErrorCode code = ElasticsearchDiagnostics.codeFor(status);
         LOG.error("{} en {} tipo={}", code.code(), properties.index().alias(), type);
         return new ElasticsearchAccessException(code);
+    }
+
+    /**
+     * Elasticsearch respondió, pero no con las tres listas que se pidieron: no es un corte de red, así que no se
+     * dice «No se pudo conectar» ({@code EFX-ES-001}) sino que la operación no se pudo completar ({@code EFX-ES-007}).
+     */
+    private ElasticsearchAccessException wrongParts(int received) {
+        LOG.error("{} en {}: el _msearch devolvió {} partes y se esperaban {}",
+                ErrorCode.ELASTICSEARCH_REJECTED.code(), properties.index().alias(), received, PARTS);
+        return new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_REJECTED);
     }
 
     private static int statusOf(ErrorResponse failure) {

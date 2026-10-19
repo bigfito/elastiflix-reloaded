@@ -113,7 +113,7 @@ class HybridSearchIT {
         if (score.score() == null) {
             return 0d;
         }
-        return Rrf.term(Integer.parseInt(score.position()));
+        return 1d / (Rrf.RANK_CONSTANT + Integer.parseInt(score.position()));
     }
 
     private static SearchQuery query(String text, TextOperator operator) {

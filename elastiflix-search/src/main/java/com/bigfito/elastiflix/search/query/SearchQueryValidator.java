@@ -45,9 +45,7 @@ public class SearchQueryValidator {
     }
 
     private static void requireKnn(KnnSettings knn) {
-        if (knn == null) {
-            throw failure(ErrorCode.MISSING_MODE_SETTINGS);
-        }
+        requireKnnSettings(knn);
         if (knn.k() < 1) {
             throw failure(ErrorCode.K_TOO_SMALL);
         }
@@ -56,6 +54,13 @@ public class SearchQueryValidator {
         }
         if (knn.numCandidates() < knn.k()) {
             throw failure(ErrorCode.CANDIDATES_BELOW_K);
+        }
+    }
+
+    /** Sin campo de vector la consulta no se puede vectorizar ni describir: faltan ajustes, no es un NPE. */
+    private static void requireKnnSettings(KnnSettings knn) {
+        if (knn == null || knn.field() == null) {
+            throw failure(ErrorCode.MISSING_MODE_SETTINGS);
         }
     }
 
