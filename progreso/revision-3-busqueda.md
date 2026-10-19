@@ -19,11 +19,11 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-18
-- **Subpaso en curso:** T-02, T-03, T-10 y T-12 terminadas
-- **Próximo paso:** T-18: en `HybridSearchStrategy.join`, un `_msearch` con partes de más o de menos da
-  `EFX-ES-007` y `KnnStrategiesTest.shouldFailWhenTheMultiSearchHasTheWrongNumberOfParts` lo afirma.
-- **Última actualización:** 2026-10-19 02:22 UTC
+- **Tarea actual:** T-27 (search)
+- **Subpaso en curso:** T-02, T-03, T-10, T-12 y T-18 terminadas
+- **Próximo paso:** T-27: `ScoreJoinerTest` prueba el joiner (no la fórmula) y se parten las líneas de más de
+  120 caracteres de `KnnStrategiesTest`.
+- **Última actualización:** 2026-10-19 02:25 UTC
 
 ## Tareas
 
@@ -34,8 +34,8 @@ en curso
 | T-02 (transporte) | terminada | `6aff8d6` | `ElasticsearchSearchTransport.call` atrapa también `JsonpMappingException` → `codeFor(0)` = `EFX-ES-001`, con la causa. Prueba nueva `ElasticsearchSearchTransportTest` (3 casos: `_search`, `_msearch` y `_count` con el cliente simulado lanzando `JsonpMappingException`; afirman `EFX-ES-001`). Rota a mano (sin `JsonpMappingException` en el multi-catch): los 3 casos fallan; revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde (2026-10-19 02:17 UTC). |
 | T-03 | terminada | `069c76a` | `SearchQueryValidator.requireKnnSettings`: `knn == null \|\| knn.field() == null` → `MISSING_MODE_SETTINGS` (`EFX-SRCH-010`); en un método aparte porque dentro de `requireKnn` PMD marcó `CyclomaticComplexity`. Prueba nueva `SearchQueryValidatorTest.shouldRejectWhenTheKnnSettingsHaveNoField` (código y «Faltan los ajustes de este modo.»). Rota a mano (solo `knn == null`): esa prueba falla (`assertCode:165`); revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde (2026-10-19 02:17 UTC). |
 | T-10 (`KnnStrategiesTest`) | terminada | `126b4b8` | Prueba nueva `KnnStrategiesTest.shouldGiveTheRejectedCodeWhenAPartOfTheMultiSearchIsAClientError`: el tercer ítem del `_msearch` llega con `status 400` (`illegal_argument_exception`) y la búsqueda híbrida lanza `ElasticsearchAccessException` con `EFX-ES-007`. Rota a mano (`HybridSearchStrategy.rejected` con `codeFor(0)` en lugar del estado del ítem): esa prueba falla (línea 129); revertido. `./mvnw -q -pl elastiflix-search -am test -Dtest=KnnStrategiesTest`: 5 pruebas, 0 fallos (2026-10-19 02:19 UTC). Evidencia aquí y no en el tablero `progreso/revision-3.md` (lo escribe Z). |
-| T-12 (search) | terminada | se anota en el commit siguiente | Quitados `Rrf.term(int)` (la IT `HybridSearchIT` calcula `1 / (Rrf.RANK_CONSTANT + posición)` por su cuenta), `TextOperator.elasticsearchOperator()` con su campo y constructor (el enum queda `OR`, `AND`; `LexicalQueryBuilder.elasticsearch()` sigue siendo el único traductor), el componente `RankedHit.rrf` (queda `rrf()` como método, regla 1) y el parámetro `preference` de `VectorRequestBuilder.build` (y la `null` de `VectorSearchStrategy`). `./mvnw -q -pl elastiflix-search -am verify` en verde: search 67 unitarias, 0 fallos, Checkstyle y PMD en 0; `./mvnw -q -pl elastiflix-web -am test-compile` en verde. `grep -rn -e "Rrf.term" -e "term(int" -e "elasticsearchOperator" elastiflix-*/src/main` sin resultados; `VectorRequestBuilder.build` ya no tiene `preference` (2026-10-19 02:22 UTC). |
-| T-18 | pendiente | — | Códigos de error equivocados en búsqueda y mapping |
+| T-12 (search) | terminada | `19e53ff` | Quitados `Rrf.term(int)` (la IT `HybridSearchIT` calcula `1 / (Rrf.RANK_CONSTANT + posición)` por su cuenta), `TextOperator.elasticsearchOperator()` con su campo y constructor (el enum queda `OR`, `AND`; `LexicalQueryBuilder.elasticsearch()` sigue siendo el único traductor), el componente `RankedHit.rrf` (queda `rrf()` como método, regla 1) y el parámetro `preference` de `VectorRequestBuilder.build` (y la `null` de `VectorSearchStrategy`). `./mvnw -q -pl elastiflix-search -am verify` en verde: search 67 unitarias, 0 fallos, Checkstyle y PMD en 0; `./mvnw -q -pl elastiflix-web -am test-compile` en verde. `grep -rn -e "Rrf.term" -e "term(int" -e "elasticsearchOperator" elastiflix-*/src/main` sin resultados; `VectorRequestBuilder.build` ya no tiene `preference` (2026-10-19 02:22 UTC). |
+| T-18 | terminada | se anota en el commit siguiente | `HybridSearchStrategy.join`: un `_msearch` con partes de más o de menos lanza `ElasticsearchAccessException` con `EFX-ES-007` (`ELASTICSEARCH_REJECTED`) y registra un `ERROR` con las partes recibidas y esperadas (método `wrongParts`). `KnnStrategiesTest.shouldFailWhenTheMultiSearchHasTheWrongNumberOfParts` afirma ahora el código. Rota a mano (de vuelta a `rejected("respuesta", 0)`, que da `EFX-ES-001`): esa prueba falla (línea 143); revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde: search 67 unitarias, 0 fallos (2026-10-19 02:25 UTC). La parte de `IndexMapping.field` es de A (T-12). |
 | T-27 (search) | pendiente | — | Pruebas que no pueden fallar, débiles o con higiene pendiente |
 
 ## Cambios sin commit
@@ -70,6 +70,10 @@ Vacío.
   `src/main`.
 - **T-12, fuera de la lista:** el parámetro `preference` de `HybridRequestBuilder.build` siempre llega `null` desde
   `HybridSearchStrategy`; solo lo usan las pruebas. Candidato para una revisión siguiente.
+- **T-18, `docs/diseno/2.md` › «Errores que no son de validación»:** agregar después de «Un ítem fallido del
+  `_msearch` usa el estado de ese ítem (revisión 2, S-20).» la frase: «Un `_msearch` que no devuelve exactamente
+  tres partes da `EFX-ES-007` (revisión 3, T-18): Elasticsearch respondió, así que no es `EFX-ES-001`.» Y en
+  «Cambios respecto al diseño aprobado», la fila de T-18 con ese mismo cambio.
 - **T-12, documentación:** `docs/diseno/2.md` no nombra `Rrf.term`, `TextOperator.elasticsearchOperator()`, el
   componente `rrf` de `RankedHit` ni el `preference` de `VectorRequestBuilder.build` (comprobado con `grep`); no
   hay que cambiarlo por T-12.

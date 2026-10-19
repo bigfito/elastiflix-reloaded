@@ -7,7 +7,6 @@ import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.embedding.EmbeddingService;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
-import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.search.facet.FacetCalculator;
@@ -130,13 +129,18 @@ class KnnStrategiesTest {
     }
 
     @Test
-    @DisplayName("un _msearch que no trae exactamente tres partes lanza")
+    @DisplayName("un _msearch que no trae exactamente tres partes da EFX-ES-007, no «sin conexión»")
     void shouldFailWhenTheMultiSearchHasTheWrongNumberOfParts() {
+        // given
         when(embeddings.embedQuery(anyString())).thenReturn(unit());
         when(transport.msearch(any(MsearchRequest.class), eq(Movie.class))).thenReturn(msearch(ok(1), ok(1)));
 
-        assertThatThrownBy(() -> service.search(query(SearchMode.HYBRID, SearchFilters.none())))
-                .isInstanceOf(ElastiflixException.class);
+        // when
+        var thrown = catchThrowableOfType(ElasticsearchAccessException.class,
+                () -> service.search(query(SearchMode.HYBRID, SearchFilters.none())));
+
+        // then
+        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.ELASTICSEARCH_REJECTED);
     }
 
     private static SearchQuery query(SearchMode mode, SearchFilters filters) {
