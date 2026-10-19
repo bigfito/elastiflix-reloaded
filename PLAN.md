@@ -1260,7 +1260,7 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
 - **Fase 7 — Tareas:**
   - [x] **7.0** Diseño técnico de la página de detalle en `docs/diseno/7.md` con contratos, diagrama de clases, secuencia y código `EFX-SRCH-012`. Aprobado por Adolfo el 2026-10-19.
   - [x] **7.1** Lectura por id en `CatalogIndex.findById(alias, id)` y `ElasticsearchCatalogIndex` excluyendo vectores (`plot_256,plot_512,plot_1024`), con pruebas unitarias.
-  - [ ] **7.2** Integración en fachada `SearchService.findById(id)` y validación de parámetros de retorno de búsqueda.
+  - [x] **7.2** Integración en fachada `SearchService.findById(id)` y validación de parámetros de retorno de búsqueda.
   - [ ] **7.3** Controlador `MovieDetailController` (`GET /pelicula/{id}`), validación de `q` previo (`EFX-SRCH-012`), 404 si no existe y modelo de vista `MovieDetailPage` con montos USD / «N/A».
   - [ ] **7.4** Plantilla Thymeleaf `detail.html`, estilos CSS y actualización de tarjetas de resultados en `results.html` para enlazar el título hacia el detalle.
   - [ ] **7.5** Pruebas unitarias completas de la página de detalle (controlador, vistas, formatos de moneda, enlaces de retorno con anclas `#r-<id>` y prueba de error controlado sin `q`).

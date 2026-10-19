@@ -3,6 +3,7 @@ package com.bigfito.elastiflix.search.result;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.embedding.EmbeddingService;
@@ -60,6 +61,7 @@ class KnnStrategiesTest {
 
     private final EmbeddingService embeddings = mock(EmbeddingService.class);
     private final SearchTransport transport = mock(SearchTransport.class);
+    private final CatalogIndex catalog = mock(CatalogIndex.class);
     private final ElastiflixProperties properties = new ElastiflixProperties(null, null, null, null, null, null, null);
     private final VectorRequestBuilder vectors = new VectorRequestBuilder(new FilterQueryBuilder());
     private final SearchService service = new SearchService(List.of(
@@ -67,7 +69,7 @@ class KnnStrategiesTest {
             new HybridSearchStrategy(embeddings, new HybridRequestBuilder(
                     new LexicalQueryBuilder(new FilterQueryBuilder()), new FilterQueryBuilder(), vectors),
                     new ScoreJoiner(), transport, properties)),
-            new FacetCalculator(), new Paginator());
+            new FacetCalculator(), new Paginator(), catalog, properties);
 
     @Test
     @DisplayName("vectorial vacía con filtros confirma sin filtros y vectoriza la consulta una sola vez")

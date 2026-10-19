@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import com.bigfito.elastiflix.core.catalog.CatalogIndex;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.SearchValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.search.facet.FacetCalculator;
@@ -33,6 +36,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Los tres modos y los dos estados vacíos, con estrategias simuladas.
@@ -45,8 +50,31 @@ class SearchServiceTest {
     private final FakeStrategy fullText = new FakeStrategy(SearchMode.FULL_TEXT);
     private final FakeStrategy vector = new FakeStrategy(SearchMode.VECTOR);
     private final FakeStrategy hybrid = new FakeStrategy(SearchMode.HYBRID);
+    private final CatalogIndex catalog = mock(CatalogIndex.class);
+    private final ElastiflixProperties properties = new ElastiflixProperties(null, null, null, null, null, null, null);
     private final SearchService service = new SearchService(
-            List.of(fullText, vector, hybrid), new FacetCalculator(), new Paginator());
+            List.of(fullText, vector, hybrid), new FacetCalculator(), new Paginator(), catalog, properties);
+
+    @Test
+    @DisplayName("findById consulta el catálogo con el alias configurado y devuelve la película")
+    void shouldFindMovieByIdWhenExists() {
+        Movie movie = movie("550", "Drama");
+        when(catalog.findById("elastiflix-reloaded", "550")).thenReturn(Optional.of(movie));
+
+        Optional<Movie> result = service.findById("550");
+
+        assertThat(result).contains(movie);
+    }
+
+    @Test
+    @DisplayName("findById devuelve Optional vacío cuando la película no existe")
+    void shouldReturnEmptyWhenMovieDoesNotExist() {
+        when(catalog.findById("elastiflix-reloaded", "999999")).thenReturn(Optional.empty());
+
+        Optional<Movie> result = service.findById("999999");
+
+        assertThat(result).isEmpty();
+    }
 
     @Test
     @DisplayName("full-text deja la página que ya trajo Elasticsearch y lee las agregaciones")
