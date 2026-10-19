@@ -30,7 +30,8 @@ import tools.jackson.databind.node.ObjectNode;
  */
 public final class CsvMovieReader {
 
-    private static final char BOM = '﻿';
+    /** Marca de orden de bytes (BOM) de UTF-8, que algunos editores ponen al principio del archivo. */
+    private static final char BOM = '\uFEFF';
 
     private final CsvHeader header;
 

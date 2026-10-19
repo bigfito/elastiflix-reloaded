@@ -19,11 +19,11 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-24 (BOM y nombres de vectores)
-- **Subpaso en curso:** T-17 terminada; empieza T-24
-- **Próximo paso:** escribir el BOM de `CsvMovieReader` como `'\uFEFF'` y usar `VectorFields.NAMES` en
-  `CsvHeader` (hoy tiene su propio `VECTORS`); `FieldRules` ya lo usa desde T-12.
-- **Última actualización:** 2026-10-19 02:18 UTC
+- **Tarea actual:** T-27 (`mapping/`)
+- **Subpaso en curso:** T-24 terminada; empieza T-27
+- **Próximo paso:** partir la línea 48 de `NumberRangeTest` (122 caracteres); `MappingValidatorTest` ya quedó
+  resuelta en T-12.
+- **Última actualización:** 2026-10-19 02:21 UTC
 
 ## Tareas
 
@@ -32,8 +32,8 @@ en curso
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
 | T-12 (lectores y validador) | terminada | `be2a064` | Quitados `DocumentChecker.warnVector` y `write` (el salto de `_id` pasó al recorrido de `checkObject`), el parámetro `warnedVectors`, `ValidationRun.warned`, `FieldRules.vector`, `MovieDocuments.IGNORED` y `dropBlankText`, la rama VECTOR de `CsvValues.read` (ya nunca devuelve `null`) y el nulo de `CsvMovieReader.put`. `MappingValidatorTest.shouldAcceptTheJsonFixture` ahora valida la salida real de `JsonDocuments` (sin vectores) y afirma solo la advertencia `EFX-ING-022` de `homepage`; la prueba nueva `shouldNotCopyVectorsNorTheDocumentId` pasa nodos crudos con `_id` y vectores. `./mvnw -q -pl elastiflix-ingest -am verify -o` → EXIT 0 (ingest: 98 pruebas, 0 fallas). Rotura a mano: `NestedValues.write` con `default -> scope.target().set(name, value)` → falla `MappingValidatorTest.shouldNotCopyVectorsNorTheDocumentId` (16 pruebas, 1 falla); revertido. `git grep -F` de `warnVector`, `warnedVectors`, `warned()`, `MovieDocuments.IGNORED`, `dropBlankText` y `FieldKind.VECTOR) {` en `elastiflix-ingest/src/main` → 0 líneas. (`CsvColumnRows.IGNORED` es otra constante, el texto «Se ignora» de la tabla de columnas, y se queda.) |
-| T-17 (`document_count`) | terminada | se anota en el commit de T-24 | `JsonDocuments.count` rechaza con `EFX-ING-008` un entero `BIG_INTEGER` (no cabe en `long`) antes de llamar a `getLongValue()`. Prueba nueva `JsonDocumentsTest.shouldRejectACountThatDoesNotFitInALong` (`document_count` de 25 dígitos). `./mvnw -q -pl elastiflix-ingest -am test -o -Dtest=JsonDocumentsTest` → 7 pruebas, 0 fallas; `./mvnw -q -pl elastiflix-ingest -am verify -o` → EXIT 0. Rotura a mano: sin la comprobación de `BIG_INTEGER` → falla `shouldRejectACountThatDoesNotFitInALong` con «expected: DOCUMENT_COUNT_MISMATCH but was: UNREADABLE_JSON»; revertido. Las otras partes de T-17 (`existingIds`, orden del informe, vencimiento) son del carril C. |
-| T-24 (BOM y nombres de vectores) | pendiente | — | Duplicados y costo por sondeo en la carga |
+| T-17 (`document_count`) | terminada | `c230222` | `JsonDocuments.count` rechaza con `EFX-ING-008` un entero `BIG_INTEGER` (no cabe en `long`) antes de llamar a `getLongValue()`. Prueba nueva `JsonDocumentsTest.shouldRejectACountThatDoesNotFitInALong` (`document_count` de 25 dígitos). `./mvnw -q -pl elastiflix-ingest -am test -o -Dtest=JsonDocumentsTest` → 7 pruebas, 0 fallas; `./mvnw -q -pl elastiflix-ingest -am verify -o` → EXIT 0. Rotura a mano: sin la comprobación de `BIG_INTEGER` → falla `shouldRejectACountThatDoesNotFitInALong` con «expected: DOCUMENT_COUNT_MISMATCH but was: UNREADABLE_JSON»; revertido. Las otras partes de T-17 (`existingIds`, orden del informe, vencimiento) son del carril C. |
+| T-24 (BOM y nombres de vectores) | terminada | se anota en el commit de T-27 | `CsvMovieReader.BOM` se escribe `'\uFEFF'` (antes, el carácter invisible literal); `grep -P '\x{FEFF}'` en `elastiflix-ingest/src/main` → 0. Nombres de vectores: `CsvHeader` usa `VectorFields.isVector` (se quitó su `VECTORS`), `FieldRules` los registra recorriendo `VectorFields.NAMES` (hecho en T-12, `be2a064`) y `MovieDocuments.IGNORED` ya no existe (T-12). En `elastiflix-ingest/src/main` de este carril solo `VectorFields` escribe `plot_256`; el quinto sitio, `IndividualRecord.VECTORS`, es del carril C. `./mvnw -q -pl elastiflix-ingest -am verify -o` → EXIT 0. Roturas a mano: BOM `'\uFEFE'` → falla `CsvMovieReaderTest.shouldMatchTheJsonWhenTheCsvHasAHeader` (el fixture CSV empieza con BOM); `CsvHeader` sin reconocer los vectores → falla la misma prueba (espera `EFX-ING-020`); ambos revertidos. |
 | T-27 (`mapping/`) | pendiente | — | Pruebas que no pueden fallar, débiles o con higiene pendiente |
 
 ## Cambios sin commit
@@ -44,7 +44,7 @@ Vacío.
 
 - **Comando:** `./mvnw -q -pl elastiflix-ingest -am verify -o`
 - **Resultado:** en verde (ingest: 99 pruebas, 0 fallas)
-- **Fecha:** 2026-10-19 02:18 UTC
+- **Fecha:** 2026-10-19 02:21 UTC
 
 ## Decisiones
 

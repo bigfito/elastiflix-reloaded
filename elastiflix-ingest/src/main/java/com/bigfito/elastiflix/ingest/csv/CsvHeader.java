@@ -9,6 +9,7 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.FieldMapping;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
+import com.bigfito.elastiflix.ingest.mapping.VectorFields;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,6 @@ final class CsvHeader {
     static final String DOCUMENT_ID = "_id";
     static final String HEADER = "encabezado";
     private static final String MISSING_ID = "—";
-    private static final Set<String> VECTORS = Set.of("plot_256", "plot_512", "plot_1024");
     private static final Logger LOG = LoggerFactory.getLogger(CsvHeader.class);
 
     private final Set<String> allowed;
@@ -73,7 +73,7 @@ final class CsvHeader {
             issues.add(error(ErrorCode.INVALID_HEADER, column, "nombre repetido", "un nombre único"));
             return;
         }
-        if (VECTORS.contains(column)) {
+        if (VectorFields.isVector(column)) {
             LOG.warn("{}: se ignora la columna {}", ErrorCode.VECTORS_IGNORED.code(), column);
             issues.add(warning(column));
         }
