@@ -66,12 +66,14 @@ public final class JobStore {
     }
 
     /**
-     * Copia del trabajo. Si el id no está, {@code EFX-IMP-005}.
+     * Copia del trabajo. Si el id no está, {@code EFX-IMP-005}. Antes revisa los trabajos vencidos, para
+     * que un {@code valido} olvidado suelte sus películas aunque nadie suba otro archivo.
      *
      * @param jobId identificador
      * @return copia que no cambia
      */
     public JobView view(String jobId) {
+        evict();
         return require(jobId).view(properties.ingest().batchSize());
     }
 
@@ -101,12 +103,13 @@ public final class JobStore {
     }
 
     /**
-     * Marca el trabajo como {@code importando} si se puede.
+     * Marca el trabajo como {@code importando} si se puede. Un {@code valido} vencido ya no se importa.
      *
      * @param jobId identificador
      * @return {@code false} si no estaba {@code valido}
      */
     public boolean beginImport(String jobId) {
+        evict();
         ImportWork work = require(jobId);
         if (!work.beginImport()) {
             discardIfTerminal(work);
@@ -119,7 +122,7 @@ public final class JobStore {
      * Anota el avance de ese trabajo. Otro trabajo no recibe el aviso.
      *
      * @param jobId    identificador
-     * @param progress paso, lote, vectorizados, escritos y reemplazos
+     * @param progress paso, lote, vectorizados, escritos e índice temporal
      */
     public void onProgress(String jobId, ImportProgress progress) {
         require(jobId).progress(progress);
@@ -152,17 +155,18 @@ public final class JobStore {
     }
 
     /**
-     * Guarda los errores y deja el trabajo en {@code invalido}.
+     * Guarda los errores y deja el trabajo en {@code invalido}, detenido en el paso que lo rechazó.
      *
-     * @param jobId  identificador
-     * @param issues informe que impide importar
+     * @param jobId   identificador
+     * @param issues  informe que impide importar
+     * @param stopped 2 si falló la comprobación del archivo ({@code EFX-ING-001} a {@code 004}); 3 si no
      */
-    public void invalid(String jobId, ValidationReport issues) {
+    public void invalid(String jobId, ValidationReport issues, int stopped) {
         ImportWork work = require(jobId);
         if (finishEarly(work)) {
             return;
         }
-        work.invalid(issues);
+        work.invalid(issues, stopped);
         logValidation(work);
         discardIfTerminal(work);
     }
@@ -176,7 +180,7 @@ public final class JobStore {
     public void failed(String jobId, ElastiflixException exception) {
         ImportWork work = require(jobId);
         work.failed(exception.errorCode().code());
-        LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, causeType(exception));
+        LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, CauseType.of(exception));
         discardIfTerminal(work);
     }
 
@@ -204,7 +208,7 @@ public final class JobStore {
             LOG.info("{}: se canceló el trabajo {}", exception.errorCode().code(), jobId);
         } else {
             work.failed(exception.errorCode().code());
-            LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, causeType(exception));
+            LOG.error("{} en el trabajo {} tipo={}", exception.errorCode().code(), jobId, CauseType.of(exception));
         }
         discardIfTerminal(work);
     }
@@ -268,13 +272,6 @@ public final class JobStore {
         }
     }
 
-    private static String causeType(ElastiflixException exception) {
-        Throwable cause = exception.getCause();
-        if (cause == null) {
-            return exception.getClass().getSimpleName();
-        }
-        return cause.getClass().getSimpleName();
-    }
 
     private static void logValidation(ImportWork work) {
         ValidationReport report = work.report();

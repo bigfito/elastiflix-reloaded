@@ -8,6 +8,7 @@ import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
+import com.bigfito.elastiflix.ingest.mapping.VectorFields;
 import com.bigfito.elastiflix.ingest.vector.PlotVectorizer;
 
 import org.slf4j.Logger;
@@ -25,7 +26,6 @@ public final class IndividualRecord {
 
     private static final Logger LOG = LoggerFactory.getLogger(IndividualRecord.class);
     private static final JsonMapper MAPPER = MovieJsonMapper.create();
-    private static final List<String> VECTORS = List.of("plot_256", "plot_512", "plot_1024");
 
     private final MappingValidator validator;
     private final PlotVectorizer vectorizer;
@@ -64,7 +64,7 @@ public final class IndividualRecord {
 
     private static ObjectNode withoutVectors(Movie movie) {
         ObjectNode node = (ObjectNode) MAPPER.valueToTree(movie);
-        node.remove(VECTORS);
+        node.remove(VectorFields.NAMES);
         return node;
     }
 }

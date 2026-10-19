@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.catalog.CatalogName;
@@ -29,18 +28,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -57,7 +60,7 @@ class ImportJobTest {
     private static final String LIVE = "elastiflix-it-x7k2-20261018-000000";
     private static final String ORPHAN = "elastiflix-it-x7k2-20261019-010101";
     private static final String FOREIGN = "elastiflix-reloaded-20261020-153000";
-    private static final ImportCounts ONE_NEW = new ImportCounts(1, 0, 100);
+    private static final ImportCounts ONE_NEW = new ImportCounts(1, 100);
 
     @Mock
     private CatalogIndex catalog;
@@ -190,32 +193,27 @@ class ImportJobTest {
     }
 
     @Test
-    @DisplayName("si la copia falla, la tarea se cancela antes de borrar el temporal")
+    @DisplayName("si la copia falla (EFX-ES-006), el temporal se borra una sola vez y después de reindex")
     void shouldCancelTheCopyBeforeDeletingTheTemp() {
+        // given
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
-        AtomicBoolean cancel = new AtomicBoolean();
-        List<String> events = new ArrayList<>();
-        doAnswer(invocation -> {
-            // Así se comporta ElasticsearchCatalogIndex (ver ReindexTasksTest): la persona cancela a
-            // mitad de la copia, reindex lo ve en la señal que recibió, cancela la tarea y después lanza.
-            cancel.set(true);
-            BooleanSupplier stop = invocation.getArgument(2);
-            if (stop.getAsBoolean()) {
-                events.add("tarea cancelada");
-                throw new ImportException(ErrorCode.IMPORT_CANCELLED);
-            }
-            return null;
-        }).when(catalog).reindex(eq(LIVE), eq(temp), any());
-        doAnswer(invocation -> events.add("deleteIndex " + invocation.getArgument(0)))
-                .when(catalog).deleteIndex(temp);
+        // ElasticsearchCatalogIndex cancela la tarea de _reindex antes de lanzar (ver ReindexTasksTest);
+        // aquí se comprueba que ImportJob borra el temporal solo cuando reindex ya volvió.
+        doThrow(new ElasticsearchAccessException(ErrorCode.REINDEX_FAILED))
+                .when(catalog).reindex(eq(LIVE), eq(temp), any());
 
-        assertThatThrownBy(() -> job.run(
-                ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, cancel::get))
-                .isInstanceOf(ImportException.class)
-                .extracting(error -> ((ImportException) error).errorCode())
-                .isEqualTo(ErrorCode.IMPORT_CANCELLED);
-        assertThat(events).containsExactly("tarea cancelada", "deleteIndex " + temp);
+        // when
+        Throwable thrown = catchThrowable(() -> runOne());
+
+        // then
+        assertThat(thrown).isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(error -> ((ElasticsearchAccessException) error).errorCode())
+                .isEqualTo(ErrorCode.REINDEX_FAILED);
+        InOrder order = inOrder(catalog);
+        order.verify(catalog).reindex(eq(LIVE), eq(temp), any());
+        order.verify(catalog).deleteIndex(temp);
+        verify(catalog, times(1)).deleteIndex(anyString());
         verify(catalog, never()).publish(anyString(), anyString(), anyString());
     }
 
@@ -250,7 +248,7 @@ class ImportJobTest {
     }
 
     @Test
-    @DisplayName("un listener que lanza en el paso 5 no borra el temporal ya publicado")
+    @DisplayName("un listener que lanza en el paso 5 no borra el temporal y la importación termina publicada")
     void shouldKeepThePublishedTempWhenTheListenerFails() {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
@@ -263,9 +261,9 @@ class ImportJobTest {
             }
         };
 
-        assertThatThrownBy(() -> job.run(
-                ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, failsOnPublish, () -> false))
-                .isInstanceOf(ImportException.class);
+        // Sin excepción: ImportRunner deja el trabajo publicado (ver ImportRunnerTest).
+        job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, failsOnPublish, () -> false);
+
         verify(catalog).publish(ALIAS, temp, LIVE);
         verify(catalog, never()).deleteIndex(temp);
     }

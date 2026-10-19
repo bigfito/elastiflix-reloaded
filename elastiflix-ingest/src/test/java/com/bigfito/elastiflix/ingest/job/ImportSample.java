@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.mapping.VectorFields;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -22,7 +23,7 @@ final class ImportSample {
     static final String EXTRA_ID = "990000001";
     static final String TITANIC = "597";
     static final String SOURCE_OF_EXTRA = "10681";
-    private static final List<String> DROPPED = List.of("_id", "plot_256", "plot_512", "plot_1024");
+    private static final List<String> DROPPED = dropped();
 
     private final JsonMapper mapper = MovieJsonMapper.create();
     private final List<Movie> fixture;
@@ -76,6 +77,12 @@ final class ImportSample {
         if (TITANIC.equals(id)) {
             document.put("title", REPLACED_TITLE);
         }
+    }
+
+    private static List<String> dropped() {
+        List<String> names = new ArrayList<>(VectorFields.NAMES);
+        names.add("_id");
+        return List.copyOf(names);
     }
 
     private static List<Movie> movies(JsonMapper mapper, ArrayNode documents) {

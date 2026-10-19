@@ -10,6 +10,7 @@ import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
+import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.service.MovieReaderFactory;
 
@@ -30,7 +31,7 @@ class CsvRowNumbersTest {
     private final JobStore store = new JobStore(properties, Clock.systemUTC());
     private final FileIntake intake = new FileIntake(
             new FileGate(new MovieReaderFactory(new IndexMapping()), properties),
-            mock(CatalogIndex.class), properties, store);
+            new MappingValidator(), mock(CatalogIndex.class), properties, store);
 
     @TempDir
     private Path folder;
@@ -53,7 +54,7 @@ class CsvRowNumbersTest {
     }
 
     @Test
-    @DisplayName("una fila corta más 2 fechas malas dan 3 errores, con las filas en blanco contadas")
+    @DisplayName("una fila corta más 2 fechas malas dan 3 errores en orden de fila, con las filas en blanco contadas")
     void shouldReportWidthAndFieldErrorsTogether() throws Exception {
         // given
         Path file = Files.writeString(folder.resolve("mezcla.csv"), """
@@ -69,7 +70,7 @@ class CsvRowNumbersTest {
 
         // then
         assertThat(errors).extracting(ValidationIssue::recordLabel, ValidationIssue::code)
-                .containsExactlyInAnyOrder(
+                .containsExactly(
                         tuple("2", ErrorCode.TYPE_MISMATCH.code()),
                         tuple("4", ErrorCode.COLUMN_COUNT.code()),
                         tuple("5", ErrorCode.TYPE_MISMATCH.code()));

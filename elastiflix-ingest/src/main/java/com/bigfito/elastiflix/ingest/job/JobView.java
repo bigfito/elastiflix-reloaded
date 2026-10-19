@@ -13,7 +13,7 @@ import com.bigfito.elastiflix.ingest.mapping.WarningCount;
  * @param status         uno de los ocho estados, en español
  * @param kind           {@code json} o {@code csv}, según la extensión del archivo
  * @param fileSize       bytes del archivo subido
- * @param step           paso del mockup, del 1 al 5; 0 si todavía no hay
+ * @param step           paso del mockup, del 1 al 5; empieza en 1 al recibir el archivo
  * @param batch          último lote escrito
  * @param vectorized     registros que ya tienen vector
  * @param written        registros ya escritos

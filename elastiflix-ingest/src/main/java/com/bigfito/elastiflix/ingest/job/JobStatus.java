@@ -26,7 +26,10 @@ public enum JobStatus {
     /** La importación o la validación falló con una excepción. */
     FAILED("fallido"),
 
-    /** Alguien pidió cancelar y el temporal, si existía, se borró. */
+    /**
+     * Alguien pidió cancelar. El índice temporal, si existía, se borra; si no se pudo borrar, queda un
+     * {@code WARN} con su nombre y hay que borrarlo a mano.
+     */
     CANCELLED("cancelado");
 
     private final String label;

@@ -27,8 +27,6 @@ import org.springframework.stereotype.Component;
 @Component
 public final class ImportJob {
 
-    private static final int IMPORT_STEP = 4;
-    private static final int PUBLISH_STEP = 5;
     private static final Logger LOG = LoggerFactory.getLogger(ImportJob.class);
 
     private final CatalogIndex catalog;
@@ -60,11 +58,15 @@ public final class ImportJob {
     }
 
     /**
-     * Importa si el nombre es un alias de un solo índice. Si falla, el alias queda como estaba.
+     * Importa si el nombre es un alias de un solo índice.
+     *
+     * <p>Si falla antes de {@code _aliases}, el alias queda como estaba y el temporal se borra (si el borrado
+     * falla, queda un {@code WARN}). Si {@code _aliases} no confirma, {@code describe} decide; con
+     * {@code EFX-IMP-006} no se sabe dónde quedó el alias y el temporal se deja.</p>
      *
      * @param alias     alias del catálogo
      * @param source    películas ya validadas, por lotes
-     * @param counts    registros del archivo y cuántos reemplazan
+     * @param counts    registros del archivo y tamaño de lote
      * @param listener  progreso de los pasos 4 y 5
      * @param cancelled se consulta antes de copiar, de cada lote y de publicar
      */
@@ -94,7 +96,7 @@ public final class ImportJob {
         WriteTotals totals;
         long expected;
         try {
-            context.listener().onProgress(new ImportProgress(IMPORT_STEP, 0, 0, 0, 0, context.temp()));
+            context.listener().onProgress(new ImportProgress(JobSteps.IMPORT, 0, 0, 0, context.temp()));
             long copied = copy(context);
             totals = writeBatches(context);
             expected = verifiedCount(context, copied, totals);
@@ -156,11 +158,19 @@ public final class ImportJob {
         return expected;
     }
 
-    /** Ya publicado: un fallo de aquí en adelante no toca el índice nuevo. */
+    /**
+     * Ya publicado: un fallo de aquí en adelante no toca el índice nuevo. Si el aviso del paso 5 falla, el
+     * trabajo igual terminó bien, así que solo queda un {@code WARN} y {@code run} vuelve sin excepción.
+     */
     private void published(ImportContext context, WriteTotals totals, long expected) {
         LOG.info("La importación publicó {} en {} y borró {} ({} documentos)",
                 context.alias(), context.temp(), context.previous(), expected);
-        context.listener().onProgress(totals.notice(PUBLISH_STEP, context.temp()));
+        try {
+            context.listener().onProgress(totals.notice(JobSteps.PUBLISH, context.temp()));
+        } catch (ElastiflixException exception) {
+            LOG.warn("{}: falló el aviso del paso 5, pero {} ya está publicado tipo={}",
+                    exception.errorCode().code(), context.temp(), CauseType.of(exception));
+        }
     }
 
     private void swap(ImportContext context) {
@@ -202,7 +212,12 @@ public final class ImportJob {
         return new ImportException(ErrorCode.PUBLISH_UNCERTAIN, cause);
     }
 
-    private static void ensureRunning(BooleanSupplier cancelled) {
+    /**
+     * Para con {@code EFX-IMP-003} si alguien pidió cancelar. Lo usan también los lotes.
+     *
+     * @param cancelled señal de cancelación
+     */
+    static void ensureRunning(BooleanSupplier cancelled) {
         if (cancelled.getAsBoolean()) {
             throw new ImportException(ErrorCode.IMPORT_CANCELLED);
         }
@@ -216,13 +231,6 @@ public final class ImportJob {
         }
     }
 
-    private static String causeType(ElastiflixException exception) {
-        Throwable cause = exception.getCause();
-        if (cause == null) {
-            return exception.getClass().getSimpleName();
-        }
-        return cause.getClass().getSimpleName();
-    }
 
     private static void logFailure(ElastiflixException exception, String temp) {
         String code = exception.errorCode().code();
@@ -230,6 +238,6 @@ public final class ImportJob {
             LOG.info("{}: se canceló {}", code, temp);
             return;
         }
-        LOG.error("{} en el índice {} tipo={}", code, temp, causeType(exception));
+        LOG.error("{} en el índice {} tipo={}", code, temp, CauseType.of(exception));
     }
 }
