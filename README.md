@@ -14,26 +14,17 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
-![Estado](https://img.shields.io/badge/estado-revisi%C3%B3n_3_terminada-BDE8D7?style=flat-square&labelColor=3A3548)
+![Estado](https://img.shields.io/badge/estado-terminado-BDE8D7?style=flat-square&labelColor=3A3548)
 ![Fases](https://img.shields.io/badge/fases-7%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
 </div>
 
 > [!NOTE]
-> ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. La
-> **Revisión 2** ([`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md)) está terminada y
-> fusionada en `main` (PR #13). La **Revisión 3** (27 correcciones de código de
-> [`docs/revisiones/revision-3.md`](docs/revisiones/revision-3.md)) está terminada, con estado en
-> [`progreso/revision-3.md`](progreso/revision-3.md). Los «Requerimientos nuevos» de `PLAN.md` esperan el
-> consentimiento de Adolfo. El índice y el conteo
-> del alias `elastiflix-reloaded` están en [`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente».
-> `./mvnw verify` corre unitarias, arquitectura, Checkstyle y PMD.
-> `./mvnw verify -Pit` añade integración y el smoke. Esas pruebas leen el conteo real del alias con
-> `_count`: `SmokeIT` y `CatalogStatusServiceIT` afirman los 6 899 documentos y las pruebas de búsqueda,
-> los valores de §6; se omiten con `assumeTrue` si el conteo cambió. La aplicación no modifica el alias al
-> arrancar.
-> El avance está en [`progreso/INDICE.md`](progreso/INDICE.md).
+> ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. El estado y el próximo paso
+> están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo vigentes del alias
+> `elastiflix-reloaded` («Catálogo vigente»). Los «Requerimientos nuevos» de [`PLAN.md`](PLAN.md) esperan
+> aprobación antes de empezar.
 
 ---
 
@@ -207,13 +198,13 @@ Diagrama completo con los flujos numerados: [`docs/arquitectura.mermaid`](docs/a
 ```
 elastiflix-reloaded/
 ├── 📄 PLAN.md · AGENTS.md · CLAUDE.md · README.md
-├── 📦 pom.xml · mvnw · .mvn/            (Fase 0)
+├── 📦 pom.xml · mvnw · .mvn/            build de Maven
 ├── ⚙️  elastiflix-core/                  modelo · cliente ES · alias e índices · embeddings
 ├── 🔎 elastiflix-search/                match / multi_match · knn · rrf · filtros · facetas
 ├── 📥 elastiflix-ingest/                validación · lectores JSON/CSV · importación · swap de alias
 ├── 🌐 elastiflix-web/                   único ejecutable · 4 páginas Thymeleaf
 ├── 🧹 config/                           Checkstyle y PMD (congelados)
-├── 📚 docs/                             convenciones · arquitectura · diseños por fase · capturas · revisiones
+├── 📚 docs/                             convenciones · arquitectura · diseños por fase · capturas
 ├── 🎨 design/                           mockups aprobados y tokens de diseño
 ├── 🗄️  elasticsearch/                    mapping del índice y fixtures reales
 ├── 📍 progreso/                         estado del desarrollo para retomar sesiones
@@ -223,16 +214,15 @@ elastiflix-reloaded/
 ## 🚀 Puesta en marcha
 
 > [!IMPORTANT]
-> Los comandos de **Comandos** se ejecutaron en este orden en un `git clone` limpio con una copia local
-> de `.env` el 2026-10-18, sobre un proyecto que ya tenía el catálogo. La preparación de un proyecto sin
-> el índice («Preparar el catálogo») sigue la documentación de Elasticsearch y el código de la migración,
-> pero no se repitió en un proyecto vacío.
+> Los **Comandos** se probaron en un `git clone` limpio, con `.env`, sobre un proyecto que ya tenía el
+> catálogo. Los pasos de «Preparar el catálogo» siguen la documentación de Elasticsearch y el código de la
+> migración, pero no se han probado en un proyecto vacío.
 
 **Prerrequisitos**
 
 - ☕ JDK 25 · 🐙 Git (en Windows, con **Git Bash**). El Maven Wrapper ya está en el repositorio
   (`./mvnw`); no hace falta instalar Maven para compilar.
-- 🔑 Un proyecto **Elasticsearch Serverless** y una API key con los privilegios de
+- 🔑 Un proyecto **Elasticsearch Serverless** y una API key con los privilegios que se listan en
   «Datos y proyecto Serverless».
 - 🎬 Para llenar un catálogo nuevo: un archivo `.json` o `.csv` de películas. El archivo de exportación
   del catálogo no está versionado; el respaldo lo guarda quien exportó el índice (PLAN §2, nota 5).
@@ -244,7 +234,7 @@ cp .env.example .env          # completa ELASTICSEARCH_URL y ELASTICSEARCH_API_K
 set -a; . ./.env; set +a      # exporta las variables a esta terminal para los curl de abajo
 ```
 
-La aplicación lee `.env` sola al arrancar; `set -a; . ./.env; set +a` solo hace falta para los `curl`.
+La aplicación lee `.env` por su cuenta al arrancar; exportar las variables solo hace falta para los `curl`.
 
 > [!WARNING]
 > `.env` nunca se sube a git. Ningún secreto va en el código, en YAML ni en los commits.
@@ -259,8 +249,8 @@ La aplicación lee `.env` sola al arrancar; `set -a; . ./.env; set +a` solo hace
   - en el clúster: `monitor` para leer el avance de `_reindex` en `_tasks/<id>`, `cancel_task` para
     cancelar una copia en curso y `monitor_inference` para pedir vectores a `_inference`.
 
-  Serverless reconoce esos nombres (comprobado con `_security/user/_has_privileges`). Las pruebas se
-  corrieron con una clave más amplia, así que este mínimo no se probó por separado. Cómo se declaran:
+  Serverless reconoce esos nombres (comprobado con `_security/user/_has_privileges`). Las pruebas usaron
+  una clave con más privilegios, así que este mínimo no se ha probado por separado. Cómo se declaran:
   [claves de API de Elasticsearch](https://www.elastic.co/docs/deploy-manage/api-keys/elasticsearch-api-keys).
 - El endpoint de inferencia `.jina-embeddings-v5-omni-small` tiene que existir. El id sale de
   `ELASTIFLIX_INFERENCE_ID` en `.env`, con el mismo valor por defecto en
@@ -275,7 +265,7 @@ La aplicación lee `.env` sola al arrancar; `set -a; . ./.env; set +a` solo hace
   `text_embedding` no es el tipo de este endpoint. La referencia de esa API está en la
   [operación Get inference](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-inference-get).
 - Las pruebas de integración leen del alias las películas `597`, `27205`, `10681`, `345887`, `134` y
-  `87827`. Las de §6 se omiten si `_count` no es 6 899.
+  `87827`. Las que comprueban los totales de PLAN §6 se omiten si `_count` no es 6 899.
 
 **Preparar el catálogo** (solo si el proyecto no tiene `elastiflix-reloaded`)
 
@@ -289,8 +279,8 @@ La aplicación no crea un catálogo vacío: lee siempre por el alias. En un proy
      --data-binary @elasticsearch/elastiflix-reloaded-mapping.json
    ```
 
-2. Migrarlo a alias (tarea 1.8). Copia el índice a `elastiflix-reloaded-<AAAAMMDD-HHMMSS>`, borra el
-   concreto y crea el alias en una sola llamada; termina solo:
+2. Convertirlo en alias. El comando copia el índice a `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` y, en una
+   sola llamada, borra el índice concreto y crea el alias. Termina por sí solo:
 
    ```bash
    ./mvnw -q install -DskipTests
@@ -300,8 +290,8 @@ La aplicación no crea un catálogo vacío: lee siempre por el alias. En un proy
    Si el nombre ya es un alias, el comando no crea ni borra índices: el log dice a cuál apunta y el
    proceso termina con código 0.
 3. Arrancar la aplicación (`./mvnw -pl elastiflix-web spring-boot:run`), abrir
-   http://localhost:8080/cargar e importar el archivo de películas en la pestaña «Importar .json» o
-   «Importar .csv». Los vectores de la sinopsis se generan con inferencia.
+   http://localhost:8080/cargar e importar el archivo de películas desde la pestaña «Importar .json» o
+   «Importar .csv». Los vectores de la sinopsis se generan con el servicio de inferencia.
 
 **Comandos**
 
@@ -313,48 +303,38 @@ La aplicación no crea un catálogo vacío: lee siempre por el alias. En un proy
 ./mvnw verify -Pit                               # lo anterior más integración y smoke (requiere .env)
 # Pruebas de navegador del JavaScript (Node.js y Chromium; fuera de verify):
 # ver elastiflix-web/src/test/browser/README.md
-./mvnw -q install -DskipTests
+./mvnw -q install -DskipTests                    # instala los módulos para spring-boot:run
 ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
 ./mvnw -pl elastiflix-web spring-boot:run        # http://localhost:8080
 ```
 
-En la ejecución del 2026-10-18 04:47 UTC la migración encontró el alias `elastiflix-reloaded` ya en
-`elastiflix-reloaded-20261018-003535`, con 4 322 documentos del catálogo histórico, y no lo cambió. El
-2026-10-18 05:44 UTC, con la aprobación de Adolfo, la página de carga importó `movies.json` (6 899
-registros, 0 errores) y a las 05:49 UTC el alias pasó a `elastiflix-reloaded-20261018-054429`; el índice
-anterior se borró. `spring-boot:run` abre http://localhost:8080 y solo lee ese alias. `GET /` respondió
-200 en la corrida de las 04:49 UTC.
+El penúltimo comando es la conversión a alias de «Preparar el catálogo»: si el nombre ya es un alias, no
+crea ni borra índices. `spring-boot:run` solo lee el catálogo por el alias.
 
 Las capturas de la aplicación en marcha están en [docs/capturas/](docs/capturas/).
 
-**Qué ya funciona**
+**Qué incluye**
 
-- Conexión al proyecto Serverless con la URL y la API key de `.env`.
-- Estado del catálogo: alias, índice vigente y conteo.
-- Vectores de consulta (`search`, prefijo `Query: `) y de sinopsis (`ingest`, sin prefijo).
-- Recorte de un vector de 1024 a 512 y a 256, con norma 1.
-- Búsqueda de solo lectura sobre el alias: full-text (BM25), vectorial (k-NN) e híbrida (RRF).
-  Las pruebas de §6 afirman los totales medidos sobre las 6 899 películas y se omiten si `_count`
-  ya no es ese número.
-- Filtros, facetas, paginación y los dos estados vacíos, en `SearchService` y en la página de
-  resultados.
-- Carga de un `.json` o un `.csv`: comprobación de nombre, tamaño y UTF-8, validación todo o nada
-  contra el mapping e informe de errores. Los vectores de la sinopsis se generan con inferencia;
-  si el archivo los trae, se ignoran.
-- Importación al catálogo por un alias propio de prueba: índice temporal, lotes de 100, publicación
-  en una sola llamada (el índice anterior se borra) y vuelta atrás si falla o se cancela.
-- Registro individual directo al alias, visible en la lectura siguiente.
-- Cuatro páginas: Inicio con los tres modos y sugerencias, Resultados, Cargar datos y Acerca de
-  (tabla de precisión y créditos de TMDB). `GET /actuator/health` incluye el indicador del catálogo.
-- Una excepción `EFX-*` no capturada muestra su código, y una ruta desconocida muestra un 404 con
-  navegación.
-- Smoke de punta a punta: `GET /actuator/health` en `UP`, con el alias de la configuración y las
-  6 899 películas de §6; `/`, `/acerca` y `/cargar` responden 200; una sugerencia de cada modo devuelve
-  resultados; subir `elasticsearch/fixtures/movies-sample.csv` lo deja validado, con 0 errores y la
-  advertencia `EFX-ING-020`, sin importar. Alias, índice y conteo quedan iguales antes y después.
+- Conexión al proyecto Serverless con la URL y la API key de `.env`, y estado del catálogo (alias, índice
+  vigente y conteo) en el pie y en `GET /actuator/health`.
+- Vectores de consulta (`search`, prefijo `Query: `) y de sinopsis (`ingest`, sin prefijo); los de 512 y 256
+  dimensiones salen de recortar el de 1024 y renormalizarlo.
+- Búsqueda de solo lectura sobre el alias en los tres modos, con filtros, facetas, paginación y los dos
+  estados vacíos.
+- Carga de un `.json` o un `.csv`: comprobación de nombre, tamaño y UTF-8, validación todo o nada contra el
+  mapping e informe de errores descargable. Si el archivo trae vectores, se ignoran y se generan de nuevo.
+- Importación con índice temporal, lotes de 100 y publicación en una sola llamada (el índice anterior se
+  borra); si falla o se cancela, el catálogo queda como estaba.
+- Registro individual directo al alias, visible en la búsqueda siguiente.
+- Cuatro páginas: Inicio (tres modos y sugerencias), Resultados, Cargar datos y Acerca de (tabla de
+  precisión y créditos de TMDB).
+- Página de error con el código `EFX-*` y un 404 con navegación.
+- Smoke de punta a punta en `./mvnw verify -Pit`: salud de la aplicación, Inicio, Acerca de y Cargar datos,
+  una búsqueda por modo y la validación de `elasticsearch/fixtures/movies-sample.csv` sin importar. El catálogo queda
+  igual antes y después.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
-YAML: sus valores por defecto viven en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id
+YAML: sus valores por defecto están en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id
 de inferencia salen de `application.yml` (valores por defecto) o de `.env`
 (`ELASTIFLIX_INDEX_ALIAS`, `ELASTIFLIX_INFERENCE_ID`). `.env.example` deja vacías la URL y la API
 key y trae los valores por defecto del resto (alias, inferencia, carga, pósters y puerto).
@@ -363,65 +343,34 @@ En Windows, ejecuta estos comandos en **Git Bash** (ver `AGENTS.md` › Comandos
 
 ## 🔐 Seguridad y secretos
 
-La demo no tiene autenticación (es intencional y está fuera de alcance). Los POST no tienen protección CSRF: no hay sesión que proteger y la usa una sola persona. Los secretos van solo en `.env` (ver `.env.example`); no se escriben en el código, el YAML, las pruebas ni los logs.
+- La demo no tiene autenticación: es intencional y queda fuera de alcance.
+- Los POST no tienen protección CSRF, porque no hay sesión que proteger y la usa una sola persona.
+- Los secretos van solo en `.env` (ver `.env.example`). Nunca se escriben en el código, el YAML, las
+  pruebas ni los logs.
 
 ## 🤖 Desarrollo con agentes de IA
 
-El plan está preparado para que **cualquiera de estos agentes** lo ejecute o lo retome donde otro lo dejó:
+El proyecto está preparado para que **cualquiera de estos agentes** trabaje en él o retome lo que otro dejó:
 
 | Herramienta | Qué lee | Archivo en este repo |
 |---|---|---|
-| 🟣 **Cursor** *(programó las fases 0 a 6, la revisión 1 y los bugs B-01 a B-05)* | `AGENTS.md` en la raíz + reglas `.mdc` | `AGENTS.md`, `.cursor/rules/elastiflix-java.mdc` |
-| 🟠 **Claude Code** *(revisión 2)* | `CLAUDE.md`, que importa `AGENTS.md` | `CLAUDE.md` → `@AGENTS.md` |
+| 🟣 **Cursor** *(programó las fases 0 a 6)* | `AGENTS.md` en la raíz + reglas `.mdc` | `AGENTS.md`, `.cursor/rules/elastiflix-java.mdc` |
+| 🟠 **Claude Code** | `CLAUDE.md`, que importa `AGENTS.md` | `CLAUDE.md` → `@AGENTS.md` |
 | 🔵 **Google Antigravity** | `AGENTS.md` en la raíz (máx. 12 000 caracteres) | `AGENTS.md` |
 | 🟢 **JetBrains Junie** | `AGENTS.md` en la raíz | `AGENTS.md` |
 
 ### ▶️ Para empezar
 
-El plan ya está ejecutado: las siete fases y las revisiones 1, 2 y 3 están en `main`. La orden de arranque
-original («Apruebo el plan… ejecuta las fases en orden desde la Fase 0») ya no aplica.
-
-### 🛠️ Para trabajar en las correcciones de la Revisión 3
-
-Las 27 correcciones de código (`T-01` … `T-27`) están repartidas en **seis carriles paralelos** (A–F) que
-no comparten archivos, más un carril de cierre (Z). Varios agentes (**Claude Code**, **Google
-Antigravity** o **JetBrains Junie**, en cualquier mezcla) pueden trabajar a la vez, cada uno en su carril,
-su rama y su clon o worktree:
-
-| Carril | Qué cubre | Rama |
-|---|---|---|
-| A | Núcleo (`elastiflix-core`) | `revision-3-core` |
-| B | Búsqueda (`elastiflix-search`) | `revision-3-busqueda` |
-| C | Carga: trabajos (`job/`, `service/`) | `revision-3-trabajos` |
-| D | Carga: lectura y validación (`csv/`, `json/`, `mapping/`) | `revision-3-lectura` |
-| E | Web: Resultados, error, «Acerca de» y CSS | `revision-3-paginas` |
-| F | Web: «Cargar datos» y pruebas de navegador | `revision-3-cargar` |
-| Z | Cierre: documentación, verificación completa y estado | `revision-3-cierre` |
-
-Abre una carpeta propia del repositorio en cada herramienta y pide (cambia la letra del carril, o déjala
-para que el agente tome el primero libre):
-
-> Lee `PLAN.md`, `AGENTS.md`, `docs/convenciones-java.md` y `docs/revisiones/revision-3.md`. Aplica el
-> protocolo de reanudación y toma el carril **A** de la Revisión 3 (si está tomado, el primero libre)
-> siguiendo «Cómo trabajar en paralelo»: un worktree propio, la rama del carril, solo sus archivos, un
-> commit y un push por corrección y su archivo `progreso/revision-3-<carril>.md` al día. Al final corre
-> `./mvnw verify` y abre un PR hacia `main`.
-
-Cuando estén fusionados los PR de A–F, pide el cierre:
-
-> Toma el carril Z (cierre) de la Revisión 3 según `docs/revisiones/revision-3.md`.
-
-Si una sesión se corta, el mismo pedido continúa el carril donde quedó: el avance está en su archivo de
-`progreso/` y en su rama. Toda revisión sigue esta forma: lista en `docs/revisiones/revision-N.md`, estado
-en `progreso/`, ramas propias y PR hacia `main`.
-
-La Revisión 3 está terminada (2026-10-19): seis agentes de Claude Code hicieron los carriles A–F a la vez y
-el cierre Z integró la documentación. El pedido queda como referencia para una revisión siguiente en
-carriles.
+Las siete fases del plan ya están en `main`, así que la orden de arranque original («Apruebo el plan…
+ejecuta las fases en orden desde la Fase 0») ya no aplica. El trabajo pendiente, si lo hay, está en
+«Punto de reanudación» de [`progreso/INDICE.md`](progreso/INDICE.md). Varios agentes pueden trabajar a la
+vez si cada uno toma una parte con archivos propios, su rama y su worktree, y la integra con un PR hacia
+`main`.
 
 ### 🔁 Si una sesión se interrumpe
 
-Sin tokens, contexto lleno, herramienta cerrada o cambio de agente — no se pierde el avance: al terminar
+Si se acaban los tokens, se llena el contexto, se cierra la herramienta o cambia el agente, no se pierde el
+avance: al terminar
 **cada tarea** el agente actualiza `progreso/`, hace un commit y lo publica con `git push`. Al cerrar
 cada fase actualiza también esta documentación. Pide:
 
@@ -448,8 +397,6 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 | 4 | 🌐 Interfaz web | — | ✅ terminado |
 | 5 | 🧪 Pruebas integrales y smoke test | — | ✅ terminado |
 | 6 | 📚 Documentación y cierre | — | ✅ terminado |
-| — | 🔧 Revisión 2 (`S-01` … `S-27`) | — | ✅ terminado |
-| — | 🔧 Revisión 3 (`T-01` … `T-27`) | — | ✅ terminado |
 
 El estado vigente siempre es el de [`progreso/INDICE.md`](progreso/INDICE.md); esta tabla se actualiza
 al cerrar cada fase.
@@ -479,10 +426,8 @@ tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tok
 
 ## 📸 Capturas
 
-Capturas de página completa tomadas el 2026-10-18 con la aplicación conectada al alias
-`elastiflix-reloaded` real. El pie muestra el conteo real. El índice y el número vigentes están en
-[`progreso/INDICE.md`](progreso/INDICE.md) › «Catálogo vigente». La comparación con los mockups está en
-[`progreso/4.md`](progreso/4.md).
+Capturas de página completa con la aplicación conectada al catálogo real; el pie muestra su conteo. La
+comparación con los mockups está en [`progreso/4.md`](progreso/4.md).
 
 | Página | Captura |
 |---|---|
@@ -503,8 +448,6 @@ Capturas de página completa tomadas el 2026-10-18 con la aplicación conectada 
 | 🗺️ [`PLAN.md`](PLAN.md) | Plan de implementación por fases (fuente única de verdad) |
 | 🤖 [`AGENTS.md`](AGENTS.md) · [`CLAUDE.md`](CLAUDE.md) | Reglas para los agentes de IA |
 | 📍 [`progreso/INDICE.md`](progreso/INDICE.md) | Estado actual y próximo paso |
-| 🔧 [`docs/revisiones/revision-3.md`](docs/revisiones/revision-3.md) | Correcciones de la Revisión 3, terminadas (evidencia en [`progreso/revision-3.md`](progreso/revision-3.md)) |
-| 🔧 [`docs/revisiones/revision-2.md`](docs/revisiones/revision-2.md) | Correcciones de la Revisión 2, terminadas (evidencia en [`progreso/revision-2.md`](progreso/revision-2.md)) |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo se escribe el código |
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos |
 | ⚙️ [`docs/diseno/1.md`](docs/diseno/1.md) | Diseño aprobado del núcleo y tabla de calibración |
