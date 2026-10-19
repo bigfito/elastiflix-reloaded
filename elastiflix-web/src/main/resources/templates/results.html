@@ -148,7 +148,7 @@
         </div>
 
         <ol class="hit-list" th:if="${empty == null}">
-          <li class="hit" th:each="card : ${cards}">
+          <li class="hit" th:id="|r-${card.id}|" th:each="card : ${cards}">
             <div class="hit-main">
               <div class="rank-col">
                 <span class="rank" th:text="|#${card.rank}|">#1</span>
@@ -156,7 +156,7 @@
                 <div th:if="${card.posterUrl.isEmpty()}" class="poster missing" role="img" th:attr="aria-label=|Póster de ${card.title}|"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg><span>poster_path</span></div>
               </div>
               <div class="hit-body">
-                <h3 th:text="${card.title}">Título</h3>
+                <h3><a th:href="@{${card.detailHref}}" th:text="${card.title}">Título</a></h3>
                 <p class="meta" th:text="${card.meta}">original · fecha · min · géneros</p>
                 <p class="plot" th:text="${card.plot}">sinopsis</p>
                 <p class="votes"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#E9B949" stroke="none"><path d="M12 3l2.7 5.6l6.1.9l-4.4 4.3l1 6.1L12 17l-5.4 2.9l1-6.1L3.2 9.5l6.1-.9z"></path></svg><span th:text="${card.votes}">0 · 0 votos</span></p>
