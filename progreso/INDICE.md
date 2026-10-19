@@ -9,12 +9,12 @@
 
 - **Fase actual:** Fase 7 — Detalle de película (`GET /pelicula/{id}`) (Requerimiento 1)
 - **Estado de la fase:** terminado
-- **Ramas:** `fase-7-detalle`
+- **Ramas:** `main` (fusión del PR #23, merge `2902be7`; rama remota y local `fase-7-detalle` borrada)
 - **Diseño:** [`docs/diseno/7.md`](../docs/diseno/7.md) aprobado el 2026-10-19 20:29 UTC
 - **Estado:** tablero [`progreso/7.md`](7.md)
 - **Tarea actual:** fase cerrada
-- **Próximo paso:** Requerimiento 1 terminado. Esperando instrucciones de Adolfo para proceder con el Requerimiento 2 (interfaz en español e inglés).
-- **Última actualización:** 2026-10-19 21:20 UTC
+- **Próximo paso:** Requerimiento 1 terminado y fusionado en `main`. Esperando instrucciones de Adolfo para proceder con el Requerimiento 2 (interfaz en español e inglés).
+- **Última actualización:** 2026-10-19 21:25 UTC
 
 ## Fases
 
@@ -32,7 +32,7 @@
 | — | Bugs de la revisión de documentación | — | terminado | `progreso/bugs.md` | Fusionada en `main` (`41c1188`, PR #12). La rama remota `cursor/bugs-revision-29a6` se borró. B-04 continúa en S-01. |
 | — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). El estado posterior entró con el PR #14 (`27fcdef`). La revisión 3 encontró restos de S-01, S-03, S-05, S-06, S-14, S-21 y S-22. |
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
-| 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | 2026-10-19 en verde (80 unitarias, Checkstyle 0, PMD 0, ArchUnit 7/7). |
+| 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 329 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). |
 
 ## Aprobaciones del usuario
 
@@ -79,7 +79,7 @@
 | 2026-10-19 | Revisión 3: cierre fusionado y ramas borradas | Adolfo pidió «Fusiona el PR 21 y luego borra las ramas que ya no se necesitan»: merge `5c21934`; se borraron las siete ramas `revision-3-*` después de comprobar que estaban en `main`. |
 | 2026-10-19 | Revisión 3: dos puntos fuera de la lista en el cierre | Adolfo pidió incluir en el cierre («Inclúyelas en el cierre») el agrupado de miles del rango de paginación y quitar el `preference` sin uso de la híbrida. |
 | 2026-10-19 | Inicio del Requerimiento 1 y diseño de la Fase 7 | Adolfo pidió iniciar con el Requerimiento 1 («Si. Inicia con el Requerimiento 1.») y aprobó el diseño `docs/diseno/7.md` tal cual («Apruebo el diseño de docs/diseno/7.md tal cual para proceder con la implementación de las tareas 7.1 a 7.6»). Rama `fase-7-detalle`. |
-| 2026-10-19 | Cierre de la Fase 7 (Requerimiento 1: Detalle de película) | Implementación completada y verificada: tareas 7.0 a 7.6 en verde (`./mvnw clean verify`). Ficha técnica completa, `EFX-SRCH-012` en accesos sin `q`, formato USD/NA y retorno con ancla `#r-{id}`. |
+| 2026-10-19 | Cierre y fusión de la Fase 7 (Requerimiento 1: Detalle de película) | Adolfo pidió preparar el PR y fusionar la Fase 7 («Prepara el PR y fusiona la Fase 7»). PR #23 fusionado en `main` (merge commit `2902be7`). Rama `fase-7-detalle` borrada local y remotamente. Verificación `./mvnw clean verify` en verde (80 unitarias web / 329 repo, 0 Checkstyle, 0 PMD, ArchUnit 7/7). |
 
 ## Catálogo vigente
 
