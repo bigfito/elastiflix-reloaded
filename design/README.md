@@ -14,6 +14,11 @@ componentes y comportamiento. No se rediseñan.
 | `mockups/Results.dc.html` | Resultados | `GET /buscar` | modo: Full-text · Vectorial · Híbrida; estado: Con resultados · Sin resultados · Sin resultados con filtros |
 | `mockups/Ingest.dc.html` | Cargar datos | `GET /cargar` | escenario: Archivo válido · No coincide con el mapping · Archivo rechazado |
 | `mockups/About.dc.html` | Acerca de la demo | `GET /acerca` | — |
+| `mockups/Detail.dc.html` | Detalle de película (**pendiente de implementar**, ver PLAN › «Requerimientos nuevos») | `GET /pelicula/{id}` | película: Inception · The Equalizer 2 |
+
+> **Pendiente de implementar:** `Detail.dc.html` y el enlace del título de cada tarjeta de
+> `Results.dc.html` hacia el detalle son parte de los requerimientos nuevos de `PLAN.md`. No se implementan
+> en la revisión 3: esperan a que termine y a que Adolfo dé su consentimiento.
 
 En Cargar datos y en Acerca de, los vectores de la sinopsis se generan con el servicio de inferencia
 (`input_type` `ingest`, sin prefijo). Si el archivo los trae, se ignoran. Al publicar, el índice

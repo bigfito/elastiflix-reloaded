@@ -56,7 +56,8 @@ reanudación». Hoy es la **Revisión 3** (`T-01`…`T-27`, `docs/revisiones/rev
 paralelos**: cada agente toma un carril libre (A–F), con rama `revision-3-<carril>`, PR propio y solo sus
 archivos. Su estado va en `progreso/revision-3-<carril>.md`; el tablero, `INDICE.md`, PLAN, README y
 `docs/` los escribe solo el carril de cierre (Z). Reglas: «Cómo trabajar en paralelo» de esa lista.
-Mismo protocolo y mismas reglas de código.
+Mismo protocolo y mismas reglas de código. Los «Requerimientos nuevos» de PLAN esperan al fin de la
+revisión 3 y al consentimiento de Adolfo.
 
 ## Regla de oro sobre el orden de trabajo
 

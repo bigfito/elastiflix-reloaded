@@ -45,6 +45,7 @@
   - [Fase 5 — Pruebas integrales y smoke test](#fase-5--pruebas-integrales-y-smoke-test)
   - [Fase 6 — Documentación y cierre](#fase-6--documentación-y-cierre)
 - [Definición de Hecho (global)](#definición-de-hecho-global)
+- [Requerimientos nuevos (después de la revisión 3)](#requerimientos-nuevos-después-de-la-revisión-3)
 - [Variables de entorno](#variables-de-entorno-envexample)
 - [Referencias](#referencias)
 
@@ -207,7 +208,7 @@ elastiflix-reloaded/
 │   └── revisiones/             ← listas de correcciones posteriores al cierre (revision-2.md, revision-3.md)
 ├── design/
 │   ├── README.md               ← tokens de diseño y cómo usar los mockups
-│   └── mockups/                ← Main · Results · Ingest · About (.dc.html)
+│   └── mockups/                ← Main · Results · Ingest · About · Detail (.dc.html)
 ├── elasticsearch/
 │   ├── elastiflix-reloaded-mapping.json
 │   └── fixtures/               ← muestras reales: 4 películas en .json y .csv, vector de consulta
@@ -233,6 +234,7 @@ elastiflix-reloaded/
 | `GET /buscar` | Resultados (`Results.dc.html`) | Resultados paginados, puntuaciones por modo y filtros |
 | `GET /cargar` | Cargar datos (`Ingest.dc.html`) | Pestañas Registro individual · Importar .json · Importar .csv |
 | `GET /acerca` | Acerca de la demo (`About.dc.html`) | Documentación de la demo |
+| `GET /pelicula/{id}` | Detalle de película (`Detail.dc.html`) | **Pendiente de implementar** (ver «Requerimientos nuevos»). Todos los atributos de la película salvo los vectores, y regreso a los resultados con la búsqueda intacta |
 
 **Parámetros de `GET /buscar`** (también los usa el formulario de Inicio)
 
@@ -1164,6 +1166,75 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
 - **Excepción a §9 durante la revisión 3:** los carriles A–F no escriben `progreso/INDICE.md`, el tablero,
   PLAN, README ni `docs/`, para no chocar en git; anotan esos cambios en «Notas para el cierre» de su
   archivo y Z los aplica.
+
+## Requerimientos nuevos (después de la revisión 3)
+
+> **No se implementan todavía.** El trabajo de esta sección empieza solo cuando se cumplen las dos
+> condiciones:
+>
+> 1. la revisión 3 está terminada y fusionada en `main`;
+> 2. Adolfo da su consentimiento explícito para arrancar, registrado en `progreso/INDICE.md` ›
+>    «Aprobaciones».
+>
+> Hasta entonces ningún agente escribe código para estos requerimientos ni los mezcla con los carriles
+> de la revisión 3. Al arrancar, se planifican como una fase nueva con su diseño (`docs/diseno/<fase>.md`)
+> y la disciplina de §9.
+
+### Página de detalle de película (`GET /pelicula/{id}`)
+
+- **Mockup:** `design/mockups/Detail.dc.html` (pantalla «Detalle de película» del canvas). Adolfo lo
+  aprobó el 2026-10-19 con estos ajustes: paneles informativos a la izquierda, póster más grande
+  (260 × 390 px), «N/A» en los campos vacíos, USD en las cifras de dinero y regreso a los resultados con
+  la búsqueda intacta.
+- **Fuente de datos:** el documento de la película en el índice vigente, leído por el alias
+  (`GET <alias>/_doc/{id}`) sin los vectores (`_source_excludes=plot_256,plot_512,plot_1024`).
+- **Contenido:** todos los atributos del mapping (§6) salvo `plot_256`, `plot_512` y `plot_1024`:
+  - **Cabecera:**
+    - `backdrop_path` (imagen de fondo) y `poster_path` (póster);
+    - `id`, `title`, `original_title` y `tagline`;
+    - `release_date`, `runtime`, `rating`, `original_language` y `status`;
+    - `genres`;
+    - `vote_average`, `vote_count` y `popularity`;
+    - enlaces a IMDb (`https://www.imdb.com/title/<imdb_id>/`) y a `homepage`.
+  - **Paneles de la izquierda:**
+    - **Ficha técnica:** `id`, `imdb_id`, `title`, `original_title`, `tagline`, `original_language`,
+      `release_date`, `runtime`, `status`, `rating`, `adult`, `video` y `homepage`;
+    - **Producción e idiomas:** `production_companies`, `production_countries` y `spoken_languages`;
+    - **Cifras:** `budget`, `revenue`, `vote_average`, `vote_count`, `popularity` y `user_score`;
+    - **Colección:** `belongs_to_collection` (`id`, `name`, `poster_path` y `backdrop_path`), o «No
+      pertenece a ninguna colección.»;
+    - **Imágenes:** las rutas `poster_path` y `backdrop_path`.
+  - **Columna de la derecha:**
+    - `overview` (resumen);
+    - `plot` (sinopsis completa);
+    - `cast` (reparto completo; muestra 18 y «Ver todo el reparto (N)»);
+    - `keywords` (nombre e identificador).
+  - Cada dato lleva su etiqueta en español y el nombre del campo, como los filtros de Resultados.
+- **Campos vacíos:** un valor ausente, `null`, texto vacío o lista vacía se muestra como «N/A».
+- **Dinero:** `budget` y `revenue` en USD con separador de miles («160 000 000 USD»). Un 0 se muestra
+  como «N/A», porque TMDB usa 0 cuando no conoce la cifra (supuesto; confírmalo al diseñar la fase).
+- **Imágenes:** del CDN de TMDB (`elastiflix.poster.base-url` + la ruta), con el marcador de póster
+  faltante de Resultados si no hay ruta o la imagen falla.
+- **Llegada desde Resultados:** el título de cada tarjeta enlaza a `/pelicula/{id}` con los mismos
+  parámetros de la búsqueda (§5: `q`, `modo`, `tipo`, `campo`, `operador`, `vector`, `k`, `candidatos`,
+  `pagina`, `tamano` y los filtros). La página de detalle no ejecuta la búsqueda: solo usa esos
+  parámetros para el regreso.
+- **Regreso a los resultados:**
+  - «Volver a los resultados» (arriba y al final de la página) lleva a `/buscar` con exactamente esos
+    parámetros y el ancla `#r-<id>` de la tarjeta;
+  - la persona vuelve a la misma consulta, modo, ajustes, filtros aplicados, página y resultados por
+    página, con la película a la vista;
+  - una barra muestra el estado que se conserva;
+  - no se guarda estado en el servidor, y el botón «Atrás» del navegador también funciona.
+- **Errores:**
+  - un `id` que no existe responde la página «no encontrada» (404);
+  - Elasticsearch caído o con error responde la página de error EFX existente.
+- **Pendiente de definir al diseñar la fase:** qué muestra el regreso cuando se llega sin parámetros de
+  búsqueda (un enlace directo).
+
+### Requerimientos 1 a 4
+
+Pendientes: Adolfo los compartirá uno por uno.
 
 ## Variables de entorno (`.env.example`)
 
