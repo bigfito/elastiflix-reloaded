@@ -1316,9 +1316,38 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
 - **Pendiente de definir al diseñar la fase:** qué pasa al cambiar de idioma en «Cargar datos» con un
   trabajo de validación o importación en curso, o con el formulario de registro a medio llenar.
 
-### Requerimientos 3 y 4
+### Requerimiento 3 — Archivos de carga de hasta 25 MB
 
-Pendientes: Adolfo los compartirá uno por uno.
+- **Origen:** tercero de los cuatro requerimientos nuevos de Adolfo (2026-10-19).
+- **Qué pide:** en la carga de datos por archivo (`.json` o `.csv`), el tamaño máximo pasa de 150 MB a
+  **25 MB**. Se mantienen todas las demás consideraciones y validaciones de la carga: extensión, sin dobles
+  extensiones, UTF-8, encabezado obligatorio en CSV, validación todo o nada contra el mapping, vectores
+  generados con inferencia y publicación atómica.
+- **Decisión de Adolfo (2026-10-19): 25 MB fijo, no configurable.**
+  - Se quita la variable `ELASTIFLIX_INGEST_MAX_FILE_SIZE` y la propiedad
+    `elastiflix.ingest.max-file-size` (en `.env.example`, `application.yml`, `ElastiflixProperties`, PLAN
+    §7 y README).
+  - El límite vive en una sola constante del código. De ella salen la comprobación del navegador, la del
+    servidor y los textos de la interfaz en los dos idiomas.
+  - Spring Boot: `spring.servlet.multipart.max-file-size` = 25MB y `max-request-size` con el margen para
+    los otros campos del formulario (por ejemplo 26MB).
+- **Dónde cambia:**
+  - **Navegador:** rechaza un archivo de más de 25 MB antes de subirlo, con «El archivo pesa X MB y el
+    máximo permitido es 25 MB.» (y su texto en inglés).
+  - **Servidor:** la misma comprobación (`EFX-ING-003`) y el 413 de Spring.
+  - **Textos:** «Cargar datos» y «Acerca de», en español y en inglés.
+  - **Pruebas:** 25 MB se acepta y 25 MB + 1 byte se rechaza, en el navegador y en el servidor.
+  - **Documentación:** `AGENTS.md`, README, PLAN §1, §3 y §7, y `docs/diseno/3.md`, que hoy dicen 150 MB.
+- **Mockups:** `Ingest.dc.html`, `Ingest-en.dc.html`, `About.dc.html` y `About-en.dc.html` ya dicen
+  25 MB. En el escenario «Archivo válido», el tamaño del archivo quedó como `[tamaño]` / `[size]`, porque
+  el ejemplo de 4 322 películas (106–107 MB) ya no cabe.
+- **Pendiente:** cómo se carga un catálogo que no cabe en 25 MB. Adolfo lo aclara en el requerimiento 4.
+- **Relación con la revisión 3:** T-13 sigue trabajando con el límite actual de 150 MB. El cambio a 25 MB
+  se hace en este requerimiento, después de la revisión 3.
+
+### Requerimiento 4
+
+Pendiente: Adolfo lo compartirá.
 
 ## Variables de entorno (`.env.example`)
 

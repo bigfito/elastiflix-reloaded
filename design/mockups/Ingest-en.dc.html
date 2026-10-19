@@ -153,7 +153,7 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 <span style="font-size: 16px; font-weight: 600; color: #2E2A3B">Drag your {{ext}} file here or click to choose it</span>
 <span style="display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px">
 <span style="padding: 4px 10px; border-radius: 999px; background: #FFF1E8; border: 1px solid #FFCDB2; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A9502A">{{ext}} only</span>
-<span style="padding: 4px 10px; border-radius: 999px; background: #FFF1E8; border: 1px solid #FFCDB2; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A9502A">150 MB max</span>
+<span style="padding: 4px 10px; border-radius: 999px; background: #FFF1E8; border: 1px solid #FFCDB2; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A9502A">25 MB max</span>
 <span style="padding: 4px 10px; border-radius: 999px; background: #FFF1E8; border: 1px solid #FFCDB2; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A9502A">UTF-8 text</span>
 </span>
 <span class="hint" style="max-width: 640px">{{fileHint}}</span>
@@ -354,7 +354,7 @@ class Component extends DCLogic {
       pending: { bg: '#FBF7F1', bd: '#E2D8CA', ink: '#6B6578', label: 'pending' }
     };
     const stepDefs = [
-      ['Browser check', 'Extension, type and size (150 MB max) before anything is uploaded.'],
+      ['Browser check', 'Extension, type and size (25 MB max) before anything is uploaded.'],
       ['Upload to the server', 'The application server receives the file and repeats the type and size checks.'],
       ['Validation against the mapping', "The type of every field in every record; if anything doesn't match, everything stops."],
       ['Import into a temporary index', "A copy of the current catalog plus the file's records, in batches of 100."],
@@ -377,7 +377,7 @@ class Component extends DCLogic {
     const fileMeta = scen === 'rejected'
       ? (isCsv ? '2.1 MB · rejected' : '182.4 MB · rejected')
       : scen === 'mismatch' ? (isCsv ? '12.4 MB · CSV · 35 columns · 512 rows' : '12.4 MB · 512 documents')
-      : (isCsv ? '106.0 MB · CSV · 34 columns · 4,322 rows' : '107.3 MB · elastiflix-reloaded export from 2026-10-17 · 4,322 documents');
+      : (isCsv ? '[size] MB · CSV · 34 columns · 4,322 rows' : '[size] MB · elastiflix-reloaded export from 2026-10-17 · 4,322 documents');
     return {
       accent: this.props.accent ?? '#FFCDB2',
       tabs,
@@ -399,10 +399,10 @@ class Component extends DCLogic {
       isAccepted: scen === 'valid' || scen === 'mismatch',
       blockTitle: "This file can't be loaded",
       blockText: 'The file was rejected in the browser before upload, so it never left your computer and nothing was imported.',
-      blockHint: 'Before upload, the browser checks the extension and type (.json or .csv, no double extensions), the size (150 MB max) and that the content is UTF-8 text. The server repeats these checks when it receives the file.',
+      blockHint: 'Before upload, the browser checks the extension and type (.json or .csv, no double extensions), the size (25 MB max) and that the content is UTF-8 text. The server repeats these checks when it receives the file.',
       rejectReasons: isCsv
         ? ["The content isn't CSV text: the file is a ZIP archive with a .csv extension. Only UTF-8 text files are accepted."]
-        : ['The file is 182.4 MB and the maximum allowed is 150 MB.'],
+        : ['The file is 182.4 MB and the maximum allowed is 25 MB.'],
       mappingNote: scen === 'mismatch'
         ? "33 of 34 columns mapped. The director column doesn't exist in the index mapping, so the upload can't continue."
         : '34 of 34 columns recognized: they all have the same name as an index field and were mapped automatically.',
@@ -439,7 +439,7 @@ class Component extends DCLogic {
         { col: 'rating', field: 'rating', kind: 'Text · empty in 417 rows', status: 'Mapped', color: '#2E8B6E' }
       ]),
       checks: isCsv ? [
-        '106.0 MB .csv file, within the 150 MB maximum, with UTF-8 text content.',
+        '[size] MB .csv file, within the 25 MB maximum, with UTF-8 text content.',
         'UTF-8 encoding with BOM, comma separator and a header with 34 recognized columns.',
         '4,322 rows read; 4,307 have cells with line breaks inside quotes and were read in full.',
         'JSON lists, nested objects and vectors decoded without errors in every cell.',
@@ -448,7 +448,7 @@ class Component extends DCLogic {
         'release_date in yyyy-MM-dd format in every row (from 1902-04-17 to 2023-07-19).',
         'Vectors in every row: 256, 512 and 1024 valid numbers with norm 1; no need to generate them.'
       ] : [
-        '107.3 MB .json file, within the 150 MB maximum, with JSON content in UTF-8.',
+        '[size] MB .json file, within the 25 MB maximum, with JSON content in UTF-8.',
         'Export recognized: documents list with 4,322 movies, matching document_count.',
         "Source index elastiflix-reloaded; the file's mapping matches the index mapping (hnsw vectors, m 16, ef_construction 100, cosine).",
         '_id equals id in every record and no id is repeated.',

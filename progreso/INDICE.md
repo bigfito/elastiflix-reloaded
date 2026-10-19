@@ -18,7 +18,7 @@
   (`git ls-remote --heads origin 'revision-3-*'`) y sigue los «Pasos de un carril». El carril Z (cierre)
   empieza cuando los PR de A–F están fusionados.
 - **Después:** los cuatro «Requerimientos nuevos» de `PLAN.md` (1: página de detalle de película; 2: interfaz
-  en español e inglés; 3 y 4 por definir) esperan a que termine la revisión 3 y a que Adolfo dé su consentimiento. Nadie los implementa antes.
+  en español e inglés; 3: archivos de hasta 25 MB; 4 por definir) esperan a que termine la revisión 3 y a que Adolfo dé su consentimiento. Nadie los implementa antes.
 - **Quién actualiza este índice durante la revisión 3:** solo el carril Z. Los carriles A–F escriben su propio
   archivo, para no chocar en git.
 - **Última actualización:** 2026-10-19 00:45 UTC
@@ -78,6 +78,7 @@
 | 2026-10-19 | Decisiones sobre el requerimiento 1 (detalle de película) | Adolfo confirmó que la página de detalle es el primero de sus cuatro requerimientos nuevos; que un `budget` vacío o en 0 se muestra como «N/A»; y que llegar a la ficha con un enlace directo, sin una búsqueda, muestra un error controlado que dice que su consulta falló. Después decidió que `revenue` sigue la misma regla: vacío o en 0, «N/A». |
 | 2026-10-19 | Requerimiento 2: interfaz en español e inglés | Adolfo pidió una versión en inglés de cada página, con un botón por idioma en el header. Eligió: idioma en el parámetro `lang` recordado en una cookie; español al inicio; traducir todo lo que escribe la aplicación (no los datos del catálogo); y aprobar la versión en inglés con mockups. Los cinco mockups `-en` y el selector «ES · EN» están en el canvas y en `design/mockups/`, **pendientes de su aprobación**. Glosario en `docs/i18n/glosario-en.md`. |
 | 2026-10-19 | Mockups del requerimiento 2 aprobados | Adolfo aprobó los mockups en inglés y el selector «ES · EN» («Apruebo los mockups»), con tres ajustes ya aplicados: traducir y adaptar al inglés las consultas de ejemplo (las de título original se quedan; posiciones y conteos se verifican al implementar), el conteo del catálogo siempre del número real de documentos del índice, y los créditos de TMDB en los dos idiomas en cada «Acerca de». |
+| 2026-10-19 | Requerimiento 3: archivos de hasta 25 MB | Adolfo pidió que el tamaño máximo de los archivos `.json` y `.csv` sea 25 MB, con todas las demás validaciones. Decidió que sea fijo, sin configuración (se quita `ELASTIFLIX_INGEST_MAX_FILE_SIZE`). Cómo cargar un catálogo más grande lo aclara el requerimiento 4. Mockups de «Cargar datos» y «Acerca de» actualizados a 25 MB. |
 
 ## Catálogo vigente
 
