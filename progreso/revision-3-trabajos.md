@@ -8,22 +8,22 @@
 
 - **Unidad:** Revisión 3 · carril C
 - **Nombre:** Carga: trabajos
-- **Rama:** `revision-3-trabajos` (por crear desde `main`; si ya existe en `origin`, el carril está tomado)
-- **Carpeta:** clon o worktree propio (por ejemplo `../elastiflix-trabajos`)
+- **Rama:** `revision-3-trabajos` (creada desde `origin/main` en `6c403f4`)
+- **Carpeta:** worktree `/workspaces/elastiflix-trabajos`
 - **Archivos del carril:** paquetes `job/`, `service/` y `vector/` de ingest y `TestApplication.java`, salvo `ErrorContextTest.java`
-- **Herramienta de la última sesión:** ninguna todavía
+- **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-no iniciado
+en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** crea la rama `revision-3-trabajos` desde `origin/main` en un clon o worktree propio, marca
-  este archivo `en curso`, haz commit y push (eso reserva el carril) y empieza T-08.
-- **Última actualización:** 2026-10-19 00:34 UTC
+- **Tarea actual:** T-08
+- **Subpaso en curso:** carril reservado; primer `./mvnw -pl elastiflix-ingest -am verify`
+- **Próximo paso:** corre `./mvnw -q -pl elastiflix-ingest -am verify` y empieza T-08 (`JobFigures.checks` con el
+  estado del trabajo).
+- **Última actualización:** 2026-10-19 02:10 UTC
 
 ## Tareas
 
@@ -53,13 +53,12 @@ Vacío.
 
 ## Decisiones
 
-<Decisiones abiertas de este carril, con su razón, y cada reanudación.>
+- 2026-10-19 02:10 UTC: carril C tomado con Claude Code (Opus 5.5) en el worktree
+  `/workspaces/elastiflix-trabajos`, rama `revision-3-trabajos` desde `origin/main` (`6c403f4`).
 
 ## Notas para el cierre
 
-<Cambios de documentación que aplicará el carril Z: filas de PLAN §1 (texto exacto), propiedades de §7,
-«Cambios respecto al diseño aprobado» de `docs/diseno/<fase>.md`, tablas de errores y README. También las
-firmas viejas que la regla 1 obligó a conservar y que Z puede quitar.>
+Vacío por ahora.
 
 ## Bloqueos y solicitudes
 
