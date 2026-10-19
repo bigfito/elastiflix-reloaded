@@ -19,11 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-06
-- **Subpaso en curso:** carril reservado; leer `results.html` y `AppliedFilters.java`
-- **Próximo paso:** agrega a `results.html` la opción «Solo adultos» marcada cuando llega `adult=true`, con
-  su prueba MockMvc en `ResultsPageTest`.
-- **Última actualización:** 2026-10-19 02:10 UTC
+- **Tarea actual:** T-07
+- **Subpaso en curso:** por empezar
+- **Próximo paso:** agrega `static/img/favicon.svg` (logo del mockup) y su `<link rel="icon">` en `fragments/head.html`; prueba MockMvc de que pedir el ícono no llama a `catalog.status()` y aserción del `<link>` en `LayoutPageTest`.
+- **Última actualización:** 2026-10-19 02:18 UTC
 
 ## Tareas
 
@@ -31,7 +30,7 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-06 | pendiente | — | Resultados: el filtro `adult=true` se pierde sin aviso |
+| T-06 | terminada | (hash en el commit siguiente) | Con `adult=true`, `ResultsPage.adultChoice` agrega la opción «Solo adultos» marcada (y «Todos» deja de estarlo), como `mk()` de S-11. Pruebas nuevas `ResultsPageTest.shouldKeepTheAdultOnlyFilterChecked` y `shouldNotOfferAdultOnlyByDefault`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 13 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (`adultOnly` siempre `false`): falla `shouldKeepTheAdultOnlyFilterChecked`; revertido. |
 | T-07 | pendiente | — | Cada página pide `/favicon.ico`, y ese 404 consulta Elasticsearch |
 | T-12 (`changeHref`) | pendiente | — | Código muerto y campos que nadie lee |
 | T-13 («Acerca de») | pendiente | — | Límites de carga con dos orígenes y valores escritos a mano |
@@ -61,9 +60,9 @@ Vacío.
 
 ## Notas para el cierre
 
-<Cambios de documentación que aplicará el carril Z: filas de PLAN §1 (texto exacto), propiedades de §7,
-«Cambios respecto al diseño aprobado» de `docs/diseno/<fase>.md`, tablas de errores y README. También las
-firmas viejas que la regla 1 obligó a conservar y que Z puede quitar.>
+- **T-06 · PLAN §1, fila nueva:** `Results.dc.html` › filtro «Contenido para adultos» | El mockup solo
+  ofrece «Todos» y «Solo no adultos» | Si la URL trae `adult=true`, se agrega la opción «Solo adultos»,
+  marcada, con su conteo (como `mk()` de las facetas, S-11), para que APLICAR no quite el filtro sin avisar.
 
 ## Bloqueos y solicitudes
 

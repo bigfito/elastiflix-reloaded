@@ -239,6 +239,32 @@ class ResultsPageTest {
                                 + "checked=\"checked\">"));
     }
 
+    @Test
+    @DisplayName("con adult=true, «Solo adultos» aparece marcada y «Todos» no")
+    void shouldKeepTheAdultOnlyFilterChecked() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "match · title"));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("adult", "true"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Adultos: Solo adultos")))
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString())
+                        .containsPattern("<input type=\"radio\" name=\"adult\" value=\"true\" checked>"
+                                + "<span class=\"opt-label\">Solo adultos</span>")
+                        .doesNotContainPattern("name=\"adult\" value=\"\" checked"));
+    }
+
+    @Test
+    @DisplayName("sin adult=true no aparece la opción «Solo adultos»")
+    void shouldNotOfferAdultOnlyByDefault() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "match · title"));
+
+        mvc.perform(get("/buscar").param("q", "titanic"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(not(containsString("Solo adultos"))))
+                .andExpect(content().string(containsString(
+                        "<input type=\"radio\" name=\"adult\" value=\"\" checked=\"checked\">")));
+    }
+
     private static SearchResult found(ComponentScore lexical, ComponentScore vector, Double rrf, String chip) {
         return found(lexical, vector, rrf, chip, facets());
     }

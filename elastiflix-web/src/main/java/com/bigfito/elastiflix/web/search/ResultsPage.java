@@ -65,7 +65,8 @@ public class ResultsPage {
         model.addAttribute("ratings", FacetChoices.kept(form.ratings()));
         model.addAttribute("adultAll", 0);
         model.addAttribute("adultSafe", 0);
-        model.addAttribute("safeOnly", form.adult().contains("false"));
+        model.addAttribute("adultYes", 0);
+        adultChoice(model, form);
         model.addAttribute("dateNote", "En estos resultados: sin fechas de estreno.");
         model.addAttribute("clearHref", SearchLinks.cleared(form));
         model.addAttribute("dateError", dateError);
@@ -78,11 +79,25 @@ public class ResultsPage {
         model.addAttribute("ratings", FacetChoices.of(result.facets().ratings(), form.ratings()));
         model.addAttribute("adultAll", FacetChoices.total(result.facets().adult()));
         model.addAttribute("adultSafe", FacetChoices.countOf(result.facets().adult(), "false"));
-        model.addAttribute("safeOnly", form.adult().contains("false"));
+        model.addAttribute("adultYes", FacetChoices.countOf(result.facets().adult(), "true"));
+        adultChoice(model, form);
         model.addAttribute("dateNote", dateNote(result));
         model.addAttribute("dateError", false);
         model.addAttribute("clearHref", SearchLinks.cleared(form));
         applied(model, form);
+    }
+
+    /**
+     * Qué opción de «Contenido para adultos» queda marcada.
+     *
+     * <p>Como {@code mk(...)} del mockup con las facetas: si la URL trae {@code adult=true}, la opción
+     * «Solo adultos» aparece marcada, para que el siguiente APLICAR no quite el filtro sin avisar. Con
+     * {@code false} y {@code true} a la vez gana {@code false}, igual que en el chip.</p>
+     */
+    private static void adultChoice(Model model, SearchForm form) {
+        boolean safeOnly = form.adult().contains("false");
+        model.addAttribute("safeOnly", safeOnly);
+        model.addAttribute("adultOnly", !safeOnly && form.adult().contains("true"));
     }
 
     private static void pages(Model model, SearchForm form, Pagination pagination) {
