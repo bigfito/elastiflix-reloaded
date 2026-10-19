@@ -16,14 +16,14 @@
 
 ## Estado general
 
-terminado (falta que Adolfo fusione el PR del cierre)
+terminado y fusionado en `main` (cierre: merge `5c21934`, PR #21)
 
 ## Punto de reanudación
 
 - **Tarea actual:** ninguna; T-01 a T-27 terminadas
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** Adolfo revisa y fusiona el PR de `revision-3-cierre`.
-- **Última actualización:** 2026-10-19 03:19 UTC
+- **Próximo paso:** ninguno. Las ramas `revision-3-*` se borraron tras la fusión.
+- **Última actualización:** 2026-10-19 03:23 UTC
 
 ## Carriles
 
@@ -38,7 +38,7 @@ terminado (falta que Adolfo fusione el PR del cierre)
 | D · Carga: lectura | `revision-3-lectura` | [`progreso/revision-3-lectura.md`](revision-3-lectura.md) | fusionado | #15 |
 | E · Web: páginas | `revision-3-paginas` | [`progreso/revision-3-paginas.md`](revision-3-paginas.md) | fusionado | #20 |
 | F · Web: Cargar datos | `revision-3-cargar` | [`progreso/revision-3-cargar.md`](revision-3-cargar.md) | fusionado | #17 |
-| Z · Cierre | `revision-3-cierre` | este tablero | terminado | PR del cierre |
+| Z · Cierre | `revision-3-cierre` | este tablero | fusionado | #21 |
 
 ## Tareas
 
@@ -137,7 +137,7 @@ Vacío.
   «Supresiones» de `docs/diseno/1.md`.
 - **Limpieza local:** se quitaron los seis worktrees de los carriles (sin cambios ni commits pendientes; con
   ellos sus copias de `.env`) y los temporales de prueba en `/tmp` (30 `elastiflix-upload-*.bin` y 48
-  `elastiflix-job-*`). Las ramas remotas `revision-3-*` siguen en GitHub.
+  `elastiflix-job-*`). Tras la fusión del PR #21 se borraron las siete ramas `revision-3-*`, en GitHub y en local.
 
 ## Resumen de diseño
 
