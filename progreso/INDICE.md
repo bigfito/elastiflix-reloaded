@@ -7,14 +7,14 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** Fase 7 — Detalle de película (`GET /pelicula/{id}`) (Requerimiento 1)
-- **Estado de la fase:** terminado
-- **Ramas:** `main` (fusión del PR #23, merge `2902be7`; rama remota y local `fase-7-detalle` borrada)
-- **Diseño:** [`docs/diseno/7.md`](../docs/diseno/7.md) aprobado el 2026-10-19 20:29 UTC
-- **Estado:** tablero [`progreso/7.md`](7.md)
-- **Tarea actual:** fase cerrada
-- **Próximo paso:** Requerimiento 1 terminado y fusionado en `main`. Esperando instrucciones de Adolfo para proceder con el Requerimiento 2 (interfaz en español e inglés).
-- **Última actualización:** 2026-10-19 21:25 UTC
+- **Fase actual:** Fase 8 — Interfaz en español e inglés (i18n) (Requerimiento 2)
+- **Estado de la fase:** en curso
+- **Ramas:** `fase-8-i18n`
+- **Diseño:** [`docs/diseno/8.md`](../docs/diseno/8.md) completado en 8.0
+- **Estado:** tablero [`progreso/8.md`](8.md)
+- **Tarea actual:** 8.1 Configuración de idioma, miles por idioma y selector `ES · EN`
+- **Próximo paso:** Implementar `SupportedLocale`, `LocaleConfig` (`CookieLocaleResolver` y `LocaleChangeInterceptor`), `Thousands.of(long, Locale)` y el selector `ES · EN` en `PageShell`, `PageShells`, `LayoutAdvice`, `chrome.html` y `app.css`.
+- **Última actualización:** 2026-10-19 22:26 UTC
 
 ## Fases
 
@@ -33,6 +33,7 @@
 | — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). El estado posterior entró con el PR #14 (`27fcdef`). La revisión 3 encontró restos de S-01, S-03, S-05, S-06, S-14, S-21 y S-22. |
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 329 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). |
+| 8 | Interfaz en español e inglés (i18n) | — | en curso | `progreso/8.md` | 8.0 terminada (`docs/diseno/8.md`) |
 
 ## Aprobaciones del usuario
 

@@ -1341,7 +1341,17 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
   - sin cookie, la página sale en español aunque el navegador pida inglés;
   - el selector conserva los parámetros de la página.
 - **Pendiente de definir al diseñar la fase:** qué pasa al cambiar de idioma en «Cargar datos» con un
-  trabajo de validación o importación en curso, o con el formulario de registro a medio llenar.
+  trabajo de validación o importación en curso, o con el formulario de registro a medio llenar (definido en
+  `docs/diseno/8.md` §5).
+- **Fase 8 — Tareas:**
+  - [x] **8.0** Diseño técnico de la interfaz en español e inglés en `docs/diseno/8.md` con diagramas Mermaid, posiciones verificadas de las consultas de ejemplo en inglés y comportamiento del cambio de idioma en `/cargar`.
+  - [ ] **8.1** Configuración de idioma (`CookieLocaleResolver` con `es` por defecto ignorando `Accept-Language`, `LocaleChangeInterceptor` con `lang` aceptando solo `es` y `en`), formateo de miles por idioma en `Thousands` y selector `ES · EN` en `PageShell` / `chrome.html` preservando todos los parámetros de la URL.
+  - [ ] **8.2** Catálogos `messages_es.properties` y `messages_en.properties` (UTF-8), componente `UiMessages` para textos e incidencias `ErrorCode`, y externalización de `head.html`, `chrome.html`, `error.html`, `not-found.html` y `about.html`.
+  - [ ] **8.3** Internacionalización de Inicio (`home.html`, `home.js` con atributos `data-*`, `SuggestionCatalog`, `LexicalSuggestions`, `VectorSuggestions` y `HybridSuggestions` con consultas en inglés verificadas contra el índice).
+  - [ ] **8.4** Internacionalización de Resultados (`results.html`, `results.js` con atributos `data-*`, `ResultsPage`, `ModeCopies`, `AppliedFilters`, `FacetChoices`, `ResultCards`, paginación y estados vacíos).
+  - [ ] **8.5** Internacionalización de Detalles de película (`detail.html`, `detail.js` con atributos `data-*`, `MovieDetailPage`, `MovieDetailTables`, `MovieDetailBadges` y `MovieDetailSearchChips`).
+  - [ ] **8.6** Internacionalización de Cargar datos (`ingest.html`, `ingest.js` con atributos `data-*` y conservación de `job` al cambiar de idioma, `JobTexts`, `IngestTranslator`, `IngestController`, `IngestJobController`, `IngestJobErrors`, `UploadSizeErrors` e `informe.csv`).
+  - [ ] **8.7** Pruebas de paridad de claves, ausencia de textos fijos en español en `.html`/`.js`, pruebas `MockMvc` de cambio de idioma y preservación de parámetros, verificación de fase (`./mvnw clean verify` y `-Pit`), actualización de `README.md`, `PLAN.md`, `progreso/8.md` y `progreso/INDICE.md`.
 
 ### Requerimiento 3 — Archivos de carga de hasta 25 MB
 
