@@ -61,7 +61,7 @@ class JobRetentionTest {
         List<String> ids = new ArrayList<>();
         for (int index = 0; index < 22; index++) {
             String jobId = store.open("a.json", upload(), CsvSettings.withHeader());
-            store.invalid(jobId, ValidationReport.empty());
+            store.invalid(jobId, ValidationReport.empty(), 3);
             ids.add(jobId);
             clock.advance(Duration.ofSeconds(1));
         }
@@ -86,7 +86,7 @@ class JobRetentionTest {
         clock.advance(Duration.ofHours(2));
         for (int index = 0; index < 25; index++) {
             String jobId = store.open("b.json", upload(), CsvSettings.withHeader());
-            store.invalid(jobId, ValidationReport.empty());
+            store.invalid(jobId, ValidationReport.empty(), 3);
         }
 
         // when

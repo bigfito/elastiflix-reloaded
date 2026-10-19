@@ -152,17 +152,18 @@ public final class JobStore {
     }
 
     /**
-     * Guarda los errores y deja el trabajo en {@code invalido}.
+     * Guarda los errores y deja el trabajo en {@code invalido}, detenido en el paso que lo rechazó.
      *
-     * @param jobId  identificador
-     * @param issues informe que impide importar
+     * @param jobId   identificador
+     * @param issues  informe que impide importar
+     * @param stopped 2 si falló la comprobación del archivo ({@code EFX-ING-001} a {@code 004}); 3 si no
      */
-    public void invalid(String jobId, ValidationReport issues) {
+    public void invalid(String jobId, ValidationReport issues, int stopped) {
         ImportWork work = require(jobId);
         if (finishEarly(work)) {
             return;
         }
-        work.invalid(issues);
+        work.invalid(issues, stopped);
         logValidation(work);
         discardIfTerminal(work);
     }

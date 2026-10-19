@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-09
+- **Tarea actual:** T-10
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** T-09: `FileIntake` indica el paso del rechazo (2 para `EFX-ING-001` a `004`, 3 en los demás) y `describe()` pasa el trabajo al paso 3.
-- **Última actualización:** 2026-10-19 02:15 UTC
+- **Próximo paso:** T-10: agregar a `ImportJobTest` las pruebas de la tabla (`REINDEX_COUNT_MISMATCH`, `CATALOG_NOT_FOUND`, `ALIAS_AMBIGUOUS`, varios lotes, cancelar entre lotes y antes de `swap`, `deleteTemp` que falla) y una prueba de `ImportRunner`/`JobStore` (cancelado y publicado).
+- **Última actualización:** 2026-10-19 02:21 UTC
 
 ## Tareas
 
@@ -31,7 +31,7 @@ en curso
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
 | T-08 | terminada | sobre `1801d02` | `JobFigures.checks` recibe el estado: solo hay comprobaciones en `valido`, `importando` y `publicado`. `./mvnw -q -pl elastiflix-ingest -am test -Dtest=JobFiguresTest` → 8 pruebas, 0 fallos; con el filtro de estado quitado a mano fallan `shouldShowNoChecksWhenTheJobIsStillValidating` y `shouldShowNoChecksWhenTheJobFailed` (revertido). Checkstyle y PMD de ingest en 0 (`verify -DskipTests`). |
-| T-09 | pendiente | — | Un rechazo de archivo detiene el paso equivocado |
+| T-09 | terminada | sobre `f0da59b` | `FileIntake` pasa el paso detenido a `JobStore.invalid(jobId, informe, paso)`: 2 para `EFX-ING-001` a `004` y 3 en los demás; `ImportWork.describe()` pasa el trabajo al paso 3. Nueva `FileIntakeTest` (3 pruebas: `EFX-ING-002` → paso 2; `EFX-ING-012` → paso 3; validando → paso 3). Rompiendo a mano: `stepOf` siempre 3 → falla `shouldStopStepTwoWhenTheFileHasTwoExtensions`; sin `step = VALIDATION_STEP` en `describe` → falla `shouldMoveToStepThreeWhenTheMappingValidationStarts`; el informe de campos con paso 2 → falla `shouldStopStepThreeWhenAFieldHasTheWrongType` (revertidos). `./mvnw -q -pl elastiflix-ingest -am verify` → BUILD SUCCESS (exit 0). |
 | T-10 (`ImportJob`, `ImportRunner`, `JobStore`) | pendiente | — | Faltan pruebas unitarias de ramas importantes |
 | T-12 (`ImportCounts`, `ImportProgress`) | pendiente | — | Código muerto y campos que nadie lee |
 | T-16 | pendiente | — | Hilos de la carga: estado final, excepciones y nombres |

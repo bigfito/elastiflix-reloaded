@@ -117,6 +117,7 @@ final class ImportWork {
 
     /**
      * Anota lo que se leyó antes de validar: así la página tiene el conteo aunque el archivo sea inválido.
+     * El archivo ya pasó el paso 2; desde aquí corre el paso 3, la validación contra el mapping.
      *
      * @param records registros o filas leídos
      * @param read    tabla de correspondencia del CSV; vacía en JSON
@@ -124,6 +125,7 @@ final class ImportWork {
     synchronized void describe(int records, List<CsvColumnRow> read) {
         fileCount = records;
         columns = List.copyOf(read);
+        step = VALIDATION_STEP;
     }
 
     synchronized void ready(ValidatedMovies checked) {
@@ -138,10 +140,16 @@ final class ImportWork {
         step = IMPORT_STEP;
     }
 
-    synchronized void invalid(ValidationReport issues) {
+    /**
+     * Deja el trabajo en {@code invalido}, detenido en el paso que rechazó el archivo.
+     *
+     * @param issues  informe que impide importar
+     * @param stopped 2 si falló la comprobación del archivo; 3 si falló la lectura o el mapping
+     */
+    synchronized void invalid(ValidationReport issues, int stopped) {
         report = issues;
         status = JobStatus.INVALID;
-        step = VALIDATION_STEP;
+        step = stopped;
     }
 
     synchronized void failed(String code) {

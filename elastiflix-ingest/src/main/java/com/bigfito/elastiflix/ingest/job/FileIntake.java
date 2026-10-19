@@ -3,6 +3,7 @@ package com.bigfito.elastiflix.ingest.job;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,8 +33,13 @@ import tools.jackson.databind.JsonNode;
 @Component
 public final class FileIntake {
 
-    private final FileGate gate;
     private static final Logger LOG = LoggerFactory.getLogger(FileIntake.class);
+    private static final int UPLOAD_STEP = 2;
+    private static final int VALIDATION_STEP = 3;
+    private static final Set<ErrorCode> FILE_CHECKS = EnumSet.of(
+            ErrorCode.BAD_EXTENSION, ErrorCode.DOUBLE_EXTENSION, ErrorCode.FILE_TOO_LARGE, ErrorCode.INVALID_UTF8);
+
+    private final FileGate gate;
 
     private final MappingValidator validator = new MappingValidator();
     private final CatalogIndex catalog;
@@ -66,7 +72,7 @@ public final class FileIntake {
         try {
             finish(jobId, work);
         } catch (IngestValidationException exception) {
-            store.invalid(jobId, report(exception));
+            store.invalid(jobId, report(exception), stepOf(exception.errorCode()));
         } catch (ElastiflixException exception) {
             store.failed(jobId, exception);
         } finally {
@@ -95,7 +101,7 @@ public final class FileIntake {
         LoadedDocuments loaded = gate.open(work);
         store.fileRead(jobId, loaded.recordCount(), loaded.columns());
         if (loaded.documents().isEmpty() && !loaded.report().accepted()) {
-            store.invalid(jobId, loaded.report());
+            store.invalid(jobId, loaded.report(), VALIDATION_STEP);
             return;
         }
         Set<String> existing = existing(loaded.documents());
@@ -110,7 +116,7 @@ public final class FileIntake {
             store.ready(jobId, merged);
             return;
         }
-        store.invalid(jobId, merged.report());
+        store.invalid(jobId, merged.report(), VALIDATION_STEP);
     }
 
     private Set<String> existing(List<JsonNode> documents) {
@@ -137,6 +143,11 @@ public final class FileIntake {
         issues.addAll(header.issues());
         issues.addAll(fields.issues());
         return new ValidationReport(issues);
+    }
+
+    /** {@code EFX-ING-001} a {@code 004} son las comprobaciones del paso 2; lo demás ya es el paso 3. */
+    private static int stepOf(ErrorCode code) {
+        return FILE_CHECKS.contains(code) ? UPLOAD_STEP : VALIDATION_STEP;
     }
 
     private static ValidationReport report(IngestValidationException exception) {

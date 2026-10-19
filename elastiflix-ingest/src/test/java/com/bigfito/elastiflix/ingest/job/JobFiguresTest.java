@@ -40,7 +40,7 @@ class JobFiguresTest {
         store.fileRead(jobId, 512, List.of());
 
         // when
-        store.invalid(jobId, new ValidationReport(errorsInRecords(23, 17)));
+        store.invalid(jobId, new ValidationReport(errorsInRecords(23, 17)), 3);
         JobView view = store.view(jobId);
 
         // then
