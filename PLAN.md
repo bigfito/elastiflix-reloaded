@@ -1257,6 +1257,15 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
   - un `id` que no existe responde la página «no encontrada» (404);
   - Elasticsearch caído o con error responde la página de error EFX existente.
 
+- **Fase 7 — Tareas:**
+  - [x] **7.0** Diseño técnico de la página de detalle en `docs/diseno/7.md` con contratos, diagrama de clases, secuencia y código `EFX-SRCH-012`. Aprobado por Adolfo el 2026-10-19.
+  - [x] **7.1** Lectura por id en `CatalogIndex.findById(alias, id)` y `ElasticsearchCatalogIndex` excluyendo vectores (`plot_256,plot_512,plot_1024`), con pruebas unitarias.
+  - [x] **7.2** Integración en fachada `SearchService.findById(id)` y validación de parámetros de retorno de búsqueda.
+  - [x] **7.3** Controlador `MovieDetailController` (`GET /pelicula/{id}`), validación de `q` previo (`EFX-SRCH-012`), 404 si no existe y modelo de vista `MovieDetailPage` con montos USD / «N/A».
+  - [x] **7.4** Plantilla Thymeleaf `detail.html`, estilos CSS y actualización de tarjetas de resultados en `results.html` para enlazar el título hacia el detalle.
+  - [x] **7.5** Pruebas unitarias completas de la página de detalle (controlador, vistas, formatos de moneda, enlaces de retorno con anclas `#r-<id>` y prueba de error controlado sin `q`).
+  - [x] **7.6** Verificación de fase con `./mvnw clean verify`, actualización de documentación (`README.md`, `PLAN.md`, `progreso/INDICE.md`) y cierre de la fase.
+
 ### Requerimiento 2 — Interfaz en español e inglés
 
 - **Origen:** segundo de los cuatro requerimientos nuevos de Adolfo (2026-10-19). Hoy todas las páginas

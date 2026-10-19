@@ -21,10 +21,10 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 </div>
 
 > [!NOTE]
-> ✅ **Estado actual:** las siete fases del plan están terminadas en `main`. El estado y el próximo paso
+> ✅ **Estado actual:** la Fase 7 (Requerimiento 1: Detalle de película `GET /pelicula/{id}`) está completada
+> con pruebas unitarias, de integración, Checkstyle y PMD en verde. El estado y el próximo paso
 > están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo vigentes del alias
-> `elastiflix-reloaded` («Catálogo vigente»). Los «Requerimientos nuevos» de [`PLAN.md`](PLAN.md) esperan
-> aprobación antes de empezar.
+> `elastiflix-reloaded` («Catálogo vigente»).
 
 ---
 
@@ -55,6 +55,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 | 🔤 | **Full-text (léxica)** | Encuentra películas cuyo título contiene las palabras de tu consulta |
 | 🧭 | **Vectorial** | Encuentra películas cuya sinopsis se parece en significado a lo que describes |
 | 🔀 | **Híbrida** | Ejecuta las dos búsquedas y combina sus resultados en una sola lista |
+| 🎬 | **Detalle de película** | Ficha técnica completa por ID (`/pelicula/{id}`), cifras USD y regreso a los resultados |
 | 🎛️ | **Filtros dinámicos** | Adultos, géneros, fecha de estreno, idiomas y clasificación, con conteos |
 | 📄 | **Paginación** | 25 · 50 · 100 resultados por página |
 | 📥 | **Carga de datos** | Registro individual o archivos `.json` / `.csv`, validados contra el mapping |

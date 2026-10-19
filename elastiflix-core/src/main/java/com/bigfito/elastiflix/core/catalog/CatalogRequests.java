@@ -114,4 +114,14 @@ final class CatalogRequests {
         }
         return found;
     }
+
+    static List<Movie> sources(SearchResponse<Movie> response) {
+        List<Movie> movies = new ArrayList<>();
+        for (Hit<Movie> hit : response.hits().hits()) {
+            if (hit.source() != null) {
+                movies.add(hit.source());
+            }
+        }
+        return movies;
+    }
 }

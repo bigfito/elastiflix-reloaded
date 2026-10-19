@@ -169,6 +169,12 @@ public enum ErrorCode {
             "La página es menor que 1",
             "Empieza en la página 1"),
 
+    /** Enlace directo a detalle sin consulta previa o con consulta inválida. */
+    DIRECT_DETAIL_WITHOUT_QUERY("EFX-SRCH-012",
+            "La consulta de búsqueda no es válida o está ausente",
+            "Se intentó acceder al detalle de una película sin una búsqueda previa",
+            "Realiza una búsqueda desde la página de inicio antes de consultar el detalle de una película"),
+
     /** El nombre no termina en {@code .json} ni en {@code .csv}. */
     BAD_EXTENSION("EFX-ING-001",
             "La extensión no es .json ni .csv",

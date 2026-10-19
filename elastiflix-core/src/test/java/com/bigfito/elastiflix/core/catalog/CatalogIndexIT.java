@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.bigfito.elastiflix.core.TestApplication;
@@ -127,6 +128,25 @@ class CatalogIndexIT {
 
         assertThatThrownBy(() -> catalog.indexOne(alias, movie)).isInstanceOf(ElasticsearchAccessException.class);
         assertThat(catalog.describe(alias)).isInstanceOf(CatalogName.Missing.class);
+    }
+
+    @Test
+    @DisplayName("findById lee una película por id excluyendo los vectores")
+    void shouldFindMovieByIdExcludingVectors() throws Exception {
+        create(indexA);
+        List<Movie> movies = readFixture();
+        writeMovies(indexA, movies);
+
+        Movie expected = movies.getFirst();
+        Optional<Movie> found = catalog.findById(indexA, expected.id());
+
+        assertThat(found).isPresent();
+        Movie movie = found.get();
+        assertThat(movie.id()).isEqualTo(expected.id());
+        assertThat(movie.title()).isEqualTo(expected.title());
+        assertThat(movie.plot256()).isNull();
+        assertThat(movie.plot512()).isNull();
+        assertThat(movie.plot1024()).isNull();
     }
 
     private void create(String indexName) {

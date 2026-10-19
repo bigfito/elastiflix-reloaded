@@ -2,7 +2,10 @@ package com.bigfito.elastiflix.search.result;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.bigfito.elastiflix.core.catalog.CatalogIndex;
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.SearchValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
@@ -31,19 +34,36 @@ public class SearchService {
     private final SearchQueryValidator validator;
     private final FacetCalculator facets;
     private final Paginator paginator;
+    private final CatalogIndex catalogIndex;
+    private final ElastiflixProperties properties;
 
     /**
      * Crea la fachada.
      *
-     * @param strategies una estrategia por modo
-     * @param facets     conteos de full-text o de las películas devueltas
-     * @param paginator  rango y recorte de la página
+     * @param strategies   una estrategia por modo
+     * @param facets       conteos de full-text o de las películas devueltas
+     * @param paginator    rango y recorte de la página
+     * @param catalogIndex lectura directa del catálogo
+     * @param properties   alias configurado
      */
-    public SearchService(List<SearchStrategy> strategies, FacetCalculator facets, Paginator paginator) {
+    public SearchService(List<SearchStrategy> strategies, FacetCalculator facets, Paginator paginator,
+            CatalogIndex catalogIndex, ElastiflixProperties properties) {
         this.strategies = List.copyOf(strategies);
         this.validator = new SearchQueryValidator();
         this.facets = facets;
         this.paginator = paginator;
+        this.catalogIndex = catalogIndex;
+        this.properties = properties;
+    }
+
+    /**
+     * Busca una película por su identificador en el índice activo.
+     *
+     * @param id identificador de la película
+     * @return la película si existe, o vacío si no se encuentra
+     */
+    public Optional<Movie> findById(String id) {
+        return catalogIndex.findById(properties.index().alias(), id);
     }
 
     /**

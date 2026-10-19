@@ -85,4 +85,9 @@ final class CancelAfterReindex implements CatalogIndex {
     public void indexOne(String name, com.bigfito.elastiflix.core.model.Movie movie) {
         delegate.indexOne(name, movie);
     }
+
+    @Override
+    public java.util.Optional<com.bigfito.elastiflix.core.model.Movie> findById(String name, String id) {
+        return delegate.findById(name, id);
+    }
 }

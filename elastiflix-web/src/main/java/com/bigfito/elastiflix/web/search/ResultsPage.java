@@ -36,16 +36,16 @@ public class ResultsPage {
      * @param query  modo y k
      */
     public void fill(Model model, SearchForm form, SearchResult result, SearchQuery query) {
-        heading(model, result, query);
+        heading(model, form, result, query);
         filters(model, form, result);
         pages(model, form, result.pagination());
     }
 
-    private void heading(Model model, SearchResult result, SearchQuery query) {
+    private void heading(Model model, SearchForm form, SearchResult result, SearchQuery query) {
         model.addAttribute("copy", ModeCopies.of(query));
         model.addAttribute("adjustments", result.adjustments());
         model.addAttribute("countTitle", countTitle(result.total()));
-        model.addAttribute("cards", cards.of(result, query.mode()));
+        model.addAttribute("cards", cards.of(result, query.mode(), form));
         model.addAttribute("empty", result.empty());
     }
 

@@ -31,6 +31,24 @@ public class ResultCards {
     }
 
     /**
+     * Tarjetas de la página, con la posición absoluta y enlaces al detalle.
+     *
+     * @param result resultado de la fachada
+     * @param mode   modo, para elegir el panel de puntuación
+     * @param form   formulario actual con los parámetros de búsqueda
+     * @return tarjetas en orden
+     */
+    public List<ResultCard> of(SearchResult result, SearchMode mode, SearchForm form) {
+        List<ResultCard> cards = new ArrayList<>();
+        int rank = start(result);
+        for (SearchHit hit : result.hits()) {
+            cards.add(card(hit, rank, mode, form));
+            rank++;
+        }
+        return List.copyOf(cards);
+    }
+
+    /**
      * Tarjetas de la página, con la posición absoluta.
      *
      * @param result resultado de la fachada
@@ -38,13 +56,7 @@ public class ResultCards {
      * @return tarjetas en orden
      */
     public List<ResultCard> of(SearchResult result, SearchMode mode) {
-        List<ResultCard> cards = new ArrayList<>();
-        int rank = start(result);
-        for (SearchHit hit : result.hits()) {
-            cards.add(card(hit, rank, mode));
-            rank++;
-        }
-        return List.copyOf(cards);
+        return of(result, mode, null);
     }
 
     private static int start(SearchResult result) {
@@ -53,8 +65,9 @@ public class ResultCards {
         return (page - 1) * size + 1;
     }
 
-    private ResultCard card(SearchHit hit, int rank, SearchMode mode) {
+    private ResultCard card(SearchHit hit, int rank, SearchMode mode, SearchForm form) {
         return new ResultCard(
+                hit.id(),
                 rank,
                 text(hit.title()),
                 meta(hit),
@@ -62,7 +75,8 @@ public class ResultCards {
                 votes(hit),
                 posters.url(hit.posterPath()),
                 scores(hit, mode),
-                rrf(hit, mode));
+                rrf(hit, mode),
+                SearchLinks.detail(hit.id(), form));
     }
 
     private static List<ScoreLine> scores(SearchHit hit, SearchMode mode) {

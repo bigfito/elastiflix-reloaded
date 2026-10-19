@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.core.catalog;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 
@@ -134,4 +135,15 @@ public interface CatalogIndex {
      * @param movie película ya vectorizada
      */
     void indexOne(String name, Movie movie);
+
+    /**
+     * Lee una película por su identificador, excluyendo los vectores de embeddings.
+     *
+     * <p>Excluye {@code plot_256}, {@code plot_512} y {@code plot_1024} para aligerar la transferencia.</p>
+     *
+     * @param name índice o alias del catálogo
+     * @param id   identificador único del documento
+     * @return la película encontrada, o vacío si no existe
+     */
+    Optional<Movie> findById(String name, String id);
 }

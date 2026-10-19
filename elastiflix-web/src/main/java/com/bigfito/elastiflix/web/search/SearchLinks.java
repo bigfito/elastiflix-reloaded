@@ -44,6 +44,44 @@ public final class SearchLinks {
         return build(form, 1, form.pageSize(), true);
     }
 
+    /**
+     * Enlace al detalle de la película conservando los parámetros de la búsqueda.
+     *
+     * @param id   identificador de la película
+     * @param form formulario actual
+     * @return ruta hacia el detalle
+     */
+    public static String detail(String id, SearchForm form) {
+        if (form == null) {
+            return "/pelicula/" + id;
+        }
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/pelicula/" + id);
+        query(builder, form);
+        filters(builder, form);
+        builder.queryParam("pagina", form.page());
+        builder.queryParam("tamano", form.pageSize());
+        return EncodedQuery.of(builder);
+    }
+
+    /**
+     * Enlace para volver a la búsqueda desde el detalle, apuntando al ancla de la tarjeta.
+     *
+     * @param id   identificador de la película
+     * @param form formulario recuperado de la query string
+     * @return ruta hacia /buscar?...#r-{id}
+     */
+    public static String returnToSearch(String id, SearchForm form) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/buscar");
+        if (form != null) {
+            query(builder, form);
+            filters(builder, form);
+            builder.queryParam("pagina", form.page());
+            builder.queryParam("tamano", form.pageSize());
+        }
+        builder.fragment("r-" + id);
+        return EncodedQuery.of(builder);
+    }
+
     private static String build(SearchForm form, int page, String size, boolean clear) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/buscar");
         query(builder, form);
