@@ -15,14 +15,14 @@
 
 ## Estado general
 
-en curso
+terminado
 
 ## Punto de reanudación
 
-- **Tarea actual:** cierre del carril
-- **Subpaso en curso:** `git merge origin/main`
-- **Próximo paso:** `git merge origin/main`, `./mvnw verify` y `./mvnw verify -Pit` en verde, estado `terminado`, push y PR hacia `main`.
-- **Última actualización:** 2026-10-19 02:53 UTC
+- **Tarea actual:** ninguna (carril terminado)
+- **Subpaso en curso:** PR hacia `main` abierto
+- **Próximo paso:** el usuario revisa y fusiona el PR «Revisión 3 · carril E (Web: páginas)»; después, el carril Z aplica «Notas para el cierre».
+- **Última actualización:** 2026-10-19 02:56 UTC
 
 ## Tareas
 
@@ -42,7 +42,7 @@ en curso
 | T-23 | terminada | `d2d3d9b` | Un solo helper: se quitó `CatalogTexts.grouped`/`rest` y la web usa `ingest.mapping.Thousands.of` (sin cambios) en el pie y «Acerca de» (`CatalogTexts`), en los votos (`ResultCards.count`) y en el título del conteo (`ResultsPage.countTitle`). Prueba nueva `ResultsPageTest.shouldGroupThousandsInVotesAndCount` («7.9 · 21 911 votos» y `<h1>1 234 resultados</h1>`); `shouldRenderFullText` pasa a «1 000 votos»; `LayoutPageTest` y `AboutPageTest` siguen afirmando «4 322 películas». `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,LayoutPageTest,AboutPageTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 26 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (votos con `Integer.toString`): fallan `shouldGroupThousandsInVotesAndCount` y `shouldRenderFullText`; revertido. |
 | T-25 (`PosterUrls`) | terminada | `bfd273d` | Parte de E: `PosterUrls` recibe `ElastiflixProperties` por constructor; sin `ObjectProvider` ni `Poster.fallback()`. `ResultsPageTest` declara `@EnableConfigurationProperties(ElastiflixProperties.class)` (regla 7) y fija `ELASTIFLIX_POSTER_BASE_URL=https://posters.test/w92`; `shouldRenderFullText` afirma `src="https://posters.test/w92/t.jpg"`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest,ArchitectureTest -Dsurefire.failIfNoSpecifiedTests=false`: 29 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (volver al CDN de respaldo): falla `shouldRenderFullText`; revertido. `IngestLimits` es del carril F. |
 | T-26 (Resultados y CSS) | terminada | `1c9fb43` | Parte de E. `results.html`: `aria-describedby="q-error"` solo cuando se pinta `#q-error` (error que no es de fechas); `h1 id="r-title" aria-live="polite"`; `section aria-labelledby="r-title"`; separador `.apply-row` antes de APLICAR. CSS: `.apply-row`, `.ingest .drop:focus-within` (y `:has(+ #archivo:focus-visible)`) y `.ingest .tab:focus-visible`. Prueba nueva `ResultsPageTest.shouldAnnounceTheCountAndLabelTheSection` y aserción sin `aria-describedby` en `shouldKeepTheFiltersWhenTheDateRangeIsReversed`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (`aria-describedby` fijo y sección sin `aria-labelledby`): fallan esas dos pruebas; revertido. Navegador (Playwright contra el jar del carril, puerto 8095): `.apply-row` con `border-top: 1px solid rgb(239, 231, 220)`; sin error `#q` no tiene `aria-describedby` y con `q=` sí; `#dirty` aparece al marcar un género; con Tab hasta la pestaña, contorno `solid 2px rgb(169, 80, 42)`; con Tab hasta `#archivo`, `.drop` pasa de `outline: none` a `solid 2px rgb(169, 80, 42)`. El teclado de las pestañas es del carril F. |
-| T-27 (`ErrorPageTest`) | terminada | (hash en el commit siguiente) | Parte de E: `ErrorPageTest.shouldShowTheCatalogMessage` afirma ahora el pie en la página EFX (`<footer class="site-footer">`, «Índice: elastiflix-reloaded · 4 322 películas» y `CatalogTexts.TMDB`). `./mvnw -q -pl elastiflix-web -am test -Dtest=ErrorPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 3 pruebas, 0 fallos. Rotura a mano (quitar el pie de `error.html`): fallan `shouldShowTheCatalogMessage` y `shouldReadTheCatalogOnceForAnElastiflixError`; revertido. Las otras filas son de otros carriles. |
+| T-27 (`ErrorPageTest`) | terminada | `d86d016` | Parte de E: `ErrorPageTest.shouldShowTheCatalogMessage` afirma ahora el pie en la página EFX (`<footer class="site-footer">`, «Índice: elastiflix-reloaded · 4 322 películas» y `CatalogTexts.TMDB`). `./mvnw -q -pl elastiflix-web -am test -Dtest=ErrorPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 3 pruebas, 0 fallos. Rotura a mano (quitar el pie de `error.html`): fallan `shouldShowTheCatalogMessage` y `shouldReadTheCatalogOnceForAnElastiflixError`; revertido. Las otras filas son de otros carriles. |
 
 ## Cambios sin commit
 
@@ -50,9 +50,15 @@ Vacío.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-web -am verify` (y al final `./mvnw verify` completo)
-- **Resultado:** —
-- **Fecha:** —
+- **Comando:** `git merge origin/main` (ya al día: `origin/main` seguía en `6c403f4`), luego `./mvnw verify` y
+  `./mvnw verify -Pit`, con el árbol de `d86d016`.
+- **Resultado:** `./mvnw verify` BUILD SUCCESS en 56 s: 271 pruebas unitarias (core 50, search 62, ingest 97,
+  web 62), 0 fallos, 0 omitidas; Checkstyle 0 violaciones y PMD sin fallas en los cinco módulos.
+  `./mvnw verify -Pit` BUILD SUCCESS en 1 min 41 s: las mismas 271 unitarias y 29 de integración (core 9,
+  search 14, ingest 2, web 4 con `SmokeIT`), 0 fallos, 0 omitidas; Checkstyle y PMD en 0.
+- **Fecha:** 2026-10-19 02:53–02:56 UTC.
+- Pruebas de navegador: no se tocaron `home.js` ni `results.js`. Las comprobaciones de navegador de T-22 y
+  T-26 se hicieron con Playwright contra el jar del carril (ver sus filas y «Decisiones»).
 
 ## Decisiones
 
