@@ -4,8 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Clock;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
@@ -21,8 +21,8 @@ import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.Refresh;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
+import co.elastic.clients.elasticsearch.core.GetResponse;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonpMappingException;
 import co.elastic.clients.util.ObjectBuilder;
 
@@ -187,6 +187,28 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
         });
     }
 
+    @Override
+    public Optional<Movie> findById(String name, String id) {
+        if (id == null || id.isBlank()) {
+            return Optional.empty();
+        }
+        try {
+            GetResponse<Movie> response = client.get(request -> request
+                    .index(name)
+                    .id(id)
+                    .sourceExcludes("plot_256", "plot_512", "plot_1024"),
+                    Movie.class);
+            return response.found() ? Optional.ofNullable(response.source()) : Optional.empty();
+        } catch (ElasticsearchException exception) {
+            if (exception.status() == NOT_FOUND) {
+                return Optional.empty();
+            }
+            throw failure(name, exception);
+        } catch (IOException | JsonpMappingException exception) {
+            throw failure(name, exception);
+        }
+    }
+
     private CatalogName fromAlias(String name) {
         List<String> targets = call(name, () -> List.copyOf(
                 client.indices().getAlias(request -> request.name(name)).aliases().keySet()));
@@ -214,17 +236,7 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
                 .size(size)
                 .query(query)
                 .source(CatalogRequests.withVectors()), Movie.class));
-        return sources(response);
-    }
-
-    private static List<Movie> sources(SearchResponse<Movie> response) {
-        List<Movie> movies = new ArrayList<>();
-        for (Hit<Movie> hit : response.hits().hits()) {
-            if (hit.source() != null) {
-                movies.add(hit.source());
-            }
-        }
-        return movies;
+        return CatalogRequests.sources(response);
     }
 
     private <T> T call(String target, IoSupplier<T> supplier) {

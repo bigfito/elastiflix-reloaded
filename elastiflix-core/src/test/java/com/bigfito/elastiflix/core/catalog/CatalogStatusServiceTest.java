@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.core.catalog;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
@@ -159,6 +160,12 @@ class CatalogStatusServiceTest {
         @Override
         public void indexOne(String name, Movie movie) {
             unused();
+        }
+
+        @Override
+        public Optional<Movie> findById(String name, String id) {
+            unused();
+            return Optional.empty();
         }
 
         private static void unused() {
