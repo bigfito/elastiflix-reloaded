@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-10
+- **Tarea actual:** T-12
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** T-10: agregar a `ImportJobTest` las pruebas de la tabla (`REINDEX_COUNT_MISMATCH`, `CATALOG_NOT_FOUND`, `ALIAS_AMBIGUOUS`, varios lotes, cancelar entre lotes y antes de `swap`, `deleteTemp` que falla) y una prueba de `ImportRunner`/`JobStore` (cancelado y publicado).
-- **Última actualización:** 2026-10-19 02:21 UTC
+- **Próximo paso:** T-12: quitar `ImportCounts.replaceCount` e `ImportProgress.replaced` y ajustar `ImportWork.counts`, `WriteTotals.notice`, `ImportJob` y las pruebas.
+- **Última actualización:** 2026-10-19 02:32 UTC
 
 ## Tareas
 
@@ -31,8 +31,8 @@ en curso
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
 | T-08 | terminada | sobre `1801d02` | `JobFigures.checks` recibe el estado: solo hay comprobaciones en `valido`, `importando` y `publicado`. `./mvnw -q -pl elastiflix-ingest -am test -Dtest=JobFiguresTest` → 8 pruebas, 0 fallos; con el filtro de estado quitado a mano fallan `shouldShowNoChecksWhenTheJobIsStillValidating` y `shouldShowNoChecksWhenTheJobFailed` (revertido). Checkstyle y PMD de ingest en 0 (`verify -DskipTests`). |
-| T-09 | terminada | sobre `f0da59b` | `FileIntake` pasa el paso detenido a `JobStore.invalid(jobId, informe, paso)`: 2 para `EFX-ING-001` a `004` y 3 en los demás; `ImportWork.describe()` pasa el trabajo al paso 3. Nueva `FileIntakeTest` (3 pruebas: `EFX-ING-002` → paso 2; `EFX-ING-012` → paso 3; validando → paso 3). Rompiendo a mano: `stepOf` siempre 3 → falla `shouldStopStepTwoWhenTheFileHasTwoExtensions`; sin `step = VALIDATION_STEP` en `describe` → falla `shouldMoveToStepThreeWhenTheMappingValidationStarts`; el informe de campos con paso 2 → falla `shouldStopStepThreeWhenAFieldHasTheWrongType` (revertidos). `./mvnw -q -pl elastiflix-ingest -am verify` → BUILD SUCCESS (exit 0). |
-| T-10 (`ImportJob`, `ImportRunner`, `JobStore`) | pendiente | — | Faltan pruebas unitarias de ramas importantes |
+| T-09 | terminada | `585e978` (sobre `f0da59b`) | `FileIntake` pasa el paso detenido a `JobStore.invalid(jobId, informe, paso)`: 2 para `EFX-ING-001` a `004` y 3 en los demás; `ImportWork.describe()` pasa el trabajo al paso 3. Nueva `FileIntakeTest` (3 pruebas: `EFX-ING-002` → paso 2; `EFX-ING-012` → paso 3; validando → paso 3). Rompiendo a mano: `stepOf` siempre 3 → falla `shouldStopStepTwoWhenTheFileHasTwoExtensions`; sin `step = VALIDATION_STEP` en `describe` → falla `shouldMoveToStepThreeWhenTheMappingValidationStarts`; el informe de campos con paso 2 → falla `shouldStopStepThreeWhenAFieldHasTheWrongType` (revertidos). `./mvnw -q -pl elastiflix-ingest -am verify` → BUILD SUCCESS (exit 0). |
+| T-10 (`ImportJob`, `ImportRunner`, `JobStore`) | terminada | sobre `585e978` | Nuevas `ImportJobEdgeTest` (7 pruebas: `REINDEX_COUNT_MISMATCH` en la copia, `CATALOG_NOT_FOUND`, `ALIAS_AMBIGUOUS`, 5 películas en 3 lotes de 2, cancelar entre lotes, cancelar justo antes de `swap`, `deleteTemp` que falla con su `WARN` capturado con `ListAppender`) e `ImportRunnerTest` (3: éxito → `publicado` en el paso 5; `IMPORT_CANCELLED` → `cancelado`; `BULK_REJECTED` → `fallido`). `ImportJobTest` ya tiene 375 líneas: las pruebas nuevas van en otra clase (ver «Decisiones»). Rompiendo a mano, una a la vez y revirtiendo: sin la comparación de conteos de `copy` → falla `shouldRollBackWhenTheCopyCountDoesNotMatch`; `Missing` y `Ambiguous` como `CATALOG_NOT_ALIAS` → fallan `shouldRefuseAMissingCatalog` y `shouldRefuseAnAmbiguousAlias`; un solo lote → falla `shouldWriteSeveralBatches`; sin `ensureRunning` en `BatchWriter.writeOne` → falla `shouldStopBetweenBatchesWhenCancelled`; sin `ensureRunning` antes de `swap` → falla `shouldStopRightBeforeTheSwapWhenCancelled`; sin el `LOG.warn` de `deleteTemp` → falla `shouldWarnAndKeepTheOriginalErrorWhenTheTempCannotBeDeleted`; sin `store.published` → falla `shouldPublishWhenTheImportSucceeds`; `importStopped` sin distinguir la cancelación → falla `shouldCancelWhenTheImportIsCancelled`. `./mvnw -q -pl elastiflix-ingest -am test -Dtest='ImportJobEdgeTest,ImportRunnerTest'` → exit 0. |
 | T-12 (`ImportCounts`, `ImportProgress`) | pendiente | — | Código muerto y campos que nadie lee |
 | T-16 | pendiente | — | Hilos de la carga: estado final, excepciones y nombres |
 | T-17 (`FileIntake` y `JobStore`) | pendiente | — | Detalles de la validación de archivos |
@@ -54,6 +54,10 @@ Vacío.
 
 - 2026-10-19 02:10 UTC: carril C tomado con Claude Code (Opus 5.5) en el worktree
   `/workspaces/elastiflix-trabajos`, rama `revision-3-trabajos` desde `origin/main` (`6c403f4`).
+- T-09: `JobStore.invalid` recibe el paso detenido como tercer parámetro en lugar de agregar una sobrecarga,
+  porque una sobrecarga deja `JobStore` en 21 métodos (PMD `TooManyMethods`). Ningún otro módulo lo usa.
+- T-10: las pruebas nuevas de `ImportJob` van en `ImportJobEdgeTest` y no en `ImportJobTest`, que ya tiene
+  375 líneas: juntas pasarían el tope de 400 líneas por archivo de `docs/convenciones-java.md` §5.
 
 ## Notas para el cierre
 
