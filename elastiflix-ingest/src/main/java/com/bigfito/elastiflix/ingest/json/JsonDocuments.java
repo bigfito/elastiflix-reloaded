@@ -108,8 +108,10 @@ public final class JsonDocuments {
         return List.copyOf(warnings);
     }
 
+    /** Un entero que no cabe en {@code long} (por ejemplo, de 25 dígitos) tampoco coincide con nada. */
     private static Long count(JsonParser parser) {
-        if (parser.currentToken() != JsonToken.VALUE_NUMBER_INT) {
+        if (parser.currentToken() != JsonToken.VALUE_NUMBER_INT
+                || parser.getNumberType() == JsonParser.NumberType.BIG_INTEGER) {
             throw new IngestValidationException(ErrorCode.DOCUMENT_COUNT_MISMATCH);
         }
         return parser.getLongValue();
