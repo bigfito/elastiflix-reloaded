@@ -72,6 +72,6 @@ public class VectorSearchStrategy implements SearchStrategy {
 
     private SearchResponse<Movie> execute(SearchQuery query, float[] vector, int size) {
         return transport.search(
-                requests.build(properties.index().alias(), query, vector, null, size), Movie.class);
+                requests.build(properties.index().alias(), query, vector, size), Movie.class);
     }
 }

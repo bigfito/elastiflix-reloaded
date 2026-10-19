@@ -37,15 +37,14 @@ public class VectorRequestBuilder {
      *
      * <p>La confirmación de un resultado vacío pide un solo documento. {@code k} no cambia.</p>
      *
-     * @param alias      nombre configurado del catálogo
-     * @param query      consulta ya validada
-     * @param vector     vector de consulta, ya recortado al campo
-     * @param preference valor compartido, o {@code null} si la búsqueda es sola
-     * @param size       cuántos documentos devolver
+     * @param alias  nombre configurado del catálogo
+     * @param query  consulta ya validada
+     * @param vector vector de consulta, ya recortado al campo
+     * @param size   cuántos documentos devolver
      * @return petición de {@code _search}
      */
-    public SearchRequest build(String alias, SearchQuery query, float[] vector, String preference, int size) {
-        return search(alias, query, vector, preference, new Shape(size, false));
+    public SearchRequest build(String alias, SearchQuery query, float[] vector, int size) {
+        return search(alias, query, vector, null, new Shape(size, false));
     }
 
     /**

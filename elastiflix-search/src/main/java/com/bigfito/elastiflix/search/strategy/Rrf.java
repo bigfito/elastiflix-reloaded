@@ -13,14 +13,4 @@ public final class Rrf {
 
     private Rrf() {
     }
-
-    /**
-     * Un sumando de la fórmula: {@code 1 / (60 + posición)}.
-     *
-     * @param position puesto desde 1
-     * @return el sumando
-     */
-    public static double term(int position) {
-        return 1d / (RANK_CONSTANT + position);
-    }
 }

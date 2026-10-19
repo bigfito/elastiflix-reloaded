@@ -55,7 +55,7 @@ class VectorRequestBuilderTest {
                 SearchFilters.none(),
                 1,
                 SearchQuery.PAGE_25);
-        String body = JsonDocuments.of(builder.build("catalogo", query, VECTOR, null, 1));
+        String body = JsonDocuments.of(builder.build("catalogo", query, VECTOR, 1));
         assertThat(body).contains("\"size\":1");
         assertThat(body).contains("\"k\":100");
         assertThat(body).doesNotContain("\"size\":100");
@@ -70,6 +70,6 @@ class VectorRequestBuilderTest {
                 filters,
                 1,
                 SearchQuery.PAGE_25);
-        return JsonDocuments.of(builder.build("catalogo", query, VECTOR, null, query.knn().k()));
+        return JsonDocuments.of(builder.build("catalogo", query, VECTOR, query.knn().k()));
     }
 }

@@ -38,8 +38,7 @@ public class ScoreJoiner {
                 fused.movie(),
                 fused.score(),
                 place(places.lexical.get(id), places.k),
-                place(places.vector.get(id), places.k),
-                fused.score());
+                place(places.vector.get(id), places.k));
     }
 
     private static ComponentScore place(Indexed indexed, int k) {

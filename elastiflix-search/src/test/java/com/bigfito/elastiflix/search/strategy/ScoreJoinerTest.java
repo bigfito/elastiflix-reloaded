@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
 
 /**
  * Posiciones de la híbrida y el sumando {@code 1 / (60 + posición)}.
@@ -36,7 +35,6 @@ class ScoreJoinerTest {
         assertThat(inBoth.vector().score()).isEqualTo(0.8);
         assertThat(inBoth.vector().position()).isEqualTo("2");
         assertThat(inBoth.rrf()).isEqualTo(0.032);
-        assertThat(Rrf.term(1) + Rrf.term(2)).isCloseTo(1d / 61d + 1d / 62d, within(1e-12));
 
         RankedHit lexicalMiss = joined.get(1);
         assertThat(lexicalMiss.lexical().score()).isNull();
