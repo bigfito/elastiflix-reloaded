@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-19 (`SearchController`)
+- **Tarea actual:** T-20 (página de error)
 - **Subpaso en curso:** por empezar
-- **Próximo paso:** corrige el Javadoc de clase y de `search` en `SearchController`: junto al campo solo se muestra el «qué pasó» (`summary()`) y el código va al log.
-- **Última actualización:** 2026-10-19 02:32 UTC
+- **Próximo paso:** agrega el punto final al «qué pasó» en `ErrorPages.filled` y afírmalo en `ErrorPageTest`; anota la fila de PLAN §1 en «Notas para el cierre».
+- **Última actualización:** 2026-10-19 02:33 UTC
 
 ## Tareas
 
@@ -34,8 +34,8 @@ en curso
 | T-07 | terminada | `6db5cfd` | Ícono `static/img/favicon.svg` con `<link rel="icon">` en `fragments/head.html` (ver «Decisiones»). `LayoutPageTest` (ahora importa `NotFoundAdvice`): `shouldShowConnectionIndexAndTmdbOnTheHomePage` afirma el `<link>`; `shouldServeTheIconWithoutReadingTheCatalog` pide el ícono, espera 200 `image/svg+xml` y `verify(catalog, never()).status()`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=LayoutPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 3 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (quitar el ícono): falla con 404, y sin la aserción de estado falla `never()` (`NeverWantedButInvoked`, el 404 lee el catálogo); revertido. |
 | T-12 (`changeHref`) | terminada | `e160ec0` | Se quitó `model.addAttribute("changeHref", "/")` de `ResultsPage.heading`; «Cambiar ajustes» sigue con `@{/}`. `git grep -n changeHref -- '*/src/main/*'` no devuelve nada (código 1). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 20 pruebas, 0 fallos, Checkstyle y PMD en 0. Es una eliminación de código muerto: no hay comportamiento que romper a mano. El `./mvnw verify` completo va al cierre del carril. |
 | T-13 («Acerca de») | terminada | `5e30db1` | Parte de E: `AboutController` recibe `IngestLimits` y pone `maxFileLabel` y `batchSize` en el modelo; `about.html` los usa en «Antes de subir» y «Índice temporal». Prueba nueva `AboutLimitsTest` (`ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB`, `ELASTIFLIX_INGEST_BATCH_SIZE=50`): muestra «de máximo 200 MB» y «lotes de 50» y no «150 MB» ni «lotes de 100»; `AboutPageTest` afirma los valores por defecto. Las dos declaran `@EnableConfigurationProperties(ElastiflixProperties.class)` e importan `IngestLimits` (regla 7). `./mvnw -q -pl elastiflix-web -am verify -Dtest='About*Test' -Dsurefire.failIfNoSpecifiedTests=false`: 2 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (cifras otra vez fijas en la plantilla): falla `AboutLimitsTest`; revertido. La parte de «Cargar datos» es del carril F. |
-| T-14 | terminada | (hash en el commit siguiente) | `LayoutAdvice.shell(HttpServletRequest)` guarda el cromo en `PageShells.REQUEST_ATTRIBUTE`; `WebExceptionHandler.elastiflix` lo reutiliza y solo llama a `catalog.status()` si falta. Prueba nueva `ErrorPageTest.shouldReadTheCatalogOnceForAnElastiflixError` (`/probe/elastiflix` → 500 con el pie y `verify(catalog, times(1)).status()`). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,LayoutPageTest,IngestPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (ignorar el atributo y volver a leer): falla con `TooManyActualInvocations` (2 lecturas); revertido. |
-| T-19 (`SearchController`) | pendiente | — | Textos de error y Javadoc que no corresponden al comportamiento |
+| T-14 | terminada | `36f85bc` | `LayoutAdvice.shell(HttpServletRequest)` guarda el cromo en `PageShells.REQUEST_ATTRIBUTE`; `WebExceptionHandler.elastiflix` lo reutiliza y solo llama a `catalog.status()` si falta. Prueba nueva `ErrorPageTest.shouldReadTheCatalogOnceForAnElastiflixError` (`/probe/elastiflix` → 500 con el pie y `verify(catalog, times(1)).status()`). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,LayoutPageTest,IngestPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (ignorar el atributo y volver a leer): falla con `TooManyActualInvocations` (2 lecturas); revertido. |
+| T-19 (`SearchController`) | terminada | (hash en el commit siguiente) | Parte de E: Javadoc de clase y de `search` en `SearchController` fiel al comportamiento (solo `summary()` con punto junto al campo; el código al log en `WARN`). `git grep -n "con su código" elastiflix-web/src/main/java/com/bigfito/elastiflix/web/search` no devuelve nada. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 13 pruebas, 0 fallos, Checkstyle y PMD en 0. Solo cambia Javadoc: no hay comportamiento que romper. Las partes de A y C son de sus carriles. |
 | T-20 (página de error) | pendiente | — | Textos visibles sin punto final o sin fila en PLAN §1 |
 | T-21 | pendiente | — | «Ver todos» aparece aunque no oculte nada |
 | T-22 | pendiente | — | CSS duplicado y muerto |
@@ -64,6 +64,9 @@ Vacío.
   no pide `/favicon.ico`, y el ícono lo sirve el manejador de recursos estáticos, que no pasa por
   `NotFoundAdvice`. Va en `static/img/` y no en la raíz de `static/` porque esa carpeta es la que la tabla
   de carriles asigna a E.
+- **T-19 (decisión del texto, parte de E):** el Javadoc de `SearchController` dice ahora que el error de
+  validación se muestra junto al campo solo con su «qué pasó» (`summary()`) y punto final, y que el código
+  `EFX-*` va al log en `WARN`; el de `search` dice «muestra qué pasó junto al campo y registra el código».
 
 ## Notas para el cierre
 

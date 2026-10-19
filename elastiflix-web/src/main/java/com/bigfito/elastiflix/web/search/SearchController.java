@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Página de resultados. Un error de validación se muestra aquí, con su código.
+ * Página de resultados.
+ *
+ * <p>Un error de validación se muestra aquí, junto al campo, solo con su «qué pasó» ({@code summary()}) y
+ * punto final. El código {@code EFX-*} va al log en {@code WARN}, no a la página.</p>
  */
 @Controller
 public class SearchController implements HtmlPage {
@@ -41,7 +44,7 @@ public class SearchController implements HtmlPage {
     }
 
     /**
-     * Ejecuta la búsqueda o muestra el código si la URL no es válida.
+     * Ejecuta la búsqueda o, si la URL no es válida, muestra qué pasó junto al campo y registra el código.
      *
      * @param params parámetros de §5
      * @param model  vista
