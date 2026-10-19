@@ -109,6 +109,13 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 | `About.dc.html` › tabla de precisión por dimensión, `adult` y `release_date` del catálogo (R-30, decisión D3, 2026-10-18) | «Se midió con 32 descripciones…», «Contenido para adultos (ninguna película del catálogo lo es)», «Fecha de estreno en yyyy-MM-dd (de 1902 a 2023)» | Se antepone «Medido en el catálogo original de 4 322 películas.» a la tabla, y «medido en el catálogo original de 4 322 películas: » dentro de los paréntesis de `adult` y `release_date`. No se recalcula sobre el catálogo vigente |
 | Pie de todas las páginas y `About.dc.html` › El catálogo, sin conexión (revisión 2, S-22, 2026-10-18) | «Índice: elastiflix-reloaded · 4 322 películas» y «Tiene 4 322 películas.» (el conteo real) | Si Elasticsearch no responde: «Índice: elastiflix-reloaded · conteo no disponible» y «El conteo no está disponible.» |
 | `Main.dc.html` › etiquetas de las sugerencias («OR: 40 resultados», «Titanic: 4.º lugar»…) | — | Se mantienen fijas, tal como en el mockup: describen el catálogo histórico original de 4 322 películas |
+| `Results.dc.html` › filtro «Contenido para adultos» (revisión 3, T-06) | El mockup solo ofrece «Todos» y «Solo no adultos» | Si la URL trae `adult=true`, se agrega la opción «Solo adultos», marcada, con su conteo (como `mk()` de las facetas, S-11), para que APLICAR no quite el filtro sin avisar |
+| Página de error de la demo, `error.html` (revisión 3, T-20; no tiene mockup) | — | Etiqueta «No se pudo completar», título con el código (`EFX-…`) y debajo el «qué pasó» del catálogo **con punto final** (`<summary()>.`, por ejemplo «No se pudo conectar con Elasticsearch.»); enlace «Volver a buscar» |
+| Error sin código `EFX` (400, 405… del contenedor) (revisión 3, T-20; no tiene mockup) | — | Título «Error <estado HTTP>» y el texto «Ocurrió un error inesperado. Vuelve a intentarlo.» |
+| Página 404, `not-found.html` (revisión 3, T-20; no tiene mockup) | — | Etiqueta «404», título «Esta página no existe», texto «La dirección no corresponde a ninguna pantalla de la demo.» y los enlaces Buscar · Cargar datos · Acerca de la demo |
+| `Ingest.dc.html` › registro individual guardado (revisión 3, T-20) | — | «Se guardó <título>.» en una nota `role="status"` sobre las pestañas, tras guardar una película con el formulario |
+| `Ingest.dc.html` › registro individual rechazado (revisión 3, T-20) | — | Una alerta con una línea por error: «<código> · <campo> · <lo que espera el mapping>.», por ejemplo «EFX-ING-012 · vote_count · un número entero.» |
+| `Ingest.dc.html` › advertencias de la validación (revisión 3, T-20) | «62 películas tienen un idioma vacío dentro de spoken_languages: ese valor se omitirá…» (frases del escenario) | Las advertencias reales se agrupan por código y campo: «<campo>: <mensaje> (N).», por ejemplo «spoken_languages: se omite (62).» o «tagline: sin valor.» (sin «(N)» si es una sola). La de vectores conserva su frase completa y va primero |
 
 ## 2. Arquitectura
 
@@ -371,8 +378,6 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   | `elastiflix.poster.base-url` | `${ELASTIFLIX_POSTER_BASE_URL:https://image.tmdb.org/t/p/w342}` |
   | `elastiflix.bootstrap.enabled` | `false` (se activa solo por línea de comandos en la tarea 1.8) |
   | `server.port` | `${SERVER_PORT:8080}` |
-  | `spring.servlet.multipart.max-file-size` | `${elastiflix.ingest.max-file-size}` |
-  | `spring.servlet.multipart.max-request-size` | `151MB` (el archivo más los campos del formulario) |
   | `server.tomcat.max-swallow-size` | `-1` (para responder con `EFX-ING-*` en lugar de cortar la conexión) |
   | `spring.threads.virtual.enabled` | `true` |
   | `management.endpoints.web.exposure.include` | `health` |
@@ -382,8 +387,14 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   `spring.elasticsearch.socket-timeout` no se configura: vale 30 s, el valor por defecto de Spring Boot
   4.1.1. Por eso la copia del catálogo (`_reindex` + `_tasks`) no hace una sola lectura larga: lee
   `_tasks` en un bucle de lecturas de 20 s (`wait_for_completion=true&timeout=20s`), con un plazo total
-  de 30 minutos. Si el plazo vence, se corta la conexión o la persona cancela, la tarea se cancela con
-  `_tasks/<id>/_cancel` antes de borrar el índice temporal (revisión 2, S-01).
+  de 30 minutos. Si el plazo vence, se corta la conexión, la respuesta es ilegible o la persona cancela, la
+  tarea se cancela con `_tasks/<id>/_cancel` (sin esperar en la llamada) y se confirma con hasta 3 lecturas
+  de 20 s antes de borrar el índice temporal (revisión 2, S-01; revisión 3, T-01).
+
+  Los topes del multipart no van en el YAML: `UploadMultipartConfig` (`elastiflix-web`) crea el
+  `MultipartConfigElement` con el archivo hasta `elastiflix.ingest.max-file-size` y la petición hasta ese
+  valor más 1 MB (los otros campos del formulario). Subir `ELASTIFLIX_INGEST_MAX_FILE_SIZE` sube los dos
+  (revisión 3, T-13).
 
   Los valores de embeddings de documento (`elastiflix.embedding.*`) **no** van en el YAML: son los
   valores por defecto (`@DefaultValue`) del `record` de propiedades de `elastiflix-core`, fijados por la
@@ -582,8 +593,9 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
     "elastiflix.elasticsearch.api-key=test"}` y simulan las fachadas. Así `./mvnw verify` corre sin red
     y sin credenciales.
   - `elastiflix-core/src/test/java/com/bigfito/elastiflix/core/EnvironmentIT.java`: arranca el contexto
-    de prueba y afirma que `elastiflix.elasticsearch.url` y `elastiflix.elasticsearch.api-key` no están
-    vacías (sin imprimir sus valores).
+    de prueba y pasa el post-procesador de credenciales sobre el entorno real (lo acepta) y sobre una copia
+    sin la URL (`EFX-CFG-001`), sin imprimir los valores. Hasta la revisión 3 (T-27) afirmaba que la URL y la
+    API key no estaban vacías, algo que no podía fallar: sin ellas el contexto no arranca.
   - Criterio: `./mvnw verify -Pit -pl elastiflix-core -am` muestra `Tests run: 1` en Failsafe para
     `EnvironmentIT` y termina en 0; `./mvnw verify` (sin `-Pit`) no ejecuta ninguna `*IT`.
 - [x] **0.7** Pruebas de arquitectura: agrega
@@ -837,7 +849,8 @@ nunca el catálogo a medias.
   lee una sola vez y las películas validadas quedan en memoria hasta importarse: los vectores se quitan al
   leer, los nodos crudos se sueltan al validar, el archivo local se borra al terminar la validación y los
   trabajos viejos se olvidan: se conservan los 20 últimos en estado final y un `valido` vence a los 30 min
-  sin actividad, revisado al abrir el siguiente trabajo (`JobRetention`, revisión 2, S-06). La lectura en streaming con dos pasadas quedó como
+  sin actividad, revisado al abrir el siguiente trabajo (`JobRetention`, revisión 2, S-06) y, desde la
+  revisión 3 (T-17), también al consultar un trabajo y al importar. La lectura en streaming con dos pasadas quedó como
   alternativa descartada. Commit y **detente** hasta la
   aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
   - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
@@ -848,9 +861,9 @@ nunca el catálogo a medias.
     inferencia; los vectores que traiga el archivo se ignoran.
 - [x] **3.1** Comprobaciones del archivo (las mismas que hace el navegador, repetidas en el servidor):
   solo `.json`/`.csv`, sin dobles extensiones, máximo 150 MB, contenido UTF-8 válido (con o sin BOM).
-  Límites de multipart y de Tomcat según §7 (`max-file-size` 150 MB, `max-request-size` 151 MB,
-  `max-swallow-size` -1), para que un archivo de más de 150 MB reciba su `EFX-ING-*` y no un corte de
-  conexión.
+  Límites de multipart y de Tomcat según §7 (archivo 150 MB y petición 151 MB, que desde la revisión 3,
+  T-13, salen de `UploadMultipartConfig` y no del YAML; `max-swallow-size` -1), para que un archivo de
+  más de 150 MB reciba su `EFX-ING-*` y no un corte de conexión.
   - Criterio: pruebas unitarias aceptan `elastiflix-reloaded.json`, `peliculas_2026.csv` y rechazan
     `peliculas.txt`, `peliculas`, `peliculas.csv.exe`, `peliculas.exe.csv`, `peliculas.json.csv`, un
     archivo de 150 MB + 1 byte y uno con bytes no UTF-8, cada uno con su código `EFX-ING-*`.
@@ -1329,8 +1342,9 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
     §7 y README).
   - El límite vive en una sola constante del código. De ella salen la comprobación del navegador, la del
     servidor y los textos de la interfaz en los dos idiomas.
-  - Spring Boot: `spring.servlet.multipart.max-file-size` = 25MB y `max-request-size` con el margen para
-    los otros campos del formulario (por ejemplo 26MB).
+  - Multipart: `UploadMultipartConfig` (revisión 3, T-13) toma la constante en lugar de
+    `elastiflix.ingest.max-file-size`: archivo hasta 25 MB y petición con el margen de 1 MB para los otros
+    campos del formulario (26 MB). El YAML ya no lleva `spring.servlet.multipart.max-*`.
 - **Dónde cambia:**
   - **Navegador:** rechaza un archivo de más de 25 MB antes de subirlo, con «El archivo pesa X MB y el
     máximo permitido es 25 MB.» (y su texto en inglés).
