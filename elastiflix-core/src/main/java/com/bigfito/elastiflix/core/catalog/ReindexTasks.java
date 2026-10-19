@@ -16,6 +16,7 @@ import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch.core.ReindexResponse;
 import co.elastic.clients.elasticsearch.tasks.GetTasksResponse;
 import co.elastic.clients.json.JsonData;
+import co.elastic.clients.json.JsonpMappingException;
 
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
@@ -30,8 +31,11 @@ import org.slf4j.LoggerFactory;
  * lectura espera en el servidor hasta 20 s, por debajo del socket-timeout de 30 s del cliente, así que
  * la espera del servidor hace de pausa y este código no duerme. El plazo total es de 30 minutos.</p>
  *
- * <p>Si vence el plazo, se corta la conexión o se pide parar, primero cancela la tarea y después lanza.
- * Así quien borre el índice de destino no lo hace mientras el reindex sigue escribiendo en él.</p>
+ * <p>Si vence el plazo, se corta la conexión, llega una respuesta ilegible o se pide parar, primero cancela
+ * la tarea y después lanza. Así quien borre el índice de destino no lo hace mientras el reindex sigue
+ * escribiendo en él. La cancelación no espera en la misma llamada (podría pasar del socket-timeout): pide
+ * {@code wait_for_completion=false} y confirma con hasta {@value #CANCEL_READS} lecturas de {@code _tasks}
+ * de 20 s.</p>
  */
 final class ReindexTasks {
 
@@ -40,6 +44,9 @@ final class ReindexTasks {
 
     /** Espera de cada lectura de {@code _tasks}; menor que el socket-timeout del cliente. */
     static final String READ_LIMIT = "20s";
+
+    /** Lecturas de {@code _tasks} que confirman la cancelación antes de rendirse con un aviso. */
+    static final int CANCEL_READS = 3;
 
     private static final String TIMEOUT_TYPE = "timeout_exception";
     private static final Logger LOG = LoggerFactory.getLogger(ReindexTasks.class);
@@ -66,7 +73,7 @@ final class ReindexTasks {
         GetTasksResponse finished;
         try {
             finished = waitFor(taskId, stop);
-        } catch (IOException | ElasticsearchException exception) {
+        } catch (IOException | ElasticsearchException | JsonpMappingException exception) {
             cancel(taskId);
             throw exception;
         }
@@ -123,15 +130,32 @@ final class ReindexTasks {
         }
     }
 
-    /** Pide cancelar la tarea y espera a que pare. Es un intento: si falla, avisa y sigue. */
+    /**
+     * Pide cancelar la tarea sin esperar en la misma llamada y confirma que paró con lecturas cortas de
+     * {@code _tasks}. Es un intento: si falla o no se confirma, avisa con el id de la tarea y sigue.
+     */
     private void cancel(String taskId) {
         try {
-            client.tasks().cancel(request -> request.taskId(taskId).waitForCompletion(true));
-            LOG.info("Se canceló la tarea de reindex {}", taskId);
-        } catch (IOException | ElasticsearchException exception) {
+            client.tasks().cancel(request -> request.taskId(taskId).waitForCompletion(false));
+            if (confirmStopped(taskId)) {
+                LOG.info("Se canceló la tarea de reindex {}", taskId);
+            } else {
+                LOG.warn("No se confirmó la cancelación de la tarea de reindex {} tras {} lecturas", taskId,
+                        CANCEL_READS);
+            }
+        } catch (IOException | ElasticsearchException | JsonpMappingException exception) {
             LOG.warn("No se pudo cancelar la tarea de reindex {} tipo={}", taskId,
                     exception.getClass().getSimpleName());
         }
+    }
+
+    private boolean confirmStopped(String taskId) throws IOException {
+        for (int attempt = 1; attempt <= CANCEL_READS; attempt++) {
+            if (read(taskId).filter(GetTasksResponse::completed).isPresent()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void requireClean(GetTasksResponse task) {
@@ -147,7 +171,9 @@ final class ReindexTasks {
         }
         JsonObject body = response.toJson().asJsonObject();
         boolean timedOut = body.getBoolean("timed_out", false);
-        boolean failed = body.containsKey("failures") && !body.getJsonArray("failures").isEmpty();
+        JsonValue failures = body.get("failures");
+        boolean failed = failures != null && failures.getValueType() == JsonValue.ValueType.ARRAY
+                && !failures.asJsonArray().isEmpty();
         return timedOut || failed;
     }
 }

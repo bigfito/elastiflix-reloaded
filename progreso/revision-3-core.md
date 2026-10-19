@@ -19,12 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-01
-- **Subpaso en curso:** carril reservado; primer `./mvnw -pl elastiflix-core -am verify`
-- **Próximo paso:** en `ReindexTasks`, agregar `JsonpMappingException` al multi-catch de `copy`, cancelar con
-  `wait_for_completion=false` y confirmar con hasta 3 lecturas de `_tasks`, y proteger `hasFailures` ante
-  `failures: null`; con sus cuatro pruebas en `ReindexTasksTest`.
-- **Última actualización:** 2026-10-19 02:10 UTC
+- **Tarea actual:** T-02 (inferencia)
+- **Subpaso en curso:** T-01 terminada
+- **Próximo paso:** en `InferenceEmbeddingService.call` agregar `JsonpMappingException` al multi-catch (EFX-EMB-001) y su prueba en `InferenceEmbeddingServiceTest`.
+- **Última actualización:** 2026-10-19 02:17 UTC
 
 ## Tareas
 
@@ -32,7 +30,7 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-01 | pendiente | — | La copia del índice no se cancela ante una respuesta ilegible de `_tasks` |
+| T-01 | terminada | sobre `dcfe652` | `copy` cancela también ante `JsonpMappingException`; `cancel` pide `wait_for_completion=false` y confirma con hasta 3 lecturas de `_tasks` de 20 s (WARN con el id si no se confirma); `hasFailures` mira `getValueType()`. `ReindexTasksTest` (14 pruebas, verde): `shouldCancelWhenTheTaskResponseIsUnreadable`, `shouldRetryTheCancelConfirmationUntilTheTaskStops`, `shouldStopConfirmingAfterThreeReads`, `shouldAcceptANullFailuresValue` y `shouldFailWhenTheTaskReportsFailures` (EFX-ES-006). Roturas a mano y revertidas: sin `JsonpMappingException` en `copy` → falla `shouldCancelWhenTheTaskResponseIsUnreadable`; una sola lectura → fallan `shouldStopConfirmingAfterThreeReads` y `shouldRetry…`; `wait_for_completion=true` → falla `shouldRetry…`; `getJsonArray` viejo → falla `shouldAcceptANullFailuresValue`. `./mvnw -q -pl elastiflix-core verify` exit 0 (2026-10-19 02:17 UTC). `shouldCancelWhenStopIsRequested` ahora espera 1 lectura (la de confirmación). |
 | T-02 (inferencia) | pendiente | — | Búsqueda e inferencia no traducen una respuesta ilegible a un código EFX |
 | T-10 (core) | pendiente | — | Faltan pruebas unitarias de ramas importantes |
 | T-12 (core) | pendiente | — | Código muerto y campos que nadie lee |
