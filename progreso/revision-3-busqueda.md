@@ -19,11 +19,11 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-27 (search)
-- **Subpaso en curso:** T-02, T-03, T-10, T-12 y T-18 terminadas
-- **Próximo paso:** T-27: `ScoreJoinerTest` prueba el joiner (no la fórmula) y se parten las líneas de más de
-  120 caracteres de `KnnStrategiesTest`.
-- **Última actualización:** 2026-10-19 02:25 UTC
+- **Tarea actual:** cierre del carril
+- **Subpaso en curso:** las seis correcciones del carril terminadas
+- **Próximo paso:** `git merge origin/main`, `./mvnw verify` y `./mvnw verify -Pit` en verde, estado `terminado`,
+  push y PR «Revisión 3 · carril B (Búsqueda)» hacia `main`.
+- **Última actualización:** 2026-10-19 02:27 UTC
 
 ## Tareas
 
@@ -35,8 +35,8 @@ en curso
 | T-03 | terminada | `069c76a` | `SearchQueryValidator.requireKnnSettings`: `knn == null \|\| knn.field() == null` → `MISSING_MODE_SETTINGS` (`EFX-SRCH-010`); en un método aparte porque dentro de `requireKnn` PMD marcó `CyclomaticComplexity`. Prueba nueva `SearchQueryValidatorTest.shouldRejectWhenTheKnnSettingsHaveNoField` (código y «Faltan los ajustes de este modo.»). Rota a mano (solo `knn == null`): esa prueba falla (`assertCode:165`); revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde (2026-10-19 02:17 UTC). |
 | T-10 (`KnnStrategiesTest`) | terminada | `126b4b8` | Prueba nueva `KnnStrategiesTest.shouldGiveTheRejectedCodeWhenAPartOfTheMultiSearchIsAClientError`: el tercer ítem del `_msearch` llega con `status 400` (`illegal_argument_exception`) y la búsqueda híbrida lanza `ElasticsearchAccessException` con `EFX-ES-007`. Rota a mano (`HybridSearchStrategy.rejected` con `codeFor(0)` en lugar del estado del ítem): esa prueba falla (línea 129); revertido. `./mvnw -q -pl elastiflix-search -am test -Dtest=KnnStrategiesTest`: 5 pruebas, 0 fallos (2026-10-19 02:19 UTC). Evidencia aquí y no en el tablero `progreso/revision-3.md` (lo escribe Z). |
 | T-12 (search) | terminada | `19e53ff` | Quitados `Rrf.term(int)` (la IT `HybridSearchIT` calcula `1 / (Rrf.RANK_CONSTANT + posición)` por su cuenta), `TextOperator.elasticsearchOperator()` con su campo y constructor (el enum queda `OR`, `AND`; `LexicalQueryBuilder.elasticsearch()` sigue siendo el único traductor), el componente `RankedHit.rrf` (queda `rrf()` como método, regla 1) y el parámetro `preference` de `VectorRequestBuilder.build` (y la `null` de `VectorSearchStrategy`). `./mvnw -q -pl elastiflix-search -am verify` en verde: search 67 unitarias, 0 fallos, Checkstyle y PMD en 0; `./mvnw -q -pl elastiflix-web -am test-compile` en verde. `grep -rn -e "Rrf.term" -e "term(int" -e "elasticsearchOperator" elastiflix-*/src/main` sin resultados; `VectorRequestBuilder.build` ya no tiene `preference` (2026-10-19 02:22 UTC). |
-| T-18 | terminada | se anota en el commit siguiente | `HybridSearchStrategy.join`: un `_msearch` con partes de más o de menos lanza `ElasticsearchAccessException` con `EFX-ES-007` (`ELASTICSEARCH_REJECTED`) y registra un `ERROR` con las partes recibidas y esperadas (método `wrongParts`). `KnnStrategiesTest.shouldFailWhenTheMultiSearchHasTheWrongNumberOfParts` afirma ahora el código. Rota a mano (de vuelta a `rejected("respuesta", 0)`, que da `EFX-ES-001`): esa prueba falla (línea 143); revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde: search 67 unitarias, 0 fallos (2026-10-19 02:25 UTC). La parte de `IndexMapping.field` es de A (T-12). |
-| T-27 (search) | pendiente | — | Pruebas que no pueden fallar, débiles o con higiene pendiente |
+| T-18 | terminada | `1b9a58e` | `HybridSearchStrategy.join`: un `_msearch` con partes de más o de menos lanza `ElasticsearchAccessException` con `EFX-ES-007` (`ELASTICSEARCH_REJECTED`) y registra un `ERROR` con las partes recibidas y esperadas (método `wrongParts`). `KnnStrategiesTest.shouldFailWhenTheMultiSearchHasTheWrongNumberOfParts` afirma ahora el código. Rota a mano (de vuelta a `rejected("respuesta", 0)`, que da `EFX-ES-001`): esa prueba falla (línea 143); revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde: search 67 unitarias, 0 fallos (2026-10-19 02:25 UTC). La parte de `IndexMapping.field` es de A (T-12). |
+| T-27 (search) | terminada | se anota en el commit siguiente | `ScoreJoinerTest`: se quitó la aserción de la fórmula del helper (`Rrf.term`, en T-12) y se agregó `shouldKeepTheFusedOrderWhenTheMovieIsOutsideBothLists`, que prueba el joiner: orden y `score`/`rrf()` de la lista fusionada, una película fuera de las dos listas con `fuera de su top k` en ambas, y puntuación y posición copiadas de cada lista. Rota a mano (`ScoreJoiner.index` con posiciones invertidas): fallan las dos pruebas de `ScoreJoinerTest` (líneas 36 y 70); revertido. `KnnStrategiesTest`: las dos líneas de 121 caracteres (l. 105 y la de `response`) quedaron partidas; la de l. 105 usa el helper `failure(status, type)`. Ninguna línea de `elastiflix-search` pasa de 120 caracteres (contadas en caracteres con Python). `./mvnw -q -pl elastiflix-search -am test -Dtest=ScoreJoinerTest,KnnStrategiesTest`: 2 + 5 pruebas, 0 fallos (2026-10-19 02:27 UTC). |
 
 ## Cambios sin commit
 

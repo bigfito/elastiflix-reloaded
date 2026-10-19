@@ -101,8 +101,7 @@ class KnnStrategiesTest {
     @DisplayName("un ítem fallido del _msearch no se toma como lista vacía: lanza")
     void shouldFailWhenAPartOfTheMultiSearchFails() {
         when(embeddings.embedQuery(anyString())).thenReturn(unit());
-        MultiSearchResponseItem<Movie> failed = MultiSearchResponseItem.of(item -> item.failure(ErrorResponse.of(
-                error -> error.status(500).error(cause -> cause.type("search_phase_execution_exception").reason("x")))));
+        MultiSearchResponseItem<Movie> failed = failure(500, "search_phase_execution_exception");
         when(transport.msearch(any(MsearchRequest.class), eq(Movie.class))).thenReturn(msearch(ok(1), failed, ok(1)));
 
         assertThatThrownBy(() -> service.search(query(SearchMode.HYBRID, SearchFilters.none())))
@@ -163,7 +162,8 @@ class KnnStrategiesTest {
     private static SearchResponse<Movie> response(int count) {
         return SearchResponse.of(response -> response.took(1).timedOut(false)
                 .shards(shards -> shards.total(1).successful(1).failed(0))
-                .hits(hits -> hits.total(total -> total.value(count).relation(TotalHitsRelation.Eq)).hits(hits(count))));
+                .hits(hits -> hits.total(total -> total.value(count).relation(TotalHitsRelation.Eq))
+                        .hits(hits(count))));
     }
 
     private static MultiSearchResponseItem<Movie> failure(int status, String type) {
