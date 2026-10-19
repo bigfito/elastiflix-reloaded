@@ -12,20 +12,20 @@
 - **Nombre:** Correcciones de código de la tercera revisión exhaustiva, en carriles paralelos
 - **Rama:** una por carril, `revision-3-<carril>`; el cierre usa `revision-3-cierre`
 - **Carpeta:** un clon o worktree por carril
-- **Herramienta de la última sesión:** ninguna todavía (Claude Code, Google Antigravity o JetBrains Junie)
+- **Herramienta de la última sesión:** Claude Code (Opus 5.5); los carriles A–F, seis agentes de Claude Code en paralelo
 
 ## Estado general
 
-no iniciado
+en curso (cierre Z)
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** cada agente toma un carril libre de A–F (paso 2 de «Pasos de un carril»). Para saber
-  cuáles están tomados: `git ls-remote --heads origin 'revision-3-*'` y el estado de cada archivo de carril.
-  El carril Z empieza cuando los PR de A–F están fusionados.
-- **Última actualización:** 2026-10-19 00:34 UTC
+- **Tarea actual:** cierre Z en la rama `revision-3-cierre`
+- **Subpaso en curso:** reserva del carril
+- **Próximo paso:** Z: quitar las firmas viejas (regla 1), agrupar los miles del rango de paginación y quitar el
+  `preference` sin uso de la híbrida (pedidos por Adolfo), aplicar las «Notas para el cierre» de A–F, correr
+  `verify`, `-Pit` y las pruebas de navegador, marcar cada T-NN y abrir el PR.
+- **Última actualización:** 2026-10-19 03:05 UTC
 
 ## Carriles
 
@@ -34,13 +34,13 @@ no iniciado
 
 | Carril | Rama | Archivo de estado | Estado | PR |
 |---|---|---|---|---|
-| A · Núcleo | `revision-3-core` | [`progreso/revision-3-core.md`](revision-3-core.md) | libre | — |
-| B · Búsqueda | `revision-3-busqueda` | [`progreso/revision-3-busqueda.md`](revision-3-busqueda.md) | libre | — |
-| C · Carga: trabajos | `revision-3-trabajos` | [`progreso/revision-3-trabajos.md`](revision-3-trabajos.md) | libre | — |
-| D · Carga: lectura | `revision-3-lectura` | [`progreso/revision-3-lectura.md`](revision-3-lectura.md) | libre | — |
-| E · Web: páginas | `revision-3-paginas` | [`progreso/revision-3-paginas.md`](revision-3-paginas.md) | libre | — |
-| F · Web: Cargar datos | `revision-3-cargar` | [`progreso/revision-3-cargar.md`](revision-3-cargar.md) | libre | — |
-| Z · Cierre | `revision-3-cierre` | este tablero | espera a A–F | — |
+| A · Núcleo | `revision-3-core` | [`progreso/revision-3-core.md`](revision-3-core.md) | fusionado | #18 |
+| B · Búsqueda | `revision-3-busqueda` | [`progreso/revision-3-busqueda.md`](revision-3-busqueda.md) | fusionado | #16 |
+| C · Carga: trabajos | `revision-3-trabajos` | [`progreso/revision-3-trabajos.md`](revision-3-trabajos.md) | fusionado | #19 |
+| D · Carga: lectura | `revision-3-lectura` | [`progreso/revision-3-lectura.md`](revision-3-lectura.md) | fusionado | #15 |
+| E · Web: páginas | `revision-3-paginas` | [`progreso/revision-3-paginas.md`](revision-3-paginas.md) | fusionado | #20 |
+| F · Web: Cargar datos | `revision-3-cargar` | [`progreso/revision-3-cargar.md`](revision-3-cargar.md) | fusionado | #17 |
+| Z · Cierre | `revision-3-cierre` | este tablero | en curso | — |
 
 ## Tareas
 
