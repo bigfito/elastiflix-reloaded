@@ -19,10 +19,9 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-03
-- **Subpaso en curso:** T-02 terminada; T-03 con el código y la prueba listos en el árbol
-- **Próximo paso:** commit de T-03 (`SearchQueryValidator.requireKnnSettings` con `field` nulo →
-  `EFX-SRCH-010`) y seguir con T-10 (`KnnStrategiesTest`: ítem 4xx del `_msearch` → `EFX-ES-007`).
+- **Tarea actual:** T-10 (`KnnStrategiesTest`)
+- **Subpaso en curso:** T-02 y T-03 terminadas
+- **Próximo paso:** T-10: agregar a `KnnStrategiesTest` un ítem 4xx del `_msearch` que afirme `EFX-ES-007`.
 - **Última actualización:** 2026-10-19 02:17 UTC
 
 ## Tareas
@@ -31,8 +30,8 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-02 (transporte) | terminada | se anota en el commit siguiente | `ElasticsearchSearchTransport.call` atrapa también `JsonpMappingException` → `codeFor(0)` = `EFX-ES-001`, con la causa. Prueba nueva `ElasticsearchSearchTransportTest` (3 casos: `_search`, `_msearch` y `_count` con el cliente simulado lanzando `JsonpMappingException`; afirman `EFX-ES-001`). Rota a mano (sin `JsonpMappingException` en el multi-catch): los 3 casos fallan; revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde (2026-10-19 02:17 UTC). |
-| T-03 | pendiente | — | Validación k-NN: un vector de consulta sin campo da NPE |
+| T-02 (transporte) | terminada | `6aff8d6` | `ElasticsearchSearchTransport.call` atrapa también `JsonpMappingException` → `codeFor(0)` = `EFX-ES-001`, con la causa. Prueba nueva `ElasticsearchSearchTransportTest` (3 casos: `_search`, `_msearch` y `_count` con el cliente simulado lanzando `JsonpMappingException`; afirman `EFX-ES-001`). Rota a mano (sin `JsonpMappingException` en el multi-catch): los 3 casos fallan; revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde (2026-10-19 02:17 UTC). |
+| T-03 | terminada | se anota en el commit siguiente | `SearchQueryValidator.requireKnnSettings`: `knn == null \|\| knn.field() == null` → `MISSING_MODE_SETTINGS` (`EFX-SRCH-010`); en un método aparte porque dentro de `requireKnn` PMD marcó `CyclomaticComplexity`. Prueba nueva `SearchQueryValidatorTest.shouldRejectWhenTheKnnSettingsHaveNoField` (código y «Faltan los ajustes de este modo.»). Rota a mano (solo `knn == null`): esa prueba falla (`assertCode:165`); revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde (2026-10-19 02:17 UTC). |
 | T-10 (`KnnStrategiesTest`) | pendiente | — | Faltan pruebas unitarias de ramas importantes |
 | T-12 (search) | pendiente | — | Código muerto y campos que nadie lee |
 | T-18 | pendiente | — | Códigos de error equivocados en búsqueda y mapping |
