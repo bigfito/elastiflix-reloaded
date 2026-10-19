@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-25
-- **Subpaso en curso:** T-20 terminada (parte F)
-- **Próximo paso:** T-25: `IngestLimits` recibe `ElastiflixProperties` por constructor (sin `ObjectProvider` ni relleno) y las pruebas `@WebMvcTest` de carga la declaran con `@EnableConfigurationProperties`.
-- **Última actualización:** 2026-10-19 02:33 UTC
+- **Tarea actual:** T-26
+- **Subpaso en curso:** T-25 terminada (parte F)
+- **Próximo paso:** T-26: `tabindex` itinerante y flechas ←/→, Inicio y Fin en las pestañas de «Cargar datos» (`ingest.html` + `ingest.js`), con su prueba de navegador.
+- **Última actualización:** 2026-10-19 02:36 UTC
 
 ## Tareas
 
@@ -35,8 +35,8 @@ en curso
 | T-11 | terminada | `912bc3e` | Nuevo `src/test/browser/ingest.test.js` con `page.route()` sobre `/cargar/archivo` y `/cargar/trabajos/*`: 409 al importar (T-04), revalidar el mismo archivo con otro separador (T-05), `cancelado` → paso 4 detenido, doble clic en Importar → un POST, caída de red al importar y al subir → aviso de red. `suggestions.test.js` intercepta `/buscar`. `BASE_URL=http://localhost:8096 npm test` (app con `ELASTICSEARCH_URL=http://localhost:9200`, sin Elasticsearch): 10 de 10 ✔. Rotura a mano: sin `cancelado` en `stepState`, sin `importButton.disabled = true` en `act`, sin el aviso en el `catch` de `upload` y sin la bandera en el `catch` de `act` → los cuatro casos nuevos ✖; T-04 y T-05 ya se rompieron en sus filas; se restauró. README de la carpeta actualizado. |
 | T-13 («Cargar datos» y `application.yml`) | terminada (parte F) | `666344c` | `IngestJobController` ya no usa `@Value`: el 413 propio sale de `limits.maxFileSize()`. Nuevo `UploadMultipartConfig` (`@Configuration`) crea el `MultipartConfigElement`: archivo = `elastiflix.ingest.max-file-size`, petición = ese valor + 1 MB; Spring Boot no crea el suyo. El YAML pierde `spring.servlet.multipart.*`. Pruebas: `IngestConfiguredLimitsTest` (MockMvc con `ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB` y `ELASTIFLIX_INGEST_BATCH_SIZE=50`: «Máximo 200 MB», «(máximo 200 MB)», «en lotes de 50.», `data-max-bytes="209715200"`; 200 MB pasa y 200 MB + 1 byte da 413 `EFX-ING-003`), `MultipartLimitsTest` (200 MB → 201 MB; por defecto 150/151 MB; el YAML ya no repite topes) e `IngestJobErrorTest` (tope de 32 B por `elastiflix.ingest.max-file-size`): `./mvnw -q -pl elastiflix-web -am test -Dtest=…` EXIT 0. Con el controlador de `main` fallan `IngestConfiguredLimitsTest:80` (`expected:<200> but was:<413>`) e `IngestJobErrorTest:55` (`expected:<413> but was:<400>`); se restauró. Con la app real y `ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB`, un JSON de 160 MB: jar de `main` → 413 `EFX-ING-003` (corta `max-request-size: 151MB`); jar de la rama → 200 con `jobId`. «Acerca de» es del carril E. |
 | T-15 | terminada | `dec3535` | Decisión: manejador `@ExceptionHandler(RuntimeException.class)` → 500 JSON `EFX-IMP-007` en `IngestJobErrors` (sin `catch` genérico); `UploadSizeErrors` lleva `@Order(HIGHEST_PRECEDENCE)` para que el 413 no se vuelva 500. `IngestJobController` borra el temporal si `acceptFile` (o `transferTo`) lanza, con `finally` y bandera. Pruebas en `IngestJobJsonErrorsTest`: `shouldAnswerJsonWhenAnUncodedFailureHappens` (`IllegalStateException` → 500 JSON `EFX-IMP-007`) y `shouldDeleteTheUploadCopyWhenTheJobCannotStart` (el temporal ya no existe); `IngestJobErrorTest` sigue dando 413 con los dos advices. `./mvnw -q -pl elastiflix-web -am test -Dtest=…` EXIT 0 y `verify -DskipTests` EXIT 0. Rotura: sin el manejador, las dos pruebas ✖ (`Servlet Request processing failed: IllegalStateException`); sin el borrado, `…JobCannotStart:111` ✖ (`Expecting path … not to exist`); se restauró. |
-| T-20 («Cargar datos» y `JobTexts`) | terminada (parte F) | se anota en el commit siguiente | Decisión: agregar el punto y registrar cada texto en PLAN §1 (no se cambia al texto del mockup, que habla de un escenario). `ingest.html`: la lista de rechazos queda `<código> · <campo> · <esperado>.`. `JobTexts`: cada advertencia real queda `<campo>: <mensaje> (N).` (con `(N)` solo si N > 1), con punto como la de vectores. Pruebas nuevas en `IngestPageTest`: `shouldEndEachRejectionWithAPeriod` y `shouldEndEachWarningWithAPeriod`; `./mvnw -q -pl elastiflix-web -am test -Dtest=IngestPageTest` EXIT 0 (12 pruebas). Con `ingest.html` y `JobTexts` de `main` fallan las dos (`…:184` sin el punto; `…:173` `but was:<spoken_languages: se omite (62)>`); se restauró. Las filas de PLAN §1 van en «Notas para el cierre». `error.html` es del carril E. |
-| T-25 (`IngestLimits`) | pendiente | — | Configuración y beans armados para las pruebas |
+| T-20 («Cargar datos» y `JobTexts`) | terminada (parte F) | `cd12a98` | Decisión: agregar el punto y registrar cada texto en PLAN §1 (no se cambia al texto del mockup, que habla de un escenario). `ingest.html`: la lista de rechazos queda `<código> · <campo> · <esperado>.`. `JobTexts`: cada advertencia real queda `<campo>: <mensaje> (N).` (con `(N)` solo si N > 1), con punto como la de vectores. Pruebas nuevas en `IngestPageTest`: `shouldEndEachRejectionWithAPeriod` y `shouldEndEachWarningWithAPeriod`; `./mvnw -q -pl elastiflix-web -am test -Dtest=IngestPageTest` EXIT 0 (12 pruebas). Con `ingest.html` y `JobTexts` de `main` fallan las dos (`…:184` sin el punto; `…:173` `but was:<spoken_languages: se omite (62)>`); se restauró. Las filas de PLAN §1 van en «Notas para el cierre». `error.html` es del carril E. |
+| T-25 (`IngestLimits`) | terminada (parte F) | se anota en el commit siguiente | `IngestLimits` recibe `ElastiflixProperties` por constructor: sin `ObjectProvider` ni `new ElastiflixProperties(null, …)`. Las cuatro pruebas `@WebMvcTest` de carga (`IngestPageTest`, `IngestJobJsonErrorsTest`, `IngestJobErrorTest`, `IngestConfiguredLimitsTest`) declaran `@EnableConfigurationProperties(ElastiflixProperties.class)` (regla 7). `./mvnw -q -pl elastiflix-web -am test -Dtest='com/bigfito/elastiflix/web/**/*Test,…/architecture/*Test'` EXIT 0 (62 pruebas) y `verify -DskipTests` EXIT 0. Sin la anotación, `IngestPageTest` no arranca (`No qualifying bean of type '…ElastiflixProperties'`): la página ya no tiene un respaldo hecho para las pruebas; se restauró. `git grep 'new ElastiflixProperties\|ObjectProvider' elastiflix-web/src/main` solo deja `PosterUrls` (carril E). |
 | T-26 (teclado de las pestañas) | pendiente | — | Accesibilidad |
 | T-27 (`IngestPageTest`) | pendiente | — | Pruebas que no pueden fallar, débiles o con higiene pendiente |
 
@@ -89,6 +89,11 @@ Vacío.
     dentro de spoken_languages: ese valor se omitirá…» (frases del escenario) | Las advertencias reales se
     agrupan por código y campo: «<campo>: <mensaje> (N).», por ejemplo «spoken_languages: se omite (62).» o
     «tagline: sin valor.» (sin «(N)» si es una sola). La de vectores conserva su frase completa y va primero.
+- **T-25 · regla 7 (para E y Z):** desde este carril, `IngestLimits` necesita el bean `ElastiflixProperties`.
+  Si una prueba `@WebMvcTest` del carril E (por ejemplo la de «Acerca de», T-13) importa `IngestLimits`, tiene
+  que declarar también `@EnableConfigurationProperties(ElastiflixProperties.class)`. Z lo comprueba al
+  integrar. El constructor de `ElastiflixProperties` con relleno de `null` ya no lo usa `IngestLimits`; si
+  `PosterUrls` (E) también deja de usarlo, Z puede decidir quitarlo (regla 1).
 
 ## Bloqueos y solicitudes
 

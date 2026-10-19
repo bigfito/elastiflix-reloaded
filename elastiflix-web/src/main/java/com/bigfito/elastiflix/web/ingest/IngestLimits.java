@@ -2,7 +2,6 @@ package com.bigfito.elastiflix.web.ingest;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
 import org.springframework.util.unit.DataSize;
 
@@ -18,15 +17,13 @@ public class IngestLimits {
     private final ElastiflixProperties properties;
 
     /**
-     * Usa la configuración del contexto, o los valores por defecto si el contexto no la creó.
+     * Usa la configuración del contexto. Una prueba {@code @WebMvcTest} la declara con
+     * {@code @EnableConfigurationProperties(ElastiflixProperties.class)}.
      *
      * @param properties configuración de {@code elastiflix.*}
      */
-    public IngestLimits(ObjectProvider<ElastiflixProperties> properties) {
-        ElastiflixProperties found = properties.getIfAvailable();
-        this.properties = found == null
-                ? new ElastiflixProperties(null, null, null, null, null, null, null)
-                : found;
+    public IngestLimits(ElastiflixProperties properties) {
+        this.properties = properties;
     }
 
     /**
