@@ -84,6 +84,8 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString("tamano=50")))
                 .andExpect(content().string(containsString("tamano=100")))
                 .andExpect(content().string(containsString("APLICAR")))
+                .andExpect(content().string(containsString("id=\"r-1\"")))
+                .andExpect(content().string(containsString("href=\"/pelicula/1?q=titanic")))
                 .andExpect(content().string(containsString("M4 7V5h16v2")))
                 .andExpect(content().string(not(containsString("Ver todos los géneros"))))
                 .andExpect(content().string(not(containsString("Ver todos los idiomas"))));

@@ -1,5 +1,6 @@
 package com.bigfito.elastiflix.web.detail;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
@@ -7,6 +8,8 @@ import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.core.model.MovieCollection;
+import com.bigfito.elastiflix.core.model.MovieKeyword;
 import com.bigfito.elastiflix.search.result.SearchService;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 import com.bigfito.elastiflix.web.layout.PosterUrls;
@@ -92,5 +95,41 @@ class MovieDetailControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("not-found"))
                 .andExpect(content().string(containsString("Esta página no existe")));
+    }
+
+    @Test
+    @DisplayName("película existente con búsqueda previa responde 200 OK y renderiza la ficha técnica completa")
+    void shouldRenderMovieDetailPageWhenMovieExists() throws Exception {
+        Movie movie = sampleMovie();
+        when(searches.findById("27205")).thenReturn(Optional.of(movie));
+
+        mvc.perform(get("/pelicula/27205").param("q", "inception"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("detail"))
+                .andExpect(content().string(containsString("Inception")))
+                .andExpect(content().string(containsString("Película · id 27205")))
+                .andExpect(content().string(containsString("Volver a los resultados")))
+                .andExpect(content().string(containsString("#r-27205")))
+                .andExpect(content().string(containsString("160 000 000 USD")))
+                .andExpect(content().string(containsString("825 532 764 USD")))
+                .andExpect(content().string(containsString("Colección")))
+                .andExpect(content().string(containsString("Inception Collection")))
+                .andExpect(content().string(containsString("Leonardo DiCaprio")))
+                .andExpect(content().string(containsString("paris, france")));
+    }
+
+    private static Movie sampleMovie() {
+        return new Movie(
+                "27205", "tt1375666", "Inception", "Inception", "en",
+                java.time.LocalDate.parse("2010-07-15"), 148, "Released", false, false,
+                "Your mind is the scene of the crime.", "Cobb is a skilled thief", "Inception plot",
+                List.of("Action", "Science Fiction"),
+                List.of(new MovieKeyword(90L, "paris, france")),
+                List.of("Leonardo DiCaprio", "Joseph Gordon-Levitt"),
+                new MovieCollection(12345L, "Inception Collection", "/coll_back.jpg", "/coll_post.jpg"),
+                160_000_000.0, 825_532_764.0, 82.5, 8.36, 35000, "PG-13",
+                "https://inception.test", "/poster.jpg", "/backdrop.jpg",
+                List.of("Warner Bros. Pictures"), List.of("United States"), List.of("en", "ja"),
+                null, null, null, 8.4);
     }
 }

@@ -85,7 +85,7 @@ public class MovieDetailController implements HtmlPage {
         }
 
         model.addAttribute("nav", "buscar");
-        model.addAttribute("movie", detailPage.build(movie.get(), form));
+        model.addAttribute("detail", detailPage.build(movie.get(), form));
         return "detail";
     }
 
