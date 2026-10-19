@@ -12,9 +12,9 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * La autoconfiguración de Spring Boot entrega un mapper de Jackson 3.
+ * {@code ElasticsearchJsonConfig}: la autoconfiguración de Spring Boot entrega un mapper de Jackson 3.
  */
-class ElasticsearchClientConfigTest {
+class ElasticsearchJsonConfigTest {
 
     private final ApplicationContextRunner runner = new ApplicationContextRunner()
             .withUserConfiguration(TestApplication.class)

@@ -1,22 +1,39 @@
 package com.bigfito.elastiflix.core;
 
+import java.util.Map;
+
+import com.bigfito.elastiflix.core.config.ElasticsearchCredentialsEnvironmentPostProcessor;
+import com.bigfito.elastiflix.core.error.ConfigurationException;
+import com.bigfito.elastiflix.core.error.ErrorCode;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.env.Environment;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.PropertySource;
+import org.springframework.core.env.StandardEnvironment;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Comprueba que las pruebas de integración reciben la URL y la API key de Elasticsearch.
+ * Comprueba el post-procesador de credenciales sobre el entorno real de las pruebas de integración.
  *
- * <p>No imprime esos valores: si faltan, el mensaje solo dice qué propiedad está vacía.</p>
+ * <p>Si el contexto arrancó, el post-procesador ya aceptó la URL y la API key de {@code .env}. Esta prueba
+ * va más allá: sobre una copia de ese mismo entorno, sin la URL, el post-procesador tiene que detenerse con
+ * {@code EFX-CFG-001}. No imprime los valores.</p>
  */
 @SpringBootTest(classes = TestApplication.class)
 class EnvironmentIT {
 
-    private final Environment environment;
+    private static final String URL_PROPERTY = "elastiflix.elasticsearch.url";
+
+    private final ConfigurableEnvironment environment;
+    private final ElasticsearchCredentialsEnvironmentPostProcessor postProcessor =
+            new ElasticsearchCredentialsEnvironmentPostProcessor();
 
     /**
      * Spring no inyecta el constructor de una prueba si no lleva {@code @Autowired}.
@@ -24,27 +41,33 @@ class EnvironmentIT {
      * @param environment entorno ya cargado con {@code .env}
      */
     @Autowired
-    EnvironmentIT(Environment environment) {
+    EnvironmentIT(ConfigurableEnvironment environment) {
         this.environment = environment;
     }
 
     @Test
-    @DisplayName("la URL y la API key de Elasticsearch llegan configuradas")
-    void shouldExposeElasticsearchSettingsWhenContextStarts() {
-        // when
-        String url = environment.getProperty("elastiflix.elasticsearch.url");
-        String apiKey = environment.getProperty("elastiflix.elasticsearch.api-key");
+    @DisplayName("el entorno de .env pasa el post-procesador, y sin la URL se detiene con EFX-CFG-001")
+    void shouldStopWithoutTheUrlWhenTheRealEnvironmentLosesIt() {
+        // given
+        ConfigurableEnvironment withoutUrl = copyOf(environment);
+        withoutUrl.getPropertySources().addFirst(new MapPropertySource("sin-url", Map.of(URL_PROPERTY, "")));
+        SpringApplication application = new SpringApplication(TestApplication.class);
 
-        // then
-        assertThat(hasText(url))
-                .as("elastiflix.elasticsearch.url no está vacía (revisa ELASTICSEARCH_URL en .env)")
-                .isTrue();
-        assertThat(hasText(apiKey))
-                .as("elastiflix.elasticsearch.api-key no está vacía (revisa ELASTICSEARCH_API_KEY en .env)")
-                .isTrue();
+        // when / then
+        assertThatCode(() -> postProcessor.postProcessEnvironment(environment, application))
+                .doesNotThrowAnyException();
+        assertThatThrownBy(() -> postProcessor.postProcessEnvironment(withoutUrl, application))
+                .isInstanceOf(ConfigurationException.class)
+                .extracting(thrown -> ((ConfigurationException) thrown).errorCode())
+                .isEqualTo(ErrorCode.MISSING_ELASTICSEARCH_URL);
     }
 
-    private static boolean hasText(String value) {
-        return value != null && !value.isBlank();
+    private static ConfigurableEnvironment copyOf(ConfigurableEnvironment source) {
+        StandardEnvironment copy = new StandardEnvironment();
+        copy.getPropertySources().forEach(existing -> copy.getPropertySources().remove(existing.getName()));
+        for (PropertySource<?> propertySource : source.getPropertySources()) {
+            copy.getPropertySources().addLast(propertySource);
+        }
+        return copy;
     }
 }

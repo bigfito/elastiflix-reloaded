@@ -41,7 +41,8 @@ class InferenceEmbeddingServiceTest {
         ElasticsearchInferenceClient inference = mock(ElasticsearchInferenceClient.class);
         when(client.inference()).thenReturn(inference);
         when(inference.inference(any(Function.class))).thenReturn(InferenceResponse.of(response -> response
-                .result(result -> result.embeddings(List.of(DenseEmbeddingResult.of(row -> row.embedding(modelVector())))))));
+                .result(result -> result.embeddings(List.of(DenseEmbeddingResult.of(row -> row
+                        .embedding(modelVector())))))));
         InferenceEmbeddingService service = new InferenceEmbeddingService(
                 client, new ElastiflixProperties(null, null, null, null, null, null, null));
 

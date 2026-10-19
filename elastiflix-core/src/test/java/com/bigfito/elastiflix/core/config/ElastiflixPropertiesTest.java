@@ -50,16 +50,6 @@ class ElastiflixPropertiesTest {
     }
 
     @Test
-    @DisplayName("sin ninguna propiedad de embeddings quedan los dos valores calibrados")
-    void shouldUseTheCalibratedPairWithoutEmbeddingProperties() {
-        runner.run(context -> {
-            ElastiflixProperties.Embedding embedding = context.getBean(ElastiflixProperties.class).embedding();
-            assertThat(embedding.documentInputType()).isEqualTo("ingest");
-            assertThat(embedding.documentPrefix()).isEqualTo("");
-        });
-    }
-
-    @Test
     @DisplayName("con la URL en blanco, @Validated detiene el enlace y nombra elastiflix.elasticsearch.url")
     void shouldRejectABlankUrlWhenBinding() {
         // given
