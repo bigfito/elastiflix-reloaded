@@ -14,6 +14,7 @@ import co.elastic.clients.elasticsearch.core.MsearchRequest;
 import co.elastic.clients.elasticsearch.core.MsearchResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.json.JsonpMappingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +57,8 @@ public class ElasticsearchSearchTransport implements SearchTransport {
     private <T> T call(List<String> index, IoCall<T> call) {
         try {
             return call.get();
-        } catch (IOException | ElasticsearchException exception) {
+        } catch (IOException | ElasticsearchException | JsonpMappingException exception) {
+            // JsonpMappingException: llegó una respuesta que el cliente no pudo leer. No es un rechazo 4xx.
             throw unavailable(index, exception);
         }
     }

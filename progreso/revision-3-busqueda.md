@@ -19,11 +19,11 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-02 (transporte)
-- **Subpaso en curso:** carril reservado; falta el primer `./mvnw -pl elastiflix-search -am verify`
-- **Próximo paso:** correr `./mvnw -q -pl elastiflix-search -am verify` en el worktree y empezar T-02:
-  agregar `JsonpMappingException` al multi-catch de `ElasticsearchSearchTransport` con su prueba.
-- **Última actualización:** 2026-10-19 02:10 UTC
+- **Tarea actual:** T-03
+- **Subpaso en curso:** T-02 terminada; T-03 con el código y la prueba listos en el árbol
+- **Próximo paso:** commit de T-03 (`SearchQueryValidator.requireKnnSettings` con `field` nulo →
+  `EFX-SRCH-010`) y seguir con T-10 (`KnnStrategiesTest`: ítem 4xx del `_msearch` → `EFX-ES-007`).
+- **Última actualización:** 2026-10-19 02:17 UTC
 
 ## Tareas
 
@@ -31,7 +31,7 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-02 (transporte) | pendiente | — | Búsqueda e inferencia no traducen una respuesta ilegible a un código EFX |
+| T-02 (transporte) | terminada | se anota en el commit siguiente | `ElasticsearchSearchTransport.call` atrapa también `JsonpMappingException` → `codeFor(0)` = `EFX-ES-001`, con la causa. Prueba nueva `ElasticsearchSearchTransportTest` (3 casos: `_search`, `_msearch` y `_count` con el cliente simulado lanzando `JsonpMappingException`; afirman `EFX-ES-001`). Rota a mano (sin `JsonpMappingException` en el multi-catch): los 3 casos fallan; revertido. `./mvnw -q -pl elastiflix-search -am verify` en verde (2026-10-19 02:17 UTC). |
 | T-03 | pendiente | — | Validación k-NN: un vector de consulta sin campo da NPE |
 | T-10 (`KnnStrategiesTest`) | pendiente | — | Faltan pruebas unitarias de ramas importantes |
 | T-12 (search) | pendiente | — | Código muerto y campos que nadie lee |
@@ -44,9 +44,11 @@ Vacío.
 
 ## Última verificación
 
-- **Comando:** `./mvnw -pl elastiflix-search -am verify` (y al final `./mvnw verify` completo)
-- **Resultado:** —
-- **Fecha:** —
+- **Comando:** `./mvnw -q -pl elastiflix-search -am verify`
+- **Resultado:** en verde con T-02 y T-03 (core 50 unitarias; search 66 unitarias, 0 fallos; Checkstyle y PMD
+  en 0). La primera corrida del carril (02:10, `main` + la prueba de T-02 a medio escribir) solo falló en esa
+  prueba nueva (`MsearchRequest` sin `searches`); el resto de `main` pasó.
+- **Fecha:** 2026-10-19 02:17 UTC
 
 ## Decisiones
 
