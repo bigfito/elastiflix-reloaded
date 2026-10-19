@@ -1213,9 +1213,7 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
   - Cada dato lleva su etiqueta en español y el nombre del campo, como los filtros de Resultados.
 - **Campos vacíos:** un valor ausente, `null`, texto vacío o lista vacía se muestra como «N/A».
 - **Dinero:** `budget` y `revenue` en USD con separador de miles («160 000 000 USD»).
-  - `budget` vacío o en 0 se muestra como «N/A» (decisión de Adolfo, 2026-10-19).
-  - `revenue` vacío se muestra como «N/A», como cualquier campo. **Pendiente de definir:** qué muestra
-    un `revenue` en 0.
+  - `budget` o `revenue` vacíos o en 0 se muestran como «N/A» (decisión de Adolfo, 2026-10-19).
 - **Imágenes:** del CDN de TMDB (`elastiflix.poster.base-url` + la ruta), con el marcador de póster
   faltante de Resultados si no hay ruta o la imagen falla.
 - **Llegada desde Resultados:** el título de cada tarjeta enlaza a `/pelicula/{id}` con los mismos
