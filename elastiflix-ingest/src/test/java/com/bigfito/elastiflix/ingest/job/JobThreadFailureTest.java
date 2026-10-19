@@ -85,7 +85,7 @@ class JobThreadFailureTest {
         JobStore store = new JobStore(new ElastiflixProperties(null, null, null, null, null, null, null), Clock.systemUTC());
         String first = store.open("a.json", temp(), CsvSettings.withHeader());
         String second = store.open("b.json", temp(), CsvSettings.withHeader());
-        store.onProgress(first, new ImportProgress(4, 1, 3, 3, 1, "temporal"));
+        store.onProgress(first, new ImportProgress(4, 1, 3, 3, "temporal"));
 
         assertThat(store.view(first).written()).isEqualTo(3);
         assertThat(store.view(first).vectorized()).isEqualTo(3);

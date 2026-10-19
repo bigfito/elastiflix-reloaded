@@ -100,7 +100,7 @@ final class ImportWork {
      * @return conteos de este archivo
      */
     synchronized ImportCounts counts(int batchSize) {
-        return new ImportCounts(fileCount, replaceCount, batchSize);
+        return new ImportCounts(fileCount, batchSize);
     }
 
     boolean isCancelled() {

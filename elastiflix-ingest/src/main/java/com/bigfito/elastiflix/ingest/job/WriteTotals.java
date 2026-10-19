@@ -11,13 +11,14 @@ package com.bigfito.elastiflix.ingest.job;
 record WriteTotals(int batches, int vectorized, int written, int replaced) {
 
     /**
-     * El aviso que ve la página, con los cuatro conteos juntos.
+     * El aviso que ve la página: lotes, vectorizados y escritos.
      *
-     * @param step paso del mockup
+     * @param step      paso del mockup
+     * @param tempIndex índice temporal donde se escribe
      * @return avance de este lote
      */
     ImportProgress notice(int step, String tempIndex) {
-        return new ImportProgress(step, batches, vectorized, written, replaced, tempIndex);
+        return new ImportProgress(step, batches, vectorized, written, tempIndex);
     }
 
     /**

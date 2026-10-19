@@ -119,7 +119,7 @@ public final class JobStore {
      * Anota el avance de ese trabajo. Otro trabajo no recibe el aviso.
      *
      * @param jobId    identificador
-     * @param progress paso, lote, vectorizados, escritos y reemplazos
+     * @param progress paso, lote, vectorizados, escritos e índice temporal
      */
     public void onProgress(String jobId, ImportProgress progress) {
         require(jobId).progress(progress);

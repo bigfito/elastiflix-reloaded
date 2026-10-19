@@ -57,7 +57,7 @@ class ImportJobTest {
     private static final String LIVE = "elastiflix-it-x7k2-20261018-000000";
     private static final String ORPHAN = "elastiflix-it-x7k2-20261019-010101";
     private static final String FOREIGN = "elastiflix-reloaded-20261020-153000";
-    private static final ImportCounts ONE_NEW = new ImportCounts(1, 0, 100);
+    private static final ImportCounts ONE_NEW = new ImportCounts(1, 100);
 
     @Mock
     private CatalogIndex catalog;

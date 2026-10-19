@@ -1,11 +1,12 @@
 package com.bigfito.elastiflix.ingest.job;
 
 /**
- * Cuántos registros trae el archivo y cuántos de esos id ya estaban.
+ * Cuántos registros trae el archivo y en lotes de cuántos se escriben.
  *
- * @param fileCount    registros del archivo
- * @param replaceCount ids que reemplazan un documento ya copiado
- * @param batchSize    películas por lote de escritura
+ * <p>Los reemplazos no van aquí: {@link BatchWriter} los cuenta sobre la copia, lote por lote.</p>
+ *
+ * @param fileCount registros del archivo
+ * @param batchSize películas por lote de escritura
  */
-public record ImportCounts(int fileCount, int replaceCount, int batchSize) {
+public record ImportCounts(int fileCount, int batchSize) {
 }

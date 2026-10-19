@@ -141,7 +141,7 @@ class ImportJobEdgeTest {
         when(embeddings.embedDocuments(anyList())).thenAnswer(invocation -> vectors(invocation.getArgument(0)));
 
         // when
-        job.run(ALIAS, new ListMovieSource(movies(5)), new ImportCounts(5, 0, 2), progress::add, () -> false);
+        job.run(ALIAS, new ListMovieSource(movies(5)), new ImportCounts(5, 2), progress::add, () -> false);
 
         // then
         verify(catalog, times(3)).writeAll(eq(temp), anyList());
@@ -227,7 +227,7 @@ class ImportJobEdgeTest {
     }
 
     private ElastiflixException run(List<Movie> movies, int batchSize, BooleanSupplier stop) {
-        ImportCounts counts = new ImportCounts(movies.size(), 0, batchSize);
+        ImportCounts counts = new ImportCounts(movies.size(), batchSize);
         ElastiflixException thrown = catchThrowableOfType(ElastiflixException.class,
                 () -> job.run(ALIAS, new ListMovieSource(movies), counts, progress::add, stop));
         assertThat(thrown).as("la importación tenía que parar con un código EFX").isNotNull();

@@ -64,7 +64,7 @@ public final class ImportJob {
      *
      * @param alias     alias del catálogo
      * @param source    películas ya validadas, por lotes
-     * @param counts    registros del archivo y cuántos reemplazan
+     * @param counts    registros del archivo y tamaño de lote
      * @param listener  progreso de los pasos 4 y 5
      * @param cancelled se consulta antes de copiar, de cada lote y de publicar
      */
@@ -94,7 +94,7 @@ public final class ImportJob {
         WriteTotals totals;
         long expected;
         try {
-            context.listener().onProgress(new ImportProgress(IMPORT_STEP, 0, 0, 0, 0, context.temp()));
+            context.listener().onProgress(new ImportProgress(IMPORT_STEP, 0, 0, 0, context.temp()));
             long copied = copy(context);
             totals = writeBatches(context);
             expected = verifiedCount(context, copied, totals);
