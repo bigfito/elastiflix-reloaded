@@ -43,15 +43,6 @@ public class IndexMapping {
     }
 
     /**
-     * JSON del archivo, sin cambios.
-     *
-     * @return el documento completo
-     */
-    public String document() {
-        return document;
-    }
-
-    /**
      * Objeto {@code mappings} listo para crear un índice.
      *
      * @return JSON de {@code mappings}
@@ -67,20 +58,6 @@ public class IndexMapping {
      */
     public List<FieldMapping> fields() {
         return List.copyOf(fields.values());
-    }
-
-    /**
-     * Busca un campo de primer nivel.
-     *
-     * @param name nombre en el índice
-     * @return el campo
-     */
-    public FieldMapping field(String name) {
-        FieldMapping found = fields.get(name);
-        if (found == null) {
-            throw new IllegalArgumentException("El mapping no tiene el campo " + name);
-        }
-        return found;
     }
 
     /**

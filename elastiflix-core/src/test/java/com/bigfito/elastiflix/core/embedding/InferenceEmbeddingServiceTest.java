@@ -34,23 +34,6 @@ import static org.mockito.Mockito.when;
 class InferenceEmbeddingServiceTest {
 
     @Test
-    @DisplayName("si faltan vectores, EFX-EMB-004")
-    void shouldRejectWhenTheVectorCountDoesNotMatch() {
-        assertThatThrownBy(() -> InferenceEmbeddingService.requireSameSize(List.of("una", "otra"), List.of(vector())))
-                .isInstanceOf(EmbeddingException.class)
-                .extracting(thrown -> ((EmbeddingException) thrown).errorCode())
-                .isEqualTo(ErrorCode.INCOMPLETE_EMBEDDING_BATCH);
-    }
-
-    @Test
-    @DisplayName("si hay un vector por texto, los devuelve")
-    void shouldKeepTheVectorsWhenTheCountMatches() {
-        List<float[]> vectors = List.of(vector());
-
-        assertThat(InferenceEmbeddingService.requireSameSize(List.of("una"), vectors)).isSameAs(vectors);
-    }
-
-    @Test
     @DisplayName("el servicio, con un cliente que devuelve menos vectores que sinopsis, responde EFX-EMB-004")
     void shouldRejectAShortBatchFromTheClient() throws Exception {
         // given
@@ -120,9 +103,5 @@ class InferenceEmbeddingServiceTest {
         List<Float> values = new ArrayList<>(Collections.nCopies(1024, 0f));
         values.set(0, 1f);
         return values;
-    }
-
-    private static float[] vector() {
-        return new float[] {1f};
     }
 }

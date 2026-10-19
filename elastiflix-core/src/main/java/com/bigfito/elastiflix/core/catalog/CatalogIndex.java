@@ -84,6 +84,8 @@ public interface CatalogIndex {
     /**
      * Lee esas películas con sus vectores.
      *
+     * <p>Lo usan las pruebas de integración (de core e ingest) para comprobar los vectores guardados.</p>
+     *
      * @param name índice o alias
      * @param ids  identificadores de documento
      * @return películas encontradas
@@ -92,6 +94,8 @@ public interface CatalogIndex {
 
     /**
      * Lee películas con sus vectores, hasta el tope.
+     *
+     * <p>Lo usan las pruebas de integración (de core e ingest) para comprobar los vectores guardados.</p>
      *
      * @param name  índice o alias
      * @param limit máximo de documentos
