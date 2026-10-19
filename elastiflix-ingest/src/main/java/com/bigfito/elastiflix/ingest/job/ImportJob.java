@@ -156,11 +156,19 @@ public final class ImportJob {
         return expected;
     }
 
-    /** Ya publicado: un fallo de aquí en adelante no toca el índice nuevo. */
+    /**
+     * Ya publicado: un fallo de aquí en adelante no toca el índice nuevo. Si el aviso del paso 5 falla, el
+     * trabajo igual terminó bien, así que solo queda un {@code WARN} y {@code run} vuelve sin excepción.
+     */
     private void published(ImportContext context, WriteTotals totals, long expected) {
         LOG.info("La importación publicó {} en {} y borró {} ({} documentos)",
                 context.alias(), context.temp(), context.previous(), expected);
-        context.listener().onProgress(totals.notice(PUBLISH_STEP, context.temp()));
+        try {
+            context.listener().onProgress(totals.notice(PUBLISH_STEP, context.temp()));
+        } catch (ElastiflixException exception) {
+            LOG.warn("{}: falló el aviso del paso 5, pero {} ya está publicado tipo={}",
+                    exception.errorCode().code(), context.temp(), causeType(exception));
+        }
     }
 
     private void swap(ImportContext context) {

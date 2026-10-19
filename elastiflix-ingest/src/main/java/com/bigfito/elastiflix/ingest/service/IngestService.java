@@ -58,7 +58,7 @@ public final class IngestService {
      */
     public String acceptFile(String fileName, Path path, CsvSettings settings) {
         String jobId = store.open(fileName, path, settings);
-        Thread.ofVirtual().name("ingest-validate-", 0).start(() -> intake.validate(jobId));
+        JobThreads.start("ingest-validate-" + jobId, () -> intake.validate(jobId));
         return jobId;
     }
 
@@ -79,7 +79,7 @@ public final class IngestService {
      */
     public void importFile(String jobId) {
         if (store.beginImport(jobId)) {
-            Thread.ofVirtual().name("ingest-import-", 0).start(() -> runner.run(jobId));
+            JobThreads.start("ingest-import-" + jobId, () -> runner.run(jobId));
         }
     }
 

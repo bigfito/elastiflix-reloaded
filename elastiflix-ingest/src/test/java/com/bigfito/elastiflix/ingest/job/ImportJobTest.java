@@ -250,7 +250,7 @@ class ImportJobTest {
     }
 
     @Test
-    @DisplayName("un listener que lanza en el paso 5 no borra el temporal ya publicado")
+    @DisplayName("un listener que lanza en el paso 5 no borra el temporal y la importación termina publicada")
     void shouldKeepThePublishedTempWhenTheListenerFails() {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
@@ -263,9 +263,9 @@ class ImportJobTest {
             }
         };
 
-        assertThatThrownBy(() -> job.run(
-                ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, failsOnPublish, () -> false))
-                .isInstanceOf(ImportException.class);
+        // Sin excepción: ImportRunner deja el trabajo publicado (ver ImportRunnerTest).
+        job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, failsOnPublish, () -> false);
+
         verify(catalog).publish(ALIAS, temp, LIVE);
         verify(catalog, never()).deleteIndex(temp);
     }
