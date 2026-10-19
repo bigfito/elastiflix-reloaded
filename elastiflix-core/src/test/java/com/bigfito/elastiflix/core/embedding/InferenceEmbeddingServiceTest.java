@@ -13,6 +13,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.inference.DenseEmbeddingResult;
 import co.elastic.clients.elasticsearch.inference.ElasticsearchInferenceClient;
 import co.elastic.clients.elasticsearch.inference.InferenceResponse;
+import co.elastic.clients.json.JsonpMappingException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,6 +63,26 @@ class InferenceEmbeddingServiceTest {
                 .isInstanceOf(EmbeddingException.class)
                 .extracting(thrown -> ((EmbeddingException) thrown).errorCode())
                 .isEqualTo(ErrorCode.INCOMPLETE_EMBEDDING_BATCH);
+    }
+
+    @Test
+    @DisplayName("una respuesta de inferencia que el cliente no puede leer da EFX-EMB-001")
+    void shouldTranslateAnUnreadableResponse() throws Exception {
+        // given
+        ElasticsearchClient client = mock(ElasticsearchClient.class);
+        ElasticsearchInferenceClient inference = mock(ElasticsearchInferenceClient.class);
+        when(client.inference()).thenReturn(inference);
+        when(inference.inference(any(Function.class)))
+                .thenThrow(new JsonpMappingException("respuesta ilegible", null));
+        InferenceEmbeddingService service = new InferenceEmbeddingService(
+                client, new ElastiflixProperties(null, null, null, null, null, null, null));
+
+        // when / then
+        assertThatThrownBy(() -> service.embedQuery("titanic"))
+                .isInstanceOf(EmbeddingException.class)
+                .hasCauseInstanceOf(JsonpMappingException.class)
+                .extracting(thrown -> ((EmbeddingException) thrown).errorCode())
+                .isEqualTo(ErrorCode.INFERENCE_UNAVAILABLE);
     }
 
     /** Un vector válido de 1024 dimensiones: así falla solo el tamaño del lote. */

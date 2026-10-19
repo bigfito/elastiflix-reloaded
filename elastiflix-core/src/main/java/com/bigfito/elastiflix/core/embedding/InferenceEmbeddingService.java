@@ -15,6 +15,7 @@ import co.elastic.clients.elasticsearch.inference.InferenceRequest;
 import co.elastic.clients.elasticsearch.inference.InferenceResponse;
 import co.elastic.clients.elasticsearch.inference.InferenceResult;
 import co.elastic.clients.elasticsearch.inference.TaskType;
+import co.elastic.clients.json.JsonpMappingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +100,8 @@ public class InferenceEmbeddingService implements EmbeddingService {
             InferenceResponse response = client.inference()
                     .inference(request -> requestFor(request, prepared, inputType));
             return requireSameSize(prepared, vectorsOf(response.result()));
-        } catch (IOException | ElasticsearchException exception) {
+        } catch (IOException | ElasticsearchException | JsonpMappingException exception) {
+            // Una respuesta que el cliente no puede leer también es un endpoint que falla: EFX-EMB-001.
             LOG.error("{} en {}", ErrorCode.INFERENCE_UNAVAILABLE.code(), properties.inference().id());
             throw new EmbeddingException(ErrorCode.INFERENCE_UNAVAILABLE, exception);
         }

@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-02 (inferencia)
-- **Subpaso en curso:** T-01 terminada
-- **Próximo paso:** en `InferenceEmbeddingService.call` agregar `JsonpMappingException` al multi-catch (EFX-EMB-001) y su prueba en `InferenceEmbeddingServiceTest`.
-- **Última actualización:** 2026-10-19 02:17 UTC
+- **Tarea actual:** T-10 (core)
+- **Subpaso en curso:** T-02 terminada
+- **Próximo paso:** agregar a `CatalogBootstrapTest` publish 5xx → EFX-IMP-006 sin borrar y reindex EFX-ES-006 con el original ya no concreto; a una prueba nueva de `ElasticsearchCatalogIndex` publish con `timeout(10s)` e `indexOne` con `require_alias=true`; a `InferenceEmbeddingServiceTest` `embedQuery` con `input_type=search` y prefijo `Query: `.
+- **Última actualización:** 2026-10-19 02:19 UTC
 
 ## Tareas
 
@@ -30,8 +30,8 @@ en curso
 
 | Id | Estado | Commit | Evidencia |
 |---|---|---|---|
-| T-01 | terminada | sobre `dcfe652` | `copy` cancela también ante `JsonpMappingException`; `cancel` pide `wait_for_completion=false` y confirma con hasta 3 lecturas de `_tasks` de 20 s (WARN con el id si no se confirma); `hasFailures` mira `getValueType()`. `ReindexTasksTest` (14 pruebas, verde): `shouldCancelWhenTheTaskResponseIsUnreadable`, `shouldRetryTheCancelConfirmationUntilTheTaskStops`, `shouldStopConfirmingAfterThreeReads`, `shouldAcceptANullFailuresValue` y `shouldFailWhenTheTaskReportsFailures` (EFX-ES-006). Roturas a mano y revertidas: sin `JsonpMappingException` en `copy` → falla `shouldCancelWhenTheTaskResponseIsUnreadable`; una sola lectura → fallan `shouldStopConfirmingAfterThreeReads` y `shouldRetry…`; `wait_for_completion=true` → falla `shouldRetry…`; `getJsonArray` viejo → falla `shouldAcceptANullFailuresValue`. `./mvnw -q -pl elastiflix-core verify` exit 0 (2026-10-19 02:17 UTC). `shouldCancelWhenStopIsRequested` ahora espera 1 lectura (la de confirmación). |
-| T-02 (inferencia) | pendiente | — | Búsqueda e inferencia no traducen una respuesta ilegible a un código EFX |
+| T-01 | terminada | `5f67007` | `copy` cancela también ante `JsonpMappingException`; `cancel` pide `wait_for_completion=false` y confirma con hasta 3 lecturas de `_tasks` de 20 s (WARN con el id si no se confirma); `hasFailures` mira `getValueType()`. `ReindexTasksTest` (14 pruebas, verde): `shouldCancelWhenTheTaskResponseIsUnreadable`, `shouldRetryTheCancelConfirmationUntilTheTaskStops`, `shouldStopConfirmingAfterThreeReads`, `shouldAcceptANullFailuresValue` y `shouldFailWhenTheTaskReportsFailures` (EFX-ES-006). Roturas a mano y revertidas: sin `JsonpMappingException` en `copy` → falla `shouldCancelWhenTheTaskResponseIsUnreadable`; una sola lectura → fallan `shouldStopConfirmingAfterThreeReads` y `shouldRetry…`; `wait_for_completion=true` → falla `shouldRetry…`; `getJsonArray` viejo → falla `shouldAcceptANullFailuresValue`. `./mvnw -q -pl elastiflix-core verify` exit 0 (2026-10-19 02:17 UTC). `shouldCancelWhenStopIsRequested` ahora espera 1 lectura (la de confirmación). |
+| T-02 (inferencia) | terminada | sobre `5f67007` | `InferenceEmbeddingService.call` atrapa también `JsonpMappingException` y la traduce a `EFX-EMB-001` conservando la causa. Prueba `InferenceEmbeddingServiceTest.shouldTranslateAnUnreadableResponse` (cliente simulado lanza `JsonpMappingException`; afirma código y causa). Rotura a mano (quitar `JsonpMappingException` del multi-catch) → esa prueba falla; revertido. `-Dtest=InferenceEmbeddingServiceTest` 4/4 y `./mvnw -q -pl elastiflix-core verify -DskipTests` exit 0 (2026-10-19 02:19 UTC). La parte de transporte es del carril B. |
 | T-10 (core) | pendiente | — | Faltan pruebas unitarias de ramas importantes |
 | T-12 (core) | pendiente | — | Código muerto y campos que nadie lee |
 | T-19 (`ErrorCode` y `CosineSimilarity`) | pendiente | — | Textos de error y Javadoc que no corresponden al comportamiento |
