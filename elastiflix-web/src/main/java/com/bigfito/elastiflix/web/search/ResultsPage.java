@@ -1,5 +1,7 @@
 package com.bigfito.elastiflix.web.search;
 
+import java.util.List;
+
 import com.bigfito.elastiflix.search.page.Pagination;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.result.SearchResult;
@@ -59,8 +61,7 @@ public class ResultsPage {
      * @param dateError si «Desde» es posterior a «Hasta»
      */
     public void rejected(Model model, SearchForm form, boolean dateError) {
-        model.addAttribute("genres", FacetChoices.kept(form.genres()));
-        model.addAttribute("languages", FacetChoices.kept(form.languages()));
+        choices(model, FacetChoices.kept(form.genres()), FacetChoices.kept(form.languages()));
         model.addAttribute("ratings", FacetChoices.kept(form.ratings()));
         model.addAttribute("adultAll", 0);
         model.addAttribute("adultSafe", 0);
@@ -73,8 +74,8 @@ public class ResultsPage {
     }
 
     private static void filters(Model model, SearchForm form, SearchResult result) {
-        model.addAttribute("genres", FacetChoices.of(result.facets().genres(), form.genres()));
-        model.addAttribute("languages", FacetChoices.of(result.facets().spokenLanguages(), form.languages()));
+        choices(model, FacetChoices.of(result.facets().genres(), form.genres()),
+                FacetChoices.of(result.facets().spokenLanguages(), form.languages()));
         model.addAttribute("ratings", FacetChoices.of(result.facets().ratings(), form.ratings()));
         model.addAttribute("adultAll", FacetChoices.total(result.facets().adult()));
         model.addAttribute("adultSafe", FacetChoices.countOf(result.facets().adult(), "false"));
@@ -84,6 +85,13 @@ public class ResultsPage {
         model.addAttribute("dateError", false);
         model.addAttribute("clearHref", SearchLinks.cleared(form));
         applied(model, form);
+    }
+
+    private static void choices(Model model, List<FacetChoice> genres, List<FacetChoice> languages) {
+        model.addAttribute("genres", genres);
+        model.addAttribute("genresExtra", FacetChoices.hasExtra(genres));
+        model.addAttribute("languages", languages);
+        model.addAttribute("languagesExtra", FacetChoices.hasExtra(languages));
     }
 
     /**

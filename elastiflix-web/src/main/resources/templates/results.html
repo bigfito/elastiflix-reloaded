@@ -73,7 +73,7 @@
               <span class="opt-label" th:text="${choice.value}">Drama</span>
               <span class="count" th:text="${choice.count}">1</span>
             </label>
-            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${genres.size() > 6}">Ver todos los géneros</button>
+            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${genresExtra}">Ver todos los géneros</button>
           </fieldset>
 
           <fieldset>
@@ -93,7 +93,7 @@
               <span class="opt-label" th:text="${choice.value}">English</span>
               <span class="count" th:text="${choice.count}">1</span>
             </label>
-            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${languages.size() > 6}">Ver todos los idiomas</button>
+            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${languagesExtra}">Ver todos los idiomas</button>
           </fieldset>
 
           <fieldset>

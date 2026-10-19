@@ -228,6 +228,20 @@ class ResultsPageTest {
     }
 
     @Test
+    @DisplayName("seis valores más un marcado que la faceta no trae no muestran «Ver todos»")
+    void shouldNotOfferExpandWhenNothingIsHidden() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "chip", sixGenres()));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Western"))
+                .andExpect(status().isOk())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString())
+                        .containsPattern("name=\"genero\" value=\"Western\" checked=\"checked\">")
+                        .contains("value=\"Crime\"")
+                        .doesNotContain("Ver todos los géneros")
+                        .doesNotContain("class=\"opt extra\""));
+    }
+
+    @Test
     @DisplayName("un valor marcado en la posición 7 no queda oculto detrás de «Ver todos»")
     void shouldNotHideASelectedValue() throws Exception {
         when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "chip", sevenGenres()));
@@ -276,6 +290,22 @@ class ResultsPageTest {
                 LocalDate.of(1997, 12, 19), 194, List.of("Drama"), 7.9, 1000, "PG-13",
                 12.5, lexical, vector, rrf);
         return new SearchResult(List.of(hit), 1, facets, page(1), List.of(chip), null);
+    }
+
+    private static Facets sixGenres() {
+        return new Facets(
+                List.of(
+                        new FacetValue("Drama", 1),
+                        new FacetValue("Comedy", 1),
+                        new FacetValue("Action", 1),
+                        new FacetValue("Thriller", 1),
+                        new FacetValue("Romance", 1),
+                        new FacetValue("Crime", 1)),
+                List.of(),
+                List.of(),
+                List.of(new FacetValue("false", 1)),
+                LocalDate.of(1997, 1, 1),
+                LocalDate.of(1997, 12, 19));
     }
 
     private static Facets sevenGenres() {

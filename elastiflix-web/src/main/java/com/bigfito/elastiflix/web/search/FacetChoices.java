@@ -46,6 +46,19 @@ public final class FacetChoices {
     }
 
     /**
+     * Si «Ver todos» esconde algo.
+     *
+     * <p>No basta con contar más de seis opciones: un valor marcado que la faceta ya no trae se agrega al
+     * final sin ocultarse, y seis valores más ese marcado dan siete opciones visibles.</p>
+     *
+     * @param choices opciones de la faceta
+     * @return {@code true} si alguna empieza oculta
+     */
+    public static boolean hasExtra(List<FacetChoice> choices) {
+        return choices.stream().anyMatch(FacetChoice::extra);
+    }
+
+    /**
      * Suma los conteos de una faceta.
      *
      * @param values faceta
