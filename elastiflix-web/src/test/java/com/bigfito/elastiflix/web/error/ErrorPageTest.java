@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -48,6 +50,18 @@ class ErrorPageTest {
                 .andExpect(content().string(containsString("EFX-ES-001")))
                 .andExpect(content().string(containsString("No se pudo conectar con Elasticsearch")))
                 .andExpect(content().string(not(containsString("EFX-ES-001 ·"))));
+    }
+
+    @Test
+    @DisplayName("una ElastiflixException lee el estado del catálogo una sola vez")
+    void shouldReadTheCatalogOnceForAnElastiflixError() throws Exception {
+        // when
+        mvc.perform(get("/probe/elastiflix"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string(containsString("Índice: elastiflix-reloaded · 4 322 películas")));
+
+        // then
+        verify(catalog, times(1)).status();
     }
 
     @Test

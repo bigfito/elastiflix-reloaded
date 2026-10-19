@@ -3,7 +3,10 @@ package com.bigfito.elastiflix.web.error;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.web.layout.HtmlPage;
+import com.bigfito.elastiflix.web.layout.PageShell;
 import com.bigfito.elastiflix.web.layout.PageShells;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +29,8 @@ public class WebExceptionHandler {
     /**
      * Crea el consejo con el estado del catálogo, para que la cabecera también salga en el error.
      *
+     * <p>Solo lo lee si la petición todavía no trae el cromo de {@code LayoutAdvice}.</p>
+     *
      * @param catalog alias y conteo del pie
      */
     public WebExceptionHandler(CatalogStatusService catalog) {
@@ -37,17 +42,21 @@ public class WebExceptionHandler {
      *
      * @param exception falla de la demo
      * @param model     código, mensaje y cabecera
+     * @param request   petición; trae el cromo si {@code LayoutAdvice} ya lo armó
      * @return la plantilla {@code error}
      */
     @ExceptionHandler(ElastiflixException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String elastiflix(ElastiflixException exception, Model model) {
+    public String elastiflix(ElastiflixException exception, Model model, HttpServletRequest request) {
         LOG.info("Página de error {}", exception.errorCode().code());
-        shell(model);
+        model.addAttribute("shell", shell(request));
         return ErrorPages.filled(model, exception);
     }
 
-    private void shell(Model model) {
-        model.addAttribute("shell", PageShells.from(catalog.status()));
+    private PageShell shell(HttpServletRequest request) {
+        if (request.getAttribute(PageShells.REQUEST_ATTRIBUTE) instanceof PageShell ready) {
+            return ready;
+        }
+        return PageShells.from(catalog.status());
     }
 }

@@ -19,10 +19,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** T-14
+- **Tarea actual:** T-19 (`SearchController`)
 - **Subpaso en curso:** por empezar
-- **Próximo paso:** guarda el `PageShell` de `LayoutAdvice.shell` en un atributo de la petición y reutilízalo en `WebExceptionHandler`; prueba en `ErrorPageTest` con `verify(catalog, times(1)).status()` para una `ElastiflixException`.
-- **Última actualización:** 2026-10-19 02:28 UTC
+- **Próximo paso:** corrige el Javadoc de clase y de `search` en `SearchController`: junto al campo solo se muestra el «qué pasó» (`summary()`) y el código va al log.
+- **Última actualización:** 2026-10-19 02:32 UTC
 
 ## Tareas
 
@@ -33,8 +33,8 @@ en curso
 | T-06 | terminada | `4a21bfd` | Con `adult=true`, `ResultsPage.adultChoice` agrega la opción «Solo adultos» marcada (y «Todos» deja de estarlo), como `mk()` de S-11. Pruebas nuevas `ResultsPageTest.shouldKeepTheAdultOnlyFilterChecked` y `shouldNotOfferAdultOnlyByDefault`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 13 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (`adultOnly` siempre `false`): falla `shouldKeepTheAdultOnlyFilterChecked`; revertido. |
 | T-07 | terminada | `6db5cfd` | Ícono `static/img/favicon.svg` con `<link rel="icon">` en `fragments/head.html` (ver «Decisiones»). `LayoutPageTest` (ahora importa `NotFoundAdvice`): `shouldShowConnectionIndexAndTmdbOnTheHomePage` afirma el `<link>`; `shouldServeTheIconWithoutReadingTheCatalog` pide el ícono, espera 200 `image/svg+xml` y `verify(catalog, never()).status()`. `./mvnw -q -pl elastiflix-web -am verify -Dtest=LayoutPageTest -Dsurefire.failIfNoSpecifiedTests=false`: 3 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (quitar el ícono): falla con 404, y sin la aserción de estado falla `never()` (`NeverWantedButInvoked`, el 404 lee el catálogo); revertido. |
 | T-12 (`changeHref`) | terminada | `e160ec0` | Se quitó `model.addAttribute("changeHref", "/")` de `ResultsPage.heading`; «Cambiar ajustes» sigue con `@{/}`. `git grep -n changeHref -- '*/src/main/*'` no devuelve nada (código 1). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ResultsPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 20 pruebas, 0 fallos, Checkstyle y PMD en 0. Es una eliminación de código muerto: no hay comportamiento que romper a mano. El `./mvnw verify` completo va al cierre del carril. |
-| T-13 («Acerca de») | terminada | (hash en el commit siguiente) | Parte de E: `AboutController` recibe `IngestLimits` y pone `maxFileLabel` y `batchSize` en el modelo; `about.html` los usa en «Antes de subir» y «Índice temporal». Prueba nueva `AboutLimitsTest` (`ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB`, `ELASTIFLIX_INGEST_BATCH_SIZE=50`): muestra «de máximo 200 MB» y «lotes de 50» y no «150 MB» ni «lotes de 100»; `AboutPageTest` afirma los valores por defecto. Las dos declaran `@EnableConfigurationProperties(ElastiflixProperties.class)` e importan `IngestLimits` (regla 7). `./mvnw -q -pl elastiflix-web -am verify -Dtest='About*Test' -Dsurefire.failIfNoSpecifiedTests=false`: 2 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (cifras otra vez fijas en la plantilla): falla `AboutLimitsTest`; revertido. La parte de «Cargar datos» es del carril F. |
-| T-14 | pendiente | — | Una página de error EFX lee el catálogo dos veces |
+| T-13 («Acerca de») | terminada | `5e30db1` | Parte de E: `AboutController` recibe `IngestLimits` y pone `maxFileLabel` y `batchSize` en el modelo; `about.html` los usa en «Antes de subir» y «Índice temporal». Prueba nueva `AboutLimitsTest` (`ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB`, `ELASTIFLIX_INGEST_BATCH_SIZE=50`): muestra «de máximo 200 MB» y «lotes de 50» y no «150 MB» ni «lotes de 100»; `AboutPageTest` afirma los valores por defecto. Las dos declaran `@EnableConfigurationProperties(ElastiflixProperties.class)` e importan `IngestLimits` (regla 7). `./mvnw -q -pl elastiflix-web -am verify -Dtest='About*Test' -Dsurefire.failIfNoSpecifiedTests=false`: 2 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (cifras otra vez fijas en la plantilla): falla `AboutLimitsTest`; revertido. La parte de «Cargar datos» es del carril F. |
+| T-14 | terminada | (hash en el commit siguiente) | `LayoutAdvice.shell(HttpServletRequest)` guarda el cromo en `PageShells.REQUEST_ATTRIBUTE`; `WebExceptionHandler.elastiflix` lo reutiliza y solo llama a `catalog.status()` si falta. Prueba nueva `ErrorPageTest.shouldReadTheCatalogOnceForAnElastiflixError` (`/probe/elastiflix` → 500 con el pie y `verify(catalog, times(1)).status()`). `./mvnw -q -pl elastiflix-web -am verify -Dtest=ErrorPageTest,LayoutPageTest,IngestPageTest,ServedPagesTest -Dsurefire.failIfNoSpecifiedTests=false`: 23 pruebas, 0 fallos, Checkstyle y PMD en 0. Rotura a mano (ignorar el atributo y volver a leer): falla con `TooManyActualInvocations` (2 lecturas); revertido. |
 | T-19 (`SearchController`) | pendiente | — | Textos de error y Javadoc que no corresponden al comportamiento |
 | T-20 (página de error) | pendiente | — | Textos visibles sin punto final o sin fila en PLAN §1 |
 | T-21 | pendiente | — | «Ver todos» aparece aunque no oculte nada |
@@ -73,6 +73,9 @@ Vacío.
 - **T-13 (parte de E):** «Acerca de» ya no escribe 150 MB ni 100 a mano: `AboutController` pasa
   `maxFileLabel` y `batchSize` de `IngestLimits`. Si Z actualiza `docs/diseno/4.md` (modelo de cada vista),
   `about` suma esos dos atributos. La parte de F (`@Value`, `max-request-size`) y su nota de PLAN §7 son de F.
+- **T-14:** `docs/diseno/4.md` (cromo y errores): `LayoutAdvice.shell` deja el `PageShell` en el atributo de
+  petición `PageShells.REQUEST_ATTRIBUTE`, y `WebExceptionHandler` lo reutiliza; solo lee el catálogo si la
+  petición no lo trae.
 
 ## Bloqueos y solicitudes
 
