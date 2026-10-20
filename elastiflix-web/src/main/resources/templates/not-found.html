@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="es" th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <th:block th:replace="~{fragments/head :: head('Página no encontrada')}"></th:block>
+  <th:block th:replace="~{fragments/head :: head(#{notFound.page.title})}"></th:block>
 </head>
 <body>
 <div class="page">
   <div th:replace="~{fragments/chrome :: stripe}"></div>
   <header th:replace="~{fragments/chrome :: header}"></header>
   <main class="notice">
-    <p class="eyebrow">404</p>
-    <h1>Esta página no existe</h1>
-    <p>La dirección no corresponde a ninguna pantalla de la demo.</p>
-    <nav aria-label="Páginas de la demo">
-      <a th:href="@{/}">Buscar</a>
-      <a th:href="@{/cargar}">Cargar datos</a>
-      <a th:href="@{/acerca}">Acerca de la demo</a>
+    <p class="eyebrow" th:text="#{notFound.page.eyebrow}"></p>
+    <h1 th:text="#{notFound.page.heading}"></h1>
+    <p th:text="#{notFound.page.body}"></p>
+    <nav th:attr="aria-label=#{notFound.page.nav.aria}">
+      <a th:href="@{/}" th:text="#{nav.search}"></a>
+      <a th:href="@{/cargar}" th:text="#{nav.load}"></a>
+      <a th:href="@{/acerca}" th:text="#{nav.about}"></a>
     </nav>
   </main>
   <footer th:replace="~{fragments/chrome :: footer}"></footer>

@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -23,6 +24,27 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 public class LocaleConfig implements WebMvcConfigurer {
 
     private static final Duration COOKIE_MAX_AGE = Duration.ofDays(365);
+
+    /**
+     * Fuente de mensajes UTF-8 respaldada por {@code messages_es.properties} y {@code messages_en.properties}.
+     *
+     * @return fuente de mensajes configurada
+     */
+    @Bean
+    public MessageSource messageSource() {
+        return UiMessages.createMessageSource();
+    }
+
+    /**
+     * Componente de acceso al catálogo de mensajes de la interfaz.
+     *
+     * @param messageSource fuente de mensajes
+     * @return instancia de {@link UiMessages}
+     */
+    @Bean
+    public UiMessages uiMessages(MessageSource messageSource) {
+        return new UiMessages(messageSource);
+    }
 
     /**
      * Resuelve el idioma desde la cookie {@code elastiflix-lang}, usando siempre {@code es} por defecto.

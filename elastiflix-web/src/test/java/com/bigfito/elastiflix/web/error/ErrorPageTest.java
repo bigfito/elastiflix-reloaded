@@ -79,4 +79,22 @@ class ErrorPageTest {
                 .andExpect(content().string(containsString("href=\"/cargar\"")))
                 .andExpect(content().string(containsString("href=\"/acerca\"")));
     }
+
+    @Test
+    @DisplayName("con lang=en muestra el error EFX y el 404 en inglés")
+    void shouldShowEnglishErrorAndNotFoundWhenLangIsEn() throws Exception {
+        mvc.perform(get("/probe/elastiflix").param("lang", "en"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string(containsString("EFX-ES-001")))
+                .andExpect(content().string(containsString("<p>Could not connect to Elasticsearch.</p>")))
+                .andExpect(content().string(containsString("Could not complete")))
+                .andExpect(content().string(containsString("Back to search")))
+                .andExpect(content().string(containsString("Index: elastiflix-reloaded · 4,322 movies")));
+
+        mvc.perform(get("/no-existe").param("lang", "en"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(containsString("This page does not exist")))
+                .andExpect(content().string(containsString("The address does not match any screen in the demo.")))
+                .andExpect(content().string(containsString("href=\"/\">Search")));
+    }
 }

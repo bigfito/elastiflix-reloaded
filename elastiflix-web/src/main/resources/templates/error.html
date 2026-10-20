@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="es" th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <th:block th:replace="~{fragments/head :: head('Error')}"></th:block>
+  <th:block th:replace="~{fragments/head :: head(#{error.page.title})}"></th:block>
 </head>
 <body>
 <div class="page">
   <div th:replace="~{fragments/chrome :: stripe}"></div>
   <header th:replace="~{fragments/chrome :: header}"></header>
   <main class="notice">
-    <p class="eyebrow">No se pudo completar</p>
-    <h1 th:text="${code}">EFX-ES-001</h1>
-    <p th:text="${message}">Qué pasó.</p>
-    <a class="back" th:href="@{/}">Volver a buscar</a>
+    <p class="eyebrow" th:text="#{error.page.eyebrow}"></p>
+    <h1 th:text="${code}"></h1>
+    <p th:text="${message}"></p>
+    <a class="back" th:href="@{/}" th:text="#{error.page.back}"></a>
   </main>
   <footer th:replace="~{fragments/chrome :: footer}"></footer>
   <div th:replace="~{fragments/chrome :: stripe}"></div>

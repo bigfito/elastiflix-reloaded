@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="es" th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <th:block th:replace="~{fragments/head :: head('Acerca de la demo')}"></th:block>
+  <th:block th:replace="~{fragments/head :: head(#{about.page.title})}"></th:block>
 </head>
 <body>
 <div class="page">
@@ -9,47 +9,47 @@
   <header th:replace="~{fragments/chrome :: header}"></header>
   <main class="about">
     <section class="about-intro" aria-labelledby="intro">
-      <p class="eyebrow"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg>Acerca de la demo</p>
-      <h1 id="intro">Tres formas de buscar una película</h1>
-      <p class="lead">Elastiflix-Movies Java busca en un catálogo de películas guardado en un índice de Elasticsearch Serverless. Con la misma consulta puedes probar tres modos de búsqueda y ver cómo cambia lo que encuentra cada uno: por palabras, por significado o combinando ambos. Además puedes acotar los resultados con filtros y cargar nuevas películas al catálogo.</p>
+      <p class="eyebrow"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg><th:block th:text="#{about.intro.eyebrow}"></th:block></p>
+      <h1 id="intro" th:text="#{about.intro.heading}"></h1>
+      <p class="lead" th:text="#{about.intro.lead}"></p>
     </section>
 
-    <section class="mode-cards" aria-label="Resumen de los modos">
+    <section class="mode-cards" th:attr="aria-label=#{about.modes.aria}">
       <a class="mode-card sky" href="#fulltext">
         <span class="mode-icon sky" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg></span>
-        <strong>Full-text (léxica)</strong>
-        <span>Encuentra películas cuyo título contiene las palabras de tu consulta.</span>
-        <em>BM25 · title, original_title</em>
+        <strong th:text="#{about.modes.fulltext.title}"></strong>
+        <span th:text="#{about.modes.fulltext.desc}"></span>
+        <em th:text="#{about.modes.fulltext.meta}"></em>
       </a>
       <a class="mode-card mint" href="#vectorial">
         <span class="mode-icon mint" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg></span>
-        <strong>Vectorial</strong>
-        <span>Encuentra películas cuya sinopsis se parece en significado a lo que describes.</span>
-        <em>k-NN · plot_256, plot_512, plot_1024</em>
+        <strong th:text="#{about.modes.vector.title}"></strong>
+        <span th:text="#{about.modes.vector.desc}"></span>
+        <em th:text="#{about.modes.vector.meta}"></em>
       </a>
       <a class="mode-card lilac" href="#hibrida">
         <span class="mode-icon lilac" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg></span>
-        <strong>Híbrida</strong>
-        <span>Ejecuta las dos búsquedas anteriores y combina sus resultados en una sola lista.</span>
-        <em>BM25 + k-NN · fusión RRF</em>
+        <strong th:text="#{about.modes.hybrid.title}"></strong>
+        <span th:text="#{about.modes.hybrid.desc}"></span>
+        <em th:text="#{about.modes.hybrid.meta}"></em>
       </a>
     </section>
 
     <section id="fulltext" aria-labelledby="h-fulltext">
-      <div class="section-head"><span class="mode-icon sky" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg></span><h2 id="h-fulltext">Full-text (léxica)</h2></div>
-      <p>Busca coincidencias de términos en los campos <code>title</code> y <code>original_title</code>, ambos de tipo <code>text</code>. Elasticsearch analiza el texto de la consulta en tokens y los compara con los tokens indexados de cada título.</p>
+      <div class="section-head"><span class="mode-icon sky" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg></span><h2 id="h-fulltext" th:text="#{about.fulltext.heading}"></h2></div>
+      <p th:utext="#{about.fulltext.lead}"></p>
       <div class="note sky">
-        <h3>Cómo se calcula la relevancia: BM25</h3>
-        <p>BM25 es el algoritmo de puntuación por defecto de Elasticsearch para campos <code>text</code>. Favorece los términos de la consulta que aparecen en el campo y que son poco comunes en el catálogo. Dos parámetros controlan su comportamiento: <code>k1</code> (por defecto 1.2) limita cuánto suma que un término se repita, y <code>b</code> (por defecto 0.75) ajusta la puntuación según la longitud del campo.</p>
+        <h3 th:text="#{about.fulltext.bm25.title}"></h3>
+        <p th:utext="#{about.fulltext.bm25.body}"></p>
       </div>
-      <h3>Ajustes disponibles</h3>
+      <h3 th:text="#{about.common.settings}"></h3>
       <dl>
-        <div><dt>Tipo de consulta: match</dt><dd>Busca en un solo campo, que eliges entre <code>title</code> y <code>original_title</code>.</dd></div>
-        <div><dt>Tipo de consulta: multi-match</dt><dd>Busca en los dos campos a la vez con el tipo <code>best_fields</code>: cada campo se evalúa por separado y la película recibe la puntuación del campo que mejor coincide.</dd></div>
-        <div><dt>Operador: OR</dt><dd>Basta con que aparezca una de las palabras de la consulta. Es el comportamiento por defecto de Elasticsearch.</dd></div>
-        <div><dt>Operador: AND</dt><dd>Deben aparecer todas las palabras. Con multi-match y <code>best_fields</code>, todas deben estar en un mismo campo: no se pueden repartir entre <code>title</code> y <code>original_title</code>.</dd></div>
+        <div><dt th:text="#{about.fulltext.match.dt}"></dt><dd th:utext="#{about.fulltext.match.dd}"></dd></div>
+        <div><dt th:text="#{about.fulltext.multimatch.dt}"></dt><dd th:utext="#{about.fulltext.multimatch.dd}"></dd></div>
+        <div><dt th:text="#{about.fulltext.or.dt}"></dt><dd th:text="#{about.fulltext.or.dd}"></dd></div>
+        <div><dt th:text="#{about.fulltext.and.dt}"></dt><dd th:utext="#{about.fulltext.and.dd}"></dd></div>
       </dl>
-      <p class="docs"><span>Documentación</span>
+      <p class="docs"><span th:text="#{about.common.docs}"></span>
         <a href="https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query">Match query</a>
         <a href="https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query">Multi-match query</a>
         <a href="https://www.elastic.co/docs/reference/elasticsearch/index-settings/similarity">Similarity (BM25)</a>
@@ -57,68 +57,68 @@
     </section>
 
     <section id="vectorial" aria-labelledby="h-vectorial">
-      <div class="section-head"><span class="mode-icon mint" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg></span><h2 id="h-vectorial">Vectorial</h2></div>
-      <p>Busca por significado en la sinopsis de cada película (campo <code>plot</code>). El texto de tu consulta se convierte en un vector con el modelo <strong>jina-embeddings-v5-omni-small</strong> y Elasticsearch devuelve las películas cuyos vectores de sinopsis están más cerca, usando el retriever <code>knn</code>.</p>
+      <div class="section-head"><span class="mode-icon mint" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg></span><h2 id="h-vectorial" th:text="#{about.vector.heading}"></h2></div>
+      <p th:utext="#{about.vector.lead}"></p>
       <div class="note mint">
-        <h3>Cómo funciona k-NN</h3>
-        <p>k-NN (k vecinos más cercanos) busca los vectores más próximos al vector de la consulta. Elasticsearch lo hace de forma aproximada sobre un grafo HNSW: recorre el grafo en lugar de comparar contra todo el catálogo, lo que la hace rápida aunque no siempre exacta.</p>
+        <h3 th:text="#{about.vector.knn.title}"></h3>
+        <p th:text="#{about.vector.knn.body}"></p>
       </div>
-      <h3>Las tres representaciones de la sinopsis</h3>
-      <p>El objetivo de este modo es comprobar cómo el número de dimensiones del vector influye en la precisión de los resultados. Los tres campos vienen del mismo modelo: su dimensión nativa es 1024 y admite recorte Matryoshka a 256 y 512.</p>
+      <h3 th:text="#{about.vector.reps.title}"></h3>
+      <p th:text="#{about.vector.reps.body}"></p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Campo</th><th>Tipo</th><th>Dimensiones</th><th>Origen</th></tr></thead>
+          <thead><tr><th th:text="#{about.common.field}"></th><th th:text="#{about.common.type}"></th><th th:text="#{about.vector.table.dimensions}"></th><th th:text="#{about.vector.table.source}"></th></tr></thead>
           <tbody>
-            <tr><td>plot_256</td><td>dense_vector</td><td>256</td><td>Primeros valores del vector de 1024, renormalizados (Matryoshka)</td></tr>
-            <tr><td>plot_512</td><td>dense_vector</td><td>512</td><td>Primeros valores del vector de 1024, renormalizados (Matryoshka)</td></tr>
-            <tr><td>plot_1024</td><td>dense_vector</td><td>1024</td><td>Vector completo del modelo</td></tr>
+            <tr><td>plot_256</td><td>dense_vector</td><td>256</td><td th:text="#{about.vector.table.matryoshka}"></td></tr>
+            <tr><td>plot_512</td><td>dense_vector</td><td>512</td><td th:text="#{about.vector.table.matryoshka}"></td></tr>
+            <tr><td>plot_1024</td><td>dense_vector</td><td>1024</td><td th:text="#{about.vector.table.full}"></td></tr>
           </tbody>
         </table>
       </div>
-      <p><strong>Una comparación justa.</strong> Los tres campos usan la misma configuración de índice: <code>index_options</code> de tipo <code>hnsw</code> con vectores float sin cuantización, los mismos <code>m</code> (16) y <code>ef_construction</code> (100), los valores por defecto de Elasticsearch, y similitud <code>cosine</code>. Así, la única diferencia entre ellos es el número de dimensiones.</p>
+      <p th:utext="#{about.vector.fair}"></p>
       <div class="note mint wide">
-        <h3><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10 M10 20V4 M16 20v-7 M3 20h18"></path></svg>Precisión medida por dimensión</h3>
-        <p>Medido en el catálogo original de 4 322 películas. Se midió con 32 descripciones de trama (26 en español y 6 en inglés), cada una con una sola película correcta del catálogo y sin palabras de su título. Las posiciones se obtuvieron en Elasticsearch y se confirmaron con una búsqueda exacta por fuerza bruta: coinciden en todos los casos.</p>
+        <h3><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10 M10 20V4 M16 20v-7 M3 20h18"></path></svg><th:block th:text="#{about.vector.precision.title}"></th:block></h3>
+        <p th:text="#{about.vector.precision.lead}"></p>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>Campo</th><th>Correcta en 1.er lugar</th><th>Entre las 5 primeras</th><th>Entre las 10 primeras</th><th>MRR@10</th></tr>
+              <tr><th th:text="#{about.common.field}"></th><th th:text="#{about.vector.precision.th.rank1}"></th><th th:text="#{about.vector.precision.th.top5}"></th><th th:text="#{about.vector.precision.th.top10}"></th><th>MRR@10</th></tr>
             </thead>
             <tbody>
-              <tr><td>plot_256</td><td>22 de 32 (69 %)</td><td>29</td><td>30</td><td>0.774</td></tr>
-              <tr><td>plot_512</td><td>25 de 32 (78 %)</td><td>31</td><td>32</td><td>0.853</td></tr>
-              <tr><td>plot_1024</td><td>26 de 32 (81 %)</td><td>31</td><td>31</td><td>0.880</td></tr>
+              <tr><td>plot_256</td><td th:text="#{about.vector.precision.r256}"></td><td>29</td><td>30</td><td>0.774</td></tr>
+              <tr><td>plot_512</td><td th:text="#{about.vector.precision.r512}"></td><td>31</td><td>32</td><td>0.853</td></tr>
+              <tr><td>plot_1024</td><td th:text="#{about.vector.precision.r1024}"></td><td>31</td><td>31</td><td>0.880</td></tr>
             </tbody>
           </table>
         </div>
-        <p>El MRR premia que la película correcta quede arriba: vale 1 si siempre sale 1.ª y 0.5 si siempre sale 2.ª. En 24 de las 32 consultas la posición es la misma en los tres campos; las diferencias se concentran en las descripciones más difíciles:</p>
+        <p th:text="#{about.vector.precision.mrr}"></p>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Película</th><th>plot_256</th><th>plot_512</th><th>plot_1024</th></tr></thead>
+            <thead><tr><th th:text="#{about.vector.precision.movie}"></th><th>plot_256</th><th>plot_512</th><th>plot_1024</th></tr></thead>
             <tbody>
-              <tr><td>Inception</td><td>21.º</td><td>4.º</td><td>3.º</td></tr>
-              <tr><td>Life of Pi</td><td>10.º</td><td>3.º</td><td>2.º</td></tr>
-              <tr><td>Spirited Away</td><td>4.º</td><td>1.º</td><td>1.º</td></tr>
-              <tr><td>Titanic</td><td>4.º</td><td>3.º</td><td>1.º</td></tr>
-              <tr><td>E.T. the Extra-Terrestrial</td><td>3.º</td><td>1.º</td><td>1.º</td></tr>
-              <tr><td>Coco</td><td>2.º</td><td>1.º</td><td>1.º</td></tr>
+              <tr><td>Inception</td><td th:text="#{about.vector.rank.21}"></td><td th:text="#{about.vector.rank.4}"></td><td th:text="#{about.vector.rank.3}"></td></tr>
+              <tr><td>Life of Pi</td><td th:text="#{about.vector.rank.10}"></td><td th:text="#{about.vector.rank.3}"></td><td th:text="#{about.vector.rank.2}"></td></tr>
+              <tr><td>Spirited Away</td><td th:text="#{about.vector.rank.4}"></td><td th:text="#{about.vector.rank.1}"></td><td th:text="#{about.vector.rank.1}"></td></tr>
+              <tr><td>Titanic</td><td th:text="#{about.vector.rank.4}"></td><td th:text="#{about.vector.rank.3}"></td><td th:text="#{about.vector.rank.1}"></td></tr>
+              <tr><td>E.T. the Extra-Terrestrial</td><td th:text="#{about.vector.rank.3}"></td><td th:text="#{about.vector.rank.1}"></td><td th:text="#{about.vector.rank.1}"></td></tr>
+              <tr><td>Coco</td><td th:text="#{about.vector.rank.2}"></td><td th:text="#{about.vector.rank.1}"></td><td th:text="#{about.vector.rank.1}"></td></tr>
             </tbody>
           </table>
         </div>
         <ul>
-          <li>256 dimensiones pierde precisión de forma clara; 512 queda muy cerca de 1024 con la mitad del tamaño.</li>
-          <li>Más dimensiones no siempre es mejor en cada caso: Forrest Gump queda 21.º, 8.º y 18.º.</li>
-          <li>Con 32 consultas es una tendencia clara, no una conclusión estadística firme.</li>
+          <li th:text="#{about.vector.precision.b1}"></li>
+          <li th:text="#{about.vector.precision.b2}"></li>
+          <li th:text="#{about.vector.precision.b3}"></li>
         </ul>
       </div>
-      <h3>Ajustes disponibles</h3>
+      <h3 th:text="#{about.common.settings}"></h3>
       <dl>
-        <div><dt>Vector k-NN</dt><dd>El campo sobre el que se busca: <code>plot_256</code>, <code>plot_512</code> o <code>plot_1024</code>. Más dimensiones suelen capturar más matices del significado, a cambio de más memoria y de comparaciones más costosas.</dd></div>
-        <div><dt>k</dt><dd>Número máximo de resultados que devuelve la búsqueda vectorial, después de combinar los candidatos de todos los shards; se reparten en páginas de 25, 50 o 100. Debe ser menor o igual que <code>num_candidates</code>. Valor inicial: 100.</dd></div>
-        <div><dt>num_candidates</dt><dd>Candidatos que se evalúan en cada shard antes de quedarse con los <code>k</code> mejores. Subirlo tiende a mejorar la precisión, a cambio de más tiempo de respuesta. Máximo 10 000. Valor inicial: 200.</dd></div>
+        <div><dt th:text="#{about.vector.setting.field.dt}"></dt><dd th:utext="#{about.vector.setting.field.dd}"></dd></div>
+        <div><dt>k</dt><dd th:utext="#{about.vector.setting.k.dd}"></dd></div>
+        <div><dt>num_candidates</dt><dd th:utext="#{about.vector.setting.cand.dd}"></dd></div>
       </dl>
-      <p>Nota de implementación: para recuperación, el modelo espera el prefijo <code>Query: </code> en las consultas. Las sinopsis se vectorizan con <code>input_type</code> <code>ingest</code> y sin prefijo.</p>
-      <p class="docs"><span>Documentación</span>
+      <p th:utext="#{about.vector.implNote}"></p>
+      <p class="docs"><span th:text="#{about.common.docs}"></span>
         <a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/retrievers/knn-retriever">kNN retriever</a>
         <a href="https://www.elastic.co/docs/solutions/search/vector/knn/approximate-knn">Approximate kNN</a>
         <a href="https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/dense-vector">Dense vector</a>
@@ -127,118 +127,118 @@
     </section>
 
     <section id="hibrida" aria-labelledby="h-hibrida">
-      <div class="section-head"><span class="mode-icon lilac" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg></span><h2 id="h-hibrida">Híbrida</h2></div>
-      <p>Combina los dos modos anteriores con los mismos ajustes. El retriever <code>rrf</code> agrupa un retriever <code>standard</code>, con la consulta <code>match</code> o <code>multi_match</code> del componente full-text, y un retriever <code>knn</code> del componente vectorial.</p>
+      <div class="section-head"><span class="mode-icon lilac" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg></span><h2 id="h-hibrida" th:text="#{about.hybrid.heading}"></h2></div>
+      <p th:utext="#{about.hybrid.lead}"></p>
       <ol class="steps">
-        <li><strong>1 · Componente full-text</strong> Lista ordenada por BM25 sobre <code>title</code> y/o <code>original_title</code>.</li>
-        <li><strong>2 · Componente vectorial</strong> Lista ordenada por cercanía k-NN sobre el vector de sinopsis elegido.</li>
-        <li><strong>3 · Fusión RRF</strong> Una sola lista final, ordenada por la posición de cada película en las dos listas.</li>
+        <li th:utext="#{about.hybrid.step1}"></li>
+        <li th:utext="#{about.hybrid.step2}"></li>
+        <li th:utext="#{about.hybrid.step3}"></li>
       </ol>
       <div class="note lilac">
-        <h3>Cómo funciona Reciprocal Rank Fusion</h3>
-        <p>RRF combina las dos listas según la posición de cada película en ellas, no según su puntuación, porque las escalas de BM25 y de la similitud vectorial no son comparables. Una película que aparece arriba en ambas listas sube en el resultado final.</p>
+        <h3 th:text="#{about.hybrid.rrf.title}"></h3>
+        <p th:text="#{about.hybrid.rrf.body}"></p>
       </div>
-      <h3>Parámetros de la fusión</h3>
-      <p>La demo no los expone en la interfaz: <code>rank_constant</code> usa el valor por defecto de Elasticsearch y <code>rank_window_size</code> lo fija la aplicación.</p>
+      <h3 th:text="#{about.hybrid.params.title}"></h3>
+      <p th:utext="#{about.hybrid.params.lead}"></p>
       <dl>
-        <div><dt>rank_constant = 60</dt><dd>Cuanto más alto, más influencia tienen las películas que están más abajo en cada lista.</dd></div>
-        <div><dt>rank_window_size = k</dt><dd>Cuántos resultados de cada componente entran a la fusión y cuántos resultados combinados se pueden recorrer. La aplicación lo iguala a <code>k</code> (100 por defecto), así que ambos componentes aportan la misma cantidad y las páginas de 25, 50 o 100 nunca salen vacías.</dd></div>
+        <div><dt>rank_constant = 60</dt><dd th:text="#{about.hybrid.params.rc.dd}"></dd></div>
+        <div><dt>rank_window_size = k</dt><dd th:utext="#{about.hybrid.params.rw.dd}"></dd></div>
       </dl>
-      <p class="docs"><span>Documentación</span>
+      <p class="docs"><span th:text="#{about.common.docs}"></span>
         <a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/retrievers/rrf-retriever">RRF retriever</a>
       </p>
     </section>
 
     <section id="resultados" aria-labelledby="h-resultados">
-      <div class="section-head"><span class="mode-icon rose" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"></path></svg></span><h2 id="h-resultados">Resultados y filtros</h2></div>
-      <p>Los resultados se muestran por páginas, con la puntuación que corresponde a cada modo, y se pueden acotar con filtros que se calculan a partir de los propios resultados.</p>
-      <h3>Paginación</h3>
+      <div class="section-head"><span class="mode-icon rose" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"></path></svg></span><h2 id="h-resultados" th:text="#{about.results.heading}"></h2></div>
+      <p th:text="#{about.results.lead}"></p>
+      <h3 th:text="#{about.results.page.title}"></h3>
       <dl>
-        <div><dt>25 · 50 · 100 por página</dt><dd>El usuario elige el tamaño de página y se mueve con Anterior, Siguiente o el número de página. Al cambiar el tamaño o aplicar filtros se vuelve a la página 1.</dd></div>
-        <div><dt>Full-text</dt><dd>Se pueden recorrer todas las coincidencias con <code>from</code> y <code>size</code>, hasta el límite de 10 000 que fija <code>index.max_result_window</code>.</dd></div>
-        <div><dt>Vectorial</dt><dd>Hay como máximo <code>k</code> resultados (100 por defecto), repartidos en páginas.</dd></div>
-        <div><dt>Híbrida</dt><dd>Hay como máximo <code>rank_window_size</code> resultados combinados. La aplicación lo iguala a <code>k</code>, así que <code>from + size</code> nunca supera la ventana y ninguna página sale vacía.</dd></div>
+        <div><dt th:text="#{about.results.page.size.dt}"></dt><dd th:text="#{about.results.page.size.dd}"></dd></div>
+        <div><dt th:text="#{about.results.page.ft.dt}"></dt><dd th:utext="#{about.results.page.ft.dd}"></dd></div>
+        <div><dt th:text="#{about.results.page.vec.dt}"></dt><dd th:utext="#{about.results.page.vec.dd}"></dd></div>
+        <div><dt th:text="#{about.results.page.hyb.dt}"></dt><dd th:utext="#{about.results.page.hyb.dd}"></dd></div>
       </dl>
-      <h3>Puntuación de cada resultado</h3>
+      <h3 th:text="#{about.results.score.title}"></h3>
       <dl>
-        <div><dt>Full-text</dt><dd>Puntuación BM25. No tiene una escala fija: solo sirve para comparar resultados de una misma búsqueda.</dd></div>
-        <div><dt>Vectorial</dt><dd>Similitud k-NN. Con <code>cosine</code>, Elasticsearch devuelve (1 + coseno) / 2, un valor entre 0 y 1.</dd></div>
-        <div><dt>Híbrida</dt><dd>La puntuación BM25 y la similitud k-NN, cada una con la posición de la película en su lista, más la puntuación RRF que define el orden final.</dd></div>
+        <div><dt th:text="#{about.results.page.ft.dt}"></dt><dd th:text="#{about.results.score.ft.dd}"></dd></div>
+        <div><dt th:text="#{about.results.page.vec.dt}"></dt><dd th:utext="#{about.results.score.vec.dd}"></dd></div>
+        <div><dt th:text="#{about.results.page.hyb.dt}"></dt><dd th:text="#{about.results.score.hyb.dd}"></dd></div>
       </dl>
-      <h3>Filtros</h3>
+      <h3 th:text="#{about.results.filters.title}"></h3>
       <dl>
-        <div><dt>Campos</dt><dd><code>adult</code>, <code>genres</code>, <code>release_date</code> (rango desde–hasta), <code>spoken_languages</code> y <code>rating</code>.</dd></div>
-        <div><dt>Combinación</dt><dd>Entre filtros distintos se cumplen todos; dentro de un mismo filtro basta con uno de los valores marcados. Los cambios se aplican al pulsar APLICAR; la fecha «Desde» no puede ser posterior a «Hasta».</dd></div>
-        <div><dt>Valores dinámicos</dt><dd>Cada filtro muestra solo los valores presentes en los resultados actuales, con cuántos resultados tienen cada uno, y se recalculan cada vez que cambian los resultados. Los valores ya marcados siguen visibles para poder desmarcarlos.</dd></div>
-        <div><dt>En Elasticsearch</dt><dd>Full-text: los filtros van en el contexto <code>filter</code> de la consulta, que no altera la puntuación BM25, y los valores salen de agregaciones <code>terms</code>. Vectorial: los filtros van en el <code>filter</code> del retriever <code>knn</code>, que se aplica durante la búsqueda, así que se devuelven <code>k</code> películas que los cumplen. Híbrida: van en el <code>filter</code> del retriever <code>rrf</code>, que se aplica a las dos búsquedas.</dd></div>
-        <div><dt>Valores en Vectorial e Híbrida</dt><dd>La aplicación los calcula sobre los resultados devueltos (hasta <code>k</code>). En RRF las agregaciones incluirían todas las coincidencias de cada búsqueda, incluso películas que no aparecen en la lista combinada.</dd></div>
+        <div><dt th:text="#{about.results.filters.fields.dt}"></dt><dd th:utext="#{about.results.filters.fields.dd}"></dd></div>
+        <div><dt th:text="#{about.results.filters.combo.dt}"></dt><dd th:text="#{about.results.filters.combo.dd}"></dd></div>
+        <div><dt th:text="#{about.results.filters.dyn.dt}"></dt><dd th:text="#{about.results.filters.dyn.dd}"></dd></div>
+        <div><dt th:text="#{about.results.filters.es.dt}"></dt><dd th:utext="#{about.results.filters.es.dd}"></dd></div>
+        <div><dt th:text="#{about.results.filters.vh.dt}"></dt><dd th:utext="#{about.results.filters.vh.dd}"></dd></div>
       </dl>
       <div class="note rose">
-        <h3>Cuando no hay resultados</h3>
-        <p>Si la búsqueda no encuentra nada, la página lo dice y sugiere ajustes según el modo (por ejemplo, OR en lugar de AND). Si la búsqueda sí encontró películas pero ninguna cumple los filtros, lo explica y ofrece quitarlos.</p>
+        <h3 th:text="#{about.results.empty.title}"></h3>
+        <p th:text="#{about.results.empty.body}"></p>
       </div>
-      <p class="docs"><span>Documentación</span>
-        <a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/paginate-search-results">Paginación</a>
+      <p class="docs"><span th:text="#{about.common.docs}"></span>
+        <a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/paginate-search-results" th:text="#{about.results.docs.pagination}"></a>
         <a href="https://www.elastic.co/docs/reference/aggregations/search-aggregations-bucket-terms-aggregation">Terms aggregation</a>
-        <a href="https://www.elastic.co/docs/solutions/search/vector/knn/filtered-knn-search">Filtrar kNN</a>
+        <a href="https://www.elastic.co/docs/solutions/search/vector/knn/filtered-knn-search" th:text="#{about.results.docs.knn}"></a>
         <a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/retrievers/rrf-retriever">RRF retriever</a>
       </p>
     </section>
 
     <section id="carga" aria-labelledby="h-carga">
-      <div class="section-head"><span class="mode-icon peach" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg></span><h2 id="h-carga">Carga de datos</h2></div>
-      <p>Se pueden agregar películas una por una o importar un archivo. El proceso valida todo antes de escribir y nunca deja el catálogo a medias.</p>
-      <h3>Formas de carga</h3>
+      <div class="section-head"><span class="mode-icon peach" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg></span><h2 id="h-carga" th:text="#{about.load.heading}"></h2></div>
+      <p th:text="#{about.load.lead}"></p>
+      <h3 th:text="#{about.load.ways.title}"></h3>
       <dl>
-        <div><dt>Registro individual</dt><dd>Formulario con los campos del mapping. <code>id</code>, <code>title</code> y <code>plot</code> son obligatorios.</dd></div>
-        <div><dt>Archivo .json</dt><dd>La exportación del índice (objeto con <code>documents</code> y, opcionalmente, <code>mapping</code> y <code>document_count</code>), un arreglo de películas o NDJSON.</dd></div>
-        <div><dt>Archivo .csv</dt><dd>Texto UTF-8 con o sin BOM, separado por comas y con encabezado. Un CSV sin encabezado se rechaza. Las listas y los objetos anidados van como JSON dentro de la celda.</dd></div>
+        <div><dt th:text="#{about.load.ways.single.dt}"></dt><dd th:utext="#{about.load.ways.single.dd}"></dd></div>
+        <div><dt th:text="#{about.load.ways.json.dt}"></dt><dd th:utext="#{about.load.ways.json.dd}"></dd></div>
+        <div><dt th:text="#{about.load.ways.csv.dt}"></dt><dd th:text="#{about.load.ways.csv.dd}"></dd></div>
       </dl>
-      <h3>Validaciones</h3>
+      <h3 th:text="#{about.load.val.title}"></h3>
       <dl>
-        <div><dt>Antes de subir</dt><dd>Solo .json o .csv, sin dobles extensiones, de máximo <th:block th:text="${maxFileLabel}">150 MB</th:block> y con contenido de texto UTF-8. El servidor repite estas comprobaciones.</dd></div>
-        <div><dt>Contra el mapping</dt><dd>Se revisa el archivo completo: cada campo debe existir en el mapping y tener su tipo (<code>release_date</code> en yyyy-MM-dd, <code>adult</code> booleano, <code>keywords</code> y <code>belongs_to_collection</code> como objetos anidados). <code>id</code> no se puede repetir.</dd></div>
-        <div><dt>Si algo no coincide</dt><dd>La carga se detiene y no se importa ningún registro. La página muestra cada error con su registro, <code>id</code>, campo, valor recibido y lo que espera el mapping, y permite descargar el informe completo.</dd></div>
-        <div><dt>Advertencias</dt><dd>Lo que no rompe el mapping no detiene la carga: por ejemplo, los valores vacíos dentro de una lista se omiten y los textos vacíos se guardan sin valor.</dd></div>
+        <div><dt th:text="#{about.load.val.before.dt}"></dt><dd th:text="#{about.load.val.before.dd(${maxFileLabel})}"></dd></div>
+        <div><dt th:text="#{about.load.val.mapping.dt}"></dt><dd th:utext="#{about.load.val.mapping.dd}"></dd></div>
+        <div><dt th:text="#{about.load.val.error.dt}"></dt><dd th:utext="#{about.load.val.error.dd}"></dd></div>
+        <div><dt th:text="#{about.load.val.warn.dt}"></dt><dd th:text="#{about.load.val.warn.dd}"></dd></div>
       </dl>
-      <h3>Importación</h3>
+      <h3 th:text="#{about.load.imp.title}"></h3>
       <dl>
-        <div><dt>Vectores</dt><dd>Los tres vectores se generan siempre desde <code>plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, <code>input_type</code> <code>ingest</code> y sin prefijo). Si el archivo trae <code>plot_256</code>, <code>plot_512</code> o <code>plot_1024</code>, se ignoran.</dd></div>
-        <div><dt>Índice temporal</dt><dd>Los registros se escriben en lotes de <th:block th:text="${batchSize}">100</th:block> en un índice temporal que empieza como copia del catálogo actual. Si un <code>id</code> ya existe, el registro reemplaza a la película.</dd></div>
-        <div><dt>Publicación</dt><dd>Al terminar se comprueba el conteo y el alias <code th:text="${shell.alias}">elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd></div>
-        <div><dt>Si falla</dt><dd>Si Elasticsearch rechaza un lote o la comprobación no cuadra, se borra el índice temporal y el catálogo queda exactamente como estaba.</dd></div>
+        <div><dt th:text="#{about.load.imp.vec.dt}"></dt><dd th:utext="#{about.load.imp.vec.dd}"></dd></div>
+        <div><dt th:text="#{about.load.imp.temp.dt}"></dt><dd th:utext="#{about.load.imp.temp.dd(${batchSize})}"></dd></div>
+        <div><dt th:text="#{about.load.imp.pub.dt}"></dt><dd th:utext="#{about.load.imp.pub.dd(${shell.alias})}"></dd></div>
+        <div><dt th:text="#{about.load.imp.fail.dt}"></dt><dd th:text="#{about.load.imp.fail.dd}"></dd></div>
       </dl>
-      <p class="docs"><span>Documentación</span>
-        <a href="https://www.elastic.co/docs/manage-data/data-store/aliases">Alias de índices</a>
+      <p class="docs"><span th:text="#{about.common.docs}"></span>
+        <a href="https://www.elastic.co/docs/manage-data/data-store/aliases" th:text="#{about.load.docs.aliases}"></a>
         <a href="https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/dense-vector">Dense vector</a>
       </p>
     </section>
 
     <section id="catalogo" aria-labelledby="h-catalogo">
-      <div class="section-head"><span class="mode-icon butter" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg></span><h2 id="h-catalogo">El catálogo</h2></div>
-      <p>El catálogo está en <code th:text="${shell.alias}">elastiflix-reloaded</code>, un alias que apunta al índice vigente: así una carga de datos se publica de una sola vez o se descarta sin afectar a las búsquedas. <span th:text="${shell.moviePhrase}">Tiene películas.</span> Estos son los campos que usa la demo; los demás (reparto, productoras, métricas, imágenes…) se muestran en los resultados o se capturan en la carga de datos.</p>
+      <div class="section-head"><span class="mode-icon butter" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg></span><h2 id="h-catalogo" th:text="#{about.catalog.heading}"></h2></div>
+      <p th:utext="#{about.catalog.lead(${shell.alias}, ${shell.moviePhrase})}"></p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Campo</th><th>Tipo</th><th>Contenido</th><th>Uso</th></tr></thead>
+          <thead><tr><th th:text="#{about.common.field}"></th><th th:text="#{about.common.type}"></th><th th:text="#{about.catalog.th.content}"></th><th th:text="#{about.catalog.th.use}"></th></tr></thead>
           <tbody>
-            <tr><td>title</td><td>text</td><td>Título de la película</td><td>Full-text, Híbrida</td></tr>
-            <tr><td>original_title</td><td>text</td><td>Título original</td><td>Full-text, Híbrida</td></tr>
-            <tr><td>plot</td><td>text</td><td>Sinopsis; origen de los tres vectores</td><td>Se muestra en los resultados</td></tr>
-            <tr><td>plot_256 · plot_512 · plot_1024</td><td>dense_vector</td><td>Vectores de la sinopsis (256, 512 y 1024 dimensiones)</td><td>Vectorial, Híbrida</td></tr>
-            <tr><td>adult</td><td>boolean</td><td>Contenido para adultos (medido en el catálogo original de 4 322 películas: ninguna película del catálogo lo es)</td><td>Filtro</td></tr>
-            <tr><td>genres</td><td>keyword</td><td>Géneros, por ejemplo Drama, Comedy o Action</td><td>Filtro</td></tr>
-            <tr><td>release_date</td><td>date</td><td>Fecha de estreno en yyyy-MM-dd (medido en el catálogo original de 4 322 películas: de 1902 a 2023)</td><td>Filtro</td></tr>
-            <tr><td>spoken_languages</td><td>keyword</td><td>Idiomas hablados, con su nombre propio: English, Español, Français…</td><td>Filtro</td></tr>
-            <tr><td>rating</td><td>keyword</td><td>Clasificación: G, PG, PG-13, R, NC-17 o NR</td><td>Filtro</td></tr>
+            <tr><td>title</td><td>text</td><td th:text="#{about.catalog.title.content}"></td><td th:text="#{about.catalog.title.use}"></td></tr>
+            <tr><td>original_title</td><td>text</td><td th:text="#{about.catalog.origTitle.content}"></td><td th:text="#{about.catalog.title.use}"></td></tr>
+            <tr><td>plot</td><td>text</td><td th:text="#{about.catalog.plot.content}"></td><td th:text="#{about.catalog.plot.use}"></td></tr>
+            <tr><td>plot_256 · plot_512 · plot_1024</td><td>dense_vector</td><td th:text="#{about.catalog.vectors.content}"></td><td th:text="#{about.catalog.vectors.use}"></td></tr>
+            <tr><td>adult</td><td>boolean</td><td th:text="#{about.catalog.adult.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
+            <tr><td>genres</td><td>keyword</td><td th:text="#{about.catalog.genres.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
+            <tr><td>release_date</td><td>date</td><td th:text="#{about.catalog.releaseDate.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
+            <tr><td>spoken_languages</td><td>keyword</td><td th:text="#{about.catalog.languages.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
+            <tr><td>rating</td><td>keyword</td><td th:text="#{about.catalog.rating.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <section id="creditos" aria-labelledby="h-creditos">
-      <h2 id="h-creditos">Créditos</h2>
-      <p th:text="${shell.tmdbNotice}">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
-      <p th:text="${shell.tmdbNoticeEs}">Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.</p>
+      <h2 id="h-creditos" th:text="#{about.credits.heading}"></h2>
+      <p th:text="${shell.tmdbNotice}"></p>
+      <p th:text="${shell.tmdbNoticeEs}"></p>
       <img class="tmdb-logo" width="154" height="20" alt="The Movie Database (TMDB)"
            th:src="@{/img/tmdb/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg}">
     </section>
