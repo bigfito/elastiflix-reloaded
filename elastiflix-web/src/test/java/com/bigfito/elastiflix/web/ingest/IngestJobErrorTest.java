@@ -8,6 +8,8 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 
+import com.bigfito.elastiflix.web.locale.LocaleConfig;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = IngestJobController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
-@Import({IngestJobErrors.class, UploadSizeErrors.class, UploadCheck.class, IngestLimits.class})
+@Import({IngestJobErrors.class, UploadSizeErrors.class, UploadCheck.class, IngestLimits.class,
+        LocaleConfig.class, IngestTranslator.class})
 @EnableConfigurationProperties(ElastiflixProperties.class)
 @TestPropertySource(properties = "elastiflix.ingest.max-file-size=32B")
 class IngestJobErrorTest {
@@ -79,4 +82,16 @@ class IngestJobErrorTest {
                 .andExpect(jsonPath("$.code").value("EFX-IMP-005"))
                 .andExpect(jsonPath("$.message").value("No está ese trabajo de importación"));
     }
+
+    @Test
+    @DisplayName("un trabajo desconocido responde 404 JSON en inglés con lang=en")
+    void shouldReturnNotFoundJsonInEnglishForAnUnknownJob() throws Exception {
+        when(ingest.job("no-esta")).thenThrow(new ImportException(ErrorCode.UNKNOWN_JOB));
+
+        mvc.perform(get("/cargar/trabajos/no-esta?lang=en"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value("EFX-IMP-005"))
+                .andExpect(jsonPath("$.message").value("That import job was not found"));
+    }
 }
+

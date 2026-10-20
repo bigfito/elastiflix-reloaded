@@ -12,9 +12,9 @@
 - **Ramas:** `fase-8-i18n`
 - **Diseño:** [`docs/diseno/8.md`](../docs/diseno/8.md) completado en 8.0
 - **Estado:** tablero [`progreso/8.md`](8.md)
-- **Tarea actual:** 8.6 Internacionalización de Carga de datos (`ingest.html`, `ingest.js`, preservación de `jobId` al cambiar de idioma, `JobTexts`, `IngestTranslator`, `informe.csv`)
-- **Próximo paso:** Adaptar clases de ingest y plantilla ingest.html con claves de mensajes e informe CSV traducido
-- **Última actualización:** 2026-10-20 04:35 UTC
+- **Tarea actual:** 8.7 Verificación de paridad, pruebas sin regresión y cierre de fase
+- **Próximo paso:** Crear MessageCatalogParityTest y TemplatesAndScriptsI18nTest, ejecutar verify limpio y actualizar documentación
+- **Última actualización:** 2026-10-20 05:05 UTC
 
 ## Fases
 
@@ -33,7 +33,7 @@
 | — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). El estado posterior entró con el PR #14 (`27fcdef`). La revisión 3 encontró restos de S-01, S-03, S-05, S-06, S-14, S-21 y S-22. |
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 329 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). |
-| 8 | Interfaz en español e inglés (i18n) | — | en curso | `progreso/8.md` | 8.0 a 8.3 terminadas |
+| 8 | Interfaz en español e inglés (i18n) | — | en curso | `progreso/8.md` | 8.0 a 8.6 terminadas |
 
 ## Aprobaciones del usuario
 

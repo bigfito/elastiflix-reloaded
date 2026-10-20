@@ -3,18 +3,21 @@ package com.bigfito.elastiflix.web.ingest;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 import java.util.Map;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
+import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.file.CheckedFile;
 import com.bigfito.elastiflix.ingest.file.FileKind;
 import com.bigfito.elastiflix.ingest.job.JobView;
-import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.service.IngestService;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,18 +39,29 @@ public class IngestJobController {
     private final IngestService ingest;
     private final UploadCheck uploads;
     private final IngestLimits limits;
+    private final UiMessages messages;
+    private final IngestTranslator translator;
 
     /**
      * Crea el controlador.
      *
-     * @param ingest  fachada
-     * @param uploads extensión, tamaño y UTF-8
-     * @param limits  tamaño máximo del archivo y alias del catálogo para los textos
+     * @param ingest     fachada
+     * @param uploads    extensión, tamaño y UTF-8
+     * @param limits     tamaño máximo del archivo y alias del catálogo para los textos
+     * @param messages   mensajes i18n
+     * @param translator traductor de vistas
      */
-    public IngestJobController(IngestService ingest, UploadCheck uploads, IngestLimits limits) {
+    public IngestJobController(
+            IngestService ingest,
+            UploadCheck uploads,
+            IngestLimits limits,
+            @Autowired(required = false) UiMessages messages,
+            @Autowired(required = false) IngestTranslator translator) {
         this.ingest = ingest;
         this.uploads = uploads;
         this.limits = limits;
+        this.messages = messages;
+        this.translator = translator != null ? translator : new IngestTranslator();
     }
 
     /**
@@ -56,6 +70,7 @@ public class IngestJobController {
      * @param file      multipart {@code archivo}
      * @param separator coma, punto y coma o tabulador
      * @param header    {@code false} si la casilla de encabezado está desmarcada
+     * @param locale    idioma de la petición
      * @return {@code jobId}, o 400 con el código si el archivo no sirve
      * @throws IOException si no se puede copiar el temporal
      */
@@ -63,12 +78,13 @@ public class IngestJobController {
     public ResponseEntity<Map<String, String>> upload(
             @RequestParam("archivo") MultipartFile file,
             @RequestParam(name = "separador", defaultValue = ",") String separator,
-            @RequestParam(name = "encabezado", defaultValue = "false") String header) throws IOException {
+            @RequestParam(name = "encabezado", defaultValue = "false") String header,
+            Locale locale) throws IOException {
         rejectIfTooLarge(file);
         try {
             requireHeader(uploads.requireAccepted(file), header);
         } catch (IngestValidationException exception) {
-            return rejected(file, exception);
+            return rejected(file, exception, locale);
         }
         String jobId = start(file, copy(file), settings(separator, header));
         return ResponseEntity.ok(Map.of("jobId", jobId));
@@ -77,56 +93,65 @@ public class IngestJobController {
     /**
      * Estado del trabajo.
      *
-     * @param jobId identificador
+     * @param jobId  identificador
+     * @param locale idioma de la petición
      * @return la copia que ve la página, con sus textos
      */
     @GetMapping("/cargar/trabajos/{jobId}")
-    public JobScreen job(@PathVariable String jobId) {
-        return screen(jobId);
+    public JobScreen job(@PathVariable String jobId, Locale locale) {
+        return screen(jobId, locale);
     }
 
     /**
      * Empieza la importación de un archivo ya válido.
      *
-     * @param jobId identificador
+     * @param jobId  identificador
+     * @param locale idioma de la petición
      * @return el estado después de pedirla
      */
     @PostMapping("/cargar/trabajos/{jobId}/importar")
-    public JobScreen start(@PathVariable String jobId) {
+    public JobScreen start(@PathVariable String jobId, Locale locale) {
         ingest.importFile(jobId);
-        return screen(jobId);
+        return screen(jobId, locale);
     }
 
     /**
      * Pide cancelar y borrar el índice temporal.
      *
-     * @param jobId identificador
+     * @param jobId  identificador
+     * @param locale idioma de la petición
      * @return el estado después de pedirla
      */
     @PostMapping("/cargar/trabajos/{jobId}/cancelar")
-    public JobScreen cancel(@PathVariable String jobId) {
+    public JobScreen cancel(@PathVariable String jobId, Locale locale) {
         ingest.cancel(jobId);
-        return screen(jobId);
+        return screen(jobId, locale);
     }
 
     /**
      * Informe completo de errores.
      *
-     * @param jobId identificador
+     * @param jobId  identificador
+     * @param locale idioma de la petición
      * @return CSV UTF-8
      */
     @GetMapping(value = "/cargar/trabajos/{jobId}/informe.csv", produces = "text/csv")
-    public String report(@PathVariable String jobId) {
-        return ingest.errorReport(jobId);
+    public String report(@PathVariable String jobId, Locale locale) {
+        String raw = ingest.errorReport(jobId);
+        JobView view = ingest.job(jobId);
+        boolean isCsv = view != null && "csv".equals(view.kind());
+        return translator.toErrorCsv(raw, locale, isCsv);
     }
 
-    private static ResponseEntity<Map<String, String>> rejected(
-            MultipartFile file, IngestValidationException exception) {
+    private ResponseEntity<Map<String, String>> rejected(
+            MultipartFile file, IngestValidationException exception, Locale locale) {
         String code = exception.errorCode().code();
         LOG.warn("{}: se rechazó {}", code, fileName(file));
+        String summary = messages != null ? messages.errorSummary(exception.errorCode(), locale)
+                : exception.errorCode().summary();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
                 "code", code,
-                "message", exception.errorCode().summary()));
+                "message", summary));
     }
 
     private static String fileName(MultipartFile file) {
@@ -137,9 +162,10 @@ public class IngestJobController {
         return name;
     }
 
-    private JobScreen screen(String jobId) {
+    private JobScreen screen(String jobId, Locale locale) {
         JobView view = ingest.job(jobId);
-        return new JobScreen(view, JobTexts.of(view, limits.alias()));
+        JobView translated = translator.translateJob(view, locale, messages);
+        return new JobScreen(translated, JobTexts.of(translated, limits.alias(), locale, messages));
     }
 
     /** Un CSV sin encabezado se rechaza en la subida, antes de crear el trabajo (PLAN §5). */
