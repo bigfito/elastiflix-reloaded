@@ -15,14 +15,14 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
 ![Estado](https://img.shields.io/badge/estado-terminado-BDE8D7?style=flat-square&labelColor=3A3548)
-![Fases](https://img.shields.io/badge/fases-7%2F7-FFCDB2?style=flat-square&labelColor=3A3548)
+![Fases](https://img.shields.io/badge/fases-8%2F8-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
 </div>
 
 > [!NOTE]
-> ✅ **Estado actual:** la Fase 7 (Requerimiento 1: Detalle de película `GET /pelicula/{id}`) está completada
-> con pruebas unitarias, de integración, Checkstyle y PMD en verde. El estado y el próximo paso
+> ✅ **Estado actual:** la Fase 8 (Requerimiento 2: Interfaz en español e inglés / i18n) está completada
+> con pruebas unitarias, de paridad de catálogos, Checkstyle y PMD en verde. El estado y el próximo paso
 > están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo vigentes del alias
 > `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -56,6 +56,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 | 🧭 | **Vectorial** | Encuentra películas cuya sinopsis se parece en significado a lo que describes |
 | 🔀 | **Híbrida** | Ejecuta las dos búsquedas y combina sus resultados en una sola lista |
 | 🎬 | **Detalle de película** | Ficha técnica completa por ID (`/pelicula/{id}`), cifras USD y regreso a los resultados |
+| 🌐 | **Bilingüe (ES · EN)** | Interfaz completa en español e inglés con selector en el encabezado y cookie de preferencia |
 | 🎛️ | **Filtros dinámicos** | Adultos, géneros, fecha de estreno, idiomas y clasificación, con conteos |
 | 📄 | **Paginación** | 25 · 50 · 100 resultados por página |
 | 📥 | **Carga de datos** | Registro individual o archivos `.json` / `.csv`, validados contra el mapping |
@@ -398,6 +399,8 @@ Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde c
 | 4 | 🌐 Interfaz web | — | ✅ terminado |
 | 5 | 🧪 Pruebas integrales y smoke test | — | ✅ terminado |
 | 6 | 📚 Documentación y cierre | — | ✅ terminado |
+| 7 | 🎬 Detalle de película | 🔒 | ✅ terminado |
+| 8 | 🌐 Interfaz en español e inglés (i18n) | — | ✅ terminado |
 
 El estado vigente siempre es el de [`progreso/INDICE.md`](progreso/INDICE.md); esta tabla se actualiza
 al cerrar cada fase.
