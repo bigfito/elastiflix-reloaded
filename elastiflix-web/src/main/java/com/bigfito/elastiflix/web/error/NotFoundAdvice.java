@@ -3,6 +3,8 @@ package com.bigfito.elastiflix.web.error;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.web.layout.PageShells;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -38,14 +40,15 @@ public class NotFoundAdvice {
      *
      * @param exception ruta ausente; no se muestra
      * @param model     navegación y cabecera
+     * @param request   petición actual
      * @return la plantilla {@code not-found}
      */
     @ExceptionHandler(NoResourceFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String missing(NoResourceFoundException exception, Model model) {
+    public String missing(NoResourceFoundException exception, Model model, HttpServletRequest request) {
         LOG.info("Ruta no encontrada: {}", exception.getResourcePath());
         model.addAttribute("nav", "");
-        model.addAttribute("shell", PageShells.from(catalog.status()));
+        model.addAttribute("shell", PageShells.from(catalog.status(), request));
         return "not-found";
     }
 }

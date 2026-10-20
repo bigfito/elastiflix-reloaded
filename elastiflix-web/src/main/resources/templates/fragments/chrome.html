@@ -24,10 +24,26 @@
       </a>
     </nav>
   </div>
-  <div class="connection" th:attr="data-connected=${shell.connected}">
-    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"></ellipse><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
-    <span class="dot" th:classappend="${shell.connected} ? '' : 'is-down'" aria-hidden="true"></span>
-    <span th:text="${shell.connectionLabel}">Conectado · Elasticsearch Serverless</span>
+  <div class="header-right">
+    <nav class="lang-switch" th:attr="aria-label=${shell.lang == 'en' ? 'Language' : 'Idioma'}">
+      <a th:href="${shell.esHref}" lang="es" hreflang="es" title="Español"
+         th:classappend="${shell.lang == 'es'} ? 'is-current' : ''"
+         th:attr="aria-current=${shell.lang == 'es'} ? 'true' : null">
+        <span aria-hidden="true">ES</span>
+        <span class="visually-hidden">Español</span>
+      </a>
+      <a th:href="${shell.enHref}" lang="en" hreflang="en" title="English"
+         th:classappend="${shell.lang == 'en'} ? 'is-current' : ''"
+         th:attr="aria-current=${shell.lang == 'en'} ? 'true' : null">
+        <span aria-hidden="true">EN</span>
+        <span class="visually-hidden">English</span>
+      </a>
+    </nav>
+    <div class="connection" th:attr="data-connected=${shell.connected}">
+      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"></ellipse><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
+      <span class="dot" th:classappend="${shell.connected} ? '' : 'is-down'" aria-hidden="true"></span>
+      <span th:text="${shell.connectionLabel}">Conectado · Elasticsearch Serverless</span>
+    </div>
   </div>
 </header>
 

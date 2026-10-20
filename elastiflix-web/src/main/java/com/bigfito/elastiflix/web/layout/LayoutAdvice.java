@@ -35,8 +35,13 @@ public class LayoutAdvice {
      */
     @ModelAttribute("shell")
     public PageShell shell(HttpServletRequest request) {
-        PageShell shell = PageShells.from(catalog.status());
-        request.setAttribute(PageShells.REQUEST_ATTRIBUTE, shell);
+        if (request != null && request.getAttribute(PageShells.REQUEST_ATTRIBUTE) instanceof PageShell ready) {
+            return ready;
+        }
+        PageShell shell = PageShells.from(catalog.status(), request);
+        if (request != null) {
+            request.setAttribute(PageShells.REQUEST_ATTRIBUTE, shell);
+        }
         return shell;
     }
 }

@@ -57,6 +57,6 @@ public class WebExceptionHandler {
         if (request.getAttribute(PageShells.REQUEST_ATTRIBUTE) instanceof PageShell ready) {
             return ready;
         }
-        return PageShells.from(catalog.status());
+        return PageShells.from(catalog.status(), request);
     }
 }
