@@ -13,6 +13,8 @@ import com.bigfito.elastiflix.core.model.MovieKeyword;
 import com.bigfito.elastiflix.search.result.SearchService;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 import com.bigfito.elastiflix.web.layout.PosterUrls;
+import com.bigfito.elastiflix.web.locale.LocaleConfig;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 import com.bigfito.elastiflix.web.search.SearchQueryMapper;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = MovieDetailController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
-@Import({LayoutAdvice.class, SearchQueryMapper.class, MovieDetailPage.class, PosterUrls.class})
+@Import({LocaleConfig.class, LayoutAdvice.class, SearchQueryMapper.class, MovieDetailPage.class, PosterUrls.class})
 @EnableConfigurationProperties(ElastiflixProperties.class)
 class MovieDetailControllerTest {
 
@@ -116,6 +118,44 @@ class MovieDetailControllerTest {
                 .andExpect(content().string(containsString("Inception Collection")))
                 .andExpect(content().string(containsString("Leonardo DiCaprio")))
                 .andExpect(content().string(containsString("paris, france")));
+    }
+
+    @Test
+    @DisplayName("con lang=en responde 200 OK y renderiza la ficha técnica completa en inglés")
+    void shouldRenderMovieDetailPageInEnglishWhenLangIsEn() throws Exception {
+        Movie movie = sampleMovie();
+        when(searches.findById("27205")).thenReturn(Optional.of(movie));
+
+        mvc.perform(get("/pelicula/27205").param("q", "inception").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("detail"))
+                .andExpect(content().string(containsString("<html lang=\"en\">")))
+                .andExpect(content().string(containsString("Inception")))
+                .andExpect(content().string(containsString("Movie · id 27205")))
+                .andExpect(content().string(containsString("Original title:")))
+                .andExpect(content().string(containsString("Back to results")))
+                .andExpect(content().string(containsString("Technical details")))
+                .andExpect(content().string(containsString("Production and languages")))
+                .andExpect(content().string(containsString("Figures")))
+                .andExpect(content().string(containsString("160,000,000 USD")))
+                .andExpect(content().string(containsString("825,532,764 USD")))
+                .andExpect(content().string(containsString("Collection")))
+                .andExpect(content().string(containsString("Inception Collection")))
+                .andExpect(content().string(containsString("Cast")))
+                .andExpect(content().string(containsString("people, in catalog order.")))
+                .andExpect(content().string(containsString("Keywords")))
+                .andExpect(content().string(containsString("keywords, with their id.")))
+                .andExpect(content().string(containsString("Back to the top")));
+    }
+
+    @Test
+    @DisplayName("con lang=en acceso sin q devuelve HTTP 400 y mensaje en inglés")
+    void shouldReturnBadRequestInEnglishWhenQueryIsMissing() throws Exception {
+        mvc.perform(get("/pelicula/550").param("lang", "en"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("error"))
+                .andExpect(content().string(containsString(ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY.code())))
+                .andExpect(content().string(containsString("The search query is invalid or missing")));
     }
 
     private static Movie sampleMovie() {

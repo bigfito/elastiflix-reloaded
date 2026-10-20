@@ -12,9 +12,9 @@
 - **Ramas:** `fase-8-i18n`
 - **Diseño:** [`docs/diseno/8.md`](../docs/diseno/8.md) completado en 8.0
 - **Estado:** tablero [`progreso/8.md`](8.md)
-- **Tarea actual:** 8.5 Internacionalización de Detalle de película (`detail.html`, `detail.js`, `MovieDetailPage`, tablas, insignias y fichas de búsqueda)
-- **Próximo paso:** Externalizar cadenas de detalle en messages_es/en y adaptar clases de detail
-- **Última actualización:** 2026-10-20 04:25 UTC
+- **Tarea actual:** 8.6 Internacionalización de Carga de datos (`ingest.html`, `ingest.js`, preservación de `jobId` al cambiar de idioma, `JobTexts`, `IngestTranslator`, `informe.csv`)
+- **Próximo paso:** Adaptar clases de ingest y plantilla ingest.html con claves de mensajes e informe CSV traducido
+- **Última actualización:** 2026-10-20 04:35 UTC
 
 ## Fases
 

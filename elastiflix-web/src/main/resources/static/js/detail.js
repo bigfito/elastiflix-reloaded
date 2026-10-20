@@ -16,7 +16,9 @@
       toggle.setAttribute("aria-expanded", nextState ? "true" : "false");
       var textEl = toggle.querySelector(".toggle-text");
       if (textEl) {
-        textEl.textContent = nextState ? "Ver menos" : "Ver todo el reparto (" + total + ")";
+        var showMore = toggle.getAttribute("data-show-more") || "";
+        var showLess = toggle.getAttribute("data-show-less") || "";
+        textEl.textContent = nextState ? showLess : showMore;
       }
       var iconPath = toggle.querySelector(".toggle-icon");
       if (iconPath) {
@@ -42,7 +44,7 @@
     var mark = document.createElement("div");
     mark.className = "detail-poster-missing";
     mark.setAttribute("role", "img");
-    mark.setAttribute("aria-label", image.alt || "Póster de la película");
+    mark.setAttribute("aria-label", image.alt || "");
     mark.innerHTML = POSTER_ICON + "<span>poster_path</span>";
     image.replaceWith(mark);
   }
