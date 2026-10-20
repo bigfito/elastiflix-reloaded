@@ -59,8 +59,9 @@
     form.querySelectorAll(".hybrid-only").forEach(function (node) { show(node, hybrid); });
     var dims = { plot_256: "256", plot_512: "512", plot_1024: "1024" };
     var label = form.querySelector("[data-dims]");
-    if (label) {
-      label.textContent = dims[value("vector")] + " dimensiones.";
+    var suffix = form.getAttribute("data-dims-suffix") || "";
+    if (label && suffix) {
+      label.textContent = dims[value("vector")] + " " + suffix;
     }
     var key = suggestionKey();
     document.querySelectorAll(".chip-set").forEach(function (set) {
@@ -76,11 +77,11 @@
     var candidates = Number(document.getElementById("knn-cand").value);
     var text = "";
     if (!Number.isInteger(k) || k < 1) {
-      text = "k debe ser un entero mayor o igual que 1.";
+      text = form.getAttribute("data-err-k") || "";
     } else if (!Number.isInteger(candidates) || candidates > 10000) {
-      text = "num_candidates debe ser un entero de máximo 10 000.";
+      text = form.getAttribute("data-err-cand-max") || "";
     } else if (candidates < k) {
-      text = "num_candidates debe ser mayor o igual que k.";
+      text = form.getAttribute("data-err-cand-min") || "";
     }
     box.textContent = text;
     show(box, text !== "");
@@ -100,8 +101,6 @@
       refresh();
     });
   });
-  // Una sugerencia busca su texto con los ajustes que hay en la página (modo, tipo, campo, operador,
-  // vector, k y num_candidates). Sin JavaScript, el enlace del servidor sigue funcionando solo.
   document.querySelectorAll(".chip").forEach(function (chip) {
     chip.addEventListener("click", function (event) {
       event.preventDefault();
