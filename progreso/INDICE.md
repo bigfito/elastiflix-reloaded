@@ -7,14 +7,14 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** Fase 8 — Interfaz en español e inglés (i18n) (Requerimiento 2)
-- **Estado de la fase:** terminado
-- **Ramas:** `fase-8-i18n`
+- **Fase actual:** Fase 8 completada y fusionada en `main` / Próxima fase: Requerimiento 3 (archivos de hasta 25 MB)
+- **Estado de la fase:** fusionada en `main`
+- **Ramas:** `main`
 - **Diseño:** [`docs/diseno/8.md`](../docs/diseno/8.md) completado en 8.0
 - **Estado:** tablero [`progreso/8.md`](8.md)
-- **Tarea actual:** Fase 8 completada (8.0 a 8.7 terminadas)
-- **Próximo paso:** Preparar PR de la rama `fase-8-i18n` hacia `main` y coordinar inicio del Requerimiento 3
-- **Última actualización:** 2026-10-20 05:15 UTC
+- **Tarea actual:** Fase 8 cerrada (PR #24 fusionado en `main`)
+- **Próximo paso:** Coordinar inicio del Requerimiento 3 (archivos de hasta 25 MB) con Adolfo
+- **Última actualización:** 2026-10-20 05:20 UTC
 
 ## Fases
 
@@ -33,7 +33,7 @@
 | — | Revisión 2 | — | terminada | `progreso/revision-2.md` | Lista en `docs/revisiones/revision-2.md`. S-01 a S-27 terminadas; `verify` y `verify -Pit` en verde. Fusionada en `main` (`7f08810`, PR #13). Se borró la rama `revision-2` (local y remota). El estado posterior entró con el PR #14 (`27fcdef`). La revisión 3 encontró restos de S-01, S-03, S-05, S-06, S-14, S-21 y S-22. |
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 329 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). |
-| 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | 8.0 a 8.7 terminadas. `./mvnw clean verify` en verde (104 unitarias web / 347 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4. |
+| 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | Fusionada en `main` (`3c27c40`, PR #24). Rama remota y local `fase-8-i18n` borrada. `./mvnw clean verify` en verde (104 unitarias web / 347 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4. |
 
 ## Aprobaciones del usuario
 
@@ -80,7 +80,8 @@
 | 2026-10-19 | Revisión 3: cierre fusionado y ramas borradas | Adolfo pidió «Fusiona el PR 21 y luego borra las ramas que ya no se necesitan»: merge `5c21934`; se borraron las siete ramas `revision-3-*` después de comprobar que estaban en `main`. |
 | 2026-10-19 | Revisión 3: dos puntos fuera de la lista en el cierre | Adolfo pidió incluir en el cierre («Inclúyelas en el cierre») el agrupado de miles del rango de paginación y quitar el `preference` sin uso de la híbrida. |
 | 2026-10-19 | Inicio del Requerimiento 1 y diseño de la Fase 7 | Adolfo pidió iniciar con el Requerimiento 1 («Si. Inicia con el Requerimiento 1.») y aprobó el diseño `docs/diseno/7.md` tal cual («Apruebo el diseño de docs/diseno/7.md tal cual para proceder con la implementación de las tareas 7.1 a 7.6»). Rama `fase-7-detalle`. |
-| 2026-10-19 | Cierre y fusión de la Fase 7 (Requerimiento 1: Detalle de película) | Adolfo pidió preparar el PR y fusionar la Fase 7 («Prepara el PR y fusiona la Fase 7»). PR #23 fusionado en `main` (merge commit `2902be7`). Rama `fase-7-detalle` borrada local y remotamente. Verificación `./mvnw clean verify` en verde (80 unitarias web / 329 repo, 0 Checkstyle, 0 PMD, ArchUnit 7/7). |
+| 2026-10-19 | Cierre y fusión de la Fase 8 (Requerimiento 2: Interfaz en español e inglés / i18n) | Adolfo pidió fusionar la rama («Fusiona la rama.»). PR #24 fusionado en main (merge commit 3c27c40). Rama fase-8-i18n borrada local y remotamente. Verificación ./mvnw clean verify en verde (104 unitarias web / 347 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4. |
+
 
 ## Catálogo vigente
 
