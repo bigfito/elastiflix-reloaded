@@ -7,7 +7,9 @@ import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.core.model.MovieCollection;
 import com.bigfito.elastiflix.web.layout.PosterUrls;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 import com.bigfito.elastiflix.web.search.SearchForm;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,14 @@ class MovieDetailPageTest {
     private final ElastiflixProperties properties = new ElastiflixProperties(
             null, null, null, null, new ElastiflixProperties.Poster("https://image.tmdb.org/t/p/w342"), null, null);
     private final PosterUrls posters = new PosterUrls(properties);
-    private final MovieDetailPage page = new MovieDetailPage(posters);
+    private final MovieDetailPage page = new MovieDetailPage(posters, testMessages());
+
+    private static UiMessages testMessages() {
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+        source.setBasenames("messages");
+        source.setDefaultEncoding("UTF-8");
+        return new UiMessages(source);
+    }
 
     @Test
     @DisplayName("formatea presupuesto y recaudación en USD con miles, y en 0 o nulo muestra N/A")
@@ -103,6 +112,45 @@ class MovieDetailPageTest {
         assertThat(factValue(view.collection(), "name")).isEqualTo("The Matrix Collection");
         assertThat(factValue(view.collection(), "poster_path")).isEqualTo("/poster.jpg");
         assertThat(factValue(view.collection(), "backdrop_path")).isEqualTo("/back.jpg");
+    }
+
+    @Test
+    @DisplayName("con Locale.ENGLISH formatea moneda con comas y estado de búsqueda en inglés")
+    void shouldFormatInEnglish() {
+        SearchForm form = new SearchForm(
+                "matrix", "fulltext", "match", "title", "or", "plot_256", "100", "200", "2", "50",
+                List.of("false"), List.of("Action"), List.of("en"), List.of("R"), "1999-01-01", "2003-12-31");
+
+        Movie movie = movieBuilder()
+                .id("603")
+                .budget(160_000_000.0)
+                .revenue(825_532_764.0)
+                .build();
+        MovieDetailView view = page.build(movie, form, java.util.Locale.ENGLISH);
+
+        assertThat(factValue(view.numbers(), "budget")).isEqualTo("160,000,000 USD");
+        assertThat(factValue(view.numbers(), "revenue")).isEqualTo("825,532,764 USD");
+
+        assertThat(view.searchState()).extracting(SearchStateChip::label)
+                .containsExactly("Query", "Mode", "Settings", "Filters", "Page");
+        assertThat(stateValue(view.searchState(), "Query")).isEqualTo("«matrix»");
+        assertThat(stateValue(view.searchState(), "Mode")).isEqualTo("Full-text");
+        assertThat(stateValue(view.searchState(), "Page")).isEqualTo("Page 2 · 50 per page");
+
+        assertThat(factLabel(view.facts(), "id")).isEqualTo("Identifier");
+        assertThat(factLabel(view.facts(), "release_date")).isEqualTo("Release date");
+        assertThat(factLabel(view.facts(), "adult")).isEqualTo("Adult content");
+        assertThat(factValue(view.facts(), "adult")).isEqualTo("No");
+        assertThat(factLabel(view.numbers(), "budget")).isEqualTo("Budget");
+        assertThat(factLabel(view.production(), "production_companies")).isEqualTo("Production companies");
+    }
+
+    private static String factLabel(List<FactRow> rows, String field) {
+        return rows.stream()
+                .filter(r -> r.field().equals(field))
+                .findFirst()
+                .map(FactRow::label)
+                .orElse(null);
     }
 
     private static String factValue(List<FactRow> rows, String field) {

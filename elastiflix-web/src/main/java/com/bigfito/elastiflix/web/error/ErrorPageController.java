@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.bigfito.elastiflix.web.layout.HtmlPage;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -41,8 +42,9 @@ public class ErrorPageController implements ErrorController, HtmlPage {
             return ErrorPages.filled(model, elastiflix);
         }
         // Sin código EFX (un 400 o un 405 del contenedor), el título es el estado HTTP: el h1 nunca queda vacío.
-        model.addAttribute("code", "Error " + status(request));
-        model.addAttribute("message", "Ocurrió un error inesperado. Vuelve a intentarlo.");
+        UiMessages messages = UiMessages.defaultCatalog();
+        model.addAttribute("code", messages.get("error.http.code", status(request)));
+        model.addAttribute("message", messages.get("error.http.unexpected"));
         return "error";
     }
 

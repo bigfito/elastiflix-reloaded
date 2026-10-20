@@ -48,10 +48,12 @@
     if (!image.isConnected) {
       return;
     }
+    var list = image.closest(".hit-list");
+    var prefix = (list && list.dataset && list.dataset.posterPrefix) ? list.dataset.posterPrefix : "";
     var mark = document.createElement("div");
     mark.className = "poster missing";
     mark.setAttribute("role", "img");
-    mark.setAttribute("aria-label", "Póster de " + image.alt);
+    mark.setAttribute("aria-label", prefix + image.alt);
     mark.innerHTML = POSTER_ICON + "<span>poster_path</span>";
     image.replaceWith(mark);
   }

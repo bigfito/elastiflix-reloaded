@@ -1,5 +1,6 @@
 package com.bigfito.elastiflix.web.detail;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
@@ -9,6 +10,7 @@ import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.query.SearchQueryValidator;
 import com.bigfito.elastiflix.search.result.SearchService;
 import com.bigfito.elastiflix.web.layout.HtmlPage;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 import com.bigfito.elastiflix.web.search.SearchForm;
 import com.bigfito.elastiflix.web.search.SearchForms;
 import com.bigfito.elastiflix.web.search.SearchQueryMapper;
@@ -40,6 +42,7 @@ public class MovieDetailController implements HtmlPage {
     private final SearchQueryMapper mapper;
     private final SearchQueryValidator validator;
     private final MovieDetailPage detailPage;
+    private final UiMessages messages;
 
     /**
      * Crea el controlador de detalle.
@@ -47,12 +50,18 @@ public class MovieDetailController implements HtmlPage {
      * @param searchService búsqueda y lectura por id
      * @param mapper        traductor de formulario a consulta
      * @param detailPage    ensamblador del modelo de vista
+     * @param messages      catálogo de mensajes para i18n
      */
-    public MovieDetailController(SearchService searchService, SearchQueryMapper mapper, MovieDetailPage detailPage) {
+    public MovieDetailController(
+            SearchService searchService,
+            SearchQueryMapper mapper,
+            MovieDetailPage detailPage,
+            UiMessages messages) {
         this.searchService = searchService;
         this.mapper = mapper;
         this.validator = new SearchQueryValidator();
         this.detailPage = detailPage;
+        this.messages = messages;
     }
 
     /**
@@ -60,6 +69,7 @@ public class MovieDetailController implements HtmlPage {
      *
      * @param id       identificador de la película
      * @param params   parámetros de consulta en la URL
+     * @param locale   idioma activo de la petición
      * @param response respuesta HTTP para fijar el estado
      * @param model    modelo de la vista
      * @return plantilla {@code detail}, {@code not-found} o {@code error}
@@ -68,12 +78,13 @@ public class MovieDetailController implements HtmlPage {
     public String detail(
             @PathVariable("id") String id,
             @RequestParam MultiValueMap<String, String> params,
+            Locale locale,
             HttpServletResponse response,
             Model model) {
 
         SearchForm form = validForm(id, params);
         if (form == null) {
-            return directDetailError(response, model);
+            return directDetailError(response, model, locale);
         }
 
         Optional<Movie> movie = searchService.findById(id);
@@ -85,7 +96,7 @@ public class MovieDetailController implements HtmlPage {
         }
 
         model.addAttribute("nav", "buscar");
-        model.addAttribute("detail", detailPage.build(movie.get(), form));
+        model.addAttribute("detail", detailPage.build(movie.get(), form, locale));
         return "detail";
     }
 
@@ -109,11 +120,11 @@ public class MovieDetailController implements HtmlPage {
         }
     }
 
-    private static String directDetailError(HttpServletResponse response, Model model) {
+    private String directDetailError(HttpServletResponse response, Model model, Locale locale) {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         model.addAttribute("nav", "");
         model.addAttribute("code", ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY.code());
-        model.addAttribute("message", ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY.summary() + ".");
+        model.addAttribute("message", messages.errorSummary(ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY, locale) + ".");
         return "error";
     }
 }

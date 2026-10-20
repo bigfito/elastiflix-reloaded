@@ -13,19 +13,38 @@
   var maxBytes = Number(filePanel.getAttribute("data-max-bytes")) || 150 * 1024 * 1024;
   var maxLabel = filePanel.getAttribute("data-max-label") || "150 MB";
   var ACTIVE = ["recibido", "validando", "importando"];
-  var STATE_LABELS = { done: "completado", current: "en curso", failed: "detenido", ready: "listo para empezar", pending: "pendiente" };
   var STATE_MARKS = { done: "✓", failed: "✕", current: "…" };
-  var NETWORK_ERROR = "No se pudo conectar con el servidor de la demo. Revisa que siga en marcha y vuelve a intentarlo.";
-  var POLL_RETRY = "No se pudo consultar el estado del trabajo. Se vuelve a intentar en unos segundos.";
+
+  var messages = {
+    networkError: filePanel.getAttribute("data-msg-network-error")
+      || "No se pudo conectar con el servidor de la demo. Revisa que siga en marcha y vuelve a intentarlo.",
+    pollRetry: filePanel.getAttribute("data-msg-poll-retry")
+      || "No se pudo consultar el estado del trabajo. Se vuelve a intentar en unos segundos.",
+    rejected: filePanel.getAttribute("data-msg-rejected") || "rechazado",
+    utf8Error: filePanel.getAttribute("data-msg-utf8-error") || "El contenido no es texto UTF-8.",
+    extError: filePanel.getAttribute("data-msg-ext-error") || "La extensión no es {0}.",
+    multiExtError: filePanel.getAttribute("data-msg-multi-ext-error")
+      || "El archivo tiene más de una extensión. Solo se acepta {0}.",
+    sizeError: filePanel.getAttribute("data-msg-size-error")
+      || "El archivo pesa {0} y el máximo permitido es {1}.",
+    headerError: filePanel.getAttribute("data-msg-header-error")
+      || "EFX-ING-005 · El CSV no confirma que la primera fila sea el encabezado."
+  };
+
+  var stateLabels = {
+    done: filePanel.getAttribute("data-state-done") || "completado",
+    current: filePanel.getAttribute("data-state-current") || "en curso",
+    failed: filePanel.getAttribute("data-state-failed") || "detenido",
+    ready: filePanel.getAttribute("data-state-ready") || "listo para empezar",
+    pending: filePanel.getAttribute("data-state-pending") || "pendiente"
+  };
 
   var tab = "json";
   var chosen = null;
-  // El archivo elegido pasó la comprobación del navegador: otro separador u otra casilla permiten validarlo otra vez.
   var chosenOk = false;
   var jobId = "";
   var timer = 0;
   var busy = false;
-  // Aviso de un 4xx o de una caída de red al importar o cancelar: lo limpia el siguiente clic, no el sondeo.
   var actionError = false;
 
   function byId(id) {
@@ -43,7 +62,10 @@
   }
 
   function setText(id, text) {
-    byId(id).textContent = text || "";
+    var element = byId(id);
+    if (element) {
+      element.textContent = text || "";
+    }
   }
 
   function fill(list, lines) {
@@ -57,9 +79,12 @@
 
   function setStep(index, state) {
     var item = document.querySelector('#steps li[data-step="' + index + '"]');
+    if (!item) {
+      return;
+    }
     item.className = state === "pending" ? "" : "is-" + state;
     item.querySelector(".mark").textContent = STATE_MARKS[state] || String(index);
-    item.querySelector(".state").textContent = "· " + STATE_LABELS[state];
+    item.querySelector(".state").textContent = "· " + (stateLabels[state] || state);
   }
 
   function setSteps(states) {
@@ -73,12 +98,41 @@
     timer = 0;
   }
 
-  // Un archivo nuevo, una pestaña nueva o un error nuevo empiezan de cero: no queda nada del trabajo anterior.
+  function updateLangSwitch(currentJob) {
+    document.querySelectorAll(".lang-switch a[hreflang]").forEach(function (link) {
+      var href = link.getAttribute("href") || "";
+      var parsed;
+      try {
+        parsed = new URL(href, window.location.origin);
+      } catch (err) {
+        return;
+      }
+      if (currentJob) {
+        parsed.searchParams.set("job", currentJob);
+      } else {
+        parsed.searchParams.delete("job");
+      }
+      link.setAttribute("href", parsed.pathname + parsed.search);
+    });
+    try {
+      var url = new URL(window.location.href);
+      if (currentJob) {
+        url.searchParams.set("job", currentJob);
+      } else {
+        url.searchParams.delete("job");
+      }
+      window.history.replaceState({}, "", url.pathname + (url.search ? url.search : ""));
+    } catch (err) {
+      /* omit in non-browser testing */
+    }
+  }
+
   function resetJob() {
     stopPolling();
     jobId = "";
     busy = false;
     actionError = false;
+    updateLangSwitch("");
     ["file-block", "columns-card", "job", "job-import-card", "server-error"].forEach(function (id) {
       show(byId(id), false);
     });
@@ -96,7 +150,6 @@
 
   var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
 
-  // Solo la pestaña elegida entra en el orden de Tab (tabindex itinerante); las flechas cambian de pestaña.
   function selectTab(button) {
     tab = button.getAttribute("data-tab");
     tabs.forEach(function (other) {
@@ -143,14 +196,10 @@
 
   function paintFileCopy() {
     var csv = tab === "csv";
-    setText("file-title", csv ? "Archivo CSV" : "Archivo JSON");
-    setText("drop-title", csv
-      ? "Arrastra tu archivo .csv aquí o haz clic para elegirlo"
-      : "Arrastra tu archivo .json aquí o haz clic para elegirlo");
-    setText("drop-only", csv ? "Solo .csv" : "Solo .json");
-    setText("file-hint", csv
-      ? "Texto UTF-8 (con o sin BOM), una película por fila y la primera fila con los nombres de columna. Las listas y los objetos anidados van como JSON dentro de la celda; los textos pueden tener saltos de línea entre comillas."
-      : "El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.");
+    setText("file-title", filePanel.getAttribute(csv ? "data-title-csv" : "data-title-json"));
+    setText("drop-title", filePanel.getAttribute(csv ? "data-drop-csv" : "data-drop-json"));
+    setText("drop-only", filePanel.getAttribute(csv ? "data-only-csv" : "data-only-json"));
+    setText("file-hint", filePanel.getAttribute(csv ? "data-hint-csv" : "data-hint-json"));
     input.setAttribute("accept", csv ? ".csv,text/csv" : ".json,.ndjson,application/json");
   }
 
@@ -177,12 +226,10 @@
     });
   });
 
-  // Paso 1: la comprobación del navegador corre apenas se elige el archivo.
   function choose(file) {
     resetJob();
     chosen = file;
     chosenOk = false;
-    // Vaciar el input deja elegir otra vez el mismo archivo: sin esto, «Cambiar archivo» no dispara change.
     input.value = "";
     submit.disabled = true;
     if (!file) {
@@ -214,7 +261,7 @@
       return Promise.resolve([reason]);
     }
     return readUtf8(file).then(function (ok) {
-      return ok ? [] : ["El contenido no es texto UTF-8."];
+      return ok ? [] : [messages.utf8Error];
     });
   }
 
@@ -222,19 +269,17 @@
     var expected = tab === "csv" ? ".csv" : ".json";
     var name = file.name.toLowerCase();
     if (!name.endsWith(expected)) {
-      return "La extensión no es " + expected + ".";
+      return messages.extError.replace("{0}", expected);
     }
     if (name.slice(0, -expected.length).indexOf(".") >= 0) {
-      return "El archivo tiene más de una extensión. Solo se acepta " + expected + ".";
+      return messages.multiExtError.replace("{0}", expected);
     }
     if (file.size > maxBytes) {
-      return "El archivo pesa " + megabytes(file.size) + " y el máximo permitido es " + maxLabel + ".";
+      return messages.sizeError.replace("{0}", megabytes(file.size)).replace("{1}", maxLabel);
     }
     return "";
   }
 
-  // Solo se leen 64 KiB: el corte puede partir un carácter de varios bytes. Con stream: true, el
-  // decodificador guarda esos bytes para un trozo siguiente en lugar de tratarlos como un error.
   function readUtf8(file) {
     return file.slice(0, 65536).arrayBuffer().then(function (buffer) {
       new TextDecoder("utf-8", { fatal: true }).decode(buffer, { stream: true });
@@ -248,7 +293,7 @@
     resetJob();
     submit.disabled = true;
     setStep(1, "failed");
-    setText("file-meta", megabytes(chosen ? chosen.size : 0) + " · rechazado");
+    setText("file-meta", megabytes(chosen ? chosen.size : 0) + " · " + messages.rejected);
     byId("file-chip").classList.add("is-rejected");
     fill(byId("file-reasons"), reasons);
     show(byId("file-block"), true);
@@ -263,16 +308,16 @@
     if (data && data.code) {
       return data.code + " · " + (data.message || "") + ".";
     }
-    return NETWORK_ERROR;
+    return messages.networkError;
   }
 
   function readJson(response) {
     var type = response.headers.get("content-type") || "";
     if (type.indexOf("application/json") < 0) {
-      return Promise.resolve({ ok: false, data: null });
+      return Promise.resolve({ ok: false, status: response.status, data: null });
     }
     return response.json().then(function (data) {
-      return { ok: response.ok, data: data };
+      return { ok: response.ok, status: response.status, data: data };
     });
   }
 
@@ -283,7 +328,7 @@
     }
     var header = form.querySelector('[name="encabezado"]');
     if (tab === "csv" && header && !header.checked) {
-      rejectInBrowser(["EFX-ING-005 · El CSV no confirma que la primera fila sea el encabezado."]);
+      rejectInBrowser([messages.headerError]);
       return;
     }
     upload(chosen);
@@ -312,6 +357,7 @@
           return;
         }
         jobId = result.data.jobId;
+        updateLangSwitch(jobId);
         byId("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
         show(byId("job"), true);
         show(byId("job-import-card"), true);
@@ -319,12 +365,11 @@
       })
       .catch(function () {
         setStep(2, "failed");
-        serverError(NETWORK_ERROR);
+        serverError(messages.networkError);
         submit.disabled = false;
       });
   }
 
-  // Una sola cadena de consultas: cada respuesta programa la siguiente y ninguna otra la duplica.
   function poll() {
     stopPolling();
     var current = jobId;
@@ -338,6 +383,10 @@
           return;
         }
         if (!result.ok) {
+          if (result.status === 404 || (result.data && result.data.code === "EFX-IMP-005")) {
+            resetJob();
+            return;
+          }
           serverError(errorText(result.data));
           return;
         }
@@ -348,7 +397,7 @@
           return;
         }
         if (!actionError) {
-          serverError(POLL_RETRY);
+          serverError(messages.pollRetry);
         }
         timer = window.setTimeout(poll, 3000);
       });
@@ -377,7 +426,7 @@
       .catch(function () {
         busy = false;
         if (current === jobId) {
-          actionFailed(NETWORK_ERROR);
+          actionFailed(messages.networkError);
         }
       });
   }
@@ -470,10 +519,13 @@
   }
 
   function statusTone(status) {
-    if (status === "Asignada") {
+    if (status === "Asignada" || status === "Mapped") {
       return "ok";
     }
-    return status === "No existe en el mapping" ? "error" : "warn";
+    if (status === "No existe en el mapping" || status === "Not in the mapping") {
+      return "error";
+    }
+    return "warn";
   }
 
   function cell(text) {
@@ -520,5 +572,34 @@
     bar.setAttribute("aria-valuemax", String(max));
     bar.setAttribute("aria-valuenow", String(done));
     bar.querySelector("span").style.width = Math.round(done * 100 / max) + "%";
+  }
+
+  // Reanuda el sondeo si la URL trae ?job=<jobId>
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var initialJob = params.get("job");
+    if (initialJob) {
+      var jsonTab = byId("tab-json");
+      if (jsonTab) {
+        tab = "json";
+        tabs.forEach(function (other) {
+          var on = other === jsonTab;
+          other.classList.toggle("is-on", on);
+          other.setAttribute("aria-selected", on ? "true" : "false");
+          other.tabIndex = on ? 0 : -1;
+        });
+        show(single, false);
+        show(filePanel, true);
+        paintFileCopy();
+      }
+      jobId = initialJob;
+      byId("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
+      show(byId("job"), true);
+      show(byId("job-import-card"), true);
+      updateLangSwitch(initialJob);
+      poll();
+    }
+  } catch (err) {
+    /* omit in non-browser testing */
   }
 }());

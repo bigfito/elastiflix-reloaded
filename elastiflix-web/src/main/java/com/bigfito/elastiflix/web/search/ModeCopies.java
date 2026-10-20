@@ -1,62 +1,74 @@
 package com.bigfito.elastiflix.web.search;
 
+import java.util.Locale;
+
 import com.bigfito.elastiflix.search.query.SearchMode;
 import com.bigfito.elastiflix.search.query.SearchQuery;
+import com.bigfito.elastiflix.web.locale.SupportedLocale;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 /**
- * Leyendas del mockup de resultados, una por modo.
+ * Leyendas del mockup de resultados, una por modo y traducidas según el idioma activo.
  */
 public final class ModeCopies {
-
-    private static final String BM25 =
-            "La puntuación BM25 no tiene una escala fija: depende de la consulta y del catálogo, "
-                    + "así que solo sirve para comparar resultados de una misma búsqueda.";
-    private static final String COSINE =
-            "Con similitud cosine, Elasticsearch devuelve la puntuación (1 + coseno) / 2: "
-                    + "va de 0 a 1, y 1 significa que el vector de la sinopsis apunta en la misma "
-                    + "dirección que el de la consulta.";
-    private static final String HYBRID =
-            "En modo híbrido, cada resultado muestra su puntuación BM25 y su similitud k-NN, "
-                    + "con su posición en cada lista. RRF ordena por esas posiciones, no por las "
-                    + "puntuaciones. Los filtros se aplican a las dos búsquedas antes de la fusión.";
 
     private ModeCopies() {
     }
 
     /**
-     * Textos del modo de la consulta ya ejecutada.
+     * Textos del modo de la consulta ya ejecutada en el idioma del contexto actual.
      *
      * @param query consulta
      * @return chip, orden, leyenda y nota de límite
      */
     public static ModeCopy of(SearchQuery query) {
+        return of(query, SupportedLocale.current(), UiMessages.defaultCatalog());
+    }
+
+    /**
+     * Textos del modo de la consulta en el idioma y con el catálogo indicados.
+     *
+     * @param query    consulta
+     * @param locale   idioma destino
+     * @param messages catálogo de mensajes
+     * @return chip, orden, leyenda y nota de límite
+     */
+    public static ModeCopy of(SearchQuery query, Locale locale, UiMessages messages) {
         if (query.mode() == SearchMode.VECTOR) {
-            return vector(query.knn().k());
+            return vector(query.knn().k(), locale, messages);
         }
         if (query.mode() == SearchMode.HYBRID) {
-            return hybrid(query.knn().k());
+            return hybrid(query.knn().k(), locale, messages);
         }
         return new ModeCopy(
-                "Full-text", "tone-sky", "Ordenados por puntuación BM25", BM25, "", "Puntuación");
+                messages.getFor(locale, "results.mode.fulltext.label"),
+                "tone-sky",
+                messages.getFor(locale, "results.mode.fulltext.orderedBy"),
+                messages.getFor(locale, "results.mode.fulltext.legend"),
+                "",
+                messages.getFor(locale, "results.mode.fulltext.scoreTitle"));
     }
 
-    private static ModeCopy vector(int k) {
-        String limit = "La búsqueda vectorial devuelve como máximo k resultados (k = " + k
-                + "), repartidos en páginas. Los filtros se aplican dentro de la búsqueda k-NN, "
-                + "así que las k películas devueltas los cumplen, y sus valores se calculan sobre "
-                + "esos resultados.";
+    private static ModeCopy vector(int k, Locale locale, UiMessages messages) {
+        String limit = messages.getFor(locale, "results.mode.vector.limit", k);
         return new ModeCopy(
-                "Vectorial", "tone-mint", "Ordenados por similitud k-NN", COSINE, limit, "Similitud");
+                messages.getFor(locale, "results.mode.vector.label"),
+                "tone-mint",
+                messages.getFor(locale, "results.mode.vector.orderedBy"),
+                messages.getFor(locale, "results.mode.vector.legend"),
+                limit,
+                messages.getFor(locale, "results.mode.vector.scoreTitle"));
     }
 
-    private static ModeCopy hybrid(int k) {
-        String limit = "La búsqueda híbrida combina hasta k resultados de cada lista "
-                + "(rank_window_size = k = " + k
-                + ") y permite recorrer hasta " + k
-                + " resultados combinados. Los valores de los filtros se calculan sobre esa lista "
-                + "combinada.";
+    private static ModeCopy hybrid(int k, Locale locale, UiMessages messages) {
+        String limit = messages.getFor(locale, "results.mode.hybrid.limit", k, k);
         return new ModeCopy(
-                "Híbrida", "tone-lavender", "Ordenados por fusión RRF", HYBRID, limit,
-                "Puntuación en cada lista");
+                messages.getFor(locale, "results.mode.hybrid.label"),
+                "tone-lavender",
+                messages.getFor(locale, "results.mode.hybrid.orderedBy"),
+                messages.getFor(locale, "results.mode.hybrid.legend"),
+                limit,
+                messages.getFor(locale, "results.mode.hybrid.scoreTitle"));
     }
 }
+

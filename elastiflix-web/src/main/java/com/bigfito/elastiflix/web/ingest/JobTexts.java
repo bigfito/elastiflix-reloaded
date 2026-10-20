@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRows;
 import com.bigfito.elastiflix.ingest.job.JobView;
-import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.ingest.mapping.WarningCount;
+import com.bigfito.elastiflix.web.locale.SupportedLocale;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 /**
  * Textos de «Cargar datos» para un trabajo, con las cifras ya escritas como en el mockup.
@@ -56,46 +58,90 @@ public record JobTexts(
             + "se ignorarán y se generarán con el servicio de inferencia.";
 
     /**
-     * Arma los textos del trabajo.
+     * Arma los textos del trabajo en el idioma por defecto (español).
      *
      * @param job   copia del trabajo
      * @param alias alias del catálogo
      * @return textos listos para pintar
      */
     public static JobTexts of(JobView job, String alias) {
+        return of(job, alias, SupportedLocale.ES, null);
+    }
+
+    /**
+     * Construye las cadenas para el trabajo dado en el idioma solicitado.
+     *
+     * @param job      vista del trabajo
+     * @param alias    nombre del alias del catálogo
+     * @param locale   idioma activo
+     * @param messages proveedor de mensajes de error
+     * @return textos adaptados al idioma
+     */
+    public static JobTexts of(JobView job, String alias, Locale locale, UiMessages messages) {
+        if (SupportedLocale.isEnglish(locale)) {
+            return EnglishJobTexts.of(job, alias, locale, messages);
+        }
+        return spanish(job, alias, locale);
+    }
+
+    private static JobTexts spanish(JobView job, String alias, Locale locale) {
         boolean csv = "csv".equals(job.kind());
         return new JobTexts(
                 csv ? "Fila" : "Registro",
-                Thousands.of(job.fileCount()),
-                Thousands.of(job.validCount()),
-                Thousands.of(job.replaceCount()),
-                Thousands.of(job.errorTotal()),
-                errorSummary(job),
-                "Mostrando " + job.errors().size() + OF + Thousands.of(job.errorTotal()) + " errores.",
-                importText(job, alias),
-                progressText(job, alias),
-                importLabel(job),
+                Thousands.of(job.fileCount(), locale),
+                Thousands.of(job.validCount(), locale),
+                Thousands.of(job.replaceCount(), locale),
+                Thousands.of(job.errorTotal(), locale),
+                errorSummary(job, locale),
+                errorRange(job, locale),
+                importText(job, alias, locale),
+                progressText(job, alias, locale),
+                importLabel(job, locale),
                 csv ? mappingNote(job.columns()) : "",
-                fileMeta(job, csv),
+                fileMeta(job, csv, locale),
                 failure(job),
-                warnings(job.warnings()));
+                warnings(job.warnings(), locale));
     }
 
-    private static String errorSummary(JobView job) {
-        String errors = plural(job.errorTotal(), "error", "errores");
+    /**
+     * Resumen de errores adaptado al idioma.
+     *
+     * @param job    vista del trabajo
+     * @param locale idioma
+     * @return resumen de errores
+     */
+    public static String errorSummary(JobView job, Locale locale) {
+        if (SupportedLocale.isEnglish(locale)) {
+            return EnglishJobTexts.errorSummary(job, locale);
+        }
+        String errors = plural(job.errorTotal(), "error", "errores", locale);
         if (job.invalidRecords() == 0) {
             return errors;
         }
-        return errors + " en " + plural(job.invalidRecords(), "registro", "registros");
+        return errors + " en " + plural(job.invalidRecords(), "registro", "registros", locale);
     }
 
-    private static String importText(JobView job, String alias) {
+    /**
+     * Rango de errores mostrado adaptado al idioma.
+     *
+     * @param job    vista del trabajo
+     * @param locale idioma
+     * @return rango mostrado
+     */
+    public static String errorRange(JobView job, Locale locale) {
+        if (SupportedLocale.isEnglish(locale)) {
+            return EnglishJobTexts.errorRange(job, locale);
+        }
+        return "Mostrando " + job.errors().size() + OF + Thousands.of(job.errorTotal(), locale) + " errores.";
+    }
+
+    private static String importText(JobView job, String alias, Locale locale) {
         if (INVALID.equals(job.status())) {
             return "La importación está bloqueada: el archivo no coincide con el mapping del índice "
                     + "y no se escribió ningún registro.";
         }
-        return "Se importarán " + plural(job.fileCount(), "película", "películas")
-                + " en " + plural(job.batches(), "lote", "lotes") + OF + job.batchSize()
+        return "Se importarán " + plural(job.fileCount(), "película", "películas", locale)
+                + " en " + plural(job.batches(), "lote", "lotes", locale) + OF + job.batchSize()
                 + " dentro de un índice temporal que empieza como copia del catálogo actual. "
                 + "Al terminar se comprueba el conteo y el alias " + alias
                 + " pasa al índice nuevo y el índice anterior se borra, en una sola operación. "
@@ -105,8 +151,9 @@ public record JobTexts(
                 + "de Elasticsearch.";
     }
 
-    private static String progressText(JobView job, String alias) {
-        String done = Thousands.of(job.written()) + OF + Thousands.of(job.fileCount()) + " importadas";
+    private static String progressText(JobView job, String alias, Locale locale) {
+        String done = Thousands.of(job.written(), locale) + OF + Thousands.of(job.fileCount(), locale)
+                + " importadas";
         if (INVALID.equals(job.status())) {
             return done;
         }
@@ -114,11 +161,11 @@ public record JobTexts(
         return done + " · lote " + job.batch() + OF + job.batches() + " · índice temporal " + temp;
     }
 
-    private static String importLabel(JobView job) {
+    private static String importLabel(JobView job, Locale locale) {
         if (INVALID.equals(job.status())) {
             return "Importación bloqueada";
         }
-        return "Importar " + Thousands.of(job.fileCount()) + " registros";
+        return "Importar " + Thousands.of(job.fileCount(), locale) + " registros";
     }
 
     private static String mappingNote(List<CsvColumnRow> columns) {
@@ -140,16 +187,16 @@ public record JobTexts(
                 + " en el mapping del índice, así que la carga no puede continuar.";
     }
 
-    private static String fileMeta(JobView job, boolean csv) {
+    private static String fileMeta(JobView job, boolean csv, Locale locale) {
         String size = String.format(Locale.ROOT, "%.1f MB", job.fileSize() / MEGABYTE);
         if (job.fileCount() == 0) {
             return size;
         }
         if (csv) {
-            return size + " · CSV · " + job.columns().size() + " columnas · " + Thousands.of(job.fileCount())
-                    + " filas";
+            return size + " · CSV · " + job.columns().size() + " columnas · "
+                    + Thousands.of(job.fileCount(), locale) + " filas";
         }
-        return size + " · " + Thousands.of(job.fileCount()) + " documentos";
+        return size + " · " + Thousands.of(job.fileCount(), locale) + " documentos";
     }
 
     private static String failure(JobView job) {
@@ -162,14 +209,14 @@ public record JobTexts(
         return job.failureCode() + " · " + job.failureMessage() + ".";
     }
 
-    private static List<String> warnings(List<WarningCount> warnings) {
+    private static List<String> warnings(List<WarningCount> warnings, Locale locale) {
         List<String> lines = new ArrayList<>();
         boolean vectors = false;
         for (WarningCount warning : warnings) {
             if (VECTORS.contains(warning.field())) {
                 vectors = true;
             } else {
-                String times = warning.count() > 1 ? " (" + Thousands.of(warning.count()) + ")" : "";
+                String times = warning.count() > 1 ? " (" + Thousands.of(warning.count(), locale) + ")" : "";
                 lines.add(warning.field() + ": " + warning.message() + times + ".");
             }
         }
@@ -179,7 +226,7 @@ public record JobTexts(
         return List.copyOf(lines);
     }
 
-    private static String plural(int count, String one, String many) {
-        return Thousands.of(count) + " " + (count == 1 ? one : many);
+    private static String plural(int count, String one, String many, Locale locale) {
+        return Thousands.of(count, locale) + " " + (count == 1 ? one : many);
     }
 }

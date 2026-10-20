@@ -17,6 +17,7 @@ import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.WarningCount;
 import com.bigfito.elastiflix.ingest.service.IngestService;
+import com.bigfito.elastiflix.web.locale.LocaleConfig;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +56,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = {IngestController.class, IngestJobController.class}, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
 @EnableConfigurationProperties(ElastiflixProperties.class)
-@Import({LayoutAdvice.class, MovieForms.class, UploadCheck.class, IngestLimits.class})
+@Import({LayoutAdvice.class, LocaleConfig.class, MovieForms.class, UploadCheck.class, IngestLimits.class,
+        IngestTranslator.class})
 class IngestPageTest {
 
     private static final String JOB = "job-1";
@@ -307,6 +309,49 @@ class IngestPageTest {
                 .andExpect(redirectedUrl("/cargar"))
                 .andExpect(flash().attribute("rejected", List.of(issue)))
                 .andExpect(flash().attribute("savedTitle", (Object) null));
+    }
+
+    @Test
+    @DisplayName("la página de carga responde en inglés con lang=en")
+    void shouldRenderIngestPageInEnglish() throws Exception {
+        mvc.perform(get("/cargar?lang=en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("lang=\"en\"")))
+                .andExpect(content().string(containsString("Index elastiflix-reloaded")))
+                .andExpect(content().string(containsString("Load data")))
+                .andExpect(content().string(containsString("Single record")))
+                .andExpect(content().string(containsString("Import .json")))
+                .andExpect(content().string(containsString("Import .csv")))
+                .andExpect(content().string(containsString("Identification and titles")))
+                .andExpect(content().string(containsString("Save movie")))
+                .andExpect(content().string(containsString("Upload process")))
+                .andExpect(content().string(containsString("Browser check")));
+    }
+
+    @Test
+    @DisplayName("el estado de un trabajo válido responde textos en inglés con lang=en")
+    void shouldGiveTheValidFileTextsInEnglish() throws Exception {
+        mvc.perform(get("/cargar/trabajos/" + JOB + "?lang=en"))
+                .andExpect(jsonPath("$.job.status").value("valido"))
+                .andExpect(jsonPath("$.texts.read").value("4,322"))
+                .andExpect(jsonPath("$.texts.valid").value("4,322"))
+                .andExpect(jsonPath("$.texts.errors").value("0"))
+                .andExpect(jsonPath("$.texts.locationLabel").value("Record"))
+                .andExpect(jsonPath("$.texts.importLabel").value("Import 4,322 records"))
+                .andExpect(jsonPath("$.texts.fileMeta").value("107.3 MB · 4,322 documents"))
+                .andExpect(jsonPath("$.texts.progressText").value(
+                        "0 of 4,322 imported · batch 0 of 44 · temporary index elastiflix-reloaded-AAAAMMDD-HHMMSS"));
+    }
+
+    @Test
+    @DisplayName("el informe CSV de errores se traduce al inglés con lang=en")
+    void shouldGiveErrorReportInEnglish() throws Exception {
+        when(ingest.errorReport(JOB)).thenReturn(
+                "\uFEFFregistro,id,campo,recibido,esperado\nRegistro 1,1,title,,un texto\n");
+
+        mvc.perform(get("/cargar/trabajos/" + JOB + "/informe.csv?lang=en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("record,id,field,received,expected\nRecord 1,1,title,,un texto\n")));
     }
 
     private static JobView validJson() {

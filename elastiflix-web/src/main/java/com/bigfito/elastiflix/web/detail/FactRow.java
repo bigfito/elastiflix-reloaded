@@ -77,10 +77,24 @@ public record FactRow(
      * @return fila formateada
      */
     public static FactRow money(String label, String field, Double amount) {
+        return money(label, field, amount, java.util.Locale.forLanguageTag("es"));
+    }
+
+    /**
+     * Fila con importe monetario en USD con separador de miles según el idioma,
+     * o «N/A» si es nulo o menor/igual a cero.
+     *
+     * @param label  etiqueta
+     * @param field  campo
+     * @param amount monto
+     * @param locale idioma para el separador de miles
+     * @return fila formateada
+     */
+    public static FactRow money(String label, String field, Double amount, java.util.Locale locale) {
         if (amount == null || amount <= 0) {
             return empty(label, field);
         }
-        return text(label, field, Thousands.of(Math.round(amount)) + " USD");
+        return text(label, field, Thousands.of(Math.round(amount), locale) + " USD");
     }
 
     /**
@@ -92,10 +106,24 @@ public record FactRow(
      * @return fila formateada
      */
     public static FactRow yesNo(String label, String field, Boolean flag) {
+        return yesNo(label, field, flag, "Sí", "No");
+    }
+
+    /**
+     * Fila con valor booleano localizado.
+     *
+     * @param label   etiqueta
+     * @param field   campo
+     * @param flag    booleano
+     * @param yesText texto afirmativo
+     * @param noText  texto negativo
+     * @return fila formateada
+     */
+    public static FactRow yesNo(String label, String field, Boolean flag, String yesText, String noText) {
         if (flag == null) {
             return empty(label, field);
         }
-        return text(label, field, flag ? "Sí" : "No");
+        return text(label, field, flag ? yesText : noText);
     }
 
     /**

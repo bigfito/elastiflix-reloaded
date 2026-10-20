@@ -81,4 +81,25 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("<span class=\"mode-icon lilac\" aria-hidden=\"true\">")))
                 .andExpect(content().string(containsString("<div class=\"note rose\">\n        <h3>Cuando no hay resultados</h3>")));
     }
+
+    @Test
+    @DisplayName("con lang=en muestra Acerca de en inglés y formatea 4,322 con coma")
+    void shouldShowEnglishSectionsWhenLangIsEn() throws Exception {
+        mvc.perform(get("/acerca").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<html lang=\"en\">")))
+                .andExpect(content().string(containsString("Three ways to search for a movie")))
+                .andExpect(content().string(containsString("Full-text (lexical)")))
+                .andExpect(content().string(containsString("How relevance is scored: BM25")))
+                .andExpect(content().string(containsString("Measured precision by dimension")))
+                .andExpect(content().string(containsString("22 of 32 (69%)")))
+                .andExpect(content().string(containsString("Results and filters")))
+                .andExpect(content().string(containsString("When there are no results")))
+                .andExpect(content().string(containsString("Loading data")))
+                .andExpect(content().string(containsString("up to 150 MB, with UTF-8 text content")))
+                .andExpect(content().string(containsString("in batches of 100 to a temporary index")))
+                .andExpect(content().string(containsString("It has 4,322 movies.")))
+                .andExpect(content().string(containsString("Index: elastiflix-reloaded · 4,322 movies")))
+                .andExpect(content().string(containsString("Credits")));
+    }
 }

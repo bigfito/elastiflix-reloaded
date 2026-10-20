@@ -29,18 +29,25 @@ public class SearchController implements HtmlPage {
     private final SearchQueryMapper mapper;
     private final SearchService searches;
     private final ResultsPage pages;
+    private final com.bigfito.elastiflix.web.locale.UiMessages messages;
 
     /**
-     * Crea el controlador con la fachada de búsqueda.
+     * Crea el controlador con la fachada de búsqueda y el catálogo de mensajes.
      *
      * @param mapper   URL a consulta
      * @param searches fachada
      * @param pages    modelo de la vista
+     * @param messages catálogo de mensajes
      */
-    public SearchController(SearchQueryMapper mapper, SearchService searches, ResultsPage pages) {
+    public SearchController(
+            SearchQueryMapper mapper,
+            SearchService searches,
+            ResultsPage pages,
+            com.bigfito.elastiflix.web.locale.UiMessages messages) {
         this.mapper = mapper;
         this.searches = searches;
         this.pages = pages;
+        this.messages = messages;
     }
 
     /**
@@ -66,7 +73,7 @@ public class SearchController implements HtmlPage {
             LOG.warn("{}: la consulta no pasó la validación", exception.errorCode().code());
             pages.rejected(model, form, exception.errorCode() == ErrorCode.DATE_RANGE_REVERSED);
             // Junto al campo va solo el «qué pasó», con su punto final como en el mockup y en PLAN §5.
-            model.addAttribute("errorSummary", exception.errorCode().summary() + ".");
+            model.addAttribute("errorSummary", messages.errorSummary(exception.errorCode()) + ".");
             model.addAttribute("queryError", exception.errorCode() == ErrorCode.EMPTY_SEARCH_TEXT);
         }
     }
@@ -76,3 +83,4 @@ public class SearchController implements HtmlPage {
         pages.fill(model, form, searches.search(query), query);
     }
 }
+

@@ -75,4 +75,27 @@ class HomePageTest {
                         + "%20ciudad&amp;modo=hibrida&amp;tipo=match&amp;campo=title&amp;operador=or&amp;vector=plot_256"
                         + "&amp;k=100&amp;candidatos=200\"")));
     }
+
+    @Test
+    @DisplayName("con lang=en muestra Inicio y las sugerencias verificadas en inglés")
+    void shouldShowEnglishModeCopyAndSuggestionsWhenLangIsEn() throws Exception {
+        mvc.perform(get("/").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<html lang=\"en\">")))
+                .andExpect(content().string(containsString("Full-text (lexical)")))
+                .andExpect(content().string(containsString("Retrieval with BM25:")))
+                .andExpect(content().string(containsString("k-NN (k nearest neighbors):")))
+                .andExpect(content().string(containsString("Enter a movie to search for before pressing Search.")))
+                .andExpect(content().string(containsString("Try these queries")))
+                .andExpect(content().string(containsString("OR: 40 results")))
+                .andExpect(content().string(containsString("Titanic: 36th place")))
+                .andExpect(content().string(containsString("Titanic: 5th place")))
+                .andExpect(content().string(containsString("Titanic: 3rd place")))
+                .andExpect(content().string(containsString("Inception: outside the top 100")))
+                .andExpect(content().string(containsString("Inception: 18th place")))
+                .andExpect(content().string(containsString("Inception: 11th place")))
+                .andExpect(content().string(containsString("in Spanish · WALL·E: 1st place")))
+                .andExpect(content().string(containsString("Titanic: 1st vector, 4th lexical")))
+                .andExpect(content().string(containsString("AND: lexical 0 · vector decides")));
+    }
 }
