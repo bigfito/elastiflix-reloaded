@@ -2,9 +2,13 @@ package com.bigfito.elastiflix.web.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import com.bigfito.elastiflix.web.locale.SupportedLocale;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 /**
- * Chips y nota de los filtros que ya están en la URL.
+ * Chips y nota de los filtros que ya están en la URL, adaptados al idioma activo.
  */
 public final class AppliedFilters {
 
@@ -12,53 +16,79 @@ public final class AppliedFilters {
     }
 
     /**
-     * Textos de la fila «Filtros aplicados», en el orden del mockup.
+     * Textos de la fila «Filtros aplicados», en el orden del mockup para el idioma del contexto actual.
      *
      * @param form URL actual
      * @return chips; vacío si no hay filtros
      */
     public static List<String> chips(SearchForm form) {
+        return chips(form, SupportedLocale.current(), UiMessages.defaultCatalog());
+    }
+
+    /**
+     * Textos de la fila «Filtros aplicados» en el idioma y con el catálogo indicados.
+     *
+     * @param form     URL actual
+     * @param locale   idioma destino
+     * @param messages catálogo de mensajes
+     * @return chips; vacío si no hay filtros
+     */
+    public static List<String> chips(SearchForm form, Locale locale, UiMessages messages) {
         List<String> chips = new ArrayList<>();
-        adult(chips, form.adult());
-        labeled(chips, "Géneros: ", form.genres());
-        dates(chips, form);
-        labeled(chips, "Idiomas: ", form.languages());
-        labeled(chips, "Clasificación: ", form.ratings());
+        adult(chips, form.adult(), locale, messages);
+        labeled(chips, messages.getFor(locale, "results.chip.genres"), form.genres(), locale, messages);
+        dates(chips, form, locale, messages);
+        labeled(chips, messages.getFor(locale, "results.chip.languages"), form.languages(), locale, messages);
+        labeled(chips, messages.getFor(locale, "results.chip.rating"), form.ratings(), locale, messages);
         return List.copyOf(chips);
     }
 
     /**
-     * Nota bajo el título de filtros. Cambia cuando la URL ya trae alguno.
+     * Nota bajo el título de filtros en el idioma del contexto actual.
      *
      * @param form URL actual
      * @return el texto del mockup
      */
     public static String note(SearchForm form) {
-        if (chips(form).isEmpty()) {
-            return "Los valores salen de los resultados actuales y se actualizan cada vez que cambian.";
-        }
-        return "Valores actualizados con los resultados filtrados.";
+        return note(form, SupportedLocale.current(), UiMessages.defaultCatalog());
     }
 
-    private static void adult(List<String> chips, List<String> adult) {
+    /**
+     * Nota bajo el título de filtros en el idioma y con el catálogo indicados.
+     *
+     * @param form     URL actual
+     * @param locale   idioma destino
+     * @param messages catálogo de mensajes
+     * @return el texto del mockup
+     */
+    public static String note(SearchForm form, Locale locale, UiMessages messages) {
+        if (chips(form, locale, messages).isEmpty()) {
+            return messages.getFor(locale, "results.filters.note.default");
+        }
+        return messages.getFor(locale, "results.filters.note.filtered");
+    }
+
+    private static void adult(List<String> chips, List<String> adult, Locale locale, UiMessages messages) {
         if (adult.contains("false")) {
-            chips.add("Adultos: Solo no adultos");
+            chips.add(messages.getFor(locale, "results.chip.adult.safe"));
         } else if (adult.contains("true")) {
-            chips.add("Adultos: Solo adultos");
+            chips.add(messages.getFor(locale, "results.chip.adult.yes"));
         }
     }
 
-    private static void labeled(List<String> chips, String prefix, List<String> values) {
+    private static void labeled(
+            List<String> chips, String prefix, List<String> values, Locale locale, UiMessages messages) {
         if (!values.isEmpty()) {
-            chips.add(prefix + String.join(" o ", values));
+            String or = messages.getFor(locale, "results.chip.or");
+            chips.add(prefix + String.join(or, values));
         }
     }
 
-    private static void dates(List<String> chips, SearchForm form) {
+    private static void dates(List<String> chips, SearchForm form, Locale locale, UiMessages messages) {
         if (form.from().isBlank() && form.to().isBlank()) {
             return;
         }
-        chips.add("Estreno: " + shown(form.from()) + " → " + shown(form.to()));
+        chips.add(messages.getFor(locale, "results.chip.date") + shown(form.from()) + " → " + shown(form.to()));
     }
 
     private static String shown(String value) {
@@ -68,3 +98,4 @@ public final class AppliedFilters {
         return value;
     }
 }
+

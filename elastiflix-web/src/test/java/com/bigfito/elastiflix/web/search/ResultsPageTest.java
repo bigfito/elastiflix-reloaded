@@ -44,7 +44,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = SearchController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test",
         "ELASTIFLIX_POSTER_BASE_URL=https://posters.test/w92"})
-@Import({LayoutAdvice.class, SearchQueryMapper.class, ResultsPage.class, ResultCards.class, PosterUrls.class})
+@Import({LayoutAdvice.class, SearchQueryMapper.class, ResultsPage.class, ResultCards.class, PosterUrls.class,
+        com.bigfito.elastiflix.web.locale.LocaleConfig.class})
 @EnableConfigurationProperties(ElastiflixProperties.class)
 class ResultsPageTest {
 
@@ -317,6 +318,67 @@ class ResultsPageTest {
                 .andExpect(content().string(containsString(
                         "<input type=\"radio\" name=\"adult\" value=\"\" checked=\"checked\">")));
     }
+
+    @Test
+    @DisplayName("con lang=en full-text muestra Score, Sorted by BM25 score, votos en inglés y filtros en inglés")
+    void shouldRenderFullTextInEnglish() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(found(null, null, null, "match · title"));
+
+        mvc.perform(get("/buscar").param("q", "titanic").param("modo", "fulltext").param("genero", "Drama")
+                        .param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("class=\"score-title\">Score</span>")))
+                .andExpect(content().string(containsString("Sorted by BM25 score")))
+                .andExpect(content().string(containsString("Showing 1–1 of 1 results")))
+                .andExpect(content().string(containsString("Applied filters:")))
+                .andExpect(content().string(containsString("Genres: Drama")))
+                .andExpect(content().string(containsString("Values updated with the filtered results.")))
+                .andExpect(content().string(containsString("Results per page")))
+                .andExpect(content().string(containsString("7.9 · 1,000 votes")))
+                .andExpect(content().string(containsString("In these results: from 1997-01-01 to 1997-12-19")))
+                .andExpect(content().string(containsString("APPLY")));
+    }
+
+    @Test
+    @DisplayName("con lang=en vectorial e híbrida muestran sus textos, k-NN similarity y outside its top 100")
+    void shouldRenderVectorAndHybridInEnglish() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(
+                found(new ComponentScore(1.2, "2"), new ComponentScore(0.8, "fuera de su top 100"), 0.03, "RRF"));
+
+        mvc.perform(get("/buscar").param("q", "barco").param("modo", "vectorial").param("lang", "en"))
+                .andExpect(content().string(containsString("class=\"score-title\">Similarity</span>")))
+                .andExpect(content().string(containsString("k-NN similarity")))
+                .andExpect(content().string(containsString("Sorted by k-NN similarity")));
+
+        mvc.perform(get("/buscar").param("q", "barco").param("modo", "hibrida").param("lang", "en"))
+                .andExpect(content().string(containsString("class=\"score-title\">Score in each list</span>")))
+                .andExpect(content().string(containsString("position in its list: #2")))
+                .andExpect(content().string(containsString("position in its list: outside its top 100")))
+                .andExpect(content().string(containsString("Sorted by RRF fusion")));
+    }
+
+    @Test
+    @DisplayName("con lang=en los estados vacíos muestran We couldn't find any movies y No results match the filters")
+    void shouldRenderEmptyStatesInEnglish() throws Exception {
+        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.none("zzz", SearchMode.FULL_TEXT)));
+        mvc.perform(get("/buscar").param("q", "zzz").param("lang", "en"))
+                .andExpect(content().string(containsString("We couldn&#39;t find any movies")))
+                .andExpect(content().string(containsString("The query “zzz” returned no results with the current settings.")));
+
+        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.filtered()));
+        mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama").param("lang", "en"))
+                .andExpect(content().string(containsString("No results match the filters")))
+                .andExpect(content().string(containsString("Remove filters")));
+    }
+
+    @Test
+    @DisplayName("con lang=en la consulta vacía muestra el mensaje de error en inglés")
+    void shouldRenderValidationErrorInEnglish() throws Exception {
+        mvc.perform(get("/buscar").param("q", "").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Enter a movie to search for before pressing Search")));
+    }
+
 
     private static SearchResult found(ComponentScore lexical, ComponentScore vector, Double rrf, String chip) {
         return found(lexical, vector, rrf, chip, facets());

@@ -12,9 +12,9 @@
 - **Ramas:** `fase-8-i18n`
 - **Diseño:** [`docs/diseno/8.md`](../docs/diseno/8.md) completado en 8.0
 - **Estado:** tablero [`progreso/8.md`](8.md)
-- **Tarea actual:** 8.4 Internacionalización de Resultados (`results.html`, `results.js` y modelo de resultados)
-- **Próximo paso:** Externalizar `results.html` y `results.js`, y traducir `ResultsPage`, `ModeCopies`, `AppliedFilters`, `ResultCards` y estados vacíos.
-- **Última actualización:** 2026-10-20 03:45 UTC
+- **Tarea actual:** 8.5 Internacionalización de Detalle de película (`detail.html`, `detail.js`, `MovieDetailPage`, tablas, insignias y fichas de búsqueda)
+- **Próximo paso:** Externalizar cadenas de detalle en messages_es/en y adaptar clases de detail
+- **Última actualización:** 2026-10-20 04:25 UTC
 
 ## Fases
 

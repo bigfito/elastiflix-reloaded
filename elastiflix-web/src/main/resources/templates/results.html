@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <th:block th:replace="~{fragments/head :: head('Resultados')}"></th:block>
+  <th:block th:replace="~{fragments/head :: head(#{results.head.title})}"></th:block>
 </head>
 <body>
 <div class="page">
@@ -9,12 +9,12 @@
   <header th:replace="~{fragments/chrome :: header}"></header>
   <main class="results">
     <form class="query-bar" role="search" th:action="@{/buscar}" method="get">
-      <label class="visually-hidden" for="q">Consulta de búsqueda</label>
+      <label class="visually-hidden" for="q" th:text="#{results.query.label}">Consulta de búsqueda</label>
       <div class="sbox compact" th:classappend="${queryError} ? 'is-invalid' : ''">
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14z M20 20l-3.5-3.5"></path></svg>
         <input id="q" name="q" type="search" autocomplete="off" th:value="${form.query}"
                th:attr="aria-describedby=${errorSummary != null and !dateError} ? 'q-error' : null, aria-invalid=${queryError} ? 'true' : 'false'">
-        <button class="go" type="submit">Buscar<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M13 6l6 6l-6 6"></path></svg></button>
+        <button class="go" type="submit"><span th:text="#{results.query.submit}">Buscar</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M13 6l6 6l-6 6"></path></svg></button>
         <input type="hidden" name="modo" th:value="${form.mode}">
         <input type="hidden" name="tipo" th:value="${form.type}">
         <input type="hidden" name="campo" th:value="${form.field}">
@@ -34,18 +34,18 @@
         <span th:text="${copy.label}">Modo</span>
       </span>
       <span class="adjust" th:each="label : ${adjustments}" th:text="${label}">match · title</span>
-      <a th:href="@{/}">Cambiar ajustes</a>
+      <a th:href="@{/}" th:text="#{results.adjust.change}">Cambiar ajustes</a>
     </div>
 
-    <h1 class="visually-hidden" th:if="${copy == null}">Resultados</h1>
+    <h1 class="visually-hidden" th:if="${copy == null}" th:text="#{results.head.title}">Resultados</h1>
 
     <div class="results-layout">
       <aside class="filters" aria-labelledby="f-title">
         <div class="filters-head">
-          <h2 id="f-title" class="filters-title"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"></path></svg>Filtros</h2>
-          <a class="clear" th:href="${clearHref}">Limpiar</a>
+          <h2 id="f-title" class="filters-title"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"></path></svg><span th:text="#{results.filters.title}">Filtros</span></h2>
+          <a class="clear" th:href="${clearHref}" th:text="#{results.filters.clear}">Limpiar</a>
         </div>
-        <p class="filters-rule">Entre filtros distintos se cumplen todos; dentro de un mismo filtro basta con uno de los valores marcados.</p>
+        <p class="filters-rule" th:text="#{results.filters.rule}">Entre filtros distintos se cumplen todos; dentro de un mismo filtro basta con uno de los valores marcados.</p>
         <p class="filters-note"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.9-4 M4 4v3h3 M4 13a8 8 0 0 0 14.9 4 M20 20v-3h-3"></path></svg><span aria-live="polite" th:text="${facetNote}">Los valores salen de los resultados actuales y se actualizan cada vez que cambian.</span></p>
         <form id="filter-form" th:action="@{/buscar}" method="get">
           <input type="hidden" name="q" th:value="${form.query}">
@@ -60,44 +60,44 @@
           <input type="hidden" name="tamano" th:value="${form.pageSize}">
 
           <fieldset>
-            <legend class="fh">Contenido para adultos <code>adult</code></legend>
-            <label class="opt"><input type="radio" name="adult" value="" th:checked="${!safeOnly and !adultOnly}"><span class="opt-label">Todos</span><span class="count" th:text="${adultAll}">0</span></label>
-            <label class="opt"><input type="radio" name="adult" value="false" th:checked="${safeOnly}"><span class="opt-label">Solo no adultos</span><span class="count" th:text="${adultSafe}">0</span></label>
-            <label class="opt" th:if="${adultOnly}"><input type="radio" name="adult" value="true" checked><span class="opt-label">Solo adultos</span><span class="count" th:text="${adultYes}">0</span></label>
+            <legend class="fh"><span th:text="#{results.filter.adult.legend}">Contenido para adultos</span> <code>adult</code></legend>
+            <label class="opt"><input type="radio" name="adult" value="" th:checked="${!safeOnly and !adultOnly}"><span class="opt-label" th:text="#{results.filter.adult.all}">Todos</span><span class="count" th:text="${adultAll}">0</span></label>
+            <label class="opt"><input type="radio" name="adult" value="false" th:checked="${safeOnly}"><span class="opt-label" th:text="#{results.filter.adult.safe}">Solo no adultos</span><span class="count" th:text="${adultSafe}">0</span></label>
+            <label class="opt" th:if="${adultOnly}"><input type="radio" name="adult" value="true" checked><span class="opt-label" th:text="#{results.filter.adult.yes}">Solo adultos</span><span class="count" th:text="${adultYes}">0</span></label>
           </fieldset>
 
           <fieldset data-facet>
-            <legend class="fh">Géneros <code>genres</code></legend>
+            <legend class="fh"><span th:text="#{results.filter.genres.legend}">Géneros</span> <code>genres</code></legend>
             <label class="opt" th:each="choice : ${genres}" th:classappend="${choice.extra} ? 'extra' : ''">
               <input type="checkbox" name="genero" th:value="${choice.value}" th:checked="${choice.selected}">
               <span class="opt-label" th:text="${choice.value}">Drama</span>
               <span class="count" th:text="${choice.count}">1</span>
             </label>
-            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${genresExtra}">Ver todos los géneros</button>
+            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${genresExtra}" th:text="#{results.filter.genres.expand}">Ver todos los géneros</button>
           </fieldset>
 
           <fieldset>
-            <legend class="fh">Fecha de estreno <code>release_date</code></legend>
+            <legend class="fh"><span th:text="#{results.filter.date.legend}">Fecha de estreno</span> <code>release_date</code></legend>
             <div class="dates">
-              <label class="date-field">Desde<input class="inp" type="date" name="desde" th:value="${form.from}" th:attr="aria-invalid=${dateError} ? 'true' : 'false'"></label>
-              <label class="date-field">Hasta<input class="inp" type="date" name="hasta" th:value="${form.to}" th:attr="aria-invalid=${dateError} ? 'true' : 'false'"></label>
+              <label class="date-field"><span th:text="#{results.filter.date.from}">Desde</span><input class="inp" type="date" name="desde" th:value="${form.from}" th:attr="aria-invalid=${dateError} ? 'true' : 'false'"></label>
+              <label class="date-field"><span th:text="#{results.filter.date.to}">Hasta</span><input class="inp" type="date" name="hasta" th:value="${form.to}" th:attr="aria-invalid=${dateError} ? 'true' : 'false'"></label>
             </div>
             <p class="date-note" th:text="${dateNote}">En estos resultados: de … a …</p>
-            <p id="date-error" class="date-error" role="alert" th:attr="hidden=${dateError} ? null : 'hidden'">La fecha «Desde» no puede ser posterior a «Hasta».</p>
+            <p id="date-error" class="date-error" role="alert" th:attr="hidden=${dateError} ? null : 'hidden'" th:text="#{results.filter.date.error}">La fecha «Desde» no puede ser posterior a «Hasta».</p>
           </fieldset>
 
           <fieldset data-facet>
-            <legend class="fh">Idiomas hablados <code>spoken_languages</code></legend>
+            <legend class="fh"><span th:text="#{results.filter.languages.legend}">Idiomas hablados</span> <code>spoken_languages</code></legend>
             <label class="opt" th:each="choice : ${languages}" th:classappend="${choice.extra} ? 'extra' : ''">
               <input type="checkbox" name="idioma" th:value="${choice.value}" th:checked="${choice.selected}">
               <span class="opt-label" th:text="${choice.value}">English</span>
               <span class="count" th:text="${choice.count}">1</span>
             </label>
-            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${languagesExtra}">Ver todos los idiomas</button>
+            <button type="button" class="linkish" data-expand aria-expanded="false" th:if="${languagesExtra}" th:text="#{results.filter.languages.expand}">Ver todos los idiomas</button>
           </fieldset>
 
           <fieldset>
-            <legend class="fh">Clasificación <code>rating</code></legend>
+            <legend class="fh"><span th:text="#{results.filter.rating.legend}">Clasificación</span> <code>rating</code></legend>
             <label class="opt" th:each="choice : ${ratings}">
               <input type="checkbox" name="clasificacion" th:value="${choice.value}" th:checked="${choice.selected}">
               <span class="opt-label" th:text="${choice.value}">PG</span>
@@ -106,8 +106,8 @@
           </fieldset>
 
           <div class="apply-row">
-            <p id="dirty" class="pending" hidden>Tienes cambios sin aplicar.</p>
-            <button class="apply" type="submit" th:disabled="${dateError}">APLICAR</button>
+            <p id="dirty" class="pending" hidden th:text="#{results.filter.dirty}">Tienes cambios sin aplicar.</p>
+            <button class="apply" type="submit" th:disabled="${dateError}" th:text="#{results.filter.apply}">APLICAR</button>
           </div>
         </form>
       </aside>
@@ -118,7 +118,7 @@
             <h1 id="r-title" aria-live="polite" th:text="${countTitle}">0 resultados</h1>
             <p class="ordered" th:text="${copy.orderedBy}">Ordenados por puntuación BM25</p>
           </div>
-          <label class="page-size">Resultados por página
+          <label class="page-size"><span th:text="#{results.pageSize.label}">Resultados por página</span>
             <select id="page-size" class="inp">
               <option value="25" th:selected="${form.pageSize == '25'}" th:attr="data-href=${size25}">25</option>
               <option value="50" th:selected="${form.pageSize == '50'}" th:attr="data-href=${size50}">50</option>
@@ -128,7 +128,7 @@
         </div>
 
         <div class="filter-chips" th:if="${!chips.isEmpty()}">
-          <span>Filtros aplicados:</span>
+          <span th:text="#{results.applied.label}">Filtros aplicados:</span>
           <span class="chip-on" th:each="chip : ${chips}" th:text="${chip}">Géneros: Drama</span>
         </div>
 
@@ -142,18 +142,18 @@
             <li th:each="tip : ${empty.tips}" th:text="${tip}">consejo</li>
           </ul>
           <div class="empty-actions">
-            <a class="btn-accent" th:if="${empty.title == 'Ningún resultado cumple los filtros'}" th:href="${clearHref}">Quitar filtros</a>
-            <a class="btn-line" th:href="@{/}">Cambiar ajustes de búsqueda</a>
+            <a class="btn-accent" th:if="${empty.byFilters}" th:href="${clearHref}" th:text="#{results.empty.removeFilters}">Quitar filtros</a>
+            <a class="btn-line" th:href="@{/}" th:text="#{results.empty.changeSettings}">Cambiar ajustes de búsqueda</a>
           </div>
         </div>
 
-        <ol class="hit-list" th:if="${empty == null}">
+        <ol class="hit-list" th:if="${empty == null}" th:attr="data-poster-prefix=#{results.card.posterPrefix}">
           <li class="hit" th:id="|r-${card.id}|" th:each="card : ${cards}">
             <div class="hit-main">
               <div class="rank-col">
                 <span class="rank" th:text="|#${card.rank}|">#1</span>
                 <img th:if="${!card.posterUrl.isEmpty()}" th:src="${card.posterUrl}" th:alt="${card.title}" class="poster" width="80" height="120">
-                <div th:if="${card.posterUrl.isEmpty()}" class="poster missing" role="img" th:attr="aria-label=|Póster de ${card.title}|"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg><span>poster_path</span></div>
+                <div th:if="${card.posterUrl.isEmpty()}" class="poster missing" role="img" th:attr="aria-label=#{results.card.posterMissing(${card.title})}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg><span>poster_path</span></div>
               </div>
               <div class="hit-body">
                 <h3><a th:href="@{${card.detailHref}}" th:text="${card.title}">Título</a></h3>
@@ -168,12 +168,12 @@
                 <div class="score-line">
                   <span class="score-label">
                     <svg th:if="${score.label == 'BM25'}" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg>
-                    <svg th:if="${score.label == 'Similitud k-NN'}" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg>
+                    <svg th:unless="${score.label == 'BM25'}" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg>
                     <span th:text="${score.label}">BM25</span>
                   </span>
                   <span th:text="${score.value}">0</span>
                 </div>
-                <span class="position" th:if="${!score.position.isEmpty()}" th:text="|posición en su lista: ${score.position}|">posición</span>
+                <span class="position" th:if="${!score.position.isEmpty()}" th:text="#{results.card.score.position(${score.position})}">posición</span>
               </div>
               <div class="score-line rrf-line" th:if="${!card.rrf.isEmpty()}">
                 <span class="score-label">
@@ -186,16 +186,16 @@
           </li>
         </ol>
 
-        <nav th:if="${empty == null}" aria-label="Paginación de resultados" class="pager">
+        <nav th:if="${empty == null}" th:attr="aria-label=#{results.pager.aria}" class="pager">
           <p th:text="${range}">1–25 de 100</p>
           <div class="pages">
-            <a class="pg" th:if="${!previous.isEmpty()}" th:href="${previous}" aria-label="Página anterior"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6l6 6"></path></svg>Anterior</a>
-            <span class="pg is-disabled" th:if="${previous.isEmpty()}" aria-disabled="true"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6l6 6"></path></svg>Anterior</span>
+            <a class="pg" th:if="${!previous.isEmpty()}" th:href="${previous}" th:attr="aria-label=#{results.pager.prev.aria}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6l6 6"></path></svg><span th:text="#{results.pager.prev}">Anterior</span></a>
+            <span class="pg is-disabled" th:if="${previous.isEmpty()}" aria-disabled="true"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6l6 6"></path></svg><span th:text="#{results.pager.prev}">Anterior</span></span>
             <a class="pg" th:each="button : ${pages}" th:href="${button.href}" th:text="${button.number}"
                th:classappend="${button.current} ? 'is-current' : ''"
                th:attr="aria-current=${button.current} ? 'page' : null">1</a>
-            <a class="pg" th:if="${!next.isEmpty()}" th:href="${next}" aria-label="Página siguiente">Siguiente<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6l-6 6"></path></svg></a>
-            <span class="pg is-disabled" th:if="${next.isEmpty()}" aria-disabled="true">Siguiente<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6l-6 6"></path></svg></span>
+            <a class="pg" th:if="${!next.isEmpty()}" th:href="${next}" th:attr="aria-label=#{results.pager.next.aria}"><span th:text="#{results.pager.next}">Siguiente</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6l-6 6"></path></svg></a>
+            <span class="pg is-disabled" th:if="${next.isEmpty()}" aria-disabled="true"><span th:text="#{results.pager.next}">Siguiente</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6l-6 6"></path></svg></span>
           </div>
         </nav>
 
@@ -209,3 +209,4 @@
 <script th:src="@{/js/results.js}"></script>
 </body>
 </html>
+
