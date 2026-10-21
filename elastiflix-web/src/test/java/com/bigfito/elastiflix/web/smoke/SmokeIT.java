@@ -65,6 +65,11 @@ class SmokeIT {
             "/buscar?q={q}&modo=vectorial&vector=plot_1024&k={k}&candidatos={c}";
     private static final String HYBRID =
             "/buscar?q={q}&modo=hibrida&tipo=match&campo=title&operador=and&vector=plot_256&k={k}&candidatos={c}";
+    private static final String DETAIL = "/pelicula/{id}?q={q}&modo=fulltext&tipo=match&campo=title&lang={lang}";
+    private static final String TITANIC_ID = "597";
+    private static final String TITANIC = "titanic";
+    private static final String SPANISH_PAGE = "<html lang=\"es\">";
+    private static final String ENGLISH_PAGE = "<html lang=\"en\">";
 
     private final RestClient http;
     private final CatalogIndex catalog;
@@ -108,6 +113,29 @@ class SmokeIT {
         assertPage("/", "Full-text (léxica)");
         assertPage("/acerca", "Créditos");
         assertPage("/cargar", "Importación en un índice temporal");
+    }
+
+    @Test
+    @DisplayName("el detalle de Titanic, abierto desde una búsqueda, responde 200 en español y en inglés")
+    void shouldOpenTheDetailFromASearch() {
+        // when
+        String spanish = text(http.get().uri(DETAIL, TITANIC_ID, TITANIC, "es").retrieve().toEntity(String.class));
+        String english = text(http.get().uri(DETAIL, TITANIC_ID, TITANIC, "en").retrieve().toEntity(String.class));
+
+        // then
+        assertThat(spanish).contains(SPANISH_PAGE, "Titanic");
+        assertThat(english).contains(ENGLISH_PAGE, "Titanic");
+    }
+
+    @Test
+    @DisplayName("con lang=en, inicio, resultados, acerca de y carga responden 200 en inglés")
+    void shouldServeThePagesInEnglish() {
+        // then
+        assertPage("/?lang=en", "Full-text (lexical)");
+        assertPage("/acerca?lang=en", "Credits");
+        assertPage("/cargar?lang=en", "Import .json");
+        String results = text(http.get().uri(FULL_TEXT + "&lang=en", DARK_KNIGHT).retrieve().toEntity(String.class));
+        assertThat(results).contains(ENGLISH_PAGE, HIT);
     }
 
     @Test

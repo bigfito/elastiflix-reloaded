@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
 
@@ -20,6 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Valida la paridad completa entre los catálogos de mensajes en español e inglés.
  */
 class MessageCatalogParityTest {
+
+    private static final Pattern PLACEHOLDER = Pattern.compile("\\{(\\d+)[^}]*}");
 
     private static Properties esProps;
     private static Properties enProps;
@@ -72,6 +78,37 @@ class MessageCatalogParityTest {
                     .isNotNull()
                     .isNotBlank();
         }
+    }
+
+    @Test
+    @DisplayName("cada clave usa los mismos marcadores {n} en español y en inglés")
+    void shouldUseTheSamePlaceholdersInBothLanguages() {
+        Map<String, String> mismatches = new TreeMap<>();
+        for (String key : esProps.stringPropertyNames()) {
+            Set<String> spanish = placeholders(esProps.getProperty(key));
+            Set<String> english = placeholders(enProps.getProperty(key, ""));
+            if (!spanish.equals(english)) {
+                mismatches.put(key, "es " + spanish + " · en " + english);
+            }
+        }
+
+        assertThat(mismatches).as("Claves con marcadores distintos entre idiomas").isEmpty();
+    }
+
+    @Test
+    @DisplayName("la comparación de marcadores ve el índice aunque el marcador lleve formato")
+    void shouldReadThePlaceholderIndexWithAFormat() {
+        assertThat(placeholders("de {0} a {1,number,#} y otra vez {0}")).containsExactly("{0}", "{1}");
+        assertThat(placeholders("sin marcadores")).isEmpty();
+    }
+
+    private static Set<String> placeholders(String value) {
+        Set<String> found = new TreeSet<>();
+        Matcher matcher = PLACEHOLDER.matcher(value);
+        while (matcher.find()) {
+            found.add("{" + matcher.group(1) + "}");
+        }
+        return found;
     }
 
     @Test

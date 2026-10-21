@@ -9,9 +9,11 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
+import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 import com.bigfito.elastiflix.search.facet.Facets;
 import com.bigfito.elastiflix.search.page.Pagination;
@@ -67,16 +69,53 @@ class ServedPagesTest {
         when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(List.of(hit), 1,
                 new Facets(List.of(), List.of(), List.of(), List.of(), null, null),
                 new Pagination(1, 1, 1, 25, 1, 1), List.of("match · title"), null));
+        when(searches.findById("1")).thenReturn(Optional.of(movie("1", "Titanic")));
+        when(searches.findById("café")).thenReturn(Optional.of(movie("café", "Café de la Paix")));
     }
 
     @ParameterizedTest(name = "{0}")
-    @ValueSource(strings = {"/buscar?q=titanic", "/cargar", "/acerca", "/no-existe"})
-    @DisplayName("Resultados, Cargar, Acerca y el 404 llevan la atribución de TMDB en el pie")
+    @ValueSource(strings = {"/buscar?q=titanic", "/pelicula/1?q=titanic", "/cargar", "/acerca", "/no-existe"})
+    @DisplayName("Resultados, Detalle, Cargar, Acerca y el 404 llevan la atribución de TMDB en el pie")
     void shouldShowTheTmdbNoticeOnEveryPage(String path) throws Exception {
         HttpResponse<String> page = get(path);
 
         assertThat(page.body()).contains("<footer").contains(CatalogTexts.TMDB)
                 .contains("Índice: elastiflix-reloaded · 6 899 películas");
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @ValueSource(strings = {"/?lang=en", "/buscar?q=titanic&lang=en", "/pelicula/1?q=titanic&lang=en",
+        "/cargar?lang=en", "/acerca?lang=en", "/no-existe?lang=en"})
+    @DisplayName("con lang=en, cada página sale en inglés, con la cookie y con el pie en inglés")
+    void shouldServeEveryPageInEnglish(String path) throws Exception {
+        HttpResponse<String> page = get(path);
+
+        assertThat(page.headers().firstValue("Set-Cookie")).hasValueSatisfying(cookie ->
+                assertThat(cookie).startsWith("elastiflix-lang=en").contains("HttpOnly"));
+        assertThat(page.body()).contains("<html lang=\"en\">").contains(CatalogTexts.TMDB)
+                .contains("Index: elastiflix-reloaded · 6,899 movies");
+    }
+
+    @Test
+    @DisplayName("el detalle de un id no ASCII responde en inglés y el selector conserva la ruta y la búsqueda")
+    void shouldServeTheDetailOfANonAsciiIdInEnglish() throws Exception {
+        HttpResponse<String> page = get("/pelicula/caf%C3%A9?q=caf%C3%A9&lang=en");
+
+        assertThat(page.statusCode()).isEqualTo(200);
+        assertThat(page.body()).contains("<html lang=\"en\">").contains("Café de la Paix")
+                .contains("href=\"/pelicula/caf%C3%A9?q=caf%C3%A9&amp;lang=es\"");
+    }
+
+    @Test
+    @DisplayName("en /cargar?job=, el selector conserva el trabajo para reanudarlo en el otro idioma")
+    void shouldKeepTheJobInTheLanguageSwitch() throws Exception {
+        String job = "3f2b8c1e-0d4a-4b6f-9a51-7c2e1f0b9d33";
+
+        HttpResponse<String> page = get("/cargar?job=" + job + "&lang=en");
+
+        assertThat(page.statusCode()).isEqualTo(200);
+        assertThat(page.body()).contains("<html lang=\"en\">")
+                .contains("href=\"/cargar?job=" + job + "&amp;lang=es\"");
     }
 
     @Test
@@ -122,6 +161,14 @@ class ServedPagesTest {
         // then
         assertThat(badRequest).contains("href=\"/buscar?modo=fulltext&amp;lang=en\"");
         assertThat(notAllowed.body()).contains("href=\"/?lang=en\"").doesNotContain("x=1");
+    }
+
+    private static Movie movie(String id, String title) {
+        return new Movie(
+                id, null, title, title, "fr", LocalDate.of(1990, 1, 1), 100, "Released",
+                false, false, null, null, "Una sinopsis", List.of("Drama"), List.of(), List.of(), null,
+                null, null, null, 7.0, 10, "PG", null, null, null,
+                List.of(), List.of(), List.of(), null, null, null, null);
     }
 
     private HttpResponse<String> get(String path) throws IOException, InterruptedException {
