@@ -234,22 +234,19 @@
       <section id="catalogo" aria-labelledby="h-catalogo">
         <div class="section-head"><span class="mode-icon butter" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg></span><h2 id="h-catalogo" th:text="#{about.catalog.heading}"></h2></div>
         <p th:utext="#{about.catalog.lead(${shell.alias}, ${shell.moviePhrase})}"></p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th th:text="#{about.common.field}"></th><th th:text="#{about.common.type}"></th><th th:text="#{about.catalog.th.content}"></th><th th:text="#{about.catalog.th.use}"></th></tr></thead>
-            <tbody>
-              <tr><td>title</td><td>text</td><td th:text="#{about.catalog.title.content}"></td><td th:text="#{about.catalog.title.use}"></td></tr>
-              <tr><td>original_title</td><td>text</td><td th:text="#{about.catalog.origTitle.content}"></td><td th:text="#{about.catalog.title.use}"></td></tr>
-              <tr><td>plot</td><td>text</td><td th:text="#{about.catalog.plot.content}"></td><td th:text="#{about.catalog.plot.use}"></td></tr>
-              <tr><td>plot_256 · plot_512 · plot_1024</td><td>dense_vector</td><td th:text="#{about.catalog.vectors.content}"></td><td th:text="#{about.catalog.vectors.use}"></td></tr>
-              <tr><td>adult</td><td>boolean</td><td th:text="#{about.catalog.adult.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
-              <tr><td>genres</td><td>keyword</td><td th:text="#{about.catalog.genres.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
-              <tr><td>release_date</td><td>date</td><td th:text="#{about.catalog.releaseDate.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
-              <tr><td>spoken_languages</td><td>keyword</td><td th:text="#{about.catalog.languages.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
-              <tr><td>rating</td><td>keyword</td><td th:text="#{about.catalog.rating.content}"></td><td th:text="#{about.catalog.filter.use}"></td></tr>
-            </tbody>
-          </table>
-        </div>
+        <th:block th:each="group : ${catalogGroups}">
+          <h3 th:text="#{${group.titleKey}}">Identificación y títulos</h3>
+          <div class="table-wrap">
+            <table class="catalog-fields">
+              <thead><tr><th th:text="#{about.common.field}"></th><th th:text="#{about.common.type}"></th><th th:text="#{about.catalog.th.content}"></th><th th:text="#{about.catalog.th.use}"></th></tr></thead>
+              <tbody>
+                <tr th:each="field : ${group.fields}" th:classappend="${field.subfield()} ? 'subfield'">
+                  <td><th:block th:if="${field.subfield()}"><th:block th:text="${#strings.substringBefore(field.name(), '.') + '.'}">keywords.</th:block><wbr></th:block><th:block th:text="${field.subfield()} ? ${#strings.substringAfter(field.name(), '.')} : ${field.name()}">id</th:block></td><td th:text="${field.type()}">keyword</td><td th:utext="#{${field.contentKey()}}"></td><td th:text="#{${field.useKey()}}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </th:block>
       </section>
 
       <section id="creditos" aria-labelledby="h-creditos">

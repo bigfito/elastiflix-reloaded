@@ -32,7 +32,8 @@ public class AboutController implements HtmlPage {
     /**
      * Muestra Acerca de. El alias y el conteo llegan en {@code shell}.
      *
-     * @param model la navegación marca esta página; lleva el tamaño máximo y el lote, con los miles del idioma
+     * @param model la navegación marca esta página; lleva el tamaño máximo y el lote, con los miles del idioma,
+     *              y los campos del catálogo por grupo
      * @return la plantilla {@code about}
      */
     @GetMapping("/acerca")
@@ -41,6 +42,7 @@ public class AboutController implements HtmlPage {
         model.addAttribute("maxFileLabel", limits.maxFileLabel());
         // Ya escrito con Thousands: con un int, MessageFormat agruparía con punto en español («1.000»).
         model.addAttribute("batchSize", Thousands.of(limits.batchSize(), SupportedLocale.current()));
+        model.addAttribute("catalogGroups", CatalogFields.GROUPS);
         return "about";
     }
 }

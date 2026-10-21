@@ -120,6 +120,33 @@ class AboutPageTest {
     }
 
     @Test
+    @DisplayName("el catálogo trae los cinco grupos y todas las propiedades, con los subcampos con sangría")
+    void shouldDescribeTheWholeCatalog() throws Exception {
+        mvc.perform(get("/acerca"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<h3>Identificación y títulos</h3>")))
+                .andExpect(content().string(containsString("<h3>Sinopsis y textos</h3>")))
+                .andExpect(content().string(containsString("<h3>Clasificación, fecha y estado</h3>")))
+                .andExpect(content().string(containsString("<h3>Métricas</h3>")))
+                .andExpect(content().string(containsString("<h3>Reparto, producción y medios</h3>")))
+                .andExpect(content().string(containsString("<td>imdb_id</td><td>keyword</td><td>Identificador en IMDb, "
+                        + "por ejemplo tt0120338; el detalle enlaza a su ficha</td><td>Detalle</td>")))
+                .andExpect(content().string(containsString("<td>title</td><td>text</td><td>Título de la película</td>"
+                        + "<td>Full-text, Híbrida, tarjeta y detalle</td>")))
+                .andExpect(content().string(containsString("<td>plot_256</td><td>dense_vector</td>")))
+                .andExpect(content().string(containsString("<tr class=\"subfield\">")))
+                .andExpect(content().string(containsString("<td>keywords.<wbr>name</td><td>text</td>")))
+                .andExpect(content().string(containsString("<td>belongs_to_collection.<wbr>backdrop_path</td><td>text</td>")))
+                .andExpect(content().string(containsString("<td>user_score</td><td>float</td>")))
+                .andExpect(content().string(containsString("agrupadas como en el formulario de «Cargar datos»")));
+        mvc.perform(get("/acerca").param("lang", "en"))
+                .andExpect(content().string(containsString("<h3>Cast, production and media</h3>")))
+                .andExpect(content().string(containsString("<td>runtime</td><td>integer</td><td>Runtime in minutes</td>"
+                        + "<td>Card and detail</td>")))
+                .andExpect(content().string(containsString("grouped as in the «Load data» form")));
+    }
+
+    @Test
     @DisplayName("con lang=en muestra Acerca de en inglés y formatea 4,322 con coma")
     void shouldShowEnglishSectionsWhenLangIsEn() throws Exception {
         mvc.perform(get("/acerca").param("lang", "en"))

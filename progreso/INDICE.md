@@ -12,9 +12,9 @@
 - **Ramas:** `fase-11-acerca` (sale de `main`, `5a1d82f`)
 - **Diseño:** [`docs/diseno/11.md`](../docs/diseno/11.md)
 - **Estado:** [`progreso/11.md`](11.md)
-- **Tarea actual:** 11.2 Catálogo completo
-- **Próximo paso:** crear `CatalogFields` con todos los campos y subcampos del mapping en cinco grupos, sus textos en español e inglés, la plantilla que los recorre y `CatalogFieldsTest` contra el mapping.
-- **Última actualización:** 2026-10-21 22:33 UTC
+- **Tarea actual:** 11.3 Mockups, capturas, documentación y verificación
+- **Próximo paso:** actualizar `About.dc.html` y `About-en.dc.html` con el índice y el catálogo completo, volver a tomar las capturas de «Acerca de», actualizar README y PLAN, y correr `./mvnw clean verify -Pit` y las pruebas de navegador.
+- **Última actualización:** 2026-10-21 22:38 UTC
 
 ## Fases
 
