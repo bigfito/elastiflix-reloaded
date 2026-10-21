@@ -80,7 +80,7 @@ public final class ImportJob {
         CatalogName.Alias found = requireAlias(alias);
         cleaner.clean(catalog, alias, found.concreteIndex());
         String temp = names.timestamped(alias, clock);
-        catalog.createWithMapping(temp);
+        createTemp(temp);
         importInto(new ImportContext(
                 alias, found.concreteIndex(), temp, source, counts, listener, cancelled));
     }
@@ -113,6 +113,23 @@ public final class ImportJob {
             }
         }
         published(context, totals, expected);
+    }
+
+    /**
+     * Crea el temporal. Un 4xx es un rechazo seguro: el índice no se creó y no hay nada que borrar. Un corte,
+     * un timeout o un 5xx son dudosos: el índice pudo crearse, así que se intenta borrar antes de seguir con
+     * la falla, como en cualquier otra falla anterior a {@code _aliases}.
+     */
+    private void createTemp(String temp) {
+        try {
+            catalog.createWithMapping(temp);
+        } catch (ElasticsearchAccessException exception) {
+            logFailure(exception, temp);
+            if (!ElasticsearchDiagnostics.isClientRejection(exception)) {
+                deleteTemp(temp);
+            }
+            throw exception;
+        }
     }
 
     private CatalogName.Alias requireAlias(String alias) {

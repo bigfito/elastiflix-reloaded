@@ -164,7 +164,7 @@ public final class JobStore {
      */
     public void ready(String jobId, ValidatedMovies checked) {
         ImportWork work = require(jobId);
-        if (finishEarly(work)) {
+        if (stopIfCancelled(work)) {
             return;
         }
         work.ready(checked);
@@ -180,7 +180,7 @@ public final class JobStore {
      */
     public void invalid(String jobId, ValidationReport issues, int stopped) {
         ImportWork work = require(jobId);
-        if (finishEarly(work)) {
+        if (stopIfCancelled(work)) {
             return;
         }
         work.invalid(issues, stopped);
@@ -239,12 +239,20 @@ public final class JobStore {
         return work;
     }
 
-    private boolean finishEarly(ImportWork work) {
+    /**
+     * Si alguien pidió cancelar, deja el trabajo en {@code cancelado}, suelta lo que retiene y avisa que hay
+     * que parar. La validación lo consulta entre etapas; {@link #ready} e {@link #invalid}, antes de guardar.
+     *
+     * @param work trabajo que se valida
+     * @return {@code true} si se canceló y no hay que seguir
+     */
+    boolean stopIfCancelled(ImportWork work) {
         if (!work.isCancelled()) {
             return false;
         }
         work.become(JobStatus.CANCELLED);
-        logValidation(work);
+        LOG.info("{}: se canceló el trabajo {} durante la validación", ErrorCode.IMPORT_CANCELLED.code(),
+                work.id());
         discardIfTerminal(work);
         return true;
     }
