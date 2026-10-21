@@ -1245,7 +1245,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 
 > **Estado:** los requerimientos 1 y 2 ya se implementaron (fases 7 y 8, en `main`; la revisión 4 corrige lo que
 > dejaron pendiente). El requerimiento 3 se implementó en la fase 9 (PR #27, `1047a65`, 2026-10-21). El
-> requerimiento 4 **no se implementa todavía**. El trabajo de cada uno empieza solo
+> requerimiento 4 está en curso en la fase 10 (consentimiento de Adolfo del 2026-10-21). El trabajo de cada uno empieza solo
 > cuando se cumplen las dos condiciones:
 >
 > 1. la revisión 3 está terminada y fusionada en `main`;
@@ -1521,6 +1521,14 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   §5, `docs/diseno/3.md` y README. Hoy todos describen la importación con copia del catálogo.
 - **Relación con la revisión 3:** sus correcciones (T-01, T-08, T-09, T-16…) se hacen sobre el flujo
   actual. Este requerimiento se diseña después, sobre el código ya corregido.
+
+- **Fase 10 — Tareas** (rama `fase-10-modos`; diseño en `docs/diseno/10.md`, sin compuerta 🔒):
+  - [x] **10.0** Diseño técnico en `docs/diseno/10.md`: modo del trabajo, bulk sin copia, `AppendJob`, códigos `EFX-IMP-008` y `EFX-IMP-009`, estado `agregado`, pasos por modo y pruebas.
+  - [ ] **10.1** Modo en el trabajo (`ImportMode` de `JobStore.open` a `JobView`, con `catalogCount`) y bulk solo con el archivo: `ImportJob` sin `_reindex`, conteo contra las películas del archivo; rollback, `describe` y huérfanos sin cambios. Pruebas unitarias.
+  - [ ] **10.2** Append: `CatalogIndex.appendAll` (`require_alias=true`, aceptados y rechazados por ítem), `AppendJob` (alias de un solo índice, lotes de 100, reemplazos, `refresh`, cancelación entre lotes, `EFX-IMP-008` y `EFX-IMP-009`), `ImportRunner` por modo y estado `agregado`. Pruebas unitarias e `IngestIT` de los dos modos sobre un alias propio.
+  - [ ] **10.3** Web: `POST /cargar/archivo` con `modo`; tarjeta «Modo de carga» con el aviso de bulk; pasos, cajas, textos y botón de cada modo en español e inglés; `ingest.js` con el modo, `?job=` y `agregado`. Pruebas MockMvc y de navegador.
+  - [ ] **10.4** «Acerca de» › «Carga de datos» con los dos modos, en español e inglés, y sus pruebas.
+  - [ ] **10.5** Verificación de fase (`./mvnw clean verify`, `-Pit`, navegador) y documentación: `AGENTS.md`, `CLAUDE.md`, README, PLAN §1, §2 y §5, `docs/diseno/3.md`, `progreso/10.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 
