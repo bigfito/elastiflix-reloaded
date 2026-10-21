@@ -256,6 +256,43 @@ h1 span { color: var(--accent-ink); }
   flex: 1; width: 100%; max-width: 1040px; margin: 0 auto;
   padding: 48px 20px 80px; display: flex; flex-direction: column; gap: 72px;
 }
+/* Índice de «Acerca de» (Requerimiento 5): columna fija en escritorio y lista plegable en pantallas angostas. */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+.about.has-toc {
+  max-width: 1320px; display: grid; grid-template-columns: 220px minmax(0, 1fr); align-items: start; gap: 48px;
+}
+.about-content { display: flex; flex-direction: column; gap: 72px; min-width: 0; max-width: 1040px; }
+.about [id] { scroll-margin-top: 24px; }
+.toc { position: sticky; top: 24px; max-height: calc(100vh - 48px); overflow-y: auto; }
+.toc summary {
+  list-style: none; margin-bottom: 12px; font-family: var(--mono); font-size: 12px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--lavender-ink); pointer-events: none;
+}
+.toc summary::-webkit-details-marker { display: none; }
+.toc ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; border-left: 2px solid var(--border-soft); }
+.toc li { margin: 0; max-width: none; font-size: 14px; }
+.toc a {
+  display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: var(--ink-4);
+  line-height: 1.35; text-decoration: none;
+}
+.toc a:hover { color: var(--accent-ink); }
+.toc a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.toc a.is-active { border-left-color: var(--accent-ink); color: var(--ink); font-weight: 600; }
+@media (max-width: 1099px) {
+  .about.has-toc { display: flex; flex-direction: column; align-items: stretch; gap: 40px; }
+  .toc {
+    position: static; max-height: none; overflow: visible; padding: 14px 18px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 14px;
+  }
+  .toc summary {
+    margin: 0; min-height: 28px; display: flex; align-items: center; gap: 8px; cursor: pointer; pointer-events: auto;
+  }
+  .toc summary::before { content: "▸"; color: var(--accent-ink); }
+  .toc details[open] summary { margin-bottom: 12px; }
+  .toc details[open] summary::before { content: "▾"; }
+}
+
 .about h1 {
   margin: 0; font-family: var(--display); font-weight: 700;
   font-size: clamp(38px, 5.5vw, 60px); line-height: 1.05; letter-spacing: -0.02em;
@@ -303,6 +340,14 @@ h1 span { color: var(--accent-ink); }
 }
 .about td { padding: 12px 16px; border-top: 1px solid var(--border-soft); color: var(--ink-4); }
 .about td:first-child { font-family: var(--mono); color: var(--ink-2); }
+.about h3 + .table-wrap { margin-top: -4px; }
+.about tr.subfield td:first-child { padding-left: 32px; color: var(--muted); }
+.about tr.subfield td { background: var(--surface-muted-2); }
+.about .catalog-fields { table-layout: fixed; }
+.about .catalog-fields th:nth-child(1) { width: 30%; }
+.about .catalog-fields th:nth-child(2) { width: 14%; }
+.about .catalog-fields th:nth-child(4) { width: 20%; }
+.about .catalog-fields td:first-child { overflow-wrap: break-word; }
 .about ul, .about ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; }
 .tmdb-logo { width: 154px; height: 20px; }
 

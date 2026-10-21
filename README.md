@@ -24,7 +24,8 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > ✅ **Estado actual:** las fases 0 a 8 están en `main`, incluidos el detalle de película (fase 7) y la interfaz
 > en español e inglés (fase 8), y la revisión 4 que las corrigió (PR #25 y #26). La fase 9 (Requerimiento 3:
 > archivos de hasta 25 MB) también está en `main` (PR #27). La fase 10 (Requerimiento 4: carga en modo
-> append o bulk) también está en `main` (PR #28). El
+> append o bulk) también está en `main` (PR #28). La fase 11 (Requerimiento 5: índice y catálogo completo en
+> «Acerca de») está en la rama `fase-11-acerca`. El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -62,7 +63,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 | 🎛️ | **Filtros dinámicos** | Adultos, géneros, fecha de estreno, idiomas y clasificación, con conteos |
 | 📄 | **Paginación** | 25 · 50 · 100 resultados por página |
 | 📥 | **Carga de datos** | Registro individual o archivos `.json` / `.csv`, validados contra el mapping |
-| ℹ️ | **Acerca de la demo** | Explicación de cada modo dentro de la aplicación |
+| ℹ️ | **Acerca de la demo** | Explicación de cada modo dentro de la aplicación, con un índice fijo y el catálogo completo |
 
 ## 🔎 Los tres modos de búsqueda
 
@@ -349,7 +350,8 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
   falla o se cancela, el catálogo queda como estaba.
 - Registro individual directo al alias, visible en la búsqueda siguiente.
 - Cinco páginas: Inicio (tres modos y sugerencias), Resultados, Detalle de película, Cargar datos y Acerca de
-  (tabla de precisión y créditos de TMDB).
+  (tabla de precisión, créditos de TMDB, un índice fijo a la izquierda que marca la sección que se lee y, en «El
+  catálogo», todas las propiedades del mapping por grupo, con su tipo, contenido y uso).
 - Detalle de película en `/pelicula/{id}`: todos los campos del documento salvo los vectores, cifras en USD,
   «N/A» en los campos vacíos y regreso a los resultados con la búsqueda intacta. Sin una búsqueda válida
   responde 400 con `EFX-SRCH-012`; un `id` que no existe, 404; si Elasticsearch falla, la página de error
@@ -467,7 +469,8 @@ Playwright 1.49.1); Adolfo las aprobó el 2026-10-21. Las tres de «Cargar datos
 a tomar el 2026-10-21 al cerrar la fase 10, con la tarjeta «Modo de carga» en append y los textos de los dos
 modos; Adolfo aprobó esas seis el mismo día. Las dos de «Acerca de» también se volvieron a tomar ese día, con la
 sección «Carga de datos» en los dos modos, y Adolfo también las aprobó; después se reemplazaron, a pedido suyo,
-por las mismas con la frase corregida de «El catálogo». La comparación anterior con los mockups está en
+por las mismas con la frase corregida de «El catálogo». La fase 11 las volvió a tomar con el índice y el
+catálogo completo; esperan la aprobación de Adolfo. La comparación anterior con los mockups está en
 [`progreso/4.md`](progreso/4.md).
 
 | Página | Español | English |

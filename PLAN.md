@@ -51,6 +51,7 @@
   - [Requerimiento 2 — Interfaz en español e inglés (Fase 8)](#requerimiento-2--interfaz-en-español-e-inglés)
   - [Requerimiento 3 — Archivos de carga de hasta 25 MB](#requerimiento-3--archivos-de-carga-de-hasta-25-mb)
   - [Requerimiento 4 — Carga en modo append o bulk](#requerimiento-4--carga-de-archivos-en-modo-append-o-bulk)
+  - [Requerimiento 5 — Índice y catálogo completo en «Acerca de»](#requerimiento-5--índice-y-catálogo-completo-en-acerca-de)
 - [Variables de entorno](#variables-de-entorno-envexample)
 - [Referencias](#referencias)
 
@@ -1530,6 +1531,22 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - [x] **10.3** Web: `POST /cargar/archivo` con `modo`; tarjeta «Modo de carga» con el aviso de bulk; pasos, cajas, textos y botón de cada modo en español e inglés; `ingest.js` con el modo, `?job=` y `agregado`. Pruebas MockMvc y de navegador.
   - [x] **10.4** «Acerca de» › «Carga de datos» con los dos modos, en español e inglés, y sus pruebas.
   - [x] **10.5** Verificación de fase (`./mvnw clean verify`, `-Pit`, navegador) y documentación: `AGENTS.md`, `CLAUDE.md`, README, PLAN §1, §2 y §5, `docs/diseno/3.md`, `progreso/10.md` e `INDICE.md`.
+
+### Requerimiento 5 — Índice y catálogo completo en «Acerca de»
+
+- **Origen:** pedido de Adolfo del 2026-10-21, después de cerrar los requerimientos 1 a 4: «Me gustaría que la página de "Acerca de" tuviera un índice que facilitara la navegación y desplazamiento por la página. Adicionalmente, la sección que hace mención al catálogo siento que esta incompleta. Debería tener una descripción completa del catálogo con todos los atributos que lo componen.»
+- **Decisiones de Adolfo (2026-10-21):**
+  - **Índice lateral fijo:** en escritorio, una columna a la izquierda que se queda visible al desplazarse y marca la
+    sección en la que se está; en el teléfono, una lista plegable arriba de la página.
+  - **Catálogo en tablas por grupo:** todos los atributos del mapping, con los subcampos de los objetos anidados,
+    agrupados como en el formulario de «Cargar datos»; cada fila con campo, tipo, contenido y uso en la demo.
+  - **Implementar directo:** sin mockups previos; `About.dc.html` y `About-en.dc.html` se actualizan al final para
+    que coincidan con la página.
+- **Fase 11 — Tareas** (rama `fase-11-acerca`; diseño en `docs/diseno/11.md`, sin compuerta 🔒):
+  - [x] **11.0** Diseño técnico en `docs/diseno/11.md`: índice, `CatalogFields` por grupos y prueba contra el mapping.
+  - [x] **11.1** Índice de «Acerca de»: lateral fijo con la sección visible marcada (`about.js`), plegable en pantallas angostas, en español e inglés. Pruebas MockMvc y de navegador.
+  - [x] **11.2** Catálogo completo: `CatalogFields` con todos los campos y subcampos del mapping en cinco grupos, textos en español e inglés y una prueba que compara las filas con `elasticsearch/elastiflix-reloaded-mapping.json`.
+  - [x] **11.3** Mockups `About.dc.html` y `About-en.dc.html`, capturas de «Acerca de», README, verificación de fase (`./mvnw clean verify`, navegador), `progreso/11.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 
