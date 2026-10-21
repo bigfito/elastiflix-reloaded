@@ -279,7 +279,7 @@ class MovieDetailPageTest {
         assertThat(stateValue(view.searchState(), "Mode")).isEqualTo("Full-text");
         assertThat(stateValue(view.searchState(), "Page")).isEqualTo("Page 2 · 50 per page");
 
-        assertThat(factLabel(view.facts(), "id")).isEqualTo("Identifier");
+        assertThat(factLabel(view.facts(), "id")).isEqualTo("Id");
         assertThat(factLabel(view.facts(), "release_date")).isEqualTo("Release date");
         assertThat(factLabel(view.facts(), "adult")).isEqualTo("Adult content");
         assertThat(factValue(view.facts(), "adult")).isEqualTo("No");

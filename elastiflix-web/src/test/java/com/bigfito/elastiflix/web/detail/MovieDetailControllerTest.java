@@ -186,14 +186,17 @@ class MovieDetailControllerTest {
     }
 
     @Test
-    @DisplayName("en inglés, el botón del reparto dice «Show less» al expandirse")
+    @DisplayName("en inglés, el botón del reparto dice «See the full cast (N)» y «Show less», y la ficha dice «Id»")
     void shouldLabelTheCastToggleInEnglish() throws Exception {
         // given
         when(searches.findById("27205")).thenReturn(Optional.of(movieWithCast(25)));
 
         // when / then
         mvc.perform(get("/pelicula/27205").param("q", "inception").param("lang", "en"))
-                .andExpect(content().string(containsString("data-show-less=\"Show less\"")));
+                .andExpect(content().string(containsString("See the full cast (25)")))
+                .andExpect(content().string(containsString("data-show-less=\"Show less\"")))
+                .andExpect(content().string(containsString("<span>Id</span><code>id</code>")))
+                .andExpect(content().string(not(containsString("Identifier"))));
     }
 
     @Test
