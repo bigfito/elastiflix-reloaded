@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.Duration;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -85,6 +86,32 @@ class LocaleSwitchTest {
                 .andExpect(cookie().doesNotExist("elastiflix-lang"))
                 .andExpect(content().string(containsString("<html lang=\"en\">")))
                 .andExpect(content().string(containsString("Connected · Elasticsearch Serverless")));
+    }
+
+    @Test
+    @DisplayName("una cookie ilegible (elastiflix-lang=e$) se ignora: la página responde 200 en español")
+    void shouldIgnoreAnUnreadableCookie() throws Exception {
+        when(catalog.status()).thenReturn(new CatalogStatus(
+                "elastiflix-reloaded", "elastiflix-reloaded-20261018-000000", 6899L, true, null));
+
+        mvc.perform(get("/").cookie(new Cookie("elastiflix-lang", "e$")))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<html lang=\"es\">")))
+                .andExpect(content().string(containsString("Conectado · Elasticsearch Serverless")));
+    }
+
+    @Test
+    @DisplayName("la cookie del idioma es HttpOnly, SameSite=Lax, de todo el sitio y dura un año")
+    void shouldSetTheCookieAttributes() throws Exception {
+        when(catalog.status()).thenReturn(new CatalogStatus(
+                "elastiflix-reloaded", "elastiflix-reloaded-20261018-000000", 6899L, true, null));
+
+        mvc.perform(get("/").param("lang", "en"))
+                .andExpect(cookie().value("elastiflix-lang", "en"))
+                .andExpect(cookie().httpOnly("elastiflix-lang", true))
+                .andExpect(cookie().sameSite("elastiflix-lang", "Lax"))
+                .andExpect(cookie().path("elastiflix-lang", "/"))
+                .andExpect(cookie().maxAge("elastiflix-lang", (int) Duration.ofDays(365).toSeconds()));
     }
 
     @Test

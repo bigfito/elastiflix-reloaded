@@ -110,6 +110,20 @@ class ServedPagesTest {
         assertThat(response).startsWith("HTTP/1.1 400").contains("<h1>Error 400</h1>").contains(CatalogTexts.TMDB);
     }
 
+    @Test
+    @DisplayName("en el /error real, el selector usa la página original: GET conserva la URL y otro método va a Inicio")
+    void shouldLinkTheLanguageSwitchToTheOriginalPageOnTheRealErrorDispatch() throws Exception {
+        // when
+        String badRequest = raw("GET /buscar?q=%zz&modo=fulltext HTTP/1.1\r\nHost: localhost\r\n"
+                + "Accept: text/html\r\nConnection: close\r\n\r\n");
+        HttpResponse<String> notAllowed = http.send(HttpRequest.newBuilder(uri("/acerca?x=1"))
+                .header("Accept", "text/html").DELETE().build(), HttpResponse.BodyHandlers.ofString());
+
+        // then
+        assertThat(badRequest).contains("href=\"/buscar?modo=fulltext&amp;lang=en\"");
+        assertThat(notAllowed.body()).contains("href=\"/?lang=en\"").doesNotContain("x=1");
+    }
+
     private HttpResponse<String> get(String path) throws IOException, InterruptedException {
         return http.send(HttpRequest.newBuilder(uri(path)).header("Accept", "text/html").GET().build(),
                 HttpResponse.BodyHandlers.ofString());
