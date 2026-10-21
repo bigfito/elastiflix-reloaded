@@ -13,14 +13,15 @@
 
 ## Estado general
 
-en curso
+en verificación (decisiones 1 a 6 aplicadas; el resto espera instrucciones)
 
 ## Punto de reanudación
 
-- **Tarea actual:** U-02 (pruebas de navegador y verificación completa)
-- **Subpaso en curso:** arrancar la aplicación en el puerto 8089 y correr `npm test` en `elastiflix-web/src/test/browser`
-- **Próximo paso:** corregir lo que fallen las pruebas de navegador, correr `./mvnw verify -Pit` y registrar las cifras
-- **Última actualización:** 2026-10-21 20:30 UTC
+- **Tarea actual:** ninguna; las decisiones 1 a 6 de Adolfo están aplicadas
+- **Subpaso en curso:** ninguno
+- **Próximo paso:** que Adolfo revise el PR de `revision-4` y diga qué hacer con los demás puntos de
+  `docs/revisiones/revision-4.md` (los que esta tabla no marca)
+- **Última actualización:** 2026-10-21 18:40 UTC
 
 ## Tareas
 
@@ -36,8 +37,8 @@ en curso
 | U-16 | terminada | `3d1933f` | `EmptyState` enum, `ComponentScore(score, rank, k)` y `Pagination(first, last)`; la web arma los textos con `results.pager.span` y `results.card.score.outsideTop`. `./mvnw verify` en verde (386 unitarias, Checkstyle 0, PMD 0) |
 | U-13, U-17 (carga) | terminada | `56aeaf9` | `IngestPhrase` (57 frases) en ingest; `IngestTranslator` y `JobTexts` traducen por clave en los dos idiomas; informe CSV, rechazos del registro individual y 413 traducidos. `./mvnw verify` en verde: 513 unitarias (core 68, search 71, ingest 189, web 185), Checkstyle 0, PMD 0. `IngestTranslatorTest` pasa la salida real de `MappingValidator`, `CsvMovieReader` y `CsvColumnRows` en inglés sin una palabra en español |
 | U-17 (cabecera y sugerencias) | terminada | `0703166` | `CatalogTexts` lee `layout.catalog.*` (solo quedan como constantes los dos avisos de TMDB, que se muestran juntos en los dos idiomas); las etiquetas de Inicio salen de `home.suggest.*` vía `SuggestionTags`, con las cifras medidas como datos. `./mvnw -pl elastiflix-web verify` en verde (185 unitarias, Checkstyle 0, PMD 0); `HomePageTest`, `LayoutPageTest` y `AboutPageTest` sin cambios |
-| U-14, U-15 | terminada | se anota en el commit siguiente | `ingest.html` sin textos fijos (rango de errores, `aria-label` del progreso, un placeholder por concordancia); `ingest.js` sin respaldos en español, con «Field for {0}» por `data-*` y el tono de cada columna desde `JobTexts.columnTones`. `TemplatesAndScriptsI18nTest` revisa texto suelto y atributos accesibles de las plantillas y todos los literales del JS; con los archivos de `main` falla con los 10 textos que tenían. `./mvnw verify` en verde: 514 unitarias (core 68, search 71, ingest 189, web 186), Checkstyle 0, PMD 0 |
-| U-02 | pendiente | | |
+| U-14, U-15 | terminada | `a26826e` | `ingest.html` sin textos fijos (rango de errores, `aria-label` del progreso, un placeholder por concordancia); `ingest.js` sin respaldos en español, con «Field for {0}» por `data-*` y el tono de cada columna desde `JobTexts.columnTones`. `TemplatesAndScriptsI18nTest` revisa texto suelto y atributos accesibles de las plantillas y todos los literales del JS; con los archivos de `main` falla con los 10 textos que tenían. `./mvnw verify` en verde: 514 unitarias (core 68, search 71, ingest 189, web 186), Checkstyle 0, PMD 0 |
+| U-02 | terminada | se anota en el commit siguiente | `./mvnw verify -Pit` en verde (514 unitarias y 30 de integración: core 68 + 10, search 71 + 14, ingest 189 + 2, web 186 + 4) y pruebas de navegador 11 de 11 (Playwright 1.49.1 con Chromium, contra la aplicación en el puerto 8089 sin Elasticsearch) |
 | U-33 (cabeceras) | descartada | — | Adolfo decidió no agregar cabeceras de seguridad (2026-10-21) |
 
 ## Cambios sin commit
@@ -46,9 +47,11 @@ Vacío.
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify`
-- **Resultado:** en verde: 386 unitarias (core 68, search 71, ingest 123, web 124), Checkstyle 0, PMD 0
-- **Fecha:** 2026-10-21 17:40 UTC
+- **Comando:** `./mvnw verify -Pit` (con `.env`) y, en `elastiflix-web/src/test/browser`, `npm test` con la
+  aplicación en el puerto 8089
+- **Resultado:** en verde: 514 unitarias y 30 de integración, 0 fallos, 0 omitidas; Checkstyle 0 y PMD 0; navegador
+  11 de 11
+- **Fecha:** 2026-10-21 18:32–18:34 UTC, con el árbol de `a26826e`
 
 ## Decisiones
 

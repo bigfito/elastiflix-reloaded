@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 4 (correcciones tras las fases 7 y 8)
-- **Estado de la fase:** en curso
+- **Estado de la fase:** decisiones 1 a 6 de Adolfo aplicadas en la rama `revision-4`; el resto de la lista espera instrucciones
 - **Ramas:** `revision-4`
 - **Diseño:** especificación en [`docs/revisiones/revision-4.md`](../docs/revisiones/revision-4.md)
 - **Estado:** [`progreso/revision-4.md`](revision-4.md)
-- **Tarea actual:** U-01 y U-24 (medir de nuevo §6 y las sugerencias de Inicio)
+- **Tarea actual:** ninguna
 - **Próximo paso:** el de `progreso/revision-4.md`. Después de la revisión 4, coordinar con Adolfo el Requerimiento 3.
-- **Última actualización:** 2026-10-21 17:55 UTC
+- **Última actualización:** 2026-10-21 18:40 UTC
 
 ## Fases
 
@@ -34,7 +34,7 @@
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 329 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). |
 | 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | Fusionada en `main` (`3c27c40`, PR #24). Rama remota y local `fase-8-i18n` borrada. `./mvnw clean verify` en verde (104 unitarias web / 347 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4. |
-| — | Revisión 4 | — | en curso | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38). U-11 y U-03 en `main` (`a1b8fa8`, `ec6ca83`); el resto en la rama `revision-4`. |
+| — | Revisión 4 | — | en curso | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38). U-11 y U-03 en `main` (`a1b8fa8`, `ec6ca83`); U-01, U-02, U-07, U-13 a U-17 y U-24 en la rama `revision-4`; U-33 (cabeceras) descartada. `./mvnw verify -Pit` en verde (514 + 30) y navegador 11 de 11, el 2026-10-21. |
 
 ## Aprobaciones del usuario
 
@@ -96,13 +96,11 @@
 
 ## Última verificación
 
-- **Comando:** `./mvnw verify -Pit` (con `.env`)
-- **Resultado:** BUILD SUCCESS en 1 min 39 s: 264 unitarias (core 50, search 62, ingest 97, web 55) y 29 de
-  integración (core 9, search 14, ingest 2, web 4), 0 fallos, 0 omitidas; Checkstyle y PMD en 0. Después, el
-  alias `elastiflix-reloaded` seguía en `elastiflix-reloaded-20261018-054429` con 6 899 documentos.
-- **Fecha:** 2026-10-18 22:51–22:53 UTC (revisión 2, con el árbol de `630d90a`).
-- **Pendiente:** `763f71e` (S-18, `CsvColumnRows`, `CsvValues` y su prueba) es posterior a esa corrida y no
-  tiene un `verify` completo registrado. La revisión 3 no pudo compilar. El primer paso de la revisión 3
-  vuelve a correr `./mvnw verify` y `-Pit` en `main`.
-- **Corrida anterior:** 2026-10-18 19:05–19:07 UTC, bugs B-01 a B-05: 193 unitarias y 27 de integración,
-  0 fallos.
+- **Comando:** `./mvnw verify -Pit` (con `.env`) y pruebas de navegador (`npm test` en
+  `elastiflix-web/src/test/browser`, con la aplicación en el puerto 8089)
+- **Resultado:** BUILD SUCCESS en 1 min 28 s: 514 unitarias (core 68, search 71, ingest 189, web 186) y 30 de
+  integración (core 10, search 14, ingest 2, web 4), 0 fallos, 0 omitidas; Checkstyle y PMD en 0. Navegador 11
+  de 11.
+- **Fecha:** 2026-10-21 18:32–18:34 UTC (revisión 4, rama `revision-4`, árbol de `a26826e`).
+- **Nota:** la tabla vectorial de §6 se volvió a medir ese día (Life of Pi pasó a 31.º · 7.º · 5.º); sin ese
+  cambio, `VectorSearchIT` fallaba en `main`.
