@@ -1546,7 +1546,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - [x] **11.0** Diseño técnico en `docs/diseno/11.md`: índice, `CatalogFields` por grupos y prueba contra el mapping.
   - [x] **11.1** Índice de «Acerca de»: lateral fijo con la sección visible marcada (`about.js`), plegable en pantallas angostas, en español e inglés. Pruebas MockMvc y de navegador.
   - [x] **11.2** Catálogo completo: `CatalogFields` con todos los campos y subcampos del mapping en cinco grupos, textos en español e inglés y una prueba que compara las filas con `elasticsearch/elastiflix-reloaded-mapping.json`.
-  - [ ] **11.3** Mockups `About.dc.html` y `About-en.dc.html`, capturas de «Acerca de», README, verificación de fase (`./mvnw clean verify`, navegador), `progreso/11.md` e `INDICE.md`.
+  - [x] **11.3** Mockups `About.dc.html` y `About-en.dc.html`, capturas de «Acerca de», README, verificación de fase (`./mvnw clean verify`, navegador), `progreso/11.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 
