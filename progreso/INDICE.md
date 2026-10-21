@@ -12,9 +12,9 @@
 - **Ramas:** `fase-10-modos` (sale de `main`, `643f58b`)
 - **Diseño:** [`docs/diseno/10.md`](../docs/diseno/10.md)
 - **Estado:** [`progreso/10.md`](10.md)
-- **Tarea actual:** 10.1 Modo en el trabajo y bulk solo con el archivo
-- **Próximo paso:** agregar `ImportMode` y quitar la copia del catálogo de `ImportJob` según `docs/diseno/10.md` (tarea 10.1).
-- **Última actualización:** 2026-10-21 21:16 UTC
+- **Tarea actual:** 10.2 Append por el alias
+- **Próximo paso:** agregar `CatalogIndex.appendAll` (`require_alias=true`, aceptados y rechazados), `AppendJob`, `EFX-IMP-008` y `009`, el estado `agregado` e `ImportRunner` por modo, y reescribir `IngestIT` con los dos modos.
+- **Última actualización:** 2026-10-21 21:34 UTC
 
 ## Fases
 

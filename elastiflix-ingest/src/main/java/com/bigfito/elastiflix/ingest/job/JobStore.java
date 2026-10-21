@@ -55,12 +55,13 @@ public final class JobStore {
      * @param fileName nombre original
      * @param path     archivo local
      * @param settings ajustes del CSV
+     * @param mode     append o bulk
      * @return identificador nuevo
      */
-    public String open(String fileName, Path path, CsvSettings settings) {
+    public String open(String fileName, Path path, CsvSettings settings, ImportMode mode) {
         evict();
         String id = UUID.randomUUID().toString();
-        ImportWork work = new ImportWork(id, fileName, path, settings, sizeOf(path));
+        ImportWork work = new ImportWork(id, new JobFile(fileName, path, sizeOf(path)), settings, mode);
         activity.put(id, clock.instant());
         jobs.put(id, work);
         LOG.debug("Llegó el archivo {}", fileName);

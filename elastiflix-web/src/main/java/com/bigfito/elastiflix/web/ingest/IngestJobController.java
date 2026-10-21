@@ -9,6 +9,7 @@ import java.util.Map;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
+import com.bigfito.elastiflix.ingest.job.ImportMode;
 import com.bigfito.elastiflix.ingest.file.CheckedFile;
 import com.bigfito.elastiflix.ingest.file.FileKind;
 import com.bigfito.elastiflix.ingest.job.JobView;
@@ -187,7 +188,7 @@ public class IngestJobController {
     private String start(MultipartFile file, Path temp, CsvSettings settings) {
         boolean handedOver = false;
         try {
-            String jobId = ingest.acceptFile(file.getOriginalFilename(), temp, settings);
+            String jobId = ingest.acceptFile(file.getOriginalFilename(), temp, settings, ImportMode.BULK);
             handedOver = true;
             return jobId;
         } finally {

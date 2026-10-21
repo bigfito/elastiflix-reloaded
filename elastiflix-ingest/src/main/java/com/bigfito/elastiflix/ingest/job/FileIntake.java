@@ -136,11 +136,15 @@ public final class FileIntake {
         if (store.stopIfCancelled(work)) {
             return;
         }
-        store.ready(jobId, new ValidatedMovies(movies, report, replacements(movies)));
+        int replaced = work.mode() == ImportMode.BULK
+                ? Math.toIntExact(catalog.count(properties.index().alias()))
+                : replacements(movies);
+        store.ready(jobId, new ValidatedMovies(movies, report, replaced));
     }
 
     /**
-     * Cuántos ids del archivo ya están en el catálogo. Se pregunta solo con el archivo ya válido: con
+     * Append: cuántos ids del archivo ya están en el catálogo. En bulk se reemplaza el catálogo entero, así que se
+     * cuentan sus documentos. Se pregunta solo con el archivo ya válido: con
      * Elasticsearch caído, un archivo con errores igual muestra sus errores. Los ids no se repiten, porque
      * un id repetido es un error.
      */

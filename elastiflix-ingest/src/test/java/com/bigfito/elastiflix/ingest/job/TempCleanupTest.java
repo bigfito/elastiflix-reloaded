@@ -135,8 +135,7 @@ class TempCleanupTest {
         aliasOnLive(List.of(ORPHAN, OTHER_ORPHAN));
         doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE))
                 .when(catalog).deleteIndex(ORPHAN);
-        when(catalog.count(temp)).thenReturn(4L, 5L);
-        when(catalog.count(LIVE)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(1L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
 
         // when

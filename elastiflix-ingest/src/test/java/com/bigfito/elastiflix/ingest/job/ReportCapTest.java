@@ -40,7 +40,7 @@ class ReportCapTest {
     @DisplayName("con más errores que el tope, guarda los primeros y la página conserva el total real")
     void shouldKeepTheFirstErrorsAndTheRealTotalWhenTheReportPassesTheCap() throws Exception {
         // given
-        String jobId = store.open("peliculas.csv", upload(), CsvSettings.withHeader());
+        String jobId = store.open("peliculas.csv", upload(), CsvSettings.withHeader(), ImportMode.BULK);
         ValidationReport full = new ValidationReport(oneErrorAndOneWarningPerRow(CAP + EXTRA));
 
         // when
@@ -62,7 +62,7 @@ class ReportCapTest {
     @DisplayName("por debajo del tope, el informe descargable trae todos los errores")
     void shouldKeepEveryErrorWhenTheReportIsBelowTheCap() throws Exception {
         // given
-        String jobId = store.open("peliculas.csv", upload(), CsvSettings.withHeader());
+        String jobId = store.open("peliculas.csv", upload(), CsvSettings.withHeader(), ImportMode.BULK);
 
         // when
         store.invalid(jobId, new ValidationReport(oneErrorAndOneWarningPerRow(3)), JobSteps.VALIDATION);
@@ -77,7 +77,7 @@ class ReportCapTest {
     @DisplayName("un trabajo valido no guarda sus advertencias sueltas, solo agrupadas")
     void shouldKeepOnlyGroupedWarningsWhenTheFileIsValid() throws Exception {
         // given
-        String jobId = store.open("peliculas.json", upload(), CsvSettings.withHeader());
+        String jobId = store.open("peliculas.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
         List<ValidationIssue> warnings = new ArrayList<>();
         for (int row = 1; row <= 50; row++) {
             warnings.add(warning(Integer.toString(row)));

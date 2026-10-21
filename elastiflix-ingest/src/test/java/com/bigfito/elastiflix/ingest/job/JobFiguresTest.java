@@ -35,7 +35,7 @@ class JobFiguresTest {
     void shouldCountValidRecordsWhenSomeHaveErrors() throws Exception {
         // given
         JobStore store = store(100);
-        String jobId = store.open("peliculas-nuevas.csv", file(), CsvSettings.withHeader());
+        String jobId = store.open("peliculas-nuevas.csv", file(), CsvSettings.withHeader(), ImportMode.BULK);
         store.fileRead(jobId, 512, List.of());
 
         // when
@@ -57,7 +57,7 @@ class JobFiguresTest {
     void shouldReuseTheReportFiguresWhenThePagePolls() throws Exception {
         // given
         JobStore store = store(100);
-        String jobId = store.open("peliculas-nuevas.csv", file(), CsvSettings.withHeader());
+        String jobId = store.open("peliculas-nuevas.csv", file(), CsvSettings.withHeader(), ImportMode.BULK);
         store.invalid(jobId, new ValidationReport(errorsInRecords(23, 17)), 3);
 
         // when
@@ -84,7 +84,7 @@ class JobFiguresTest {
     @DisplayName("los lotes siguen elastiflix.ingest.batch-size")
     void shouldUseTheConfiguredBatchSize() throws Exception {
         JobStore store = store(50);
-        String jobId = store.open("a.json", file(), CsvSettings.withHeader());
+        String jobId = store.open("a.json", file(), CsvSettings.withHeader(), ImportMode.BULK);
         store.fileRead(jobId, 4322, List.of());
 
         assertThat(store.view(jobId).batchSize()).isEqualTo(50);
@@ -105,7 +105,7 @@ class JobFiguresTest {
     void shouldShowNoChecksWhenTheJobIsStillValidating() throws Exception {
         // given
         JobStore store = store(100);
-        String jobId = store.open("a.json", file(), CsvSettings.withHeader());
+        String jobId = store.open("a.json", file(), CsvSettings.withHeader(), ImportMode.BULK);
         store.require(jobId).validating();
 
         // when
@@ -123,7 +123,7 @@ class JobFiguresTest {
     void shouldShowNoChecksWhenTheJobFailed() throws Exception {
         // given
         JobStore store = store(100);
-        String jobId = store.open("a.json", file(), CsvSettings.withHeader());
+        String jobId = store.open("a.json", file(), CsvSettings.withHeader(), ImportMode.BULK);
         store.require(jobId).validating();
         store.fileRead(jobId, 4322, List.of());
 
@@ -142,7 +142,7 @@ class JobFiguresTest {
     void shouldShowBothChecksWhenTheJobIsValid() throws Exception {
         // given
         JobStore store = store(100);
-        String jobId = store.open("a.json", file(), CsvSettings.withHeader());
+        String jobId = store.open("a.json", file(), CsvSettings.withHeader(), ImportMode.BULK);
         Movie movie = MovieJsonMapper.create().readValue("{\"id\":\"1\",\"title\":\"T\",\"plot\":\"p\"}", Movie.class);
 
         // when

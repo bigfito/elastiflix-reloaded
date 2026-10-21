@@ -231,7 +231,7 @@ class IngestPageTest {
     @DisplayName("validar, consultar, importar y cancelar usan el trabajo simulado")
     void shouldRunTheJobFlow() throws Exception {
         // La fachada simulada no se queda con el temporal: lo borra como lo haría el trabajo real.
-        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenAnswer(call -> {
+        when(ingest.acceptFile(eq("peliculas.json"), any(), any(), any())).thenAnswer(call -> {
             Files.deleteIfExists(call.getArgument(1, Path.class));
             return JOB;
         });
@@ -266,7 +266,7 @@ class IngestPageTest {
         mvc.perform(multipart("/cargar/archivo").file(file).param("encabezado", "false"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("EFX-ING-005"));
-        verify(ingest, never()).acceptFile(anyString(), any(), any());
+        verify(ingest, never()).acceptFile(anyString(), any(), any(), any());
     }
 
     @Test
@@ -384,7 +384,7 @@ class IngestPageTest {
     }
 
     private static JobView withWarnings(List<WarningCount> warnings) {
-        return new JobView(JOB, "valido", "json", MEGABYTE, 4, 0, 0, 0, 4322, 4322, 0, 0, 0,
+        return new JobView(JOB, "valido", "json", "append", MEGABYTE, 4, 0, 0, 0, 4322, 4322, 0, 0, 0,
                 List.of(), warnings, List.of(), List.of(), "", "", 100, 44, "");
     }
 
@@ -410,7 +410,7 @@ class IngestPageTest {
             List<ValidationIssue> errors, List<CsvColumnRow> columns, String failureCode, String failureMessage) {
         long size = "csv".equals(kind) ? Math.round(12.4 * MEGABYTE) : Math.round(107.3 * MEGABYTE);
         int batches = (read + 99) / 100;
-        return new JobView(JOB, status, kind, size, "valido".equals(status) ? 4 : 3, 0, 0, 0,
+        return new JobView(JOB, status, kind, "append", size, "valido".equals(status) ? 4 : 3, 0, 0, 0,
                 read, read - invalidRecords, invalidRecords, 0, errorTotal, errors, List.of(), List.of(), columns,
                 failureCode, failureMessage, 100, batches, "");
     }

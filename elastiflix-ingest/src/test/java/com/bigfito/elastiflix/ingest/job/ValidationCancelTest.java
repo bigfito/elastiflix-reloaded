@@ -96,6 +96,6 @@ class ValidationCancelTest {
 
     private String upload() throws Exception {
         Path file = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n2,B,q\n");
-        return store.open("peliculas.csv", file, CsvSettings.withHeader());
+        return store.open("peliculas.csv", file, CsvSettings.withHeader(), ImportMode.BULK);
     }
 }

@@ -18,11 +18,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Copia el catálogo, escribe los lotes y publica.
+ * Modo bulk: escribe las películas del archivo en un índice temporal y publica.
  *
- * <p>Si algo falla antes de publicar, borra el temporal. Si {@code publish} falla, primero lee el
- * alias: solo borra el temporal cuando Elasticsearch rechazó la publicación con un 4xx y el alias sigue
- * en el índice anterior.</p>
+ * <p>El temporal tiene solo las películas del archivo: el catálogo actual no se copia (Requerimiento 4), así que
+ * al publicar el catálogo queda con ellas. Si algo falla antes de publicar, borra el temporal. Si {@code publish}
+ * falla, primero lee el alias: solo borra el temporal cuando Elasticsearch rechazó la publicación con un 4xx y el
+ * alias sigue en el índice anterior.</p>
  */
 @Component
 public final class ImportJob {
@@ -68,7 +69,7 @@ public final class ImportJob {
      * @param source    películas ya validadas, por lotes
      * @param counts    registros del archivo y tamaño de lote
      * @param listener  progreso de los pasos 4 y 5
-     * @param cancelled se consulta antes de copiar, de cada lote y de publicar
+     * @param cancelled se consulta antes de crear el temporal, de cada lote y de publicar
      */
     public void run(
             String alias,
@@ -77,7 +78,7 @@ public final class ImportJob {
             ImportListener listener,
             BooleanSupplier cancelled) {
         ensureRunning(cancelled);
-        CatalogName.Alias found = requireAlias(alias);
+        CatalogName.Alias found = CatalogAliases.require(catalog, alias);
         cleaner.clean(catalog, alias, found.concreteIndex());
         String temp = names.timestamped(alias, clock);
         createTemp(temp);
@@ -86,7 +87,7 @@ public final class ImportJob {
     }
 
     /**
-     * Copia, escribe y publica. El {@code finally} borra el temporal solo si nunca llegó a ser el índice
+     * Escribe y publica. El {@code finally} borra el temporal solo si nunca llegó a ser el índice
      * vigente: antes de {@code _aliases} siempre, y después solo si Elasticsearch rechazó la publicación con
      * un 4xx y {@code describe} confirmó el índice anterior. Así ni una falla del aviso de progreso ni una
      * excepción inesperada pueden borrar el catálogo publicado.
@@ -97,9 +98,8 @@ public final class ImportJob {
         long expected;
         try {
             context.listener().onProgress(new ImportProgress(JobSteps.IMPORT, 0, 0, 0, context.temp()));
-            long copied = copy(context);
             totals = writeBatches(context);
-            expected = verifiedCount(context, copied, totals);
+            expected = verifiedCount(context, totals);
             ensureRunning(context.cancelled());
             deleteTemp = false;
             swap(context);
@@ -132,43 +132,17 @@ public final class ImportJob {
         }
     }
 
-    private CatalogName.Alias requireAlias(String alias) {
-        CatalogName described = catalog.describe(alias);
-        if (described instanceof CatalogName.Alias found) {
-            return found;
-        }
-        throw rejection(described);
-    }
-
-    private static ElastiflixException rejection(CatalogName described) {
-        if (described instanceof CatalogName.Missing) {
-            return new ElasticsearchAccessException(ErrorCode.CATALOG_NOT_FOUND);
-        }
-        if (described instanceof CatalogName.Ambiguous) {
-            return new ElasticsearchAccessException(ErrorCode.ALIAS_AMBIGUOUS);
-        }
-        return new ImportException(ErrorCode.CATALOG_NOT_ALIAS);
-    }
-
-    private long copy(ImportContext context) {
-        ensureRunning(context.cancelled());
-        catalog.reindex(context.previous(), context.temp(), context.cancelled());
-        ensureRunning(context.cancelled());
-        catalog.refresh(context.temp());
-        long copied = catalog.count(context.temp());
-        if (copied != catalog.count(context.previous())) {
-            throw new ElasticsearchAccessException(ErrorCode.REINDEX_COUNT_MISMATCH);
-        }
-        return copied;
-    }
-
     private WriteTotals writeBatches(ImportContext context) {
         return new BatchWriter(catalog, vectorizer).write(context);
     }
 
-    private long verifiedCount(ImportContext context, long copied, WriteTotals totals) {
+    /**
+     * El temporal empieza vacío: debe tener las películas del archivo. {@code replaced} cuenta los ids que ya
+     * estaban en el temporal al escribir un lote; como la validación rechaza un id repetido, en la práctica es 0.
+     */
+    private long verifiedCount(ImportContext context, WriteTotals totals) {
         catalog.refresh(context.temp());
-        long expected = copied + context.counts().fileCount() - totals.replaced();
+        long expected = (long) context.counts().fileCount() - totals.replaced();
         if (catalog.count(context.temp()) != expected) {
             throw new ImportException(ErrorCode.IMPORT_COUNT_MISMATCH);
         }

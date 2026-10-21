@@ -105,8 +105,7 @@ class ImportRunnerTest {
         String temp = new IndexNames().timestamped(alias, clock);
         CatalogIndex catalog = mock(CatalogIndex.class);
         when(catalog.describe(alias)).thenReturn(new CatalogName.Alias(alias, live));
-        when(catalog.count(temp)).thenReturn(4L, 5L);
-        when(catalog.count(live)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(1L);
         EmbeddingService embeddings = mock(EmbeddingService.class);
         float[] vector = new float[1024];
         vector[0] = 1f;
@@ -135,7 +134,7 @@ class ImportRunnerTest {
 
     private String importing(JobStore store) throws Exception {
         String jobId = store.open("a.json", Files.writeString(folder.resolve("a.json"), "[]"),
-                CsvSettings.withHeader());
+                CsvSettings.withHeader(), ImportMode.BULK);
         Movie movie = MovieJsonMapper.create().readValue("{\"id\":\"1\",\"title\":\"T\",\"plot\":\"p\"}", Movie.class);
         store.ready(jobId, new ValidatedMovies(List.of(movie), ValidationReport.empty(), 0));
         assertThat(store.beginImport(jobId)).isTrue();

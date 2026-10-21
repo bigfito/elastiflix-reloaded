@@ -41,7 +41,7 @@ class JobThreadFailureTest {
     @DisplayName("si la lectura truena, el trabajo queda fallido con EFX-IMP-007")
     void shouldFailTheJobWhenValidationThrows() throws Exception {
         JobStore store = newStore();
-        String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader());
+        String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader(), ImportMode.BULK);
         FileGate gate = mock(FileGate.class);
         doThrow(new IllegalStateException("lectura")).when(gate).open(any());
         FileIntake intake = new FileIntake(gate, new MappingValidator(), mock(CatalogIndex.class), null, store);
@@ -56,7 +56,7 @@ class JobThreadFailureTest {
     @DisplayName("si la importación truena, el trabajo no se queda importando")
     void shouldFailTheJobWhenImportThrows() throws Exception {
         JobStore store = newStore();
-        String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader());
+        String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader(), ImportMode.BULK);
         store.require(jobId).ready(new ValidatedMovies(List.of(), new ValidationReport(List.of()), 0));
         store.beginImport(jobId);
         ImportJob job = mock(ImportJob.class);
@@ -73,7 +73,7 @@ class JobThreadFailureTest {
     @DisplayName("al cerrar el trabajo se sueltan las películas")
     void shouldReleaseMoviesWhenTheJobEnds() throws Exception {
         JobStore store = newStore();
-        String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader());
+        String jobId = store.open("peliculas.json", temp(), CsvSettings.withHeader(), ImportMode.BULK);
         ValidatedMovies checked = new MappingValidator().validate(
                 new JsonDocuments().read(Path.of("..", "elasticsearch", "fixtures", "movies-sample.json")).documents(),
                 Set.of());
@@ -89,8 +89,8 @@ class JobThreadFailureTest {
     @DisplayName("el avance de un trabajo no se anota en otro")
     void shouldKeepProgressOnTheJobThatMoved() throws Exception {
         JobStore store = newStore();
-        String first = store.open("a.json", temp(), CsvSettings.withHeader());
-        String second = store.open("b.json", temp(), CsvSettings.withHeader());
+        String first = store.open("a.json", temp(), CsvSettings.withHeader(), ImportMode.BULK);
+        String second = store.open("b.json", temp(), CsvSettings.withHeader(), ImportMode.BULK);
         store.onProgress(first, new ImportProgress(4, 1, 3, 3, "temporal"));
 
         assertThat(store.view(first).written()).isEqualTo(3);

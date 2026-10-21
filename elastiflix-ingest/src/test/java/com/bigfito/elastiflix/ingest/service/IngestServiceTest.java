@@ -14,6 +14,7 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
+import com.bigfito.elastiflix.ingest.job.ImportMode;
 import com.bigfito.elastiflix.ingest.job.FileGate;
 import com.bigfito.elastiflix.ingest.job.FileIntake;
 import com.bigfito.elastiflix.ingest.job.ImportJob;
@@ -77,7 +78,7 @@ class IngestServiceTest {
 
         // when: el estado pasa a invalido un instante antes de que se borre el archivo, así que se esperan
         // las dos cosas
-        String jobId = service.acceptFile("peliculas.txt", path, CsvSettings.withHeader());
+        String jobId = service.acceptFile("peliculas.txt", path, CsvSettings.withHeader(), ImportMode.BULK);
         JobView view = waitUntilSettled(service, jobId, path);
 
         // then

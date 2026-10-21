@@ -223,7 +223,7 @@ class IngestIT {
     }
 
     private String accept(String name, Path file) {
-        String jobId = service.acceptFile(name, file, CsvSettings.withHeader());
+        String jobId = service.acceptFile(name, file, CsvSettings.withHeader(), ImportMode.BULK);
         jobIds.add(jobId);
         return jobId;
     }

@@ -7,6 +7,7 @@ import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
 import com.bigfito.elastiflix.ingest.job.FileIntake;
+import com.bigfito.elastiflix.ingest.job.ImportMode;
 import com.bigfito.elastiflix.ingest.job.ImportRunner;
 import com.bigfito.elastiflix.ingest.job.IndividualRecord;
 import com.bigfito.elastiflix.ingest.job.JobStore;
@@ -56,10 +57,11 @@ public final class IngestService {
      * @param fileName nombre original, sin la ruta temporal
      * @param path     archivo ya copiado al disco local
      * @param settings separador y encabezado; en JSON se ignoran
+     * @param mode     append (agrega al catálogo) o bulk (lo reemplaza)
      * @return identificador del trabajo
      */
-    public String acceptFile(String fileName, Path path, CsvSettings settings) {
-        String jobId = store.open(fileName, path, settings);
+    public String acceptFile(String fileName, Path path, CsvSettings settings, ImportMode mode) {
+        String jobId = store.open(fileName, path, settings, mode);
         JobThreads.start("ingest-validate-" + jobId, () -> intake.validate(jobId));
         return jobId;
     }

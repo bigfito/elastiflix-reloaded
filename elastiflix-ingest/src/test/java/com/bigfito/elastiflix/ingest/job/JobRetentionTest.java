@@ -42,7 +42,7 @@ class JobRetentionTest {
     void shouldReleaseMoviesAfterAFinalState() throws Exception {
         // given
         Path file = upload();
-        String jobId = store.open("a.json", file, CsvSettings.withHeader());
+        String jobId = store.open("a.json", file, CsvSettings.withHeader(), ImportMode.BULK);
         store.ready(jobId, validated());
         assertThat(store.require(jobId).movies()).hasSize(1);
 
@@ -61,14 +61,14 @@ class JobRetentionTest {
         // given
         List<String> ids = new ArrayList<>();
         for (int index = 0; index < 22; index++) {
-            String jobId = store.open("a.json", upload(), CsvSettings.withHeader());
+            String jobId = store.open("a.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
             store.invalid(jobId, ValidationReport.empty(), 3);
             ids.add(jobId);
             clock.advance(Duration.ofSeconds(1));
         }
 
         // when
-        store.open("b.json", upload(), CsvSettings.withHeader());
+        store.open("b.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
 
         // then
         assertUnknown(ids.get(0));
@@ -81,17 +81,17 @@ class JobRetentionTest {
     @DisplayName("un trabajo importando no se expulsa ni vence, aunque sea el más viejo")
     void shouldNeverEvictAnImportingJob() throws Exception {
         // given
-        String importing = store.open("a.json", upload(), CsvSettings.withHeader());
+        String importing = store.open("a.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
         store.ready(importing, validated());
         assertThat(store.beginImport(importing)).isTrue();
         clock.advance(Duration.ofHours(2));
         for (int index = 0; index < 25; index++) {
-            String jobId = store.open("b.json", upload(), CsvSettings.withHeader());
+            String jobId = store.open("b.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
             store.invalid(jobId, ValidationReport.empty(), 3);
         }
 
         // when
-        store.open("c.json", upload(), CsvSettings.withHeader());
+        store.open("c.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
 
         // then
         assertThat(store.view(importing).status()).isEqualTo("importando");
@@ -102,12 +102,12 @@ class JobRetentionTest {
     @DisplayName("un trabajo valido sin actividad vence: queda cancelado y suelta las películas")
     void shouldExpireAnIdleValidJob() throws Exception {
         // given
-        String jobId = store.open("a.json", upload(), CsvSettings.withHeader());
+        String jobId = store.open("a.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
         store.ready(jobId, validated());
         clock.advance(JobRetention.IDLE_VALID.plusMinutes(1));
 
         // when
-        store.open("b.json", upload(), CsvSettings.withHeader());
+        store.open("b.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
 
         // then
         assertThat(store.view(jobId).status()).isEqualTo("cancelado");
@@ -118,9 +118,9 @@ class JobRetentionTest {
     @DisplayName("un valido vence también cuando la página consulta otro trabajo, sin otra subida")
     void shouldExpireAnIdleValidJobWhenAnotherJobIsViewed() throws Exception {
         // given
-        String idle = store.open("a.json", upload(), CsvSettings.withHeader());
+        String idle = store.open("a.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
         store.ready(idle, validated());
-        String other = store.open("b.json", upload(), CsvSettings.withHeader());
+        String other = store.open("b.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
         clock.advance(JobRetention.IDLE_VALID.plusMinutes(1));
 
         // when
@@ -135,7 +135,7 @@ class JobRetentionTest {
     @DisplayName("un valido vencido ya no se importa")
     void shouldNotImportAnExpiredValidJob() throws Exception {
         // given
-        String jobId = store.open("a.json", upload(), CsvSettings.withHeader());
+        String jobId = store.open("a.json", upload(), CsvSettings.withHeader(), ImportMode.BULK);
         store.ready(jobId, validated());
         clock.advance(JobRetention.IDLE_VALID.plusMinutes(1));
 

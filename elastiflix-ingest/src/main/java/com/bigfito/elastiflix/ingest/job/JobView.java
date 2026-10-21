@@ -12,6 +12,7 @@ import com.bigfito.elastiflix.ingest.mapping.WarningCount;
  * @param id             identificador del trabajo
  * @param status         uno de los ocho estados, en español
  * @param kind           {@code json} o {@code csv}, según la extensión del archivo
+ * @param mode           {@code append} o {@code bulk}, fijo desde la subida
  * @param fileSize       bytes del archivo subido
  * @param step           paso del mockup, del 1 al 5; empieza en 1 al recibir el archivo
  * @param batch          número del lote en curso, desde 1, ya vectorizado y quizá todavía sin escribir; 0 antes
@@ -21,7 +22,8 @@ import com.bigfito.elastiflix.ingest.mapping.WarningCount;
  * @param fileCount      registros (JSON) o filas (CSV) leídos, también si el archivo es inválido
  * @param validCount     {@code fileCount} menos los registros con al menos un error
  * @param invalidRecords registros distintos con al menos un error
- * @param replaceCount   ids del archivo que ya están en el catálogo; no cambia durante la importación
+ * @param replaceCount   lo que la carga reemplaza, contado al validar: en append, ids del archivo que ya están en el
+ *                       catálogo; en bulk, todos los documentos del catálogo. No cambia durante la importación
  * @param errorTotal     errores del informe entero, no solo los seis que se muestran ni los que se guardan
  * @param errors         como mucho los primeros 6 errores
  * @param warnings       advertencias agrupadas por código y campo
@@ -37,6 +39,7 @@ public record JobView(
         String id,
         String status,
         String kind,
+        String mode,
         long fileSize,
         int step,
         int batch,
