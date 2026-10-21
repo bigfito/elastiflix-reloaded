@@ -64,7 +64,8 @@ public class MovieDetailPage {
                 m.id(), text(m.title()), text(m.originalTitle()), text(m.tagline()),
                 text(m.overview()), text(m.plot()), posters.url(m.posterPath()), posters.url(m.backdropPath()),
                 MovieDetailTables.voteAverage(m.voteAverage()), MovieDetailTables.voteCount(m.voteCount(), locale),
-                MovieDetailTables.popularity(m.popularity()), imdb(m.imdbId()), homepage, !homepage.isBlank(),
+                MovieDetailTables.popularity(m.popularity()), ExternalLinks.imdb(m.imdbId()), homepage,
+                !homepage.isBlank(),
                 MovieDetailBadges.pills(m), MovieDetailBadges.genres(m.genres()),
                 MovieDetailTables.facts(m, locale, messages),
                 MovieDetailTables.production(m, locale, messages),
@@ -84,12 +85,5 @@ public class MovieDetailPage {
 
     private static String collectionName(MovieCollection coll) {
         return coll != null && coll.name() != null ? coll.name() : "";
-    }
-
-    private static String imdb(String imdbId) {
-        if (imdbId == null || imdbId.isBlank()) {
-            return "";
-        }
-        return "https://www.imdb.com/title/" + imdbId + "/";
     }
 }

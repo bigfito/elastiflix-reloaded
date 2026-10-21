@@ -37,8 +37,7 @@ final class MovieDetailTables {
      * @return filas de la ficha técnica
      */
     static List<FactRow> facts(Movie m, Locale locale, UiMessages messages) {
-        String imdbHref = m.imdbId() != null && !m.imdbId().isBlank()
-                ? "https://www.imdb.com/title/" + m.imdbId() + "/" : "";
+        String imdbHref = ExternalLinks.imdb(m.imdbId());
         String runtimeStr = m.runtime() != null ? m.runtime() + " min" : null;
         String releaseDateStr = m.releaseDate() != null ? m.releaseDate().toString() : null;
         String yesText = msg(messages, locale, "detail.fact.yes", "Sí");
