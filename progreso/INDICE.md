@@ -12,9 +12,9 @@
 - **Ramas:** `fase-10-modos` (sale de `main`, `643f58b`)
 - **Diseño:** [`docs/diseno/10.md`](../docs/diseno/10.md)
 - **Estado:** [`progreso/10.md`](10.md)
-- **Tarea actual:** 10.4 Acerca de con los dos modos
-- **Próximo paso:** cambiar «Acerca de» › «Carga de datos» a los textos del mockup (entrada, «Modo append (por defecto)», «Modo bulk», «Publicación (bulk)», «Si falla (bulk)») en español e inglés, con sus pruebas MockMvc.
-- **Última actualización:** 2026-10-21 21:55 UTC
+- **Tarea actual:** 10.5 Verificación de fase y documentación
+- **Próximo paso:** correr `./mvnw clean verify -Pit` y las pruebas de navegador, y actualizar `AGENTS.md`, `CLAUDE.md`, README, PLAN §1, §2 y §5, `docs/diseno/3.md` y el cierre de `progreso/10.md` e `INDICE.md`.
+- **Última actualización:** 2026-10-21 21:57 UTC
 
 ## Fases
 

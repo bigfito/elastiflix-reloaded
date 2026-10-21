@@ -1527,7 +1527,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - [x] **10.1** Modo en el trabajo (`ImportMode` de `JobStore.open` a `JobView`; en bulk `replaceCount` es el conteo del catálogo) y bulk solo con el archivo: `ImportJob` sin `_reindex`, conteo contra las películas del archivo; rollback, `describe` y huérfanos sin cambios. Pruebas unitarias.
   - [x] **10.2** Append: `CatalogIndex.appendAll` (`require_alias=true`, aceptados y rechazados por ítem), `AppendJob` (alias de un solo índice, lotes de 100, reemplazos, `refresh`, cancelación entre lotes, `EFX-IMP-008` y `EFX-IMP-009`), `ImportRunner` por modo y estado `agregado`. Pruebas unitarias e `IngestIT` de los dos modos sobre un alias propio.
   - [x] **10.3** Web: `POST /cargar/archivo` con `modo`; tarjeta «Modo de carga» con el aviso de bulk; pasos, cajas, textos y botón de cada modo en español e inglés; `ingest.js` con el modo, `?job=` y `agregado`. Pruebas MockMvc y de navegador.
-  - [ ] **10.4** «Acerca de» › «Carga de datos» con los dos modos, en español e inglés, y sus pruebas.
+  - [x] **10.4** «Acerca de» › «Carga de datos» con los dos modos, en español e inglés, y sus pruebas.
   - [ ] **10.5** Verificación de fase (`./mvnw clean verify`, `-Pit`, navegador) y documentación: `AGENTS.md`, `CLAUDE.md`, README, PLAN §1, §2 y §5, `docs/diseno/3.md`, `progreso/10.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
