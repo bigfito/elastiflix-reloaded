@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** 11 — Índice y catálogo completo en «Acerca de» (Requerimiento 5)
-- **Estado de la fase:** terminada en la rama `fase-11-acerca`; falta el PR hacia `main`
-- **Ramas:** `fase-11-acerca` (sale de `main`, `5a1d82f`)
+- **Estado de la fase:** terminada y fusionada en `main` (PR #29, `b8b5292`)
+- **Ramas:** `main` (la rama `fase-11-acerca` se borró tras la fusión)
 - **Diseño:** [`docs/diseno/11.md`](../docs/diseno/11.md)
 - **Estado:** [`progreso/11.md`](11.md)
-- **Tarea actual:** ninguna; la fase espera el PR
-- **Próximo paso:** abrir el PR de `fase-11-acerca` hacia `main`; las capturas nuevas de «Acerca de» y los mockups esperan la aprobación de Adolfo.
-- **Última actualización:** 2026-10-21 22:42 UTC
+- **Tarea actual:** ninguna
+- **Próximo paso:** ninguno pendiente: los requerimientos 1 a 5 de PLAN están en `main` y las capturas, al día y aprobadas.
+- **Última actualización:** 2026-10-21 22:45 UTC
 
 ## Fases
 
@@ -37,7 +37,7 @@
 | — | Revisión 4 | — | terminada | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38), toda resuelta. PR #25 (merge `b54d67c`) y PR #26 (merge `c9be924`) fusionados en `main`; ramas y worktrees de los carriles borrados. `./mvnw verify -Pit` en verde (635 + 32) y navegador 15 de 15, el 2026-10-21. Adolfo aprobó las capturas, el estado de error del mockup del detalle, el patrón ViewModel del diseño 7 y la dependencia opcional `spring-boot-web-server` en core. |
 | 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | terminado | `progreso/9.md` | `./mvnw clean verify -Pit` en verde (637 unitarias: core 78, search 76, ingest 215, web 268; 32 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 19 de 19, el 2026-10-21. Fusionada en `main` (`1047a65`, PR #27); rama `fase-9-25mb` borrada en local y en el remoto. |
 | 10 | Carga en modo append o bulk (Requerimiento 4) | — | terminado | `progreso/10.md` | `./mvnw clean verify -Pit` en verde (670 unitarias: core 80, search 76, ingest 236, web 278; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 24 de 24, el 2026-10-21. Fusionada en `main` (`520768a`, PR #28); rama `fase-10-modos` borrada en local y en el remoto. |
-| 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | terminado en la rama `fase-11-acerca` | `progreso/11.md` | `./mvnw clean verify -Pit` en verde (677 unitarias: core 80, search 76, ingest 236, web 285; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-21. Falta el PR hacia `main`. |
+| 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | terminado | `progreso/11.md` | `./mvnw clean verify -Pit` en verde (677 unitarias: core 80, search 76, ingest 236, web 285; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-21. Fusionada en `main` (`b8b5292`, PR #29); rama `fase-11-acerca` borrada en local y en el remoto. |
 
 ## Aprobaciones del usuario
 
@@ -103,6 +103,7 @@
 | 2026-10-21 | Capturas nuevas de «Acerca de» aprobadas | Adolfo respondió «Apruebo las 2 capturas nuevas de «Acerca de».» Son `docs/capturas/acerca.png` y `acerca-en.png` (`4823a0b`). |
 | 2026-10-21 | Cambio del mockup aprobado: «El catálogo» con los dos modos | Adolfo pidió «Sí, corrige la frase de «El catálogo» en «Acerca de» y en los dos mockups para que valga también en append.» En `About.dc.html`, `About-en.dc.html` y la página, la frase dice ahora que las búsquedas siempre leen el catálogo publicado, que bulk se publica de una sola vez o se descarta y que append se suma lote por lote. Las capturas de «Acerca de» se reemplazaron por las mismas con esa frase. |
 | 2026-10-21 | Requerimiento 5: índice y catálogo completo en «Acerca de» (Fase 11) | Adolfo pidió «Me gustaría que la página de "Acerca de" tuviera un índice que facilitara la navegación y desplazamiento por la página. Adicionalmente, la sección que hace mención al catálogo siento que esta incompleta. Debería tener una descripción completa del catálogo con todos los atributos que lo componen.» Eligió el índice lateral fijo, el catálogo en tablas por grupo con todos los atributos e implementar directo, sin mockups previos (los mockups se actualizan al final). Rama `fase-11-acerca`. |
+| 2026-10-21 | Cierre y fusión de la Fase 11 (Requerimiento 5) | Adolfo respondió «Apruebo las capturas y los mockups nuevos de «Acerca de»; fusiona el PR #29 en main, deja local y remoto al día y borra la rama.» Aprobó las capturas nuevas de «Acerca de» y los mockups `About.dc.html` y `About-en.dc.html`. PR #29 fusionado con el merge commit `b8b5292` a las 22:44 UTC; la rama `fase-11-acerca` se borró en local y en el remoto. |
 
 
 ## Catálogo vigente

@@ -1541,8 +1541,8 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - **Catálogo en tablas por grupo:** todos los atributos del mapping, con los subcampos de los objetos anidados,
     agrupados como en el formulario de «Cargar datos»; cada fila con campo, tipo, contenido y uso en la demo.
   - **Implementar directo:** sin mockups previos; `About.dc.html` y `About-en.dc.html` se actualizan al final para
-    que coincidan con la página.
-- **Fase 11 — Tareas** (rama `fase-11-acerca`; diseño en `docs/diseno/11.md`, sin compuerta 🔒):
+    que coincidan con la página. Adolfo aprobó esos mockups y las capturas el 2026-10-21.
+- **Fase 11 — Tareas** (diseño en `docs/diseno/11.md`, sin compuerta 🔒; fusionada en `main` con el PR #29, `b8b5292`):
   - [x] **11.0** Diseño técnico en `docs/diseno/11.md`: índice, `CatalogFields` por grupos y prueba contra el mapping.
   - [x] **11.1** Índice de «Acerca de»: lateral fijo con la sección visible marcada (`about.js`), plegable en pantallas angostas, en español e inglés. Pruebas MockMvc y de navegador.
   - [x] **11.2** Catálogo completo: `CatalogFields` con todos los campos y subcampos del mapping en cinco grupos, textos en español e inglés y una prueba que compara las filas con `elasticsearch/elastiflix-reloaded-mapping.json`.
