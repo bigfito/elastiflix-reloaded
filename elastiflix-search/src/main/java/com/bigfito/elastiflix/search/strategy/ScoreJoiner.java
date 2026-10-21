@@ -43,9 +43,9 @@ public class ScoreJoiner {
 
     private static ComponentScore place(Indexed indexed, int k) {
         if (indexed == null) {
-            return new ComponentScore(null, Rrf.OUTSIDE_PREFIX + k);
+            return ComponentScore.outside(k);
         }
-        return new ComponentScore(indexed.hit().score(), Integer.toString(indexed.rank()));
+        return new ComponentScore(indexed.hit().score(), indexed.rank(), k);
     }
 
     private static Map<String, Indexed> index(List<RankedHit> hits) {

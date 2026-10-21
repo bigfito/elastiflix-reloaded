@@ -17,11 +17,11 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** U-16 (search expone datos en lugar de frases)
-- **Subpaso en curso:** diseño del cambio de `EmptyState`, `ComponentScore` y `Pagination`
-- **Próximo paso:** cambiar los tipos de `elastiflix-search` y hacer que la web arme los textos desde el
-  catálogo
-- **Última actualización:** 2026-10-21 18:15 UTC
+- **Tarea actual:** U-13 y U-17 (ingest expone códigos y argumentos; la web traduce por clave)
+- **Subpaso en curso:** inventario de los textos en español que emite `elastiflix-ingest`
+- **Próximo paso:** dar a `ValidationIssue`, las advertencias y los estados de columna claves estables, y
+  traducirlas en `elastiflix-web` con `messages_*.properties`
+- **Última actualización:** 2026-10-21 18:35 UTC
 
 ## Tareas
 
@@ -33,8 +33,8 @@ en curso
 | U-03 | terminada | `ec6ca83` | `./mvnw verify` en verde; `ExternalLinksTest` (16 casos) y `MovieDetailPageTest` |
 | U-01 | terminada | `59d2662` | Medición del 2026-10-21 (k=100, 200 candidatos, 6 899 películas): Life of Pi 31.º · 7.º · 5.º (antes 30 · 7 · 4); Titanic y WALL·E sin cambios. `VectorSearchIT`, `FullTextSearchIT` e `HybridSearchIT` en verde (14 de 14) |
 | U-24 | terminada | `59d2662` | Sugerencias en español: Titanic 36/7/4, Inception 94/13/8, Life of Pi 31/7/5, Spirited Away 13/4/1 (E.T. y WALL·E sin cambios). Conteos léxicos de los dos idiomas: dark knight 57/5, love story 107/3, el secreto 35/2, le fabuleux 26/1, heaven 10, next 15; Kolejne en title 3 (OR) y 0 (AND); híbrida Titanic 1.º vectorial, 1.º léxico. Las de inglés coinciden con la fase 8. `./mvnw -pl elastiflix-web verify` en verde |
-| U-07 | terminada | se anota en el commit siguiente | Texto nuevo en `ErrorCode`, `messages_es` y `messages_en`, y en `docs/diseno/7.md`. `MovieDetailControllerTest` (7), `MessageCatalogParityTest` (3) y `ErrorPageTest` (4) en verde |
-| U-16 | pendiente | | |
+| U-07 | terminada | `f70be66` | Texto nuevo en `ErrorCode`, `messages_es` y `messages_en`, y en `docs/diseno/7.md`. `MovieDetailControllerTest` (7), `MessageCatalogParityTest` (3) y `ErrorPageTest` (4) en verde |
+| U-16 | terminada | se anota en el commit siguiente | `EmptyState` enum, `ComponentScore(score, rank, k)` y `Pagination(first, last)`; la web arma los textos con `results.pager.span` y `results.card.score.outsideTop`. `./mvnw verify` en verde (386 unitarias, Checkstyle 0, PMD 0) |
 | U-13, U-17 | pendiente | | |
 | U-14, U-15 | pendiente | | |
 | U-02 | pendiente | | |

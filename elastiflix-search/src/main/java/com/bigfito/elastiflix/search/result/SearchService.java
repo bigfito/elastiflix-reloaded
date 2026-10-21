@@ -132,9 +132,9 @@ public class SearchService {
             return null;
         }
         if (!query.filters().isEmpty() && strategy.foundWithoutFilters(query, found.queryVector()) > 0) {
-            return EmptyState.filtered();
+            return EmptyState.FILTERED;
         }
-        return EmptyState.none(query.text(), query.mode());
+        return EmptyState.NONE;
     }
 
     private static List<Movie> movies(List<RankedHit> hits) {

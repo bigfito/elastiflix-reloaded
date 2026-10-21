@@ -80,7 +80,7 @@ class KnnStrategiesTest {
         SearchResult result = service.search(query(SearchMode.VECTOR, drama()));
 
         assertThat(result.empty()).isNotNull();
-        assertThat(result.empty().title()).isEqualTo("Ningún resultado cumple los filtros");
+        assertThat(result.empty()).isEqualTo(EmptyState.FILTERED);
         verify(transport, times(2)).search(any(SearchRequest.class), eq(Movie.class));
         verify(embeddings, times(1)).embedQuery(anyString());
     }
@@ -94,7 +94,7 @@ class KnnStrategiesTest {
 
         SearchResult result = service.search(query(SearchMode.HYBRID, drama()));
 
-        assertThat(result.empty().title()).isEqualTo("Ningún resultado cumple los filtros");
+        assertThat(result.empty()).isEqualTo(EmptyState.FILTERED);
         verify(transport, times(2)).msearch(any(MsearchRequest.class), eq(Movie.class));
         verify(embeddings, times(1)).embedQuery(anyString());
     }
