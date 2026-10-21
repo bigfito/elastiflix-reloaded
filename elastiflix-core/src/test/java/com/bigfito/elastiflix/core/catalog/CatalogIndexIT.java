@@ -62,10 +62,25 @@ class CatalogIndexIT {
         alias = "elastiflix-it-" + token;
     }
 
+    /**
+     * Intenta borrar todos los índices aunque falle uno: si se detuviera en el primer error, los
+     * demás quedarían huérfanos en el proyecto. Al final lanza el primer error con los otros como
+     * suprimidos.
+     */
     @AfterEach
     void deleteWhatTheTestCreated() {
+        List<ElasticsearchAccessException> failures = new ArrayList<>();
         for (String name : created) {
-            deleteIfPresent(name);
+            try {
+                deleteIfPresent(name);
+            } catch (ElasticsearchAccessException failure) {
+                failures.add(failure);
+            }
+        }
+        if (!failures.isEmpty()) {
+            ElasticsearchAccessException first = failures.getFirst();
+            failures.subList(1, failures.size()).forEach(first::addSuppressed);
+            throw first;
         }
     }
 
@@ -110,13 +125,15 @@ class CatalogIndexIT {
     @Test
     @DisplayName("listOwnedIndexes trae solo los índices <alias>-<AAAAMMDD-HHMMSS> de ese alias")
     void shouldListOnlyTheDatedIndexesOfTheAlias() {
+        // given: los dos ajenos los devuelve el comodín <alias>-*, así que solo isOwnedBy los descarta
         String dated = alias + "-20261018-030405";
         String undated = alias + "-copia";
-        String foreign = alias + "x-20261018-030405";
+        String sharedPrefix = alias + "-it-20261018-030405";
         create(dated);
         create(undated);
-        create(foreign);
+        create(sharedPrefix);
 
+        // when / then
         assertThat(catalog.listOwnedIndexes(alias)).containsExactly(dated);
     }
 
@@ -131,22 +148,24 @@ class CatalogIndexIT {
     }
 
     @Test
-    @DisplayName("findById lee una película por id excluyendo los vectores")
-    void shouldFindMovieByIdExcludingVectors() throws Exception {
+    @DisplayName("findById lee una película por id")
+    void shouldFindMovieById() throws Exception {
+        // given
         create(indexA);
         List<Movie> movies = readFixture();
         writeMovies(indexA, movies);
-
         Movie expected = movies.getFirst();
+
+        // when
         Optional<Movie> found = catalog.findById(indexA, expected.id());
 
+        // then: no se afirma que plot_* venga nulo, porque Serverless ya excluye los dense_vector
+        // de _source y esa aserción no podría fallar. Que la petición pida excluirlos lo comprueba
+        // ElasticsearchCatalogIndexTest con sourceExcludes.
         assertThat(found).isPresent();
         Movie movie = found.get();
         assertThat(movie.id()).isEqualTo(expected.id());
         assertThat(movie.title()).isEqualTo(expected.title());
-        assertThat(movie.plot256()).isNull();
-        assertThat(movie.plot512()).isNull();
-        assertThat(movie.plot1024()).isNull();
     }
 
     private void create(String indexName) {

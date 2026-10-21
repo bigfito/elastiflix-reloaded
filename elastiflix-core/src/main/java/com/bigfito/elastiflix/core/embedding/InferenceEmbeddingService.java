@@ -170,7 +170,8 @@ public class InferenceEmbeddingService implements EmbeddingService {
         float[] vector = new float[MODEL_DIMENSIONS];
         for (int index = 0; index < MODEL_DIMENSIONS; index++) {
             Float value = values.get(index);
-            if (value == null) {
+            // Un NaN o un infinito llegaría a Elasticsearch y volvería como un 400 (EFX-ES-007).
+            if (value == null || !Float.isFinite(value)) {
                 throw new EmbeddingException(ErrorCode.UNEXPECTED_VECTOR);
             }
             vector[index] = value;

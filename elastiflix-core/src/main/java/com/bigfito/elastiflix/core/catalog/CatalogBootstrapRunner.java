@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.web.server.context.WebServerApplicationContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -62,9 +63,12 @@ public class CatalogBootstrapRunner implements ApplicationRunner {
         }
     }
 
+    /**
+     * Pregunta al contexto, no a una propiedad: el tipo de aplicación también puede venir del
+     * classpath o de {@code SpringApplication.setWebApplicationType}, y solo el contexto lo sabe.
+     */
     private boolean webServerStaysUp() {
-        String type = context.getEnvironment().getProperty("spring.main.web-application-type", "servlet");
-        return !"none".equalsIgnoreCase(type);
+        return context instanceof WebServerApplicationContext;
     }
 
     private void closeClient() {

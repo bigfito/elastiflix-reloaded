@@ -19,6 +19,8 @@ import co.elastic.clients.util.ObjectBuilder;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -98,6 +100,29 @@ class InferenceEmbeddingServiceTest {
         InferenceRequest sent = captor.getValue().apply(new InferenceRequest.Builder()).build();
         assertThat(sent.inputType()).isEqualTo("search");
         assertThat(sent.input()).containsExactly("Query: titanic");
+    }
+
+    @ParameterizedTest(name = "valor {0}")
+    @ValueSource(floats = {Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY})
+    @DisplayName("un vector con un valor no finito responde EFX-EMB-002 antes de llegar a Elasticsearch")
+    void shouldRejectAVectorWithANonFiniteValue(float badValue) throws Exception {
+        // given: el valor malo va al final, fuera de cualquier recorte de 512 o 256
+        ElasticsearchClient client = mock(ElasticsearchClient.class);
+        ElasticsearchInferenceClient inference = mock(ElasticsearchInferenceClient.class);
+        when(client.inference()).thenReturn(inference);
+        List<Float> values = modelVector();
+        values.set(values.size() - 1, badValue);
+        when(inference.inference(any(Function.class))).thenReturn(InferenceResponse.of(response -> response
+                .result(result -> result.embeddings(List.of(DenseEmbeddingResult.of(row -> row
+                        .embedding(values)))))));
+        InferenceEmbeddingService service = new InferenceEmbeddingService(
+                client, new ElastiflixProperties(null, null, null, null, null, null, null));
+
+        // when / then
+        assertThatThrownBy(() -> service.embedQuery("titanic"))
+                .isInstanceOf(EmbeddingException.class)
+                .extracting(thrown -> ((EmbeddingException) thrown).errorCode())
+                .isEqualTo(ErrorCode.UNEXPECTED_VECTOR);
     }
 
     /** Un vector válido de 1024 dimensiones: así falla solo el tamaño del lote. */
