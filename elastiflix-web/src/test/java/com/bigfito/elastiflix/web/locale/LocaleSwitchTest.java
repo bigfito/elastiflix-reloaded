@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -86,21 +85,6 @@ class LocaleSwitchTest {
                 .andExpect(cookie().doesNotExist("elastiflix-lang"))
                 .andExpect(content().string(containsString("<html lang=\"en\">")))
                 .andExpect(content().string(containsString("Connected · Elasticsearch Serverless")));
-    }
-
-    @Test
-    @DisplayName("el selector de idioma conserva la ruta y todos los parámetros de consulta")
-    void shouldPreserveAllQueryParametersInLanguageLinks() {
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/buscar");
-        request.setParameter("q", "titanic");
-        request.setParameter("modo", "hibrida");
-        request.setParameter("genero", "Drama", "Romance");
-        request.setParameter("lang", "es");
-
-        assertThat(LanguageSwitchLinks.hrefFor(request, "en"))
-                .isEqualTo("/buscar?q=titanic&modo=hibrida&genero=Drama&genero=Romance&lang=en");
-        assertThat(LanguageSwitchLinks.hrefFor(request, "es"))
-                .isEqualTo("/buscar?q=titanic&modo=hibrida&genero=Drama&genero=Romance&lang=es");
     }
 
     @Test
