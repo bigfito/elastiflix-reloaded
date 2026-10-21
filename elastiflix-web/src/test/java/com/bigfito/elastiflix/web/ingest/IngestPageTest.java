@@ -171,8 +171,13 @@ class IngestPageTest {
                 .andExpect(jsonPath("$.texts.mappingNote").value("33 de 34 columnas asignadas. La columna director "
                         + "no existe en el mapping del índice, así que la carga no puede continuar."))
                 .andExpect(jsonPath("$.texts.fileMeta").value("12.4 MB · CSV · 34 columnas · 512 filas"))
-                .andExpect(jsonPath("$.job.columns[0].status").value("No existe en el mapping"));
+                .andExpect(jsonPath("$.job.columns[0].status").value("No existe en el mapping"))
+                .andExpect(jsonPath("$.texts.columnTones[0]").value("error"))
+                .andExpect(jsonPath("$.texts.columnTones[1]").value("ok"));
         mvc.perform(get("/cargar"))
+                .andExpect(content().string(containsString("name=\"keywords\" placeholder=\"Separadas por comas\"")))
+                .andExpect(content().string(containsString("name=\"cast\" placeholder=\"Separado por comas\"")))
+                .andExpect(content().string(containsString("aria-label=\"Progreso de la importación\"")))
                 .andExpect(content().string(containsString("Se revisó el archivo completo y se encontraron "
                         + "<strong id=\"error-summary\">0 errores</strong>. <strong>No se importó ningún registro."
                         + "</strong> Corrige el archivo y vuelve a cargarlo; la carga solo continúa cuando todo el "
@@ -326,7 +331,10 @@ class IngestPageTest {
                 .andExpect(content().string(containsString("Identification and titles")))
                 .andExpect(content().string(containsString("Save movie")))
                 .andExpect(content().string(containsString("Upload process")))
-                .andExpect(content().string(containsString("Browser check")));
+                .andExpect(content().string(containsString("Browser check")))
+                .andExpect(content().string(containsString("aria-label=\"Import progress\"")))
+                .andExpect(content().string(containsString("Showing 0 of 0 errors.")))
+                .andExpect(content().string(containsString("data-msg-field-for=\"Field for {0}\"")));
     }
 
     @Test

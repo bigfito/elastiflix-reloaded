@@ -33,6 +33,7 @@ import com.bigfito.elastiflix.web.locale.UiMessages;
  * @param fileMeta      detalle de la ficha del archivo
  * @param failure       código y «qué pasó» de una falla, o vacío
  * @param warnings      advertencias, una línea por grupo: {@code campo: mensaje (N).}
+ * @param columnTones   tono de cada columna del CSV, en orden: {@code ok}, {@code warn} o {@code error}
  */
 public record JobTexts(
         String locationLabel,
@@ -48,7 +49,8 @@ public record JobTexts(
         String mappingNote,
         String fileMeta,
         String failure,
-        List<String> warnings) {
+        List<String> warnings,
+        List<String> columnTones) {
 
     private static final String INVALID = "invalido";
     private static final double MEGABYTE = 1024d * 1024d;
@@ -83,7 +85,8 @@ public record JobTexts(
                 csv ? writer.mappingNote() : "",
                 writer.fileMeta(csv),
                 writer.failure(),
-                writer.warnings(translator));
+                writer.warnings(translator),
+                writer.columnTones());
     }
 
     /** Arma cada texto con el trabajo, el idioma y el catálogo. */
@@ -196,6 +199,20 @@ public record JobTexts(
                 lines.addFirst(msg("ingest.job.warning.vectors"));
             }
             return List.copyOf(lines);
+        }
+
+        List<String> columnTones() {
+            List<String> tones = new ArrayList<>();
+            for (CsvColumnRow column : job.columns()) {
+                if (CsvColumnRows.ASSIGNED.equals(column.status())) {
+                    tones.add("ok");
+                } else if (CsvColumnRows.UNKNOWN.equals(column.status())) {
+                    tones.add("error");
+                } else {
+                    tones.add("warn");
+                }
+            }
+            return List.copyOf(tones);
         }
 
         private String line(WarningCount warning, String message) {
