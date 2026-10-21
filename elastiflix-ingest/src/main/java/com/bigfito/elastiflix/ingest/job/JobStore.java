@@ -80,17 +80,20 @@ public final class JobStore {
     }
 
     /**
-     * CSV de todos los errores, no solo los seis del estado.
+     * CSV de los errores guardados, no solo los seis del estado: todos hasta
+     * {@value JobRetention#MAX_KEPT_ERRORS} y, si hubo más, los primeros {@value JobRetention#MAX_KEPT_ERRORS}.
+     * El total real está en {@link JobView#errorTotal()}.
      *
      * @param jobId identificador
      * @return texto con encabezado
      */
     public String errorReport(String jobId) {
-        return require(jobId).report().toErrorCsv();
+        return require(jobId).kept().report().toErrorCsv();
     }
 
     /**
-     * Informe de errores con otro encabezado y cada error reescrito, por ejemplo traducido.
+     * Informe de errores con otro encabezado y cada error reescrito, por ejemplo traducido. Trae los mismos
+     * errores guardados que {@link #errorReport(String)}.
      *
      * @param jobId   identificador
      * @param header  primera fila del CSV
@@ -98,7 +101,7 @@ public final class JobStore {
      * @return CSV con BOM
      */
     public String errorReport(String jobId, String header, UnaryOperator<ValidationIssue> rewrite) {
-        return require(jobId).report().toErrorCsv(header, rewrite);
+        return require(jobId).kept().report().toErrorCsv(header, rewrite);
     }
 
     /**
@@ -288,8 +291,8 @@ public final class JobStore {
 
 
     private static void logValidation(ImportWork work) {
-        ValidationReport report = work.report();
+        ReportFigures figures = work.kept().figures();
         LOG.info("El archivo {} terminó de validarse: {} errores y {} advertencias",
-                work.id(), report.errors().size(), report.warnings().size());
+                work.id(), figures.errorTotal(), figures.warningTotal());
     }
 }

@@ -23,8 +23,7 @@ final class ImportWork {
     private final AtomicBoolean cancelled = new AtomicBoolean();
 
     private JobStatus status = JobStatus.RECEIVED;
-    private ValidationReport report = ValidationReport.empty();
-    private ReportFigures figures = ReportFigures.of(report);
+    private KeptReport kept = KeptReport.EMPTY;
     private List<Movie> movies = List.of();
     private List<CsvColumnRow> columns = List.of();
     private int fileCount;
@@ -73,8 +72,9 @@ final class ImportWork {
         return status;
     }
 
-    synchronized ValidationReport report() {
-        return report;
+    /** Informe guardado: los primeros errores y las cifras del informe entero. */
+    synchronized KeptReport kept() {
+        return kept;
     }
 
     synchronized List<Movie> movies() {
@@ -127,8 +127,7 @@ final class ImportWork {
         if (stopIfCancelled()) {
             return;
         }
-        report = checked.report();
-        figures = ReportFigures.of(report);
+        kept = KeptReport.of(checked.report());
         movies = List.copyOf(checked.movies());
         fileCount = movies.size();
         replaceCount = checked.replaceCount();
@@ -143,8 +142,7 @@ final class ImportWork {
      * @param stopped 2 si falló la comprobación del archivo; 3 si falló la lectura o el mapping
      */
     synchronized void invalid(ValidationReport issues, int stopped) {
-        report = issues;
-        figures = ReportFigures.of(report);
+        kept = KeptReport.of(issues);
         status = JobStatus.INVALID;
         step = stopped;
     }
@@ -204,6 +202,7 @@ final class ImportWork {
      * @return copia que no cambia
      */
     synchronized JobView view(int batchSize) {
+        ReportFigures figures = kept.figures();
         int invalidRecords = figures.invalidRecords();
         return new JobView(id, status.label(), JobFigures.kindOf(fileName), fileSize,
                 step, batch, vectorized, written,

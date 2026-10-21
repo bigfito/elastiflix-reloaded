@@ -61,6 +61,19 @@ public record ValidationReport(List<ValidationIssue> issues) {
     }
 
     /**
+     * Informe reducido para guardarlo en un trabajo: los primeros {@code limit} errores, en el mismo orden,
+     * y ninguna advertencia suelta. Quien lo guarda calcula antes, sobre el informe entero, el total de
+     * errores, los registros con error y las advertencias agrupadas.
+     *
+     * @param limit errores que se conservan; al menos 1, para que el informe reducido siga sin aceptarse
+     * @return informe con como mucho {@code limit} errores y sin advertencias
+     */
+    public ValidationReport firstErrors(int limit) {
+        List<ValidationIssue> errors = errors();
+        return new ValidationReport(errors.size() <= limit ? errors : errors.subList(0, limit));
+    }
+
+    /**
      * Advertencias juntas por código y campo. Cada consulta de estado recibe esta lista.
      *
      * @return una fila por código y campo, con cuántas veces apareció

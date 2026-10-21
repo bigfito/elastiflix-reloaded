@@ -21,7 +21,7 @@ import com.bigfito.elastiflix.ingest.mapping.WarningCount;
  * @param validCount     {@code fileCount} menos los registros con al menos un error
  * @param invalidRecords registros distintos con al menos un error
  * @param replaceCount   ids del archivo que ya están en el catálogo; no cambia durante la importación
- * @param errorTotal     errores del informe, no solo los seis que se muestran
+ * @param errorTotal     errores del informe entero, no solo los seis que se muestran ni los que se guardan
  * @param errors         como mucho los primeros 6 errores
  * @param warnings       advertencias agrupadas por código y campo
  * @param checks         comprobaciones superadas; vacío si la carga no está lista
