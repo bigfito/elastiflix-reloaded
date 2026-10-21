@@ -49,7 +49,7 @@ class IngestTranslatorTest {
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     private static final Pattern MARKER = Pattern.compile("\\{\\d}");
 
-    private final UiMessages messages = UiMessages.defaultCatalog();
+    private final UiMessages messages = new UiMessages(UiMessages.createMessageSource());
     private final IngestTranslator translator = new IngestTranslator(messages);
 
     @TempDir

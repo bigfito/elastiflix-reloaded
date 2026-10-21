@@ -12,10 +12,11 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 /**
  * Acceso centralizado a los catálogos {@code messages_es.properties} y {@code messages_en.properties},
  * incluyendo la traducción de códigos {@link ErrorCode} según el idioma activo.
+ *
+ * <p>En la aplicación hay una sola instancia: el bean de {@link LocaleConfig}, que se inyecta por constructor.
+ * Una prueba sin Spring crea la suya con {@code new UiMessages(UiMessages.createMessageSource())}.</p>
  */
 public final class UiMessages {
-
-    private static final UiMessages DEFAULT_INSTANCE = new UiMessages(createMessageSource());
 
     private final MessageSource source;
 
@@ -29,17 +30,8 @@ public final class UiMessages {
     }
 
     /**
-     * Devuelve una instancia respaldada directamente por los catálogos UTF-8 del classpath,
-     * útil en pruebas unitarias sin contexto de Spring.
-     *
-     * @return instancia por defecto de {@link UiMessages}
-     */
-    public static UiMessages defaultCatalog() {
-        return DEFAULT_INSTANCE;
-    }
-
-    /**
-     * Construye el {@link MessageSource} UTF-8 con español como idioma base y sin caer al idioma del sistema.
+     * Construye un {@link MessageSource} nuevo, UTF-8, con español como idioma base y sin caer al idioma del
+     * sistema.
      *
      * @return fuente de mensajes configurada
      */
@@ -118,17 +110,6 @@ public final class UiMessages {
      */
     public String errorAction(ErrorCode code, Locale locale) {
         return getFor(locale, "error." + code.code() + ".action");
-    }
-
-    /**
-     * Compone el mensaje completo de un {@link ErrorCode} («código · qué pasó. Causa probable / Likely cause...»)
-     * en el idioma activo.
-     *
-     * @param code código de error
-     * @return mensaje completo traducido
-     */
-    public String errorUserMessage(ErrorCode code) {
-        return errorUserMessage(code, SupportedLocale.current());
     }
 
     /**

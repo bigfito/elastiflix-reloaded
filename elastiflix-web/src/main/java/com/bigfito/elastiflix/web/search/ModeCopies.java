@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import com.bigfito.elastiflix.search.query.SearchMode;
 import com.bigfito.elastiflix.search.query.SearchQuery;
-import com.bigfito.elastiflix.web.locale.SupportedLocale;
 import com.bigfito.elastiflix.web.locale.UiMessages;
 
 /**
@@ -13,16 +12,6 @@ import com.bigfito.elastiflix.web.locale.UiMessages;
 public final class ModeCopies {
 
     private ModeCopies() {
-    }
-
-    /**
-     * Textos del modo de la consulta ya ejecutada en el idioma del contexto actual.
-     *
-     * @param query consulta
-     * @return chip, orden, leyenda y nota de límite
-     */
-    public static ModeCopy of(SearchQuery query) {
-        return of(query, SupportedLocale.current(), UiMessages.defaultCatalog());
     }
 
     /**

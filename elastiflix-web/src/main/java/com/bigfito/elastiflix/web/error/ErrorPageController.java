@@ -20,6 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ErrorPageController implements ErrorController, HtmlPage {
 
+    private final UiMessages messages;
+
+    /**
+     * Crea el controlador con el catálogo de mensajes de la aplicación.
+     *
+     * @param messages títulos y textos de la página de error
+     */
+    public ErrorPageController(UiMessages messages) {
+        this.messages = messages;
+    }
+
     /**
      * Elige la plantilla según el estado que reenvió el servidor.
      *
@@ -36,13 +47,12 @@ public class ErrorPageController implements ErrorController, HtmlPage {
         return fromException(request, model);
     }
 
-    private static String fromException(HttpServletRequest request, Model model) {
+    private String fromException(HttpServletRequest request, Model model) {
         ElastiflixException elastiflix = elastiflix(request);
         if (elastiflix != null) {
-            return ErrorPages.filled(model, elastiflix);
+            return ErrorPages.filled(model, elastiflix, messages);
         }
         // Sin código EFX (un 400 o un 405 del contenedor), el título es el estado HTTP: el h1 nunca queda vacío.
-        UiMessages messages = UiMessages.defaultCatalog();
         model.addAttribute("code", messages.get("error.http.code", status(request)));
         model.addAttribute("message", messages.get("error.http.unexpected"));
         return "error";
