@@ -13,8 +13,8 @@ import tools.jackson.databind.node.ObjectNode;
  */
 final class NestedValues {
 
-    private static final String UNKNOWN = "Ese campo no existe en el mapping del índice";
-    private static final String INTEGER = "un número entero";
+    private static final String UNKNOWN = IngestPhrase.NOT_IN_MAPPING.text();
+    private static final String INTEGER = IngestPhrase.INTEGER.text();
 
     private NestedValues() {
     }
@@ -33,7 +33,7 @@ final class NestedValues {
             return;
         }
         if (!value.isArray()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "una lista de textos");
+            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.TEXT_LIST.text());
             return;
         }
         scope.target().set(name, texts(name, value, scope));
@@ -49,11 +49,11 @@ final class NestedValues {
 
     private static void addText(String name, JsonNode item, ArrayNode clean, CheckScope scope) {
         if (item == null || item.isNull() || item.isString() && item.asString().isBlank()) {
-            scope.warning(ErrorCode.EMPTY_LIST_VALUE, name, FieldNames.BLANK, "se omite");
+            scope.warning(ErrorCode.EMPTY_LIST_VALUE, name, FieldNames.BLANK, IngestPhrase.SKIPPED.text());
             return;
         }
         if (!item.isString()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(item), "un texto");
+            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(item), IngestPhrase.TEXT.text());
             return;
         }
         clean.add(item.asString());
@@ -64,7 +64,7 @@ final class NestedValues {
             return;
         }
         if (!value.isObject()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "un objeto o null");
+            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.OBJECT_OR_NULL.text());
             return;
         }
         scope.target().set(name, object(value, FieldRules.COLLECTION, scope));
@@ -75,7 +75,7 @@ final class NestedValues {
             return;
         }
         if (!value.isArray()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "una lista de {id, name}");
+            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.ID_NAME_LIST.text());
             return;
         }
         scope.target().set(name, keywordList(value, scope));
@@ -91,11 +91,11 @@ final class NestedValues {
 
     private static void addKeyword(JsonNode item, ArrayNode clean, CheckScope scope) {
         if (item == null || item.isNull()) {
-            scope.warning(ErrorCode.EMPTY_LIST_VALUE, "keywords", FieldNames.BLANK, "se omite");
+            scope.warning(ErrorCode.EMPTY_LIST_VALUE, "keywords", FieldNames.BLANK, IngestPhrase.SKIPPED.text());
             return;
         }
         if (!item.isObject()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, "keywords", IssueTexts.show(item), "un objeto {id, name}");
+            scope.error(ErrorCode.TYPE_MISMATCH, "keywords", IssueTexts.show(item), IngestPhrase.ID_NAME_OBJECT.text());
             return;
         }
         clean.add(object(item, FieldRules.KEYWORD, scope));
@@ -110,7 +110,7 @@ final class NestedValues {
     private static void copyChild(
             String name, JsonNode child, Set<String> allowed, ObjectNode clean, CheckScope scope) {
         if (!allowed.contains(name)) {
-            scope.error(ErrorCode.UNKNOWN_FIELD, name, "Un campo llamado " + name, UNKNOWN);
+            scope.error(ErrorCode.UNKNOWN_FIELD, name, IngestPhrase.FIELD_NAMED.text(name), UNKNOWN);
             return;
         }
         if (FieldNames.ID.equals(name)) {
@@ -136,7 +136,7 @@ final class NestedValues {
             return;
         }
         if (!value.isString()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "un texto");
+            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.TEXT.text());
             return;
         }
         keepOptional(name, value, clean, scope);
@@ -144,7 +144,7 @@ final class NestedValues {
 
     private static void keepOptional(String name, JsonNode value, ObjectNode clean, CheckScope scope) {
         if (value.asString().isBlank()) {
-            scope.warning(ErrorCode.EMPTY_TEXT, name, FieldNames.BLANK, "sin valor");
+            scope.warning(ErrorCode.EMPTY_TEXT, name, FieldNames.BLANK, IngestPhrase.NO_VALUE.text());
             return;
         }
         clean.set(name, value);

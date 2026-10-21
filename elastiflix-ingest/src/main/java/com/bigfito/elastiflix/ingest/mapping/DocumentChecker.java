@@ -16,7 +16,7 @@ import tools.jackson.databind.node.ObjectNode;
  */
 final class DocumentChecker {
 
-    private static final String NOT_IN_MAPPING = "Ese campo no existe en el mapping del índice";
+    private static final String NOT_IN_MAPPING = IngestPhrase.NOT_IN_MAPPING.text();
 
     CheckedDocument check(JsonNode node, String record) {
         if (!(node instanceof ObjectNode object)) {
@@ -43,9 +43,9 @@ final class DocumentChecker {
                 ErrorCode.TYPE_MISMATCH.code(),
                 record,
                 FieldNames.MISSING,
-                "documento",
-                "no es un objeto",
-                "un objeto de película",
+                IngestPhrase.DOCUMENT.text(),
+                IngestPhrase.NOT_OBJECT.text(),
+                IngestPhrase.MOVIE_OBJECT.text(),
                 false);
         return new CheckedDocument(FieldNames.MISSING, MovieNodes.MAPPER.createObjectNode(), List.of(issue));
     }
@@ -60,7 +60,7 @@ final class DocumentChecker {
 
     private void copy(String name, JsonNode value, CheckScope scope) {
         if (!FieldRules.known(name)) {
-            scope.error(ErrorCode.UNKNOWN_FIELD, name, "Un campo llamado " + name, NOT_IN_MAPPING);
+            scope.error(ErrorCode.UNKNOWN_FIELD, name, IngestPhrase.FIELD_NAMED.text(name), NOT_IN_MAPPING);
             return;
         }
         if (scalar(FieldRules.kind(name))) {
@@ -89,7 +89,7 @@ final class DocumentChecker {
         if (scope.target().has(name) || reported(scope, name)) {
             return;
         }
-        scope.error(ErrorCode.REQUIRED_FIELD, name, FieldNames.ABSENT, "id, title y plot");
+        scope.error(ErrorCode.REQUIRED_FIELD, name, FieldNames.ABSENT, IngestPhrase.REQUIRED_FIELDS.text());
     }
 
     private static boolean reported(CheckScope scope, String name) {
@@ -111,7 +111,8 @@ final class DocumentChecker {
 
     private void compare(String id, String metaId, CheckScope scope) {
         if (metaId == null) {
-            scope.error(ErrorCode.TYPE_MISMATCH, FieldNames.DOCUMENT_ID, "no es texto", "el mismo texto que id");
+            scope.error(ErrorCode.TYPE_MISMATCH, FieldNames.DOCUMENT_ID,
+                    IngestPhrase.NOT_TEXT.text(), IngestPhrase.SAME_AS_ID.text());
             return;
         }
         if (!metaId.equals(id)) {

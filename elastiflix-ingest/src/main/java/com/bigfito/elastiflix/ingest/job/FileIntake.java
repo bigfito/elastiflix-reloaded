@@ -14,10 +14,11 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.mapping.IngestPhrase;
 import com.bigfito.elastiflix.ingest.mapping.MappingValidator;
+import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
-import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 import com.bigfito.elastiflix.ingest.service.LoadedDocuments;
 
@@ -137,9 +138,9 @@ public final class FileIntake {
     private static ValidationReport report(IngestValidationException exception) {
         return new ValidationReport(List.of(new ValidationIssue(
                 exception.errorCode().code(),
-                "archivo",
+                IngestPhrase.FILE.text(),
                 "—",
-                "archivo",
+                IngestPhrase.FILE.text(),
                 "—",
                 exception.errorCode().summary(),
                 false)));

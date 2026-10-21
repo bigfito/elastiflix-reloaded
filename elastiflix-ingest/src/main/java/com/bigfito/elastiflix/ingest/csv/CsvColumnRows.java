@@ -8,7 +8,7 @@ import java.util.Set;
 import com.bigfito.elastiflix.core.mapping.FieldMapping;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.mapping.CsvValues;
-import com.bigfito.elastiflix.core.text.Thousands;
+import com.bigfito.elastiflix.ingest.mapping.IngestPhrase;
 
 /**
  * Arma la tabla «Correspondencia de columnas»: cada columna del CSV va al campo del mismo nombre.
@@ -16,27 +16,27 @@ import com.bigfito.elastiflix.core.text.Thousands;
 public final class CsvColumnRows {
 
     /** La columna existe en el mapping y trae datos. */
-    public static final String ASSIGNED = "Asignada";
+    public static final String ASSIGNED = IngestPhrase.MAPPED.text();
 
     /** Columna de vector: se genera desde {@code plot}. */
-    public static final String IGNORED = "Se ignora";
+    public static final String IGNORED = IngestPhrase.IGNORED.text();
 
     /** La columna está vacía en todas las filas. */
-    public static final String NO_DATA = "Sin datos";
+    public static final String NO_DATA = IngestPhrase.NO_DATA.text();
 
     /** El nombre no es un campo del mapping. */
-    public static final String UNKNOWN = "No existe en el mapping";
+    public static final String UNKNOWN = IngestPhrase.UNKNOWN_COLUMN.text();
 
     private static final String VECTOR_TYPE = "dense_vector";
     private static final Set<String> LISTS = Set.of("keywords");
     private static final Map<String, String> KINDS = Map.of(
-            "text", "Texto",
-            "keyword", "Texto",
-            "integer", "Número entero",
-            "long", "Número entero",
-            "float", "Número",
-            "boolean", "true o false",
-            "date", "Fecha yyyy-MM-dd");
+            "text", IngestPhrase.KIND_TEXT.text(),
+            "keyword", IngestPhrase.KIND_TEXT.text(),
+            "integer", IngestPhrase.KIND_INTEGER.text(),
+            "long", IngestPhrase.KIND_INTEGER.text(),
+            "float", IngestPhrase.KIND_NUMBER.text(),
+            "boolean", IngestPhrase.BOOLEAN.text(),
+            "date", IngestPhrase.KIND_DATE.text());
 
     private final IndexMapping mapping;
 
@@ -67,11 +67,12 @@ public final class CsvColumnRows {
     private CsvColumnRow row(CsvColumn column, int rowCount) {
         String name = column.name();
         if (CsvHeader.DOCUMENT_ID.equals(name)) {
-            return new CsvColumnRow(name, "(id del documento)", "Metadato; tiene que ser igual a id", ASSIGNED);
+            return new CsvColumnRow(
+                    name, IngestPhrase.DOCUMENT_ID.text(), IngestPhrase.SAME_AS_ID_META.text(), ASSIGNED);
         }
         FieldMapping field = find(name);
         if (field == null) {
-            return new CsvColumnRow(name, "— Sin campo en el índice —", "Texto", UNKNOWN);
+            return new CsvColumnRow(name, IngestPhrase.NO_INDEX_FIELD.text(), IngestPhrase.KIND_TEXT.text(), UNKNOWN);
         }
         return known(field, column.filled(), rowCount);
     }
@@ -79,10 +80,10 @@ public final class CsvColumnRows {
     private static CsvColumnRow known(FieldMapping field, int filled, int rowCount) {
         String name = field.name();
         if (VECTOR_TYPE.equals(field.type())) {
-            return new CsvColumnRow(name, name, "Se ignora · se generará desde plot", IGNORED);
+            return new CsvColumnRow(name, name, IngestPhrase.VECTOR_IGNORED.text(), IGNORED);
         }
         if (filled == 0 && rowCount > 0) {
-            return new CsvColumnRow(name, name, "Vacía en todas las filas", NO_DATA);
+            return new CsvColumnRow(name, name, IngestPhrase.EMPTY_IN_ALL_ROWS.text(), NO_DATA);
         }
         return new CsvColumnRow(name, name, content(field, rowCount - filled), ASSIGNED);
     }
@@ -101,20 +102,22 @@ public final class CsvColumnRows {
         if (empty <= 0) {
             return kind;
         }
-        return kind + " · vacía en " + Thousands.of(empty) + (empty == 1 ? " fila" : " filas");
+        IngestPhrase phrase = empty == 1 ? IngestPhrase.EMPTY_IN_ONE_ROW : IngestPhrase.EMPTY_IN_ROWS;
+        return phrase.text(kind, empty);
     }
 
     private static String kind(FieldMapping field) {
         if (CsvHeader.ID.equals(field.name())) {
-            return "Texto o número, se guarda como texto (keyword)";
+            return IngestPhrase.KIND_ID.text();
         }
         if (CsvValues.isTextList(field.name())) {
-            return "Lista JSON de textos";
+            return IngestPhrase.KIND_TEXT_LIST.text();
         }
         return "nested".equals(field.type()) ? nested(field) : KINDS.getOrDefault(field.type(), field.type());
     }
 
     private static String nested(FieldMapping field) {
-        return LISTS.contains(field.name()) ? "Lista JSON de objetos anidados" : "Objeto JSON anidado";
+        return LISTS.contains(field.name())
+                ? IngestPhrase.KIND_NESTED_LIST.text() : IngestPhrase.KIND_NESTED_OBJECT.text();
     }
 }

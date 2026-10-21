@@ -9,15 +9,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.UnaryOperator;
 
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
-import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
-import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
+import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
+import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +87,18 @@ public final class JobStore {
      */
     public String errorReport(String jobId) {
         return require(jobId).report().toErrorCsv();
+    }
+
+    /**
+     * Informe de errores con otro encabezado y cada error reescrito, por ejemplo traducido.
+     *
+     * @param jobId   identificador
+     * @param header  primera fila del CSV
+     * @param rewrite cambia el texto de cada error
+     * @return CSV con BOM
+     */
+    public String errorReport(String jobId, String header, UnaryOperator<ValidationIssue> rewrite) {
+        return require(jobId).report().toErrorCsv(header, rewrite);
     }
 
     /**

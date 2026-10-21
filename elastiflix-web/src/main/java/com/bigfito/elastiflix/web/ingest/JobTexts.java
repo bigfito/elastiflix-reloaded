@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRows;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.mapping.WarningCount;
-import com.bigfito.elastiflix.web.locale.SupportedLocale;
 import com.bigfito.elastiflix.web.locale.UiMessages;
 
 /**
  * Textos de «Cargar datos» para un trabajo, con las cifras ya escritas como en el mockup.
  *
- * <p>Se arman en el servidor para que una prueba MockMvc pueda compararlos palabra por palabra; el
- * JavaScript solo los pinta.</p>
+ * <p>Se arman en el servidor, en el idioma de la persona y desde {@code messages_*.properties}, para que una
+ * prueba MockMvc pueda compararlos palabra por palabra; el JavaScript solo los pinta.</p>
  *
  * @param locationLabel encabezado de la primera columna de errores: {@code Registro} o {@code Fila}
  * @param read          registros leídos
@@ -51,182 +51,158 @@ public record JobTexts(
         List<String> warnings) {
 
     private static final String INVALID = "invalido";
-    private static final String OF = " de ";
     private static final double MEGABYTE = 1024d * 1024d;
     private static final Set<String> VECTORS = Set.of("plot_256", "plot_512", "plot_1024");
-    private static final String VECTOR_WARNING = "El archivo trae plot_256, plot_512 y plot_1024: "
-            + "se ignorarán y se generarán con el servicio de inferencia.";
 
     /**
-     * Arma los textos del trabajo en el idioma por defecto (español).
+     * Arma los textos del trabajo en el idioma pedido.
      *
-     * @param job   copia del trabajo
-     * @param alias alias del catálogo
+     * @param job        vista del trabajo tal como la dio la carga, sin traducir
+     * @param alias      alias del catálogo
+     * @param locale     idioma
+     * @param messages   catálogo de mensajes
+     * @param translator frases de la carga en el idioma pedido
      * @return textos listos para pintar
      */
-    public static JobTexts of(JobView job, String alias) {
-        return of(job, alias, SupportedLocale.ES, null);
-    }
-
-    /**
-     * Construye las cadenas para el trabajo dado en el idioma solicitado.
-     *
-     * @param job      vista del trabajo
-     * @param alias    nombre del alias del catálogo
-     * @param locale   idioma activo
-     * @param messages proveedor de mensajes de error
-     * @return textos adaptados al idioma
-     */
-    public static JobTexts of(JobView job, String alias, Locale locale, UiMessages messages) {
-        if (SupportedLocale.isEnglish(locale)) {
-            return EnglishJobTexts.of(job, alias, locale, messages);
-        }
-        return spanish(job, alias, locale);
-    }
-
-    private static JobTexts spanish(JobView job, String alias, Locale locale) {
+    public static JobTexts of(
+            JobView job, String alias, Locale locale, UiMessages messages, IngestTranslator translator) {
+        Writer writer = new Writer(job, locale, messages);
         boolean csv = "csv".equals(job.kind());
         return new JobTexts(
-                csv ? "Fila" : "Registro",
-                Thousands.of(job.fileCount(), locale),
-                Thousands.of(job.validCount(), locale),
-                Thousands.of(job.replaceCount(), locale),
-                Thousands.of(job.errorTotal(), locale),
-                errorSummary(job, locale),
-                errorRange(job, locale),
-                importText(job, alias, locale),
-                progressText(job, alias, locale),
-                importLabel(job, locale),
-                csv ? mappingNote(job.columns()) : "",
-                fileMeta(job, csv, locale),
-                failure(job),
-                warnings(job.warnings(), locale));
+                writer.msg(csv ? "ingest.job.th.row" : "ingest.job.th.record"),
+                writer.number(job.fileCount()),
+                writer.number(job.validCount()),
+                writer.number(job.replaceCount()),
+                writer.number(job.errorTotal()),
+                writer.errorSummary(),
+                writer.msg("ingest.job.errorRange",
+                        String.valueOf(job.errors().size()), writer.number(job.errorTotal())),
+                writer.importText(alias),
+                writer.progressText(alias),
+                writer.importLabel(),
+                csv ? writer.mappingNote() : "",
+                writer.fileMeta(csv),
+                writer.failure(),
+                writer.warnings(translator));
     }
 
-    /**
-     * Resumen de errores adaptado al idioma.
-     *
-     * @param job    vista del trabajo
-     * @param locale idioma
-     * @return resumen de errores
-     */
-    public static String errorSummary(JobView job, Locale locale) {
-        if (SupportedLocale.isEnglish(locale)) {
-            return EnglishJobTexts.errorSummary(job, locale);
-        }
-        String errors = plural(job.errorTotal(), "error", "errores", locale);
-        if (job.invalidRecords() == 0) {
-            return errors;
-        }
-        return errors + " en " + plural(job.invalidRecords(), "registro", "registros", locale);
-    }
+    /** Arma cada texto con el trabajo, el idioma y el catálogo. */
+    private record Writer(JobView job, Locale locale, UiMessages messages) {
 
-    /**
-     * Rango de errores mostrado adaptado al idioma.
-     *
-     * @param job    vista del trabajo
-     * @param locale idioma
-     * @return rango mostrado
-     */
-    public static String errorRange(JobView job, Locale locale) {
-        if (SupportedLocale.isEnglish(locale)) {
-            return EnglishJobTexts.errorRange(job, locale);
+        String msg(String key, Object... args) {
+            return messages.getFor(locale, key, args);
         }
-        return "Mostrando " + job.errors().size() + OF + Thousands.of(job.errorTotal(), locale) + " errores.";
-    }
 
-    private static String importText(JobView job, String alias, Locale locale) {
-        if (INVALID.equals(job.status())) {
-            return "La importación está bloqueada: el archivo no coincide con el mapping del índice "
-                    + "y no se escribió ningún registro.";
+        String number(long value) {
+            return Thousands.of(value, locale);
         }
-        return "Se importarán " + plural(job.fileCount(), "película", "películas", locale)
-                + " en " + plural(job.batches(), "lote", "lotes", locale) + OF + job.batchSize()
-                + " dentro de un índice temporal que empieza como copia del catálogo actual. "
-                + "Al terminar se comprueba el conteo y el alias " + alias
-                + " pasa al índice nuevo y el índice anterior se borra, en una sola operación. "
-                + "Si Elasticsearch rechaza un lote o la comprobación falla, el índice temporal se borra "
-                + "y el catálogo queda exactamente como estaba. "
-                + "Los vectores de la sinopsis se generan para cada película con el servicio de inferencia "
-                + "de Elasticsearch.";
-    }
 
-    private static String progressText(JobView job, String alias, Locale locale) {
-        String done = Thousands.of(job.written(), locale) + OF + Thousands.of(job.fileCount(), locale)
-                + " importadas";
-        if (INVALID.equals(job.status())) {
-            return done;
+        String counted(long count, String key) {
+            return msg(key + (count == 1 ? ".one" : ".many"), number(count));
         }
-        String temp = job.tempIndex().isEmpty() ? alias + "-AAAAMMDD-HHMMSS" : job.tempIndex();
-        return done + " · lote " + job.batch() + OF + job.batches() + " · índice temporal " + temp;
-    }
 
-    private static String importLabel(JobView job, Locale locale) {
-        if (INVALID.equals(job.status())) {
-            return "Importación bloqueada";
-        }
-        return "Importar " + Thousands.of(job.fileCount(), locale) + " registros";
-    }
-
-    private static String mappingNote(List<CsvColumnRow> columns) {
-        List<String> unknown = new ArrayList<>();
-        for (CsvColumnRow column : columns) {
-            if (CsvColumnRows.UNKNOWN.equals(column.status())) {
-                unknown.add(column.column());
+        String errorSummary() {
+            String errors = counted(job.errorTotal(), "ingest.job.count.error");
+            if (job.invalidRecords() == 0) {
+                return errors;
             }
+            return msg("ingest.job.errorSummary.inRecords", errors,
+                    counted(job.invalidRecords(), "ingest.job.count.record"));
         }
-        int total = columns.size();
-        if (unknown.isEmpty()) {
-            return total + OF + total + " columnas reconocidas: todas tienen el mismo nombre que un campo "
-                    + "del índice y se asignaron automáticamente.";
-        }
-        String names = unknown.size() == 1
-                ? "La columna " + unknown.getFirst() + " no existe"
-                : "Las columnas " + String.join(", ", unknown) + " no existen";
-        return (total - unknown.size()) + OF + total + " columnas asignadas. " + names
-                + " en el mapping del índice, así que la carga no puede continuar.";
-    }
 
-    private static String fileMeta(JobView job, boolean csv, Locale locale) {
-        String size = String.format(Locale.ROOT, "%.1f MB", job.fileSize() / MEGABYTE);
-        if (job.fileCount() == 0) {
-            return size;
-        }
-        if (csv) {
-            return size + " · CSV · " + job.columns().size() + " columnas · "
-                    + Thousands.of(job.fileCount(), locale) + " filas";
-        }
-        return size + " · " + Thousands.of(job.fileCount(), locale) + " documentos";
-    }
-
-    private static String failure(JobView job) {
-        if (job.failureCode() == null || job.failureCode().isBlank()) {
-            return "";
-        }
-        if (job.failureMessage() == null || job.failureMessage().isBlank()) {
-            return job.failureCode();
-        }
-        return job.failureCode() + " · " + job.failureMessage() + ".";
-    }
-
-    private static List<String> warnings(List<WarningCount> warnings, Locale locale) {
-        List<String> lines = new ArrayList<>();
-        boolean vectors = false;
-        for (WarningCount warning : warnings) {
-            if (VECTORS.contains(warning.field())) {
-                vectors = true;
-            } else {
-                String times = warning.count() > 1 ? " (" + Thousands.of(warning.count(), locale) + ")" : "";
-                lines.add(warning.field() + ": " + warning.message() + times + ".");
+        String importText(String alias) {
+            if (INVALID.equals(job.status())) {
+                return msg("ingest.job.import.blocked");
             }
+            return msg("ingest.job.import.plan",
+                    counted(job.fileCount(), "ingest.job.count.movie"),
+                    counted(job.batches(), "ingest.job.count.batch"),
+                    String.valueOf(job.batchSize()),
+                    alias);
         }
-        if (vectors) {
-            lines.addFirst(VECTOR_WARNING);
-        }
-        return List.copyOf(lines);
-    }
 
-    private static String plural(int count, String one, String many, Locale locale) {
-        return Thousands.of(count, locale) + " " + (count == 1 ? one : many);
+        String progressText(String alias) {
+            String done = msg("ingest.job.progress.done", number(job.written()), number(job.fileCount()));
+            if (INVALID.equals(job.status())) {
+                return done;
+            }
+            String temp = job.tempIndex().isEmpty() ? alias + "-AAAAMMDD-HHMMSS" : job.tempIndex();
+            return msg("ingest.job.progress.running", done,
+                    String.valueOf(job.batch()), String.valueOf(job.batches()), temp);
+        }
+
+        String importLabel() {
+            if (INVALID.equals(job.status())) {
+                return msg("ingest.job.importLabel.blocked");
+            }
+            return msg("ingest.job.importLabel.ready", number(job.fileCount()));
+        }
+
+        String mappingNote() {
+            List<String> unknown = new ArrayList<>();
+            for (CsvColumnRow column : job.columns()) {
+                if (CsvColumnRows.UNKNOWN.equals(column.status())) {
+                    unknown.add(column.column());
+                }
+            }
+            String total = String.valueOf(job.columns().size());
+            if (unknown.isEmpty()) {
+                return msg("ingest.job.mapping.all", total);
+            }
+            String names = unknown.size() == 1
+                    ? msg("ingest.job.mapping.unknown.one", unknown.getFirst())
+                    : msg("ingest.job.mapping.unknown.many", String.join(", ", unknown));
+            return msg("ingest.job.mapping.some",
+                    String.valueOf(job.columns().size() - unknown.size()), total, names);
+        }
+
+        String fileMeta(boolean csv) {
+            String size = String.format(Locale.ROOT, "%.1f MB", job.fileSize() / MEGABYTE);
+            if (job.fileCount() == 0) {
+                return size;
+            }
+            if (csv) {
+                return msg("ingest.job.fileMeta.csv",
+                        size, String.valueOf(job.columns().size()), number(job.fileCount()));
+            }
+            return msg("ingest.job.fileMeta.json", size, number(job.fileCount()));
+        }
+
+        String failure() {
+            String code = job.failureCode();
+            if (code == null || code.isBlank()) {
+                return "";
+            }
+            for (ErrorCode errorCode : ErrorCode.values()) {
+                if (errorCode.code().equals(code)) {
+                    return msg("ingest.job.failure", code, messages.errorSummary(errorCode, locale));
+                }
+            }
+            String message = job.failureMessage();
+            return message == null || message.isBlank() ? code : msg("ingest.job.failure", code, message);
+        }
+
+        List<String> warnings(IngestTranslator translator) {
+            List<String> lines = new ArrayList<>();
+            boolean vectors = false;
+            for (WarningCount warning : job.warnings()) {
+                if (VECTORS.contains(warning.field())) {
+                    vectors = true;
+                } else {
+                    lines.add(line(warning, translator.text(warning.message(), locale)));
+                }
+            }
+            if (vectors) {
+                lines.addFirst(msg("ingest.job.warning.vectors"));
+            }
+            return List.copyOf(lines);
+        }
+
+        private String line(WarningCount warning, String message) {
+            if (warning.count() > 1) {
+                return msg("ingest.job.warning.many", warning.field(), message, number(warning.count()));
+            }
+            return msg("ingest.job.warning.one", warning.field(), message);
+        }
     }
 }

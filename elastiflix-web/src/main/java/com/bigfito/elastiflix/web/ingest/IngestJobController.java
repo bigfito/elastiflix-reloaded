@@ -17,7 +17,6 @@ import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,19 +48,19 @@ public class IngestJobController {
      * @param uploads    extensión, tamaño y UTF-8
      * @param limits     tamaño máximo del archivo y alias del catálogo para los textos
      * @param messages   mensajes i18n
-     * @param translator traductor de vistas
+     * @param translator textos de la carga en el idioma de la persona
      */
     public IngestJobController(
             IngestService ingest,
             UploadCheck uploads,
             IngestLimits limits,
-            @Autowired(required = false) UiMessages messages,
-            @Autowired(required = false) IngestTranslator translator) {
+            UiMessages messages,
+            IngestTranslator translator) {
         this.ingest = ingest;
         this.uploads = uploads;
         this.limits = limits;
         this.messages = messages;
-        this.translator = translator != null ? translator : new IngestTranslator();
+        this.translator = translator;
     }
 
     /**
@@ -137,18 +136,16 @@ public class IngestJobController {
      */
     @GetMapping(value = "/cargar/trabajos/{jobId}/informe.csv", produces = "text/csv")
     public String report(@PathVariable String jobId, Locale locale) {
-        String raw = ingest.errorReport(jobId);
         JobView view = ingest.job(jobId);
-        boolean isCsv = view != null && "csv".equals(view.kind());
-        return translator.toErrorCsv(raw, locale, isCsv);
+        boolean csv = view != null && "csv".equals(view.kind());
+        return ingest.errorReport(jobId, translator.reportHeader(csv, locale), translator.rewriter(locale));
     }
 
     private ResponseEntity<Map<String, String>> rejected(
             MultipartFile file, IngestValidationException exception, Locale locale) {
         String code = exception.errorCode().code();
         LOG.warn("{}: se rechazó {}", code, fileName(file));
-        String summary = messages != null ? messages.errorSummary(exception.errorCode(), locale)
-                : exception.errorCode().summary();
+        String summary = messages.errorSummary(exception.errorCode(), locale);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
                 "code", code,
                 "message", summary));
@@ -164,8 +161,8 @@ public class IngestJobController {
 
     private JobScreen screen(String jobId, Locale locale) {
         JobView view = ingest.job(jobId);
-        JobView translated = translator.translateJob(view, locale, messages);
-        return new JobScreen(translated, JobTexts.of(translated, limits.alias(), locale, messages));
+        return new JobScreen(
+                translator.job(view, locale), JobTexts.of(view, limits.alias(), locale, messages, translator));
     }
 
     /** Un CSV sin encabezado se rechaza en la subida, antes de crear el trabajo (PLAN §5). */

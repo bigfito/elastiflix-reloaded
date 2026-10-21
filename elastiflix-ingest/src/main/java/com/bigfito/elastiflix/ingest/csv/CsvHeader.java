@@ -8,6 +8,7 @@ import java.util.Set;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.FieldMapping;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
+import com.bigfito.elastiflix.ingest.mapping.IngestPhrase;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.VectorFields;
 
@@ -23,7 +24,7 @@ final class CsvHeader {
     static final String TITLE = "title";
     static final String PLOT = "plot";
     static final String DOCUMENT_ID = "_id";
-    static final String HEADER = "encabezado";
+    static final String HEADER = IngestPhrase.HEADER.text();
     private static final String MISSING_ID = "—";
     private static final Logger LOG = LoggerFactory.getLogger(CsvHeader.class);
 
@@ -66,11 +67,13 @@ final class CsvHeader {
 
     private void checkColumn(String column, Set<String> seen, List<ValidationIssue> issues) {
         if (column == null || column.isBlank()) {
-            issues.add(error(ErrorCode.INVALID_HEADER, "", "un nombre vacío", "un nombre del mapping"));
+            issues.add(error(
+                    ErrorCode.INVALID_HEADER, "", IngestPhrase.EMPTY_NAME.text(), IngestPhrase.MAPPING_NAME.text()));
             return;
         }
         if (!seen.add(column)) {
-            issues.add(error(ErrorCode.INVALID_HEADER, column, "nombre repetido", "un nombre único"));
+            issues.add(error(ErrorCode.INVALID_HEADER, column,
+                    IngestPhrase.REPEATED_NAME.text(), IngestPhrase.UNIQUE_NAME.text()));
             return;
         }
         if (VectorFields.isVector(column)) {
@@ -79,16 +82,16 @@ final class CsvHeader {
         }
         if (!allowed.contains(column)) {
             issues.add(error(ErrorCode.UNKNOWN_FIELD, column,
-                    "Una columna llamada " + column,
-                    "Ese campo no existe en el mapping del índice"));
+                    IngestPhrase.COLUMN_NAMED.text(column),
+                    IngestPhrase.NOT_IN_MAPPING.text()));
         }
     }
 
     private static void require(List<String> columns, List<ValidationIssue> issues) {
         if (!columns.contains(ID) || !columns.contains(TITLE) || !columns.contains(PLOT)) {
             issues.add(error(ErrorCode.INVALID_HEADER, HEADER,
-                    "faltan id, title o plot",
-                    "la primera fila incluye id, title y plot"));
+                    IngestPhrase.MISSING_REQUIRED.text(),
+                    IngestPhrase.HEADER_WITH_REQUIRED.text()));
         }
     }
 
@@ -98,8 +101,8 @@ final class CsvHeader {
                 HEADER,
                 MISSING_ID,
                 column,
-                "columna " + column,
-                "se generarán con el servicio de inferencia",
+                IngestPhrase.COLUMN.text(column),
+                IngestPhrase.WILL_BE_GENERATED.text(),
                 true);
     }
 

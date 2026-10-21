@@ -13,6 +13,7 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.mapping.CsvValues;
+import com.bigfito.elastiflix.ingest.mapping.IngestPhrase;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.VectorFields;
@@ -129,7 +130,7 @@ public final class CsvMovieReader {
                 "—",
                 "",
                 Integer.toString(received),
-                Integer.toString(expected) + " celdas",
+                IngestPhrase.CELLS.text(expected),
                 false);
     }
 

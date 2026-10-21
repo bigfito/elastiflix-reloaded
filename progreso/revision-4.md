@@ -17,11 +17,10 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** U-13 y U-17 (ingest expone códigos y argumentos; la web traduce por clave)
-- **Subpaso en curso:** inventario de los textos en español que emite `elastiflix-ingest`
-- **Próximo paso:** dar a `ValidationIssue`, las advertencias y los estados de columna claves estables, y
-  traducirlas en `elastiflix-web` con `messages_*.properties`
-- **Última actualización:** 2026-10-21 18:35 UTC
+- **Tarea actual:** U-17 (textos de la cabecera y etiquetas de las sugerencias, al catálogo)
+- **Subpaso en curso:** pasar `CatalogTexts` y las etiquetas de `*Suggestions` a `messages_*.properties`
+- **Próximo paso:** claves `layout.catalog.*` y `home.suggest.*`, con sus pruebas
+- **Última actualización:** 2026-10-21 19:40 UTC
 
 ## Tareas
 
@@ -34,8 +33,9 @@ en curso
 | U-01 | terminada | `59d2662` | Medición del 2026-10-21 (k=100, 200 candidatos, 6 899 películas): Life of Pi 31.º · 7.º · 5.º (antes 30 · 7 · 4); Titanic y WALL·E sin cambios. `VectorSearchIT`, `FullTextSearchIT` e `HybridSearchIT` en verde (14 de 14) |
 | U-24 | terminada | `59d2662` | Sugerencias en español: Titanic 36/7/4, Inception 94/13/8, Life of Pi 31/7/5, Spirited Away 13/4/1 (E.T. y WALL·E sin cambios). Conteos léxicos de los dos idiomas: dark knight 57/5, love story 107/3, el secreto 35/2, le fabuleux 26/1, heaven 10, next 15; Kolejne en title 3 (OR) y 0 (AND); híbrida Titanic 1.º vectorial, 1.º léxico. Las de inglés coinciden con la fase 8. `./mvnw -pl elastiflix-web verify` en verde |
 | U-07 | terminada | `f70be66` | Texto nuevo en `ErrorCode`, `messages_es` y `messages_en`, y en `docs/diseno/7.md`. `MovieDetailControllerTest` (7), `MessageCatalogParityTest` (3) y `ErrorPageTest` (4) en verde |
-| U-16 | terminada | se anota en el commit siguiente | `EmptyState` enum, `ComponentScore(score, rank, k)` y `Pagination(first, last)`; la web arma los textos con `results.pager.span` y `results.card.score.outsideTop`. `./mvnw verify` en verde (386 unitarias, Checkstyle 0, PMD 0) |
-| U-13, U-17 | pendiente | | |
+| U-16 | terminada | `3d1933f` | `EmptyState` enum, `ComponentScore(score, rank, k)` y `Pagination(first, last)`; la web arma los textos con `results.pager.span` y `results.card.score.outsideTop`. `./mvnw verify` en verde (386 unitarias, Checkstyle 0, PMD 0) |
+| U-13, U-17 (carga) | terminada | se anota en el commit siguiente | `IngestPhrase` (57 frases) en ingest; `IngestTranslator` y `JobTexts` traducen por clave en los dos idiomas; informe CSV, rechazos del registro individual y 413 traducidos. `./mvnw verify` en verde: 513 unitarias (core 68, search 71, ingest 189, web 185), Checkstyle 0, PMD 0. `IngestTranslatorTest` pasa la salida real de `MappingValidator`, `CsvMovieReader` y `CsvColumnRows` en inglés sin una palabra en español |
+| U-17 (cabecera y sugerencias) | pendiente | | |
 | U-14, U-15 | pendiente | | |
 | U-02 | pendiente | | |
 | U-33 (cabeceras) | descartada | — | Adolfo decidió no agregar cabeceras de seguridad (2026-10-21) |
@@ -75,6 +75,14 @@ Vacío.
   Inicio, busca la película y ábrela desde los resultados», y su versión en inglés. El estado de error **no**
   se agregó a los mockups `Detail*.dc.html`: la página usa la plantilla de error común (T-20), que no tiene
   mockup. Queda como pregunta para Adolfo si quiere ese estado en el canvas.
+- 2026-10-21 (U-13, U-17): la corrección de fondo de la traducción de la carga no cambia `ValidationIssue`
+  (sus textos siguen en español, para los logs, el informe en español y el JSON que lee `ingest.js`). En su
+  lugar, cada frase fija vive en un vocabulario de ingest, `IngestPhrase`, que sabe escribirla y reconocerla, y
+  la web traduce por su clave. Así no hay copias de las frases en la web, el contrato JSON no cambia y dos
+  pruebas lo vigilan: `IngestPhraseTest` (cada frase se reconoce a sí misma, sin plantillas repetidas) e
+  `IngestTranslatorTest` (cada frase tiene clave en los dos catálogos y la salida real sale en inglés). Se
+  borraron `ValidationIssueTranslator`, `CsvColumnTranslator` y `EnglishJobTexts`. `IngestJobController`,
+  `IngestJobErrors` y `UploadSizeErrors` ya no aceptan `UiMessages` opcional (parte de U-18).
 
 ## Resumen de diseño
 

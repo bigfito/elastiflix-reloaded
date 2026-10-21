@@ -13,7 +13,7 @@ public final class VectorFields {
     /** {@code plot_256}, {@code plot_512} y {@code plot_1024}. */
     public static final Set<String> NAMES = Set.of("plot_256", "plot_512", "plot_1024");
 
-    private static final String WILL_GENERATE = "se generarán con el servicio de inferencia";
+    private static final String WILL_GENERATE = IngestPhrase.WILL_BE_GENERATED.text();
 
     private VectorFields() {
     }
