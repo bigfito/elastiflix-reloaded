@@ -44,18 +44,18 @@ cerrada, cambio de agente). **Al iniciar cualquier sesión, antes de escribir c�
 **híbrida (RRF)** sobre el alias `elastiflix-reloaded` de **Elasticsearch Serverless**, con filtros
 dinámicos, paginación y carga segura de datos (.json/.csv). El índice y el conteo vigentes están en
 `progreso/INDICE.md` › «Catálogo vigente». Java 25, Spring Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de
-Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. Las fases 0 a 8 están en `main`. Las
+Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. Las fases 0 a 9 están en `main`. Las
 verificaciones históricas de las fases contaron 4 322 películas, el catálogo anterior a la importación del
 2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` afirman los 6 899 documentos; las IT de búsqueda, los
 valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 
 ## Trabajo abierto
 
-Las fases 0 a 8 y las revisiones 1 a 4 están cerradas; la fase 9 (Requerimiento 3) está en curso. Lo pendiente es lo que diga
+Las fases 0 a 9 y las revisiones 1 a 4 están cerradas. Lo pendiente es lo que diga
 `progreso/INDICE.md` › «Punto de reanudación». Una revisión en carriles paralelos sigue «Cómo trabajar en
 paralelo» de `docs/revisiones/revision-3.md`: rama y archivo de estado por carril; PLAN, README, `docs/` e
 `INDICE.md` los escribe solo el cierre. «Requerimientos nuevos» de PLAN: el 1 y el 2 están hechos (fases 7 y 8);
-el 3 es la fase 9 y el 4 espera el consentimiento de Adolfo.
+el 3, en la fase 9; el 4 espera el consentimiento de Adolfo.
 
 ## Regla de oro sobre el orden de trabajo
 

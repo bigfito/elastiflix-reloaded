@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** 9 — Archivos de carga de hasta 25 MB (Requerimiento 3)
-- **Estado de la fase:** terminada en la rama `fase-9-25mb`; falta el PR hacia `main`
-- **Ramas:** `fase-9-25mb` (sale de `main`, `71c5122`)
+- **Estado de la fase:** terminada y fusionada en `main` (PR #27, `1047a65`)
+- **Ramas:** `main` (la rama `fase-9-25mb` se borró tras la fusión)
 - **Diseño:** [`docs/diseno/9.md`](../docs/diseno/9.md)
 - **Estado:** [`progreso/9.md`](9.md)
-- **Tarea actual:** ninguna; la fase espera el PR
-- **Próximo paso:** abrir el PR de `fase-9-25mb` hacia `main` y fusionarlo cuando Adolfo lo pida
-- **Última actualización:** 2026-10-21 21:08 UTC
+- **Tarea actual:** ninguna
+- **Próximo paso:** coordinar con Adolfo el Requerimiento 4 (carga en modo append o bulk); no empieza sin su consentimiento.
+- **Última actualización:** 2026-10-21 21:11 UTC
 
 ## Fases
 
@@ -35,7 +35,7 @@
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 341 repo: core 67, search 71, ingest 123, web 80; decía 329, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). |
 | 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | Fusionada en `main` (`3c27c40`, PR #24). Rama remota y local `fase-8-i18n` borrada. `./mvnw clean verify` en verde (104 unitarias web / 366 repo: core 68, search 71, ingest 123, web 104; decía 347, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4, solo con `-pl elastiflix-web` (revisión 4, U-02). |
 | — | Revisión 4 | — | terminada | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38), toda resuelta. PR #25 (merge `b54d67c`) y PR #26 (merge `c9be924`) fusionados en `main`; ramas y worktrees de los carriles borrados. `./mvnw verify -Pit` en verde (635 + 32) y navegador 15 de 15, el 2026-10-21. Adolfo aprobó las capturas, el estado de error del mockup del detalle, el patrón ViewModel del diseño 7 y la dependencia opcional `spring-boot-web-server` en core. |
-| 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | terminado en la rama `fase-9-25mb` | `progreso/9.md` | `./mvnw clean verify -Pit` en verde (637 unitarias: core 78, search 76, ingest 215, web 268; 32 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 19 de 19, el 2026-10-21. Falta el PR hacia `main`. |
+| 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | terminado | `progreso/9.md` | `./mvnw clean verify -Pit` en verde (637 unitarias: core 78, search 76, ingest 215, web 268; 32 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 19 de 19, el 2026-10-21. Fusionada en `main` (`1047a65`, PR #27); rama `fase-9-25mb` borrada en local y en el remoto. |
 
 ## Aprobaciones del usuario
 
@@ -92,6 +92,7 @@
 | 2026-10-21 | Revisión 4: resto de la lista y fusión del PR #26 | Adolfo pidió «Trabaja y resuelve todos los puntos de @docs/revisiones/revision-4.md.» y después «Sí, fusiona el PR #26 en main, deja la copia local y el remoto al día y borra las ramas y worktrees que ya no se necesitan.». PR #26 fusionado con el merge commit `c9be924` a las 20:33 UTC. |
 | 2026-10-21 | Revisión 4: lo que quedaba pendiente | Adolfo respondió «Tienes mi aprobación.» a los cuatro puntos que esperaban su aprobación: las 22 capturas nuevas de `docs/capturas/` (U-36), la variante «Error EFX-SRCH-012» de los mockups del detalle (U-07), el patrón «View Helper / ViewModel» del diseño 7 (U-38) y la dependencia opcional `spring-boot-web-server` en `elastiflix-core` (U-30). |
 | 2026-10-21 | Inicio del Requerimiento 3 (Fase 9) | Adolfo pidió «Continua con el requerimiento 3.» después de cerrar la revisión 4: es su consentimiento explícito para arrancar (PLAN › «Requerimientos nuevos»). Rama `fase-9-25mb`; diseño `docs/diseno/9.md`, sin compuerta 🔒. El requerimiento 4 sigue esperando su consentimiento. |
+| 2026-10-21 | Cierre y fusión de la Fase 9 (Requerimiento 3: archivos de hasta 25 MB) | Adolfo pidió «Sí, abre el PR de fase-9-25mb, fusiónalo en main, deja local y remoto al día y borra la rama.». PR #27 fusionado con el merge commit `1047a65` a las 21:11 UTC; la rama `fase-9-25mb` se borró en local y en el remoto. `./mvnw clean verify -Pit` en verde (637 unitarias y 32 de integración) y navegador 19 de 19 antes de fusionar. |
 
 
 ## Catálogo vigente

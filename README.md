@@ -23,7 +23,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > [!NOTE]
 > ✅ **Estado actual:** las fases 0 a 8 están en `main`, incluidos el detalle de película (fase 7) y la interfaz
 > en español e inglés (fase 8), y la revisión 4 que las corrigió (PR #25 y #26). La fase 9 (Requerimiento 3:
-> archivos de hasta 25 MB) está en la rama `fase-9-25mb`. El
+> archivos de hasta 25 MB) también está en `main` (PR #27). El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 

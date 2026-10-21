@@ -1244,7 +1244,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 ## Requerimientos nuevos (después de la revisión 3)
 
 > **Estado:** los requerimientos 1 y 2 ya se implementaron (fases 7 y 8, en `main`; la revisión 4 corrige lo que
-> dejaron pendiente). El requerimiento 3 está en curso en la fase 9 (consentimiento de Adolfo del 2026-10-21). El
+> dejaron pendiente). El requerimiento 3 se implementó en la fase 9 (PR #27, `1047a65`, 2026-10-21). El
 > requerimiento 4 **no se implementa todavía**. El trabajo de cada uno empieza solo
 > cuando se cumplen las dos condiciones:
 >
@@ -1458,7 +1458,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 - **Relación con la revisión 3:** T-13 sigue trabajando con el límite actual de 150 MB. El cambio a 25 MB
   se hace en este requerimiento, después de la revisión 3.
 
-- **Fase 9 — Tareas** (rama `fase-9-25mb`; diseño en `docs/diseno/9.md`, sin compuerta 🔒):
+- **Fase 9 — Tareas** (diseño en `docs/diseno/9.md`, sin compuerta 🔒; fusionada en `main` con el PR #27, `1047a65`):
   - [x] **9.0** Diseño técnico en `docs/diseno/9.md`: dónde vive la constante de 25 MB, qué pierde la configuración y qué pruebas cubren 25 MB y 25 MB + 1 byte en el navegador y en el servidor.
   - [x] **9.1** Constante `FileChecker.MAX_FILE_SIZE` (25 MB) y comprobación del servidor: se quitan `ElastiflixProperties.Ingest.maxFileSize`, `elastiflix.ingest.max-file-size` y `ELASTIFLIX_INGEST_MAX_FILE_SIZE` (`application.yml`, `.env.example`); `FileGate`, `IngestLimits` y `UploadMultipartConfig` (archivo 25 MB, petición 26 MB) leen la constante. Pruebas unitarias y MockMvc: 25 MB pasa, 25 MB + 1 byte da 413 `EFX-ING-003`, y una variable vieja en el entorno no cambia nada.
   - [x] **9.2** Comprobación del navegador: `ingest.js` toma el tope solo de la página, sin la reserva de 150 MB. Prueba de navegador: 25 MB pasa y 25 MB + 1 byte se rechaza, en español y en inglés.
