@@ -54,7 +54,7 @@ flowchart LR
 
   pages -->|"H título de una tarjeta<br/>con la búsqueda en la URL"| detail
   detail -->|"I findById<br/>sin búsqueda válida: 400 EFX-SRCH-012"| facade_s
-  facade_s -->|"J GET _doc sin plot_256/512/1024<br/>no existe: 404"| catalog
+  facade_s -->|"J GET _doc sin plot_256/512/1024<br/>found=false: 404 · error de Elasticsearch: página EFX"| catalog
 
   user -->|"A archivo .json / .csv"| pages
   ctrl -->|"B"| facade_i
