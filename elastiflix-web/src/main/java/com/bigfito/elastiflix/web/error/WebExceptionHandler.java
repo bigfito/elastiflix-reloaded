@@ -54,7 +54,7 @@ public class WebExceptionHandler {
     public String elastiflix(ElastiflixException exception, Model model, HttpServletRequest request) {
         LOG.info("Página de error {}", exception.errorCode().code());
         model.addAttribute("shell", shell(request));
-        return ErrorPages.filled(model, exception);
+        return ErrorPages.filled(model, exception, messages);
     }
 
     private PageShell shell(HttpServletRequest request) {

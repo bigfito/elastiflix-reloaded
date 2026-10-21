@@ -4,8 +4,8 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.SearchValidationException;
 import com.bigfito.elastiflix.search.query.SearchQuery;
 import com.bigfito.elastiflix.search.result.SearchService;
-
 import com.bigfito.elastiflix.web.layout.HtmlPage;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class SearchController implements HtmlPage {
     private final SearchQueryMapper mapper;
     private final SearchService searches;
     private final ResultsPage pages;
-    private final com.bigfito.elastiflix.web.locale.UiMessages messages;
+    private final UiMessages messages;
 
     /**
      * Crea el controlador con la fachada de búsqueda y el catálogo de mensajes.
@@ -43,7 +43,7 @@ public class SearchController implements HtmlPage {
             SearchQueryMapper mapper,
             SearchService searches,
             ResultsPage pages,
-            com.bigfito.elastiflix.web.locale.UiMessages messages) {
+            UiMessages messages) {
         this.mapper = mapper;
         this.searches = searches;
         this.pages = pages;

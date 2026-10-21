@@ -49,6 +49,10 @@ public class LocaleConfig implements WebMvcConfigurer {
     /**
      * Resuelve el idioma desde la cookie {@code elastiflix-lang}, usando siempre {@code es} por defecto.
      *
+     * <p>Una cookie ilegible (por ejemplo {@code elastiflix-lang=e$}) se ignora y la página sale en español: con el
+     * valor por defecto de Spring, cada página respondería 500 hasta que la persona borrara la cookie. La cookie es
+     * {@code HttpOnly} porque ningún script la lee.</p>
+     *
      * @return resolvedor de idioma basado en cookie
      */
     @Bean
@@ -57,6 +61,8 @@ public class LocaleConfig implements WebMvcConfigurer {
         resolver.setDefaultLocale(SupportedLocale.ES);
         resolver.setCookieMaxAge(COOKIE_MAX_AGE);
         resolver.setCookiePath("/");
+        resolver.setCookieHttpOnly(true);
+        resolver.setRejectInvalidCookies(false);
         return resolver;
     }
 

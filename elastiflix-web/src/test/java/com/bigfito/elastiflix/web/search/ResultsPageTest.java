@@ -377,7 +377,8 @@ class ResultsPageTest {
     void shouldRenderValidationErrorInEnglish() throws Exception {
         mvc.perform(get("/buscar").param("q", "").param("lang", "en"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Enter a movie to search for before pressing Search")));
+                .andExpect(content().string(containsString(
+                        "<span>Type the movie you&#39;re looking for before you press Search.</span>")));
     }
 
 

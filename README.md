@@ -15,16 +15,17 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
 
 ![Estado](https://img.shields.io/badge/estado-terminado-BDE8D7?style=flat-square&labelColor=3A3548)
-![Fases](https://img.shields.io/badge/fases-8%2F8-FFCDB2?style=flat-square&labelColor=3A3548)
+![Fases](https://img.shields.io/badge/fases-9%2F9-FFCDB2?style=flat-square&labelColor=3A3548)
 ![Agentes](https://img.shields.io/badge/agentes-Claude_Code_%C2%B7_Cursor_%C2%B7_Antigravity_%C2%B7_Junie-BDE8D7?style=flat-square&labelColor=3A3548)
 
 </div>
 
 > [!NOTE]
-> ✅ **Estado actual:** la Fase 8 (Requerimiento 2: Interfaz en español e inglés / i18n) está completada
-> con pruebas unitarias, de paridad de catálogos, Checkstyle y PMD en verde. El estado y el próximo paso
-> están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo vigentes del alias
-> `elastiflix-reloaded` («Catálogo vigente»).
+> ✅ **Estado actual:** las fases 0 a 8 están en `main`, incluidos el detalle de película (fase 7) y la interfaz
+> en español e inglés (fase 8). La revisión 4, que corrige lo que dejaron esas dos fases, tiene todos sus puntos
+> resueltos en la rama `revision-4-resto` y espera el PR hacia `main`. El
+> estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
+> vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
 ---
 
@@ -158,7 +159,8 @@ flowchart LR
 
 - **Antes de subir:** solo `.json` o `.csv`, sin dobles extensiones, máximo **150 MB**, UTF-8.
 - **Contra el mapping:** se revisa el archivo completo; si algo no coincide, se muestra cada error
-  (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe.
+  (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe. La página
+  da el total real de errores; el informe descargable trae como mucho los primeros 10 000.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución desde
   `plot`, con el modelo de embeddings a través del servicio de inferencia de Elasticsearch, con la misma
   configuración que produjo los vectores del catálogo (calibrada en la tarea 1.9). Los archivos no los
@@ -204,9 +206,9 @@ elastiflix-reloaded/
 ├── ⚙️  elastiflix-core/                  modelo · cliente ES · alias e índices · embeddings
 ├── 🔎 elastiflix-search/                match / multi_match · knn · rrf · filtros · facetas
 ├── 📥 elastiflix-ingest/                validación · lectores JSON/CSV · importación · swap de alias
-├── 🌐 elastiflix-web/                   único ejecutable · 4 páginas Thymeleaf
+├── 🌐 elastiflix-web/                   único ejecutable · 5 páginas Thymeleaf en español e inglés
 ├── 🧹 config/                           Checkstyle y PMD (congelados)
-├── 📚 docs/                             convenciones · arquitectura · diseños por fase · capturas
+├── 📚 docs/                             convenciones · arquitectura · diseños por fase · glosario EN · revisiones · capturas
 ├── 🎨 design/                           mockups aprobados y tokens de diseño
 ├── 🗄️  elasticsearch/                    mapping del índice y fixtures reales
 ├── 📍 progreso/                         estado del desarrollo para retomar sesiones
@@ -328,11 +330,19 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
 - Importación con índice temporal, lotes de 100 y publicación en una sola llamada (el índice anterior se
   borra); si falla o se cancela, el catálogo queda como estaba.
 - Registro individual directo al alias, visible en la búsqueda siguiente.
-- Cuatro páginas: Inicio (tres modos y sugerencias), Resultados, Cargar datos y Acerca de (tabla de
-  precisión y créditos de TMDB).
+- Cinco páginas: Inicio (tres modos y sugerencias), Resultados, Detalle de película, Cargar datos y Acerca de
+  (tabla de precisión y créditos de TMDB).
+- Detalle de película en `/pelicula/{id}`: todos los campos del documento salvo los vectores, cifras en USD,
+  «N/A» en los campos vacíos y regreso a los resultados con la búsqueda intacta. Sin una búsqueda válida
+  responde 400 con `EFX-SRCH-012`; un `id` que no existe, 404; si Elasticsearch falla, la página de error
+  `EFX-*`. Los ids con `/` o fuera de ASCII viajan codificados en un solo segmento (`/pelicula/a%2Fb`).
+- Interfaz en español e inglés: selector «ES · EN» en el header, parámetro `lang` y cookie `elastiflix-lang`;
+  español por defecto. Los textos están en `messages_es.properties` y `messages_en.properties`; los logs
+  siguen en español.
 - Página de error con el código `EFX-*` y un 404 con navegación.
 - Smoke de punta a punta en `./mvnw verify -Pit`: salud de la aplicación, Inicio, Acerca de y Cargar datos,
-  una búsqueda por modo y la validación de `elasticsearch/fixtures/movies-sample.csv` sin importar. El catálogo queda
+  una búsqueda por modo, el detalle de Titanic abierto desde una búsqueda (en español y en inglés), las páginas
+  con `lang=en` y la validación de `elasticsearch/fixtures/movies-sample.csv` sin importar. El catálogo queda
   igual antes y después.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
@@ -357,13 +367,13 @@ El proyecto está preparado para que **cualquiera de estos agentes** trabaje en 
 | Herramienta | Qué lee | Archivo en este repo |
 |---|---|---|
 | 🟣 **Cursor** *(programó las fases 0 a 6)* | `AGENTS.md` en la raíz + reglas `.mdc` | `AGENTS.md`, `.cursor/rules/elastiflix-java.mdc` |
-| 🟠 **Claude Code** | `CLAUDE.md`, que importa `AGENTS.md` | `CLAUDE.md` → `@AGENTS.md` |
-| 🔵 **Google Antigravity** | `AGENTS.md` en la raíz (máx. 12 000 caracteres) | `AGENTS.md` |
+| 🟠 **Claude Code** *(revisiones 3 y 4)* | `CLAUDE.md`, que importa `AGENTS.md` | `CLAUDE.md` → `@AGENTS.md` |
+| 🔵 **Google Antigravity** *(programó las fases 7 y 8)* | `AGENTS.md` en la raíz (máx. 12 000 caracteres) | `AGENTS.md` |
 | 🟢 **JetBrains Junie** | `AGENTS.md` en la raíz | `AGENTS.md` |
 
 ### ▶️ Para empezar
 
-Las siete fases del plan ya están en `main`, así que la orden de arranque original («Apruebo el plan…
+Las nueve fases del plan (0 a 8) ya están en `main`, así que la orden de arranque original («Apruebo el plan…
 ejecuta las fases en orden desde la Fase 0») ya no aplica. El trabajo pendiente, si lo hay, está en
 «Punto de reanudación» de [`progreso/INDICE.md`](progreso/INDICE.md). Varios agentes pueden trabajar a la
 vez si cada uno toma una parte con archivos propios, su rama y su worktree, y la integra con un PR hacia
@@ -381,7 +391,7 @@ cada fase actualiza también esta documentación. Pide:
 
 ### 🔒 Aprobar o pedir cambios a un diseño
 
-Las fases 1, 2 y 3 se detienen en `esperando aprobación de diseño`. Responde con una de estas frases:
+Las fases con 🔒 (1, 2, 3 y 7) se detienen en `esperando aprobación de diseño`. Responde con una de estas frases:
 
 > ✅ Apruebo el diseño de la Fase N tal como está. Regístralo en `progreso/N.md` y continúa.
 
@@ -424,26 +434,33 @@ Pantallas aprobadas en [`design/mockups/`](design/mockups/) con su paleta pastel
 tipografías **Bricolage Grotesque**, **IBM Plex Sans** e **IBM Plex Mono**. Tokens y guía en
 [`design/README.md`](design/README.md).
 
-| 🏠 Inicio | 📋 Resultados | 📥 Cargar datos | ℹ️ Acerca de |
-|---|---|---|---|
-| Búsqueda, modos y sugerencias | Puntuaciones, filtros y paginación | Formulario, archivos y validación | Documentación de la demo |
+| 🏠 Inicio | 📋 Resultados | 🎬 Detalle | 📥 Cargar datos | ℹ️ Acerca de |
+|---|---|---|---|---|
+| Búsqueda, modos y sugerencias | Puntuaciones, filtros y paginación | Ficha completa y regreso a la búsqueda | Formulario, archivos y validación | Documentación de la demo |
+
+Cada pantalla tiene su versión en inglés (`<Página>-en.dc.html`); la traducción sigue
+[`docs/i18n/glosario-en.md`](docs/i18n/glosario-en.md).
 
 ## 📸 Capturas
 
-Capturas de página completa con la aplicación conectada al catálogo real; el pie muestra su conteo. La
-comparación con los mockups está en [`progreso/4.md`](progreso/4.md).
+Capturas de página completa con la aplicación conectada al catálogo real (6 899 películas), en español y en
+inglés; el pie muestra su conteo. Se tomaron el 2026-10-21 en la revisión 4 (ventana de 1440 px, Chromium con
+Playwright 1.49.1) y esperan la aprobación de Adolfo. La comparación anterior con los mockups está en
+[`progreso/4.md`](progreso/4.md).
 
-| Página | Captura |
-|---|---|
-| Inicio `GET /` | ![Inicio](docs/capturas/inicio.png) |
-| Resultados · Full-text | ![Resultados full-text](docs/capturas/resultados-fulltext.png) |
-| Resultados · Vectorial | ![Resultados vectorial](docs/capturas/resultados-vectorial.png) |
-| Resultados · Híbrida | ![Resultados híbrida](docs/capturas/resultados-hibrida.png) |
-| Cargar datos · Registro individual | ![Registro individual](docs/capturas/cargar-registro.png) |
-| Cargar datos · CSV válido, listo para importar | ![CSV válido](docs/capturas/cargar-csv-valido.png) |
-| Cargar datos · CSV que no coincide con el mapping | ![CSV inválido](docs/capturas/cargar-csv-invalido.png) |
-| Acerca de `GET /acerca` | ![Acerca de](docs/capturas/acerca.png) |
-| Ruta desconocida | ![No encontrada](docs/capturas/no-encontrada.png) |
+| Página | Español | English |
+|---|---|---|
+| Inicio `GET /` | ![Inicio](docs/capturas/inicio.png) | ![Inicio (EN)](docs/capturas/inicio-en.png) |
+| Resultados · Full-text | ![Resultados · Full-text](docs/capturas/resultados-fulltext.png) | ![Resultados · Full-text (EN)](docs/capturas/resultados-fulltext-en.png) |
+| Resultados · Vectorial | ![Resultados · Vectorial](docs/capturas/resultados-vectorial.png) | ![Resultados · Vectorial (EN)](docs/capturas/resultados-vectorial-en.png) |
+| Resultados · Híbrida | ![Resultados · Híbrida](docs/capturas/resultados-hibrida.png) | ![Resultados · Híbrida (EN)](docs/capturas/resultados-hibrida-en.png) |
+| Detalle de película `GET /pelicula/{id}` | ![Detalle de película](docs/capturas/detalle.png) | ![Detalle de película (EN)](docs/capturas/detalle-en.png) |
+| Detalle sin búsqueda (`EFX-SRCH-012`) | ![Detalle sin búsqueda (`EFX-SRCH-012`)](docs/capturas/detalle-sin-busqueda.png) | ![Detalle sin búsqueda (`EFX-SRCH-012`) (EN)](docs/capturas/detalle-sin-busqueda-en.png) |
+| Cargar datos · Registro individual | ![Cargar datos · Registro individual](docs/capturas/cargar-registro.png) | ![Cargar datos · Registro individual (EN)](docs/capturas/cargar-registro-en.png) |
+| Cargar datos · CSV válido, listo para importar | ![Cargar datos · CSV válido, listo para importar](docs/capturas/cargar-csv-valido.png) | ![Cargar datos · CSV válido, listo para importar (EN)](docs/capturas/cargar-csv-valido-en.png) |
+| Cargar datos · CSV que no coincide con el mapping | ![Cargar datos · CSV que no coincide con el mapping](docs/capturas/cargar-csv-invalido.png) | ![Cargar datos · CSV que no coincide con el mapping (EN)](docs/capturas/cargar-csv-invalido-en.png) |
+| Acerca de `GET /acerca` | ![Acerca de](docs/capturas/acerca.png) | ![Acerca de (EN)](docs/capturas/acerca-en.png) |
+| Ruta desconocida | ![Ruta desconocida](docs/capturas/no-encontrada.png) | ![Ruta desconocida (EN)](docs/capturas/no-encontrada-en.png) |
 
 ## 📖 Documentación
 
@@ -459,6 +476,10 @@ comparación con los mockups está en [`progreso/4.md`](progreso/4.md).
 | 📥 [`docs/diseno/3.md`](docs/diseno/3.md) | Diseño aprobado de la carga |
 | 🌐 [`docs/diseno/4.md`](docs/diseno/4.md) | Diseño de la interfaz web |
 | 🧪 [`docs/diseno/5.md`](docs/diseno/5.md) | Diseño del smoke test |
+| 🎬 [`docs/diseno/7.md`](docs/diseno/7.md) | Diseño aprobado del detalle de película |
+| 🌐 [`docs/diseno/8.md`](docs/diseno/8.md) | Diseño de la interfaz en español e inglés |
+| 🔤 [`docs/i18n/glosario-en.md`](docs/i18n/glosario-en.md) | Glosario ES → EN, tono y formatos en inglés |
+| 🔍 [`docs/revisiones/`](docs/revisiones/) | Listas de correcciones de las revisiones 2, 3 y 4 |
 | 📸 [`docs/capturas/`](docs/capturas/) | Capturas de las páginas |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice |
 | 🎨 [`design/README.md`](design/README.md) | Mockups y tokens de diseño |

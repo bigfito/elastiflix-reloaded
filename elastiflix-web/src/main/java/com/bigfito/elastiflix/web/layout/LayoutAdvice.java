@@ -1,12 +1,10 @@
 package com.bigfito.elastiflix.web.layout;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
-import com.bigfito.elastiflix.web.locale.LocaleConfig;
 import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
  * Pone la cabecera y el pie en cada vista, con el estado real del catálogo.
  */
 @ControllerAdvice(assignableTypes = HtmlPage.class)
-@Import(LocaleConfig.class)
 public class LayoutAdvice {
 
     private final CatalogStatusService catalog;

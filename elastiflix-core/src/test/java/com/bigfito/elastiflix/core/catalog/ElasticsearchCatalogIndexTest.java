@@ -1,9 +1,12 @@
 package com.bigfito.elastiflix.core.catalog;
 
+import java.io.IOException;
 import java.time.Clock;
 import java.util.Optional;
 import java.util.function.Function;
 
+import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
+import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
@@ -22,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -135,19 +139,62 @@ class ElasticsearchCatalogIndexTest {
     }
 
     @Test
-    @DisplayName("findById devuelve vacío si Elasticsearch responde 404")
+    @DisplayName("findById con un alias o índice inexistente (404 index_not_found_exception) falla con EFX-ES-007")
     // Mockito entrega la función del cliente sin el tipo genérico.
     @SuppressWarnings("unchecked")
-    void shouldReturnEmptyWhenElasticsearchThrows404() throws Exception {
+    void shouldFailWhenTheIndexDoesNotExist() throws Exception {
         // given
-        ElasticsearchException notFound = new ElasticsearchException("get", ErrorResponse.of(response -> response
-                .status(404).error(cause -> cause.type("index_not_found_exception").reason("no existe"))));
-        when(client.get(any(Function.class), eq(Movie.class))).thenThrow(notFound);
+        when(client.get(any(Function.class), eq(Movie.class)))
+                .thenThrow(elasticsearchError(404, "index_not_found_exception"));
 
         // when
-        Optional<Movie> found = catalog.findById("demo", "603");
+        Throwable thrown = catchThrowable(() -> catalog.findById("demo", "603"));
 
         // then
-        assertThat(found).isEmpty();
+        assertThat(thrown).isInstanceOf(ElasticsearchAccessException.class);
+        assertThat(((ElasticsearchAccessException) thrown).errorCode()).isEqualTo(ErrorCode.ELASTICSEARCH_REJECTED);
+        assertThat(thrown.getCause()).isInstanceOf(ElasticsearchException.class);
+    }
+
+    @Test
+    @DisplayName("findById con un 5xx de Elasticsearch falla con EFX-ES-001")
+    // Mockito entrega la función del cliente sin el tipo genérico.
+    @SuppressWarnings("unchecked")
+    void shouldFailWhenElasticsearchAnswersAServerError() throws Exception {
+        // given
+        when(client.get(any(Function.class), eq(Movie.class)))
+                .thenThrow(elasticsearchError(503, "unavailable_shards_exception"));
+
+        // when
+        Throwable thrown = catchThrowable(() -> catalog.findById("demo", "603"));
+
+        // then
+        assertThat(thrown).isInstanceOf(ElasticsearchAccessException.class);
+        assertThat(((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+    }
+
+    @Test
+    @DisplayName("findById sin respuesta (IOException) falla con EFX-ES-001 y conserva la causa")
+    // Mockito entrega la función del cliente sin el tipo genérico.
+    @SuppressWarnings("unchecked")
+    void shouldFailWhenElasticsearchDoesNotAnswer() throws Exception {
+        // given
+        IOException cut = new IOException("conexión cerrada");
+        when(client.get(any(Function.class), eq(Movie.class))).thenThrow(cut);
+
+        // when
+        Throwable thrown = catchThrowable(() -> catalog.findById("demo", "603"));
+
+        // then
+        assertThat(thrown).isInstanceOf(ElasticsearchAccessException.class);
+        assertThat(((ElasticsearchAccessException) thrown).errorCode())
+                .isEqualTo(ErrorCode.ELASTICSEARCH_UNAVAILABLE);
+        assertThat(thrown.getCause()).isSameAs(cut);
+    }
+
+    private static ElasticsearchException elasticsearchError(int status, String type) {
+        return new ElasticsearchException("get", ErrorResponse.of(response -> response
+                .status(status).error(cause -> cause.type(type).reason("prueba"))));
     }
 }

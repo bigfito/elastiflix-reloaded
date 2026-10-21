@@ -102,4 +102,23 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("Index: elastiflix-reloaded · 4,322 movies")))
                 .andExpect(content().string(containsString("Credits")));
     }
+
+    @Test
+    @DisplayName("Créditos abre con la frase del mockup y marca el idioma de cada aviso de TMDB")
+    void shouldIntroduceTheCreditsAndMarkTheLanguageOfEachNotice() throws Exception {
+        String notices = "<p lang=\"en\">" + CatalogTexts.TMDB + "</p>\n      <p lang=\"es\">"
+                + CatalogTexts.TMDB_ES + "</p>";
+
+        mvc.perform(get("/acerca"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<p>Los datos de las películas y las imágenes de "
+                        + "pósters vienen de TMDB (The Movie Database).</p>")))
+                .andExpect(content().string(containsString(notices)));
+
+        mvc.perform(get("/acerca").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(
+                        "<p>Movie data and poster images come from TMDB (The Movie Database).</p>")))
+                .andExpect(content().string(containsString(notices)));
+    }
 }

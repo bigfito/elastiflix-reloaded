@@ -11,6 +11,8 @@ import com.bigfito.elastiflix.core.model.Movie;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -60,6 +62,21 @@ class VectorProjectorTest {
     @DisplayName("un vector que no tiene 1024 dimensiones se rechaza")
     void shouldRejectWhenSourceLengthIsWrong() {
         assertThatThrownBy(() -> VectorProjector.project(new float[SMALL], MEDIUM))
+                .isInstanceOf(EmbeddingException.class)
+                .extracting(error -> ((EmbeddingException) error).errorCode())
+                .isEqualTo(ErrorCode.UNEXPECTED_VECTOR);
+    }
+
+    @ParameterizedTest(name = "primer valor {0}")
+    @ValueSource(floats = {0f, Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY})
+    @DisplayName("un recorte de norma cero o no finita se rechaza con EFX-EMB-002")
+    void shouldRejectWhenTheNormIsZeroOrNotFinite(float firstValue) {
+        // given: el resto del recorte vale cero, así que la norma depende solo del primer valor
+        float[] source = new float[VectorProjector.MODEL_DIMENSIONS];
+        source[0] = firstValue;
+
+        // when / then
+        assertThatThrownBy(() -> VectorProjector.project(source, MEDIUM))
                 .isInstanceOf(EmbeddingException.class)
                 .extracting(error -> ((EmbeddingException) error).errorCode())
                 .isEqualTo(ErrorCode.UNEXPECTED_VECTOR);

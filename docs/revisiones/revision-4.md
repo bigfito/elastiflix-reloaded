@@ -4,15 +4,17 @@
 > Antigravity (fase 7, detalle de película, PR #23; fase 8, i18n, PR #24) y vuelve a pasar por todo el
 > código y la documentación.
 >
-> **Sin cambios todavía.** Esta lista no está en un commit. Ninguna corrección se aplica hasta que Adolfo dé
+> Cuando se escribió, esta lista no tenía cambios aplicados: ninguna corrección se aplicaba hasta que Adolfo diera
 > instrucciones. Cada punto se verificó leyendo el código; los marcados con ✔ se reprodujeron además
 > ejecutando código o pruebas.
 >
 > **Origen:** F7 = fase 7, F8 = fase 8 (las dos de Antigravity); Previo = fases 0–6 o revisiones 1–3.
 >
-> **Avance (2026-10-21):** aplicadas U-03 y U-11 (en `main`) y, en la rama `revision-4`, U-01, U-02, U-07,
-> U-13, U-14, U-15, U-16, U-17 y U-24, según las decisiones de Adolfo. La parte de cabeceras de U-33 se
-> descartó. El estado y la evidencia de cada una están en `progreso/revision-4.md`; esta lista no se marca.
+> **Avance (2026-10-21):** todos los puntos están resueltos. U-03 y U-11 entraron directo en `main`; U-01, U-02,
+> U-07, U-13 a U-17 y U-24, con el PR #25 (`b54d67c`); el resto, en la rama `revision-4-resto` (cinco carriles en
+> paralelo, ya integrados), que espera el PR hacia `main`. La parte de cabeceras de U-33 se descartó. Esperan la
+> aprobación de Adolfo las capturas nuevas (U-36) y la variante de error de los mockups del detalle (U-07). El
+> estado, la evidencia y las decisiones de cada punto están en `progreso/revision-4.md`; esta lista no se marca.
 
 ## Resumen
 

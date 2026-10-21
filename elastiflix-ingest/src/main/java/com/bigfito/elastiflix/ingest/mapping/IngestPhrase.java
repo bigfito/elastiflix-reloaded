@@ -22,6 +22,8 @@ public enum IngestPhrase {
 
     /** Se esperaba un texto. */
     TEXT("un texto"),
+    /** Se esperaba un texto que quepa en un keyword o en un {@code _id}. */
+    TEXT_UP_TO_BYTES("un texto de máximo {0} bytes en UTF-8"),
     /** Se esperaba un entero. */
     INTEGER("un número entero"),
     /** Se esperaba un número (formulario). */

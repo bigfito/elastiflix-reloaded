@@ -1,11 +1,14 @@
 package com.bigfito.elastiflix.ingest.job;
 
 /**
- * Lote ya escrito, para seguir el progreso.
+ * Conteos acumulados de la escritura por lotes.
  *
- * @param batches    lotes completados
- * @param vectorized registros vectorizados
- * @param written    registros escritos
+ * <p>Se calculan apenas se vectoriza un lote, antes de escribirlo: cuentan el lote en curso como si ya
+ * estuviera escrito. Por eso el aviso de antes de escribir usa {@link #withWritten} con la cifra anterior.</p>
+ *
+ * @param batches    lotes procesados, contando el que está en curso
+ * @param vectorized registros vectorizados, contando el lote en curso
+ * @param written    registros escritos cuando Elasticsearch acepte el lote en curso
  * @param replaced   ids del archivo que ya estaban en la copia
  */
 record WriteTotals(int batches, int vectorized, int written, int replaced) {

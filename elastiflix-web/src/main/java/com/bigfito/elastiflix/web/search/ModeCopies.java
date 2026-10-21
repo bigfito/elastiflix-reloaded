@@ -2,27 +2,20 @@ package com.bigfito.elastiflix.web.search;
 
 import java.util.Locale;
 
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.search.query.SearchMode;
 import com.bigfito.elastiflix.search.query.SearchQuery;
-import com.bigfito.elastiflix.web.locale.SupportedLocale;
 import com.bigfito.elastiflix.web.locale.UiMessages;
 
 /**
  * Leyendas del mockup de resultados, una por modo y traducidas según el idioma activo.
+ *
+ * <p>{@code k} llega al catálogo ya escrito con {@link Thousands} («1 000», «1,000»): con un {@code int},
+ * {@code MessageFormat} lo agruparía con punto en español («k = 1.000»).</p>
  */
 public final class ModeCopies {
 
     private ModeCopies() {
-    }
-
-    /**
-     * Textos del modo de la consulta ya ejecutada en el idioma del contexto actual.
-     *
-     * @param query consulta
-     * @return chip, orden, leyenda y nota de límite
-     */
-    public static ModeCopy of(SearchQuery query) {
-        return of(query, SupportedLocale.current(), UiMessages.defaultCatalog());
     }
 
     /**
@@ -50,7 +43,7 @@ public final class ModeCopies {
     }
 
     private static ModeCopy vector(int k, Locale locale, UiMessages messages) {
-        String limit = messages.getFor(locale, "results.mode.vector.limit", k);
+        String limit = messages.getFor(locale, "results.mode.vector.limit", Thousands.of(k, locale));
         return new ModeCopy(
                 messages.getFor(locale, "results.mode.vector.label"),
                 "tone-mint",
@@ -61,7 +54,8 @@ public final class ModeCopies {
     }
 
     private static ModeCopy hybrid(int k, Locale locale, UiMessages messages) {
-        String limit = messages.getFor(locale, "results.mode.hybrid.limit", k, k);
+        String shownK = Thousands.of(k, locale);
+        String limit = messages.getFor(locale, "results.mode.hybrid.limit", shownK, shownK);
         return new ModeCopy(
                 messages.getFor(locale, "results.mode.hybrid.label"),
                 "tone-lavender",

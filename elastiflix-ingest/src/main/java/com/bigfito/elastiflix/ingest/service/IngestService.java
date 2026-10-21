@@ -95,7 +95,8 @@ public final class IngestService {
     }
 
     /**
-     * CSV de todos los errores de ese trabajo.
+     * CSV de los errores guardados de ese trabajo: como mucho los primeros 10 000, en el orden del archivo. El
+     * total real está en {@link com.bigfito.elastiflix.ingest.job.JobView#errorTotal()}.
      *
      * @param jobId identificador
      * @return texto UTF-8 con encabezado

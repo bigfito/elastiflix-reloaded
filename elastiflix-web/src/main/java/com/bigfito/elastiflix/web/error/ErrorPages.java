@@ -21,12 +21,13 @@ final class ErrorPages {
      *
      * @param model     vista de error
      * @param exception falla de la demo
+     * @param messages  catálogo de mensajes de la aplicación
      * @return nombre de la plantilla {@code error}
      */
-    static String filled(Model model, ElastiflixException exception) {
+    static String filled(Model model, ElastiflixException exception, UiMessages messages) {
         model.addAttribute("nav", "");
         model.addAttribute("code", exception.errorCode().code());
-        model.addAttribute("message", UiMessages.defaultCatalog().errorSummary(exception.errorCode()) + ".");
+        model.addAttribute("message", messages.errorSummary(exception.errorCode()) + ".");
         return "error";
     }
 }

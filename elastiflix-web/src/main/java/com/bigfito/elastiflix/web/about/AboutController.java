@@ -1,7 +1,9 @@
 package com.bigfito.elastiflix.web.about;
 
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.web.ingest.IngestLimits;
 import com.bigfito.elastiflix.web.layout.HtmlPage;
+import com.bigfito.elastiflix.web.locale.SupportedLocale;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,14 +32,15 @@ public class AboutController implements HtmlPage {
     /**
      * Muestra Acerca de. El alias y el conteo llegan en {@code shell}.
      *
-     * @param model la navegación marca esta página; lleva el tamaño máximo y el lote
+     * @param model la navegación marca esta página; lleva el tamaño máximo y el lote, con los miles del idioma
      * @return la plantilla {@code about}
      */
     @GetMapping("/acerca")
     public String about(Model model) {
         model.addAttribute("nav", "acerca");
         model.addAttribute("maxFileLabel", limits.maxFileLabel());
-        model.addAttribute("batchSize", limits.batchSize());
+        // Ya escrito con Thousands: con un int, MessageFormat agruparía con punto en español («1.000»).
+        model.addAttribute("batchSize", Thousands.of(limits.batchSize(), SupportedLocale.current()));
         return "about";
     }
 }

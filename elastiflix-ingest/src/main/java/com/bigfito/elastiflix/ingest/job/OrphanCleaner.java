@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.ingest.job;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.catalog.IndexNames;
+import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * Borra índices {@code <alias>-<AAAAMMDD-HHMMSS>} que no son el catálogo vigente.
+ *
+ * <p>La limpieza es una ayuda, no un paso de la importación: si un borrado falla, queda un {@code WARN} y la
+ * importación sigue. El huérfano se vuelve a intentar en la siguiente.</p>
  */
 @Component
 public final class OrphanCleaner {
@@ -27,7 +31,8 @@ public final class OrphanCleaner {
     }
 
     /**
-     * Borra huérfanos de ese alias. No toca el índice vigente ni otro prefijo.
+     * Borra huérfanos de ese alias. No toca el índice vigente ni otro prefijo. Un borrado que falla no
+     * detiene a los demás ni a la importación.
      *
      * @param catalog   operaciones del catálogo
      * @param alias     alias de esta importación
@@ -44,6 +49,11 @@ public final class OrphanCleaner {
             return;
         }
         LOG.warn("Se borra el índice huérfano {}", index);
-        catalog.deleteIndex(index);
+        try {
+            catalog.deleteIndex(index);
+        } catch (ElasticsearchAccessException exception) {
+            LOG.warn("{}: no se pudo borrar el índice huérfano {}; se reintentará en la próxima importación",
+                    exception.errorCode().code(), index);
+        }
     }
 }

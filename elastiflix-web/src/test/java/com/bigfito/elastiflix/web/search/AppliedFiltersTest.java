@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class AppliedFiltersTest {
 
-    private static final UiMessages MESSAGES = UiMessages.defaultCatalog();
+    private static final UiMessages MESSAGES = new UiMessages(UiMessages.createMessageSource());
 
     @Test
     @DisplayName("dos géneros, idiomas y clasificaciones se unen con « o » en español")

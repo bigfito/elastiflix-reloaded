@@ -113,4 +113,18 @@ class IngestJobJsonErrorsTest {
         // then
         assertThat(temp.get()).isNotNull().doesNotExist();
     }
+
+    @Test
+    @DisplayName("una subida sin la parte archivo la rechaza Spring con 400, sin JSON, como dice IngestJobErrors")
+    void shouldLeaveTheMissingFilePartToSpring() throws Exception {
+        // when
+        var result = mvc.perform(multipart("/cargar/archivo").param("separador", ","))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        // then
+        assertThat(result.getResolvedException())
+                .isInstanceOf(org.springframework.web.multipart.support.MissingServletRequestPartException.class);
+        assertThat(result.getResponse().getContentType()).isNull();
+    }
 }

@@ -5,9 +5,11 @@
 > Las reglas comunes están en `AGENTS.md` (importado arriba). La secuencia de trabajo está en
 > **`PLAN.md`**. Este archivo solo agrega lo específico de Claude Code.
 >
-> Las fases 0 a 6, la revisión 1, los bugs B-01 a B-05 y las revisiones 2 (PR #13) y 3 (carriles en los PR
-> #15 a #20 y cierre Z) ya están en `main`. Antes de empezar, lee `progreso/INDICE.md`: ahí están el catálogo
-> vigente y el próximo paso. Los «Requerimientos nuevos» de `PLAN.md` esperan el consentimiento de Adolfo.
+> Las fases 0 a 8, la revisión 1, los bugs B-01 a B-05 y las revisiones 2 (PR #13) y 3 (carriles en los PR
+> #15 a #20 y cierre Z) ya están en `main`; la revisión 4 sigue en curso. Antes de empezar, lee
+> `progreso/INDICE.md`: ahí están el catálogo vigente y el próximo paso. De los «Requerimientos nuevos» de
+> `PLAN.md`, el 1 (fase 7, detalle) y el 2 (fase 8, español e inglés) están hechos; el 3 y el 4 esperan el
+> consentimiento de Adolfo.
 
 ## Antes de empezar
 

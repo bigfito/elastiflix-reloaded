@@ -28,6 +28,7 @@ import com.bigfito.elastiflix.ingest.vector.PlotVectorizer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -52,6 +53,10 @@ class IngestServiceTest {
     @Mock
     private EmbeddingService embeddings;
 
+    /** JUnit lo borra al terminar, pase o falle la prueba. */
+    @TempDir
+    private Path folder;
+
     @Test
     @DisplayName("un id que no está lanza EFX-IMP-005")
     void shouldRejectAnUnknownJob() {
@@ -64,15 +69,18 @@ class IngestServiceTest {
     }
 
     @Test
-    @DisplayName("una extensión que no es json ni csv no consulta el catálogo")
+    @DisplayName("una extensión que no es json ni csv no consulta el catálogo y borra el archivo subido")
     void shouldRejectABadExtensionWithoutCallingTheCatalog() throws Exception {
+        // given
         IngestService service = service();
-        Path path = Files.createTempFile("carga", ".txt");
-        Files.writeString(path, "hola");
+        Path path = Files.writeString(folder.resolve("carga.txt"), "hola");
 
+        // when: el estado pasa a invalido un instante antes de que se borre el archivo, así que se esperan
+        // las dos cosas
         String jobId = service.acceptFile("peliculas.txt", path, CsvSettings.withHeader());
-        JobView view = waitUntilSettled(service, jobId);
+        JobView view = waitUntilSettled(service, jobId, path);
 
+        // then
         assertThat(view.status()).isEqualTo("invalido");
         assertThat(view.errors()).extracting("code").contains(ErrorCode.BAD_EXTENSION.code());
         verify(catalog, never()).existingIds(anyString(), anyList());
@@ -97,10 +105,11 @@ class IngestServiceTest {
                 properties);
     }
 
-    private static JobView waitUntilSettled(IngestService service, String jobId) {
+    /** Espera, como mucho 5 segundos, a que el trabajo deje de validar y el archivo subido ya no exista. */
+    private static JobView waitUntilSettled(IngestService service, String jobId, Path upload) {
         long end = System.nanoTime() + Duration.ofSeconds(5).toNanos();
         JobView view = service.job(jobId);
-        while (System.nanoTime() < end && stillRunning(view.status())) {
+        while (System.nanoTime() < end && (stillRunning(view.status()) || Files.exists(upload))) {
             LockSupport.parkNanos(Duration.ofMillis(10).toNanos());
             view = service.job(jobId);
         }

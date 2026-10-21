@@ -87,9 +87,9 @@ class IngestPageTest {
                 .andExpect(model().attribute("nav", "cargar"))
                 .andExpect(model().attribute("maxFileLabel", "150 MB"))
                 .andExpect(model().attribute("maxFileBytes", 150L * MEGABYTE))
-                .andExpect(model().attribute("batchSize", 100))
+                .andExpect(model().attribute("batchSize", "100"))
                 .andExpect(content().string(containsString("Índice elastiflix-reloaded")))
-                .andExpect(content().string(containsString("data-alias=\"elastiflix-reloaded\"")))
+                .andExpect(content().string(not(containsString("data-alias="))))
                 .andExpect(content().string(containsString("id=\"tab-json\" data-tab=\"json\" aria-selected=\"false\" "
                         + "tabindex=\"-1\"")))
                 .andExpect(content().string(containsString("Registro individual")))
@@ -110,11 +110,19 @@ class IngestPageTest {
     }
 
     @Test
+    @DisplayName("el selector de archivos no ofrece .ndjson, que el servidor rechaza con EFX-ING-001")
+    void shouldNotOfferNdjsonInTheFilePicker() throws Exception {
+        mvc.perform(get("/cargar"))
+                .andExpect(content().string(containsString("accept=\".json,application/json\"")))
+                .andExpect(content().string(not(containsString(".ndjson"))));
+    }
+
+    @Test
     @DisplayName("escenario «Archivo rechazado»: el bloque del navegador trae los textos del mockup")
     void shouldShowTheRejectedFileCopy() throws Exception {
         mvc.perform(get("/cargar"))
                 .andExpect(model().attribute("maxFileLabel", "150 MB"))
-                .andExpect(model().attribute("batchSize", 100))
+                .andExpect(model().attribute("batchSize", "100"))
                 .andExpect(content().string(containsString("No se puede cargar este archivo")))
                 .andExpect(content().string(containsString("El archivo se rechazó en el navegador, antes de subirlo, "
                         + "así que no salió de tu equipo ni se importó nada.")))

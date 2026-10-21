@@ -8,16 +8,16 @@ import com.bigfito.elastiflix.core.model.MovieKeyword;
  * Modelo completo para renderizar la plantilla de detalle de película.
  *
  * @param id            identificador de la película
- * @param title         título principal
- * @param originalTitle título original
- * @param tagline       lema publicitario
- * @param overview      resumen corto
- * @param plot          sinopsis completa
+ * @param title         título principal, o «N/A»
+ * @param originalTitle título original, o vacío para ocultar su línea en la cabecera
+ * @param tagline       lema publicitario, o vacío para ocultar su línea en la cabecera
+ * @param overview      resumen corto, o «N/A»
+ * @param plot          sinopsis completa, o «N/A»
  * @param posterUrl     URL completa del póster en CDN o vacía
  * @param backdropUrl   URL completa de la imagen de fondo en CDN o vacía
- * @param voteAverage   promedio de votos formateado
- * @param voteCount     número de votos formateado con miles
- * @param popularity    índice de popularidad formateado
+ * @param voteAverage   promedio de votos formateado, o «N/A»
+ * @param voteCount     número de votos formateado con miles, o «N/A»
+ * @param popularity    índice de popularidad formateado, o «N/A»
  * @param imdbHref      enlace al título en IMDb o vacío
  * @param homepage      sitio web oficial o vacío
  * @param hasHomepage   si tiene sitio oficial
@@ -31,9 +31,9 @@ import com.bigfito.elastiflix.core.model.MovieKeyword;
  * @param collection    filas de la colección
  * @param images        filas de imágenes
  * @param cast          lista de reparto completa
- * @param castCount     total de personas en el reparto
+ * @param castCount     total de personas en el reparto, ya con el separador de miles del idioma
  * @param keywords      palabras clave
- * @param keywordCount  total de palabras clave
+ * @param keywordCount  total de palabras clave, ya con el separador de miles del idioma
  * @param searchState   elementos del estado de búsqueda previo
  * @param returnHref    enlace de retorno a /buscar?...#r-{id}
  */
@@ -62,11 +62,13 @@ public record MovieDetailView(
         List<FactRow> collection,
         List<FactRow> images,
         List<String> cast,
-        int castCount,
+        String castCount,
         List<MovieKeyword> keywords,
-        int keywordCount,
+        String keywordCount,
         List<SearchStateChip> searchState,
         String returnHref) {
+
+    private static final int CAST_LIMIT = 18;
 
     /**
      * Copia inmutable de las listas.
@@ -82,5 +84,32 @@ public record MovieDetailView(
         cast = List.copyOf(cast);
         keywords = List.copyOf(keywords);
         searchState = List.copyOf(searchState);
+    }
+
+    /**
+     * Personas del reparto que se ven antes de «Ver todo el reparto (N)».
+     *
+     * @return el límite del mockup, 18
+     */
+    public int castLimit() {
+        return CAST_LIMIT;
+    }
+
+    /**
+     * Dice si el reparto pasa del límite y necesita el botón «Ver todo el reparto (N)».
+     *
+     * @return {@code true} si hay más de 18 personas
+     */
+    public boolean hasMoreCast() {
+        return cast.size() > CAST_LIMIT;
+    }
+
+    /**
+     * Texto que la plantilla muestra cuando una lista (géneros, reparto o palabras clave) viene vacía.
+     *
+     * @return «N/A», el mismo texto de los campos vacíos de la ficha
+     */
+    public String notAvailable() {
+        return FactRow.NOT_AVAILABLE;
     }
 }

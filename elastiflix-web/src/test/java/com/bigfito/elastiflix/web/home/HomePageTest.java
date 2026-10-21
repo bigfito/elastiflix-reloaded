@@ -90,7 +90,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("Full-text (lexical)")))
                 .andExpect(content().string(containsString("Retrieval with BM25:")))
                 .andExpect(content().string(containsString("k-NN (k nearest neighbors):")))
-                .andExpect(content().string(containsString("Enter a movie to search for before pressing Search.")))
+                .andExpect(content().string(containsString("Type the movie you&#39;re looking for before you press Search.")))
                 .andExpect(content().string(containsString("Try these queries")))
                 .andExpect(content().string(containsString("OR: 57 results")))
                 .andExpect(content().string(containsString("Titanic: 36th place")))

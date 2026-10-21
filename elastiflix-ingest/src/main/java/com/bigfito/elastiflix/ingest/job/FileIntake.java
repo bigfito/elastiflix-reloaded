@@ -101,11 +101,26 @@ public final class FileIntake {
         }
     }
 
+    /**
+     * Lee y valida. Una cancelación no interrumpe la lectura ni la validación en curso, pero se revisa entre
+     * etapas: antes de leer, entre la lectura y la validación, y antes de preguntar a Elasticsearch qué ids ya
+     * existen.
+     */
     private void finish(String jobId, ImportWork work) {
+        if (store.stopIfCancelled(work)) {
+            return;
+        }
         LoadedDocuments loaded = gate.open(work);
         store.fileRead(jobId, loaded.recordCount(), loaded.columns());
         if (loaded.documents().isEmpty() && !loaded.report().accepted()) {
             store.invalid(jobId, loaded.report(), JobSteps.VALIDATION);
+            return;
+        }
+        validateFields(jobId, work, loaded);
+    }
+
+    private void validateFields(String jobId, ImportWork work, LoadedDocuments loaded) {
+        if (store.stopIfCancelled(work)) {
             return;
         }
         ValidatedMovies checked = validator.validateAndRelease(loaded.documents(), loaded.labels(), Set.of());
@@ -114,7 +129,14 @@ public final class FileIntake {
             store.invalid(jobId, report, JobSteps.VALIDATION);
             return;
         }
-        store.ready(jobId, new ValidatedMovies(checked.movies(), report, replacements(checked.movies())));
+        ready(jobId, work, checked.movies(), report);
+    }
+
+    private void ready(String jobId, ImportWork work, List<Movie> movies, ValidationReport report) {
+        if (store.stopIfCancelled(work)) {
+            return;
+        }
+        store.ready(jobId, new ValidatedMovies(movies, report, replacements(movies)));
     }
 
     /**
