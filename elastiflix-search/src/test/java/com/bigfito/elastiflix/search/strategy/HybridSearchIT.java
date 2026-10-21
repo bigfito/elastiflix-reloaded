@@ -69,8 +69,9 @@ class HybridSearchIT {
         for (int index = 0; index < result.hits().size(); index++) {
             RankedHit hit = result.hits().get(index);
             assertThat(hit.lexical().score()).as("léxico de %s", hit.movie().id()).isNull();
-            assertThat(hit.lexical().position()).isEqualTo(Rrf.OUTSIDE_PREFIX + K);
-            assertThat(hit.vector().position()).isEqualTo(Integer.toString(index + 1));
+            assertThat(hit.lexical().isOutside()).isTrue();
+            assertThat(hit.lexical().k()).isEqualTo(K);
+            assertThat(hit.vector().rank()).isEqualTo(index + 1);
             assertThat(hit.vector().score()).as("vector de %s", hit.movie().id()).isNotNull();
         }
         assertFormula(result.hits());
@@ -100,7 +101,7 @@ class HybridSearchIT {
         for (RankedHit hit : hits) {
             assertThat(hit.score())
                     .as("id %s léxico %s vector %s", hit.movie().id(),
-                            hit.lexical().position(), hit.vector().position())
+                            hit.lexical().rank(), hit.vector().rank())
                     .isCloseTo(expected(hit), within(TOLERANCE));
         }
     }
@@ -113,7 +114,7 @@ class HybridSearchIT {
         if (score.score() == null) {
             return 0d;
         }
-        return 1d / (Rrf.RANK_CONSTANT + Integer.parseInt(score.position()));
+        return 1d / (Rrf.RANK_CONSTANT + score.rank());
     }
 
     private static SearchQuery query(String text, TextOperator operator) {

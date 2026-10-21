@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
-import com.bigfito.elastiflix.core.text.Thousands;
+import com.bigfito.elastiflix.ingest.mapping.IngestPhrase;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 
 /**
@@ -54,8 +54,8 @@ final class JobFigures {
             return List.of();
         }
         return List.of(
-                Thousands.of(fileCount) + " registros leídos, con id, title y plot.",
-                "Ningún id repetido.");
+                IngestPhrase.CHECK_READ.text(fileCount),
+                IngestPhrase.CHECK_UNIQUE_IDS.text());
     }
 
     private static boolean passedValidation(JobStatus status) {

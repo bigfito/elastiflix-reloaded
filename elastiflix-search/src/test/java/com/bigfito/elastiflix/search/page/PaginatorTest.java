@@ -13,28 +13,26 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class PaginatorTest {
 
-    private static final String FIRST_PAGE = "1–25 de 100";
-    private static final String PARTIAL_PAGE = "26–30 de 30";
-    private static final String PAST_THE_TOTAL = "0–0 de 10";
-
     private final Paginator paginator = new Paginator();
 
     @Test
-    @DisplayName("la primera página usa el guion largo")
+    @DisplayName("la primera página va de la película 1 a la 25")
     void shouldDescribeTheFirstPageWhenTheTotalFillsIt() {
         Pagination page = paginator.describe(100, 1, 25, 100);
 
-        assertThat(page.range()).isEqualTo(FIRST_PAGE);
+        assertThat(page.first()).isEqualTo(1);
+        assertThat(page.last()).isEqualTo(25);
         assertThat(page.pageCount()).isEqualTo(4);
-        assertThat(page.range()).contains("–");
     }
 
     @Test
-    @DisplayName("el rango agrupa los miles como el resto de las cifras visibles")
-    void shouldGroupThousandsWhenTheTotalIsLarge() {
+    @DisplayName("la página 40 de 25 va de la película 976 a la 1 000")
+    void shouldDescribeAPageDeepInsideALargeTotal() {
         Pagination page = paginator.describe(1234, 40, 25, 10_000);
 
-        assertThat(page.range()).isEqualTo("976–1 000 de 1 234");
+        assertThat(page.first()).isEqualTo(976);
+        assertThat(page.last()).isEqualTo(1000);
+        assertThat(page.total()).isEqualTo(1234);
     }
 
     @Test
@@ -44,7 +42,8 @@ class PaginatorTest {
         Pagination page = paginator.describe(hits.size(), 2, 25, hits.size());
 
         assertThat(page.pageCount()).isEqualTo(2);
-        assertThat(page.range()).isEqualTo(PARTIAL_PAGE);
+        assertThat(page.first()).isEqualTo(26);
+        assertThat(page.last()).isEqualTo(30);
         assertThat(paginator.slice(hits, 2, 25)).containsExactly(26, 27, 28, 29, 30);
     }
 
@@ -55,7 +54,8 @@ class PaginatorTest {
 
         assertThat(page.pageCount()).isEqualTo(1);
         assertThat(page.total()).isEqualTo(10);
-        assertThat(page.range()).isEqualTo(PAST_THE_TOTAL);
+        assertThat(page.first()).isZero();
+        assertThat(page.last()).isZero();
         assertThat(paginator.slice(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 2, 25)).isEmpty();
     }
 
@@ -85,6 +85,7 @@ class PaginatorTest {
         Pagination page = paginator.describe(0, 1, 25, 0);
 
         assertThat(page.pageCount()).isZero();
-        assertThat(page.range()).isEqualTo("0–0 de 0");
+        assertThat(page.first()).isZero();
+        assertThat(page.last()).isZero();
     }
 }

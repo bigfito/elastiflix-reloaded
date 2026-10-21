@@ -100,11 +100,12 @@ class ResultsPageTest {
                 LocalDate.of(1997, 12, 19), 194, List.of("Drama"), 7.9, 21_911, "PG-13",
                 12.5, null, null, null);
         when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(List.of(hit), 1234,
-                facets(), new Pagination(1, 50, 1234, 25, "1–25 de 1234"), List.of("match · title"), null));
+                facets(), new Pagination(1, 50, 1234, 25, 1, 25), List.of("match · title"), null));
 
         mvc.perform(get("/buscar").param("q", "titanic"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("7.9 · 21 911 votos")))
+                .andExpect(content().string(containsString("Mostrando 1–25 de 1 234 resultados")))
                 .andExpect(content().string(containsString("<h1 id=\"r-title\" aria-live=\"polite\">1 234 resultados</h1>")));
     }
 
@@ -129,7 +130,7 @@ class ResultsPageTest {
     void shouldKeepTheFiltersInEveryPageLink() throws Exception {
         SearchResult second = found(null, null, null, "match · title");
         when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(second.hits(), 100,
-                second.facets(), new Pagination(2, 4, 100, 25, "26–50 de 100"), second.adjustments(), null));
+                second.facets(), new Pagination(2, 4, 100, 25, 26, 50), second.adjustments(), null));
 
         mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama").param("desde", "1990-01-01")
                         .param("pagina", "2"))
@@ -159,7 +160,7 @@ class ResultsPageTest {
     @DisplayName("vectorial e híbrida muestran su puntuación y su leyenda")
     void shouldRenderVectorAndHybrid() throws Exception {
         when(searches.search(any(SearchQuery.class))).thenReturn(
-                found(new ComponentScore(1.2, "2"), new ComponentScore(0.8, "1"), 0.03, "RRF"));
+                found(new ComponentScore(1.2, 2, 100), new ComponentScore(0.8, 1, 100), 0.03, "RRF"));
 
         mvc.perform(get("/buscar").param("q", "barco").param("modo", "vectorial"))
                 .andExpect(content().string(containsString("class=\"score-title\">Similitud</span>")))
@@ -177,15 +178,15 @@ class ResultsPageTest {
     @Test
     @DisplayName("los dos estados vacíos usan el texto del catálogo de búsqueda")
     void shouldRenderBothEmptyStates() throws Exception {
-        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.none("zzz", SearchMode.FULL_TEXT)));
+        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.NONE));
         mvc.perform(get("/buscar").param("q", "zzz"))
                 .andExpect(content().string(containsString("No encontramos películas")));
 
-        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.filtered()));
+        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.FILTERED));
         mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama"))
                 .andExpect(content().string(containsString("Ningún resultado cumple los filtros")));
 
-        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.none("zzz", SearchMode.VECTOR)));
+        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.NONE));
         mvc.perform(get("/buscar").param("q", "zzz").param("modo", "vectorial"))
                 .andExpect(content().string(not(containsString("La búsqueda vectorial devuelve como máximo"))));
     }
@@ -258,7 +259,7 @@ class ResultsPageTest {
     @DisplayName("con facetas vacías y genero=Drama, «Drama 0» sigue marcado y visible")
     void shouldKeepASelectedValueThatTheFacetNoLongerHas() throws Exception {
         when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(
-                List.of(), 0, noFacets(), page(0), List.of(), EmptyState.filtered()));
+                List.of(), 0, noFacets(), page(0), List.of(), EmptyState.FILTERED));
 
         mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama"))
                 .andExpect(status().isOk())
@@ -343,7 +344,7 @@ class ResultsPageTest {
     @DisplayName("con lang=en vectorial e híbrida muestran sus textos, k-NN similarity y outside its top 100")
     void shouldRenderVectorAndHybridInEnglish() throws Exception {
         when(searches.search(any(SearchQuery.class))).thenReturn(
-                found(new ComponentScore(1.2, "2"), new ComponentScore(0.8, "fuera de su top 100"), 0.03, "RRF"));
+                found(new ComponentScore(1.2, 2, 100), ComponentScore.outside(100), 0.03, "RRF"));
 
         mvc.perform(get("/buscar").param("q", "barco").param("modo", "vectorial").param("lang", "en"))
                 .andExpect(content().string(containsString("class=\"score-title\">Similarity</span>")))
@@ -360,12 +361,12 @@ class ResultsPageTest {
     @Test
     @DisplayName("con lang=en los estados vacíos muestran We couldn't find any movies y No results match the filters")
     void shouldRenderEmptyStatesInEnglish() throws Exception {
-        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.none("zzz", SearchMode.FULL_TEXT)));
+        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.NONE));
         mvc.perform(get("/buscar").param("q", "zzz").param("lang", "en"))
                 .andExpect(content().string(containsString("We couldn&#39;t find any movies")))
                 .andExpect(content().string(containsString("The query “zzz” returned no results with the current settings.")));
 
-        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.filtered()));
+        when(searches.search(any(SearchQuery.class))).thenReturn(empty(EmptyState.FILTERED));
         mvc.perform(get("/buscar").param("q", "titanic").param("genero", "Drama").param("lang", "en"))
                 .andExpect(content().string(containsString("No results match the filters")))
                 .andExpect(content().string(containsString("Remove filters")));
@@ -452,6 +453,6 @@ class ResultsPageTest {
 
     private static Pagination page(long total) {
         int pages = total == 0 ? 0 : 1;
-        return new Pagination(1, pages, total, 25, "1–1 de 1");
+        return new Pagination(1, pages, total, 25, pages, pages);
     }
 }

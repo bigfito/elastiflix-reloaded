@@ -31,15 +31,16 @@ class ScoreJoinerTest {
 
         RankedHit inBoth = joined.getFirst();
         assertThat(inBoth.lexical().score()).isEqualTo(4.0);
-        assertThat(inBoth.lexical().position()).isEqualTo("1");
+        assertThat(inBoth.lexical().rank()).isEqualTo(1);
         assertThat(inBoth.vector().score()).isEqualTo(0.8);
-        assertThat(inBoth.vector().position()).isEqualTo("2");
+        assertThat(inBoth.vector().rank()).isEqualTo(2);
         assertThat(inBoth.score()).isEqualTo(0.032);
 
         RankedHit lexicalMiss = joined.get(1);
         assertThat(lexicalMiss.lexical().score()).isNull();
-        assertThat(lexicalMiss.lexical().position()).isEqualTo(Rrf.OUTSIDE_PREFIX + K);
-        assertThat(lexicalMiss.vector().position()).isEqualTo("1");
+        assertThat(lexicalMiss.lexical().isOutside()).isTrue();
+        assertThat(lexicalMiss.lexical().k()).isEqualTo(K);
+        assertThat(lexicalMiss.vector().rank()).isEqualTo(1);
         assertThat(lexicalMiss.vector().score()).isEqualTo(0.9);
     }
 
@@ -64,11 +65,11 @@ class ScoreJoinerTest {
         assertThat(joined).extracting(hit -> hit.movie().id()).containsExactly("3", "1", "2");
         assertThat(joined).extracting(RankedHit::score).containsExactly(0.05, 0.03, 0.01);
         RankedHit outside = joined.getFirst();
-        assertThat(outside.lexical()).isEqualTo(new ComponentScore(null, Rrf.OUTSIDE_PREFIX + K));
-        assertThat(outside.vector()).isEqualTo(new ComponentScore(null, Rrf.OUTSIDE_PREFIX + K));
-        assertThat(joined.get(1).lexical()).isEqualTo(new ComponentScore(6.0, "2"));
-        assertThat(joined.get(1).vector()).isEqualTo(new ComponentScore(0.7, "1"));
-        assertThat(joined.get(2).lexical()).isEqualTo(new ComponentScore(7.0, "1"));
+        assertThat(outside.lexical()).isEqualTo(ComponentScore.outside(K));
+        assertThat(outside.vector()).isEqualTo(ComponentScore.outside(K));
+        assertThat(joined.get(1).lexical()).isEqualTo(new ComponentScore(6.0, 2, K));
+        assertThat(joined.get(1).vector()).isEqualTo(new ComponentScore(0.7, 1, K));
+        assertThat(joined.get(2).lexical()).isEqualTo(new ComponentScore(7.0, 1, K));
     }
 
     private static Movie movie(String id) {

@@ -12,7 +12,6 @@ import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,9 +33,9 @@ public class IngestJobErrors {
     /**
      * Crea el manejador de errores de ingesta.
      *
-     * @param messages catálogo de mensajes, o null
+     * @param messages catálogo de mensajes
      */
-    public IngestJobErrors(@Autowired(required = false) UiMessages messages) {
+    public IngestJobErrors(UiMessages messages) {
         this.messages = messages;
     }
 
@@ -110,7 +109,7 @@ public class IngestJobErrors {
     }
 
     private ResponseEntity<Map<String, String>> body(HttpStatus status, ErrorCode code, Locale locale) {
-        String summary = messages != null ? messages.errorSummary(code, locale) : code.summary();
+        String summary = messages.errorSummary(code, locale);
         return ResponseEntity.status(status).body(Map.of("code", code.code(), "message", summary));
     }
 }

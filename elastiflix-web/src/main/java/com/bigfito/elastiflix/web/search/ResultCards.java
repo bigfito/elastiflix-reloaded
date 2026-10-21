@@ -119,20 +119,14 @@ public class ResultCards {
         if (score == null) {
             return new ScoreLine(label, "—", "");
         }
-        return new ScoreLine(label, number(score.score()), hashed(score.position(), locale));
+        return new ScoreLine(label, number(score.score()), hashed(score, locale));
     }
 
-    private String hashed(String position, Locale locale) {
-        if (position == null || position.isBlank()) {
-            return "";
+    private String hashed(ComponentScore score, Locale locale) {
+        if (score.isOutside()) {
+            return messages.getFor(locale, "results.card.score.outsideTop", String.valueOf(score.k()));
         }
-        if (position.chars().allMatch(Character::isDigit)) {
-            return "#" + position;
-        }
-        String prefix = "fuera de su top ";
-        return position.startsWith(prefix)
-                ? messages.getFor(locale, "results.card.score.outsideTop", position.substring(prefix.length()))
-                : position;
+        return "#" + score.rank();
     }
 
     private static String rrf(SearchHit hit, SearchMode mode) {

@@ -166,26 +166,18 @@ public class ResultsPage {
     }
 
     private String rangeText(Pagination pagination, Locale locale) {
-        if (SupportedLocale.isEnglish(locale)) {
-            long total = pagination.total();
-            long start = (long) (pagination.page() - 1) * pagination.pageSize();
-            if (total <= 0 || start >= total) {
-                return messages.getFor(locale, "results.pager.range", "0–0 of " + Thousands.of(total, locale));
-            }
-            long end = Math.min(start + pagination.pageSize(), total);
-            String formatted = Thousands.of(start + 1, locale) + "–" + Thousands.of(end, locale)
-                    + " of " + Thousands.of(total, locale);
-            return messages.getFor(locale, "results.pager.range", formatted);
-        }
-        return messages.getFor(locale, "results.pager.range", pagination.range());
+        String span = messages.getFor(locale, "results.pager.span",
+                Thousands.of(pagination.first(), locale),
+                Thousands.of(pagination.last(), locale),
+                Thousands.of(pagination.total(), locale));
+        return messages.getFor(locale, "results.pager.range", span);
     }
 
     private EmptyView emptyView(EmptyState raw, String query, SearchMode mode, Locale locale) {
         if (raw == null) {
             return null;
         }
-        boolean byFilters = "Ningún resultado cumple los filtros".equals(raw.title());
-        if (byFilters) {
+        if (raw == EmptyState.FILTERED) {
             return new EmptyView(
                     messages.getFor(locale, "results.empty.filtered.title"),
                     messages.getFor(locale, "results.empty.filtered.text"),

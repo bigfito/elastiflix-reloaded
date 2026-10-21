@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.web.layout;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.web.locale.LocaleConfig;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -17,14 +18,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class LayoutAdvice {
 
     private final CatalogStatusService catalog;
+    private final UiMessages messages;
 
     /**
      * Crea el consejo con la fachada del catálogo.
      *
-     * @param catalog alias, índice vigente y conteo
+     * @param catalog  alias, índice vigente y conteo
+     * @param messages textos de la cabecera y el pie
      */
-    public LayoutAdvice(CatalogStatusService catalog) {
+    public LayoutAdvice(CatalogStatusService catalog, UiMessages messages) {
         this.catalog = catalog;
+        this.messages = messages;
     }
 
     /**
@@ -41,7 +45,7 @@ public class LayoutAdvice {
         if (request != null && request.getAttribute(PageShells.REQUEST_ATTRIBUTE) instanceof PageShell ready) {
             return ready;
         }
-        PageShell shell = PageShells.from(catalog.status(), request);
+        PageShell shell = PageShells.from(catalog.status(), request, messages);
         if (request != null) {
             request.setAttribute(PageShells.REQUEST_ATTRIBUTE, shell);
         }

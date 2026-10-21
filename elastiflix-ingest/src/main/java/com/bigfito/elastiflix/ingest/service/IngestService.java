@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.ingest.service;
 
 import java.nio.file.Path;
+import java.util.function.UnaryOperator;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.model.Movie;
@@ -11,6 +12,7 @@ import com.bigfito.elastiflix.ingest.job.IndividualRecord;
 import com.bigfito.elastiflix.ingest.job.JobStore;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.job.SaveResult;
+import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 
 import org.springframework.stereotype.Component;
 
@@ -100,6 +102,18 @@ public final class IngestService {
      */
     public String errorReport(String jobId) {
         return store.errorReport(jobId);
+    }
+
+    /**
+     * Informe de errores con otro encabezado y cada error reescrito; la web lo pide en el idioma de la persona.
+     *
+     * @param jobId   identificador
+     * @param header  primera fila del CSV
+     * @param rewrite cambia el texto de cada error
+     * @return CSV con BOM
+     */
+    public String errorReport(String jobId, String header, UnaryOperator<ValidationIssue> rewrite) {
+        return store.errorReport(jobId, header, rewrite);
     }
 
     /**

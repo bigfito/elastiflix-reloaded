@@ -2,8 +2,6 @@ package com.bigfito.elastiflix.search.page;
 
 import java.util.List;
 
-import com.bigfito.elastiflix.core.text.Thousands;
-
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,10 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Paginator {
 
-    private static final String DASH = "–";
-
     /**
-     * Páginas y texto del rango, sin pasar de la ventana. No recorta la lista.
+     * Páginas y rango de la página, sin pasar de la ventana. No recorta la lista.
      *
      * <p>La ventana es 10 000 en full-text y {@code k} en vectorial e híbrida. El total que se
      * muestra sigue siendo el real.</p>
@@ -30,7 +26,10 @@ public class Paginator {
         long start = (long) (page - 1) * pageSize;
         long visible = Math.min(total, window);
         int pages = pageCount(visible, pageSize);
-        return new Pagination(page, pages, total, pageSize, range(total, start, pageSize));
+        if (total <= 0 || start >= total) {
+            return new Pagination(page, pages, total, pageSize, 0, 0);
+        }
+        return new Pagination(page, pages, total, pageSize, start + 1, Math.min(start + pageSize, total));
     }
 
     /**
@@ -56,13 +55,5 @@ public class Paginator {
             return 0;
         }
         return (int) ((total + pageSize - 1) / pageSize);
-    }
-
-    private static String range(long total, long start, int pageSize) {
-        if (total <= 0 || start >= total) {
-            return "0" + DASH + "0 de " + Thousands.of(total);
-        }
-        long end = Math.min(start + pageSize, total);
-        return Thousands.of(start + 1) + DASH + Thousands.of(end) + " de " + Thousands.of(total);
     }
 }

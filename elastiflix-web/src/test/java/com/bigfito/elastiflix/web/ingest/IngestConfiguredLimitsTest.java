@@ -41,7 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test",
         "ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB", "ELASTIFLIX_INGEST_BATCH_SIZE=50"})
 @EnableConfigurationProperties(ElastiflixProperties.class)
-@Import({LayoutAdvice.class, MovieForms.class, UploadCheck.class, IngestLimits.class, UploadSizeErrors.class})
+@Import({LayoutAdvice.class, MovieForms.class, UploadCheck.class, IngestLimits.class, UploadSizeErrors.class,
+        IngestTranslator.class})
 class IngestConfiguredLimitsTest {
 
     private static final long LIMIT = DataSize.ofMegabytes(200).toBytes();

@@ -16,27 +16,23 @@
   var STATE_MARKS = { done: "✓", failed: "✕", current: "…" };
 
   var messages = {
-    networkError: filePanel.getAttribute("data-msg-network-error")
-      || "No se pudo conectar con el servidor de la demo. Revisa que siga en marcha y vuelve a intentarlo.",
-    pollRetry: filePanel.getAttribute("data-msg-poll-retry")
-      || "No se pudo consultar el estado del trabajo. Se vuelve a intentar en unos segundos.",
-    rejected: filePanel.getAttribute("data-msg-rejected") || "rechazado",
-    utf8Error: filePanel.getAttribute("data-msg-utf8-error") || "El contenido no es texto UTF-8.",
-    extError: filePanel.getAttribute("data-msg-ext-error") || "La extensión no es {0}.",
-    multiExtError: filePanel.getAttribute("data-msg-multi-ext-error")
-      || "El archivo tiene más de una extensión. Solo se acepta {0}.",
-    sizeError: filePanel.getAttribute("data-msg-size-error")
-      || "El archivo pesa {0} y el máximo permitido es {1}.",
-    headerError: filePanel.getAttribute("data-msg-header-error")
-      || "EFX-ING-005 · El CSV no confirma que la primera fila sea el encabezado."
+    networkError: filePanel.getAttribute("data-msg-network-error"),
+    pollRetry: filePanel.getAttribute("data-msg-poll-retry"),
+    rejected: filePanel.getAttribute("data-msg-rejected"),
+    utf8Error: filePanel.getAttribute("data-msg-utf8-error"),
+    extError: filePanel.getAttribute("data-msg-ext-error"),
+    multiExtError: filePanel.getAttribute("data-msg-multi-ext-error"),
+    sizeError: filePanel.getAttribute("data-msg-size-error"),
+    headerError: filePanel.getAttribute("data-msg-header-error"),
+    fieldFor: filePanel.getAttribute("data-msg-field-for")
   };
 
   var stateLabels = {
-    done: filePanel.getAttribute("data-state-done") || "completado",
-    current: filePanel.getAttribute("data-state-current") || "en curso",
-    failed: filePanel.getAttribute("data-state-failed") || "detenido",
-    ready: filePanel.getAttribute("data-state-ready") || "listo para empezar",
-    pending: filePanel.getAttribute("data-state-pending") || "pendiente"
+    done: filePanel.getAttribute("data-state-done"),
+    current: filePanel.getAttribute("data-state-current"),
+    failed: filePanel.getAttribute("data-state-failed"),
+    ready: filePanel.getAttribute("data-state-ready"),
+    pending: filePanel.getAttribute("data-state-pending")
   };
 
   var tab = "json";
@@ -498,13 +494,14 @@
     setText("mapping-note", texts.mappingNote);
     var body = byId("column-rows");
     body.replaceChildren();
-    columns.forEach(function (column) {
+    var tones = texts.columnTones || [];
+    columns.forEach(function (column, index) {
       var row = document.createElement("tr");
       row.appendChild(cell(column.column));
       var fieldCell = document.createElement("td");
       var select = document.createElement("select");
       select.className = "inp";
-      select.setAttribute("aria-label", "Campo para " + column.column);
+      select.setAttribute("aria-label", messages.fieldFor.replace("{0}", column.column));
       var option = document.createElement("option");
       option.textContent = column.field;
       select.appendChild(option);
@@ -512,20 +509,10 @@
       row.appendChild(fieldCell);
       row.appendChild(cell(column.content));
       var status = cell(column.status);
-      status.className = "status-" + statusTone(column.status);
+      status.className = "status-" + (tones[index] || "warn");
       row.appendChild(status);
       body.appendChild(row);
     });
-  }
-
-  function statusTone(status) {
-    if (status === "Asignada" || status === "Mapped") {
-      return "ok";
-    }
-    if (status === "No existe en el mapping" || status === "Not in the mapping") {
-      return "error";
-    }
-    return "warn";
   }
 
   function cell(text) {

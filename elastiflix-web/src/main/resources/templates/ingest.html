@@ -45,7 +45,7 @@
         <h2 class="h3" th:text="#{ingest.single.section.rating}">Clasificación, fecha y estado</h2>
         <div class="grid">
           <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.genres}">Géneros</th:block> <code>genres</code></span><input class="inp" name="genres" th:attr="placeholder=#{ingest.single.genres.placeholder}"></label>
-          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.keywords}">Palabras clave</th:block> <code>keywords.name</code></span><input class="inp" name="keywords" th:attr="placeholder=#{ingest.single.genres.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.keywords}">Palabras clave</th:block> <code>keywords.name</code></span><input class="inp" name="keywords" th:attr="placeholder=#{ingest.single.keywords.placeholder}"></label>
           <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.rating}">Clasificación</th:block> <code>rating</code></span>
             <select class="inp" name="rating"><option value="" th:text="#{ingest.single.rating.none}">Sin clasificación</option><option>G</option><option>PG</option><option>PG-13</option><option>R</option><option>NC-17</option><option>NR</option></select>
           </label>
@@ -73,9 +73,9 @@
       <div class="card">
         <h2 class="h3" th:text="#{ingest.single.section.cast}">Reparto, producción y medios</h2>
         <div class="grid">
-          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.cast}">Reparto</th:block> <code>cast</code></span><input class="inp" name="cast" th:attr="placeholder=#{ingest.single.genres.placeholder}"></label>
-          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.companies}">Productoras</th:block> <code>production_companies</code></span><input class="inp" name="production_companies" th:attr="placeholder=#{ingest.single.genres.placeholder}"></label>
-          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.countries}">Países</th:block> <code>production_countries</code></span><input class="inp" name="production_countries" th:attr="placeholder=#{ingest.single.genres.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.cast}">Reparto</th:block> <code>cast</code></span><input class="inp" name="cast" th:attr="placeholder=#{ingest.single.cast.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.companies}">Productoras</th:block> <code>production_companies</code></span><input class="inp" name="production_companies" th:attr="placeholder=#{ingest.single.companies.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.countries}">Países</th:block> <code>production_countries</code></span><input class="inp" name="production_countries" th:attr="placeholder=#{ingest.single.countries.placeholder}"></label>
           <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.languages}">Idiomas hablados</th:block> <code>spoken_languages</code></span><input class="inp" name="spoken_languages" th:attr="placeholder=#{ingest.single.languages.placeholder}"></label>
           <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.poster}">Póster</th:block> <code>poster_path</code></span><input class="inp" name="poster_path"></label>
           <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.backdrop}">Imagen de fondo</th:block> <code>backdrop_path</code></span><input class="inp" name="backdrop_path"></label>
@@ -102,6 +102,7 @@
                       data-msg-rejected=#{ingest.msg.rejected},data-msg-utf8-error=#{ingest.msg.utf8Error},
                       data-msg-ext-error=#{ingest.msg.extError},data-msg-multi-ext-error=#{ingest.msg.multiExtError},
                       data-msg-size-error=#{ingest.msg.sizeError},data-msg-header-error=#{ingest.msg.headerError},
+                      data-msg-field-for=#{ingest.mapping.fieldFor},
                       data-state-done=#{ingest.step.state.done},data-state-current=#{ingest.step.state.current},
                       data-state-failed=#{ingest.step.state.failed},data-state-ready=#{ingest.step.state.ready},
                       data-state-pending=#{ingest.step.state.pending}">
@@ -188,7 +189,7 @@
             </table>
           </div>
           <div class="report-row">
-            <p class="hint" id="error-range">Mostrando 0 de 0 errores.</p>
+            <p class="hint" id="error-range" th:text="#{ingest.job.errorRange('0', '0')}">Mostrando 0 de 0 errores.</p>
             <a id="job-report" class="btn-report" href="#"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12 M7 11l5 5l5-5 M4 20h16"></path></svg><th:block th:text="#{ingest.job.report.download}">Descargar informe completo (.csv)</th:block></a>
           </div>
         </div>
@@ -205,7 +206,7 @@
       <div id="job-import-card" class="card" hidden>
         <h2 class="h3" th:text="#{ingest.import.title}">Importación</h2>
         <p id="import-text" class="body-text"></p>
-        <div id="progress" role="progressbar" aria-label="Progreso de la importación" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0"><span></span></div>
+        <div id="progress" role="progressbar" th:attr="aria-label=#{ingest.import.progress}" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0"><span></span></div>
         <p class="hint" id="progress-text"></p>
         <div class="buttons end">
           <button type="button" id="job-cancel" class="btn-ghost" disabled th:text="#{ingest.import.cancel}">Cancelar importación</button>

@@ -66,7 +66,7 @@ class ServedPagesTest {
                 List.of("Drama"), 7.9, 1000, "PG-13", 12.5, null, null, null);
         when(searches.search(any(SearchQuery.class))).thenReturn(new SearchResult(List.of(hit), 1,
                 new Facets(List.of(), List.of(), List.of(), List.of(), null, null),
-                new Pagination(1, 1, 1, 25, "1–1 de 1"), List.of("match · title"), null));
+                new Pagination(1, 1, 1, 25, 1, 1), List.of("match · title"), null));
     }
 
     @ParameterizedTest(name = "{0}")

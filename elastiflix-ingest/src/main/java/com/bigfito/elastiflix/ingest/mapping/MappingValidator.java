@@ -86,7 +86,7 @@ public final class MappingValidator {
                 checked.id(),
                 FieldNames.ID,
                 checked.id(),
-                "un id único",
+                IngestPhrase.UNIQUE_ID.text(),
                 false);
     }
 
@@ -100,7 +100,7 @@ public final class MappingValidator {
                 FieldNames.MISSING,
                 FieldNames.ID,
                 FieldNames.ABSENT,
-                "id, title y plot",
+                IngestPhrase.REQUIRED_FIELDS.text(),
                 false));
     }
 

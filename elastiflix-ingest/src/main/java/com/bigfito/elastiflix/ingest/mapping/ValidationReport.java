@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.UnaryOperator;
 
 /**
  * Errores y advertencias de un archivo. Si hay un error, el archivo no se importa.
@@ -14,6 +15,7 @@ public record ValidationReport(List<ValidationIssue> issues) {
 
     private static final char BOM = '\uFEFF';
     private static final String FORMULA = "=+-@";
+    private static final String SPANISH_HEADER = "registro,id,campo,recibido,esperado";
 
     /**
      * Copia la lista para que nadie la cambie después.
@@ -77,11 +79,23 @@ public record ValidationReport(List<ValidationIssue> issues) {
      * @return texto con columnas registro, id, campo, recibido y esperado
      */
     public String toErrorCsv() {
+        return toErrorCsv(SPANISH_HEADER, UnaryOperator.identity());
+    }
+
+    /**
+     * CSV de los errores con otro encabezado y cada error reescrito antes de escribirlo; la web lo usa
+     * para entregar el informe en el idioma de la persona. Las celdas se neutralizan igual.
+     *
+     * @param header  primera fila, sin salto de línea
+     * @param rewrite cambia el texto de cada error
+     * @return texto con una fila por error
+     */
+    public String toErrorCsv(String header, UnaryOperator<ValidationIssue> rewrite) {
         StringBuilder csv = new StringBuilder();
         csv.append(BOM);
-        csv.append("registro,id,campo,recibido,esperado\n");
+        csv.append(header).append('\n');
         for (ValidationIssue issue : errors()) {
-            appendRow(csv, issue);
+            appendRow(csv, rewrite.apply(issue));
         }
         return csv.toString();
     }

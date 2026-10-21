@@ -1,10 +1,11 @@
 package com.bigfito.elastiflix.web.ingest;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.bigfito.elastiflix.ingest.job.SaveResult;
+import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.service.IngestService;
-
 import com.bigfito.elastiflix.web.layout.HtmlPage;
 
 import org.springframework.stereotype.Controller;
@@ -21,31 +22,46 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class IngestController implements HtmlPage {
 
+    private static final String REJECTED = "rejected";
+
     private final IngestService ingest;
     private final MovieForms forms;
     private final IngestLimits limits;
+    private final IngestTranslator translator;
 
     /**
      * Crea la página con la fachada de carga.
      *
      * @param ingest fachada
      * @param forms  formulario a película
-     * @param limits tamaño máximo y lote configurados
+     * @param limits     tamaño máximo y lote configurados
+     * @param translator rechazos del registro individual en el idioma de la persona
      */
-    public IngestController(IngestService ingest, MovieForms forms, IngestLimits limits) {
+    public IngestController(
+            IngestService ingest, MovieForms forms, IngestLimits limits, IngestTranslator translator) {
         this.ingest = ingest;
         this.forms = forms;
         this.limits = limits;
+        this.translator = translator;
     }
 
     /**
-     * Muestra las pestañas. Un guardado anterior llega por flash.
+     * Muestra las pestañas. Un guardado anterior llega por flash; sus rechazos se muestran en el idioma de
+     * la página, aunque se hayan producido en otro.
      *
-     * @param model navegación, tamaño máximo y lote
+     * @param model  navegación, tamaño máximo y lote
+     * @param locale idioma de la petición
      * @return plantilla {@code ingest}
      */
     @GetMapping("/cargar")
-    public String page(Model model) {
+    public String page(Model model, Locale locale) {
+        if (model.getAttribute(REJECTED) instanceof List<?> rejected) {
+            List<ValidationIssue> issues = rejected.stream()
+                    .filter(ValidationIssue.class::isInstance)
+                    .map(ValidationIssue.class::cast)
+                    .toList();
+            model.addAttribute(REJECTED, translator.issues(issues, locale));
+        }
         model.addAttribute("nav", "cargar");
         model.addAttribute("maxFileLabel", limits.maxFileLabel());
         model.addAttribute("maxFileBytes", limits.maxFileSize().toBytes());
@@ -65,7 +81,7 @@ public class IngestController implements HtmlPage {
             @RequestParam MultiValueMap<String, String> form, RedirectAttributes redirect) {
         switch (forms.read(form)) {
             case MovieForm.Read read -> remember(redirect, ingest.saveOne(read.movie()));
-            case MovieForm.Invalid invalid -> redirect.addFlashAttribute("rejected", List.of(invalid.issue()));
+            case MovieForm.Invalid invalid -> redirect.addFlashAttribute(REJECTED, List.of(invalid.issue()));
         }
         return "redirect:/cargar";
     }
@@ -76,7 +92,7 @@ public class IngestController implements HtmlPage {
             return;
         }
         if (result instanceof SaveResult.Rejected rejected) {
-            redirect.addFlashAttribute("rejected", rejected.report().issues());
+            redirect.addFlashAttribute(REJECTED, rejected.report().issues());
         }
     }
 }

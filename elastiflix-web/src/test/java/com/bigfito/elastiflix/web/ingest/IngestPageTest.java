@@ -13,6 +13,7 @@ import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvColumnRow;
 import com.bigfito.elastiflix.ingest.job.JobView;
 import com.bigfito.elastiflix.ingest.job.SaveResult;
+import com.bigfito.elastiflix.ingest.mapping.IngestPhrase;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.mapping.ValidationReport;
 import com.bigfito.elastiflix.ingest.mapping.WarningCount;
@@ -170,8 +171,13 @@ class IngestPageTest {
                 .andExpect(jsonPath("$.texts.mappingNote").value("33 de 34 columnas asignadas. La columna director "
                         + "no existe en el mapping del índice, así que la carga no puede continuar."))
                 .andExpect(jsonPath("$.texts.fileMeta").value("12.4 MB · CSV · 34 columnas · 512 filas"))
-                .andExpect(jsonPath("$.job.columns[0].status").value("No existe en el mapping"));
+                .andExpect(jsonPath("$.job.columns[0].status").value("No existe en el mapping"))
+                .andExpect(jsonPath("$.texts.columnTones[0]").value("error"))
+                .andExpect(jsonPath("$.texts.columnTones[1]").value("ok"));
         mvc.perform(get("/cargar"))
+                .andExpect(content().string(containsString("name=\"keywords\" placeholder=\"Separadas por comas\"")))
+                .andExpect(content().string(containsString("name=\"cast\" placeholder=\"Separado por comas\"")))
+                .andExpect(content().string(containsString("aria-label=\"Progreso de la importación\"")))
                 .andExpect(content().string(containsString("Se revisó el archivo completo y se encontraron "
                         + "<strong id=\"error-summary\">0 errores</strong>. <strong>No se importó ningún registro."
                         + "</strong> Corrige el archivo y vuelve a cargarlo; la carga solo continúa cuando todo el "
@@ -207,10 +213,10 @@ class IngestPageTest {
     @DisplayName("un trabajo fallido muestra el código una sola vez")
     void shouldShowTheFailureCodeOnce() throws Exception {
         when(ingest.job(JOB)).thenReturn(job("fallido", "json", 4, 0, 0, List.of(), List.of(),
-                "EFX-IMP-007", "La importación se interrumpió"));
+                "EFX-IMP-007", "El trabajo de carga se interrumpió"));
 
         mvc.perform(get("/cargar/trabajos/" + JOB))
-                .andExpect(jsonPath("$.texts.failure").value("EFX-IMP-007 · La importación se interrumpió."));
+                .andExpect(jsonPath("$.texts.failure").value("EFX-IMP-007 · El trabajo de carga se interrumpió."));
     }
 
     @Test
@@ -221,7 +227,7 @@ class IngestPageTest {
             Files.deleteIfExists(call.getArgument(1, Path.class));
             return JOB;
         });
-        when(ingest.errorReport(JOB)).thenReturn("codigo,campo\n");
+        when(ingest.errorReport(eq(JOB), anyString(), any())).thenReturn("codigo,campo\n");
         when(ingest.job(JOB)).thenReturn(validJson(), inState("importando"), inState("publicado"));
         MockMultipartFile file = new MockMultipartFile(
                 "archivo", "peliculas.json", MediaType.APPLICATION_JSON_VALUE, "{}".getBytes(StandardCharsets.UTF_8));
@@ -325,7 +331,10 @@ class IngestPageTest {
                 .andExpect(content().string(containsString("Identification and titles")))
                 .andExpect(content().string(containsString("Save movie")))
                 .andExpect(content().string(containsString("Upload process")))
-                .andExpect(content().string(containsString("Browser check")));
+                .andExpect(content().string(containsString("Browser check")))
+                .andExpect(content().string(containsString("aria-label=\"Import progress\"")))
+                .andExpect(content().string(containsString("Showing 0 of 0 errors.")))
+                .andExpect(content().string(containsString("data-msg-field-for=\"Field for {0}\"")));
     }
 
     @Test
@@ -344,14 +353,22 @@ class IngestPageTest {
     }
 
     @Test
-    @DisplayName("el informe CSV de errores se traduce al inglés con lang=en")
+    @DisplayName("el informe CSV de errores sale en el idioma de la persona, celdas incluidas")
     void shouldGiveErrorReportInEnglish() throws Exception {
-        when(ingest.errorReport(JOB)).thenReturn(
-                "\uFEFFregistro,id,campo,recibido,esperado\nRegistro 1,1,title,,un texto\n");
+        ValidationReport report = new ValidationReport(List.of(
+                new ValidationIssue("EFX-ING-012", "3", "1", "title", "42", IngestPhrase.TEXT.text(), false),
+                new ValidationIssue("EFX-ING-011", IngestPhrase.FILE.text(), "—", "id",
+                        IngestPhrase.ABSENT.text(), IngestPhrase.REQUIRED_FIELDS.text(), false)));
+        when(ingest.errorReport(eq(JOB), anyString(), any())).thenAnswer(
+                call -> report.toErrorCsv(call.getArgument(1), call.getArgument(2)));
 
         mvc.perform(get("/cargar/trabajos/" + JOB + "/informe.csv?lang=en"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("record,id,field,received,expected\nRecord 1,1,title,,un texto\n")));
+                .andExpect(content().string(containsString(
+                        "record,id,field,received,expected\n3,1,title,42,text\nfile,—,id,missing,\"id, title and plot\"\n")));
+        mvc.perform(get("/cargar/trabajos/" + JOB + "/informe.csv"))
+                .andExpect(content().string(containsString(
+                        "registro,id,campo,recibido,esperado\n3,1,title,42,un texto\narchivo,—,id,no vino,\"id, title y plot\"\n")));
     }
 
     private static JobView validJson() {

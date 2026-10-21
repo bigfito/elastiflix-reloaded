@@ -1,8 +1,10 @@
 package com.bigfito.elastiflix.web.ingest;
 
+import java.util.Locale;
 import java.util.Map;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +31,29 @@ public class UploadSizeErrors {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadSizeErrors.class);
 
+    private final UiMessages messages;
+
+    /**
+     * Crea el manejador.
+     *
+     * @param messages catálogo de mensajes, para responder en el idioma de la persona
+     */
+    public UploadSizeErrors(UiMessages messages) {
+        this.messages = messages;
+    }
+
     /**
      * El contenedor, o el controlador, rechazó el archivo por tamaño.
      *
      * @param exception límite superado
-     * @return 413 con {@code EFX-ING-003}
+     * @param locale    idioma de la petición
+     * @return 413 con {@code EFX-ING-003} y su «qué pasó» en ese idioma
      */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<Map<String, String>> tooLarge(MaxUploadSizeExceededException exception) {
+    public ResponseEntity<Map<String, String>> tooLarge(MaxUploadSizeExceededException exception, Locale locale) {
         LOG.warn("{}: la subida supera {} bytes", ErrorCode.FILE_TOO_LARGE.code(), exception.getMaxUploadSize());
         return ResponseEntity.status(HttpStatus.CONTENT_TOO_LARGE).body(Map.of(
-                "code", ErrorCode.FILE_TOO_LARGE.code(), "message", ErrorCode.FILE_TOO_LARGE.summary()));
+                "code", ErrorCode.FILE_TOO_LARGE.code(),
+                "message", messages.errorSummary(ErrorCode.FILE_TOO_LARGE, locale)));
     }
 }

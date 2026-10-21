@@ -9,6 +9,10 @@
 > ejecutando código o pruebas.
 >
 > **Origen:** F7 = fase 7, F8 = fase 8 (las dos de Antigravity); Previo = fases 0–6 o revisiones 1–3.
+>
+> **Avance (2026-10-21):** aplicadas U-03 y U-11 (en `main`) y, en la rama `revision-4`, U-01, U-02, U-07,
+> U-13, U-14, U-15, U-16, U-17 y U-24, según las decisiones de Adolfo. La parte de cabeceras de U-33 se
+> descartó. El estado y la evidencia de cada una están en `progreso/revision-4.md`; esta lista no se marca.
 
 ## Resumen
 

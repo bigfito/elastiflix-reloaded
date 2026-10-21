@@ -10,8 +10,8 @@ import tools.jackson.databind.JsonNode;
  */
 final class ScalarValues {
 
-    private static final String TEXT = "un texto";
-    private static final String INTEGER = "un número entero";
+    private static final String TEXT = IngestPhrase.TEXT.text();
+    private static final String INTEGER = IngestPhrase.INTEGER.text();
 
     private ScalarValues() {
     }
@@ -56,7 +56,7 @@ final class ScalarValues {
             scope.error(ErrorCode.REQUIRED_FIELD, name, FieldNames.BLANK, TEXT);
             return;
         }
-        scope.warning(ErrorCode.EMPTY_TEXT, name, FieldNames.BLANK, "sin valor");
+        scope.warning(ErrorCode.EMPTY_TEXT, name, FieldNames.BLANK, IngestPhrase.NO_VALUE.text());
     }
 
     private static void bool(String name, JsonNode value, CheckScope scope) {
@@ -67,7 +67,7 @@ final class ScalarValues {
             scope.target().set(name, value);
             return;
         }
-        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "true o false");
+        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.BOOLEAN.text());
     }
 
     private static void integer(String name, JsonNode value, CheckScope scope) {
@@ -89,7 +89,7 @@ final class ScalarValues {
             scope.target().set(name, value);
             return;
         }
-        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "un número float finito");
+        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.FINITE_FLOAT.text());
     }
 
     private static void date(String name, JsonNode value, CheckScope scope) {
@@ -100,7 +100,7 @@ final class ScalarValues {
             scope.target().set(name, value);
             return;
         }
-        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), "una fecha yyyy-MM-dd");
+        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.DATE.text());
     }
 
     /** Un entero de verdad (ni {@code 1e3} ni {@code 12.0}) que cabe en un {@code int}, sin llamar a longValue. */

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
+import com.bigfito.elastiflix.ingest.mapping.IngestPhrase;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 
 import org.springframework.stereotype.Component;
@@ -48,15 +49,16 @@ public class MovieForms {
     private static ValidationIssue rejection(InvalidFormatException exception, String id) {
         String property = exception.getPath().isEmpty() ? null : exception.getPath().getLast().getPropertyName();
         String field = snakeCase(property);
-        return new ValidationIssue(ErrorCode.TYPE_MISMATCH.code(), "formulario", id == null ? "—" : id, field,
+        return new ValidationIssue(ErrorCode.TYPE_MISMATCH.code(), IngestPhrase.FORM.text(),
+                id == null ? "—" : id, field,
                 String.valueOf(exception.getValue()), expected(exception.getTargetType()), false);
     }
 
     private static String expected(Class<?> type) {
         if (Integer.class.equals(type) || Long.class.equals(type)) {
-            return "un número entero";
+            return IngestPhrase.INTEGER.text();
         }
-        return "un número";
+        return IngestPhrase.NUMBER.text();
     }
 
     /** {@code voteCount} → {@code vote_count}, el nombre del campo en el formulario y en el mapping. */

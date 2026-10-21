@@ -2,27 +2,52 @@ package com.bigfito.elastiflix.web.home;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import com.bigfito.elastiflix.web.locale.SupportedLocale;
 
 /**
  * Sugerencias vectoriales en español e inglés. La posición de cada película cambia con el campo.
+ *
+ * <p>Posiciones medidas el 2026-10-21 sobre 6 899 películas, con {@code k = 100} y 200 candidatos, en el orden
+ * {@code plot_256 plot_512 plot_1024}; {@code 0} es fuera de los 100. Las consultas son datos de cada idioma;
+ * las etiquetas salen del catálogo de mensajes.</p>
  */
 final class VectorSuggestions {
 
-    private static final String PLOT_256 = "plot_256";
-    private static final String PLOT_512 = "plot_512";
-    private static final String PLOT_1024 = "plot_1024";
-    private static final String FIRST = "1.º lugar";
-    private static final String SECOND = "2.º lugar";
-    private static final String THIRD = "3.º lugar";
-    private static final String FOURTH = "4.º lugar";
-    private static final String TENTH = "10.º lugar";
-    private static final String FIRST_EN = "1st place";
-    private static final String SECOND_EN = "2nd place";
-    private static final String THIRD_EN = "3rd place";
-    private static final List<String> FIELDS = List.of(PLOT_256, PLOT_512, PLOT_1024);
+    private static final List<String> FIELDS = List.of("plot_256", "plot_512", "plot_1024");
+    private static final String WALL_E = "WALL·E";
+    private static final String ROBOT_ES = "un robot solitario que limpia la Tierra";
+    private static final String ROBOT_EN = "a lonely robot cleaning up Earth";
+    private static final String ROBOT = "🤖";
+    private static final String FIRST_EVERYWHERE = "1 1 1";
+
+    private static final List<Example> SPANISH = List.of(
+            new Example("Titanic", "🚢", "un barco de lujo choca con un iceberg en su viaje inaugural", "36 7 4", false),
+            new Example("Inception", "🌀", "un ladrón roba secretos entrando en los sueños de las personas",
+                    "94 13 8", false),
+            new Example(WALL_E, ROBOT, ROBOT_ES, FIRST_EVERYWHERE, false),
+            new Example(WALL_E, ROBOT, ROBOT_EN, FIRST_EVERYWHERE, true),
+            new Example("Life of Pi", "🐅",
+                    "un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano",
+                    "31 7 5", false),
+            new Example("Spirited Away", "🏮", "una niña queda atrapada en un mundo de espíritus y trabaja en una "
+                    + "casa de baños para salvar a sus padres convertidos en cerdos", "13 4 1", false),
+            new Example("E.T.", "🚲",
+                    "un niño esconde a un pequeño extraterrestre perdido y lo ayuda a volver a su planeta",
+                    "3 1 1", false));
+
+    private static final List<Example> ENGLISH = List.of(
+            new Example("Titanic", "🚢", "a luxury liner hits an iceberg on its maiden voyage", "36 5 3", false),
+            new Example("Inception", "🌀", "a thief steals secrets by entering people's dreams", "0 18 11", false),
+            new Example(WALL_E, ROBOT, ROBOT_EN, FIRST_EVERYWHERE, false),
+            new Example(WALL_E, ROBOT, ROBOT_ES, FIRST_EVERYWHERE, true),
+            new Example("Life of Pi", "🐅",
+                    "a shipwrecked boy shares a lifeboat with a Bengal tiger in the middle of the ocean",
+                    "3 1 1", false),
+            new Example("Spirited Away", "🏮", "a girl is trapped in a spirit world and works in a bathhouse "
+                    + "to save her parents, who were turned into pigs", "6 2 1", false),
+            new Example("E.T.", "🚲", "a boy hides a small lost alien and helps him get back to his planet",
+                    "7 3 1", false));
 
     private VectorSuggestions() {
     }
@@ -30,144 +55,40 @@ final class VectorSuggestions {
     /**
      * Un conjunto por campo de vector, con k 100 y 200 candidatos.
      *
-     * @param locale idioma destino
+     * @param tags etiquetas en el idioma de la persona
      * @return los tres conjuntos, ocultos al empezar
      */
-    static List<SuggestionSet> all(Locale locale) {
-        boolean en = SupportedLocale.isEnglish(locale);
+    static List<SuggestionSet> all(SuggestionTags tags) {
+        List<Example> examples = SupportedLocale.isEnglish(tags.locale()) ? ENGLISH : SPANISH;
         List<SuggestionSet> sets = new ArrayList<>();
-        for (String field : FIELDS) {
-            sets.add(en ? ofEnglish(field) : ofSpanish(field));
+        for (int index = 0; index < FIELDS.size(); index++) {
+            String field = FIELDS.get(index);
+            List<SuggestionLink> links = new ArrayList<>();
+            for (Example example : examples) {
+                links.add(example.link(field, index, tags));
+            }
+            sets.add(new SuggestionSet("vectorial-" + field, false, List.copyOf(links)));
         }
         return List.copyOf(sets);
     }
 
-    private static SuggestionSet ofSpanish(String field) {
-        return new SuggestionSet("vectorial-" + field, false, List.of(
-                item("un barco de lujo choca con un iceberg en su viaje inaugural",
-                        "Titanic: " + titanicEs(field), "🚢", field),
-                item("un ladrón roba secretos entrando en los sueños de las personas",
-                        "Inception: " + inceptionEs(field), "🌀", field),
-                item("un robot solitario que limpia la Tierra", "WALL·E: 1.º lugar", "🤖", field),
-                item("a lonely robot cleaning up Earth", "en inglés · WALL·E: 1.º lugar", "🤖", field),
-                item("un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano",
-                        "Life of Pi: " + lifeOfPiEs(field), "🐅", field),
-                item("una niña queda atrapada en un mundo de espíritus y trabaja en una casa de baños "
-                        + "para salvar a sus padres convertidos en cerdos",
-                        "Spirited Away: " + spiritedEs(field), "🏮", field),
-                item("un niño esconde a un pequeño extraterrestre perdido y lo ayuda a volver a su planeta",
-                        "E.T.: " + extraTerrestrialEs(field), "🚲", field)));
-    }
+    /**
+     * Una consulta de ejemplo y la posición medida de su película en cada campo.
+     *
+     * @param movie         película que debería encontrar
+     * @param emoji         icono de la sugerencia
+     * @param query         consulta
+     * @param ranks         posiciones en {@code plot_256 plot_512 plot_1024}, separadas por espacios
+     * @param otherLanguage {@code true} si la consulta está en el otro idioma
+     */
+    private record Example(String movie, String emoji, String query, String ranks, boolean otherLanguage) {
 
-    private static SuggestionSet ofEnglish(String field) {
-        return new SuggestionSet("vectorial-" + field, false, List.of(
-                item("a luxury liner hits an iceberg on its maiden voyage",
-                        "Titanic: " + titanicEn(field), "🚢", field),
-                item("a thief steals secrets by entering people's dreams",
-                        "Inception: " + inceptionEn(field), "🌀", field),
-                item("a lonely robot cleaning up Earth", "WALL·E: 1st place", "🤖", field),
-                item("un robot solitario que limpia la Tierra", "in Spanish · WALL·E: 1st place", "🤖", field),
-                item("a shipwrecked boy shares a lifeboat with a Bengal tiger in the middle of the ocean",
-                        "Life of Pi: " + lifeOfPiEn(field), "🐅", field),
-                item("a girl is trapped in a spirit world and works in a bathhouse "
-                        + "to save her parents, who were turned into pigs",
-                        "Spirited Away: " + spiritedEn(field), "🏮", field),
-                item("a boy hides a small lost alien and helps him get back to his planet",
-                        "E.T.: " + extraTerrestrialEn(field), "🚲", field)));
-    }
-
-    private static SuggestionLink item(String text, String tag, String emoji, String field) {
-        return new SuggestionLink(text, tag, emoji, SearchHref.vector(text, field));
-    }
-
-    private static String titanicEs(String field) {
-        if (PLOT_512.equals(field)) {
-            return THIRD;
+        SuggestionLink link(String field, int index, SuggestionTags tags) {
+            String tag = tags.place(movie, ranks.split(" ")[index]);
+            if (otherLanguage) {
+                tag = tags.otherLanguage(tag);
+            }
+            return new SuggestionLink(query, tag, emoji, SearchHref.vector(query, field));
         }
-        if (PLOT_1024.equals(field)) {
-            return FIRST;
-        }
-        return FOURTH;
-    }
-
-    private static String inceptionEs(String field) {
-        if (PLOT_512.equals(field)) {
-            return FOURTH;
-        }
-        if (PLOT_1024.equals(field)) {
-            return THIRD;
-        }
-        return "fuera del top 10";
-    }
-
-    private static String lifeOfPiEs(String field) {
-        if (PLOT_512.equals(field)) {
-            return THIRD;
-        }
-        if (PLOT_1024.equals(field)) {
-            return SECOND;
-        }
-        return TENTH;
-    }
-
-    private static String spiritedEs(String field) {
-        if (PLOT_256.equals(field)) {
-            return FOURTH;
-        }
-        return FIRST;
-    }
-
-    private static String extraTerrestrialEs(String field) {
-        if (PLOT_256.equals(field)) {
-            return THIRD;
-        }
-        return FIRST;
-    }
-
-    private static String titanicEn(String field) {
-        if (PLOT_512.equals(field)) {
-            return "5th place";
-        }
-        if (PLOT_1024.equals(field)) {
-            return THIRD_EN;
-        }
-        return "36th place";
-    }
-
-    private static String inceptionEn(String field) {
-        if (PLOT_512.equals(field)) {
-            return "18th place";
-        }
-        if (PLOT_1024.equals(field)) {
-            return "11th place";
-        }
-        return "outside the top 100";
-    }
-
-    private static String lifeOfPiEn(String field) {
-        if (PLOT_256.equals(field)) {
-            return THIRD_EN;
-        }
-        return FIRST_EN;
-    }
-
-    private static String spiritedEn(String field) {
-        if (PLOT_512.equals(field)) {
-            return SECOND_EN;
-        }
-        if (PLOT_1024.equals(field)) {
-            return FIRST_EN;
-        }
-        return "6th place";
-    }
-
-    private static String extraTerrestrialEn(String field) {
-        if (PLOT_512.equals(field)) {
-            return THIRD_EN;
-        }
-        if (PLOT_1024.equals(field)) {
-            return FIRST_EN;
-        }
-        return "7th place";
     }
 }

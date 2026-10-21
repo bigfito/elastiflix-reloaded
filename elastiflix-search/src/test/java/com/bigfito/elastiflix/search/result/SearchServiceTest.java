@@ -44,8 +44,6 @@ import static org.mockito.Mockito.when;
  */
 class SearchServiceTest {
 
-    private static final String NONE = "No encontramos películas";
-    private static final String FILTERED = "Ningún resultado cumple los filtros";
 
     private final FakeStrategy fullText = new FakeStrategy(SearchMode.FULL_TEXT);
     private final FakeStrategy vector = new FakeStrategy(SearchMode.VECTOR);
@@ -87,7 +85,8 @@ class SearchServiceTest {
 
         assertThat(result.hits()).extracting(SearchHit::id).containsExactly("1", "2");
         assertThat(result.total()).isEqualTo(40);
-        assertThat(result.pagination().range()).isEqualTo("26–40 de 40");
+        assertThat(result.pagination().first()).isEqualTo(26);
+        assertThat(result.pagination().last()).isEqualTo(40);
         assertThat(result.facets().genres()).containsExactly(new FacetValue("Drama", 9));
         assertThat(result.adjustments()).containsExactly("match · title", "OR");
         assertThat(result.empty()).isNull();
@@ -157,7 +156,8 @@ class SearchServiceTest {
         assertThat(result.facets().genres()).containsExactly(
                 new FacetValue("Action", 25),
                 new FacetValue("Drama", 5));
-        assertThat(result.pagination().range()).isEqualTo("26–30 de 30");
+        assertThat(result.pagination().first()).isEqualTo(26);
+        assertThat(result.pagination().last()).isEqualTo(30);
         assertThat(result.adjustments()).containsExactly("plot_1024", "k 100", "num_candidates 200");
         assertThat(result.empty()).isNull();
     }
@@ -188,13 +188,7 @@ class SearchServiceTest {
         fullText.next = new StrategyResult(List.of(), 0, Map.of());
         SearchResult result = service.search(fullText("dark knight", 1, SearchFilters.none()));
 
-        assertThat(result.empty().title()).isEqualTo(NONE);
-        assertThat(result.empty().text())
-                .isEqualTo("La consulta «dark knight» no devolvió resultados con los ajustes actuales.");
-        assertThat(result.empty().tips()).containsExactly(
-                "Con AND deben aparecer todas las palabras; prueba con OR.",
-                "Con match se busca en un solo campo; prueba multi-match.",
-                "Revisa la ortografía y los apóstrofos (\u2019 y ').");
+        assertThat(result.empty()).isEqualTo(EmptyState.NONE);
         assertThat(fullText.unfilteredCalls).isZero();
     }
 
@@ -205,12 +199,7 @@ class SearchServiceTest {
         fullText.unfiltered = 4;
         SearchResult result = service.search(fullText("dark knight", 1, drama()));
 
-        assertThat(result.empty().title()).isEqualTo(FILTERED);
-        assertThat(result.empty().text()).isEqualTo(
-                "La búsqueda sí encontró películas, pero ninguna cumple a la vez todos los filtros aplicados.");
-        assertThat(result.empty().tips()).containsExactly(
-                "Desmarca algún valor o quita un filtro y pulsa APLICAR.",
-                "Amplía el rango de fechas de estreno.");
+        assertThat(result.empty()).isEqualTo(EmptyState.FILTERED);
         assertThat(fullText.unfilteredCalls).isEqualTo(1);
     }
 
@@ -229,10 +218,7 @@ class SearchServiceTest {
                 SearchQuery.PAGE_25);
         SearchResult result = service.search(query);
 
-        assertThat(result.empty().title()).isEqualTo(NONE);
-        assertThat(result.empty().tips()).containsExactly(
-                "Prueba a describir la trama con otras palabras.",
-                "Cambia de modo o de ajustes de búsqueda.");
+        assertThat(result.empty()).isEqualTo(EmptyState.NONE);
         assertThat(vector.unfilteredCalls).isEqualTo(1);
     }
 
@@ -245,7 +231,8 @@ class SearchServiceTest {
         assertThat(result.hits()).isEmpty();
         assertThat(result.total()).isEqualTo(10);
         assertThat(result.empty()).isNull();
-        assertThat(result.pagination().range()).isEqualTo("0–0 de 10");
+        assertThat(result.pagination().first()).isZero();
+        assertThat(result.pagination().last()).isZero();
     }
 
     @Test
