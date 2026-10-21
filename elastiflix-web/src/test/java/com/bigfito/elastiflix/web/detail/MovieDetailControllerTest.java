@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
@@ -165,6 +166,22 @@ class MovieDetailControllerTest {
     }
 
     @Test
+    @DisplayName("el total del reparto se agrupa con espacio en español y coma en inglés, nunca con punto")
+    void shouldGroupTheCastCountByLocale() throws Exception {
+        // given
+        when(searches.findById("27205")).thenReturn(Optional.of(movieWithCast(1000)));
+
+        // when / then
+        mvc.perform(get("/pelicula/27205").param("q", "inception"))
+                .andExpect(content().string(containsString("1 000 personas, en el orden del catálogo.")))
+                .andExpect(content().string(containsString("Ver todo el reparto (1 000)")))
+                .andExpect(content().string(not(containsString("1.000"))));
+        mvc.perform(get("/pelicula/27205").param("q", "inception").param("lang", "en"))
+                .andExpect(content().string(containsString("1,000 people, in catalog order.")))
+                .andExpect(content().string(containsString("(1,000)")));
+    }
+
+    @Test
     @DisplayName("película existente con búsqueda previa responde 200 OK y renderiza la ficha técnica completa")
     void shouldRenderMovieDetailPageWhenMovieExists() throws Exception {
         Movie movie = sampleMovie();
@@ -224,13 +241,21 @@ class MovieDetailControllerTest {
     }
 
     private static Movie sampleMovie() {
+        return movieWithCast(List.of("Leonardo DiCaprio", "Joseph Gordon-Levitt"));
+    }
+
+    private static Movie movieWithCast(int people) {
+        return movieWithCast(IntStream.rangeClosed(1, people).mapToObj(n -> "Persona " + n).toList());
+    }
+
+    private static Movie movieWithCast(List<String> cast) {
         return new Movie(
                 "27205", "tt1375666", "Inception", "Inception", "en",
                 java.time.LocalDate.parse("2010-07-15"), 148, "Released", false, false,
                 "Your mind is the scene of the crime.", "Cobb is a skilled thief", "Inception plot",
                 List.of("Action", "Science Fiction"),
                 List.of(new MovieKeyword(90L, "paris, france")),
-                List.of("Leonardo DiCaprio", "Joseph Gordon-Levitt"),
+                cast,
                 new MovieCollection(12345L, "Inception Collection", "/coll_back.jpg", "/coll_post.jpg"),
                 160_000_000.0, 825_532_764.0, 82.5, 8.36, 35000, "PG-13",
                 "https://inception.test", "/poster.jpg", "/backdrop.jpg",

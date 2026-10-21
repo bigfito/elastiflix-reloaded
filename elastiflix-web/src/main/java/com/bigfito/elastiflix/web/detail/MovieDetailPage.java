@@ -7,6 +7,7 @@ import java.util.Locale;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.core.model.MovieCollection;
 import com.bigfito.elastiflix.core.model.MovieKeyword;
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.web.layout.PosterUrls;
 import com.bigfito.elastiflix.web.locale.SupportedLocale;
 import com.bigfito.elastiflix.web.locale.UiMessages;
@@ -75,7 +76,8 @@ public class MovieDetailPage {
                 MovieDetailTables.production(m, locale, messages),
                 MovieDetailTables.numbers(m, locale, messages),
                 coll != null, collectionName(coll), MovieDetailTables.collection(coll, locale, messages),
-                MovieDetailTables.images(m, posters, locale, messages), cast, cast.size(), keywords, keywords.size(),
+                MovieDetailTables.images(m, posters, locale, messages),
+                cast, Thousands.of(cast.size(), locale), keywords, Thousands.of(keywords.size(), locale),
                 MovieDetailSearchChips.chips(form, locale, messages), SearchLinks.returnToSearch(m.id(), form));
     }
 

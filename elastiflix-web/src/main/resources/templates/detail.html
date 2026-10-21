@@ -169,10 +169,10 @@
           <p class="detail-sub-meta" th:text="#{detail.cast.meta(${detail.castCount})}">0 personas, en el orden del catálogo.</p>
           <ul class="detail-chips-list" id="cast-list">
             <li class="chip" th:each="c, iter : ${detail.cast}" th:text="${c}"
-                th:classappend="${iter.index >= 18} ? 'cast-extra' : ''"
-                th:style="${iter.index >= 18} ? 'display: none;' : ''">Actor</li>
+                th:classappend="${iter.index >= detail.castLimit()} ? 'cast-extra' : ''"
+                th:style="${iter.index >= detail.castLimit()} ? 'display: none;' : ''">Actor</li>
           </ul>
-          <button type="button" class="toggle" id="cast-toggle" th:if="${detail.castCount > 18}"
+          <button type="button" class="toggle" id="cast-toggle" th:if="${detail.hasMoreCast()}"
                   aria-expanded="false" th:attr="data-show-more=#{detail.cast.showMore(${detail.castCount})},data-show-less=#{detail.cast.showLess}">
             <span class="toggle-text" th:text="#{detail.cast.showMore(${detail.castCount})}">Ver todo el reparto (25)</span>
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="toggle-icon" d="M6 9l6 6l6-6"></path></svg>

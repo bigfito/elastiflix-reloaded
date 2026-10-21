@@ -108,6 +108,23 @@ class MovieDetailPageTest {
     }
 
     @Test
+    @DisplayName("el total del reparto y de las palabras clave llega con el separador de miles del idioma")
+    void shouldGroupCastAndKeywordCountsByLocale() {
+        // given
+        Movie movie = movieBuilder().cast(names(1000)).build();
+
+        // when
+        MovieDetailView spanish = page.build(movie, searchForm(), java.util.Locale.forLanguageTag("es"));
+        MovieDetailView english = page.build(movie, searchForm(), java.util.Locale.ENGLISH);
+
+        // then
+        assertThat(spanish.castCount()).isEqualTo("1 000");
+        assertThat(english.castCount()).isEqualTo("1,000");
+        assertThat(spanish.keywordCount()).isEqualTo("0");
+        assertThat(spanish.hasMoreCast()).isTrue();
+    }
+
+    @Test
     @DisplayName("textos y listas en blanco cuentan como vacíos: «N/A»")
     void shouldTreatBlankTextsAsNotAvailable() {
         // given
@@ -292,6 +309,10 @@ class MovieDetailPageTest {
                 "100", "200", "1", "25", List.of(), List.of(), List.of(), List.of(), "", "");
     }
 
+    private static List<String> names(int count) {
+        return java.util.stream.IntStream.rangeClosed(1, count).mapToObj(n -> "Persona " + n).toList();
+    }
+
     private static TestMovieBuilder movieBuilder() {
         return new TestMovieBuilder();
     }
@@ -303,6 +324,7 @@ class MovieDetailPageTest {
         private Double revenue = 825_532_764.0;
         private MovieCollection belongsToCollection = null;
         private String homepage = "https://inception.com";
+        private List<String> cast = List.of("Leonardo DiCaprio");
         private String posterPath = "/poster.jpg";
         private String backdropPath = "/backdrop.jpg";
 
@@ -331,6 +353,11 @@ class MovieDetailPageTest {
             return this;
         }
 
+        TestMovieBuilder cast(List<String> cast) {
+            this.cast = cast;
+            return this;
+        }
+
         TestMovieBuilder images(String posterPath, String backdropPath) {
             this.posterPath = posterPath;
             this.backdropPath = backdropPath;
@@ -342,7 +369,7 @@ class MovieDetailPageTest {
                     id, "tt1375666", title, "Inception", "en",
                     LocalDate.parse("2010-07-15"), 148, "Released", false, false,
                     "Your mind is the scene of the crime.", "Cobb is a skilled thief", "Inception plot",
-                    List.of("Action", "Sci-Fi"), List.of(), List.of("Leonardo DiCaprio"), belongsToCollection,
+                    List.of("Action", "Sci-Fi"), List.of(), cast, belongsToCollection,
                     budget, revenue, 75.2, 8.4, 32000, "PG-13",
                     homepage, posterPath, backdropPath,
                     List.of("Warner Bros."), List.of("US"), List.of("en"),
