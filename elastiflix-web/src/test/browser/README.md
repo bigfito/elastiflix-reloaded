@@ -7,7 +7,7 @@ revisión 2 (S-09 y S-10), donde el criterio pide una prueba de JS o de navegado
 ## Cómo correrlas
 
 1. Arranca la aplicación. No hace falta Elasticsearch: estas pruebas no importan nada.
-   `utf8.test.js` solo usa la comprobación del navegador en `/cargar`. `ingest.test.js` simula con
+   `utf8.test.js` y `size.test.js` solo usan la comprobación del navegador en `/cargar`. `ingest.test.js` simula con
    `page.route()` las respuestas de `/cargar/archivo` y `/cargar/trabajos/*`. `suggestions.test.js`
    intercepta `/buscar` y solo afirma la URL a la que navega la sugerencia.
 
@@ -31,4 +31,5 @@ revisión 2 (S-09 y S-10), donde el criterio pide una prueba de JS o de navegado
 |---|---|
 | `utf8.test.js` | S-09: un carácter de 2 bytes cortado en el byte 65 535 no rechaza un archivo válido; un byte inválido sí |
 | `ingest.test.js` | Revisión 3 (T-04, T-05, T-11 y T-26): un 409 al importar deja el aviso visible tras el siguiente sondeo; validar un CSV, cambiar el separador y volver a validar el mismo archivo hace un segundo POST; `cancelado` deja el paso 4 detenido; un doble clic en Importar hace un solo POST; una caída de red al importar o al subir muestra el aviso de red. T-26: las pestañas usan `tabindex` itinerante y se recorren con ←, →, Inicio y Fin. Revisión 4: al cambiar de idioma con un trabajo CSV activo sigue la pestaña CSV con su separador, y un `?job=` de un JSON elige la pestaña JSON (U-20); un `?job=` que no es un UUID no se usa y el id va codificado en cada ruta de `fetch` (U-21) |
+| `size.test.js` | Requerimiento 3 (fase 9): la página entrega el tope de 25 MB (`data-max-bytes="26214400"`); un archivo de 25 MB exactos pasa la comprobación del navegador y uno de 25 MB + 1 byte se rechaza sin subirse, con «El archivo pesa 25.0 MB y el máximo permitido es 25 MB.» y su texto en inglés |
 | `suggestions.test.js` | S-10: en Híbrida, con `k=50`, `plot_1024` y `multi_match`, una sugerencia busca con esos ajustes; sin JavaScript el enlace del servidor sigue llevando a `/buscar` |

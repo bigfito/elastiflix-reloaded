@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Acerca de toma el tamaño máximo y el lote de las variables de entorno, no de cifras escritas a mano.
+ * Acerca de toma el lote del entorno y el tamaño máximo de la constante fija de 25 MB, no de cifras escritas a mano.
  */
 @WebMvcTest(controllers = AboutController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test",
@@ -39,7 +39,7 @@ class AboutLimitsTest {
     private CatalogStatusService catalog;
 
     @Test
-    @DisplayName("con 200MB y lotes de 1500 en el entorno, Acerca de muestra «200 MB» y «1 500», no «1.500»")
+    @DisplayName("con 200MB y lotes de 1500 en el entorno, Acerca de muestra «25 MB» y «1 500», no «1.500»")
     void shouldShowTheConfiguredLimits() throws Exception {
         // given
         when(catalog.status()).thenReturn(new CatalogStatus("elastiflix-reloaded", "idx", 6899L, true, null));
@@ -47,7 +47,8 @@ class AboutLimitsTest {
         // when / then
         mvc.perform(get("/acerca"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("de máximo 200 MB y con contenido")))
+                .andExpect(content().string(containsString("de máximo 25 MB y con contenido")))
+                .andExpect(content().string(not(containsString("200 MB"))))
                 .andExpect(content().string(containsString("en lotes de 1 500 en un índice temporal")))
                 .andExpect(content().string(not(containsString("1.500"))))
                 .andExpect(content().string(not(containsString("150 MB"))))

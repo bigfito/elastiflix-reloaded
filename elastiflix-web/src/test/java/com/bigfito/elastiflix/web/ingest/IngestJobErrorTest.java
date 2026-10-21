@@ -6,6 +6,7 @@ import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
+import com.bigfito.elastiflix.ingest.file.FileChecker;
 import com.bigfito.elastiflix.ingest.service.IngestService;
 
 import com.bigfito.elastiflix.web.locale.LocaleConfig;
@@ -18,7 +19,6 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,7 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({IngestJobErrors.class, UploadSizeErrors.class, UploadCheck.class, IngestLimits.class,
         LocaleConfig.class, IngestTranslator.class})
 @EnableConfigurationProperties(ElastiflixProperties.class)
-@TestPropertySource(properties = "elastiflix.ingest.max-file-size=32B")
 class IngestJobErrorTest {
 
     @Autowired
@@ -49,10 +48,16 @@ class IngestJobErrorTest {
     private CatalogStatusService catalog;
 
     @Test
-    @DisplayName("un archivo mayor que el tope responde 413 con EFX-ING-003")
+    @DisplayName("un archivo de 25 MB + 1 byte responde 413 con EFX-ING-003")
     void shouldRejectAnOversizedUploadAsJson() throws Exception {
+        // Dice pesar un byte más que el tope; el controlador solo mira el tamaño declarado.
         MockMultipartFile file = new MockMultipartFile(
-                "archivo", "grande.json", MediaType.APPLICATION_JSON_VALUE, new byte[64]);
+                "archivo", "grande.json", MediaType.APPLICATION_JSON_VALUE, new byte[64]) {
+            @Override
+            public long getSize() {
+                return FileChecker.MAX_FILE_SIZE.toBytes() + 1;
+            }
+        };
 
         mvc.perform(multipart("/cargar/archivo").file(file))
                 .andExpect(status().is(413))

@@ -85,8 +85,8 @@ class IngestPageTest {
         mvc.perform(get("/cargar"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("nav", "cargar"))
-                .andExpect(model().attribute("maxFileLabel", "150 MB"))
-                .andExpect(model().attribute("maxFileBytes", 150L * MEGABYTE))
+                .andExpect(model().attribute("maxFileLabel", "25 MB"))
+                .andExpect(model().attribute("maxFileBytes", 25L * MEGABYTE))
                 .andExpect(model().attribute("batchSize", "100"))
                 .andExpect(content().string(containsString("Índice elastiflix-reloaded")))
                 .andExpect(content().string(not(containsString("data-alias="))))
@@ -121,18 +121,18 @@ class IngestPageTest {
     @DisplayName("escenario «Archivo rechazado»: el bloque del navegador trae los textos del mockup")
     void shouldShowTheRejectedFileCopy() throws Exception {
         mvc.perform(get("/cargar"))
-                .andExpect(model().attribute("maxFileLabel", "150 MB"))
+                .andExpect(model().attribute("maxFileLabel", "25 MB"))
                 .andExpect(model().attribute("batchSize", "100"))
                 .andExpect(content().string(containsString("No se puede cargar este archivo")))
                 .andExpect(content().string(containsString("El archivo se rechazó en el navegador, antes de subirlo, "
                         + "así que no salió de tu equipo ni se importó nada.")))
                 .andExpect(content().string(containsString("Antes de subir se comprueba la extensión y el tipo "
-                        + "(.json o .csv, sin dobles extensiones), el tamaño (máximo 150 MB) y que el contenido sea "
+                        + "(.json o .csv, sin dobles extensiones), el tamaño (máximo 25 MB) y que el contenido sea "
                         + "texto UTF-8. El servidor repite estas comprobaciones al recibirlo.")))
-                .andExpect(content().string(containsString("Máximo 150 MB")))
+                .andExpect(content().string(containsString("Máximo 25 MB")))
                 .andExpect(content().string(containsString("Cambiar archivo")))
                 .andExpect(content().string(containsString("en lotes de 100.")))
-                .andExpect(content().string(containsString("data-max-bytes=\"157286400\"")))
+                .andExpect(content().string(containsString("data-max-bytes=\"26214400\"")))
                 .andExpect(content().string(not(containsString("· detectad"))))
                 .andExpect(content().string(not(containsString("Si se desmarca"))))
                 .andExpect(content().string(not(containsString("Elige un archivo"))));

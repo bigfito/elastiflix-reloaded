@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.IngestValidationException;
 import com.bigfito.elastiflix.ingest.file.CheckedFile;
@@ -24,17 +23,14 @@ public final class FileGate {
 
     private final FileChecker checker = new FileChecker();
     private final MovieReaderFactory readers;
-    private final ElastiflixProperties properties;
 
     /**
-     * Crea la puerta con el tamaño máximo configurado.
+     * Crea la puerta con los lectores. El tamaño máximo es el de {@link FileChecker#MAX_FILE_SIZE}.
      *
-     * @param readers    json o csv
-     * @param properties tamaño máximo del archivo
+     * @param readers json o csv
      */
-    public FileGate(MovieReaderFactory readers, ElastiflixProperties properties) {
+    public FileGate(MovieReaderFactory readers) {
         this.readers = readers;
-        this.properties = properties;
     }
 
     /**
@@ -65,7 +61,7 @@ public final class FileGate {
     private CheckedFile check(ImportWork work, Path path) throws IOException {
         try (InputStream content = Files.newInputStream(path)) {
             FileCandidate candidate = new FileCandidate(work.fileName(), Files.size(path), content);
-            return checker.check(candidate, properties.ingest().maxFileSize());
+            return checker.check(candidate);
         }
     }
 }

@@ -96,7 +96,7 @@ class IngestServiceTest {
         PlotVectorizer vectorizer = new PlotVectorizer(embeddings);
         return new IngestService(
                 store,
-                new FileIntake(new FileGate(new MovieReaderFactory(new IndexMapping()), properties),
+                new FileIntake(new FileGate(new MovieReaderFactory(new IndexMapping())),
                         new MappingValidator(), catalog, properties, store),
                 new ImportRunner(new ImportJob(
                         catalog, names, Clock.systemUTC(), vectorizer, new OrphanCleaner(names)),

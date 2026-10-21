@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.util.unit.DataSize;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -33,7 +32,7 @@ import org.springframework.validation.annotation.Validated;
  * @param elasticsearch URL y API key del proyecto Serverless
  * @param index         nombre del alias del catálogo
  * @param inference     id del endpoint de embeddings
- * @param ingest        tamaño de archivo y de lote
+ * @param ingest        lote de escritura de la carga
  * @param poster        prefijo del CDN de pósters
  * @param bootstrap     si la migración a alias debe ejecutarse
  * @param embedding     cómo se vectorizan las sinopsis
@@ -138,35 +137,33 @@ public record ElastiflixProperties(
     }
 
     /**
-     * Límites de una carga de archivo.
+     * Lote de escritura de una carga de archivo.
      *
-     * @param maxFileSize tamaño máximo aceptado
-     * @param batchSize   documentos por lote de escritura
+     * <p>El tamaño máximo del archivo no se configura: son 25 MB fijos en {@code FileChecker.MAX_FILE_SIZE}
+     * ({@code elastiflix-ingest}, Requerimiento 3).</p>
+     *
+     * @param batchSize documentos por lote de escritura
      */
-    public record Ingest(DataSize maxFileSize, int batchSize) {
+    public record Ingest(int batchSize) {
 
-        private static final int DEFAULT_MEGABYTES = 150;
         private static final int DEFAULT_BATCH_SIZE = 100;
 
         /**
-         * Completa un tamaño o un lote que no vino en la configuración.
+         * Completa un lote que no vino en la configuración.
          */
         public Ingest {
-            if (maxFileSize == null) {
-                maxFileSize = DataSize.ofMegabytes(DEFAULT_MEGABYTES);
-            }
             if (batchSize <= 0) {
                 batchSize = DEFAULT_BATCH_SIZE;
             }
         }
 
         /**
-         * 150 MB y lotes de 100, como el plan.
+         * Lotes de 100, como el plan.
          *
-         * @return límites por defecto
+         * @return lote por defecto
          */
         public static Ingest fallback() {
-            return new Ingest(null, 0);
+            return new Ingest(0);
         }
     }
 

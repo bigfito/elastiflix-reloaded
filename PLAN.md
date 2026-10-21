@@ -78,7 +78,7 @@ cargar nuevas películas sin dejar nunca el catálogo a medias.
 | 🔀 Híbrida | Retriever `rrf` con el componente full-text y el vectorial; `rank_constant = 60`, `rank_window_size = k`; muestra BM25, k-NN, sus posiciones y la puntuación RRF |
 | 🎛️ Filtros | `adult`, `genres`, `release_date` (desde–hasta), `spoken_languages`, `rating`, con conteos calculados sobre los resultados |
 | 📄 Paginación | 25 · 50 · 100 por página |
-| 📥 Carga de datos | Registro individual (directo al catálogo), `.json` o `.csv` con encabezado (≤ 150 MB, UTF-8); validación completa contra el mapping; vectores siempre generados con el servicio de inferencia; importación en índice temporal, swap atómico de alias y borrado del índice anterior; vuelta atrás si algo falla |
+| 📥 Carga de datos | Registro individual (directo al catálogo), `.json` o `.csv` con encabezado (≤ 25 MB, UTF-8; Requerimiento 3); validación completa contra el mapping; vectores siempre generados con el servicio de inferencia; importación en índice temporal, swap atómico de alias y borrado del índice anterior; vuelta atrás si algo falla |
 | ℹ️ Acerca de | Documentación de la demo dentro de la aplicación |
 
 **Fuera de alcance** (no implementar sin que el usuario lo pida): autenticación, comparación lado a
@@ -107,7 +107,7 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 | Pie de **todas** las páginas | — | Agregar el aviso de atribución de TMDB, solo texto: «This product uses the TMDB API but is not endorsed or certified by TMDB.» |
 | `About.dc.html` › nueva sección final «Créditos» | — | Aviso de atribución de TMDB «This product uses the TMDB API but is not endorsed or certified by TMDB.», debajo su traducción «Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.» y un logo **aprobado** de TMDB, menos prominente que el logo de la demo |
 | `Ingest.dc.html` › archivo (revisión 2, S-03, 2026-10-18) | Los cambios de separador y codificación se aplican al elegir el archivo | Botón «Validar archivo»: sube el archivo con el separador y la casilla elegidos. Las opciones «Coma ( , ) · detectado» y «UTF-8 con BOM · detectada» quedan sin «· detectado»/«· detectada», porque la aplicación no detecta nada |
-| `Ingest.dc.html` › rechazo en el navegador (revisión 2, S-03, 2026-10-18) | Motivos de ejemplo | Motivos reales: «La extensión no es .json.» / «… .csv.», «El archivo tiene más de una extensión. Solo se acepta .csv.», «El archivo pesa X MB y el máximo permitido es 150 MB.», «El contenido no es texto UTF-8.» y, con la casilla de encabezado desmarcada, «EFX-ING-005 · El CSV no confirma que la primera fila sea el encabezado.» |
+| `Ingest.dc.html` › rechazo en el navegador (revisión 2, S-03, 2026-10-18) | Motivos de ejemplo | Motivos reales: «La extensión no es .json.» / «… .csv.», «El archivo tiene más de una extensión. Solo se acepta .csv.», «El archivo pesa X MB y el máximo permitido es 25 MB.» (150 MB hasta la fase 9), «El contenido no es texto UTF-8.» y, con la casilla de encabezado desmarcada, «EFX-ING-005 · El CSV no confirma que la primera fila sea el encabezado.» |
 | `Ingest.dc.html` › errores del servidor (revisión 2, S-03, 2026-10-18) | — | Un rechazo del servidor muestra `<código> · <qué pasó>.` en una alerta propia. Sin respuesta: «No se pudo conectar con el servidor de la demo. Revisa que siga en marcha y vuelve a intentarlo.»; si falla una consulta de estado: «No se pudo consultar el estado del trabajo. Se vuelve a intentar en unos segundos.» |
 | `Ingest.dc.html` › correspondencia de columnas (revisión 2, S-03, 2026-10-18) | Contenidos de ejemplo («Texto con saltos de línea»…) y la fila «… y las demás columnas…» | Se muestran todas las columnas. El contenido sale del tipo del mapping («Texto», «Lista JSON de textos», «Número entero», «Número», «true o false», «Fecha yyyy-MM-dd», «Lista JSON de objetos anidados», «Objeto JSON anidado») más «· vacía en N filas»; `_id` dice «Metadato; tiene que ser igual a id». Las comprobaciones superadas son «N registros leídos, con id, title y plot.» y «Ningún id repetido.» |
 | `About.dc.html` › Vectorial › nota de implementación y Carga de datos › Vectores (R-10, 2026-10-18; mockup editado en B-05, `8cbfa49`) | «… y `Document: ` en las sinopsis» | Las sinopsis se vectorizan con `input_type` `ingest` y sin prefijo, la combinación que midió la calibración 1.9. Las consultas siguen con `Query: `. B-05 cambió el mockup aprobado para que diga lo mismo (ver «Aprobaciones» de `progreso/INDICE.md`) |
@@ -398,7 +398,6 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   | `spring.elasticsearch.api-key` | `${elastiflix.elasticsearch.api-key}` (propiedad de Spring Boot 4.1.1) |
   | `elastiflix.index.alias` | `${ELASTIFLIX_INDEX_ALIAS:elastiflix-reloaded}` |
   | `elastiflix.inference.id` | `${ELASTIFLIX_INFERENCE_ID:.jina-embeddings-v5-omni-small}` |
-  | `elastiflix.ingest.max-file-size` | `${ELASTIFLIX_INGEST_MAX_FILE_SIZE:150MB}` |
   | `elastiflix.ingest.batch-size` | `${ELASTIFLIX_INGEST_BATCH_SIZE:100}` |
   | `elastiflix.poster.base-url` | `${ELASTIFLIX_POSTER_BASE_URL:https://image.tmdb.org/t/p/w342}` |
   | `elastiflix.bootstrap.enabled` | `false` (se activa solo por línea de comandos en la tarea 1.8) |
@@ -417,9 +416,10 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   de 20 s antes de borrar el índice temporal (revisión 2, S-01; revisión 3, T-01).
 
   Los topes del multipart no van en el YAML: `UploadMultipartConfig` (`elastiflix-web`) crea el
-  `MultipartConfigElement` con el archivo hasta `elastiflix.ingest.max-file-size` y la petición hasta ese
-  valor más 1 MB (los otros campos del formulario). Subir `ELASTIFLIX_INGEST_MAX_FILE_SIZE` sube los dos
-  (revisión 3, T-13).
+  `MultipartConfigElement` con el archivo hasta `FileChecker.MAX_FILE_SIZE` (25 MB) y la petición hasta ese
+  valor más 1 MB (26 MB; los otros campos del formulario). El tamaño máximo no se configura: el Requerimiento 3
+  (fase 9) quitó `elastiflix.ingest.max-file-size` y `ELASTIFLIX_INGEST_MAX_FILE_SIZE`, que desde la revisión 3
+  (T-13) movían los dos topes.
 
   Los valores de embeddings de documento (`elastiflix.embedding.*`) **no** van en el YAML: son los
   valores por defecto (`@DefaultValue`) del `record` de propiedades de `elastiflix-core`, fijados por la
@@ -450,7 +450,7 @@ aprobación del usuario** (🔒) — el agente se detiene con el estado `esperan
 |---|---|
 | 🔒 **1** — Núcleo | Define los contratos (`CatalogIndex`, `EmbeddingService`, `IndexMapping`, errores) que usan todas las demás y la migración del índice a alias |
 | 🔒 **2** — Búsqueda | Concentra los algoritmos centrales: construcción de `match`/`multi_match`, `knn`, `rrf`, filtros y facetas |
-| 🔒 **3** — Carga de datos | Orquestación con índice temporal, swap de alias y vuelta atrás; manejo de archivos de 150 MB |
+| 🔒 **3** — Carga de datos | Orquestación con índice temporal, swap de alias y vuelta atrás; manejo de archivos de 150 MB (25 MB desde la fase 9) |
 
 En las fases 4 y 5 el diseño se escribe y se hace commit, pero no requiere aprobación previa.
 
@@ -687,7 +687,7 @@ alias y sus índices, y genera vectores de consulta y de documento idénticos a 
     sugerida: …` y que los códigos son únicos.
 - [x] **1.2** Configuración tipada (`record` con `@ConfigurationProperties` + `@Validated`) para todas
   las propiedades `elastiflix.*` de §7: `elasticsearch.url`, `elasticsearch.api-key`, `index.alias`,
-  `inference.id`, `ingest.max-file-size`, `ingest.batch-size`, `poster.base-url`, `bootstrap.enabled` y
+  `inference.id`, `ingest.max-file-size` (quitada en la fase 9), `ingest.batch-size`, `poster.base-url`, `bootstrap.enabled` y
   `embedding.*` (la tarea 1.9 dejó `document-input-type: ingest` y `document-prefix` vacío;
   el prefijo provisional `Document: ` no se usa). Un `EnvironmentPostProcessor`
   de core (registrado en `META-INF/spring.factories` con la clave de la interfaz en Spring Boot 4,
@@ -893,7 +893,7 @@ nunca el catálogo a medias.
   solo `.json`/`.csv`, sin dobles extensiones, máximo 150 MB, contenido UTF-8 válido (con o sin BOM).
   Límites de multipart y de Tomcat según §7 (archivo 150 MB y petición 151 MB, que desde la revisión 3,
   T-13, salen de `UploadMultipartConfig` y no del YAML; `max-swallow-size` -1), para que un archivo de
-  más de 150 MB reciba su `EFX-ING-*` y no un corte de conexión.
+  más de 150 MB reciba su `EFX-ING-*` y no un corte de conexión. *(Requerimiento 3, fase 9: 25 MB fijos.)*
   - Criterio: pruebas unitarias aceptan `elastiflix-reloaded.json`, `peliculas_2026.csv` y rechazan
     `peliculas.txt`, `peliculas`, `peliculas.csv.exe`, `peliculas.exe.csv`, `peliculas.json.csv`, un
     archivo de 150 MB + 1 byte y uno con bytes no UTF-8, cada uno con su código `EFX-ING-*`.
@@ -1244,7 +1244,8 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 ## Requerimientos nuevos (después de la revisión 3)
 
 > **Estado:** los requerimientos 1 y 2 ya se implementaron (fases 7 y 8, en `main`; la revisión 4 corrige lo que
-> dejaron pendiente). Los requerimientos 3 y 4 **no se implementan todavía**. El trabajo de cada uno empieza solo
+> dejaron pendiente). El requerimiento 3 está en curso en la fase 9 (consentimiento de Adolfo del 2026-10-21). El
+> requerimiento 4 **no se implementa todavía**. El trabajo de cada uno empieza solo
 > cuando se cumplen las dos condiciones:
 >
 > 1. la revisión 3 está terminada y fusionada en `main`;
@@ -1457,6 +1458,12 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 - **Relación con la revisión 3:** T-13 sigue trabajando con el límite actual de 150 MB. El cambio a 25 MB
   se hace en este requerimiento, después de la revisión 3.
 
+- **Fase 9 — Tareas** (rama `fase-9-25mb`; diseño en `docs/diseno/9.md`, sin compuerta 🔒):
+  - [x] **9.0** Diseño técnico en `docs/diseno/9.md`: dónde vive la constante de 25 MB, qué pierde la configuración y qué pruebas cubren 25 MB y 25 MB + 1 byte en el navegador y en el servidor.
+  - [x] **9.1** Constante `FileChecker.MAX_FILE_SIZE` (25 MB) y comprobación del servidor: se quitan `ElastiflixProperties.Ingest.maxFileSize`, `elastiflix.ingest.max-file-size` y `ELASTIFLIX_INGEST_MAX_FILE_SIZE` (`application.yml`, `.env.example`); `FileGate`, `IngestLimits` y `UploadMultipartConfig` (archivo 25 MB, petición 26 MB) leen la constante. Pruebas unitarias y MockMvc: 25 MB pasa, 25 MB + 1 byte da 413 `EFX-ING-003`, y una variable vieja en el entorno no cambia nada.
+  - [x] **9.2** Comprobación del navegador: `ingest.js` toma el tope solo de la página, sin la reserva de 150 MB. Prueba de navegador: 25 MB pasa y 25 MB + 1 byte se rechaza, en español y en inglés.
+  - [x] **9.3** Verificación de fase (`./mvnw clean verify`, `-Pit`, navegador y la app real con 25 MB y 25 MB + 1 byte) y documentación: `AGENTS.md`, `CLAUDE.md`, README, PLAN §1, §7, §8 y variables, `docs/diseno/1.md`, `3.md` y `4.md`, `docs/convenciones-java.md`, `progreso/9.md` e `INDICE.md`.
+
 ### Requerimiento 4 — Carga de archivos en modo append o bulk
 
 - **Origen:** cuarto de los cuatro requerimientos nuevos de Adolfo (2026-10-19).
@@ -1529,8 +1536,8 @@ ELASTICSEARCH_API_KEY=
 ELASTIFLIX_INDEX_ALIAS=elastiflix-reloaded
 ELASTIFLIX_INFERENCE_ID=.jina-embeddings-v5-omni-small
 
-# Carga de datos. Opcionales: application.yml ya usa 150MB y lotes de 100.
-ELASTIFLIX_INGEST_MAX_FILE_SIZE=150MB
+# Carga de datos. Opcional: application.yml ya usa lotes de 100.
+# El tamaño máximo del archivo son 25 MB fijos y no se configura (Requerimiento 3).
 ELASTIFLIX_INGEST_BATCH_SIZE=100
 
 # Pósters (CDN de imágenes de TMDB)

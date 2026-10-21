@@ -35,7 +35,7 @@ class ValidationCancelTest {
     private final ElastiflixProperties properties = new ElastiflixProperties(null, null, null, null, null, null, null);
     private final JobStore store = new JobStore(properties, Clock.systemUTC());
     private final CatalogIndex catalog = mock(CatalogIndex.class);
-    private final FileGate gate = spy(new FileGate(new MovieReaderFactory(new IndexMapping()), properties));
+    private final FileGate gate = spy(new FileGate(new MovieReaderFactory(new IndexMapping())));
     private final MappingValidator validator = spy(new MappingValidator());
     private final FileIntake intake = new FileIntake(gate, validator, catalog, properties, store);
 

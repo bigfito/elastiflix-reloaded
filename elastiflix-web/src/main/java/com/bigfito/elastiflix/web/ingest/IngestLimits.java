@@ -1,15 +1,17 @@
 package com.bigfito.elastiflix.web.ingest;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
+import com.bigfito.elastiflix.ingest.file.FileChecker;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.unit.DataSize;
 
 /**
- * Alias, tamaño máximo y lote configurados, tal como los muestra «Cargar datos».
+ * Alias, tamaño máximo y lote, tal como los muestran «Cargar datos» y «Acerca de».
  *
- * <p>Así la página y el navegador usan {@code ELASTIFLIX_INGEST_MAX_FILE_SIZE} y
- * {@code ELASTIFLIX_INGEST_BATCH_SIZE} en lugar de 150 MB y 100 escritos a mano.</p>
+ * <p>El tamaño máximo es la constante fija {@link FileChecker#MAX_FILE_SIZE} (25 MB, Requerimiento 3); el alias
+ * y el lote son los configurados ({@code ELASTIFLIX_INDEX_ALIAS} y {@code ELASTIFLIX_INGEST_BATCH_SIZE}). Así la
+ * página y el navegador no escriben esas cifras a mano.</p>
  */
 @Component
 public class IngestLimits {
@@ -38,16 +40,16 @@ public class IngestLimits {
     /**
      * Tamaño máximo del archivo.
      *
-     * @return el valor configurado
+     * @return 25 MB, el de {@link FileChecker#MAX_FILE_SIZE}
      */
     public DataSize maxFileSize() {
-        return properties.ingest().maxFileSize();
+        return FileChecker.MAX_FILE_SIZE;
     }
 
     /**
      * Tamaño máximo para los textos de la página.
      *
-     * @return por ejemplo {@code 150 MB}
+     * @return {@code 25 MB}
      */
     public String maxFileLabel() {
         return maxFileSize().toMegabytes() + " MB";

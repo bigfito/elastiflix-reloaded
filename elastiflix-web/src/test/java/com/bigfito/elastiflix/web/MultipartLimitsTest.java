@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import jakarta.servlet.MultipartConfigElement;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
-import com.bigfito.elastiflix.web.ingest.IngestLimits;
 import com.bigfito.elastiflix.web.ingest.UploadMultipartConfig;
 
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,7 @@ import org.springframework.util.unit.DataSize;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Los límites de subida salen de {@code elastiflix.ingest.max-file-size}, no de valores escritos en el YAML.
+ * Los límites de subida salen de {@code FileChecker.MAX_FILE_SIZE} (25 MB fijos), no del YAML ni del entorno.
  */
 class MultipartLimitsTest {
 
@@ -36,34 +35,35 @@ class MultipartLimitsTest {
         String yaml = Files.readString(Path.of("src", "main", "resources", "application.yml"));
 
         assertThat(yaml).contains("max-swallow-size: -1");
-        assertThat(yaml).doesNotContain("max-request-size", "max-file-size: ${elastiflix");
+        assertThat(yaml).doesNotContain("max-request-size", "max-file-size", "ELASTIFLIX_INGEST_MAX_FILE_SIZE");
     }
 
     @Test
-    @DisplayName("con ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB, el archivo admite 200 MB y la petición 201 MB")
-    void shouldDeriveTheRequestLimitWhenTheFileLimitIsRaised() {
-        runner.withPropertyValues("elastiflix.ingest.max-file-size=200MB").run(context -> {
+    @DisplayName("el archivo admite 25 MB y la petición 26 MB")
+    void shouldDeriveBothLimitsFromTheFixedConstant() {
+        runner.run(context -> {
             assertThat(context).hasSingleBean(MultipartConfigElement.class);
             MultipartConfigElement element = context.getBean(MultipartConfigElement.class);
-            assertThat(element.getMaxFileSize()).isEqualTo(DataSize.ofMegabytes(200).toBytes());
-            assertThat(element.getMaxRequestSize()).isEqualTo(DataSize.ofMegabytes(201).toBytes());
+            assertThat(element.getMaxFileSize()).isEqualTo(DataSize.ofMegabytes(25).toBytes());
+            assertThat(element.getMaxRequestSize()).isEqualTo(DataSize.ofMegabytes(26).toBytes());
         });
     }
 
     @Test
-    @DisplayName("sin configurar, los topes son 150 MB y 151 MB, como antes")
-    void shouldKeepTheDefaultLimitsWhenNothingIsConfigured() {
-        runner.run(context -> {
-            MultipartConfigElement element = context.getBean(MultipartConfigElement.class);
-            assertThat(element.getMaxFileSize()).isEqualTo(DataSize.ofMegabytes(150).toBytes());
-            assertThat(element.getMaxRequestSize()).isEqualTo(DataSize.ofMegabytes(151).toBytes());
-        });
+    @DisplayName("una ELASTIFLIX_INGEST_MAX_FILE_SIZE vieja en el entorno no cambia los 25 MB")
+    void shouldIgnoreTheRemovedPropertyWhenAnOldEnvironmentSetsIt() {
+        runner.withPropertyValues("elastiflix.ingest.max-file-size=200MB", "ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB")
+                .run(context -> {
+                    MultipartConfigElement element = context.getBean(MultipartConfigElement.class);
+                    assertThat(element.getMaxFileSize()).isEqualTo(DataSize.ofMegabytes(25).toBytes());
+                    assertThat(element.getMaxRequestSize()).isEqualTo(DataSize.ofMegabytes(26).toBytes());
+                });
     }
 
-    /** La configuración de la web que interviene: propiedades, límites y el multipart derivado. */
+    /** La configuración de la web que interviene: propiedades y el multipart derivado. */
     @Configuration(proxyBeanMethods = false)
     @EnableConfigurationProperties(ElastiflixProperties.class)
-    @Import({IngestLimits.class, UploadMultipartConfig.class})
+    @Import(UploadMultipartConfig.class)
     static class Limits {
     }
 }

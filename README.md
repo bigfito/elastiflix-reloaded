@@ -22,8 +22,8 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 
 > [!NOTE]
 > ✅ **Estado actual:** las fases 0 a 8 están en `main`, incluidos el detalle de película (fase 7) y la interfaz
-> en español e inglés (fase 8). La revisión 4, que corrige lo que dejaron esas dos fases, tiene todos sus puntos
-> resueltos en la rama `revision-4-resto` y espera el PR hacia `main`. El
+> en español e inglés (fase 8), y la revisión 4 que las corrigió (PR #25 y #26). La fase 9 (Requerimiento 3:
+> archivos de hasta 25 MB) está en la rama `fase-9-25mb`. El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -157,7 +157,9 @@ flowchart LR
 | 🧾 `.json` | Exportación del índice (`documents`, `mapping`, `document_count`), arreglo de películas o NDJSON |
 | 📊 `.csv` | UTF-8 con o sin BOM, coma, **encabezado obligatorio** (sin encabezado se rechaza); listas y anidados como JSON en la celda |
 
-- **Antes de subir:** solo `.json` o `.csv`, sin dobles extensiones, máximo **150 MB**, UTF-8.
+- **Antes de subir:** solo `.json` o `.csv`, sin dobles extensiones, máximo **25 MB**, UTF-8. El tope es fijo
+  (Requerimiento 3): no hay variable para cambiarlo, y una `ELASTIFLIX_INGEST_MAX_FILE_SIZE` que siga en un `.env`
+  viejo se ignora. Un catálogo más grande se parte en archivos de hasta 25 MB.
 - **Contra el mapping:** se revisa el archivo completo; si algo no coincide, se muestra cada error
   (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe. La página
   da el total real de errores; el informe descargable trae como mucho los primeros 10 000.
@@ -349,7 +351,7 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
 YAML: sus valores por defecto están en `@DefaultValue` (`ingest` y cadena vacía). El alias y el id
 de inferencia salen de `application.yml` (valores por defecto) o de `.env`
 (`ELASTIFLIX_INDEX_ALIAS`, `ELASTIFLIX_INFERENCE_ID`). `.env.example` deja vacías la URL y la API
-key y trae los valores por defecto del resto (alias, inferencia, carga, pósters y puerto).
+key y trae los valores por defecto del resto (alias, inferencia, lote de carga, pósters y puerto).
 
 En Windows, ejecuta estos comandos en **Git Bash** (ver `AGENTS.md` › Comandos).
 
