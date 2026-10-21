@@ -64,7 +64,7 @@ class MovieDetailControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("error"))
                 .andExpect(content().string(containsString(ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY.code())))
-                .andExpect(content().string(containsString("La consulta de búsqueda no es válida o está ausente")));
+                .andExpect(content().string(containsString("Tu búsqueda falló y la ficha de la película no se puede abrir.")));
     }
 
     @Test
@@ -155,7 +155,7 @@ class MovieDetailControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("error"))
                 .andExpect(content().string(containsString(ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY.code())))
-                .andExpect(content().string(containsString("The search query is invalid or missing")));
+                .andExpect(content().string(containsString("Your search failed, so the movie details can&#39;t be opened.")));
     }
 
     private static Movie sampleMovie() {

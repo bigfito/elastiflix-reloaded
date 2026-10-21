@@ -171,9 +171,9 @@ public enum ErrorCode {
 
     /** Enlace directo a detalle sin consulta previa o con consulta inválida. */
     DIRECT_DETAIL_WITHOUT_QUERY("EFX-SRCH-012",
-            "La consulta de búsqueda no es válida o está ausente",
-            "Se intentó acceder al detalle de una película sin una búsqueda previa",
-            "Realiza una búsqueda desde la página de inicio antes de consultar el detalle de una película"),
+            "Tu búsqueda falló y la ficha de la película no se puede abrir",
+            "El enlace no trae una búsqueda válida: falta la consulta o algún ajuste no es válido",
+            "Vuelve a Inicio, busca la película y ábrela desde los resultados"),
 
     /** El nombre no termina en {@code .json} ni en {@code .csv}. */
     BAD_EXTENSION("EFX-ING-001",
