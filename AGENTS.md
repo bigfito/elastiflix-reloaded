@@ -51,11 +51,11 @@ valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 
 ## Trabajo abierto
 
-Las fases 0 a 9 y las revisiones 1 a 4 están cerradas. Lo pendiente es lo que diga
+Las fases 0 a 9 y las revisiones 1 a 4 están cerradas; la fase 10 (Requerimiento 4) está en curso. Lo pendiente es lo que diga
 `progreso/INDICE.md` › «Punto de reanudación». Una revisión en carriles paralelos sigue «Cómo trabajar en
 paralelo» de `docs/revisiones/revision-3.md`: rama y archivo de estado por carril; PLAN, README, `docs/` e
 `INDICE.md` los escribe solo el cierre. «Requerimientos nuevos» de PLAN: el 1 y el 2 están hechos (fases 7 y 8);
-el 3, en la fase 9; el 4 espera el consentimiento de Adolfo.
+el 3, en la fase 9; el 4, en la fase 10.
 
 ## Regla de oro sobre el orden de trabajo
 
@@ -125,10 +125,11 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 
 ## Reglas del dominio
 
-- Lectura siempre por el alias `elastiflix-reloaded` (configurable). Importación: índice temporal
-  `<alias>-<AAAAMMDD-HHMMSS>`, copia con `_reindex` en segundo plano (`_tasks`) y publicación en una
-  sola llamada a `_aliases` (`add` al nuevo + `remove_index` del anterior). Si falla antes de publicar,
-  se borra el temporal. Si `publish` no confirma, `describe` decide: rechazo 4xx con el alias en el
+- Lectura siempre por el alias `elastiflix-reloaded` (configurable). Carga de archivo en dos modos (fase 10).
+  **Append** (por defecto): lotes por el alias con `require_alias=true`, sin temporal; un `id` existente se
+  reemplaza; si falla (`EFX-IMP-008`) o se cancela (`EFX-IMP-009`), lo escrito se queda. **Bulk**: temporal
+  `<alias>-<AAAAMMDD-HHMMSS>` solo con el archivo (sin `_reindex`) y publicación en una sola llamada a
+  `_aliases` (`add` al nuevo + `remove_index` del anterior). Si falla antes de publicar, se borra el temporal. Si `publish` no confirma, `describe` decide: rechazo 4xx con el alias en el
   anterior borra el temporal (`EFX-ES-004`); alias en el temporal se trata como publicado; corte, 5xx
   o `describe` ilegible: `EFX-IMP-006` y el temporal se deja. Al empezar a importar se suelta la lista de películas. La
   limpieza de huérfanos solo toca índices `<alias>-<AAAAMMDD-HHMMSS>` de su propio alias. La migración
