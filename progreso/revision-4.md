@@ -17,14 +17,10 @@ terminado y fusionado en `main` (PR #26, merge `c9be924`)
 
 ## Punto de reanudación
 
-- **Tarea actual:** cierre de la revisión 4 en `revision-4-resto`: los cinco carriles están integrados y la
-  documentación está alineada con el código integrado
-- **Subpaso en curso:** verificación integrada (la registra el integrador en «Última verificación»)
-- **Próximo paso:** con `./mvnw verify -Pit` y las pruebas de navegador en verde sobre `revision-4-resto`, abrir el
-  PR hacia `main`. Después, la aprobación de Adolfo de las 22 capturas (U-36) y de la variante de error
-  `EFX-SRCH-012` de `Detail*.dc.html` (U-07), y su decisión sobre el patrón «View Helper / ViewModel» del diseño 7
-  (U-38). Luego, coordinar con Adolfo el Requerimiento 3.
-- **Última actualización:** 2026-10-21 UTC
+- **Tarea actual:** ninguna; la revisión 4 está cerrada y aprobada
+- **Subpaso en curso:** ninguno
+- **Próximo paso:** coordinar con Adolfo el Requerimiento 3 (archivos de hasta 25 MB)
+- **Última actualización:** 2026-10-21 20:36 UTC
 
 ## Tareas
 
@@ -61,7 +57,7 @@ terminado y fusionado en `main` (PR #26, merge `c9be924`)
 | U-27 | terminada | `4b0275d` | Rutas completas (`keywords.id`, `belongs_to_collection.title`) en los errores de los subcampos. `NestedPathTest` con el caso de la revisión |
 | U-12 | terminada | `f497d1b`, `ff2d916`, `77083e1` | Cifras escritas con `Thousands` antes de `MessageFormat`: `k`, lote de «Acerca de», reparto y palabras clave del detalle, lote del paso 4 y números de lote. `ModeCopiesTest`, `AboutLimitsTest`, pruebas del detalle e `IngestBatchSizeTextTest` en los dos idiomas |
 | U-36 | terminada | `9981533`, `3d04eb1` y los commits de este cierre | `AGENTS.md`, `CLAUDE.md`, PLAN, README, `design/README.md`, convenciones, glosario y arquitectura alineados con las fases 7 y 8; 22 capturas nuevas (11 páginas × 2 idiomas) pendientes de aprobación; el chip «Página» ya no repite la palabra |
-| U-07 (mockup) | terminada, pendiente de aprobación | `0b113fb` | Variante «estado» › «Error EFX-SRCH-012 (pendiente de aprobación)» en `Detail.dc.html` y `Detail-en.dc.html`; PLAN y `design/README.md` lo registran |
+| U-07 (mockup) | terminada y aprobada | `0b113fb` | Variante «estado» › «Error EFX-SRCH-012» en `Detail.dc.html` y `Detail-en.dc.html`; PLAN y `design/README.md` lo registran |
 | U-05 | terminada | `056059d`, `a4aef6b` | «N/A» en la cabecera (`vote_count` como «· N/A») y en `overview`, `plot`, `cast`, `keywords` y `genres`; título original y lema vacíos ocultan su línea. `MovieDetailPageTest` con un `Movie` vacío y la página renderizada |
 | U-28 | terminada | `8821947` | Cancelación entre etapas de la validación, borrado del temporal ante un `create` con corte, timeout o 5xx, y huérfano que no se borra con `WARN` sin detener la importación. `ValidationCancelTest` y `TempCleanupTest` |
 | U-29 | terminada | `3dd7565` | `FORMULA` con `\t` y `\r`; sin `.ndjson` en el selector de archivos. `MappingValidatorTest` e `IngestPageTest` |
@@ -109,8 +105,8 @@ Vacío.
   Inicio, busca la película y ábrela desde los resultados», y su versión en inglés. Al principio el estado de
   error no se agregó a los mockups `Detail*.dc.html`, porque la página usa la plantilla de error común (T-20).
   *Corrección:* el carril de documentación lo agregó después (`0b113fb`): `Detail.dc.html` y `Detail-en.dc.html`
-  tienen la variante «estado» › «Error EFX-SRCH-012 (pendiente de aprobación)», que reproduce la página de error
-  común con los textos vigentes. Espera la aprobación de Adolfo.
+  tienen la variante «estado» › «Error EFX-SRCH-012», que reproduce la página de error común con los textos
+  vigentes. Adolfo la aprobó el 2026-10-21.
 - 2026-10-21 (U-13, U-17): la corrección de fondo de la traducción de la carga no cambia `ValidationIssue`
   (sus textos siguen en español, para los logs, el informe en español y el JSON que lee `ingest.js`). En su
   lugar, cada frase fija vive en un vocabulario de ingest, `IngestPhrase`, que sabe escribirla y reconocerla, y
@@ -159,6 +155,9 @@ Vacío.
   (`revision-4-detalle`, `revision-4-web`, `revision-4-carga`, `revision-4-nucleo`, `revision-4-docs`) y sus
   worktrees en `.claude/worktrees/`.
 
+- 2026-10-21 20:36 UTC: Adolfo respondió «Tienes mi aprobación.» a los cuatro puntos pendientes: las capturas,
+  la variante de error del mockup, el patrón «View Helper / ViewModel» y la dependencia opcional en core.
+
 ## Resumen de diseño
 
 La revisión 4 no tiene un diseño propio: la especificación es `docs/revisiones/revision-4.md` y cada cambio se
@@ -199,8 +198,8 @@ Respuestas a `docs/convenciones-java.md` §16:
 - [x] **¿Una responsabilidad por clase?** Sí. Las clases nuevas se dicen en una frase: `KeptReport` guarda el
   recorte del informe y sus cifras; `KeywordBytes` sabe el tope en bytes de cada `keyword`; `TextListValues` valida
   listas de textos; `EncodedSlashConfig` deja pasar `%2F` en Tomcat.
-- [ ] **¿Solo patrones de la lista cerrada?** La revisión no agregó ninguno. Sigue abierto el «View Helper /
-  ViewModel» que declaró el diseño 7 (fase 7), pendiente de la decisión de Adolfo (U-38).
+- [x] **¿Solo patrones de la lista cerrada?** La revisión no agregó ninguno. El «View Helper / ViewModel» que
+  declaró el diseño 7 (fase 7) queda como desviación aprobada por Adolfo el 2026-10-21 (U-38).
 - [x] **¿Cada error nuevo con código `EFX` y sus tres partes?** No hay códigos nuevos. `EFX-ING-012` y
   `EFX-EMB-002` cubren casos nuevos con su texto de siempre; `EFX-SRCH-012` tiene texto nuevo (U-07) en `ErrorCode`
   y en los dos catálogos.
@@ -217,9 +216,7 @@ Respuestas a `docs/convenciones-java.md` §16:
 
 ## Bloqueos y solicitudes
 
-Sin bloqueos. Esperan a Adolfo:
-
-- aprobar las 22 capturas de `docs/capturas/` (U-36);
-- aprobar la variante «Error EFX-SRCH-012» de `Detail.dc.html` y `Detail-en.dc.html` (U-07);
-- decidir sobre el patrón «View Helper / ViewModel» del diseño 7 (U-38);
-- revisar las cuatro decisiones del integrador (ver «Decisiones») en el PR.
+Vacío. Adolfo aprobó el 2026-10-21 20:36 UTC («Tienes mi aprobación.») lo que quedaba pendiente: las 22 capturas de
+`docs/capturas/` (U-36), la variante «Error EFX-SRCH-012» de `Detail.dc.html` y `Detail-en.dc.html` (U-07), el
+patrón «View Helper / ViewModel» del diseño 7 (U-38) y la dependencia opcional `spring-boot-web-server` en
+`elastiflix-core` (U-30).

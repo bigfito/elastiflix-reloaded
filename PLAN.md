@@ -1320,8 +1320,8 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - El diseño de la fase define el código, el estado HTTP y el texto exacto, y agrega ese estado al
     mockup para que Adolfo lo apruebe.
   - *Revisión 4 (U-07):* la fase 7 no lo agregó. Ahora `Detail.dc.html` y `Detail-en.dc.html` tienen la variante
-    «estado» › «Error EFX-SRCH-012 (pendiente de aprobación)», que reproduce la página de error común con los
-    textos vigentes. **Pendiente de la aprobación de Adolfo.**
+    «estado» › «Error EFX-SRCH-012», que reproduce la página de error común con los
+    textos vigentes. **Aprobada por Adolfo el 2026-10-21** («Tienes mi aprobación.»).
 - **Errores:**
   - un `id` que no existe responde la página «no encontrada» (404);
   - Elasticsearch caído o con error responde la página de error EFX existente.

@@ -12,8 +12,9 @@
 >
 > **Avance (2026-10-21):** todos los puntos están resueltos. U-03 y U-11 entraron directo en `main`; U-01, U-02,
 > U-07, U-13 a U-17 y U-24, con el PR #25 (`b54d67c`); el resto, en la rama `revision-4-resto` (cinco carriles en
-> paralelo, ya integrados), que espera el PR hacia `main`. La parte de cabeceras de U-33 se descartó. Esperan la
-> aprobación de Adolfo las capturas nuevas (U-36) y la variante de error de los mockups del detalle (U-07). El
+> paralelo, ya integrados), con el PR #26 (`c9be924`). La parte de cabeceras de U-33 se descartó. Adolfo aprobó el
+> 2026-10-21 las capturas nuevas (U-36), la variante de error de los mockups del detalle (U-07), el patrón «View
+> Helper / ViewModel» del diseño 7 (U-38) y la dependencia opcional `spring-boot-web-server` en core (U-30). El
 > estado, la evidencia y las decisiones de cada punto están en `progreso/revision-4.md`; esta lista no se marca.
 
 ## Resumen
