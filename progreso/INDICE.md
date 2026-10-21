@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** 10 — Carga en modo append o bulk (Requerimiento 4)
-- **Estado de la fase:** terminada en la rama `fase-10-modos`; falta el PR hacia `main`
-- **Ramas:** `fase-10-modos` (sale de `main`, `643f58b`)
+- **Estado de la fase:** terminada y fusionada en `main` (PR #28, `520768a`)
+- **Ramas:** `main` (la rama `fase-10-modos` se borró tras la fusión)
 - **Diseño:** [`docs/diseno/10.md`](../docs/diseno/10.md)
 - **Estado:** [`progreso/10.md`](10.md)
-- **Tarea actual:** ninguna; la fase espera el PR
-- **Próximo paso:** abrir el PR de `fase-10-modos` hacia `main` y fusionarlo cuando Adolfo lo pida.
-- **Última actualización:** 2026-10-21 22:00 UTC
+- **Tarea actual:** ninguna
+- **Próximo paso:** no hay requerimientos pendientes en PLAN; queda por decidir con Adolfo si se vuelven a tomar las capturas de «Cargar datos» (`docs/capturas/`), que todavía no muestran la tarjeta «Modo de carga».
+- **Última actualización:** 2026-10-21 22:01 UTC
 
 ## Fases
 
@@ -36,7 +36,7 @@
 | 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | Fusionada en `main` (`3c27c40`, PR #24). Rama remota y local `fase-8-i18n` borrada. `./mvnw clean verify` en verde (104 unitarias web / 366 repo: core 68, search 71, ingest 123, web 104; decía 347, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4, solo con `-pl elastiflix-web` (revisión 4, U-02). |
 | — | Revisión 4 | — | terminada | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38), toda resuelta. PR #25 (merge `b54d67c`) y PR #26 (merge `c9be924`) fusionados en `main`; ramas y worktrees de los carriles borrados. `./mvnw verify -Pit` en verde (635 + 32) y navegador 15 de 15, el 2026-10-21. Adolfo aprobó las capturas, el estado de error del mockup del detalle, el patrón ViewModel del diseño 7 y la dependencia opcional `spring-boot-web-server` en core. |
 | 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | terminado | `progreso/9.md` | `./mvnw clean verify -Pit` en verde (637 unitarias: core 78, search 76, ingest 215, web 268; 32 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 19 de 19, el 2026-10-21. Fusionada en `main` (`1047a65`, PR #27); rama `fase-9-25mb` borrada en local y en el remoto. |
-| 10 | Carga en modo append o bulk (Requerimiento 4) | — | terminado en la rama `fase-10-modos` | `progreso/10.md` | `./mvnw clean verify -Pit` en verde (670 unitarias: core 80, search 76, ingest 236, web 278; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 24 de 24, el 2026-10-21. Falta el PR hacia `main`. |
+| 10 | Carga en modo append o bulk (Requerimiento 4) | — | terminado | `progreso/10.md` | `./mvnw clean verify -Pit` en verde (670 unitarias: core 80, search 76, ingest 236, web 278; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 24 de 24, el 2026-10-21. Fusionada en `main` (`520768a`, PR #28); rama `fase-10-modos` borrada en local y en el remoto. |
 
 ## Aprobaciones del usuario
 
@@ -95,6 +95,7 @@
 | 2026-10-21 | Inicio del Requerimiento 3 (Fase 9) | Adolfo pidió «Continua con el requerimiento 3.» después de cerrar la revisión 4: es su consentimiento explícito para arrancar (PLAN › «Requerimientos nuevos»). Rama `fase-9-25mb`; diseño `docs/diseno/9.md`, sin compuerta 🔒. El requerimiento 4 sigue esperando su consentimiento. |
 | 2026-10-21 | Cierre y fusión de la Fase 9 (Requerimiento 3: archivos de hasta 25 MB) | Adolfo pidió «Sí, abre el PR de fase-9-25mb, fusiónalo en main, deja local y remoto al día y borra la rama.». PR #27 fusionado con el merge commit `1047a65` a las 21:11 UTC; la rama `fase-9-25mb` se borró en local y en el remoto. `./mvnw clean verify -Pit` en verde (637 unitarias y 32 de integración) y navegador 19 de 19 antes de fusionar. |
 | 2026-10-21 | Inicio del Requerimiento 4 (Fase 10) | Adolfo pidió «Continua con el requerimiento 4.» después de fusionar la fase 9: es su consentimiento explícito para arrancar (PLAN › «Requerimientos nuevos»). Rama `fase-10-modos`; diseño `docs/diseno/10.md`, sin compuerta 🔒. Los mockups del requerimiento ya estaban aprobados (2026-10-19). |
+| 2026-10-21 | Cierre y fusión de la Fase 10 (Requerimiento 4: carga en modo append o bulk) | Adolfo pidió «Sí, abre el PR de fase-10-modos, fusiónalo en main, deja local y remoto al día y borra la rama.» PR #28 fusionado con el merge commit `520768a` a las 22:01 UTC; la rama `fase-10-modos` se borró en local y en el remoto. `./mvnw clean verify -Pit` en verde (670 unitarias y 35 de integración) y navegador 24 de 24 antes de fusionar. |
 
 
 ## Catálogo vigente

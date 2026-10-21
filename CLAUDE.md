@@ -6,10 +6,10 @@
 > **`PLAN.md`**. Este archivo solo agrega lo específico de Claude Code.
 >
 > Las fases 0 a 8, la revisión 1, los bugs B-01 a B-05 y las revisiones 2 (PR #13) y 3 (carriles en los PR
-> #15 a #20 y cierre Z) y 4 (PR #25 y #26) ya están en `main`, igual que la fase 9 (Requerimiento 3, PR #27); la fase 10 (Requerimiento 4) está en curso. Antes de empezar, lee
+> #15 a #20 y cierre Z) y 4 (PR #25 y #26) ya están en `main`, igual que las fases 9 (Requerimiento 3, PR #27) y 10 (Requerimiento 4, PR #28). Antes de empezar, lee
 > `progreso/INDICE.md`: ahí están el catálogo vigente y el próximo paso. De los «Requerimientos nuevos» de
-> `PLAN.md`, el 1 (fase 7, detalle) y el 2 (fase 8, español e inglés) están hechos; el 3 (fase 9) también; el 4 es la
-> fase 10.
+> `PLAN.md`, el 1 (fase 7, detalle) y el 2 (fase 8, español e inglés) están hechos; el 3 (fase 9) y el 4 (fase 10)
+> también.
 
 ## Antes de empezar
 

@@ -1246,7 +1246,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 
 > **Estado:** los requerimientos 1 y 2 ya se implementaron (fases 7 y 8, en `main`; la revisión 4 corrige lo que
 > dejaron pendiente). El requerimiento 3 se implementó en la fase 9 (PR #27, `1047a65`, 2026-10-21). El
-> requerimiento 4 se implementó en la fase 10 (consentimiento de Adolfo del 2026-10-21), en la rama `fase-10-modos`. El trabajo de cada uno empieza solo
+> requerimiento 4 se implementó en la fase 10 (consentimiento de Adolfo del 2026-10-21), con el PR #28 (`520768a`, 2026-10-21). El trabajo de cada uno empieza solo
 > cuando se cumplen las dos condiciones:
 >
 > 1. la revisión 3 está terminada y fusionada en `main`;
@@ -1523,7 +1523,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 - **Relación con la revisión 3:** sus correcciones (T-01, T-08, T-09, T-16…) se hacen sobre el flujo
   actual. Este requerimiento se diseña después, sobre el código ya corregido.
 
-- **Fase 10 — Tareas** (rama `fase-10-modos`; diseño en `docs/diseno/10.md`, sin compuerta 🔒):
+- **Fase 10 — Tareas** (diseño en `docs/diseno/10.md`, sin compuerta 🔒; fusionada en `main` con el PR #28, `520768a`):
   - [x] **10.0** Diseño técnico en `docs/diseno/10.md`: modo del trabajo, bulk sin copia, `AppendJob`, códigos `EFX-IMP-008` y `EFX-IMP-009`, estado `agregado`, pasos por modo y pruebas.
   - [x] **10.1** Modo en el trabajo (`ImportMode` de `JobStore.open` a `JobView`; en bulk `replaceCount` es el conteo del catálogo) y bulk solo con el archivo: `ImportJob` sin `_reindex`, conteo contra las películas del archivo; rollback, `describe` y huérfanos sin cambios. Pruebas unitarias.
   - [x] **10.2** Append: `CatalogIndex.appendAll` (`require_alias=true`, aceptados y rechazados por ítem), `AppendJob` (alias de un solo índice, lotes de 100, reemplazos, `refresh`, cancelación entre lotes, `EFX-IMP-008` y `EFX-IMP-009`), `ImportRunner` por modo y estado `agregado`. Pruebas unitarias e `IngestIT` de los dos modos sobre un alias propio.
