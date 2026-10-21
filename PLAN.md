@@ -197,6 +197,10 @@ Versiones verificadas en la web el 2026-10-17.
 - No se usa Spring Data Elasticsearch, Lombok ni Jackson 2 en el código propio (Jackson 2 queda como
   dependencia transitiva, sin uso).
 - Zona horaria: **UTC**. Paquete base: `com.bigfito.elastiflix`. `groupId`: `com.bigfito`.
+- `elastiflix-core` declara además `org.springframework.boot:spring-boot-web-server` como dependencia
+  **opcional** y sin versión (la gestiona el BOM de Boot), solo por `WebServerApplicationContext`:
+  `CatalogBootstrapRunner` pregunta al contexto si hay servidor web (revisión 4, U-30; registrada en
+  `docs/diseno/1.md`). Al ser opcional, search e ingest no la heredan; la web ya la trae con su starter.
 
 ## 4. Estructura del repositorio
 
@@ -245,15 +249,20 @@ elastiflix-reloaded/
 |---|---|---|
 | `GET /` | Inicio (`Main.dc.html`) | Caja de búsqueda, selector de modo con sus paneles y sugerencias dinámicas |
 | `GET /buscar` | Resultados (`Results.dc.html`) | Resultados paginados, puntuaciones por modo y filtros |
-| `GET /cargar` | Cargar datos (`Ingest.dc.html`) | Pestañas Registro individual · Importar .json · Importar .csv. Con `?job=<jobId>` retoma un trabajo de carga en curso: `ingest.js` pone ese parámetro en la URL y en el selector de idioma para que cambiar de idioma no lo pierda |
+| `GET /cargar` | Cargar datos (`Ingest.dc.html`) | Pestañas Registro individual · Importar .json · Importar .csv. Con `?job=<jobId>` retoma un trabajo de carga en curso: `ingest.js` pone ese parámetro en la URL y en el selector de idioma para que cambiar de idioma no lo pierda. Solo acepta un UUID (otro valor se quita sin usarse), codifica el id en cada ruta que arma y abre la pestaña que corresponde al tipo del trabajo (`job.kind`) |
 | `GET /acerca` | Acerca de la demo (`About.dc.html`) | Documentación de la demo |
-| `GET /pelicula/{id}` | Detalle de película (`Detail.dc.html`) | Requerimiento 1 (fase 7). Todos los atributos de la película salvo los vectores, leídos por el alias con `findById` (`GET <alias>/_doc/{id}` sin `plot_256`, `plot_512` ni `plot_1024`), y regreso a los resultados con la búsqueda intacta. Recibe los mismos parámetros que `/buscar`: si falta `q` o alguno no es válido, responde **400** con la página de error y `EFX-SRCH-012`, sin consultar Elasticsearch. Un `id` que no existe responde la página «no encontrada» (**404**) |
+| `GET /pelicula/{id}` | Detalle de película (`Detail.dc.html`) | Requerimiento 1 (fase 7). Todos los atributos de la película salvo los vectores, leídos por el alias con `findById` (`GET <alias>/_doc/{id}` sin `plot_256`, `plot_512` ni `plot_1024`), y regreso a los resultados con la búsqueda intacta. Recibe los mismos parámetros que `/buscar`: si falta `q` o alguno no es válido, responde **400** con la página de error y `EFX-SRCH-012`, sin consultar Elasticsearch. Un `id` que no existe (`found=false`) responde la página «no encontrada» (**404**). Un alias o índice inexistente (`index_not_found_exception`) responde la página de error con `EFX-ES-007`, y un 5xx o un corte, con `EFX-ES-001` (**500**). El id viaja codificado como un solo segmento (`/pelicula/a%2Fb`, `/pelicula/caf%C3%A9`); Tomcat deja pasar `%2F` (`EncodedSlashConfig`) |
 
 **Idioma** (todas las rutas, Requerimiento 2, fase 8): el parámetro `lang` (`es` o `en`) cambia el idioma de la
-página y se recuerda en la cookie `elastiflix-lang` (un año, `Path=/`); cualquier otro valor se ignora. Sin cookie,
-la página sale en español aunque el navegador pida otro idioma. El selector «ES · EN» del header carga la misma
-ruta con sus parámetros y el `lang` elegido. Las respuestas JSON de `/cargar/trabajos/…`, el informe CSV y los
-rechazos de la carga salen en el idioma de la petición.
+página y se recuerda en la cookie `elastiflix-lang` (un año, `Path=/`, `HttpOnly`, `SameSite=Lax`); cualquier otro
+valor se ignora, también `EN` en mayúsculas o `lang=` vacío. Una cookie ilegible se ignora y la página sale en
+español. Sin cookie, la página sale en español aunque el navegador pida otro idioma. El selector «ES · EN» del
+header carga la misma ruta con los parámetros de la URL (`getQueryString()`, nunca los campos de un formulario) y
+el `lang` elegido; codifica la ruta una sola vez por segmento. Si la página responde a algo que no es `GET` ni
+`HEAD` (por ejemplo, un `POST /cargar/registro` rechazado), enlaza a `/cargar` si la ruta empieza por `/cargar/`, o
+a `/`, sin parámetros. En `/error` toma la ruta, el método y los parámetros de la petición original
+(`jakarta.servlet.error.request_uri`, `.method` y `.query_string`). Las respuestas JSON de `/cargar/trabajos/…`, el
+informe CSV y los rechazos de la carga salen en el idioma de la petición.
 
 **Parámetros de `GET /buscar`** (también los usa el formulario de Inicio)
 
@@ -278,11 +287,11 @@ rechazos de la carga salen en el idioma de la petición.
 | Método y ruta | Uso |
 |---|---|
 | `POST /cargar/registro` | Guarda una película desde el formulario **directamente en el catálogo** (índice vigente a través del alias). Redirige a `/cargar` con el resultado |
-| `POST /cargar/archivo` (multipart: `archivo`, `separador`, `encabezado`) | Sube el archivo, repite las comprobaciones de tipo, tamaño y UTF-8 (y, en CSV, que traiga encabezado), y lanza la validación; devuelve `jobId` |
-| `GET /cargar/trabajos/{jobId}` | Estado del trabajo (`job`): paso del proceso (1–5), conteos, errores (primeros 6), advertencias, comprobaciones, columnas del CSV, progreso; y sus textos ya escritos (`texts`) |
+| `POST /cargar/archivo` (multipart: `archivo`, `separador`, `encabezado`) | Sube el archivo, repite las comprobaciones de tipo, tamaño y UTF-8 (y, en CSV, que traiga encabezado), y lanza la validación; devuelve `jobId`. Una subida sin la parte `archivo` responde el 400 HTML de Spring, no JSON |
+| `GET /cargar/trabajos/{jobId}` | Estado del trabajo (`job`): paso del proceso (1–5), conteos, errores (primeros 6 y el total real en `errorTotal`), advertencias agrupadas, comprobaciones, columnas del CSV, progreso; y sus textos ya escritos (`texts`) |
 | `POST /cargar/trabajos/{jobId}/importar` | Inicia la importación de un archivo ya validado (genera los vectores, escribe en el índice temporal, publica y borra el índice anterior) |
 | `POST /cargar/trabajos/{jobId}/cancelar` | Cancela la importación y borra el índice temporal |
-| `GET /cargar/trabajos/{jobId}/informe.csv` | Informe completo de errores (CSV UTF-8) |
+| `GET /cargar/trabajos/{jobId}/informe.csv` | Informe de errores (CSV UTF-8): como mucho los primeros 10 000 errores, que es lo que guarda cada trabajo (`JobRetention.MAX_KEPT_ERRORS`, revisión 4, U-25); la página muestra el total real |
 
 **Actuator:** `GET /actuator/health` con el componente `elastiflixCatalog` (`alias`, `index`,
 `documents`): un `HealthIndicator` de Spring Boot 4 (`org.springframework.boot.health.contributor`)
@@ -297,7 +306,9 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
 
 **Pósters:** cada resultado muestra su póster desde el CDN de imágenes de TMDB:
 `<ELASTIFLIX_POSTER_BASE_URL><poster_path>` (por defecto `https://image.tmdb.org/t/p/w342`). Si
-`poster_path` está vacío o la imagen no carga, se muestra el marcador del mockup.
+`poster_path` está vacío o la imagen no carga, se muestra el marcador del mockup. `PosterUrls` es el único
+lugar que arma la URL de una imagen (póster y fondo, en Resultados y en el detalle): solo acepta rutas con la
+forma `^/[\w.-]+$` y trata cualquier otra como ausente (revisión 4, U-04).
 
 ## 6. Modelo de datos
 
@@ -560,7 +571,7 @@ estilo, análisis estático o arquitectura, y que ya sabe correr pruebas de inte
 
   | Módulo | Dependencias | Pruebas (scope `test`) |
   |---|---|---|
-  | `elastiflix-core` | `spring-boot-starter`, `spring-boot-starter-elasticsearch` (cliente `elasticsearch-java` y su autoconfiguración), `spring-boot-starter-validation`, Jackson 3 (`tools.jackson.core:jackson-databind`) | `spring-boot-starter-test` |
+  | `elastiflix-core` | `spring-boot-starter`, `spring-boot-starter-elasticsearch` (cliente `elasticsearch-java` y su autoconfiguración), `spring-boot-starter-validation`, Jackson 3 (`tools.jackson.core:jackson-databind`); desde la revisión 4 (U-30), `spring-boot-web-server` opcional (§3) | `spring-boot-starter-test` |
   | `elastiflix-search` | `elastiflix-core` | `spring-boot-starter-test` |
   | `elastiflix-ingest` | `elastiflix-core` | `spring-boot-starter-test` |
   | `elastiflix-web` | `elastiflix-core`, `elastiflix-search`, `elastiflix-ingest`, `spring-boot-starter-webmvc`, `spring-boot-starter-thymeleaf`, `spring-boot-starter-actuator`; plugin `spring-boot-maven-plugin` | `spring-boot-starter-test`, `spring-boot-starter-webmvc-test`, `com.tngtech.archunit:archunit-junit6` |
@@ -866,7 +877,10 @@ nunca el catálogo a medias.
   leer, los nodos crudos se sueltan al validar, el archivo local se borra al terminar la validación y los
   trabajos viejos se olvidan: se conservan los 20 últimos en estado final y un `valido` vence a los 30 min
   sin actividad, revisado al abrir el siguiente trabajo (`JobRetention`, revisión 2, S-06) y, desde la
-  revisión 3 (T-17), también al consultar un trabajo y al importar. La lectura en streaming con dos pasadas quedó como
+  revisión 3 (T-17), también al consultar un trabajo y al importar. Desde la revisión 4 (U-25), cada trabajo guarda
+  como mucho 10 000 errores de su informe (`JobRetention.MAX_KEPT_ERRORS`, `KeptReport`), con el total real en
+  `errorTotal`, y las advertencias solo agrupadas: el peor caso con 20 trabajos retenidos baja de cerca de 1 GB a
+  unos 50 MB. La lectura en streaming con dos pasadas quedó como
   alternativa descartada. Commit y **detente** hasta la
   aprobación del usuario. El diseño aplica estas **decisiones del usuario** (2026-10-17):
   - el índice anterior **se borra** al publicar (`add` + `remove_index` en una sola llamada; ver §2);
@@ -906,6 +920,11 @@ nunca el catálogo a medias.
   detienen: valores vacíos dentro de listas (se omiten), textos vacíos (se guardan sin valor), vectores
   del archivo ignorados («se generarán con el servicio de inferencia»). Cuenta cuántos `id` ya existen en el catálogo (reemplazarán).
   Informe completo exportable a CSV (registro, id, campo, recibido, esperado).
+  - *Revisión 4:* `EFX-ING-012` también para un `id` de más de 512 bytes en UTF-8 y un `keyword` sin
+    `ignore_above` de más de 32 766 bytes (`KeywordBytes`, U-26); los errores de un subcampo llevan la ruta completa
+    (`keywords.id`, `belongs_to_collection.title`), así que no ocultan la falta de `id`, `title` o `plot` (U-27);
+    el CSV del informe neutraliza también `\t` y `\r` al inicio de una celda (U-29) y trae como mucho los primeros
+    10 000 errores (U-25).
   - Criterio: pruebas con variantes inválidas de los fixtures (creadas en `src/test/resources`) producen
     exactamente los errores esperados; los fixtures válidos producen 0 errores.
 - [x] **3.5** Vectores: para **cada** registro (archivo o formulario), `plot_1024` se genera desde
@@ -929,6 +948,10 @@ nunca el catálogo a medias.
   índices huérfanos **de su propio alias**: los que cumplen exactamente `<alias>-<AAAAMMDD-HHMMSS>` y no
   están detrás del alias. Nunca toca índices con otro prefijo. Publica el progreso por el listener (paso
   1–5 del mockup, lote actual, registros vectorizados y escritos).
+  - *Revisión 4 (U-28):* un huérfano que no se puede borrar deja un `WARN` y la importación sigue; un `create` del
+    temporal con corte, timeout o 5xx intenta borrarlo (un 4xx no creó nada); la cancelación se revisa también
+    entre las etapas de la validación (antes de leer, entre la lectura y la validación, y antes de preguntar qué
+    ids existen), no dentro de una lectura o validación en curso.
   - Criterio: pruebas unitarias con `CatalogIndex` simulado cubren éxito (el anterior se borra en la
     misma llamada del swap), lote rechazado, conteo que no cuadra, fallo de inferencia, cancelación y
     limpieza de huérfanos; la limpieza con el alias `elastiflix-it-x7k2` nunca borra
@@ -1213,7 +1236,10 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   `b54d67c`). `./mvnw verify -Pit` en verde (514 unitarias y 30 de integración) y pruebas de navegador 11 de 11, el
   2026-10-21. Adolfo descartó la parte de cabeceras de seguridad de U-33.
 - **El resto:** en la rama `revision-4-resto`, con carriles paralelos en worktrees propios (detalle, web e idioma,
-  carga, núcleo y búsqueda, y documentación) que se integran al final.
+  carga, núcleo y búsqueda, y documentación), ya integrados en esa rama. Todos los puntos de la lista están
+  resueltos y esperan el PR hacia `main`; la parte de cabeceras de U-33 sigue descartada.
+- **Pendiente de Adolfo:** aprobar las 22 capturas nuevas de `docs/capturas/` (U-36) y la variante de error
+  `EFX-SRCH-012` de los mockups del detalle (U-07).
 
 ## Requerimientos nuevos (después de la revisión 3)
 
@@ -1262,10 +1288,15 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - Cada dato lleva su etiqueta (en español, o en inglés con el requerimiento 2) y el nombre del campo, como los
     filtros de Resultados.
 - **Campos vacíos:** un valor ausente, `null`, texto vacío o lista vacía se muestra como «N/A».
+  - *Revisión 4 (U-05):* la regla vale en la cabecera (`vote_average`, `popularity` y `vote_count`, que muestra
+    «· N/A» sin la palabra «votos») y en `overview`, `plot`, `cast`, `keywords` y `genres` (insignia «N/A»). El
+    título original y el lema vacíos ocultan su línea de la cabecera; su «N/A» sale en la ficha técnica.
 - **Dinero:** `budget` y `revenue` en USD con separador de miles («160 000 000 USD»).
   - `budget` o `revenue` vacíos o en 0 se muestran como «N/A» (decisión de Adolfo, 2026-10-19).
 - **Imágenes:** del CDN de TMDB (`elastiflix.poster.base-url` + la ruta), con el marcador de póster
   faltante de Resultados si no hay ruta o la imagen falla.
+  - *Revisión 4 (U-04, U-09):* una ruta que no cumple `^/[\w.-]+$` cuenta como ausente (marcador y «N/A» en
+    «Imágenes»); si la imagen de fondo no carga, `detail.js` muestra el marcador.
 - **Llegada desde Resultados:** el título de cada tarjeta enlaza a `/pelicula/{id}` con los mismos
   parámetros de la búsqueda (§5: `q`, `modo`, `tipo`, `campo`, `operador`, `vector`, `k`, `candidatos`,
   `pagina`, `tamano` y los filtros). La página de detalle no ejecuta la búsqueda: solo usa esos
@@ -1277,6 +1308,9 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
     página, con la película a la vista;
   - una barra muestra el estado que se conserva;
   - no se guarda estado en el servidor, y el botón «Atrás» del navegador también funciona.
+  - *Revisión 4 (U-22, U-36):* el chip «Página» de esa barra muestra «2 · 50 por página». Se aparta a propósito
+    del mockup («[n] de [N] · [25] por página»): el detalle no conoce el total de páginas sin agregar un
+    parámetro a §5.
 - **Enlace directo (sin búsqueda):** si alguien llega a `/pelicula/{id}` sin los parámetros de una
   búsqueda (falta `q`) o con parámetros que `/buscar` rechazaría, la página no muestra la ficha: muestra
   un **error controlado** que le dice que su consulta falló (decisión de Adolfo, 2026-10-19).
@@ -1291,6 +1325,8 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 - **Errores:**
   - un `id` que no existe responde la página «no encontrada» (404);
   - Elasticsearch caído o con error responde la página de error EFX existente.
+  - *Revisión 4 (U-06):* solo `found=false` es «no encontrada». Un alias o índice inexistente da `EFX-ES-007`, y un
+    5xx o un corte, `EFX-ES-001`, los dos con la página de error (HTTP 500).
 
 - **Fase 7 — Tareas:**
   - [x] **7.0** Diseño técnico de la página de detalle en `docs/diseno/7.md` con contratos, diagrama de clases, secuencia y código `EFX-SRCH-012`. Aprobado por Adolfo el 2026-10-19.
@@ -1316,6 +1352,8 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - al hacer clic se carga la **misma página** en el idioma elegido;
   - se conservan todos sus parámetros: la búsqueda, los filtros, la página, el tamaño de página y los
     parámetros del detalle.
+  - *Revisión 4 (U-08, U-19):* solo los parámetros de la URL, nunca los campos de un formulario; después de un
+    `POST` el selector lleva a `/cargar` o a `/`. Las reglas completas están en §5 › «Idioma».
 - **Decisiones de Adolfo (2026-10-19):**
   - **Idioma en la dirección:** las rutas no cambian (`/buscar`, `/cargar`…). El idioma va en el
     parámetro `lang` (`es` o `en`) y la elección se recuerda en una cookie para las páginas siguientes.

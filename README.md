@@ -22,7 +22,8 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 
 > [!NOTE]
 > ✅ **Estado actual:** las fases 0 a 8 están en `main`, incluidos el detalle de película (fase 7) y la interfaz
-> en español e inglés (fase 8). La revisión 4, que corrige lo que dejaron esas dos fases, sigue en curso. El
+> en español e inglés (fase 8). La revisión 4, que corrige lo que dejaron esas dos fases, tiene todos sus puntos
+> resueltos en la rama `revision-4-resto` y espera el PR hacia `main`. El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -158,7 +159,8 @@ flowchart LR
 
 - **Antes de subir:** solo `.json` o `.csv`, sin dobles extensiones, máximo **150 MB**, UTF-8.
 - **Contra el mapping:** se revisa el archivo completo; si algo no coincide, se muestra cada error
-  (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe.
+  (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe. La página
+  da el total real de errores; el informe descargable trae como mucho los primeros 10 000.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución desde
   `plot`, con el modelo de embeddings a través del servicio de inferencia de Elasticsearch, con la misma
   configuración que produjo los vectores del catálogo (calibrada en la tarea 1.9). Los archivos no los
@@ -332,13 +334,15 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
   (tabla de precisión y créditos de TMDB).
 - Detalle de película en `/pelicula/{id}`: todos los campos del documento salvo los vectores, cifras en USD,
   «N/A» en los campos vacíos y regreso a los resultados con la búsqueda intacta. Sin una búsqueda válida
-  responde 400 con `EFX-SRCH-012`; un `id` que no existe, 404.
+  responde 400 con `EFX-SRCH-012`; un `id` que no existe, 404; si Elasticsearch falla, la página de error
+  `EFX-*`. Los ids con `/` o fuera de ASCII viajan codificados en un solo segmento (`/pelicula/a%2Fb`).
 - Interfaz en español e inglés: selector «ES · EN» en el header, parámetro `lang` y cookie `elastiflix-lang`;
   español por defecto. Los textos están en `messages_es.properties` y `messages_en.properties`; los logs
   siguen en español.
 - Página de error con el código `EFX-*` y un 404 con navegación.
 - Smoke de punta a punta en `./mvnw verify -Pit`: salud de la aplicación, Inicio, Acerca de y Cargar datos,
-  una búsqueda por modo y la validación de `elasticsearch/fixtures/movies-sample.csv` sin importar. El catálogo queda
+  una búsqueda por modo, el detalle de Titanic abierto desde una búsqueda (en español y en inglés), las páginas
+  con `lang=en` y la validación de `elasticsearch/fixtures/movies-sample.csv` sin importar. El catálogo queda
   igual antes y después.
 
 `elastiflix.embedding.document-input-type` y `elastiflix.embedding.document-prefix` no están en el
