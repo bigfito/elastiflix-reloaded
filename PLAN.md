@@ -11,9 +11,10 @@
 >    interrumpirse a mitad de una tarea.
 > 2. Lee `AGENTS.md` (Claude Code lo carga desde `CLAUDE.md`) y `docs/convenciones-java.md` completos
 >    antes de tocar código.
-> 3. **Diseña antes de codificar:** cada fase con código (de la 1 a la 5) empieza por su tarea `.0`
+> 3. **Diseña antes de codificar:** cada fase con código (de la 1 a la 5, la 7 y la 8) empieza por su tarea `.0`
 >    (`docs/diseno/<fase>.md`). En las fases con 🔒, **detente** hasta que el usuario apruebe el diseño.
-> 4. Ejecuta las **fases en orden** (Fase 0 → Fase 6). No adelantes fases ni tareas.
+> 4. Ejecuta las **fases en orden** (Fase 0 → Fase 6; las fases 7 y 8 son los requerimientos nuevos 1 y 2). No
+>    adelantes fases ni tareas.
 > 5. Cada tarea tiene rutas, comandos y **criterio de aceptación**. No la marques hecha si el criterio
 >    no pasa.
 > 6. **Al terminar cada tarea:** actualiza el estado (`progreso/<fase>.md` **y** `progreso/INDICE.md`),
@@ -46,6 +47,10 @@
   - [Fase 6 — Documentación y cierre](#fase-6--documentación-y-cierre)
 - [Definición de Hecho (global)](#definición-de-hecho-global)
 - [Requerimientos nuevos (después de la revisión 3)](#requerimientos-nuevos-después-de-la-revisión-3)
+  - [Requerimiento 1 — Detalle de película (Fase 7)](#requerimiento-1--página-de-detalle-de-película-get-peliculaid)
+  - [Requerimiento 2 — Interfaz en español e inglés (Fase 8)](#requerimiento-2--interfaz-en-español-e-inglés)
+  - [Requerimiento 3 — Archivos de carga de hasta 25 MB](#requerimiento-3--archivos-de-carga-de-hasta-25-mb)
+  - [Requerimiento 4 — Carga en modo append o bulk](#requerimiento-4--carga-de-archivos-en-modo-append-o-bulk)
 - [Variables de entorno](#variables-de-entorno-envexample)
 - [Referencias](#referencias)
 
@@ -130,8 +135,8 @@ flowchart LR
   core --> inf["Inferencia<br/>.jina-embeddings-v5-omni-small"]
 ```
 
-El diagrama completo, con el flujo numerado de búsqueda (1–7) y de carga (A–G), está en
-[`docs/arquitectura.mermaid`](docs/arquitectura.mermaid).
+El diagrama completo, con el flujo numerado de búsqueda (1–7), del detalle de película (H–J) y de carga (A–G), y la
+configuración de idioma, está en [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid).
 
 **Notas de implementación**
 
@@ -212,10 +217,11 @@ elastiflix-reloaded/
 │   ├── arquitectura.mermaid
 │   ├── convenciones-java.md
 │   ├── diseno/_PLANTILLA.md    ← y un <fase>.md por fase con código
-│   └── revisiones/             ← listas de correcciones posteriores al cierre (revision-2.md, revision-3.md)
+│   ├── i18n/glosario-en.md     ← términos en inglés, tono y formatos de la interfaz
+│   └── revisiones/             ← listas de correcciones posteriores al cierre (revision-2.md … revision-4.md)
 ├── design/
 │   ├── README.md               ← tokens de diseño y cómo usar los mockups
-│   └── mockups/                ← Main · Results · Ingest · About · Detail (.dc.html)
+│   └── mockups/                ← Main · Results · Ingest · About · Detail (.dc.html) y su versión -en.dc.html
 ├── elasticsearch/
 │   ├── elastiflix-reloaded-mapping.json
 │   └── fixtures/               ← muestras reales: 4 películas en .json y .csv, vector de consulta
@@ -225,7 +231,7 @@ elastiflix-reloaded/
 ├── elastiflix-core/            ← modelo, cliente ES, catálogo (alias, índices), mapping, embeddings  [Fase 1]
 ├── elastiflix-search/          ← match/multi_match, knn, rrf, filtros, facetas, paginación          [Fase 2]
 ├── elastiflix-ingest/          ← validación, lectores JSON/CSV, importación por lotes, swap de alias [Fase 3]
-└── elastiflix-web/             ← único ejecutable: Spring Boot + Thymeleaf (4 páginas)              [Fases 0 y 4]
+└── elastiflix-web/             ← único ejecutable: Spring Boot + Thymeleaf (5 páginas, ES · EN)     [Fases 0, 4, 7 y 8]
 ```
 
 `progreso/` guarda el **estado del desarrollo**; no tiene relación con ningún estado de la aplicación
@@ -239,9 +245,15 @@ elastiflix-reloaded/
 |---|---|---|
 | `GET /` | Inicio (`Main.dc.html`) | Caja de búsqueda, selector de modo con sus paneles y sugerencias dinámicas |
 | `GET /buscar` | Resultados (`Results.dc.html`) | Resultados paginados, puntuaciones por modo y filtros |
-| `GET /cargar` | Cargar datos (`Ingest.dc.html`) | Pestañas Registro individual · Importar .json · Importar .csv |
+| `GET /cargar` | Cargar datos (`Ingest.dc.html`) | Pestañas Registro individual · Importar .json · Importar .csv. Con `?job=<jobId>` retoma un trabajo de carga en curso: `ingest.js` pone ese parámetro en la URL y en el selector de idioma para que cambiar de idioma no lo pierda |
 | `GET /acerca` | Acerca de la demo (`About.dc.html`) | Documentación de la demo |
-| `GET /pelicula/{id}` | Detalle de película (`Detail.dc.html`) | **Pendiente de implementar** (ver «Requerimientos nuevos»). Todos los atributos de la película salvo los vectores, y regreso a los resultados con la búsqueda intacta |
+| `GET /pelicula/{id}` | Detalle de película (`Detail.dc.html`) | Requerimiento 1 (fase 7). Todos los atributos de la película salvo los vectores, leídos por el alias con `findById` (`GET <alias>/_doc/{id}` sin `plot_256`, `plot_512` ni `plot_1024`), y regreso a los resultados con la búsqueda intacta. Recibe los mismos parámetros que `/buscar`: si falta `q` o alguno no es válido, responde **400** con la página de error y `EFX-SRCH-012`, sin consultar Elasticsearch. Un `id` que no existe responde la página «no encontrada» (**404**) |
+
+**Idioma** (todas las rutas, Requerimiento 2, fase 8): el parámetro `lang` (`es` o `en`) cambia el idioma de la
+página y se recuerda en la cookie `elastiflix-lang` (un año, `Path=/`); cualquier otro valor se ignora. Sin cookie,
+la página sale en español aunque el navegador pida otro idioma. El selector «ES · EN» del header carga la misma
+ruta con sus parámetros y el `lang` elegido. Las respuestas JSON de `/cargar/trabajos/…`, el informe CSV y los
+rechazos de la carga salen en el idioma de la petición.
 
 **Parámetros de `GET /buscar`** (también los usa el formulario de Inicio)
 
@@ -357,7 +369,9 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
 
 ## 7. Convenciones del proyecto
 
-- **Idioma:** interfaz, mensajes, logs, Javadoc y documentación en español; identificadores en inglés.
+- **Idioma:** interfaz en español e inglés (Requerimiento 2): sus textos viven en `messages_es.properties` y
+  `messages_en.properties`; los mensajes de log, el Javadoc y la documentación, en español; identificadores en
+  inglés.
 - **Fechas:** UTC; `release_date` en `yyyy-MM-dd`.
 - **Configuración:** el usuario pone sus valores en `.env` (raíz del repo) o en variables de entorno.
   `.env` se importa como archivo de propiedades y **cada propiedad se declara con un marcador
@@ -407,7 +421,8 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   el alias por defecto, `elastiflix-reloaded-20261020-153000`; en una prueba,
   `elastiflix-it-x7k2-20261020-153000`. Nada se nombra con `elastiflix-reloaded` escrito en el código; la
   única excepción es el valor por defecto de `elastiflix.index.alias` (`ElastiflixProperties.Index`).
-- **Textos de la interfaz:** los de los mockups, palabra por palabra, salvo los ajustes autorizados de §1.
+- **Textos de la interfaz:** los de los mockups, palabra por palabra, salvo los ajustes autorizados de §1; en inglés,
+  los de los mockups `-en` y `docs/i18n/glosario-en.md`.
 - **Git:** un commit **y un push** por tarea, con el estado actualizado; documentación del proyecto
   actualizada al cerrar cada fase.
 
@@ -460,7 +475,8 @@ revisar la fase.
 ## 9. Estado del trabajo y reanudación
 
 **Archivos.** `progreso/INDICE.md` (fase actual, estado de cada fase y próximo paso global) y
-`progreso/<fase>.md` (`0.md` … `6.md`), creado desde `progreso/_PLANTILLA.md` al empezar cada fase.
+`progreso/<fase>.md` (`0.md` … `8.md`, y uno por revisión), creado desde `progreso/_PLANTILLA.md` al empezar cada
+fase.
 Se versionan en git; `.gitignore` nunca los excluye.
 
 **Estados de una fase:** `no iniciado` · `en curso` · `esperando aprobación de diseño` · `bloqueado` ·
@@ -1185,10 +1201,25 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
   `./mvnw verify -Pit`: 326 unitarias y 29 de integración en verde; pruebas de navegador 11 de 11. Estado y
   evidencia: `progreso/revision-3.md`.
 
+### Revisión 4 (en curso)
+
+La cuarta revisión de `main` en `6431aa6` (2026-10-21 UTC) revisa el trabajo de Google Antigravity en las fases 7
+(detalle, PR #23) y 8 (español e inglés, PR #24) y vuelve a pasar por todo el código y la documentación. Encontró 38
+correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
+
+- **Lista (especificación):** `docs/revisiones/revision-4.md`.
+- **Estado, evidencia y decisiones de Adolfo:** `progreso/revision-4.md`.
+- **Primera tanda, en `main`:** U-03 y U-11 directo; U-01, U-02, U-07, U-13 a U-17 y U-24 con el PR #25 (merge
+  `b54d67c`). `./mvnw verify -Pit` en verde (514 unitarias y 30 de integración) y pruebas de navegador 11 de 11, el
+  2026-10-21. Adolfo descartó la parte de cabeceras de seguridad de U-33.
+- **El resto:** en la rama `revision-4-resto`, con carriles paralelos en worktrees propios (detalle, web e idioma,
+  carga, núcleo y búsqueda, y documentación) que se integran al final.
+
 ## Requerimientos nuevos (después de la revisión 3)
 
-> **No se implementan todavía.** El trabajo de esta sección empieza solo cuando se cumplen las dos
-> condiciones:
+> **Estado:** los requerimientos 1 y 2 ya se implementaron (fases 7 y 8, en `main`; la revisión 4 corrige lo que
+> dejaron pendiente). Los requerimientos 3 y 4 **no se implementan todavía**. El trabajo de cada uno empieza solo
+> cuando se cumplen las dos condiciones:
 >
 > 1. la revisión 3 está terminada y fusionada en `main`;
 > 2. Adolfo da su consentimiento explícito para arrancar, registrado en `progreso/INDICE.md` ›
@@ -1228,7 +1259,8 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
     - `plot` (sinopsis completa);
     - `cast` (reparto completo; muestra 18 y «Ver todo el reparto (N)»);
     - `keywords` (nombre e identificador).
-  - Cada dato lleva su etiqueta en español y el nombre del campo, como los filtros de Resultados.
+  - Cada dato lleva su etiqueta (en español, o en inglés con el requerimiento 2) y el nombre del campo, como los
+    filtros de Resultados.
 - **Campos vacíos:** un valor ausente, `null`, texto vacío o lista vacía se muestra como «N/A».
 - **Dinero:** `budget` y `revenue` en USD con separador de miles («160 000 000 USD»).
   - `budget` o `revenue` vacíos o en 0 se muestran como «N/A» (decisión de Adolfo, 2026-10-19).
@@ -1253,6 +1285,9 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
     volver a Inicio para hacer una búsqueda nueva.
   - El diseño de la fase define el código, el estado HTTP y el texto exacto, y agrega ese estado al
     mockup para que Adolfo lo apruebe.
+  - *Revisión 4 (U-07):* la fase 7 no lo agregó. Ahora `Detail.dc.html` y `Detail-en.dc.html` tienen la variante
+    «estado» › «Error EFX-SRCH-012 (pendiente de aprobación)», que reproduce la página de error común con los
+    textos vigentes. **Pendiente de la aprobación de Adolfo.**
 - **Errores:**
   - un `id` que no existe responde la página «no encontrada» (404);
   - Elasticsearch caído o con error responde la página de error EFX existente.
@@ -1268,8 +1303,8 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
 
 ### Requerimiento 2 — Interfaz en español e inglés
 
-- **Origen:** segundo de los cuatro requerimientos nuevos de Adolfo (2026-10-19). Hoy todas las páginas
-  están en español.
+- **Origen:** segundo de los cuatro requerimientos nuevos de Adolfo (2026-10-19). Antes de la fase 8, todas las
+  páginas estaban en español.
 - **Qué pide:**
   - cada página existente tiene su versión en inglés: Inicio, Resultados, Cargar datos, Acerca de y,
     con el requerimiento 1, Detalle de película;
@@ -1348,10 +1383,10 @@ se alineó con el código en el mismo commit. La revisión no pudo compilar ni c
   - [x] **8.1** Configuración de idioma (`CookieLocaleResolver` con `es` por defecto ignorando `Accept-Language`, `LocaleChangeInterceptor` con `lang` aceptando solo `es` y `en`), formateo de miles por idioma en `Thousands` y selector `ES · EN` en `PageShell` / `chrome.html` preservando todos los parámetros de la URL.
   - [x] **8.2** Catálogos `messages_es.properties` y `messages_en.properties` (UTF-8), componente `UiMessages` para textos e incidencias `ErrorCode`, y externalización de `head.html`, `chrome.html`, `error.html`, `not-found.html` y `about.html`.
   - [x] **8.3** Internacionalización de Inicio (`home.html`, `home.js` con atributos `data-*`, `SuggestionCatalog`, `LexicalSuggestions`, `VectorSuggestions` y `HybridSuggestions` con consultas en inglés verificadas contra el índice).
-  - [x] **8.4** Internacionalización de Resultados (`results.html`, `results.js` con atributos `data-*`, `ResultsPage`, `ModeCopies`, `AppliedFilters`, `FacetChoices`, `ResultCards`, paginación y estados vacíos).
-  - [x] **8.5** Internacionalización de Detalles de película (`detail.html`, `detail.js` con atributos `data-*`, `MovieDetailPage`, `MovieDetailTables`, `MovieDetailBadges` y `MovieDetailSearchChips`).
-  - [x] **8.6** Internacionalización de Cargar datos (`ingest.html`, `ingest.js` con atributos `data-*` y conservación de `job` al cambiar de idioma, `JobTexts`, `IngestTranslator`, `IngestController`, `IngestJobController`, `IngestJobErrors`, `UploadSizeErrors` e `informe.csv`).
-  - [x] **8.7** Pruebas de paridad de claves, ausencia de textos fijos en español en `.html`/`.js`, pruebas `MockMvc` de cambio de idioma y preservación de parámetros, verificación de fase (`./mvnw clean verify` y `-Pit`), actualización de `README.md`, `PLAN.md`, `progreso/8.md` y `progreso/INDICE.md`.
+  - [x] **8.4** Internacionalización de Resultados (`results.html`, `results.js` con atributos `data-*`, `ResultsPage`, `ModeCopies`, `AppliedFilters`, `FacetChoices`, `ResultCards`, paginación y estados vacíos). *Revisión 4 (U-37): la fase 8 no tocó `FacetChoices`, que no tiene textos de la interfaz.*
+  - [x] **8.5** Internacionalización de Detalles de película (`detail.html`, `detail.js` con atributos `data-*`, `MovieDetailPage`, `MovieDetailTables`, `MovieDetailBadges` y `MovieDetailSearchChips`). *Revisión 4 (U-37): la fase 8 no tocó `MovieDetailBadges`, que no tiene textos de la interfaz.*
+  - [x] **8.6** Internacionalización de Cargar datos (`ingest.html`, `ingest.js` con atributos `data-*` y conservación de `job` al cambiar de idioma, `JobTexts`, `IngestTranslator`, `IngestController`, `IngestJobController`, `IngestJobErrors`, `UploadSizeErrors` e `informe.csv`). *Revisión 4 (U-37): la fase 8 no tocó `IngestController` ni `UploadSizeErrors` (el 413 seguía en español), dejó textos fijos en español en `ingest.html` e `ingest.js`, y en inglés las validaciones y el informe salían en parte en español. Se completó en la revisión 4 con U-13 (`56aeaf9`) y U-14 (`a26826e`).*
+  - [x] **8.7** Pruebas de paridad de claves, ausencia de textos fijos en español en `.html`/`.js`, pruebas `MockMvc` de cambio de idioma y preservación de parámetros, verificación de fase (`./mvnw clean verify` y `-Pit`), actualización de `README.md`, `PLAN.md`, `progreso/8.md` y `progreso/INDICE.md`. *Revisión 4 (U-37): la fase corrió `-Pit` solo con `-pl elastiflix-web` (`SmokeIT`), y `TemplatesAndScriptsI18nTest` solo buscaba una lista de frases, así que quedaban textos fijos en español en las plantillas y el JS. Lo cerraron U-14 y U-15 (`a26826e`) y la corrida completa de U-02 (`db440ca`).*
 
 ### Requerimiento 3 — Archivos de carga de hasta 25 MB
 

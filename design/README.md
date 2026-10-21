@@ -14,15 +14,23 @@ componentes y comportamiento. No se rediseñan.
 | `mockups/Results.dc.html` | Resultados | `GET /buscar` | modo: Full-text · Vectorial · Híbrida; estado: Con resultados · Sin resultados · Sin resultados con filtros |
 | `mockups/Ingest.dc.html` | Cargar datos | `GET /cargar` | escenario: Archivo válido · No coincide con el mapping · Archivo rechazado; modo de carga append · bulk (requerimiento 4, aprobado el 2026-10-19; **pendiente de implementar**) |
 | `mockups/About.dc.html` | Acerca de la demo | `GET /acerca` | — |
-| `mockups/Detail.dc.html` | Detalle de película (**pendiente de implementar**, ver PLAN › «Requerimientos nuevos») | `GET /pelicula/{id}` | película: Inception · The Equalizer 2 |
-| `mockups/<Página>-en.dc.html` | Versión en inglés de cada página (aprobada el 2026-10-19; **pendiente de implementar**, requerimiento 2) | la misma ruta con `?lang=en` | las mismas que su versión en español |
+| `mockups/Detail.dc.html` | Detalle de película (requerimiento 1, fase 7) | `GET /pelicula/{id}` | película: Inception · The Equalizer 2; estado: Ficha · Error EFX-SRCH-012 (enlace directo sin búsqueda; revisión 4, U-07, **pendiente de aprobación de Adolfo**) |
+| `mockups/<Página>-en.dc.html` | Versión en inglés de cada página (aprobada el 2026-10-19; requerimiento 2, fase 8) | la misma ruta con `?lang=en` | las mismas que su versión en español |
 
-> **Pendiente de implementar:** `Detail.dc.html`, el enlace del título de cada tarjeta de
-> `Results.dc.html` hacia el detalle, las versiones `-en` y el selector «ES · EN» del header son parte de
-> los requerimientos nuevos de `PLAN.md`. La traducción sigue `docs/i18n/glosario-en.md`.
-> El conteo del pie y de «Acerca de» sale siempre de `_count`; el número de los mockups es un ejemplo. El
-> logo de TMDB de «Créditos» es `elastiflix-web/src/main/resources/static/img/tmdb/…svg`, subido al canvas. No se implementan
-> en la revisión 3: esperan a que termine y a que Adolfo dé su consentimiento.
+> **Implementado:** `Detail.dc.html` y el enlace del título de cada tarjeta de `Results.dc.html` hacia el
+> detalle (requerimiento 1, fase 7); las versiones `-en` y el selector «ES · EN» del header (requerimiento 2,
+> fase 8). La traducción sigue `docs/i18n/glosario-en.md`. El conteo del pie y de «Acerca de» sale siempre de
+> `_count`; el número de los mockups es un ejemplo. El logo de TMDB de «Créditos» es
+> `elastiflix-web/src/main/resources/static/img/tmdb/…svg`, subido al canvas.
+>
+> **Pendiente de implementar:** los 25 MB y el modo de carga append · bulk de `Ingest*.dc.html` y
+> `About*.dc.html` (requerimientos 3 y 4), que esperan el consentimiento de Adolfo.
+>
+> **Pendiente de aprobación:** la variante «estado» › «Error EFX-SRCH-012» de `Detail.dc.html` y
+> `Detail-en.dc.html` (revisión 4, U-07). Reproduce la página de error común (`templates/error.html`), que ya usa la
+> aplicación: la etiqueta «No se pudo completar», el código, el «qué pasó» de `error.EFX-SRCH-012.summary` con punto
+> final (PLAN §1) y el enlace «Volver a buscar» a Inicio. Esa página no muestra la causa ni la acción del catálogo, y
+> en la aplicación el menú no marca ninguna página (el mockup conserva «Buscar» marcado en el header).
 
 En Cargar datos y en Acerca de, los vectores de la sinopsis se generan con el servicio de inferencia
 (`input_type` `ingest`, sin prefijo). Si el archivo los trae, se ignoran. Al publicar, el índice

@@ -44,22 +44,23 @@ cerrada, cambio de agente). **Al iniciar cualquier sesión, antes de escribir c�
 **híbrida (RRF)** sobre el alias `elastiflix-reloaded` de **Elasticsearch Serverless**, con filtros
 dinámicos, paginación y carga segura de datos (.json/.csv). El índice y el conteo vigentes están en
 `progreso/INDICE.md` › «Catálogo vigente». Java 25, Spring Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de
-Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. El plan está cerrado en `main`. Las
+Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. Las fases 0 a 8 están en `main`. Las
 verificaciones históricas de las fases contaron 4 322 películas, el catálogo anterior a la importación del
 2026-10-18. `SmokeIT` y `CatalogStatusServiceIT` afirman los 6 899 documentos; las IT de búsqueda, los
 valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 
 ## Trabajo abierto
 
-Las fases 0 a 6 y las revisiones 1, 2 y 3 están cerradas. Lo pendiente es lo que diga
+Las fases 0 a 8 y las revisiones 1 a 3 están cerradas; la 4 sigue. Lo pendiente es lo que diga
 `progreso/INDICE.md` › «Punto de reanudación». Una revisión en carriles paralelos sigue «Cómo trabajar en
 paralelo» de `docs/revisiones/revision-3.md`: rama y archivo de estado por carril; PLAN, README, `docs/` e
-`INDICE.md` los escribe solo el cierre. Los «Requerimientos nuevos» de PLAN esperan el consentimiento de Adolfo.
+`INDICE.md` los escribe solo el cierre. «Requerimientos nuevos» de PLAN: el 1 y el 2 están hechos (fases 7 y 8);
+el 3 y el 4 esperan el consentimiento de Adolfo.
 
 ## Regla de oro sobre el orden de trabajo
 
 1. Lee `PLAN.md` completo antes de tocar código.
-2. Las fases 0→6 ya se ejecutaron en orden; una revisión sigue el orden de su lista. No marques una tarea
+2. Las fases 0→8 ya se ejecutaron en orden; una revisión sigue el orden de su lista. No marques una tarea
    hecha sin cumplir su criterio.
 3. Al terminar cada fase corre su **"Verificación de fase"**; si falla, corrige antes de seguir.
 4. **No agregues funciones que el plan no pide.** Si algo no está definido, pregunta al usuario.
@@ -87,7 +88,7 @@ de `&&` y `$LASTEXITCODE` en lugar de `$?`.
 - `elastiflix-core/` — modelo, cliente ES (`Jackson3JsonpMapper`), mapping, alias e índices, embeddings.
 - `elastiflix-search/` — `match`/`multi_match` BM25, `knn`, `rrf`, filtros, facetas, paginación.
 - `elastiflix-ingest/` — comprobación de archivos, lectores JSON/CSV, validación vs mapping, importación.
-- `elastiflix-web/` — único ejecutable: Spring MVC + Thymeleaf (Inicio, Resultados, Cargar datos, Acerca de).
+- `elastiflix-web/` — único ejecutable: Spring MVC + Thymeleaf (Inicio, Resultados, Detalle, Cargar datos, Acerca de).
 - `config/` — Checkstyle y PMD (**congelados**). `docs/` — convenciones, arquitectura, diseños por fase.
 - `design/mockups/` — pantallas aprobadas; `design/README.md` — tokens de diseño.
 - `elasticsearch/` — mapping del índice y fixtures reales (4 películas en .json y .csv, vector de consulta).
@@ -147,7 +148,8 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
   `Document: ` se midió y no se eligió). k-NN: `k ≥ 1`, `k ≤ num_candidates ≤ 10 000`. RRF: `rank_constant 60`,
   `rank_window_size = k`. Full-text: `from < 10 000`.
 - Facetas de Vectorial e Híbrida se calculan en la aplicación sobre los resultados devueltos.
-- Fechas en UTC; `release_date` `yyyy-MM-dd`. Interfaz en español, con los textos de los mockups.
+- Fechas en UTC; `release_date` `yyyy-MM-dd`. Interfaz en español e inglés (`lang`, cookie `elastiflix-lang`;
+  textos en `messages_es`/`messages_en`), con los textos de los mockups. Logs en español.
 - **Pruebas de integración:** lectura sobre `elastiflix-reloaded` sin modificarlo; escritura solo sobre
   alias propios `elastiflix-it-<aleatorio>` que se borran al terminar.
 - Las pruebas **nunca** borran índices que no crearon. La migración de la tarea 1.8 y el borrado del

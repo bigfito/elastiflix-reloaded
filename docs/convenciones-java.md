@@ -96,7 +96,8 @@ genéricas (usa clases con nombre de responsabilidad), Visitor, reflexión.
 ## 5. Estilo y nombres
 
 **Idioma:** identificadores en **inglés** (coinciden con los campos del índice: `release_date`,
-`spoken_languages`); Javadoc, comentarios, mensajes de log y textos de interfaz en **español**.
+`spoken_languages`); Javadoc, comentarios y mensajes de log en **español**. Los textos de la interfaz viven en
+`messages_es.properties` y `messages_en.properties` (español e inglés, requerimiento 2), no en el código.
 
 **Umbrales** (verificados automáticamente, ver §14):
 
@@ -280,7 +281,8 @@ SLF4J con un `private static final Logger LOG` por clase.
   del trabajo de importación es inmutable (`record`) y se publica por el listener de progreso.
 - **Publicación:** `add` del alias al índice nuevo y `remove_index` del anterior en una sola llamada a
   `_aliases`; nunca en dos llamadas.
-- **Texto de interfaz** en español, igual al de los mockups de `design/mockups/`.
+- **Texto de interfaz** en `messages_es.properties` y `messages_en.properties`, igual al de los mockups de
+  `design/mockups/` (en inglés, los `-en` y `docs/i18n/glosario-en.md`). Los logs siguen en español.
 
 ## 12. Build y dependencias
 
@@ -605,7 +607,7 @@ Diferencias deliberadas respecto a la skill `java-developer`. **No las "corrijas
 |---|---|
 | Sin Spring Data Elasticsearch | El proyecto usa directamente el cliente Java de Elasticsearch 9.x para controlar retrievers (`knn`, `rrf`), alias e inferencia |
 | `record` de hasta 35 componentes | El documento de película refleja los 33 campos del mapping |
-| Identificadores en inglés, textos en español | Coinciden con los nombres de campo del índice; la interfaz es en español |
+| Identificadores en inglés, textos en español | Coinciden con los nombres de campo del índice; Javadoc y logs en español. La interfaz, en español e inglés, toma sus textos de `messages_es`/`messages_en` |
 | Validación de ingesta sin excepciones por registro | Se deben reportar **todos** los errores del archivo de una vez |
 | JavaScript mínimo en las páginas Thymeleaf | La interactividad de los mockups (selectores, progreso de importación) no justifica un framework de frontend |
 
