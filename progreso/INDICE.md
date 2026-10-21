@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 4 (correcciones tras las fases 7 y 8)
-- **Estado de la fase:** decisiones 1 a 6 de Adolfo aplicadas en la rama `revision-4`; el resto de la lista espera instrucciones
-- **Ramas:** `revision-4`
+- **Estado de la fase:** decisiones 1 a 6 de Adolfo aplicadas y fusionadas en `main` (PR #25, `b54d67c`); el resto de la lista espera instrucciones
+- **Ramas:** `main` (la rama `revision-4` sigue publicada; no se pidió borrarla)
 - **Diseño:** especificación en [`docs/revisiones/revision-4.md`](../docs/revisiones/revision-4.md)
 - **Estado:** [`progreso/revision-4.md`](revision-4.md)
 - **Tarea actual:** ninguna
 - **Próximo paso:** el de `progreso/revision-4.md`. Después de la revisión 4, coordinar con Adolfo el Requerimiento 3.
-- **Última actualización:** 2026-10-21 18:40 UTC
+- **Última actualización:** 2026-10-21 19:24 UTC
 
 ## Fases
 
@@ -34,7 +34,7 @@
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 329 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). |
 | 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | Fusionada en `main` (`3c27c40`, PR #24). Rama remota y local `fase-8-i18n` borrada. `./mvnw clean verify` en verde (104 unitarias web / 347 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4. |
-| — | Revisión 4 | — | en curso | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38). U-11 y U-03 en `main` (`a1b8fa8`, `ec6ca83`); U-01, U-02, U-07, U-13 a U-17 y U-24 en la rama `revision-4`; U-33 (cabeceras) descartada. `./mvnw verify -Pit` en verde (514 + 30) y navegador 11 de 11, el 2026-10-21. |
+| — | Revisión 4 | — | en curso | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38). U-11 y U-03 en `main` (`a1b8fa8`, `ec6ca83`); U-01, U-02, U-07, U-13 a U-17 y U-24 fusionadas en `main` (PR #25, `b54d67c`); U-33 (cabeceras) descartada. `./mvnw verify -Pit` en verde (514 + 30) y navegador 11 de 11, el 2026-10-21. |
 
 ## Aprobaciones del usuario
 
@@ -84,6 +84,7 @@
 | 2026-10-19 | Cierre y fusión de la Fase 8 (Requerimiento 2: Interfaz en español e inglés / i18n) | Adolfo pidió fusionar la rama («Fusiona la rama.»). PR #24 fusionado en main (merge commit 3c27c40). Rama fase-8-i18n borrada local y remotamente. Verificación ./mvnw clean verify en verde (104 unitarias web / 347 repo, Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4. |
 | 2026-10-21 | Revisión 4: lista y primeras correcciones | Adolfo pidió una revisión exhaustiva del trabajo de los otros agentes y una lista en markdown para darle instrucciones. Pidió corregir U-11 y U-03 y subirlas a `main` («Sí, haz commit y push en main …»). |
 | 2026-10-21 | Revisión 4: decisiones de la lista | Volver a medir la tabla vectorial de §6 y las sugerencias en español; el agente redacta el texto de `EFX-SRCH-012`; la traducción de «Cargar datos» se corrige de fondo; vía libre para instalar Playwright y Chromium y correr las pruebas de navegador; sin cabeceras de seguridad. Detalle en `progreso/revision-4.md` › «Decisiones». |
+| 2026-10-21 | Revisión 4: fusión del PR #25 | Adolfo pidió «Si, haz el PR y fusiona la rama.» y que el remoto y la copia local quedaran al día. PR #25 (`revision-4` → `main`) fusionado con el merge commit `b54d67c` a las 19:22 UTC. `./mvnw verify -Pit` en verde (514 + 30) y navegador 11 de 11 antes de fusionar. |
 
 
 ## Catálogo vigente

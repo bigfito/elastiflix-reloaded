@@ -7,21 +7,21 @@
 
 - **Unidad:** Revisión 4
 - **Nombre:** Correcciones de la cuarta revisión (tras las fases 7 y 8)
-- **Rama:** `revision-4`
+- **Rama:** `main` (fusión de `revision-4` en el PR #25, merge `b54d67c`)
 - **Carpeta:** `E:\02 - programming\03 - elastiflix-reloaded`
 - **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-en verificación (decisiones 1 a 6 aplicadas; el resto espera instrucciones)
+decisiones 1 a 6 aplicadas y fusionadas en `main`; el resto de la lista espera instrucciones
 
 ## Punto de reanudación
 
 - **Tarea actual:** ninguna; las decisiones 1 a 6 de Adolfo están aplicadas
 - **Subpaso en curso:** ninguno
-- **Próximo paso:** que Adolfo revise el PR de `revision-4` y diga qué hacer con los demás puntos de
-  `docs/revisiones/revision-4.md` (los que esta tabla no marca)
-- **Última actualización:** 2026-10-21 18:40 UTC
+- **Próximo paso:** que Adolfo diga qué hacer con los demás puntos de `docs/revisiones/revision-4.md` (los que
+  esta tabla no marca)
+- **Última actualización:** 2026-10-21 19:24 UTC
 
 ## Tareas
 
@@ -38,7 +38,7 @@ en verificación (decisiones 1 a 6 aplicadas; el resto espera instrucciones)
 | U-13, U-17 (carga) | terminada | `56aeaf9` | `IngestPhrase` (57 frases) en ingest; `IngestTranslator` y `JobTexts` traducen por clave en los dos idiomas; informe CSV, rechazos del registro individual y 413 traducidos. `./mvnw verify` en verde: 513 unitarias (core 68, search 71, ingest 189, web 185), Checkstyle 0, PMD 0. `IngestTranslatorTest` pasa la salida real de `MappingValidator`, `CsvMovieReader` y `CsvColumnRows` en inglés sin una palabra en español |
 | U-17 (cabecera y sugerencias) | terminada | `0703166` | `CatalogTexts` lee `layout.catalog.*` (solo quedan como constantes los dos avisos de TMDB, que se muestran juntos en los dos idiomas); las etiquetas de Inicio salen de `home.suggest.*` vía `SuggestionTags`, con las cifras medidas como datos. `./mvnw -pl elastiflix-web verify` en verde (185 unitarias, Checkstyle 0, PMD 0); `HomePageTest`, `LayoutPageTest` y `AboutPageTest` sin cambios |
 | U-14, U-15 | terminada | `a26826e` | `ingest.html` sin textos fijos (rango de errores, `aria-label` del progreso, un placeholder por concordancia); `ingest.js` sin respaldos en español, con «Field for {0}» por `data-*` y el tono de cada columna desde `JobTexts.columnTones`. `TemplatesAndScriptsI18nTest` revisa texto suelto y atributos accesibles de las plantillas y todos los literales del JS; con los archivos de `main` falla con los 10 textos que tenían. `./mvnw verify` en verde: 514 unitarias (core 68, search 71, ingest 189, web 186), Checkstyle 0, PMD 0 |
-| U-02 | terminada | se anota en el commit siguiente | `./mvnw verify -Pit` en verde (514 unitarias y 30 de integración: core 68 + 10, search 71 + 14, ingest 189 + 2, web 186 + 4) y pruebas de navegador 11 de 11 (Playwright 1.49.1 con Chromium, contra la aplicación en el puerto 8089 sin Elasticsearch) |
+| U-02 | terminada | `db440ca` | `./mvnw verify -Pit` en verde (514 unitarias y 30 de integración: core 68 + 10, search 71 + 14, ingest 189 + 2, web 186 + 4) y pruebas de navegador 11 de 11 (Playwright 1.49.1 con Chromium, contra la aplicación en el puerto 8089 sin Elasticsearch) |
 | U-33 (cabeceras) | descartada | — | Adolfo decidió no agregar cabeceras de seguridad (2026-10-21) |
 
 ## Cambios sin commit
@@ -89,6 +89,10 @@ Vacío.
 - 2026-10-21 (U-14, U-15): «ES»/«EN» del selector y el placeholder `es, en, ja…` siguen fijos a propósito: son
   nombres y códigos de idioma, iguales en el mockup en inglés. La prueba nueva encontró además un falso
   positivo propio (un `th:text` con otro elemento dentro) que se corrigió en la prueba, no en la plantilla.
+
+- 2026-10-21 19:22 UTC: Adolfo pidió «Si, haz el PR y fusiona la rama.». Se abrió el PR #25 (`revision-4` →
+  `main`) y se fusionó con el merge commit `b54d67c`. La rama `revision-4` se conserva en local y en el remoto
+  (no se pidió borrarla).
 
 ## Resumen de diseño
 
