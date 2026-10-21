@@ -10,7 +10,6 @@ import com.bigfito.elastiflix.search.result.SearchHit;
 import com.bigfito.elastiflix.search.result.SearchResult;
 import com.bigfito.elastiflix.search.strategy.ComponentScore;
 import com.bigfito.elastiflix.web.layout.PosterUrls;
-import com.bigfito.elastiflix.web.locale.SupportedLocale;
 import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import org.springframework.stereotype.Component;
@@ -36,18 +35,6 @@ public class ResultCards {
     }
 
     /**
-     * Tarjetas de la página, con la posición absoluta y enlaces al detalle en el idioma actual.
-     *
-     * @param result resultado de la fachada
-     * @param mode   modo, para elegir el panel de puntuación
-     * @param form   formulario actual con los parámetros de búsqueda
-     * @return tarjetas en orden
-     */
-    public List<ResultCard> of(SearchResult result, SearchMode mode, SearchForm form) {
-        return of(result, mode, form, SupportedLocale.current());
-    }
-
-    /**
      * Tarjetas de la página, con la posición absoluta y enlaces al detalle en el idioma indicado.
      *
      * @param result resultado de la fachada
@@ -64,17 +51,6 @@ public class ResultCards {
             rank++;
         }
         return List.copyOf(cards);
-    }
-
-    /**
-     * Tarjetas de la página, con la posición absoluta en el idioma actual.
-     *
-     * @param result resultado de la fachada
-     * @param mode   modo, para elegir el panel de puntuación
-     * @return tarjetas en orden
-     */
-    public List<ResultCard> of(SearchResult result, SearchMode mode) {
-        return of(result, mode, null, SupportedLocale.current());
     }
 
     private static int start(SearchResult result) {

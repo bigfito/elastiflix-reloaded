@@ -16,13 +16,16 @@ public final class AppliedFilters {
     }
 
     /**
-     * Textos de la fila «Filtros aplicados», en el orden del mockup para el idioma del contexto actual.
+     * Textos de la fila «Filtros aplicados» en el idioma del contexto actual, con un catálogo propio.
+     *
+     * <p>Transitorio (revisión 4, U-18): solo lo llama la rama sin catálogo de {@code MovieDetailSearchChips},
+     * que el carril del detalle borra. Al integrar los carriles se borra también este método.</p>
      *
      * @param form URL actual
      * @return chips; vacío si no hay filtros
      */
     public static List<String> chips(SearchForm form) {
-        return chips(form, SupportedLocale.current(), UiMessages.defaultCatalog());
+        return chips(form, SupportedLocale.current(), new UiMessages(UiMessages.createMessageSource()));
     }
 
     /**
@@ -41,16 +44,6 @@ public final class AppliedFilters {
         labeled(chips, messages.getFor(locale, "results.chip.languages"), form.languages(), locale, messages);
         labeled(chips, messages.getFor(locale, "results.chip.rating"), form.ratings(), locale, messages);
         return List.copyOf(chips);
-    }
-
-    /**
-     * Nota bajo el título de filtros en el idioma del contexto actual.
-     *
-     * @param form URL actual
-     * @return el texto del mockup
-     */
-    public static String note(SearchForm form) {
-        return note(form, SupportedLocale.current(), UiMessages.defaultCatalog());
     }
 
     /**

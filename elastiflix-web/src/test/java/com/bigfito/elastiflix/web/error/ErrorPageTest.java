@@ -86,7 +86,7 @@ class ErrorPageTest {
         mvc.perform(get("/probe/elastiflix").param("lang", "en"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string(containsString("EFX-ES-001")))
-                .andExpect(content().string(containsString("<p>Could not connect to Elasticsearch.</p>")))
+                .andExpect(content().string(containsString("<p>Couldn&#39;t connect to Elasticsearch.</p>")))
                 .andExpect(content().string(containsString("Could not complete")))
                 .andExpect(content().string(containsString("Back to search")))
                 .andExpect(content().string(containsString("Index: elastiflix-reloaded · 4,322 movies")));
