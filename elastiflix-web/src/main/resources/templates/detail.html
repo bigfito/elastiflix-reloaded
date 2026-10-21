@@ -60,7 +60,7 @@
             <span class="genre-badge empty" th:if="${detail.genres.isEmpty()}" title="genres" th:text="${detail.notAvailable()}">N/A</span>
           </div>
           <div class="detail-ratings">
-            <span class="rating-item"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="#E9B949" stroke="none"><path d="M12 3l2.7 5.6l6.1.9l-4.4 4.3l1 6.1L12 17l-5.4 2.9l1-6.1L3.2 9.5l6.1-.9z"></path></svg><strong class="rating-score" th:text="${detail.voteAverage}">8.36</strong><span class="rating-votes" th:text="#{detail.hero.votes(${detail.voteCount})}">· 35 000 votos</span></span>
+            <span class="rating-item"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="#E9B949" stroke="none"><path d="M12 3l2.7 5.6l6.1.9l-4.4 4.3l1 6.1L12 17l-5.4 2.9l1-6.1L3.2 9.5l6.1-.9z"></path></svg><strong class="rating-score" th:text="${detail.voteAverage}">8.36</strong><span class="rating-votes" th:text="${detail.voteCount == detail.notAvailable()} ? #{detail.hero.votes.none} : #{detail.hero.votes(${detail.voteCount})}">· 35 000 votos</span></span>
             <span class="rating-item popularity"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9 M10 19V5 M16 19v-7 M22 19H2"></path></svg><span th:text="#{detail.hero.popularity(${detail.popularity})}">Popularidad 82.5</span></span>
           </div>
           <div class="detail-hero-actions">

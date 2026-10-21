@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.bigfito.elastiflix.web.locale.SupportedLocale;
 import com.bigfito.elastiflix.web.locale.UiMessages;
 
 /**
@@ -13,19 +12,6 @@ import com.bigfito.elastiflix.web.locale.UiMessages;
 public final class AppliedFilters {
 
     private AppliedFilters() {
-    }
-
-    /**
-     * Textos de la fila «Filtros aplicados» en el idioma del contexto actual, con un catálogo propio.
-     *
-     * <p>Transitorio (revisión 4, U-18): solo lo llama la rama sin catálogo de {@code MovieDetailSearchChips},
-     * que el carril del detalle borra. Al integrar los carriles se borra también este método.</p>
-     *
-     * @param form URL actual
-     * @return chips; vacío si no hay filtros
-     */
-    public static List<String> chips(SearchForm form) {
-        return chips(form, SupportedLocale.current(), new UiMessages(UiMessages.createMessageSource()));
     }
 
     /**

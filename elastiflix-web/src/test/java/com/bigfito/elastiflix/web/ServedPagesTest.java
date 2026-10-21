@@ -71,6 +71,7 @@ class ServedPagesTest {
                 new Pagination(1, 1, 1, 25, 1, 1), List.of("match · title"), null));
         when(searches.findById("1")).thenReturn(Optional.of(movie("1", "Titanic")));
         when(searches.findById("café")).thenReturn(Optional.of(movie("café", "Café de la Paix")));
+        when(searches.findById("a/b")).thenReturn(Optional.of(movie("a/b", "Barra en el id")));
     }
 
     @ParameterizedTest(name = "{0}")
@@ -104,6 +105,16 @@ class ServedPagesTest {
         assertThat(page.statusCode()).isEqualTo(200);
         assertThat(page.body()).contains("<html lang=\"en\">").contains("Café de la Paix")
                 .contains("href=\"/pelicula/caf%C3%A9?q=caf%C3%A9&amp;lang=es\"");
+    }
+
+    @Test
+    @DisplayName("un id con barra se abre como un solo segmento codificado, y el selector conserva la barra")
+    void shouldServeTheDetailOfAnIdWithASlash() throws Exception {
+        HttpResponse<String> page = get("/pelicula/a%2Fb?q=titanic");
+
+        assertThat(page.statusCode()).isEqualTo(200);
+        assertThat(page.body()).contains("Barra en el id")
+                .contains("href=\"/pelicula/a%2Fb?q=titanic&amp;lang=en\"");
     }
 
     @Test

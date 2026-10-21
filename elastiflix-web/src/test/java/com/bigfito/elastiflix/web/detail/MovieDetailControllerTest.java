@@ -154,7 +154,8 @@ class MovieDetailControllerTest {
         mvc.perform(get("/pelicula/999").param("q", "x"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("<strong class=\"rating-score\">N/A</strong>")))
-                .andExpect(content().string(containsString("· N/A votos")))
+                .andExpect(content().string(containsString("<span class=\"rating-votes\">· N/A</span>")))
+                .andExpect(content().string(not(containsString("N/A votos"))))
                 .andExpect(content().string(containsString("Popularidad N/A")))
                 .andExpect(content().string(containsString(
                         "<span class=\"genre-badge empty\" title=\"genres\">N/A</span>")))
