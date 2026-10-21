@@ -79,7 +79,8 @@ public final class AppliedFilters {
     private static void labeled(
             List<String> chips, String prefix, List<String> values, Locale locale, UiMessages messages) {
         if (!values.isEmpty()) {
-            String or = messages.getFor(locale, "results.chip.or");
+            // Properties descarta los espacios iniciales de un valor: el catálogo guarda solo la palabra.
+            String or = " " + messages.getFor(locale, "results.chip.or").strip() + " ";
             chips.add(prefix + String.join(or, values));
         }
     }
