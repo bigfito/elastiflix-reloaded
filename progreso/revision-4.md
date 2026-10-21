@@ -79,9 +79,10 @@ Vacío.
 
 - **Comando:** `./mvnw verify -Pit` (con `.env`) y, en `elastiflix-web/src/test/browser`, `npm test` con la
   aplicación en el puerto 8089
-- **Resultado:** en verde: 514 unitarias y 30 de integración, 0 fallos, 0 omitidas; Checkstyle 0 y PMD 0; navegador
-  11 de 11
-- **Fecha:** 2026-10-21 18:32–18:34 UTC, con el árbol de `a26826e`
+- **Resultado:** en verde: 635 unitarias (core 78, search 76, ingest 214, web 267) y 32 de integración (core 10,
+  search 14, ingest 2, web 6), 0 fallos, 0 omitidas; Checkstyle 0 y PMD 0. Navegador 15 de 15 (con el árbol de
+  `8393a27`, antes del arreglo del chip de página, que solo cambió dos claves del catálogo)
+- **Fecha:** 2026-10-21 20:28–20:30 UTC, con el árbol de `8e829f0`
 
 ## Decisiones
 

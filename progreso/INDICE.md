@@ -102,9 +102,7 @@
 
 - **Comando:** `./mvnw verify -Pit` (con `.env`) y pruebas de navegador (`npm test` en
   `elastiflix-web/src/test/browser`, con la aplicación en el puerto 8089)
-- **Resultado:** BUILD SUCCESS en 1 min 28 s: 514 unitarias (core 68, search 71, ingest 189, web 186) y 30 de
-  integración (core 10, search 14, ingest 2, web 4), 0 fallos, 0 omitidas; Checkstyle y PMD en 0. Navegador 11
-  de 11.
-- **Fecha:** 2026-10-21 18:32–18:34 UTC (revisión 4, rama `revision-4`, árbol de `a26826e`).
-- **Nota:** la tabla vectorial de §6 se volvió a medir ese día (Life of Pi pasó a 31.º · 7.º · 5.º); sin ese
-  cambio, `VectorSearchIT` fallaba en `main`.
+- **Resultado:** BUILD SUCCESS en 1 min 34 s: 635 unitarias (core 78, search 76, ingest 214, web 267) y 32 de
+  integración (core 10, search 14, ingest 2, web 6), 0 fallos, 0 omitidas; Checkstyle y PMD en 0. Navegador 15
+  de 15.
+- **Fecha:** 2026-10-21 20:28–20:30 UTC (revisión 4, rama `revision-4-resto`, árbol de `8e829f0`).
