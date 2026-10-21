@@ -26,10 +26,10 @@
     </nav>
 
     <section aria-labelledby="m-title" class="detail-hero">
-      <div th:if="${!detail.backdropUrl.isEmpty()}" class="detail-backdrop"
-           th:style="|background-image: url('${detail.backdropUrl}');|"
-           role="img" th:attr="aria-label=#{detail.backdrop.aria(${detail.title})}"></div>
-      <div th:if="${detail.backdropUrl.isEmpty()}" class="detail-backdrop missing"
+      <!--/* El marcador va siempre dentro: el CSS lo oculta mientras haya imagen y detail.js lo muestra si falla. */-->
+      <div class="detail-backdrop" th:classappend="${detail.backdropUrl.isEmpty()} ? 'missing'"
+           th:style="${detail.backdropUrl.isEmpty()} ? null : |background-image: url('${detail.backdropUrl}');|"
+           th:data-backdrop="${detail.backdropUrl.isEmpty()} ? null : ${detail.backdropUrl}"
            role="img" th:attr="aria-label=#{detail.backdrop.aria(${detail.title})}">
         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3z M3 15l5-5l5 5 M14 13l2-2l5 5"></path></svg>
         <span class="mono-tag">backdrop_path</span>
@@ -48,7 +48,7 @@
           <p class="detail-id-tag" th:text="#{detail.hero.id(${detail.id})}">Película · id 27205</p>
           <h1 id="m-title" class="detail-title" th:text="${detail.title}">Inception</h1>
           <p class="detail-original-title" th:if="${!detail.originalTitle.isEmpty()}"><span th:text="#{detail.hero.originalTitle}">Título original:</span> <span th:text="${detail.originalTitle}">Inception</span></p>
-          <p class="detail-tagline" th:if="${!detail.tagline.isEmpty()}" th:text="|«${detail.tagline}»|">«Your mind is the scene of the crime.»</p>
+          <p class="detail-tagline" th:if="${!detail.tagline.isEmpty()}" th:text="#{detail.quoted(${detail.tagline})}">«Your mind is the scene of the crime.»</p>
           <div class="detail-pills" th:if="${!detail.pills.isEmpty()}">
             <span class="pill" th:each="p : ${detail.pills}" th:title="${p.field}">
               <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6578" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path th:attr="d=${p.icon}"></path></svg>
@@ -169,11 +169,11 @@
           <p class="detail-sub-meta" th:text="#{detail.cast.meta(${detail.castCount})}">0 personas, en el orden del catálogo.</p>
           <ul class="detail-chips-list" id="cast-list">
             <li class="chip" th:each="c, iter : ${detail.cast}" th:text="${c}"
-                th:classappend="${iter.index >= detail.castLimit()} ? 'cast-extra' : ''"
-                th:style="${iter.index >= detail.castLimit()} ? 'display: none;' : ''">Actor</li>
+                th:classappend="${iter.index >= detail.castLimit()} ? 'cast-extra' : ''">Actor</li>
           </ul>
-          <button type="button" class="toggle" id="cast-toggle" th:if="${detail.hasMoreCast()}"
-                  aria-expanded="false" th:attr="data-show-more=#{detail.cast.showMore(${detail.castCount})},data-show-less=#{detail.cast.showLess}">
+          <!--/* Sin JavaScript se ve todo el reparto y el botón queda oculto; detail.js recoge la lista y lo muestra. */-->
+          <button type="button" class="toggle" id="cast-toggle" th:if="${detail.hasMoreCast()}" hidden
+                  aria-controls="cast-list" aria-expanded="false" th:attr="data-show-more=#{detail.cast.showMore(${detail.castCount})},data-show-less=#{detail.cast.showLess}">
             <span class="toggle-text" th:text="#{detail.cast.showMore(${detail.castCount})}">Ver todo el reparto (25)</span>
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="toggle-icon" d="M6 9l6 6l6-6"></path></svg>
           </button>

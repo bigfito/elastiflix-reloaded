@@ -169,6 +169,20 @@ class MovieDetailPageTest {
     }
 
     @Test
+    @DisplayName("el chip «Ajustes» sigue el mockup: la híbrida lleva tipo, operador, vector, k y candidatos")
+    void shouldDescribeTheSettingsOfEachModeLikeTheMockup() {
+        // when
+        String fullText = stateValue(page.build(movieBuilder().build(), form("fulltext")).searchState(), "Ajustes");
+        String vector = stateValue(page.build(movieBuilder().build(), form("vectorial")).searchState(), "Ajustes");
+        String hybrid = stateValue(page.build(movieBuilder().build(), form("hibrida")).searchState(), "Ajustes");
+
+        // then
+        assertThat(fullText).isEqualTo("match · title · AND");
+        assertThat(vector).isEqualTo("plot_512 · k=50 · num_candidates=400");
+        assertThat(hybrid).isEqualTo("match · AND · plot_512 · k=50 · num_candidates=400");
+    }
+
+    @Test
     @DisplayName("un homepage con javascript: no se enlaza: sin botón y «N/A» en la ficha")
     void shouldNotLinkAJavascriptHomepage() {
         Movie movie = movieBuilder().homepage("javascript:alert(document.domain)").build();
@@ -261,7 +275,7 @@ class MovieDetailPageTest {
 
         assertThat(view.searchState()).extracting(SearchStateChip::label)
                 .containsExactly("Query", "Mode", "Settings", "Filters", "Page");
-        assertThat(stateValue(view.searchState(), "Query")).isEqualTo("«matrix»");
+        assertThat(stateValue(view.searchState(), "Query")).isEqualTo("“matrix”");
         assertThat(stateValue(view.searchState(), "Mode")).isEqualTo("Full-text");
         assertThat(stateValue(view.searchState(), "Page")).isEqualTo("Page 2 · 50 per page");
 
@@ -307,6 +321,11 @@ class MovieDetailPageTest {
     private static SearchForm searchForm() {
         return new SearchForm("inception", "fulltext", "match", "title", "or", "plot_256",
                 "100", "200", "1", "25", List.of(), List.of(), List.of(), List.of(), "", "");
+    }
+
+    private static SearchForm form(String mode) {
+        return new SearchForm("inception", mode, "match", "title", "and", "plot_512",
+                "50", "400", "1", "25", List.of(), List.of(), List.of(), List.of(), "", "");
     }
 
     private static List<String> names(int count) {

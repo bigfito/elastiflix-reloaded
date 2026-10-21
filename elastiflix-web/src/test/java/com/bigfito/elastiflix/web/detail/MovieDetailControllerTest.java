@@ -37,6 +37,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.verify;
@@ -163,6 +164,68 @@ class MovieDetailControllerTest {
                 .andExpect(content().string(not(containsString("0 personas"))))
                 .andExpect(content().string(not(containsString("0 palabras clave"))))
                 .andExpect(content().string(not(containsString("—"))));
+    }
+
+    @Test
+    @DisplayName("con más de 18 personas, el reparto completo sale sin JavaScript y el botón espera a detail.js")
+    void shouldRenderTheWholeCastWithoutJavascript() throws Exception {
+        // given
+        when(searches.findById("27205")).thenReturn(Optional.of(movieWithCast(25)));
+
+        // when
+        String html = mvc.perform(get("/pelicula/27205").param("q", "inception"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        // then
+        assertThat(html).contains("25 personas, en el orden del catálogo.", "Persona 1<", "Persona 25<");
+        assertThat(html).contains("Ver todo el reparto (25)", "data-show-less=\"Mostrar menos\"");
+        assertThat(html.split("cast-extra", -1)).hasSize(8);
+        assertThat(html).doesNotContain("display: none");
+        assertThat(html).containsPattern("id=\"cast-toggle\" hidden\\s+aria-controls=\"cast-list\"");
+    }
+
+    @Test
+    @DisplayName("en inglés, el botón del reparto dice «Show less» al expandirse")
+    void shouldLabelTheCastToggleInEnglish() throws Exception {
+        // given
+        when(searches.findById("27205")).thenReturn(Optional.of(movieWithCast(25)));
+
+        // when / then
+        mvc.perform(get("/pelicula/27205").param("q", "inception").param("lang", "en"))
+                .andExpect(content().string(containsString("data-show-less=\"Show less\"")));
+    }
+
+    @Test
+    @DisplayName("la tagline y la consulta van entre «…» en español y entre “…” en inglés")
+    void shouldQuoteTheTaglineAndTheQueryByLocale() throws Exception {
+        // given
+        when(searches.findById("27205")).thenReturn(Optional.of(sampleMovie()));
+
+        // when / then
+        mvc.perform(get("/pelicula/27205").param("q", "inception"))
+                .andExpect(content().string(containsString("«Your mind is the scene of the crime.»")))
+                .andExpect(content().string(containsString("«inception»")));
+        mvc.perform(get("/pelicula/27205").param("q", "inception").param("lang", "en"))
+                .andExpect(content().string(containsString("“Your mind is the scene of the crime.”")))
+                .andExpect(content().string(containsString("“inception”")))
+                .andExpect(content().string(not(containsString("«"))));
+    }
+
+    @Test
+    @DisplayName("con imagen de fondo, el marcador va dentro y detail.js recibe la URL para precargarla")
+    void shouldCarryTheBackdropMarkerAndItsUrl() throws Exception {
+        // given
+        when(searches.findById("27205")).thenReturn(Optional.of(sampleMovie()));
+
+        // when
+        String html = mvc.perform(get("/pelicula/27205").param("q", "inception"))
+                .andReturn().getResponse().getContentAsString();
+
+        // then
+        assertThat(html).containsPattern("<div class=\"detail-backdrop\" style=\"background-image: url\\("
+                + "&#39;https://[^\"]+/backdrop\\.jpg&#39;\\);\"\\s+data-backdrop=\"https://[^\"]+/backdrop\\.jpg\"");
+        assertThat(html).contains("<span class=\"mono-tag\">backdrop_path</span>");
     }
 
     @Test

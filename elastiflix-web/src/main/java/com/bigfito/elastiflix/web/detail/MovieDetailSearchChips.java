@@ -30,7 +30,8 @@ final class MovieDetailSearchChips {
             return List.of();
         }
         return List.of(
-                new SearchStateChip(messages.getFor(locale, "detail.chip.query"), "«" + form.query() + "»"),
+                new SearchStateChip(messages.getFor(locale, "detail.chip.query"),
+                        messages.getFor(locale, "detail.quoted", form.query())),
                 new SearchStateChip(messages.getFor(locale, "detail.chip.mode"), modeLabel(form.mode(), locale,
                         messages)),
                 new SearchStateChip(messages.getFor(locale, "detail.chip.settings"), settingsLabel(form)),
@@ -50,17 +51,25 @@ final class MovieDetailSearchChips {
         return messages.getFor(locale, "detail.chip.mode.fulltext");
     }
 
+    // Como el mockup: full-text «tipo · campo · operador», vectorial «vector · k · num_candidates» e híbrida
+    // «tipo · operador · vector · k · num_candidates».
     private static String settingsLabel(SearchForm form) {
         if ("vectorial".equalsIgnoreCase(form.mode())) {
-            return form.vector() + DOT_SEPARATOR + "k=" + form.k() + DOT_SEPARATOR + "num_candidates="
-                    + form.candidates();
+            return knnLabel(form);
         }
         if ("hibrida".equalsIgnoreCase(form.mode())) {
-            return "RRF (60)" + DOT_SEPARATOR + form.vector() + DOT_SEPARATOR + "k=" + form.k();
+            return form.type() + DOT_SEPARATOR + operatorLabel(form) + DOT_SEPARATOR + knnLabel(form);
         }
         String field = "multi_match".equalsIgnoreCase(form.type()) ? "best_fields" : form.field();
-        String op = form.operator() != null ? form.operator().toUpperCase(Locale.ROOT) : "";
-        return form.type() + DOT_SEPARATOR + field + DOT_SEPARATOR + op;
+        return form.type() + DOT_SEPARATOR + field + DOT_SEPARATOR + operatorLabel(form);
+    }
+
+    private static String knnLabel(SearchForm form) {
+        return form.vector() + DOT_SEPARATOR + "k=" + form.k() + DOT_SEPARATOR + "num_candidates=" + form.candidates();
+    }
+
+    private static String operatorLabel(SearchForm form) {
+        return form.operator() != null ? form.operator().toUpperCase(Locale.ROOT) : "";
     }
 
     private static String filtersLabel(SearchForm form, Locale locale, UiMessages messages) {
