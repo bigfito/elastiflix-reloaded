@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = AboutController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test",
-        "ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB", "ELASTIFLIX_INGEST_BATCH_SIZE=50"})
+        "ELASTIFLIX_INGEST_MAX_FILE_SIZE=200MB", "ELASTIFLIX_INGEST_BATCH_SIZE=1500"})
 @Import({LayoutAdvice.class, IngestLimits.class})
 @EnableConfigurationProperties(ElastiflixProperties.class)
 class AboutLimitsTest {
@@ -39,7 +39,7 @@ class AboutLimitsTest {
     private CatalogStatusService catalog;
 
     @Test
-    @DisplayName("con 200MB y lotes de 50 en el entorno, Acerca de muestra «200 MB» y «50»")
+    @DisplayName("con 200MB y lotes de 1500 en el entorno, Acerca de muestra «200 MB» y «1 500», no «1.500»")
     void shouldShowTheConfiguredLimits() throws Exception {
         // given
         when(catalog.status()).thenReturn(new CatalogStatus("elastiflix-reloaded", "idx", 6899L, true, null));
@@ -48,8 +48,21 @@ class AboutLimitsTest {
         mvc.perform(get("/acerca"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("de máximo 200 MB y con contenido")))
-                .andExpect(content().string(containsString("en lotes de 50 en un índice temporal")))
+                .andExpect(content().string(containsString("en lotes de 1 500 en un índice temporal")))
+                .andExpect(content().string(not(containsString("1.500"))))
                 .andExpect(content().string(not(containsString("150 MB"))))
                 .andExpect(content().string(not(containsString("lotes de 100"))));
+    }
+
+    @Test
+    @DisplayName("en inglés, el lote configurado sale con coma de miles: «batches of 1,500»")
+    void shouldGroupTheBatchSizeInEnglish() throws Exception {
+        // given
+        when(catalog.status()).thenReturn(new CatalogStatus("elastiflix-reloaded", "idx", 6899L, true, null));
+
+        // when / then
+        mvc.perform(get("/acerca").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("written in batches of 1,500 to a temporary index")));
     }
 }
