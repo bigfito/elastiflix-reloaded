@@ -42,6 +42,8 @@
   var timer = 0;
   var busy = false;
   var actionError = false;
+  // true mientras se espera el primer estado de un trabajo reanudado con ?job=: ese estado elige la pestaña.
+  var resuming = false;
 
   function byId(id) {
     return document.getElementById(id);
@@ -128,6 +130,7 @@
     jobId = "";
     busy = false;
     actionError = false;
+    resuming = false;
     updateLangSwitch("");
     ["file-block", "columns-card", "job", "job-import-card", "server-error"].forEach(function (id) {
       show(byId(id), false);
@@ -146,7 +149,8 @@
 
   var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
 
-  function selectTab(button) {
+  // Muestra la pestaña y su panel sin tocar el archivo elegido ni el trabajo en curso.
+  function showTab(button) {
     tab = button.getAttribute("data-tab");
     tabs.forEach(function (other) {
       var on = other === button;
@@ -161,6 +165,10 @@
     });
     filePanel.setAttribute("aria-labelledby", button.id);
     paintFileCopy();
+  }
+
+  function selectTab(button) {
+    showTab(button);
     resetFile();
   }
 
@@ -439,6 +447,11 @@
   function paint(screen) {
     var job = screen.job;
     var texts = screen.texts;
+    if (resuming) {
+      // Al volver con ?job= (por ejemplo, tras cambiar de idioma), la pestaña es la del tipo del trabajo.
+      resuming = false;
+      showTab(byId(job.kind === "csv" ? "tab-csv" : "tab-json"));
+    }
     show(byId("server-error"), actionError);
     paintSteps(job);
     if (job.fileCount > 0) {
@@ -566,19 +579,9 @@
     var params = new URLSearchParams(window.location.search);
     var initialJob = params.get("job");
     if (initialJob) {
-      var jsonTab = byId("tab-json");
-      if (jsonTab) {
-        tab = "json";
-        tabs.forEach(function (other) {
-          var on = other === jsonTab;
-          other.classList.toggle("is-on", on);
-          other.setAttribute("aria-selected", on ? "true" : "false");
-          other.tabIndex = on ? 0 : -1;
-        });
-        show(single, false);
-        show(filePanel, true);
-        paintFileCopy();
-      }
+      // Mientras llega el primer estado se muestra el panel de archivo; ese estado elige JSON o CSV.
+      resuming = true;
+      showTab(byId("tab-json"));
       jobId = initialJob;
       byId("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
       show(byId("job"), true);

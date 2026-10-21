@@ -29,14 +29,14 @@ function json(route, status, body) {
 }
 
 // Simula la subida y el estado del trabajo. Devuelve los contadores de peticiones.
-async function serveJob(page, states) {
+async function serveJob(page, states, jobId = JOB) {
   const calls = { uploads: [], polls: 0 };
   let next = 0;
   await page.route('**/cargar/archivo', async (route) => {
     calls.uploads.push(route.request().postDataBuffer().toString('latin1'));
-    await json(route, 200, { jobId: JOB });
+    await json(route, 200, { jobId: jobId });
   });
-  await page.route('**/cargar/trabajos/' + JOB, async (route) => {
+  await page.route('**/cargar/trabajos/' + jobId, async (route) => {
     calls.polls++;
     const state = states[Math.min(next, states.length - 1)];
     next++;
@@ -212,5 +212,48 @@ test('T-26: las pestañas usan tabindex itinerante y se recorren con flechas, In
     assert.ok(selectedOnly(await tabState(page), 'tab-single'));
     await page.keyboard.press('End');
     assert.ok(selectedOnly(await tabState(page), 'tab-csv'));
+  });
+});
+
+// Revisión 4: el id de un trabajo es un UUID, como los que da el servidor (?job= solo acepta ese formato).
+const CSV_JOB = '3f2b8c1e-5d4a-4e6f-9a7b-1c2d3e4f5a6b';
+
+function csvScreen(status, step) {
+  const state = screen(status, step);
+  state.job.kind = 'csv';
+  state.job.columns = [{ column: 'id', field: 'id', content: 'Texto', status: 'Asignada' }];
+  state.texts.mappingNote = '1 de 1 columnas asignadas.';
+  state.texts.columnTones = ['ok'];
+  return state;
+}
+
+test('U-20: al cambiar de idioma con un trabajo CSV activo, sigue la pestaña CSV con su separador', async () => {
+  await withPage(async (page) => {
+    await serveJob(page, [csvScreen('valido', 4)], CSV_JOB);
+    await chooseFile(page, 'csv', 'peliculas.csv', CSV);
+    await page.click('#file-submit');
+    await page.waitForFunction(() => !document.querySelector('#job-import').disabled);
+
+    await page.click('.lang-switch a[hreflang="en"]');
+    await page.waitForURL((url) => url.searchParams.get('job') === CSV_JOB && url.searchParams.get('lang') === 'en');
+    await page.waitForFunction(() => document.querySelector('#tab-csv').getAttribute('aria-selected') === 'true');
+
+    assert.equal(await page.getAttribute('#tab-json', 'aria-selected'), 'false');
+    assert.equal(await page.textContent('#file-title'), 'CSV file');
+    assert.equal(await page.isVisible('[name="separador"]'), true);
+    assert.equal(await page.isVisible('#columns-card'), true);
+    assert.equal(await page.isVisible('#job'), true);
+  });
+});
+
+test('U-20: al volver con ?job= de un trabajo JSON, la pestaña es la JSON', async () => {
+  await withPage(async (page) => {
+    await serveJob(page, [screen('valido', 4)], CSV_JOB);
+
+    await page.goto(BASE_URL + '/cargar?job=' + CSV_JOB);
+    await page.waitForFunction(() => !document.querySelector('#job-import').disabled);
+
+    assert.equal(await page.getAttribute('#tab-json', 'aria-selected'), 'true');
+    assert.equal(await page.isVisible('[name="separador"]'), false);
   });
 });
