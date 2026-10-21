@@ -21,7 +21,7 @@ decisiones 1 a 6 aplicadas y fusionadas en `main`; el resto de la lista espera i
 - **Subpaso en curso:** ninguno
 - **Próximo paso:** que Adolfo diga qué hacer con los demás puntos de `docs/revisiones/revision-4.md` (los que
   esta tabla no marca)
-- **Última actualización:** 2026-10-21 19:24 UTC
+- **Última actualización:** 2026-10-21 19:30 UTC
 
 ## Tareas
 
@@ -91,8 +91,9 @@ Vacío.
   positivo propio (un `th:text` con otro elemento dentro) que se corrigió en la prueba, no en la plantilla.
 
 - 2026-10-21 19:22 UTC: Adolfo pidió «Si, haz el PR y fusiona la rama.». Se abrió el PR #25 (`revision-4` →
-  `main`) y se fusionó con el merge commit `b54d67c`. La rama `revision-4` se conserva en local y en el remoto
-  (no se pidió borrarla).
+  `main`) y se fusionó con el merge commit `b54d67c`.
+- 2026-10-21: Adolfo pidió «Sí, borra la rama revision-4 en local y en el remoto.». Se borró en los dos lados
+  después de comprobar que no tenía commits fuera de `main`.
 
 ## Resumen de diseño
 
