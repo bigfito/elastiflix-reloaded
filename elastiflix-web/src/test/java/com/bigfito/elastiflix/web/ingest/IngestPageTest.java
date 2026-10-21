@@ -89,7 +89,7 @@ class IngestPageTest {
                 .andExpect(model().attribute("maxFileBytes", 150L * MEGABYTE))
                 .andExpect(model().attribute("batchSize", "100"))
                 .andExpect(content().string(containsString("Índice elastiflix-reloaded")))
-                .andExpect(content().string(containsString("data-alias=\"elastiflix-reloaded\"")))
+                .andExpect(content().string(not(containsString("data-alias="))))
                 .andExpect(content().string(containsString("id=\"tab-json\" data-tab=\"json\" aria-selected=\"false\" "
                         + "tabindex=\"-1\"")))
                 .andExpect(content().string(containsString("Registro individual")))
