@@ -1,13 +1,10 @@
 package com.bigfito.elastiflix.web.home;
 
 import java.util.List;
-import java.util.Locale;
-
-import com.bigfito.elastiflix.web.locale.SupportedLocale;
 
 /**
  * Sugerencias de full-text. Los conteos OR y AND se midieron el 2026-10-21 sobre 6 899 películas; son los
- * mismos en los dos idiomas.
+ * mismos en los dos idiomas, igual que las consultas. Las etiquetas salen del catálogo de mensajes.
  */
 final class LexicalSuggestions {
 
@@ -20,78 +17,50 @@ final class LexicalSuggestions {
     /**
      * Los seis conjuntos: match sobre cada campo y multi-match, en OR y en AND.
      *
-     * @param locale idioma destino
+     * @param tags etiquetas en el idioma de la persona
      * @return conjuntos, el primero visible
      */
-    static List<SuggestionSet> all(Locale locale) {
-        boolean en = SupportedLocale.isEnglish(locale);
+    static List<SuggestionSet> all(SuggestionTags tags) {
         return List.of(
-                title(OR, true, en),
-                title(AND, false, en),
-                original(OR, en),
-                original(AND, en),
-                multi(OR, en),
-                multi(AND, en));
+                title(OR, true, tags),
+                title(AND, false, tags),
+                original(OR, tags),
+                original(AND, tags),
+                multi(OR, tags),
+                multi(AND, tags));
     }
 
-    private static SuggestionSet title(String operator, boolean visible, boolean en) {
-        String key = "fulltext-match-title-" + operator;
-        String translatedTag = en ? "translated title" : "título traducido";
-        String darkOr = en ? "OR: 57 results" : "OR: 57 resultados";
-        String darkAnd = en ? "AND: 5 results" : "AND: 5 resultados";
-        String loveOr = en ? "OR: 107 results" : "OR: 107 resultados";
-        String loveAnd = en ? "AND: 3 results" : "AND: 3 resultados";
-        return new SuggestionSet(key, visible, List.of(
-                matchTitle("Spirited Away", translatedTag, "🐉", operator),
-                matchTitle("dark knight", byOp(operator, darkOr, darkAnd), "🦇", operator),
-                matchTitle("love story", byOp(operator, loveOr, loveAnd), "💘", operator)));
+    private static SuggestionSet title(String operator, boolean visible, SuggestionTags tags) {
+        return new SuggestionSet("fulltext-match-title-" + operator, visible, List.of(
+                matchTitle("Spirited Away", tags.fixed("translatedTitle"), "🐉", operator),
+                matchTitle("dark knight", tags.count(operator, "57", "5"), "🦇", operator),
+                matchTitle("love story", tags.count(operator, "107", "3"), "💘", operator)));
     }
 
-    private static SuggestionSet original(String operator, boolean en) {
-        String key = "fulltext-match-original_title-" + operator;
-        String origPrefix = en ? "original title · in title: " : "título original · en title: ";
-        String secOr = en ? "OR: 35 results" : "OR: 35 resultados";
-        String secAnd = en ? "AND: 2 results" : "AND: 2 resultados";
-        String fabOr = en ? "OR: 26 results" : "OR: 26 resultados";
-        String fabAnd = en ? "AND: 1 result" : "AND: 1 resultado";
-        return new SuggestionSet(key, false, List.of(
-                matchOriginal("Kolejne 365 dni", origPrefix + byOp(operator, "3", "0"), "📅", operator),
-                matchOriginal("el secreto", byOp(operator, secOr, secAnd), "🔍", operator),
-                matchOriginal("le fabuleux destin", byOp(operator, fabOr, fabAnd), "🥐", operator)));
+    private static SuggestionSet original(String operator, SuggestionTags tags) {
+        String inTitle = AND.equals(operator) ? "0" : "3";
+        return new SuggestionSet("fulltext-match-original_title-" + operator, false, List.of(
+                matchOriginal("Kolejne 365 dni", tags.originalTitle(inTitle), "📅", operator),
+                matchOriginal("el secreto", tags.count(operator, "35", "2"), "🔍", operator),
+                matchOriginal("le fabuleux destin", tags.count(operator, "26", "1"), "🥐", operator)));
     }
 
-    private static SuggestionSet multi(String operator, boolean en) {
-        String both = en ? "words in different fields" : "palabras en campos distintos";
-        String key = "fulltext-multi_match-" + operator;
-        String heavenOr = en ? "OR: 10 results" : "OR: 10 resultados";
-        String nextOr = en ? "OR: 15 results" : "OR: 15 resultados";
-        String paraOr = en ? "OR: 1 result" : "OR: 1 resultado";
-        return new SuggestionSet(key, false, List.of(
-                multiMatch("heaven cielo", byOp(operator, heavenOr, "AND: 0 · " + both), "☁️", operator),
-                multiMatch("next kolejne", byOp(operator, nextOr, "AND: 0 · " + both), "⏭️", operator),
-                multiMatch("parasite 기생충", byOp(operator, paraOr, "AND: 0 · " + both), "🏠", operator)));
+    private static SuggestionSet multi(String operator, SuggestionTags tags) {
+        return new SuggestionSet("fulltext-multi_match-" + operator, false, List.of(
+                multiMatch("heaven cielo", tags.multi(operator, "10"), "☁️", operator),
+                multiMatch("next kolejne", tags.multi(operator, "15"), "⏭️", operator),
+                multiMatch("parasite 기생충", tags.multi(operator, "1"), "🏠", operator)));
     }
 
     private static SuggestionLink matchTitle(String text, String tag, String emoji, String operator) {
-        return linked(text, tag, emoji, SearchHref.fullText(text, "match", "title", operator));
+        return new SuggestionLink(text, tag, emoji, SearchHref.fullText(text, "match", "title", operator));
     }
 
     private static SuggestionLink matchOriginal(String text, String tag, String emoji, String operator) {
-        return linked(text, tag, emoji, SearchHref.fullText(text, "match", "original_title", operator));
+        return new SuggestionLink(text, tag, emoji, SearchHref.fullText(text, "match", "original_title", operator));
     }
 
     private static SuggestionLink multiMatch(String text, String tag, String emoji, String operator) {
-        return linked(text, tag, emoji, SearchHref.fullText(text, "multi_match", "", operator));
-    }
-
-    private static SuggestionLink linked(String text, String tag, String emoji, String href) {
-        return new SuggestionLink(text, tag, emoji, href);
-    }
-
-    private static String byOp(String operator, String orTag, String andTag) {
-        if (AND.equals(operator)) {
-            return andTag;
-        }
-        return orTag;
+        return new SuggestionLink(text, tag, emoji, SearchHref.fullText(text, "multi_match", "", operator));
     }
 }

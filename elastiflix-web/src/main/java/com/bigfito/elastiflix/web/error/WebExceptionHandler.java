@@ -5,6 +5,7 @@ import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.web.layout.HtmlPage;
 import com.bigfito.elastiflix.web.layout.PageShell;
 import com.bigfito.elastiflix.web.layout.PageShells;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -25,16 +26,19 @@ public class WebExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(WebExceptionHandler.class);
 
     private final CatalogStatusService catalog;
+    private final UiMessages messages;
 
     /**
      * Crea el consejo con el estado del catálogo, para que la cabecera también salga en el error.
      *
      * <p>Solo lo lee si la petición todavía no trae el cromo de {@code LayoutAdvice}.</p>
      *
-     * @param catalog alias y conteo del pie
+     * @param catalog  alias y conteo del pie
+     * @param messages textos de la cabecera y el pie
      */
-    public WebExceptionHandler(CatalogStatusService catalog) {
+    public WebExceptionHandler(CatalogStatusService catalog, UiMessages messages) {
         this.catalog = catalog;
+        this.messages = messages;
     }
 
     /**
@@ -57,6 +61,6 @@ public class WebExceptionHandler {
         if (request.getAttribute(PageShells.REQUEST_ATTRIBUTE) instanceof PageShell ready) {
             return ready;
         }
-        return PageShells.from(catalog.status(), request);
+        return PageShells.from(catalog.status(), request, messages);
     }
 }

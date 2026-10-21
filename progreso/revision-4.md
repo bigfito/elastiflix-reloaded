@@ -17,10 +17,11 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** U-17 (textos de la cabecera y etiquetas de las sugerencias, al catálogo)
-- **Subpaso en curso:** pasar `CatalogTexts` y las etiquetas de `*Suggestions` a `messages_*.properties`
-- **Próximo paso:** claves `layout.catalog.*` y `home.suggest.*`, con sus pruebas
-- **Última actualización:** 2026-10-21 19:40 UTC
+- **Tarea actual:** U-14 y U-15 (textos fijos en plantillas y JS; prueba que los detecte)
+- **Subpaso en curso:** inventario de textos fijos en `templates/*.html` y `static/js/*.js`
+- **Próximo paso:** pasar cada texto a una clave o a un `data-*`, quitar los respaldos en español de `ingest.js`
+  y reforzar `TemplatesAndScriptsI18nTest`
+- **Última actualización:** 2026-10-21 20:05 UTC
 
 ## Tareas
 
@@ -34,8 +35,8 @@ en curso
 | U-24 | terminada | `59d2662` | Sugerencias en español: Titanic 36/7/4, Inception 94/13/8, Life of Pi 31/7/5, Spirited Away 13/4/1 (E.T. y WALL·E sin cambios). Conteos léxicos de los dos idiomas: dark knight 57/5, love story 107/3, el secreto 35/2, le fabuleux 26/1, heaven 10, next 15; Kolejne en title 3 (OR) y 0 (AND); híbrida Titanic 1.º vectorial, 1.º léxico. Las de inglés coinciden con la fase 8. `./mvnw -pl elastiflix-web verify` en verde |
 | U-07 | terminada | `f70be66` | Texto nuevo en `ErrorCode`, `messages_es` y `messages_en`, y en `docs/diseno/7.md`. `MovieDetailControllerTest` (7), `MessageCatalogParityTest` (3) y `ErrorPageTest` (4) en verde |
 | U-16 | terminada | `3d1933f` | `EmptyState` enum, `ComponentScore(score, rank, k)` y `Pagination(first, last)`; la web arma los textos con `results.pager.span` y `results.card.score.outsideTop`. `./mvnw verify` en verde (386 unitarias, Checkstyle 0, PMD 0) |
-| U-13, U-17 (carga) | terminada | se anota en el commit siguiente | `IngestPhrase` (57 frases) en ingest; `IngestTranslator` y `JobTexts` traducen por clave en los dos idiomas; informe CSV, rechazos del registro individual y 413 traducidos. `./mvnw verify` en verde: 513 unitarias (core 68, search 71, ingest 189, web 185), Checkstyle 0, PMD 0. `IngestTranslatorTest` pasa la salida real de `MappingValidator`, `CsvMovieReader` y `CsvColumnRows` en inglés sin una palabra en español |
-| U-17 (cabecera y sugerencias) | pendiente | | |
+| U-13, U-17 (carga) | terminada | `56aeaf9` | `IngestPhrase` (57 frases) en ingest; `IngestTranslator` y `JobTexts` traducen por clave en los dos idiomas; informe CSV, rechazos del registro individual y 413 traducidos. `./mvnw verify` en verde: 513 unitarias (core 68, search 71, ingest 189, web 185), Checkstyle 0, PMD 0. `IngestTranslatorTest` pasa la salida real de `MappingValidator`, `CsvMovieReader` y `CsvColumnRows` en inglés sin una palabra en español |
+| U-17 (cabecera y sugerencias) | terminada | se anota en el commit siguiente | `CatalogTexts` lee `layout.catalog.*` (solo quedan como constantes los dos avisos de TMDB, que se muestran juntos en los dos idiomas); las etiquetas de Inicio salen de `home.suggest.*` vía `SuggestionTags`, con las cifras medidas como datos. `./mvnw -pl elastiflix-web verify` en verde (185 unitarias, Checkstyle 0, PMD 0); `HomePageTest`, `LayoutPageTest` y `AboutPageTest` sin cambios |
 | U-14, U-15 | pendiente | | |
 | U-02 | pendiente | | |
 | U-33 (cabeceras) | descartada | — | Adolfo decidió no agregar cabeceras de seguridad (2026-10-21) |

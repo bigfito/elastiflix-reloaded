@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.web.error;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.web.layout.PageShells;
+import com.bigfito.elastiflix.web.locale.UiMessages;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -25,14 +26,17 @@ public class NotFoundAdvice {
     private static final Logger LOG = LoggerFactory.getLogger(NotFoundAdvice.class);
 
     private final CatalogStatusService catalog;
+    private final UiMessages messages;
 
     /**
      * Crea el consejo con el estado del catálogo para la cabecera del 404.
      *
-     * @param catalog alias y conteo del pie
+     * @param catalog  alias y conteo del pie
+     * @param messages textos de la cabecera y el pie
      */
-    public NotFoundAdvice(CatalogStatusService catalog) {
+    public NotFoundAdvice(CatalogStatusService catalog, UiMessages messages) {
         this.catalog = catalog;
+        this.messages = messages;
     }
 
     /**
@@ -48,7 +52,7 @@ public class NotFoundAdvice {
     public String missing(NoResourceFoundException exception, Model model, HttpServletRequest request) {
         LOG.info("Ruta no encontrada: {}", exception.getResourcePath());
         model.addAttribute("nav", "");
-        model.addAttribute("shell", PageShells.from(catalog.status(), request));
+        model.addAttribute("shell", PageShells.from(catalog.status(), request, messages));
         return "not-found";
     }
 }
