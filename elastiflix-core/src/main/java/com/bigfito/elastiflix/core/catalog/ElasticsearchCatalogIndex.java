@@ -187,26 +187,24 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Un documento inexistente llega como {@code found=false} y da vacío. Cualquier error de
+     * Elasticsearch, incluido un 404 por un alias o índice inexistente ({@code index_not_found_exception}),
+     * es una falla del catálogo: la web muestra la página de error EFX, no «película no encontrada».</p>
+     */
     @Override
     public Optional<Movie> findById(String name, String id) {
         if (id == null || id.isBlank()) {
             return Optional.empty();
         }
-        try {
-            GetResponse<Movie> response = client.get(request -> request
-                    .index(name)
-                    .id(id)
-                    .sourceExcludes("plot_256", "plot_512", "plot_1024"),
-                    Movie.class);
-            return response.found() ? Optional.ofNullable(response.source()) : Optional.empty();
-        } catch (ElasticsearchException exception) {
-            if (exception.status() == NOT_FOUND) {
-                return Optional.empty();
-            }
-            throw failure(name, exception);
-        } catch (IOException | JsonpMappingException exception) {
-            throw failure(name, exception);
-        }
+        GetResponse<Movie> response = call(name, () -> client.get(request -> request
+                .index(name)
+                .id(id)
+                .sourceExcludes("plot_256", "plot_512", "plot_1024"),
+                Movie.class));
+        return response.found() ? Optional.ofNullable(response.source()) : Optional.empty();
     }
 
     private CatalogName fromAlias(String name) {

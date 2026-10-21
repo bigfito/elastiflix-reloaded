@@ -6,11 +6,13 @@ import java.util.Optional;
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
 import com.bigfito.elastiflix.core.catalog.CatalogStatusService;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
+import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.core.model.MovieCollection;
 import com.bigfito.elastiflix.core.model.MovieKeyword;
 import com.bigfito.elastiflix.search.result.SearchService;
+import com.bigfito.elastiflix.web.error.WebExceptionHandler;
 import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 import com.bigfito.elastiflix.web.layout.PosterUrls;
 import com.bigfito.elastiflix.web.locale.LocaleConfig;
@@ -28,6 +30,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -39,7 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(controllers = MovieDetailController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
-@Import({LocaleConfig.class, LayoutAdvice.class, SearchQueryMapper.class, MovieDetailPage.class, PosterUrls.class})
+@Import({LocaleConfig.class, LayoutAdvice.class, SearchQueryMapper.class, MovieDetailPage.class, PosterUrls.class,
+        WebExceptionHandler.class})
 @EnableConfigurationProperties(ElastiflixProperties.class)
 class MovieDetailControllerTest {
 
@@ -97,6 +101,22 @@ class MovieDetailControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("not-found"))
                 .andExpect(content().string(containsString("Esta página no existe")));
+    }
+
+    @Test
+    @DisplayName("si Elasticsearch falla, el detalle muestra la página de error EFX y no «no encontrada»")
+    void shouldShowTheEfxErrorPageWhenElasticsearchFails() throws Exception {
+        // given
+        when(searches.findById("27205")).thenThrow(new ElasticsearchAccessException(
+                ErrorCode.ELASTICSEARCH_REJECTED, new IllegalStateException("index_not_found_exception")));
+
+        // when / then
+        mvc.perform(get("/pelicula/27205").param("q", "inception"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(view().name("error"))
+                .andExpect(content().string(containsString("EFX-ES-007")))
+                .andExpect(content().string(containsString("Elasticsearch rechazó la operación")))
+                .andExpect(content().string(not(containsString("Esta página no existe"))));
     }
 
     @Test
