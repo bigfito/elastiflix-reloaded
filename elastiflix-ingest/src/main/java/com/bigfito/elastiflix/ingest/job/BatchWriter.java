@@ -64,7 +64,13 @@ final class BatchWriter {
         return catalog.existingIds(index, ids(movies)).size();
     }
 
-    private static List<String> ids(List<Movie> movies) {
+    /**
+     * Los ids del lote, para preguntar cuáles ya están.
+     *
+     * @param movies lote
+     * @return ids no nulos
+     */
+    static List<String> ids(List<Movie> movies) {
         List<String> ids = new ArrayList<>();
         for (Movie movie : movies) {
             if (movie.id() != null) {

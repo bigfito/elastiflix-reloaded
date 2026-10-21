@@ -22,13 +22,16 @@ import com.bigfito.elastiflix.web.locale.UiMessages;
  * @param locationLabel encabezado de la primera columna de errores: {@code Registro} o {@code Fila}
  * @param read          registros leídos
  * @param valid         registros válidos
- * @param replace       registros que reemplazarán existentes
+ * @param replace       lo que la carga reemplaza: ids que ya están (append) o el catálogo entero (bulk)
+ * @param replaceLabel  título de esa caja según el modo
  * @param errors        errores del informe
  * @param errorSummary  por ejemplo {@code 23 errores en 17 registros}
  * @param errorRange    por ejemplo {@code Mostrando 6 de 23 errores.}
- * @param importText    explicación de la importación, o el aviso de bloqueo
- * @param progressText  por ejemplo {@code 0 de 4 322 importadas · lote 0 de 44 · índice temporal …}
- * @param importLabel   texto del botón de importar
+ * @param importText    explicación de la importación según el modo, el aviso de bloqueo o, en append, cuántas se
+ *                      agregaron al terminar o al parar
+ * @param progressText  por ejemplo {@code 0 de 4 322 importadas · lote 0 de 44 · índice temporal …} (bulk) o
+ *                      {@code 0 de 4 322 agregadas · lote 0 de 44 · índice vigente (alias …)} (append)
+ * @param importLabel   texto del botón: reemplazar el catálogo (bulk) o agregar (append)
  * @param mappingNote   nota de la tabla de columnas; vacía en JSON
  * @param fileMeta      detalle de la ficha del archivo
  * @param failure       código y «qué pasó» de una falla, o vacío
@@ -40,6 +43,7 @@ public record JobTexts(
         String read,
         String valid,
         String replace,
+        String replaceLabel,
         String errors,
         String errorSummary,
         String errorRange,
@@ -53,7 +57,12 @@ public record JobTexts(
         List<String> columnTones) {
 
     private static final String INVALID = "invalido";
+    private static final String APPEND = "append";
+    private static final String APPENDED = "agregado";
+    private static final Set<String> STOPPED = Set.of("fallido", "cancelado");
+    private static final String MOVIES = "ingest.job.count.movie";
     private static final double MEGABYTE = 1024d * 1024d;
+    private static final int IMPORT_STEP = 4;
     private static final Set<String> VECTORS = Set.of("plot_256", "plot_512", "plot_1024");
 
     /**
@@ -75,6 +84,7 @@ public record JobTexts(
                 writer.number(job.fileCount()),
                 writer.number(job.validCount()),
                 writer.number(job.replaceCount()),
+                writer.msg(writer.append() ? "ingest.job.count.replace" : "ingest.job.count.replace.bulk"),
                 writer.number(job.errorTotal()),
                 writer.errorSummary(),
                 writer.msg("ingest.job.errorRange",
@@ -104,6 +114,16 @@ public record JobTexts(
             return msg(key + (count == 1 ? ".one" : ".many"), number(count));
         }
 
+        boolean append() {
+            return APPEND.equals(job.mode());
+        }
+
+        /** Append ya escribió o paró: lo que importa es cuántas quedaron en el catálogo. */
+        boolean appendFinished() {
+            return append() && job.step() >= IMPORT_STEP
+                    && (APPENDED.equals(job.status()) || STOPPED.contains(job.status()));
+        }
+
         String errorSummary() {
             String errors = counted(job.errorTotal(), "ingest.job.count.error");
             if (job.invalidRecords() == 0) {
@@ -117,28 +137,41 @@ public record JobTexts(
             if (INVALID.equals(job.status())) {
                 return msg("ingest.job.import.blocked");
             }
-            return msg("ingest.job.import.plan",
-                    counted(job.fileCount(), "ingest.job.count.movie"),
+            if (appendFinished()) {
+                String key = APPENDED.equals(job.status())
+                        ? "ingest.job.import.appended" : "ingest.job.import.appendStopped";
+                return msg(key, number(job.written()), counted(job.fileCount(), MOVIES), alias);
+            }
+            return msg(append() ? "ingest.job.import.plan.append" : "ingest.job.import.plan",
+                    counted(job.fileCount(), MOVIES),
                     counted(job.batches(), "ingest.job.count.batch"),
                     number(job.batchSize()),
                     alias);
         }
 
         String progressText(String alias) {
-            String done = msg("ingest.job.progress.done", number(job.written()), number(job.fileCount()));
+            String suffix = append() ? ".append" : "";
+            String done = msg("ingest.job.progress.done" + suffix, number(job.written()), number(job.fileCount()));
             if (INVALID.equals(job.status())) {
                 return done;
             }
-            String temp = job.tempIndex().isEmpty() ? alias + "-AAAAMMDD-HHMMSS" : job.tempIndex();
-            return msg("ingest.job.progress.running", done,
-                    number(job.batch()), number(job.batches()), temp);
+            String target = append() || !job.tempIndex().isEmpty()
+                    ? targetOf(alias) : alias + "-AAAAMMDD-HHMMSS";
+            return msg("ingest.job.progress.running" + suffix, done,
+                    number(job.batch()), number(job.batches()), target);
+        }
+
+        /** En append, el alias; en bulk, el índice temporal ya creado. */
+        private String targetOf(String alias) {
+            return append() ? alias : job.tempIndex();
         }
 
         String importLabel() {
             if (INVALID.equals(job.status())) {
                 return msg("ingest.job.importLabel.blocked");
             }
-            return msg("ingest.job.importLabel.ready", number(job.fileCount()));
+            return msg(append() ? "ingest.job.importLabel.append" : "ingest.job.importLabel.ready",
+                    number(job.fileCount()));
         }
 
         String mappingNote() {

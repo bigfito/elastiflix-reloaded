@@ -69,7 +69,7 @@ class IngestUploadLimitTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Máximo 25 MB")))
                 .andExpect(content().string(containsString("tamaño (máximo 25 MB) antes de subir nada.")))
-                .andExpect(content().string(containsString("en lotes de 50.")))
+                .andExpect(content().string(containsString("en lotes de 50;")))
                 .andExpect(content().string(containsString("data-max-bytes=\"" + LIMIT + "\"")))
                 .andExpect(content().string(containsString("data-max-label=\"25 MB\"")))
                 .andExpect(content().string(not(containsString("200 MB"))))
@@ -90,7 +90,7 @@ class IngestUploadLimitTest {
     @DisplayName("un archivo de 25 MB pasa el tope del servidor; uno de 25 MB + 1 byte responde 413")
     void shouldAcceptTheExactLimitAndRejectOneByteMore() throws Exception {
         // La fachada simulada no se queda con el temporal: lo borra como lo haría el trabajo real.
-        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenAnswer(call -> {
+        when(ingest.acceptFile(eq("peliculas.json"), any(), any(), any())).thenAnswer(call -> {
             Files.deleteIfExists(call.getArgument(1, Path.class));
             return "job-1";
         });

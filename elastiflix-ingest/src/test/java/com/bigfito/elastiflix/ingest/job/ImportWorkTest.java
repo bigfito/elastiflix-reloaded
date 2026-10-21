@@ -18,7 +18,8 @@ class ImportWorkTest {
     @DisplayName("si se canceló antes de validar, validating() no lo pasa a validando")
     void shouldStayCancelledWhenValidationStartsLate() {
         // given
-        ImportWork work = new ImportWork("j1", "a.json", Path.of("no-existe.json"), CsvSettings.withHeader(), 0);
+        ImportWork work = new ImportWork(
+                "j1", new JobFile("a.json", Path.of("no-existe.json"), 0), CsvSettings.withHeader(), ImportMode.BULK);
         work.requestCancel();
 
         // when

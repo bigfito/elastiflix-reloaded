@@ -79,7 +79,7 @@ class CsvRowNumbersTest {
 
     private List<ValidationIssue> validate(Path file) throws Exception {
         Path upload = Files.copy(file, folder.resolve("subida-" + file.getFileName()));
-        storeId = store.open(file.getFileName().toString(), upload, CsvSettings.withHeader());
+        storeId = store.open(file.getFileName().toString(), upload, CsvSettings.withHeader(), ImportMode.BULK);
         intake.validate(storeId);
         assertThat(store.view(storeId).status()).isEqualTo("invalido");
         return store.require(storeId).kept().report().errors();

@@ -7,6 +7,7 @@ import java.util.concurrent.locks.LockSupport;
 
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
+import com.bigfito.elastiflix.ingest.job.ImportMode;
 import com.bigfito.elastiflix.ingest.job.FileIntake;
 import com.bigfito.elastiflix.ingest.job.ImportRunner;
 import com.bigfito.elastiflix.ingest.job.IndividualRecord;
@@ -66,14 +67,14 @@ class JobThreadsTest {
     void shouldNameTheValidationThreadAfterTheJob() {
         // given
         JobStore store = mock(JobStore.class);
-        when(store.open(any(), any(), any())).thenReturn("job-7");
+        when(store.open(any(), any(), any(), any())).thenReturn("job-7");
         FileIntake intake = mock(FileIntake.class);
         doThrow(new IllegalStateException("lectura")).when(intake).validate("job-7");
         IngestService service = new IngestService(store, intake, mock(ImportRunner.class),
                 mock(IndividualRecord.class), new ElastiflixProperties(null, null, null, null, null, null, null));
 
         // when
-        service.acceptFile("a.json", Path.of("a.json"), CsvSettings.withHeader());
+        service.acceptFile("a.json", Path.of("a.json"), CsvSettings.withHeader(), ImportMode.APPEND);
 
         // then
         assertThat(awaitMessages())

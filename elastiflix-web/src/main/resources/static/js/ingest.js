@@ -46,6 +46,8 @@
   var timer = 0;
   var busy = false;
   var actionError = false;
+  // Último estado pintado: al cambiar el modo se vuelve a decidir si «Importar» se puede usar.
+  var lastScreen = null;
   // true mientras se espera el primer estado de un trabajo reanudado con ?job=: ese estado elige la pestaña.
   var resuming = false;
 
@@ -137,6 +139,7 @@
   function resetJob() {
     stopPolling();
     jobId = "";
+    lastScreen = null;
     busy = false;
     actionError = false;
     resuming = false;
@@ -157,6 +160,42 @@
   }
 
   var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
+  var modeInputs = Array.prototype.slice.call(document.querySelectorAll('input[name="modo"]'));
+
+  // Modo de la tarjeta «Modo de carga»: append (por defecto) o bulk.
+  function selectedMode() {
+    var checked = document.querySelector('input[name="modo"]:checked');
+    return checked && checked.value === "bulk" ? "bulk" : "append";
+  }
+
+  // Lo que depende del modo: la opción marcada, el aviso de bulk, el texto del paso 4 y si hay paso 5.
+  function paintMode(mode) {
+    var bulk = mode === "bulk";
+    modeInputs.forEach(function (option) {
+      option.checked = option.value === mode;
+      option.closest(".mode").classList.toggle("is-on", option.checked);
+    });
+    show(byId("bulk-warning"), bulk);
+    var step4 = document.querySelector('#steps li[data-step="4"]');
+    if (step4) {
+      setText("step4-title", step4.getAttribute(bulk ? "data-title-bulk" : "data-title-append"));
+      setText("step4-detail", step4.getAttribute(bulk ? "data-detail-bulk" : "data-detail-append"));
+    }
+    show(document.querySelector('#steps li[data-step="5"]'), bulk);
+  }
+
+  modeInputs.forEach(function (option) {
+    option.addEventListener("change", function () {
+      paintMode(selectedMode());
+      // El modo es del trabajo: con otro modo hay que volver a subir el archivo, como al cambiar el separador.
+      if (chosen && chosenOk) {
+        submit.disabled = false;
+      }
+      if (lastScreen) {
+        paintImport(lastScreen.job, lastScreen.texts);
+      }
+    });
+  });
 
   // Muestra la pestaña y su panel sin tocar el archivo elegido ni el trabajo en curso.
   function showTab(button) {
@@ -360,6 +399,7 @@
     body.append("archivo", file, file.name);
     body.set("separador", separator ? separator.value : ",");
     body.set("encabezado", tab !== "csv" || (header && header.checked) ? "true" : "false");
+    body.set("modo", selectedMode());
     fetch("/cargar/archivo", { method: "POST", body: body })
       .then(readJson)
       .then(function (result) {
@@ -460,7 +500,9 @@
       // Al volver con ?job= (por ejemplo, tras cambiar de idioma), la pestaña es la del tipo del trabajo.
       resuming = false;
       showTab(byId(job.kind === "csv" ? "tab-csv" : "tab-json"));
+      paintMode(job.mode === "bulk" ? "bulk" : "append");
     }
+    lastScreen = screen;
     show(byId("server-error"), actionError);
     paintSteps(job);
     if (job.fileCount > 0) {
@@ -469,6 +511,7 @@
     setText("count-read", texts.read);
     setText("count-valid", texts.valid);
     setText("count-replace", texts.replace);
+    setText("count-replace-label", texts.replaceLabel);
     setText("count-errors", texts.errors);
     paintColumns(job, texts);
     paintErrors(job, texts);
@@ -489,7 +532,7 @@
 
   function stepState(index, job) {
     var step = job.step || 1;
-    if (job.status === "publicado") {
+    if (job.status === "publicado" || job.status === "agregado") {
       return "done";
     }
     if (job.status === "valido") {
@@ -570,7 +613,8 @@
   }
 
   function paintImport(job, texts) {
-    importButton.disabled = busy || job.status !== "valido";
+    // Un trabajo validado en otro modo no se importa: hay que volver a subir el archivo con el modo elegido.
+    importButton.disabled = busy || job.status !== "valido" || (job.mode || "append") !== selectedMode();
     cancelButton.disabled = busy || job.status !== "importando";
     setText("job-import-label", texts.importLabel);
     setText("import-text", texts.importText);

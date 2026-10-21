@@ -49,7 +49,7 @@ class FileIntakeTest {
     void shouldStopStepTwoWhenTheFileHasTwoExtensions() throws Exception {
         // given
         Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n");
-        String jobId = store.open("peliculas.json.csv", upload, CsvSettings.withHeader());
+        String jobId = store.open("peliculas.json.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
 
         // when
         intake.validate(jobId);
@@ -70,7 +70,7 @@ class FileIntakeTest {
                 id,title,plot,release_date
                 1,A,p,16/07/1999
                 """);
-        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader());
+        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
 
         // when
         intake.validate(jobId);
@@ -93,7 +93,7 @@ class FileIntakeTest {
                 id,title,plot,release_date
                 1,A,p,16/07/1999
                 """);
-        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader());
+        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
 
         // when
         intake.validate(jobId);
@@ -112,7 +112,7 @@ class FileIntakeTest {
         // given
         when(catalog.existingIds("elastiflix-reloaded", List.of("1", "2"))).thenReturn(Set.of("2"));
         Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n2,B,q\n");
-        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader());
+        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.APPEND);
 
         // when
         intake.validate(jobId);
@@ -120,7 +120,27 @@ class FileIntakeTest {
 
         // then
         assertThat(view.status()).isEqualTo("valido");
+        assertThat(view.mode()).isEqualTo("append");
         assertThat(view.replaceCount()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("en bulk, lo que se reemplaza es el catálogo entero: lo cuenta y no pregunta por los ids")
+    void shouldCountTheCatalogWhenTheModeIsBulk() throws Exception {
+        // given
+        when(catalog.count("elastiflix-reloaded")).thenReturn(6899L);
+        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n2,B,q\n");
+        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
+
+        // when
+        intake.validate(jobId);
+        JobView view = store.view(jobId);
+
+        // then
+        assertThat(view.status()).isEqualTo("valido");
+        assertThat(view.mode()).isEqualTo("bulk");
+        assertThat(view.replaceCount()).isEqualTo(6899);
+        verify(catalog, never()).existingIds(anyString(), anyList());
     }
 
     @Test
@@ -128,7 +148,7 @@ class FileIntakeTest {
     void shouldMoveToStepThreeWhenTheMappingValidationStarts() throws Exception {
         // given
         String jobId = store.open("peliculas.json", Files.writeString(folder.resolve("a.json"), "[]"),
-                CsvSettings.withHeader());
+                CsvSettings.withHeader(), ImportMode.BULK);
         store.require(jobId).validating();
         assertThat(store.view(jobId).step()).isEqualTo(2);
 

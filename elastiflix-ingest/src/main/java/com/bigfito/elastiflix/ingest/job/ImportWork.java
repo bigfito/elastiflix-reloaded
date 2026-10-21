@@ -20,6 +20,7 @@ final class ImportWork {
     private final String fileName;
     private final CsvSettings settings;
     private final long fileSize;
+    private final ImportMode mode;
     private final AtomicBoolean cancelled = new AtomicBoolean();
 
     private JobStatus status = JobStatus.RECEIVED;
@@ -39,17 +40,17 @@ final class ImportWork {
      * Abre el trabajo en {@code recibido}.
      *
      * @param id       identificador
-     * @param fileName nombre original, sin ruta
-     * @param path     archivo local
+     * @param file     nombre original, archivo local y tamaño
      * @param settings separador y encabezado; en JSON no se usan
-     * @param fileSize bytes del archivo subido
+     * @param mode     append o bulk, fijo desde la subida
      */
-    ImportWork(String id, String fileName, Path path, CsvSettings settings, long fileSize) {
+    ImportWork(String id, JobFile file, CsvSettings settings, ImportMode mode) {
         this.id = id;
-        this.fileName = fileName;
-        this.path = path;
+        this.fileName = file.fileName();
+        this.path = file.path();
         this.settings = settings;
-        this.fileSize = fileSize;
+        this.fileSize = file.size();
+        this.mode = mode;
     }
 
     String id() {
@@ -66,6 +67,10 @@ final class ImportWork {
 
     CsvSettings settings() {
         return settings;
+    }
+
+    ImportMode mode() {
+        return mode;
     }
 
     synchronized JobStatus status() {
@@ -204,7 +209,7 @@ final class ImportWork {
     synchronized JobView view(int batchSize) {
         ReportFigures figures = kept.figures();
         int invalidRecords = figures.invalidRecords();
-        return new JobView(id, status.label(), JobFigures.kindOf(fileName), fileSize,
+        return new JobView(id, status.label(), JobFigures.kindOf(fileName), mode.label(), fileSize,
                 step, batch, vectorized, written,
                 fileCount, JobFigures.validCount(fileCount, invalidRecords), invalidRecords, replaceCount,
                 figures.errorTotal(), figures.preview(), figures.warnings(),

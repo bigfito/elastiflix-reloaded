@@ -9,7 +9,8 @@ import com.bigfito.elastiflix.core.model.Movie;
  *
  * @param movies       películas sin vectores; vacía si hay errores
  * @param report       errores y advertencias
- * @param replaceCount ids del archivo que ya están en el catálogo
+ * @param replaceCount lo que se reemplaza: ids del archivo que ya están en el catálogo (append) o todo el catálogo
+ *                     (bulk)
  */
 public record ValidatedMovies(List<Movie> movies, ValidationReport report, int replaceCount) {
 

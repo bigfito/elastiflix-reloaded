@@ -131,7 +131,7 @@ class IngestPageTest {
                         + "texto UTF-8. El servidor repite estas comprobaciones al recibirlo.")))
                 .andExpect(content().string(containsString("Máximo 25 MB")))
                 .andExpect(content().string(containsString("Cambiar archivo")))
-                .andExpect(content().string(containsString("en lotes de 100.")))
+                .andExpect(content().string(containsString("en lotes de 100;")))
                 .andExpect(content().string(containsString("data-max-bytes=\"26214400\"")))
                 .andExpect(content().string(not(containsString("· detectad"))))
                 .andExpect(content().string(not(containsString("Si se desmarca"))))
@@ -139,7 +139,7 @@ class IngestPageTest {
     }
 
     @Test
-    @DisplayName("escenario «Archivo válido»: cifras, texto de importación y progreso del mockup")
+    @DisplayName("escenario «Archivo válido» en bulk: cifras, texto de importación y progreso del mockup")
     void shouldGiveTheValidFileTexts() throws Exception {
         mvc.perform(get("/cargar/trabajos/" + JOB))
                 .andExpect(jsonPath("$.job.status").value("valido"))
@@ -147,17 +147,60 @@ class IngestPageTest {
                 .andExpect(jsonPath("$.texts.valid").value("4 322"))
                 .andExpect(jsonPath("$.texts.errors").value("0"))
                 .andExpect(jsonPath("$.texts.locationLabel").value("Registro"))
-                .andExpect(jsonPath("$.texts.importLabel").value("Importar 4 322 registros"))
+                .andExpect(jsonPath("$.job.mode").value("bulk"))
+                .andExpect(jsonPath("$.texts.replaceLabel").value("Catálogo actual que se reemplaza"))
+                .andExpect(jsonPath("$.texts.importLabel").value("Reemplazar el catálogo con 4 322 registros"))
                 .andExpect(jsonPath("$.texts.importText").value("Se importarán 4 322 películas en 44 lotes de 100 "
-                        + "dentro de un índice temporal que empieza como copia del catálogo actual. Al terminar se "
-                        + "comprueba el conteo y el alias elastiflix-reloaded pasa al índice nuevo y el índice "
-                        + "anterior se borra, en una sola operación. Si Elasticsearch rechaza un lote o la "
-                        + "comprobación falla, el índice temporal se borra y el catálogo queda exactamente como "
-                        + "estaba. Los vectores de la sinopsis se generan para cada película con el servicio de "
-                        + "inferencia de Elasticsearch."))
+                        + "dentro de un índice temporal nuevo que contiene solo las películas del archivo. Al terminar "
+                        + "se comprueba el conteo, el alias elastiflix-reloaded pasa al índice nuevo y el índice "
+                        + "anterior se borra, en una sola operación: el catálogo queda solo con las películas de este "
+                        + "archivo. Si Elasticsearch rechaza un lote o la comprobación falla, el índice temporal se "
+                        + "borra y el catálogo queda exactamente como estaba. Los vectores de la sinopsis se generan "
+                        + "para cada película con el servicio de inferencia de Elasticsearch."))
                 .andExpect(jsonPath("$.texts.progressText").value(
                         "0 de 4 322 importadas · lote 0 de 44 · índice temporal elastiflix-reloaded-AAAAMMDD-HHMMSS"))
                 .andExpect(jsonPath("$.texts.fileMeta").value("107.3 MB · 4 322 documentos"));
+    }
+
+    @Test
+    @DisplayName("escenario «Archivo válido» en append: botón, texto, progreso y reemplazos del mockup")
+    void shouldGiveTheAppendTexts() throws Exception {
+        when(ingest.job(JOB)).thenReturn(job("append", "valido", "json", 4322, 0, 0, List.of(), List.of(), "", ""));
+
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.job.mode").value("append"))
+                .andExpect(jsonPath("$.texts.replaceLabel").value("Reemplazarán existentes"))
+                .andExpect(jsonPath("$.texts.importLabel").value("Agregar 4 322 registros"))
+                .andExpect(jsonPath("$.texts.importText").value("Se agregarán 4 322 películas al catálogo actual en "
+                        + "44 lotes de 100, directamente en el índice vigente a través del alias elastiflix-reloaded, "
+                        + "sin índice temporal. Si un id ya existe, la película se reemplaza. Si Elasticsearch rechaza "
+                        + "un lote o cancelas la carga, lo que ya se escribió se queda en el catálogo y la página dice "
+                        + "cuántas películas se agregaron. Los vectores de la sinopsis se generan para cada película "
+                        + "con el servicio de inferencia de Elasticsearch."))
+                .andExpect(jsonPath("$.texts.progressText").value(
+                        "0 de 4 322 agregadas · lote 0 de 44 · índice vigente (alias elastiflix-reloaded)"));
+        mvc.perform(get("/cargar/trabajos/" + JOB).param("lang", "en"))
+                .andExpect(jsonPath("$.texts.replaceLabel").value("Will replace existing"))
+                .andExpect(jsonPath("$.texts.importLabel").value("Add 4,322 records"))
+                .andExpect(jsonPath("$.texts.progressText").value(
+                        "0 of 4,322 added · batch 0 of 44 · current index (alias elastiflix-reloaded)"));
+    }
+
+    @Test
+    @DisplayName("append detenido o terminado: la página dice cuántas se agregaron de cuántas")
+    void shouldSayHowManyWereAddedWhenTheAppendEnds() throws Exception {
+        when(ingest.job(JOB)).thenReturn(appendEnded("cancelado", 200, "EFX-IMP-009"));
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.texts.importText").value("La carga se detuvo: se agregaron 200 de 4 322 "
+                        + "películas antes de parar. Lo que ya se escribió se queda en el catálogo."))
+                .andExpect(jsonPath("$.texts.progressText").value(
+                        "200 de 4 322 agregadas · lote 2 de 44 · índice vigente (alias elastiflix-reloaded)"))
+                .andExpect(jsonPath("$.texts.failure").value("EFX-IMP-009 · La carga se canceló."));
+
+        when(ingest.job(JOB)).thenReturn(appendEnded("agregado", 4322, ""));
+        mvc.perform(get("/cargar/trabajos/" + JOB).param("lang", "en"))
+                .andExpect(jsonPath("$.texts.importText").value(
+                        "4,322 of 4,322 movies were added to the catalog through the elastiflix-reloaded alias."));
     }
 
     @Test
@@ -231,7 +274,7 @@ class IngestPageTest {
     @DisplayName("validar, consultar, importar y cancelar usan el trabajo simulado")
     void shouldRunTheJobFlow() throws Exception {
         // La fachada simulada no se queda con el temporal: lo borra como lo haría el trabajo real.
-        when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenAnswer(call -> {
+        when(ingest.acceptFile(eq("peliculas.json"), any(), any(), any())).thenAnswer(call -> {
             Files.deleteIfExists(call.getArgument(1, Path.class));
             return JOB;
         });
@@ -266,7 +309,7 @@ class IngestPageTest {
         mvc.perform(multipart("/cargar/archivo").file(file).param("encabezado", "false"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("EFX-ING-005"));
-        verify(ingest, never()).acceptFile(anyString(), any(), any());
+        verify(ingest, never()).acceptFile(anyString(), any(), any(), any());
     }
 
     @Test
@@ -354,7 +397,8 @@ class IngestPageTest {
                 .andExpect(jsonPath("$.texts.valid").value("4,322"))
                 .andExpect(jsonPath("$.texts.errors").value("0"))
                 .andExpect(jsonPath("$.texts.locationLabel").value("Record"))
-                .andExpect(jsonPath("$.texts.importLabel").value("Import 4,322 records"))
+                .andExpect(jsonPath("$.texts.importLabel").value("Replace the catalog with 4,322 records"))
+                .andExpect(jsonPath("$.texts.replaceLabel").value("Current catalog to be replaced"))
                 .andExpect(jsonPath("$.texts.fileMeta").value("107.3 MB · 4,322 documents"))
                 .andExpect(jsonPath("$.texts.progressText").value(
                         "0 of 4,322 imported · batch 0 of 44 · temporary index elastiflix-reloaded-AAAAMMDD-HHMMSS"));
@@ -384,8 +428,13 @@ class IngestPageTest {
     }
 
     private static JobView withWarnings(List<WarningCount> warnings) {
-        return new JobView(JOB, "valido", "json", MEGABYTE, 4, 0, 0, 0, 4322, 4322, 0, 0, 0,
+        return new JobView(JOB, "valido", "json", "bulk", MEGABYTE, 4, 0, 0, 0, 4322, 4322, 0, 0, 0,
                 List.of(), warnings, List.of(), List.of(), "", "", 100, 44, "");
+    }
+
+    private static JobView appendEnded(String status, int written, String code) {
+        return new JobView(JOB, status, "json", "append", MEGABYTE, 4, 2, written, written, 4322, 4322, 0, 0, 0,
+                List.of(), List.of(), List.of(), List.of(), code, "", 100, 44, "");
     }
 
     private static JobView inState(String status) {
@@ -408,9 +457,14 @@ class IngestPageTest {
 
     private static JobView job(String status, String kind, int read, int invalidRecords, int errorTotal,
             List<ValidationIssue> errors, List<CsvColumnRow> columns, String failureCode, String failureMessage) {
+        return job("bulk", status, kind, read, invalidRecords, errorTotal, errors, columns, failureCode, failureMessage);
+    }
+
+    private static JobView job(String mode, String status, String kind, int read, int invalidRecords, int errorTotal,
+            List<ValidationIssue> errors, List<CsvColumnRow> columns, String failureCode, String failureMessage) {
         long size = "csv".equals(kind) ? Math.round(12.4 * MEGABYTE) : Math.round(107.3 * MEGABYTE);
         int batches = (read + 99) / 100;
-        return new JobView(JOB, status, kind, size, "valido".equals(status) ? 4 : 3, 0, 0, 0,
+        return new JobView(JOB, status, kind, mode, size, "valido".equals(status) ? 4 : 3, 0, 0, 0,
                 read, read - invalidRecords, invalidRecords, 0, errorTotal, errors, List.of(), List.of(), columns,
                 failureCode, failureMessage, 100, batches, "");
     }

@@ -53,7 +53,7 @@ public class IngestTranslator {
             return null;
         }
         return new JobView(
-                view.id(), view.status(), view.kind(), view.fileSize(),
+                view.id(), view.status(), view.kind(), view.mode(), view.fileSize(),
                 view.step(), view.batch(), view.vectorized(), view.written(),
                 view.fileCount(), view.validCount(), view.invalidRecords(), view.replaceCount(),
                 view.errorTotal(), issues(view.errors(), locale), warnings(view.warnings(), locale),

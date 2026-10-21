@@ -9,7 +9,7 @@ package com.bigfito.elastiflix.ingest.job;
  * @param batches    lotes procesados, contando el que está en curso
  * @param vectorized registros vectorizados, contando el lote en curso
  * @param written    registros escritos cuando Elasticsearch acepte el lote en curso
- * @param replaced   ids del archivo que ya estaban en la copia
+ * @param replaced   ids del archivo que ya estaban en el índice donde se escribe
  */
 record WriteTotals(int batches, int vectorized, int written, int replaced) {
 

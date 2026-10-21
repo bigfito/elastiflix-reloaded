@@ -55,12 +55,13 @@ public final class JobStore {
      * @param fileName nombre original
      * @param path     archivo local
      * @param settings ajustes del CSV
+     * @param mode     append o bulk
      * @return identificador nuevo
      */
-    public String open(String fileName, Path path, CsvSettings settings) {
+    public String open(String fileName, Path path, CsvSettings settings, ImportMode mode) {
         evict();
         String id = UUID.randomUUID().toString();
-        ImportWork work = new ImportWork(id, fileName, path, settings, sizeOf(path));
+        ImportWork work = new ImportWork(id, new JobFile(fileName, path, sizeOf(path)), settings, mode);
         activity.put(id, clock.instant());
         jobs.put(id, work);
         LOG.debug("Llegó el archivo {}", fileName);
@@ -105,13 +106,13 @@ public final class JobStore {
     }
 
     /**
-     * Pide la cancelación. Si ya se publicó, el estado no cambia.
+     * Pide la cancelación. Si ya se publicó o se agregó, el estado no cambia.
      *
      * @param jobId identificador
      */
     public void cancel(String jobId) {
         ImportWork work = require(jobId);
-        if (work.status() == JobStatus.PUBLISHED) {
+        if (work.status() == JobStatus.PUBLISHED || work.status() == JobStatus.APPENDED) {
             return;
         }
         work.requestCancel();
@@ -202,25 +203,28 @@ public final class JobStore {
     }
 
     /**
-     * El alias ya apunta al índice nuevo.
+     * La carga terminó bien: en bulk el alias ya apunta al índice nuevo ({@code publicado}); en append, todos los
+     * lotes quedaron escritos en el índice vigente ({@code agregado}).
      *
      * @param jobId identificador
      */
-    public void published(String jobId) {
+    public void finished(String jobId) {
         ImportWork work = require(jobId);
-        work.become(JobStatus.PUBLISHED);
+        work.become(work.mode() == ImportMode.APPEND ? JobStatus.APPENDED : JobStatus.PUBLISHED);
         discardIfTerminal(work);
     }
 
     /**
-     * La importación no publicó. Distingue la cancelación de un fallo.
+     * La importación no terminó. Distingue la cancelación ({@code EFX-IMP-003} en bulk, {@code EFX-IMP-009} en
+     * append) de un fallo.
      *
      * @param jobId     identificador
      * @param exception lo que lanzó {@link ImportJob}
      */
     public void importStopped(String jobId, ElastiflixException exception) {
         ImportWork work = require(jobId);
-        if (ErrorCode.IMPORT_CANCELLED.code().equals(exception.errorCode().code())) {
+        ErrorCode code = exception.errorCode();
+        if (code == ErrorCode.IMPORT_CANCELLED || code == ErrorCode.APPEND_CANCELLED) {
             work.become(JobStatus.CANCELLED);
             LOG.info("{}: se canceló el trabajo {}", exception.errorCode().code(), jobId);
         } else {

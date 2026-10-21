@@ -37,7 +37,7 @@ class ErrorContextTest {
     @DisplayName("un archivo que no se puede abrir da el código de su tipo")
     void shouldNameTheFileKindWhenTheFileCannotBeRead(String name, String code) {
         JobStore store = new JobStore(properties, Clock.systemUTC());
-        String jobId = store.open(name, folder.resolve("no-existe.bin"), CsvSettings.withHeader());
+        String jobId = store.open(name, folder.resolve("no-existe.bin"), CsvSettings.withHeader(), ImportMode.BULK);
         FileGate gate = new FileGate(new MovieReaderFactory(new IndexMapping()));
 
         assertThatThrownBy(() -> gate.open(store.require(jobId)))

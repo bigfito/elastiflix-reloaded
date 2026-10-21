@@ -18,6 +18,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -73,7 +74,17 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("Un CSV sin encabezado se rechaza")))
                 .andExpect(content().string(containsString("El índice anterior se borra")))
                 .andExpect(content().string(containsString("de máximo 25 MB y con contenido")))
-                .andExpect(content().string(containsString("en lotes de 100 en un índice temporal")))
+                .andExpect(content().string(containsString("en lotes de 100 en un índice temporal nuevo")))
+                .andExpect(content().string(containsString("Un archivo se puede cargar en dos modos: append, que "
+                        + "agrega las películas al catálogo, o bulk, que lo reemplaza.")))
+                .andExpect(content().string(containsString("<dt>Modo append (por defecto)</dt>")))
+                .andExpect(content().string(containsString("en lotes de 100 y sin índice temporal. Si un <code>id</code> "
+                        + "ya existe, la película se reemplaza.")))
+                .andExpect(content().string(containsString("<dt>Modo bulk</dt>")))
+                .andExpect(content().string(containsString("el catálogo actual no se copia.")))
+                .andExpect(content().string(containsString("<dt>Publicación (bulk)</dt>")))
+                .andExpect(content().string(containsString("<dt>Si falla (bulk)</dt>")))
+                .andExpect(content().string(not(containsString("empieza como copia del catálogo actual"))))
                 .andExpect(content().string(containsString("Similarity (BM25)")))
                 .andExpect(content().string(containsString(
                         "<div class=\"note sky\">\n        <h3>Cómo se calcula la relevancia: BM25</h3>")))
@@ -97,7 +108,11 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("When there are no results")))
                 .andExpect(content().string(containsString("Loading data")))
                 .andExpect(content().string(containsString("up to 25 MB, with UTF-8 text content")))
-                .andExpect(content().string(containsString("in batches of 100 to a temporary index")))
+                .andExpect(content().string(containsString("in batches of 100 to a new temporary index")))
+                .andExpect(content().string(containsString("<dt>Append mode (default)</dt>")))
+                .andExpect(content().string(containsString("in batches of 100 and with no temporary index.")))
+                .andExpect(content().string(containsString("<dt>Bulk mode</dt>")))
+                .andExpect(content().string(containsString("<dt>If it fails (bulk)</dt>")))
                 .andExpect(content().string(containsString("It has 4,322 movies.")))
                 .andExpect(content().string(containsString("Index: elastiflix-reloaded · 4,322 movies")))
                 .andExpect(content().string(containsString("Credits")));

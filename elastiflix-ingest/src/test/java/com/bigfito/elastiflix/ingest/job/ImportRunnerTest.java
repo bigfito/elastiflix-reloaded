@@ -32,6 +32,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,7 +46,8 @@ class ImportRunnerTest {
     private final ElastiflixProperties properties = new ElastiflixProperties(null, null, null, null, null, null, null);
     private final JobStore store = new JobStore(properties, Clock.systemUTC());
     private final ImportJob job = mock(ImportJob.class);
-    private final ImportRunner runner = new ImportRunner(job, store, properties);
+    private final AppendJob append = mock(AppendJob.class);
+    private final ImportRunner runner = new ImportRunner(job, append, store, properties);
 
     @TempDir
     private Path folder;
@@ -63,6 +65,53 @@ class ImportRunnerTest {
         assertThat(store.view(jobId).status()).isEqualTo(JobStatus.PUBLISHED.label());
         assertThat(store.view(jobId).step()).isEqualTo(5);
         assertThat(store.view(jobId).failureCode()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("en append corre AppendJob, no ImportJob, y el trabajo queda agregado en el paso 4")
+    void shouldAppendWhenTheModeIsAppend() throws Exception {
+        // given
+        String jobId = importing(store, ImportMode.APPEND);
+
+        // when
+        runner.run(jobId);
+
+        // then
+        verify(append).run(eq("elastiflix-reloaded"), any(), any(), any(), any());
+        verify(job, never()).run(any(), any(), any(), any(), any());
+        assertThat(store.view(jobId).status()).isEqualTo(JobStatus.APPENDED.label());
+        assertThat(store.view(jobId).mode()).isEqualTo("append");
+        assertThat(store.view(jobId).step()).isEqualTo(4);
+    }
+
+    @Test
+    @DisplayName("si append se cancela (EFX-IMP-009), el trabajo queda cancelado con ese código")
+    void shouldCancelWhenTheAppendIsCancelled() throws Exception {
+        // given
+        String jobId = importing(store, ImportMode.APPEND);
+        doThrow(new ImportException(ErrorCode.APPEND_CANCELLED)).when(append).run(any(), any(), any(), any(), any());
+
+        // when
+        runner.run(jobId);
+
+        // then
+        assertThat(store.view(jobId).status()).isEqualTo(JobStatus.CANCELLED.label());
+    }
+
+    @Test
+    @DisplayName("si append para por un lote rechazado (EFX-IMP-008), el trabajo queda fallido con ese código")
+    void shouldFailWithTheAppendCodeWhenABatchIsRejected() throws Exception {
+        // given
+        String jobId = importing(store, ImportMode.APPEND);
+        doThrow(new ImportException(ErrorCode.APPEND_BATCH_REJECTED))
+                .when(append).run(any(), any(), any(), any(), any());
+
+        // when
+        runner.run(jobId);
+
+        // then
+        assertThat(store.view(jobId).status()).isEqualTo(JobStatus.FAILED.label());
+        assertThat(store.view(jobId).failureCode()).isEqualTo("EFX-IMP-008");
     }
 
     @Test
@@ -105,8 +154,7 @@ class ImportRunnerTest {
         String temp = new IndexNames().timestamped(alias, clock);
         CatalogIndex catalog = mock(CatalogIndex.class);
         when(catalog.describe(alias)).thenReturn(new CatalogName.Alias(alias, live));
-        when(catalog.count(temp)).thenReturn(4L, 5L);
-        when(catalog.count(live)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(1L);
         EmbeddingService embeddings = mock(EmbeddingService.class);
         float[] vector = new float[1024];
         vector[0] = 1f;
@@ -121,7 +169,7 @@ class ImportRunnerTest {
                 new OrphanCleaner(new IndexNames()));
 
         // when
-        new ImportRunner(real, spied, withAlias).run(jobId);
+        new ImportRunner(real, mock(AppendJob.class), spied, withAlias).run(jobId);
 
         // then
         verify(catalog).publish(alias, temp, live);
@@ -134,8 +182,12 @@ class ImportRunnerTest {
     }
 
     private String importing(JobStore store) throws Exception {
+        return importing(store, ImportMode.BULK);
+    }
+
+    private String importing(JobStore store, ImportMode mode) throws Exception {
         String jobId = store.open("a.json", Files.writeString(folder.resolve("a.json"), "[]"),
-                CsvSettings.withHeader());
+                CsvSettings.withHeader(), mode);
         Movie movie = MovieJsonMapper.create().readValue("{\"id\":\"1\",\"title\":\"T\",\"plot\":\"p\"}", Movie.class);
         store.ready(jobId, new ValidatedMovies(List.of(movie), ValidationReport.empty(), 0));
         assertThat(store.beginImport(jobId)).isTrue();

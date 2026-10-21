@@ -68,10 +68,10 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
 
     @Override
     public CatalogName describe(String name) {
-        if (existsAlias(name)) {
+        if (call(name, () -> client.indices().existsAlias(request -> request.name(name)).value())) {
             return fromAlias(name);
         }
-        if (existsIndex(name)) {
+        if (call(name, () -> client.indices().exists(request -> request.index(name)).value())) {
             return new CatalogName.ConcreteIndex(name);
         }
         return new CatalogName.Missing(name);
@@ -175,6 +175,18 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     }
 
     @Override
+    public AppendResult appendAll(String alias, List<Movie> movies) {
+        if (movies.isEmpty()) {
+            return new AppendResult(0, 0);
+        }
+        BulkResponse response = call(alias, () -> client.bulk(request -> request
+                .index(alias)
+                .requireAlias(true)
+                .operations(CatalogRequests.operations(movies))));
+        return CatalogRequests.appendResult(alias, response);
+    }
+
+    @Override
     public void indexOne(String name, Movie movie) {
         call(name, () -> {
             client.index(request -> request
@@ -217,14 +229,6 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
             return new CatalogName.Missing(name);
         }
         return new CatalogName.Alias(name, targets.getFirst());
-    }
-
-    private boolean existsAlias(String name) {
-        return call(name, () -> client.indices().existsAlias(request -> request.name(name)).value());
-    }
-
-    private boolean existsIndex(String name) {
-        return call(name, () -> client.indices().exists(request -> request.index(name)).value());
     }
 
     private List<Movie> search(String name, int size,

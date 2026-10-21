@@ -106,6 +106,15 @@
                       data-state-done=#{ingest.step.state.done},data-state-current=#{ingest.step.state.current},
                       data-state-failed=#{ingest.step.state.failed},data-state-ready=#{ingest.step.state.ready},
                       data-state-pending=#{ingest.step.state.pending}">
+      <div class="card" id="mode-card">
+        <h2 class="h3" id="mode-title" th:text="#{ingest.mode.title}">Modo de carga</h2>
+        <div class="modes" role="radiogroup" aria-labelledby="mode-title">
+          <label class="mode is-on"><input type="radio" name="modo" value="append" checked><span class="mode-body"><span class="mode-label"><th:block th:text="#{ingest.mode.append.label}">Agregar al catálogo</th:block> <code>append</code></span><span class="mode-desc" th:text="#{ingest.mode.append.desc}">Las películas del archivo se agregan al índice actual.</span></span></label>
+          <label class="mode"><input type="radio" name="modo" value="bulk"><span class="mode-body"><span class="mode-label"><th:block th:text="#{ingest.mode.bulk.label}">Reemplazar el catálogo</th:block> <code>bulk</code></span><span class="mode-desc" th:text="#{ingest.mode.bulk.desc}">Se crea un índice nuevo solo con las películas del archivo.</span></span></label>
+        </div>
+        <p id="bulk-warning" class="mode-warning" hidden><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z M12 10v4 M12 17h.01"></path></svg><span th:text="#{ingest.mode.bulk.warning(${shell.movies})}">Con bulk, el catálogo actual se borra al publicar.</span></p>
+      </div>
+
       <div class="card">
         <h2 class="h3" id="file-title" th:text="#{ingest.file.json.title}">Archivo JSON</h2>
         <form id="file-form" novalidate>
@@ -148,8 +157,8 @@
           <li data-step="1"><span class="mark" aria-hidden="true">1</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step1.title}">Comprobación en el navegador</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step1.detail(${maxFileLabel})}">Extensión, tipo y tamaño (máximo 150 MB) antes de subir nada.</span></span></li>
           <li data-step="2"><span class="mark" aria-hidden="true">2</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step2.title}">Subida al servidor</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step2.detail}">El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.</span></span></li>
           <li data-step="3"><span class="mark" aria-hidden="true">3</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step3.title}">Validación contra el mapping</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step3.detail}">Tipo de cada campo de cada registro; si algo no coincide, se detiene todo.</span></span></li>
-          <li data-step="4"><span class="mark" aria-hidden="true">4</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step4.title}">Importación en un índice temporal</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step4.detail(${batchSize})}">Copia del catálogo actual más los registros del archivo, en lotes de 100.</span></span></li>
-          <li data-step="5"><span class="mark" aria-hidden="true">5</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step5.title}">Publicación</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step5.detail(${shell.alias})}">El alias <span th:text="${shell.alias}">elastiflix-reloaded</span> pasa al índice nuevo y el índice anterior se borra, en una sola operación.</span></span></li>
+          <li data-step="4" th:attr="data-title-append=#{ingest.step4.append.title},data-title-bulk=#{ingest.step4.title},data-detail-append=#{ingest.step4.append.detail(${batchSize})},data-detail-bulk=#{ingest.step4.detail(${batchSize})}"><span class="mark" aria-hidden="true">4</span><span class="step-body"><span class="step-title"><span id="step4-title" th:text="#{ingest.step4.append.title}">Escritura en el catálogo</span> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" id="step4-detail" th:text="#{ingest.step4.append.detail(${batchSize})}">Los registros se agregan al índice vigente por el alias, en lotes de 100.</span></span></li>
+          <li data-step="5" hidden><span class="mark" aria-hidden="true">5</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step5.title}">Publicación</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step5.detail(${shell.alias})}">El alias <span th:text="${shell.alias}">elastiflix-reloaded</span> pasa al índice nuevo y el índice anterior se borra, en una sola operación.</span></span></li>
         </ol>
       </div>
 
@@ -176,7 +185,7 @@
         <div class="counts">
           <div><p th:text="#{ingest.job.count.read}">Registros leídos</p><p id="count-read">0</p></div>
           <div><p th:text="#{ingest.job.count.valid}">Válidos</p><p id="count-valid">0</p></div>
-          <div><p th:text="#{ingest.job.count.replace}">Reemplazarán existentes</p><p id="count-replace">0</p></div>
+          <div><p id="count-replace-label" th:text="#{ingest.job.count.replace}">Reemplazarán existentes</p><p id="count-replace">0</p></div>
           <div><p th:text="#{ingest.job.count.errors}">Errores</p><p id="count-errors">0</p></div>
         </div>
         <div id="job-stopped" class="stopped" role="alert" hidden>

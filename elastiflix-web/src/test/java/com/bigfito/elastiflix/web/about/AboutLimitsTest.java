@@ -49,7 +49,8 @@ class AboutLimitsTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("de máximo 25 MB y con contenido")))
                 .andExpect(content().string(not(containsString("200 MB"))))
-                .andExpect(content().string(containsString("en lotes de 1 500 en un índice temporal")))
+                .andExpect(content().string(containsString("en lotes de 1 500 en un índice temporal nuevo")))
+                .andExpect(content().string(containsString("en lotes de 1 500 y sin índice temporal")))
                 .andExpect(content().string(not(containsString("1.500"))))
                 .andExpect(content().string(not(containsString("150 MB"))))
                 .andExpect(content().string(not(containsString("lotes de 100"))));
@@ -64,6 +65,7 @@ class AboutLimitsTest {
         // when / then
         mvc.perform(get("/acerca").param("lang", "en"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("written in batches of 1,500 to a temporary index")));
+                .andExpect(content().string(containsString("written in batches of 1,500 to a new temporary index")))
+                .andExpect(content().string(containsString("in batches of 1,500 and with no temporary index")));
     }
 }

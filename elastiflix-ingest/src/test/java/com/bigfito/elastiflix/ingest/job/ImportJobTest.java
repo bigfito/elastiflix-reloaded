@@ -87,8 +87,7 @@ class ImportJobTest {
     void shouldPublishAndDeleteOnlyTheOrphan() {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of(FOREIGN, LIVE, ORPHAN));
-        when(catalog.count(temp)).thenReturn(4L, 5L);
-        when(catalog.count(LIVE)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(1L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
 
         job.run(ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, () -> false);
@@ -105,13 +104,12 @@ class ImportJobTest {
     }
 
     @Test
-    @DisplayName("el reemplazo se cuenta en la copia y el aviso sale antes de escribir")
-    void shouldCountReplacementsOnTheCopyBeforeWriting() {
+    @DisplayName("un id que ya está en el temporal se cuenta como reemplazo y el aviso sale antes de escribir")
+    void shouldCountReplacementsOnTheTempBeforeWriting() {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
         when(catalog.existingIds(eq(temp), anyList())).thenReturn(Set.of("1"));
-        when(catalog.count(temp)).thenReturn(4L, 4L);
-        when(catalog.count(LIVE)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(0L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
         doAnswer(invocation -> {
             // Al escribir el lote ya se avisó que está vectorizado, pero todavía no que está escrito.
@@ -132,7 +130,7 @@ class ImportJobTest {
     @Test
     @DisplayName("un lote rechazado borra el temporal y no publica")
     void shouldRollBackWhenABatchIsRejected() {
-        readyToCopy();
+        readyToWrite();
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
         doThrow(new ImportException(ErrorCode.BULK_REJECTED)).when(catalog).writeAll(anyString(), anyList());
 
@@ -148,8 +146,7 @@ class ImportJobTest {
     void shouldRollBackWhenTheCountDoesNotMatch() {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
-        when(catalog.count(temp)).thenReturn(4L, 99L);
-        when(catalog.count(LIVE)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(95L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
 
         assertThatThrownBy(() -> runOne()).isInstanceOf(ImportException.class)
@@ -162,7 +159,7 @@ class ImportJobTest {
     @Test
     @DisplayName("un fallo de inferencia no publica")
     void shouldRollBackWhenInferenceFails() {
-        readyToCopy();
+        readyToWrite();
         when(embeddings.embedDocuments(anyList()))
                 .thenThrow(new EmbeddingException(ErrorCode.INFERENCE_UNAVAILABLE));
 
@@ -173,47 +170,43 @@ class ImportJobTest {
     }
 
     @Test
-    @DisplayName("cancelar al volver de la copia borra el temporal")
-    void shouldRollBackWhenCancelledAfterReindex() {
+    @DisplayName("bulk no copia el catálogo: el temporal solo recibe el archivo y se compara con sus películas")
+    void shouldWriteOnlyTheFileWithoutCopyingTheCatalog() {
+        // given
+        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        when(catalog.count(temp)).thenReturn(1L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+
+        // when
+        runOne();
+
+        // then
+        verify(catalog, never()).reindex(anyString(), anyString(), any());
+        verify(catalog, never()).count(LIVE);
+        verify(catalog).publish(ALIAS, temp, LIVE);
+    }
+
+    @Test
+    @DisplayName("cancelar después de crear el temporal y antes del primer lote borra el temporal")
+    void shouldRollBackWhenCancelledBeforeTheFirstBatch() {
+        // given
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
         AtomicBoolean cancel = new AtomicBoolean();
         doAnswer(invocation -> {
             cancel.set(true);
             return null;
-        }).when(catalog).reindex(anyString(), anyString(), any());
+        }).when(catalog).createWithMapping(temp);
 
+        // when / then
         assertThatThrownBy(() -> job.run(
                 ALIAS, new ListMovieSource(List.of(movie("1"))), ONE_NEW, progress::add, cancel::get))
                 .isInstanceOf(ImportException.class)
                 .extracting(error -> ((ImportException) error).errorCode())
                 .isEqualTo(ErrorCode.IMPORT_CANCELLED);
         verify(catalog).deleteIndex(temp);
-        verify(catalog, never()).publish(anyString(), anyString(), anyString());
-    }
-
-    @Test
-    @DisplayName("si la copia falla (EFX-ES-006), el temporal se borra una sola vez y después de reindex")
-    void shouldCancelTheCopyBeforeDeletingTheTemp() {
-        // given
-        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
-        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
-        // ElasticsearchCatalogIndex cancela la tarea de _reindex antes de lanzar (ver ReindexTasksTest);
-        // aquí se comprueba que ImportJob borra el temporal solo cuando reindex ya volvió.
-        doThrow(new ElasticsearchAccessException(ErrorCode.REINDEX_FAILED))
-                .when(catalog).reindex(eq(LIVE), eq(temp), any());
-
-        // when
-        Throwable thrown = catchThrowable(() -> runOne());
-
-        // then
-        assertThat(thrown).isInstanceOf(ElasticsearchAccessException.class)
-                .extracting(error -> ((ElasticsearchAccessException) error).errorCode())
-                .isEqualTo(ErrorCode.REINDEX_FAILED);
-        InOrder order = inOrder(catalog);
-        order.verify(catalog).reindex(eq(LIVE), eq(temp), any());
-        order.verify(catalog).deleteIndex(temp);
-        verify(catalog, times(1)).deleteIndex(anyString());
+        verify(catalog, never()).writeAll(anyString(), anyList());
         verify(catalog, never()).publish(anyString(), anyString(), anyString());
     }
 
@@ -252,8 +245,7 @@ class ImportJobTest {
     void shouldKeepThePublishedTempWhenTheListenerFails() {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
-        when(catalog.count(temp)).thenReturn(4L, 5L);
-        when(catalog.count(LIVE)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(1L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
         ImportListener failsOnPublish = notice -> {
             if (notice.step() == 5) {
@@ -271,7 +263,7 @@ class ImportJobTest {
     @Test
     @DisplayName("una excepción ajena antes de publicar también borra el temporal")
     void shouldDeleteTheTempOnAnUnexpectedFailure() {
-        readyToCopy();
+        readyToWrite();
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
         doThrow(new IllegalStateException("inesperada")).when(catalog).writeAll(anyString(), anyList());
 
@@ -315,8 +307,7 @@ class ImportJobTest {
                 .thenReturn(new CatalogName.Alias(ALIAS, LIVE))
                 .thenThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
-        when(catalog.count(temp)).thenReturn(4L, 5L);
-        when(catalog.count(LIVE)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(1L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
         doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, new IOException("corte")))
                 .when(catalog).publish(ALIAS, temp, LIVE);
@@ -350,18 +341,15 @@ class ImportJobTest {
         verify(catalog, never()).deleteIndex(anyString());
     }
 
-    private void readyToCopy() {
+    private void readyToWrite() {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE));
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
-        when(catalog.count(temp)).thenReturn(4L);
-        when(catalog.count(LIVE)).thenReturn(4L);
     }
 
     private void reachPublish(CatalogName afterPublish, Throwable cause) {
         when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Alias(ALIAS, LIVE), afterPublish);
         when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
-        when(catalog.count(temp)).thenReturn(4L, 5L);
-        when(catalog.count(LIVE)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(1L);
         when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
         doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, cause))
                 .when(catalog).publish(ALIAS, temp, LIVE);

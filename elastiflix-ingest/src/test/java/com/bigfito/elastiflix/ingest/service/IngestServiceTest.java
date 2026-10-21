@@ -14,7 +14,9 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.ImportException;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.ingest.csv.CsvSettings;
+import com.bigfito.elastiflix.ingest.job.ImportMode;
 import com.bigfito.elastiflix.ingest.job.FileGate;
+import com.bigfito.elastiflix.ingest.job.AppendJob;
 import com.bigfito.elastiflix.ingest.job.FileIntake;
 import com.bigfito.elastiflix.ingest.job.ImportJob;
 import com.bigfito.elastiflix.ingest.job.ImportRunner;
@@ -77,7 +79,7 @@ class IngestServiceTest {
 
         // when: el estado pasa a invalido un instante antes de que se borre el archivo, así que se esperan
         // las dos cosas
-        String jobId = service.acceptFile("peliculas.txt", path, CsvSettings.withHeader());
+        String jobId = service.acceptFile("peliculas.txt", path, CsvSettings.withHeader(), ImportMode.BULK);
         JobView view = waitUntilSettled(service, jobId, path);
 
         // then
@@ -100,7 +102,7 @@ class IngestServiceTest {
                         new MappingValidator(), catalog, properties, store),
                 new ImportRunner(new ImportJob(
                         catalog, names, Clock.systemUTC(), vectorizer, new OrphanCleaner(names)),
-                        store, properties),
+                        new AppendJob(catalog, vectorizer), store, properties),
                 new IndividualRecord(new MappingValidator(), vectorizer, catalog),
                 properties);
     }

@@ -331,7 +331,20 @@ public enum ErrorCode {
     JOB_FAILED("EFX-IMP-007",
             "El trabajo de carga se interrumpió",
             "Ocurrió un error no previsto durante la validación o la importación",
-            "Vuelve a subir el archivo. El catálogo anterior no se publicó por este error");
+            "Vuelve a subir el archivo. El catálogo anterior no se publicó por este error"),
+
+    /** Modo append: Elasticsearch rechazó al menos un ítem de un lote. */
+    APPEND_BATCH_REJECTED("EFX-IMP-008",
+            "Elasticsearch rechazó un lote de la carga",
+            "Un documento del lote trae error",
+            "Lo que ya se escribió se queda en el catálogo; la página dice cuántas películas se agregaron. "
+                    + "Revisa el archivo y vuelve a cargarlo"),
+
+    /** Modo append: alguien pidió cancelar entre lotes. */
+    APPEND_CANCELLED("EFX-IMP-009",
+            "La carga se canceló",
+            "Alguien pidió cancelar",
+            "Lo que ya se escribió se queda en el catálogo; la página dice cuántas películas se agregaron");
 
     private final String code;
     private final String whatHappened;

@@ -8,7 +8,9 @@ import com.bigfito.elastiflix.core.error.ImportException;
 import org.springframework.stereotype.Component;
 
 /**
- * Paso 4 y paso 5: copia, escribe y publica, y deja el estado final del trabajo.
+ * Paso 4 y, en bulk, paso 5: corre el trabajo del modo y deja el estado final.
+ *
+ * <p>Bulk ({@link ImportJob}) termina en {@code publicado}; append ({@link AppendJob}), en {@code agregado}.</p>
  *
  * <p>Si la importación para antes de publicar, {@link ImportJob} borra el temporal; si ese borrado falla,
  * el temporal queda y hay que borrarlo a mano. Si {@code _aliases} no confirma y no se puede saber dónde
@@ -18,18 +20,21 @@ import org.springframework.stereotype.Component;
 public final class ImportRunner {
 
     private final ImportJob job;
+    private final AppendJob append;
     private final JobStore store;
     private final ElastiflixProperties properties;
 
     /**
      * Crea el corredor con el alias configurado.
      *
-     * @param job        publicación y vuelta atrás
+     * @param job        bulk: índice temporal, publicación y vuelta atrás
+     * @param append     append: lotes por el alias
      * @param store      progreso y estado final
      * @param properties alias y tamaño de lote
      */
-    public ImportRunner(ImportJob job, JobStore store, ElastiflixProperties properties) {
+    public ImportRunner(ImportJob job, AppendJob append, JobStore store, ElastiflixProperties properties) {
         this.job = job;
+        this.append = append;
         this.store = store;
         this.properties = properties;
     }
@@ -44,14 +49,15 @@ public final class ImportRunner {
         MovieBatchSource source = new ListMovieSource(work.movies());
         ImportCounts counts = work.counts(properties.ingest().batchSize());
         work.release();
+        ImportListener listener = progress -> store.onProgress(jobId, progress);
+        String alias = properties.index().alias();
         try {
-            job.run(
-                    properties.index().alias(),
-                    source,
-                    counts,
-                    progress -> store.onProgress(jobId, progress),
-                    work::isCancelled);
-            store.published(jobId);
+            if (work.mode() == ImportMode.APPEND) {
+                append.run(alias, source, counts, listener, work::isCancelled);
+            } else {
+                job.run(alias, source, counts, listener, work::isCancelled);
+            }
+            store.finished(jobId);
         } catch (ElastiflixException exception) {
             store.importStopped(jobId, exception);
         } finally {

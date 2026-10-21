@@ -84,24 +84,6 @@ class ImportJobEdgeTest {
     }
 
     @Test
-    @DisplayName("una copia con otro conteo que el original da EFX-ES-003, borra el temporal y no publica")
-    void shouldRollBackWhenTheCopyCountDoesNotMatch() {
-        // given
-        aliasOnLive();
-        when(catalog.count(temp)).thenReturn(3L);
-        when(catalog.count(LIVE)).thenReturn(4L);
-
-        // when
-        ElastiflixException thrown = run(movies(1), 100, () -> false);
-
-        // then
-        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.REINDEX_COUNT_MISMATCH);
-        verify(catalog).deleteIndex(temp);
-        verify(catalog, never()).writeAll(anyString(), anyList());
-        verify(catalog, never()).publish(anyString(), anyString(), anyString());
-    }
-
-    @Test
     @DisplayName("un alias que no existe da EFX-ES-002 sin crear ni borrar índices")
     void shouldRefuseAMissingCatalog() {
         // given
@@ -136,8 +118,7 @@ class ImportJobEdgeTest {
     void shouldWriteSeveralBatches() {
         // given
         aliasOnLive();
-        when(catalog.count(temp)).thenReturn(4L, 9L);
-        when(catalog.count(LIVE)).thenReturn(4L);
+        when(catalog.count(temp)).thenReturn(5L);
         when(embeddings.embedDocuments(anyList())).thenAnswer(invocation -> vectors(invocation.getArgument(0)));
 
         // when
@@ -155,8 +136,6 @@ class ImportJobEdgeTest {
     void shouldStopBetweenBatchesWhenCancelled() {
         // given
         aliasOnLive();
-        when(catalog.count(temp)).thenReturn(4L);
-        when(catalog.count(LIVE)).thenReturn(4L);
         when(embeddings.embedDocuments(anyList())).thenAnswer(invocation -> vectors(invocation.getArgument(0)));
         AtomicBoolean cancel = new AtomicBoolean();
         doAnswer(invocation -> {
@@ -180,11 +159,10 @@ class ImportJobEdgeTest {
         // given
         aliasOnLive();
         AtomicBoolean cancel = new AtomicBoolean();
-        when(catalog.count(temp)).thenReturn(4L).thenAnswer(invocation -> {
+        when(catalog.count(temp)).thenAnswer(invocation -> {
             cancel.set(true);
-            return 5L;
+            return 1L;
         });
-        when(catalog.count(LIVE)).thenReturn(4L);
         when(embeddings.embedDocuments(anyList())).thenAnswer(invocation -> vectors(invocation.getArgument(0)));
 
         // when
@@ -202,8 +180,6 @@ class ImportJobEdgeTest {
     void shouldWarnAndKeepTheOriginalErrorWhenTheTempCannotBeDeleted() {
         // given
         aliasOnLive();
-        when(catalog.count(temp)).thenReturn(4L);
-        when(catalog.count(LIVE)).thenReturn(4L);
         when(embeddings.embedDocuments(anyList())).thenAnswer(invocation -> vectors(invocation.getArgument(0)));
         doThrow(new ImportException(ErrorCode.BULK_REJECTED)).when(catalog).writeAll(eq(temp), anyList());
         doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE))

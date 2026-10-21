@@ -158,6 +158,12 @@ class CatalogStatusServiceTest {
         }
 
         @Override
+        public AppendResult appendAll(String alias, List<Movie> movies) {
+            unused();
+            return new AppendResult(0, 0);
+        }
+
+        @Override
         public void indexOne(String name, Movie movie) {
             unused();
         }

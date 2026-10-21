@@ -23,7 +23,8 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > [!NOTE]
 > ✅ **Estado actual:** las fases 0 a 8 están en `main`, incluidos el detalle de película (fase 7) y la interfaz
 > en español e inglés (fase 8), y la revisión 4 que las corrigió (PR #25 y #26). La fase 9 (Requerimiento 3:
-> archivos de hasta 25 MB) también está en `main` (PR #27). El
+> archivos de hasta 25 MB) también está en `main` (PR #27). La fase 10 (Requerimiento 4: carga en modo
+> append o bulk) está en la rama `fase-10-modos`. El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -144,12 +145,26 @@ RRF: `Σ 1 / (60 + posición)`.
 flowchart LR
   A["1 · Comprobación<br/>en el navegador"] --> B["2 · Subida<br/>al servidor"]
   B --> C["3 · Validación<br/>contra el mapping"]
-  C -->|"todo coincide"| D["4 · Importación<br/>índice temporal · lotes de 100"]
   C -->|"un solo error"| X["⛔ Se detiene<br/>no se importa nada"]
+  C -->|"append (por defecto)"| W["4 · Escritura en el catálogo<br/>por el alias · lotes de 100"]
+  W -->|"falla o se cancela"| V["⏸️ Lo escrito se queda<br/>la página dice cuántas"]
+  C -->|"bulk"| D["4 · Importación<br/>índice temporal solo con el archivo"]
   D --> E["5 · Publicación<br/>swap atómico del alias<br/>y borrado del índice anterior"]
   D -->|"falla"| Y["↩️ Se borra el temporal<br/>catálogo intacto"]
   E -->|"no se confirma y el alias<br/>no se puede leer"| Z["⚠️ EFX-IMP-006<br/>el temporal se deja"]
 ```
+
+Un archivo se carga en uno de dos modos (Requerimiento 4, fase 10), que se elige en la tarjeta «Modo de carga»:
+
+- **Append** (por defecto, no borra nada): las películas se agregan al índice vigente por el alias, en lotes de 100 y
+  sin índice temporal. Un `id` que ya existe se reemplaza; antes de empezar, la página dice cuántas se reemplazarán.
+  Si un lote se rechaza (`EFX-IMP-008`) o la carga se cancela (`EFX-IMP-009`), lo ya escrito se queda y la página
+  dice cuántas se agregaron. El trabajo termina en `agregado`.
+- **Bulk** (reemplaza el catálogo): las películas se escriben en un índice temporal nuevo que tiene **solo** las del
+  archivo (el catálogo actual ya no se copia); al publicar, el catálogo queda con ellas y el índice anterior se
+  borra. La página avisa cuántas películas tiene el catálogo que se borra. El trabajo termina en `publicado`.
+
+Un catálogo de más de 25 MB se carga con un bulk (el primer archivo) y varios append.
 
 | Forma | Formato |
 |---|---|
@@ -167,7 +182,7 @@ flowchart LR
   `plot`, con el modelo de embeddings a través del servicio de inferencia de Elasticsearch, con la misma
   configuración que produjo los vectores del catálogo (calibrada en la tarea 1.9). Los archivos no los
   traen y el formulario no los captura.
-- **Publicación:** en una sola operación, el alias `elastiflix-reloaded` pasa al índice nuevo y el
+- **Publicación (bulk):** en una sola operación, el alias `elastiflix-reloaded` pasa al índice nuevo y el
   índice anterior se borra; si algo falla antes, el catálogo queda exactamente como estaba.
 - **Un solo usuario:** la demo tiene fines académicos y demostrativos y la usa una persona a la vez.
 
@@ -329,8 +344,9 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
   estados vacíos.
 - Carga de un `.json` o un `.csv`: comprobación de nombre, tamaño y UTF-8, validación todo o nada contra el
   mapping e informe de errores descargable. Si el archivo trae vectores, se ignoran y se generan de nuevo.
-- Importación con índice temporal, lotes de 100 y publicación en una sola llamada (el índice anterior se
-  borra); si falla o se cancela, el catálogo queda como estaba.
+- Carga en dos modos: append (por defecto) agrega por el alias en lotes de 100 y deja lo escrito si para; bulk
+  escribe solo el archivo en un índice temporal y publica en una sola llamada (el índice anterior se borra); si
+  falla o se cancela, el catálogo queda como estaba.
 - Registro individual directo al alias, visible en la búsqueda siguiente.
 - Cinco páginas: Inicio (tres modos y sugerencias), Resultados, Detalle de película, Cargar datos y Acerca de
   (tabla de precisión y créditos de TMDB).

@@ -78,7 +78,7 @@ cargar nuevas películas sin dejar nunca el catálogo a medias.
 | 🔀 Híbrida | Retriever `rrf` con el componente full-text y el vectorial; `rank_constant = 60`, `rank_window_size = k`; muestra BM25, k-NN, sus posiciones y la puntuación RRF |
 | 🎛️ Filtros | `adult`, `genres`, `release_date` (desde–hasta), `spoken_languages`, `rating`, con conteos calculados sobre los resultados |
 | 📄 Paginación | 25 · 50 · 100 por página |
-| 📥 Carga de datos | Registro individual (directo al catálogo), `.json` o `.csv` con encabezado (≤ 25 MB, UTF-8; Requerimiento 3); validación completa contra el mapping; vectores siempre generados con el servicio de inferencia; importación en índice temporal, swap atómico de alias y borrado del índice anterior; vuelta atrás si algo falla |
+| 📥 Carga de datos | Registro individual (directo al catálogo), `.json` o `.csv` con encabezado (≤ 25 MB, UTF-8; Requerimiento 3); validación completa contra el mapping; vectores siempre generados con el servicio de inferencia; dos modos (Requerimiento 4): append por el alias (por defecto) o bulk, que reemplaza el catálogo con un índice temporal solo con el archivo, swap atómico de alias y borrado del índice anterior; vuelta atrás si algo falla |
 | ℹ️ Acerca de | Documentación de la demo dentro de la aplicación |
 
 **Fuera de alcance** (no implementar sin que el usuario lo pida): autenticación, comparación lado a
@@ -142,10 +142,10 @@ configuración de idioma, está en [`docs/arquitectura.mermaid`](docs/arquitectu
 
 - **Un solo ejecutable:** `elastiflix-web` (Spring Boot). `core`, `search` e `ingest` son librerías.
 - **Alias como punto de lectura:** todas las búsquedas van al alias `elastiflix-reloaded`. El índice
-  real se llama `<alias>-<AAAAMMDD-HHMMSS>` (UTC), por ejemplo `elastiflix-reloaded-20261020-153000`. Una importación de archivo escribe en un
-  índice nuevo y publica con **una sola llamada atómica a `_aliases`**: `add` del alias al índice nuevo
-  y `remove_index` del índice anterior (el anterior se borra; decisión del usuario). El registro
-  individual se escribe directamente en el índice vigente a través del alias.
+  real se llama `<alias>-<AAAAMMDD-HHMMSS>` (UTC), por ejemplo `elastiflix-reloaded-20261020-153000`. Una carga de archivo en modo bulk escribe en un
+  índice nuevo, solo con el archivo, y publica con **una sola llamada atómica a `_aliases`**: `add` del alias al índice nuevo
+  y `remove_index` del índice anterior (el anterior se borra; decisión del usuario). En modo append (por defecto, Requerimiento 4) y en el registro
+  individual se escribe directamente en el índice vigente a través del alias (`require_alias=true`).
 - **Estado del clúster:** al redactar el plan, `elastiflix-reloaded` era un **índice concreto**. La tarea
   **1.8** lo migró a alias con el mismo mecanismo (`add` + `remove_index`), sin pedir aprobación
   (decisión del usuario). Hoy es un alias; el índice vigente está en `progreso/INDICE.md`.
@@ -287,10 +287,10 @@ informe CSV y los rechazos de la carga salen en el idioma de la petición.
 | Método y ruta | Uso |
 |---|---|
 | `POST /cargar/registro` | Guarda una película desde el formulario **directamente en el catálogo** (índice vigente a través del alias). Redirige a `/cargar` con el resultado |
-| `POST /cargar/archivo` (multipart: `archivo`, `separador`, `encabezado`) | Sube el archivo, repite las comprobaciones de tipo, tamaño y UTF-8 (y, en CSV, que traiga encabezado), y lanza la validación; devuelve `jobId`. Una subida sin la parte `archivo` responde el 400 HTML de Spring, no JSON |
-| `GET /cargar/trabajos/{jobId}` | Estado del trabajo (`job`): paso del proceso (1–5), conteos, errores (primeros 6 y el total real en `errorTotal`), advertencias agrupadas, comprobaciones, columnas del CSV, progreso; y sus textos ya escritos (`texts`) |
-| `POST /cargar/trabajos/{jobId}/importar` | Inicia la importación de un archivo ya validado (genera los vectores, escribe en el índice temporal, publica y borra el índice anterior) |
-| `POST /cargar/trabajos/{jobId}/cancelar` | Cancela la importación y borra el índice temporal |
+| `POST /cargar/archivo` (multipart: `archivo`, `separador`, `encabezado`, `modo`) | `modo` = `append` (por defecto; cualquier otro valor también es append) o `bulk` (Requerimiento 4) y queda fijo en el trabajo. Sube el archivo, repite las comprobaciones de tipo, tamaño y UTF-8 (y, en CSV, que traiga encabezado), y lanza la validación; devuelve `jobId`. Una subida sin la parte `archivo` responde el 400 HTML de Spring, no JSON |
+| `GET /cargar/trabajos/{jobId}` | Estado del trabajo (`job`): modo (`mode`), estado (`agregado` al terminar un append; `publicado`, un bulk), paso del proceso (1–5 en bulk, 1–4 en append), lo que se reemplaza (`replaceCount`: ids que ya están en append, el catálogo entero en bulk), conteos, errores (primeros 6 y el total real en `errorTotal`), advertencias agrupadas, comprobaciones, columnas del CSV, progreso; y sus textos ya escritos (`texts`) |
+| `POST /cargar/trabajos/{jobId}/importar` | Inicia la carga de un archivo ya validado con el modo del trabajo y genera los vectores. Bulk: escribe en el índice temporal, publica y borra el índice anterior. Append: escribe por el alias |
+| `POST /cargar/trabajos/{jobId}/cancelar` | Cancela la carga entre lotes. Bulk: borra el índice temporal. Append: lo escrito se queda (`EFX-IMP-009`) |
 | `GET /cargar/trabajos/{jobId}/informe.csv` | Informe de errores (CSV UTF-8): como mucho los primeros 10 000 errores, que es lo que guarda cada trabajo (`JobRetention.MAX_KEPT_ERRORS`, revisión 4, U-25); la página muestra el total real |
 
 **Actuator:** `GET /actuator/health` con el componente `elastiflixCatalog` (`alias`, `index`,
@@ -934,7 +934,8 @@ nunca el catálogo a medias.
   atrás. El progreso informa los registros vectorizados.
   - Criterio: prueba unitaria con `EmbeddingService` simulado verifica que se llama para todos los
     registros, incluso los que traen vectores, y que un fallo detiene la importación sin publicar.
-- [x] **3.6** `ImportJob`: crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, copia el
+- [x] **3.6** *(Fase 10, Requerimiento 4: ya no copia el catálogo; el temporal tiene solo el archivo y append
+  escribe por el alias.)* `ImportJob`: crea `<alias>-<AAAAMMDD-HHMMSS>` con el mapping, copia el
   índice vigente (`_reindex` con `wait_for_completion: false` y espera en `_tasks`), escribe en lotes
   de 100 (`_id` = `id`, reemplaza si existe), revisa cada respuesta `bulk`, `refresh`, verifica el
   conteo esperado (anterior + nuevos) y publica en **una sola llamada** a `_aliases`: `add` del alias
@@ -1245,7 +1246,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 
 > **Estado:** los requerimientos 1 y 2 ya se implementaron (fases 7 y 8, en `main`; la revisión 4 corrige lo que
 > dejaron pendiente). El requerimiento 3 se implementó en la fase 9 (PR #27, `1047a65`, 2026-10-21). El
-> requerimiento 4 **no se implementa todavía**. El trabajo de cada uno empieza solo
+> requerimiento 4 se implementó en la fase 10 (consentimiento de Adolfo del 2026-10-21), en la rama `fase-10-modos`. El trabajo de cada uno empieza solo
 > cuando se cumplen las dos condiciones:
 >
 > 1. la revisión 3 está terminada y fusionada en `main`;
@@ -1518,9 +1519,17 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - `About.dc.html` y `About-en.dc.html` describen los dos modos en «Carga de datos»;
   - **aprobados por Adolfo el 2026-10-19.**
 - **Documentación que cambia al implementarlo:** las reglas del dominio de `AGENTS.md`, PLAN §1, §2 y
-  §5, `docs/diseno/3.md` y README. Hoy todos describen la importación con copia del catálogo.
+  §5, `docs/diseno/3.md` y README. Hasta la fase 10 describían la importación con copia del catálogo.
 - **Relación con la revisión 3:** sus correcciones (T-01, T-08, T-09, T-16…) se hacen sobre el flujo
   actual. Este requerimiento se diseña después, sobre el código ya corregido.
+
+- **Fase 10 — Tareas** (rama `fase-10-modos`; diseño en `docs/diseno/10.md`, sin compuerta 🔒):
+  - [x] **10.0** Diseño técnico en `docs/diseno/10.md`: modo del trabajo, bulk sin copia, `AppendJob`, códigos `EFX-IMP-008` y `EFX-IMP-009`, estado `agregado`, pasos por modo y pruebas.
+  - [x] **10.1** Modo en el trabajo (`ImportMode` de `JobStore.open` a `JobView`; en bulk `replaceCount` es el conteo del catálogo) y bulk solo con el archivo: `ImportJob` sin `_reindex`, conteo contra las películas del archivo; rollback, `describe` y huérfanos sin cambios. Pruebas unitarias.
+  - [x] **10.2** Append: `CatalogIndex.appendAll` (`require_alias=true`, aceptados y rechazados por ítem), `AppendJob` (alias de un solo índice, lotes de 100, reemplazos, `refresh`, cancelación entre lotes, `EFX-IMP-008` y `EFX-IMP-009`), `ImportRunner` por modo y estado `agregado`. Pruebas unitarias e `IngestIT` de los dos modos sobre un alias propio.
+  - [x] **10.3** Web: `POST /cargar/archivo` con `modo`; tarjeta «Modo de carga» con el aviso de bulk; pasos, cajas, textos y botón de cada modo en español e inglés; `ingest.js` con el modo, `?job=` y `agregado`. Pruebas MockMvc y de navegador.
+  - [x] **10.4** «Acerca de» › «Carga de datos» con los dos modos, en español e inglés, y sus pruebas.
+  - [x] **10.5** Verificación de fase (`./mvnw clean verify`, `-Pit`, navegador) y documentación: `AGENTS.md`, `CLAUDE.md`, README, PLAN §1, §2 y §5, `docs/diseno/3.md`, `progreso/10.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 

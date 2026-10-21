@@ -98,7 +98,7 @@ class IngestJobJsonErrorsTest {
         // given
         AtomicReference<Path> temp = new AtomicReference<>();
         when(uploads.requireAccepted(any())).thenReturn(new CheckedFile("peliculas.json", FileKind.JSON));
-        when(ingest.acceptFile(any(), any(), any())).thenAnswer(call -> {
+        when(ingest.acceptFile(any(), any(), any(), any())).thenAnswer(call -> {
             temp.set(call.getArgument(1));
             throw new IllegalStateException("sin hilos");
         });
