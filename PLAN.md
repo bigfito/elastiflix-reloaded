@@ -1244,7 +1244,8 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 ## Requerimientos nuevos (después de la revisión 3)
 
 > **Estado:** los requerimientos 1 y 2 ya se implementaron (fases 7 y 8, en `main`; la revisión 4 corrige lo que
-> dejaron pendiente). Los requerimientos 3 y 4 **no se implementan todavía**. El trabajo de cada uno empieza solo
+> dejaron pendiente). El requerimiento 3 está en curso en la fase 9 (consentimiento de Adolfo del 2026-10-21). El
+> requerimiento 4 **no se implementa todavía**. El trabajo de cada uno empieza solo
 > cuando se cumplen las dos condiciones:
 >
 > 1. la revisión 3 está terminada y fusionada en `main`;
@@ -1456,6 +1457,12 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   bulk (reemplaza el catálogo) y los demás en modo append.
 - **Relación con la revisión 3:** T-13 sigue trabajando con el límite actual de 150 MB. El cambio a 25 MB
   se hace en este requerimiento, después de la revisión 3.
+
+- **Fase 9 — Tareas** (rama `fase-9-25mb`; diseño en `docs/diseno/9.md`, sin compuerta 🔒):
+  - [x] **9.0** Diseño técnico en `docs/diseno/9.md`: dónde vive la constante de 25 MB, qué pierde la configuración y qué pruebas cubren 25 MB y 25 MB + 1 byte en el navegador y en el servidor.
+  - [ ] **9.1** Constante `FileChecker.MAX_FILE_SIZE` (25 MB) y comprobación del servidor: se quitan `ElastiflixProperties.Ingest.maxFileSize`, `elastiflix.ingest.max-file-size` y `ELASTIFLIX_INGEST_MAX_FILE_SIZE` (`application.yml`, `.env.example`); `FileGate`, `IngestLimits` y `UploadMultipartConfig` (archivo 25 MB, petición 26 MB) leen la constante. Pruebas unitarias y MockMvc: 25 MB pasa, 25 MB + 1 byte da 413 `EFX-ING-003`, y una variable vieja en el entorno no cambia nada.
+  - [ ] **9.2** Comprobación del navegador: `ingest.js` toma el tope solo de la página, sin la reserva de 150 MB. Prueba de navegador: 25 MB pasa y 25 MB + 1 byte se rechaza, en español y en inglés.
+  - [ ] **9.3** Verificación de fase (`./mvnw clean verify`, `-Pit`, navegador y la app real con 25 MB y 25 MB + 1 byte) y documentación: `AGENTS.md`, `CLAUDE.md`, README, PLAN §1, §7, §8 y variables, `docs/diseno/1.md`, `3.md` y `4.md`, `docs/convenciones-java.md`, `progreso/9.md` e `INDICE.md`.
 
 ### Requerimiento 4 — Carga de archivos en modo append o bulk
 
