@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 4 (correcciones tras las fases 7 y 8)
-- **Estado de la fase:** en verificación. Todos los puntos de la lista (U-01 a U-38) están resueltos: la primera tanda en `main` (PR #25, `b54d67c`) y el resto en la rama `revision-4-resto`, que espera el PR hacia `main`. La parte de cabeceras de U-33 se descartó
-- **Ramas:** `main` y `revision-4-resto` (cinco carriles integrados; la rama `revision-4` se borró tras el PR #25)
+- **Estado de la fase:** terminada y fusionada en `main` (PR #25, `b54d67c`; PR #26, `c9be924`). La parte de cabeceras de U-33 se descartó
+- **Ramas:** `main` (las ramas y worktrees de la revisión 4 se borraron tras la fusión)
 - **Diseño:** especificación en [`docs/revisiones/revision-4.md`](../docs/revisiones/revision-4.md)
 - **Estado:** [`progreso/revision-4.md`](revision-4.md)
-- **Tarea actual:** cierre de la revisión 4 (verificación integrada y PR de `revision-4-resto`)
-- **Próximo paso:** la aprobación de Adolfo de las 22 capturas nuevas de `docs/capturas/` (U-36) y de la variante de error `EFX-SRCH-012` de los mockups del detalle (U-07), además de su decisión sobre el patrón «View Helper / ViewModel» del diseño 7 (U-38). Después, coordinar con Adolfo el Requerimiento 3.
-- **Última actualización:** 2026-10-21 UTC
+- **Tarea actual:** ninguna
+- **Próximo paso:** la aprobación de Adolfo de las 22 capturas de `docs/capturas/` (U-36), de la variante de error `EFX-SRCH-012` de los mockups del detalle (U-07), del patrón «View Helper / ViewModel» del diseño 7 (U-38) y de la dependencia opcional `spring-boot-web-server` en core. Después, coordinar con Adolfo el Requerimiento 3.
+- **Última actualización:** 2026-10-21 20:36 UTC
 
 ## Fases
 
@@ -34,7 +34,7 @@
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 341 repo: core 67, search 71, ingest 123, web 80; decía 329, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). |
 | 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | Fusionada en `main` (`3c27c40`, PR #24). Rama remota y local `fase-8-i18n` borrada. `./mvnw clean verify` en verde (104 unitarias web / 366 repo: core 68, search 71, ingest 123, web 104; decía 347, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4, solo con `-pl elastiflix-web` (revisión 4, U-02). |
-| — | Revisión 4 | — | en verificación | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38), todos los puntos resueltos. U-11 y U-03 en `main` (`a1b8fa8`, `ec6ca83`); U-01, U-02, U-07, U-13 a U-17 y U-24 fusionadas en `main` (PR #25, `b54d67c`; `./mvnw verify -Pit` en verde con 514 + 30 y navegador 11 de 11, el 2026-10-21); el resto, en `revision-4-resto` con cinco carriles integrados, espera el PR. U-33 (cabeceras) descartada. Pendientes de Adolfo: capturas (U-36) y estado de error del mockup del detalle (U-07). |
+| — | Revisión 4 | — | terminada | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38), toda resuelta. PR #25 (merge `b54d67c`) y PR #26 (merge `c9be924`) fusionados en `main`; ramas y worktrees de los carriles borrados. `./mvnw verify -Pit` en verde (635 + 32) y navegador 15 de 15, el 2026-10-21. Pendientes de aprobación de Adolfo: capturas, estado de error del mockup del detalle, patrón ViewModel del diseño 7 y la dependencia opcional `spring-boot-web-server` en core. |
 
 ## Aprobaciones del usuario
 
@@ -88,6 +88,7 @@
 | 2026-10-21 | Revisión 4: lista y primeras correcciones | Adolfo pidió una revisión exhaustiva del trabajo de los otros agentes y una lista en markdown para darle instrucciones. Pidió corregir U-11 y U-03 y subirlas a `main` («Sí, haz commit y push en main …»). |
 | 2026-10-21 | Revisión 4: decisiones de la lista | Volver a medir la tabla vectorial de §6 y las sugerencias en español; el agente redacta el texto de `EFX-SRCH-012`; la traducción de «Cargar datos» se corrige de fondo; vía libre para instalar Playwright y Chromium y correr las pruebas de navegador; sin cabeceras de seguridad. Detalle en `progreso/revision-4.md` › «Decisiones». |
 | 2026-10-21 | Revisión 4: fusión del PR #25 | Adolfo pidió «Si, haz el PR y fusiona la rama.» y que el remoto y la copia local quedaran al día. PR #25 (`revision-4` → `main`) fusionado con el merge commit `b54d67c` a las 19:22 UTC. `./mvnw verify -Pit` en verde (514 + 30) y navegador 11 de 11 antes de fusionar. Después Adolfo pidió borrar la rama: `revision-4` se borró en local y en el remoto. |
+| 2026-10-21 | Revisión 4: resto de la lista y fusión del PR #26 | Adolfo pidió «Trabaja y resuelve todos los puntos de @docs/revisiones/revision-4.md.» y después «Sí, fusiona el PR #26 en main, deja la copia local y el remoto al día y borra las ramas y worktrees que ya no se necesitan.». PR #26 fusionado con el merge commit `c9be924` a las 20:33 UTC. |
 
 
 ## Catálogo vigente

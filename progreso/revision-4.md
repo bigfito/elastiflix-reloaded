@@ -7,13 +7,13 @@
 
 - **Unidad:** Revisión 4
 - **Nombre:** Correcciones de la cuarta revisión (tras las fases 7 y 8)
-- **Rama:** `revision-4-resto` (la primera tanda entró en `main` con el PR #25, merge `b54d67c`)
+- **Rama:** `main` (PR #25, merge `b54d67c`, y PR #26, merge `c9be924`)
 - **Carpeta:** `E:\02 - programming\03 - elastiflix-reloaded`
 - **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-en verificación
+terminado y fusionado en `main` (PR #26, merge `c9be924`)
 
 ## Punto de reanudación
 
@@ -152,6 +152,12 @@ Vacío.
      y en PLAN §3, como pide `docs/convenciones-java.md` §12.
   4. **Tope de 10 000 errores en el informe descargable.** Cada trabajo guarda como mucho 10 000 errores
      (U-25), así que el informe CSV trae como mucho esos; la página muestra el total real.
+
+- 2026-10-21 20:33 UTC: Adolfo pidió «Sí, fusiona el PR #26 en main, deja la copia local y el remoto al día y
+  borra las ramas y worktrees que ya no se necesitan.». PR #26 (`revision-4-resto` → `main`) fusionado con el merge
+  commit `c9be924`. Se borraron la rama `revision-4-resto` (local y remota), las ramas de los carriles
+  (`revision-4-detalle`, `revision-4-web`, `revision-4-carga`, `revision-4-nucleo`, `revision-4-docs`) y sus
+  worktrees en `.claude/worktrees/`.
 
 ## Resumen de diseño
 
