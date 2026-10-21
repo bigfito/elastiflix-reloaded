@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** Revisión 4 (correcciones tras las fases 7 y 8)
-- **Estado de la fase:** decisiones 1 a 6 de Adolfo aplicadas y fusionadas en `main` (PR #25, `b54d67c`); el resto de la lista espera instrucciones
-- **Ramas:** `main` (la rama `revision-4` se borró en local y en el remoto tras la fusión)
+- **Estado de la fase:** en verificación. Todos los puntos de la lista (U-01 a U-38) están resueltos: la primera tanda en `main` (PR #25, `b54d67c`) y el resto en la rama `revision-4-resto`, que espera el PR hacia `main`. La parte de cabeceras de U-33 se descartó
+- **Ramas:** `main` y `revision-4-resto` (cinco carriles integrados; la rama `revision-4` se borró tras el PR #25)
 - **Diseño:** especificación en [`docs/revisiones/revision-4.md`](../docs/revisiones/revision-4.md)
 - **Estado:** [`progreso/revision-4.md`](revision-4.md)
-- **Tarea actual:** ninguna
-- **Próximo paso:** el de `progreso/revision-4.md`. Después de la revisión 4, coordinar con Adolfo el Requerimiento 3.
-- **Última actualización:** 2026-10-21 19:30 UTC
+- **Tarea actual:** cierre de la revisión 4 (verificación integrada y PR de `revision-4-resto`)
+- **Próximo paso:** la aprobación de Adolfo de las 22 capturas nuevas de `docs/capturas/` (U-36) y de la variante de error `EFX-SRCH-012` de los mockups del detalle (U-07), además de su decisión sobre el patrón «View Helper / ViewModel» del diseño 7 (U-38). Después, coordinar con Adolfo el Requerimiento 3.
+- **Última actualización:** 2026-10-21 UTC
 
 ## Fases
 
@@ -34,7 +34,7 @@
 | — | Revisión 3 | — | terminada | `progreso/revision-3.md` (tablero) y `progreso/revision-3-<carril>.md` | Lista en `docs/revisiones/revision-3.md`. T-01 a T-27 terminadas. Carriles A–F con seis agentes de Claude Code en paralelo (PR #15 a #20, fusionados en `7e360b4`); cierre Z fusionado en `5c21934` (PR #21); las ramas `revision-3-*` se borraron. `./mvnw verify -Pit` en verde (326 unitarias y 29 de integración) y pruebas de navegador 11 de 11, el 2026-10-19. |
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 341 repo: core 67, search 71, ingest 123, web 80; decía 329, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). |
 | 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | Fusionada en `main` (`3c27c40`, PR #24). Rama remota y local `fase-8-i18n` borrada. `./mvnw clean verify` en verde (104 unitarias web / 366 repo: core 68, search 71, ingest 123, web 104; decía 347, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4, solo con `-pl elastiflix-web` (revisión 4, U-02). |
-| — | Revisión 4 | — | en curso | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38). U-11 y U-03 en `main` (`a1b8fa8`, `ec6ca83`); U-01, U-02, U-07, U-13 a U-17 y U-24 fusionadas en `main` (PR #25, `b54d67c`); U-33 (cabeceras) descartada. `./mvnw verify -Pit` en verde (514 + 30) y navegador 11 de 11, el 2026-10-21. |
+| — | Revisión 4 | — | en verificación | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38), todos los puntos resueltos. U-11 y U-03 en `main` (`a1b8fa8`, `ec6ca83`); U-01, U-02, U-07, U-13 a U-17 y U-24 fusionadas en `main` (PR #25, `b54d67c`; `./mvnw verify -Pit` en verde con 514 + 30 y navegador 11 de 11, el 2026-10-21); el resto, en `revision-4-resto` con cinco carriles integrados, espera el PR. U-33 (cabeceras) descartada. Pendientes de Adolfo: capturas (U-36) y estado de error del mockup del detalle (U-07). |
 
 ## Aprobaciones del usuario
 

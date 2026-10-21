@@ -139,7 +139,7 @@ propios y «APPLY», que en el mockup va en mayúsculas.
 | N/A | N/A |
 | Tu búsqueda queda como la dejaste: | Your search stays as you left it: |
 | Consulta / Modo / Ajustes / Filtros / Página | Query / Mode / Settings / Filters / Page |
-| [n] de [N] · [25] por página | [n] of [N] · [25] per page |
+| [n] de [N] · [25] por página (mockup; el detalle muestra «[n] · [25] por página», sin el total) | [n] of [N] · [25] per page (the page shows “[n] · [25] per page”) |
 
 ## Errores y estados
 
