@@ -51,11 +51,11 @@ valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 
 ## Trabajo abierto
 
-Las fases 0 a 8 y las revisiones 1 a 3 están cerradas; la 4 sigue. Lo pendiente es lo que diga
+Las fases 0 a 8 y las revisiones 1 a 4 están cerradas; la fase 9 (Requerimiento 3) está en curso. Lo pendiente es lo que diga
 `progreso/INDICE.md` › «Punto de reanudación». Una revisión en carriles paralelos sigue «Cómo trabajar en
 paralelo» de `docs/revisiones/revision-3.md`: rama y archivo de estado por carril; PLAN, README, `docs/` e
 `INDICE.md` los escribe solo el cierre. «Requerimientos nuevos» de PLAN: el 1 y el 2 están hechos (fases 7 y 8);
-el 3 y el 4 esperan el consentimiento de Adolfo.
+el 3 es la fase 9 y el 4 espera el consentimiento de Adolfo.
 
 ## Regla de oro sobre el orden de trabajo
 
@@ -136,7 +136,7 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
 - Registro individual: directo al catálogo por el alias.
 - Un solo usuario a la vez (demo académica): sin controles de concurrencia.
 - Validación de cargas **todo o nada** contra `elasticsearch/elastiflix-reloaded-mapping.json`;
-  `id`, `title` y `plot` obligatorios; `.json`/`.csv`, sin dobles extensiones, ≤ 150 MB, UTF-8; CSV
+  `id`, `title` y `plot` obligatorios; `.json`/`.csv`, sin dobles extensiones, ≤ 25 MB fijos (no configurable), UTF-8; CSV
   **sin encabezado se rechaza**. Sin análisis de malware (lo hace el proveedor del servidor).
 - `plot_256`, `plot_512` y `plot_1024` **siempre** se generan en tiempo de ejecución con el servicio de
   inferencia de Elasticsearch; los archivos no los necesitan (si los traen, se ignoran con advertencia)

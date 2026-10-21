@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** 9 — Archivos de carga de hasta 25 MB (Requerimiento 3)
-- **Estado de la fase:** en curso
+- **Estado de la fase:** terminada en la rama `fase-9-25mb`; falta el PR hacia `main`
 - **Ramas:** `fase-9-25mb` (sale de `main`, `71c5122`)
 - **Diseño:** [`docs/diseno/9.md`](../docs/diseno/9.md)
 - **Estado:** [`progreso/9.md`](9.md)
-- **Tarea actual:** 9.3 Verificación de fase y documentación
-- **Próximo paso:** correr `./mvnw clean verify` y `./mvnw verify -Pit`, y actualizar `AGENTS.md`, `CLAUDE.md`, README, PLAN §1, §7, §8 y variables, `docs/diseno/1.md`, `3.md` y `4.md` y `docs/convenciones-java.md` a 25 MB fijos
-- **Última actualización:** 2026-10-21 21:05 UTC
+- **Tarea actual:** ninguna; la fase espera el PR
+- **Próximo paso:** abrir el PR de `fase-9-25mb` hacia `main` y fusionarlo cuando Adolfo lo pida
+- **Última actualización:** 2026-10-21 21:08 UTC
 
 ## Fases
 
@@ -35,7 +35,7 @@
 | 7 | Detalle de película | 🔒 | terminado | `progreso/7.md` | Fusionada en `main` (`2902be7`, PR #23). Rama remota y local `fase-7-detalle` borrada. `./mvnw clean verify` en verde (80 unitarias web / 341 repo: core 67, search 71, ingest 123, web 80; decía 329, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). |
 | 8 | Interfaz en español e inglés (i18n) | — | terminado | `progreso/8.md` | Fusionada en `main` (`3c27c40`, PR #24). Rama remota y local `fase-8-i18n` borrada. `./mvnw clean verify` en verde (104 unitarias web / 366 repo: core 68, search 71, ingest 123, web 104; decía 347, corregido en la revisión 4; Checkstyle 0, PMD 0, ArchUnit 7/7). SmokeIT 4/4, solo con `-pl elastiflix-web` (revisión 4, U-02). |
 | — | Revisión 4 | — | terminada | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38), toda resuelta. PR #25 (merge `b54d67c`) y PR #26 (merge `c9be924`) fusionados en `main`; ramas y worktrees de los carriles borrados. `./mvnw verify -Pit` en verde (635 + 32) y navegador 15 de 15, el 2026-10-21. Adolfo aprobó las capturas, el estado de error del mockup del detalle, el patrón ViewModel del diseño 7 y la dependencia opcional `spring-boot-web-server` en core. |
-| 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | en curso | `progreso/9.md` | — |
+| 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | terminado en la rama `fase-9-25mb` | `progreso/9.md` | `./mvnw clean verify -Pit` en verde (637 unitarias: core 78, search 76, ingest 215, web 268; 32 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 19 de 19, el 2026-10-21. Falta el PR hacia `main`. |
 
 ## Aprobaciones del usuario
 
