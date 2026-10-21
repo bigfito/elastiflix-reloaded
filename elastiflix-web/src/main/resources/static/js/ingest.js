@@ -14,6 +14,8 @@
   var maxLabel = filePanel.getAttribute("data-max-label") || "150 MB";
   var ACTIVE = ["recibido", "validando", "importando"];
   var STATE_MARKS = { done: "✓", failed: "✕", current: "…" };
+  // Forma del id que da el servidor (UUID.randomUUID()); un ?job= distinto no se usa en ninguna ruta.
+  var JOB_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
   var messages = {
     networkError: filePanel.getAttribute("data-msg-network-error"),
@@ -89,6 +91,11 @@
     states.forEach(function (state, position) {
       setStep(position + 1, state);
     });
+  }
+
+  // Ruta de un trabajo. El id va codificado para que nunca cambie la ruta (por ejemplo, con «../»).
+  function jobUrl(id, suffix) {
+    return "/cargar/trabajos/" + encodeURIComponent(id) + (suffix || "");
   }
 
   function stopPolling() {
@@ -362,7 +369,7 @@
         }
         jobId = result.data.jobId;
         updateLangSwitch(jobId);
-        byId("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
+        byId("job-report").href = jobUrl(jobId, "/informe.csv");
         show(byId("job"), true);
         show(byId("job-import-card"), true);
         poll();
@@ -380,7 +387,7 @@
     if (!current) {
       return;
     }
-    fetch("/cargar/trabajos/" + current)
+    fetch(jobUrl(current))
       .then(readJson)
       .then(function (result) {
         if (current !== jobId) {
@@ -414,7 +421,7 @@
     cancelButton.disabled = true;
     stopPolling();
     var current = jobId;
-    fetch("/cargar/trabajos/" + current + "/" + path, { method: "POST" })
+    fetch(jobUrl(current, "/" + path), { method: "POST" })
       .then(readJson)
       .then(function (result) {
         busy = false;
@@ -574,16 +581,18 @@
     bar.querySelector("span").style.width = Math.round(done * 100 / max) + "%";
   }
 
-  // Reanuda el sondeo si la URL trae ?job=<jobId>
+  // Reanuda el sondeo si la URL trae ?job=<jobId>. Un valor que no es un UUID se quita de la URL y se ignora.
   try {
     var params = new URLSearchParams(window.location.search);
     var initialJob = params.get("job");
-    if (initialJob) {
+    if (initialJob && !JOB_ID.test(initialJob)) {
+      updateLangSwitch("");
+    } else if (initialJob) {
       // Mientras llega el primer estado se muestra el panel de archivo; ese estado elige JSON o CSV.
       resuming = true;
       showTab(byId("tab-json"));
       jobId = initialJob;
-      byId("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
+      byId("job-report").href = jobUrl(jobId, "/informe.csv");
       show(byId("job"), true);
       show(byId("job-import-card"), true);
       updateLangSwitch(initialJob);

@@ -257,3 +257,37 @@ test('U-20: al volver con ?job= de un trabajo JSON, la pestaña es la JSON', asy
     assert.equal(await page.isVisible('[name="separador"]'), false);
   });
 });
+
+test('U-21: un ?job= que no es un UUID no se usa en ninguna ruta y se quita de la URL', async () => {
+  await withPage(async (page) => {
+    const requested = [];
+    page.on('request', (request) => requested.push(new URL(request.url()).pathname));
+
+    await page.goto(BASE_URL + '/cargar?job=..%2F..%2Fbuscar');
+    await page.waitForFunction(() => !new URL(window.location.href).searchParams.has('job'));
+
+    assert.deepEqual(requested.filter((path) => path.startsWith('/cargar/trabajos') || path === '/buscar'), []);
+    assert.equal(await page.isVisible('#job'), false);
+    const links = await page.$$eval('.lang-switch a[hreflang]', (items) => items.map((item) => item.getAttribute('href')));
+    assert.ok(links.every((href) => !href.includes('job=')), links.join(' '));
+  });
+});
+
+test('U-21: el id del trabajo va codificado en cada ruta de fetch y en el enlace del informe', async () => {
+  await withPage(async (page) => {
+    const polled = [];
+    await page.route('**/cargar/archivo', (route) => json(route, 200, { jobId: 'x/../y' }));
+    await page.route((url) => url.pathname.startsWith('/cargar/trabajos/'), async (route) => {
+      polled.push(new URL(route.request().url()).pathname);
+      await json(route, 200, screen('valido', 4));
+    });
+    await chooseFile(page, 'json', 'peliculas.json', VALID_JSON);
+
+    await page.click('#file-submit');
+    await page.waitForFunction(() => !document.querySelector('#job-import').disabled);
+
+    assert.ok(polled.length > 0);
+    assert.ok(polled.every((path) => path === '/cargar/trabajos/x%2F..%2Fy'), polled.join(' '));
+    assert.equal(await page.getAttribute('#job-report', 'href'), '/cargar/trabajos/x%2F..%2Fy/informe.csv');
+  });
+});
