@@ -17,11 +17,11 @@ en curso
 
 ## Punto de reanudación
 
-- **Tarea actual:** U-01 y U-24 (medir de nuevo §6 y las sugerencias)
-- **Subpaso en curso:** preparar la medición contra el catálogo vigente
-- **Próximo paso:** medir con `k = 100` y `num_candidates = 200` las posiciones de §6 y de las sugerencias de
-  Inicio en los dos idiomas, y actualizar textos, IT y documentos
-- **Última actualización:** 2026-10-21 17:55 UTC
+- **Tarea actual:** U-07 (texto de `EFX-SRCH-012`)
+- **Subpaso en curso:** redactar el texto en los dos idiomas
+- **Próximo paso:** cambiar `ErrorCode.DETAIL_WITHOUT_SEARCH` (o el nombre real), `messages_*.properties` y
+  `docs/diseno/7.md`, y sus pruebas
+- **Última actualización:** 2026-10-21 18:05 UTC
 
 ## Tareas
 
@@ -31,8 +31,8 @@ en curso
 |---|---|---|---|
 | U-11 | terminada | `a1b8fa8` | `./mvnw verify` en verde (386 unitarias); `AppliedFiltersTest` en español e inglés |
 | U-03 | terminada | `ec6ca83` | `./mvnw verify` en verde; `ExternalLinksTest` (16 casos) y `MovieDetailPageTest` |
-| U-01 | pendiente | | |
-| U-24 | pendiente | | |
+| U-01 | terminada | se anota en el commit siguiente | Medición del 2026-10-21 (k=100, 200 candidatos, 6 899 películas): Life of Pi 31.º · 7.º · 5.º (antes 30 · 7 · 4); Titanic y WALL·E sin cambios. `VectorSearchIT`, `FullTextSearchIT` e `HybridSearchIT` en verde (14 de 14) |
+| U-24 | terminada | se anota en el commit siguiente | Sugerencias en español: Titanic 36/7/4, Inception 94/13/8, Life of Pi 31/7/5, Spirited Away 13/4/1 (E.T. y WALL·E sin cambios). Conteos léxicos de los dos idiomas: dark knight 57/5, love story 107/3, el secreto 35/2, le fabuleux 26/1, heaven 10, next 15; Kolejne en title 3 (OR) y 0 (AND); híbrida Titanic 1.º vectorial, 1.º léxico. Las de inglés coinciden con la fase 8. `./mvnw -pl elastiflix-web verify` en verde |
 | U-07 | pendiente | | |
 | U-16 | pendiente | | |
 | U-13, U-17 | pendiente | | |
@@ -64,6 +64,11 @@ Vacío.
 - 2026-10-21: el resto de la revisión 4 va en la rama `revision-4`, con commit y push por tarea, y se integra
   con un PR. U-14 y U-15 entran con la decisión 3, porque son la misma traducción de «Cargar datos» y la
   prueba que la vigila. Los demás puntos esperan instrucciones de Adolfo.
+- 2026-10-21 (U-01, U-24): la medición usó una IT temporal (`MeasureTmpIT`, no versionada) con las mismas
+  estrategias de búsqueda que la aplicación. El código de búsqueda no cambió desde la revisión 3, así que la
+  deriva de Life of Pi viene del servicio (inferencia o k-NN aproximado de Serverless). Los conteos léxicos de
+  las sugerencias también eran del catálogo de 4 322 películas, en los dos idiomas: se corrigieron con la
+  misma medición. PLAN §1 registra que las etiquetas ya no siguen los valores históricos de los mockups.
 
 ## Resumen de diseño
 

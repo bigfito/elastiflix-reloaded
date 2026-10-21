@@ -33,7 +33,7 @@ final class HybridSuggestions {
         return new SuggestionSet(KEY_OR, false, List.of(
                 link("dark knight joker caos en la ciudad", "título + trama", "🦇", OR),
                 link("titanic historia de amor en un barco que se hunde",
-                        "Titanic: 1.º vectorial, 2.º léxico", "🚢", OR),
+                        "Titanic: 1.º vectorial, 1.º léxico", "🚢", OR),
                 link("ocean's eleven robo a casinos", "título + trama", "🎰", OR)));
     }
 

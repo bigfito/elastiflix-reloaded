@@ -6,7 +6,8 @@ import java.util.Locale;
 import com.bigfito.elastiflix.web.locale.SupportedLocale;
 
 /**
- * Sugerencias de full-text, con las etiquetas fijas de {@code Main.dc.html} y {@code Main-en.dc.html}.
+ * Sugerencias de full-text. Los conteos OR y AND se midieron el 2026-10-21 sobre 6 899 películas; son los
+ * mismos en los dos idiomas.
  */
 final class LexicalSuggestions {
 
@@ -36,10 +37,10 @@ final class LexicalSuggestions {
     private static SuggestionSet title(String operator, boolean visible, boolean en) {
         String key = "fulltext-match-title-" + operator;
         String translatedTag = en ? "translated title" : "título traducido";
-        String darkOr = en ? "OR: 40 results" : "OR: 40 resultados";
-        String darkAnd = en ? "AND: 3 results" : "AND: 3 resultados";
-        String loveOr = en ? "OR: 65 results" : "OR: 65 resultados";
-        String loveAnd = en ? "AND: 1 result" : "AND: 1 resultado";
+        String darkOr = en ? "OR: 57 results" : "OR: 57 resultados";
+        String darkAnd = en ? "AND: 5 results" : "AND: 5 resultados";
+        String loveOr = en ? "OR: 107 results" : "OR: 107 resultados";
+        String loveAnd = en ? "AND: 3 results" : "AND: 3 resultados";
         return new SuggestionSet(key, visible, List.of(
                 matchTitle("Spirited Away", translatedTag, "🐉", operator),
                 matchTitle("dark knight", byOp(operator, darkOr, darkAnd), "🦇", operator),
@@ -48,21 +49,22 @@ final class LexicalSuggestions {
 
     private static SuggestionSet original(String operator, boolean en) {
         String key = "fulltext-match-original_title-" + operator;
-        String origTag = en ? "original title · in title: 0" : "título original · en title: 0";
-        String secOr = en ? "OR: 16 results" : "OR: 16 resultados";
-        String fabOr = en ? "OR: 14 results" : "OR: 14 resultados";
-        String oneAnd = en ? "AND: 1 result" : "AND: 1 resultado";
+        String origPrefix = en ? "original title · in title: " : "título original · en title: ";
+        String secOr = en ? "OR: 35 results" : "OR: 35 resultados";
+        String secAnd = en ? "AND: 2 results" : "AND: 2 resultados";
+        String fabOr = en ? "OR: 26 results" : "OR: 26 resultados";
+        String fabAnd = en ? "AND: 1 result" : "AND: 1 resultado";
         return new SuggestionSet(key, false, List.of(
-                matchOriginal("Kolejne 365 dni", origTag, "📅", operator),
-                matchOriginal("el secreto", byOp(operator, secOr, oneAnd), "🔍", operator),
-                matchOriginal("le fabuleux destin", byOp(operator, fabOr, oneAnd), "🥐", operator)));
+                matchOriginal("Kolejne 365 dni", origPrefix + byOp(operator, "3", "0"), "📅", operator),
+                matchOriginal("el secreto", byOp(operator, secOr, secAnd), "🔍", operator),
+                matchOriginal("le fabuleux destin", byOp(operator, fabOr, fabAnd), "🥐", operator)));
     }
 
     private static SuggestionSet multi(String operator, boolean en) {
         String both = en ? "words in different fields" : "palabras en campos distintos";
         String key = "fulltext-multi_match-" + operator;
-        String heavenOr = en ? "OR: 6 results" : "OR: 6 resultados";
-        String nextOr = en ? "OR: 11 results" : "OR: 11 resultados";
+        String heavenOr = en ? "OR: 10 results" : "OR: 10 resultados";
+        String nextOr = en ? "OR: 15 results" : "OR: 15 resultados";
         String paraOr = en ? "OR: 1 result" : "OR: 1 resultado";
         return new SuggestionSet(key, false, List.of(
                 multiMatch("heaven cielo", byOp(operator, heavenOr, "AND: 0 · " + both), "☁️", operator),

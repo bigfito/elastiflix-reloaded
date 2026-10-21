@@ -26,9 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Las tres filas vectoriales de la tabla de verificación, contra el catálogo real.
  *
- * <p>Solo lee. No crea ni borra índices. No escribe el vector. Afirma la posición medida el
- * 2026-10-18 sobre 6 899 películas, con {@code k = 100} y {@code num_candidates = 200}. No se
- * afloja el criterio en el código. Si el conteo cambió, la prueba se omite.</p>
+ * <p>Solo lee. No crea ni borra índices. No escribe el vector. Afirma la posición medida sobre
+ * 6 899 películas, con {@code k = 100} y {@code num_candidates = 200}: el 2026-10-18, y Life of Pi de
+ * nuevo el 2026-10-21 (revisión 4, U-01). No se afloja el criterio en el código. Si el conteo cambió,
+ * la prueba se omite.</p>
  */
 @SpringBootTest(classes = TestApplication.class)
 class VectorSearchIT {
@@ -115,7 +116,7 @@ class VectorSearchIT {
                         "un barco de lujo choca con un iceberg en su viaje inaugural", "597", 36, 7, 4),
                 Arguments.of(
                         "un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano",
-                        "87827", 30, 7, 4),
+                        "87827", 31, 7, 5),
                 Arguments.of("un robot solitario que limpia la Tierra", "10681", 1, 1, 1));
     }
 }

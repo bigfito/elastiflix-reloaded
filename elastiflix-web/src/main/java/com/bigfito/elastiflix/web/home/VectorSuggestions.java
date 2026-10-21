@@ -8,6 +8,8 @@ import com.bigfito.elastiflix.web.locale.SupportedLocale;
 
 /**
  * Sugerencias vectoriales en español e inglés. La posición de cada película cambia con el campo.
+ *
+ * <p>Posiciones medidas el 2026-10-21 sobre 6 899 películas, con {@code k = 100} y 200 candidatos.</p>
  */
 final class VectorSuggestions {
 
@@ -15,13 +17,7 @@ final class VectorSuggestions {
     private static final String PLOT_512 = "plot_512";
     private static final String PLOT_1024 = "plot_1024";
     private static final String FIRST = "1.º lugar";
-    private static final String SECOND = "2.º lugar";
-    private static final String THIRD = "3.º lugar";
-    private static final String FOURTH = "4.º lugar";
-    private static final String TENTH = "10.º lugar";
     private static final String FIRST_EN = "1st place";
-    private static final String SECOND_EN = "2nd place";
-    private static final String THIRD_EN = "3rd place";
     private static final List<String> FIELDS = List.of(PLOT_256, PLOT_512, PLOT_1024);
 
     private VectorSuggestions() {
@@ -81,93 +77,52 @@ final class VectorSuggestions {
     }
 
     private static String titanicEs(String field) {
-        if (PLOT_512.equals(field)) {
-            return THIRD;
-        }
-        if (PLOT_1024.equals(field)) {
-            return FIRST;
-        }
-        return FOURTH;
+        return byField(field, "36.º lugar", "7.º lugar", "4.º lugar");
     }
 
     private static String inceptionEs(String field) {
-        if (PLOT_512.equals(field)) {
-            return FOURTH;
-        }
-        if (PLOT_1024.equals(field)) {
-            return THIRD;
-        }
-        return "fuera del top 10";
+        return byField(field, "94.º lugar", "13.º lugar", "8.º lugar");
     }
 
     private static String lifeOfPiEs(String field) {
-        if (PLOT_512.equals(field)) {
-            return THIRD;
-        }
-        if (PLOT_1024.equals(field)) {
-            return SECOND;
-        }
-        return TENTH;
+        return byField(field, "31.º lugar", "7.º lugar", "5.º lugar");
     }
 
     private static String spiritedEs(String field) {
-        if (PLOT_256.equals(field)) {
-            return FOURTH;
-        }
-        return FIRST;
+        return byField(field, "13.º lugar", "4.º lugar", FIRST);
     }
 
     private static String extraTerrestrialEs(String field) {
-        if (PLOT_256.equals(field)) {
-            return THIRD;
-        }
-        return FIRST;
+        return byField(field, "3.º lugar", FIRST, FIRST);
     }
 
     private static String titanicEn(String field) {
-        if (PLOT_512.equals(field)) {
-            return "5th place";
-        }
-        if (PLOT_1024.equals(field)) {
-            return THIRD_EN;
-        }
-        return "36th place";
+        return byField(field, "36th place", "5th place", "3rd place");
     }
 
     private static String inceptionEn(String field) {
-        if (PLOT_512.equals(field)) {
-            return "18th place";
-        }
-        if (PLOT_1024.equals(field)) {
-            return "11th place";
-        }
-        return "outside the top 100";
+        return byField(field, "outside the top 100", "18th place", "11th place");
     }
 
     private static String lifeOfPiEn(String field) {
-        if (PLOT_256.equals(field)) {
-            return THIRD_EN;
-        }
-        return FIRST_EN;
+        return byField(field, "3rd place", FIRST_EN, FIRST_EN);
     }
 
     private static String spiritedEn(String field) {
-        if (PLOT_512.equals(field)) {
-            return SECOND_EN;
-        }
-        if (PLOT_1024.equals(field)) {
-            return FIRST_EN;
-        }
-        return "6th place";
+        return byField(field, "6th place", "2nd place", FIRST_EN);
     }
 
     private static String extraTerrestrialEn(String field) {
+        return byField(field, "7th place", "3rd place", FIRST_EN);
+    }
+
+    private static String byField(String field, String at256, String at512, String at1024) {
         if (PLOT_512.equals(field)) {
-            return THIRD_EN;
+            return at512;
         }
         if (PLOT_1024.equals(field)) {
-            return FIRST_EN;
+            return at1024;
         }
-        return "7th place";
+        return at256;
     }
 }
