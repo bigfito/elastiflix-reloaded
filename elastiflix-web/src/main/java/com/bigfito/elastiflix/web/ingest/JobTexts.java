@@ -150,11 +150,11 @@ public record JobTexts(
         }
 
         String progressText(String alias) {
+            if (INVALID.equals(job.status())) {
+                return msg("ingest.job.progress.done", number(job.written()), number(job.fileCount()));
+            }
             String suffix = append() ? ".append" : "";
             String done = msg("ingest.job.progress.done" + suffix, number(job.written()), number(job.fileCount()));
-            if (INVALID.equals(job.status())) {
-                return done;
-            }
             String target = append() || !job.tempIndex().isEmpty()
                     ? targetOf(alias) : alias + "-AAAAMMDD-HHMMSS";
             return msg("ingest.job.progress.running" + suffix, done,

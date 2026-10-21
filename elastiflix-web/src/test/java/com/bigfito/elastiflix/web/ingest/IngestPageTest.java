@@ -187,6 +187,23 @@ class IngestPageTest {
     }
 
     @Test
+    @DisplayName("un archivo bloqueado dice «0 de N importadas» también en append, y las reglas nombran los dos modos")
+    void shouldUseTheSameBlockedTextsInBothModes() throws Exception {
+        when(ingest.job(JOB)).thenReturn(job("append", "invalido", "csv", 512, 17, 23, List.of(), List.of(), "", ""));
+
+        mvc.perform(get("/cargar/trabajos/" + JOB))
+                .andExpect(jsonPath("$.texts.progressText").value("0 de 512 importadas"))
+                .andExpect(jsonPath("$.texts.importLabel").value("Importación bloqueada"));
+        mvc.perform(get("/cargar"))
+                .andExpect(content().string(containsString("En modo append, si un <code>id</code> ya existe en el "
+                        + "índice, el registro reemplaza a la película existente; en modo bulk, el catálogo queda solo "
+                        + "con las películas del archivo.")));
+        mvc.perform(get("/cargar").param("lang", "en"))
+                .andExpect(content().string(containsString("in bulk mode, the catalog keeps only the movies in the "
+                        + "file.")));
+    }
+
+    @Test
     @DisplayName("append detenido o terminado: la página dice cuántas se agregaron de cuántas")
     void shouldSayHowManyWereAddedWhenTheAppendEnds() throws Exception {
         when(ingest.job(JOB)).thenReturn(appendEnded("cancelado", 200, "EFX-IMP-009"));

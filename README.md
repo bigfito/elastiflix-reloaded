@@ -463,7 +463,9 @@ Cada pantalla tiene su versión en inglés (`<Página>-en.dc.html`); la traducci
 
 Capturas de página completa con la aplicación conectada al catálogo real (6 899 películas), en español y en
 inglés; el pie muestra su conteo. Se tomaron el 2026-10-21 en la revisión 4 (ventana de 1440 px, Chromium con
-Playwright 1.49.1); Adolfo las aprobó el 2026-10-21. La comparación anterior con los mockups está en
+Playwright 1.49.1); Adolfo las aprobó el 2026-10-21. Las tres de «Cargar datos» (en los dos idiomas) se volvieron
+a tomar el 2026-10-21 al cerrar la fase 10, con la tarjeta «Modo de carga» en append y los textos de los dos
+modos; esas seis esperan la aprobación de Adolfo. La comparación anterior con los mockups está en
 [`progreso/4.md`](progreso/4.md).
 
 | Página | Español | English |

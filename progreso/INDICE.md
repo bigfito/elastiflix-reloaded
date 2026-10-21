@@ -13,8 +13,8 @@
 - **Diseño:** [`docs/diseno/10.md`](../docs/diseno/10.md)
 - **Estado:** [`progreso/10.md`](10.md)
 - **Tarea actual:** ninguna
-- **Próximo paso:** no hay requerimientos pendientes en PLAN; queda por decidir con Adolfo si se vuelven a tomar las capturas de «Cargar datos» (`docs/capturas/`), que todavía no muestran la tarjeta «Modo de carga».
-- **Última actualización:** 2026-10-21 22:01 UTC
+- **Próximo paso:** que Adolfo apruebe las 6 capturas nuevas de «Cargar datos» (`docs/capturas/cargar-*.png`); no hay requerimientos pendientes en PLAN.
+- **Última actualización:** 2026-10-21 22:05 UTC
 
 ## Fases
 
@@ -96,6 +96,7 @@
 | 2026-10-21 | Cierre y fusión de la Fase 9 (Requerimiento 3: archivos de hasta 25 MB) | Adolfo pidió «Sí, abre el PR de fase-9-25mb, fusiónalo en main, deja local y remoto al día y borra la rama.». PR #27 fusionado con el merge commit `1047a65` a las 21:11 UTC; la rama `fase-9-25mb` se borró en local y en el remoto. `./mvnw clean verify -Pit` en verde (637 unitarias y 32 de integración) y navegador 19 de 19 antes de fusionar. |
 | 2026-10-21 | Inicio del Requerimiento 4 (Fase 10) | Adolfo pidió «Continua con el requerimiento 4.» después de fusionar la fase 9: es su consentimiento explícito para arrancar (PLAN › «Requerimientos nuevos»). Rama `fase-10-modos`; diseño `docs/diseno/10.md`, sin compuerta 🔒. Los mockups del requerimiento ya estaban aprobados (2026-10-19). |
 | 2026-10-21 | Cierre y fusión de la Fase 10 (Requerimiento 4: carga en modo append o bulk) | Adolfo pidió «Sí, abre el PR de fase-10-modos, fusiónalo en main, deja local y remoto al día y borra la rama.» PR #28 fusionado con el merge commit `520768a` a las 22:01 UTC; la rama `fase-10-modos` se borró en local y en el remoto. `./mvnw clean verify -Pit` en verde (670 unitarias y 35 de integración) y navegador 24 de 24 antes de fusionar. |
+| 2026-10-21 | Capturas de «Cargar datos» con el modo de carga | Adolfo pidió «Sí, vuelve a tomar las capturas de «Cargar datos» en español e inglés con la tarjeta de modo.» Se tomaron las 6 (registro, CSV válido y CSV que no coincide, en los dos idiomas) con el catálogo real; de paso se corrigieron dos textos del mockup que faltaban (nota «Reglas» por modo y «0 de N importadas» con el archivo bloqueado). Las capturas esperan su aprobación. |
 
 
 ## Catálogo vigente
