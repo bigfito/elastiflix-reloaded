@@ -61,7 +61,7 @@ final class MovieDetailTables {
                         "adult", m.adult(), yesText, noText),
                 FactRow.yesNo(msg(messages, locale, "detail.fact.video", "Video"), "video", m.video(), yesText, noText),
                 FactRow.link(msg(messages, locale, "detail.fact.homepage", "Sitio oficial"),
-                        "homepage", m.homepage(), m.homepage()));
+                        "homepage", m.homepage(), ExternalLinks.webOrEmpty(m.homepage())));
     }
 
     /**

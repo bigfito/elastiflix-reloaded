@@ -99,6 +99,35 @@ class MovieDetailPageTest {
     }
 
     @Test
+    @DisplayName("un homepage con javascript: no se enlaza: sin botón y «N/A» en la ficha")
+    void shouldNotLinkAJavascriptHomepage() {
+        Movie movie = movieBuilder().homepage("javascript:alert(document.domain)").build();
+
+        MovieDetailView view = page.build(movie, searchForm());
+
+        assertThat(view.hasHomepage()).isFalse();
+        assertThat(view.homepage()).isEmpty();
+        FactRow row = factRow(view.facts(), "homepage");
+        assertThat(row.isLink()).isFalse();
+        assertThat(row.href()).isEmpty();
+        assertThat(row.value()).isEqualTo("N/A");
+    }
+
+    @Test
+    @DisplayName("un homepage https se enlaza en el botón y en la ficha")
+    void shouldLinkAnHttpsHomepage() {
+        Movie movie = movieBuilder().homepage("https://inception.com").build();
+
+        MovieDetailView view = page.build(movie, searchForm());
+
+        assertThat(view.hasHomepage()).isTrue();
+        assertThat(view.homepage()).isEqualTo("https://inception.com");
+        FactRow row = factRow(view.facts(), "homepage");
+        assertThat(row.isLink()).isTrue();
+        assertThat(row.href()).isEqualTo("https://inception.com");
+    }
+
+    @Test
     @DisplayName("procesa colección existente con filas completas")
     void shouldProcessExistingCollection() {
         MovieCollection coll = new MovieCollection(12345L, "The Matrix Collection", "/back.jpg", "/poster.jpg");
@@ -153,6 +182,13 @@ class MovieDetailPageTest {
                 .orElse(null);
     }
 
+    private static FactRow factRow(List<FactRow> rows, String field) {
+        return rows.stream()
+                .filter(r -> r.field().equals(field))
+                .findFirst()
+                .orElseThrow();
+    }
+
     private static String factValue(List<FactRow> rows, String field) {
         return rows.stream()
                 .filter(r -> r.field().equals(field))
@@ -184,6 +220,7 @@ class MovieDetailPageTest {
         private Double budget = 160_000_000.0;
         private Double revenue = 825_532_764.0;
         private MovieCollection belongsToCollection = null;
+        private String homepage = "https://inception.com";
 
         TestMovieBuilder id(String id) {
             this.id = id;
@@ -205,6 +242,11 @@ class MovieDetailPageTest {
             return this;
         }
 
+        TestMovieBuilder homepage(String homepage) {
+            this.homepage = homepage;
+            return this;
+        }
+
         Movie build() {
             return new Movie(
                     id, "tt1375666", title, "Inception", "en",
@@ -212,7 +254,7 @@ class MovieDetailPageTest {
                     "Your mind is the scene of the crime.", "Cobb is a skilled thief", "Inception plot",
                     List.of("Action", "Sci-Fi"), List.of(), List.of("Leonardo DiCaprio"), belongsToCollection,
                     budget, revenue, 75.2, 8.4, 32000, "PG-13",
-                    "https://inception.com", "/poster.jpg", "/backdrop.jpg",
+                    homepage, "/poster.jpg", "/backdrop.jpg",
                     List.of("Warner Bros."), List.of("US"), List.of("en"),
                     null, null, null, null);
         }

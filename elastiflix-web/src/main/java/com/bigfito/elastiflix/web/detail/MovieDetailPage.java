@@ -55,7 +55,7 @@ public class MovieDetailPage {
      * @return modelo para la plantilla
      */
     public MovieDetailView build(Movie m, SearchForm form, Locale locale) {
-        String homepage = text(m.homepage());
+        String homepage = ExternalLinks.webOrEmpty(m.homepage());
         MovieCollection coll = m.belongsToCollection();
         List<String> cast = list(m.cast());
         List<MovieKeyword> keywords = list(m.keywords());
