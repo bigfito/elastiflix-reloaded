@@ -293,6 +293,22 @@ class ImportJobTest {
     }
 
     @Test
+    @DisplayName("si _aliases responde 5xx y el alias sigue en el anterior, da EFX-IMP-006 y no borra el temporal")
+    void shouldKeepTheTempWhenPublishGetsAServerErrorAndTheAliasStaysOnThePreviousIndex() {
+        // given: un 5xx no es un rechazo seguro; _aliases pudo aplicarse después de que describe leyera
+        reachPublish(new CatalogName.Alias(ALIAS, LIVE), serverError());
+
+        // when
+        Throwable thrown = catchThrowable(() -> runOne());
+
+        // then
+        assertThat(thrown).isInstanceOf(ImportException.class)
+                .extracting(error -> ((ImportException) error).errorCode())
+                .isEqualTo(ErrorCode.PUBLISH_UNCERTAIN);
+        verify(catalog, never()).deleteIndex(anyString());
+    }
+
+    @Test
     @DisplayName("si publicar falla y describe también, no borra el temporal")
     void shouldLeaveTheTempWhenTheAliasCannotBeRead() {
         when(catalog.describe(ALIAS))
@@ -354,6 +370,11 @@ class ImportJobTest {
     private static ElasticsearchException rejected() {
         return new ElasticsearchException("indices.update_aliases", ErrorResponse.of(response -> response
                 .status(400).error(cause -> cause.type("illegal_argument_exception").reason("rechazo"))));
+    }
+
+    private static ElasticsearchException serverError() {
+        return new ElasticsearchException("indices.update_aliases", ErrorResponse.of(response -> response
+                .status(503).error(cause -> cause.type("unavailable_shards_exception").reason("sin réplicas"))));
     }
 
     private void runOne() {
