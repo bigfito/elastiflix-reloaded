@@ -61,7 +61,7 @@ class JobThreadFailureTest {
         store.beginImport(jobId);
         ImportJob job = mock(ImportJob.class);
         doThrow(new IllegalStateException("lote")).when(job).run(any(), any(), any(), any(), any());
-        ImportRunner runner = new ImportRunner(job, store, NO_SETTINGS);
+        ImportRunner runner = new ImportRunner(job, mock(AppendJob.class), store, NO_SETTINGS);
 
         assertThatThrownBy(() -> runner.run(jobId)).isInstanceOf(IllegalStateException.class);
 

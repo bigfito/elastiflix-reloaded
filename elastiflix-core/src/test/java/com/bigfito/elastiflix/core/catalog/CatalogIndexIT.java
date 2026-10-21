@@ -138,6 +138,26 @@ class CatalogIndexIT {
     }
 
     @Test
+    @DisplayName("appendAll escribe por el alias y rechaza cada ítem si el nombre es un índice concreto")
+    void shouldAppendThroughTheAliasOnly() throws Exception {
+        // given
+        List<Movie> fixture = readFixture();
+        create(indexA);
+        client.indices().updateAliases(request -> request.actions(CatalogRequests.add(alias, indexA)));
+
+        // when
+        AppendResult throughAlias = catalog.appendAll(alias, fixture);
+        AppendResult onTheIndex = catalog.appendAll(indexA, fixture.subList(0, 1));
+        catalog.refresh(alias);
+
+        // then
+        assertThat(throughAlias).isEqualTo(new AppendResult(fixture.size(), 0));
+        assertThat(onTheIndex).isEqualTo(new AppendResult(0, 1));
+        assertThat(catalog.count(alias)).isEqualTo(fixture.size());
+        assertThat(catalog.describe(alias)).isEqualTo(new CatalogName.Alias(alias, indexA));
+    }
+
+    @Test
     @DisplayName("indexOne con require_alias no crea un índice concreto si el alias no existe")
     void shouldNotCreateAnIndexWhenTheAliasIsMissing() throws Exception {
         Movie movie = readFixture().getFirst();

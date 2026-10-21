@@ -1,38 +1,45 @@
 package com.bigfito.elastiflix.ingest.job;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.BooleanSupplier;
 
+import com.bigfito.elastiflix.core.catalog.AppendResult;
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
+import com.bigfito.elastiflix.core.catalog.CatalogName;
+import com.bigfito.elastiflix.core.model.Movie;
 
 /**
- * Al volver de {@code reindex}, avisa para que la prueba cancele.
+ * Avisa para que la prueba cancele en el punto que la carga revisa a continuación.
  *
- * <p>El resto de las llamadas siguen al catálogo de verdad.</p>
+ * <p>En bulk, al crear el temporal (antes del primer lote); en append, al volver del primer lote escrito por el
+ * alias (antes del segundo). El resto de las llamadas siguen al catálogo de verdad.</p>
  */
-final class CancelAfterReindex implements CatalogIndex {
+final class CancelGateCatalog implements CatalogIndex {
 
     private final CatalogIndex delegate;
     private final CancelGate gate;
 
-    CancelAfterReindex(CatalogIndex delegate, CancelGate gate) {
+    CancelGateCatalog(CatalogIndex delegate, CancelGate gate) {
         this.delegate = delegate;
         this.gate = gate;
     }
 
     @Override
-    public com.bigfito.elastiflix.core.catalog.CatalogName describe(String name) {
+    public CatalogName describe(String name) {
         return delegate.describe(name);
     }
 
     @Override
     public void createWithMapping(String indexName) {
         delegate.createWithMapping(indexName);
+        gate.fire();
     }
 
     @Override
     public void reindex(String source, String target, BooleanSupplier stop) {
         delegate.reindex(source, target, stop);
-        gate.fire();
     }
 
     @Override
@@ -56,38 +63,44 @@ final class CancelAfterReindex implements CatalogIndex {
     }
 
     @Override
-    public java.util.List<String> listOwnedIndexes(String alias) {
+    public List<String> listOwnedIndexes(String alias) {
         return delegate.listOwnedIndexes(alias);
     }
 
     @Override
-    public java.util.List<com.bigfito.elastiflix.core.model.Movie> readWithVectors(
-            String name, java.util.List<String> ids) {
+    public List<Movie> readWithVectors(String name, List<String> ids) {
         return delegate.readWithVectors(name, ids);
     }
 
     @Override
-    public java.util.List<com.bigfito.elastiflix.core.model.Movie> readAllWithVectors(String name, int limit) {
+    public List<Movie> readAllWithVectors(String name, int limit) {
         return delegate.readAllWithVectors(name, limit);
     }
 
     @Override
-    public java.util.Set<String> existingIds(String name, java.util.List<String> ids) {
+    public Set<String> existingIds(String name, List<String> ids) {
         return delegate.existingIds(name, ids);
     }
 
     @Override
-    public void writeAll(String indexName, java.util.List<com.bigfito.elastiflix.core.model.Movie> movies) {
+    public void writeAll(String indexName, List<Movie> movies) {
         delegate.writeAll(indexName, movies);
     }
 
     @Override
-    public void indexOne(String name, com.bigfito.elastiflix.core.model.Movie movie) {
+    public AppendResult appendAll(String alias, List<Movie> movies) {
+        AppendResult result = delegate.appendAll(alias, movies);
+        gate.fire();
+        return result;
+    }
+
+    @Override
+    public void indexOne(String name, Movie movie) {
         delegate.indexOne(name, movie);
     }
 
     @Override
-    public java.util.Optional<com.bigfito.elastiflix.core.model.Movie> findById(String name, String id) {
+    public Optional<Movie> findById(String name, String id) {
         return delegate.findById(name, id);
     }
 }

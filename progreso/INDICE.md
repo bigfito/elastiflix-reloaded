@@ -12,9 +12,9 @@
 - **Ramas:** `fase-10-modos` (sale de `main`, `643f58b`)
 - **Diseño:** [`docs/diseno/10.md`](../docs/diseno/10.md)
 - **Estado:** [`progreso/10.md`](10.md)
-- **Tarea actual:** 10.2 Append por el alias
-- **Próximo paso:** agregar `CatalogIndex.appendAll` (`require_alias=true`, aceptados y rechazados), `AppendJob`, `EFX-IMP-008` y `009`, el estado `agregado` e `ImportRunner` por modo, y reescribir `IngestIT` con los dos modos.
-- **Última actualización:** 2026-10-21 21:34 UTC
+- **Tarea actual:** 10.3 Web: modo, pasos y textos
+- **Próximo paso:** recibir `modo` en `POST /cargar/archivo`, agregar la tarjeta «Modo de carga» con el aviso de bulk, los pasos, cajas, textos y botón de cada modo en español e inglés, y llevar el modo, `?job=` y el estado `agregado` a `ingest.js`, con pruebas MockMvc y de navegador.
+- **Última actualización:** 2026-10-21 21:45 UTC
 
 ## Fases
 

@@ -126,6 +126,16 @@ public interface CatalogIndex {
     void writeAll(String indexName, List<Movie> movies);
 
     /**
+     * Escribe el lote por el alias con {@code require_alias=true} (modo append). {@code _id} es {@code id}; reemplaza
+     * si ya estaba. No lanza por los ítems rechazados: los cuenta, porque los aceptados ya quedaron escritos.
+     *
+     * @param alias  alias del catálogo; si no es un alias, Elasticsearch rechaza cada ítem y no crea un índice
+     * @param movies películas con sus vectores
+     * @return aceptados y rechazados
+     */
+    AppendResult appendAll(String alias, List<Movie> movies);
+
+    /**
      * Indexa una película en el alias, con {@code refresh=wait_for}, y reemplaza ese {@code _id}.
      *
      * <p>Pide {@code require_alias=true}: si el alias no existe, Elasticsearch rechaza la escritura en lugar

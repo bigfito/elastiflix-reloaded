@@ -41,7 +41,9 @@ import tools.jackson.databind.json.JsonMapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Importa y cancela sobre un alias {@code elastiflix-it-<aleatorio>}. No toca el catálogo real.
+ * Carga en bulk y en append, y cancela, sobre un alias {@code elastiflix-it-<aleatorio>}. No toca el catálogo real.
+ *
+ * <p>Los lotes son de 2 para que append tenga varios lotes y se pueda cancelar entre ellos.</p>
  */
 @SpringBootTest(classes = {TestApplication.class, IngestIT.GateConfig.class})
 class IngestIT {
@@ -88,6 +90,7 @@ class IngestIT {
         requireSafe(ALIAS);
         registry.add("elastiflix.index.alias", () -> ALIAS);
         registry.add("elastiflix.bootstrap.enabled", () -> "false");
+        registry.add("elastiflix.ingest.batch-size", () -> "2");
     }
 
     @BeforeEach
@@ -115,14 +118,17 @@ class IngestIT {
     }
 
     @Test
-    @DisplayName("importa sin vectores, reemplaza el título y el registro se ve al momento")
-    void shouldPublishTheFileAndSaveOneRecord() throws Exception {
+    @DisplayName("bulk: el catálogo queda solo con el archivo, sin vectores en él, y el registro se ve al momento")
+    void shouldReplaceTheCatalogWithTheFileAndSaveOneRecord() throws Exception {
         ImportSample sample = ImportSample.read(FIXTURE);
         List<String> order = relativeOrder(knn());
         Path file = sample.writeImportFile();
         try {
-            String jobId = accept("carga.json", file);
-            assertThat(waitFor(jobId, "valido", "invalido", "fallido").status()).isEqualTo("valido");
+            String jobId = accept("carga.json", file, ImportMode.BULK);
+            JobView valid = waitFor(jobId, "valido", "invalido", "fallido");
+            assertThat(valid.status()).isEqualTo("valido");
+            assertThat(valid.mode()).isEqualTo("bulk");
+            assertThat(valid.replaceCount()).isEqualTo(sample.fixture().size());
             service.importFile(jobId);
             assertThat(waitFor(jobId, "publicado", "fallido", "cancelado").status()).isEqualTo("publicado");
             assertPublished(sample, order);
@@ -133,24 +139,75 @@ class IngestIT {
     }
 
     @Test
-    @DisplayName("cancelar al volver de reindex deja el alias y el índice anterior")
-    void shouldKeepThePreviousIndexWhenCancelledAfterReindex() throws Exception {
+    @DisplayName("bulk: cancelar al crear el temporal deja el alias y el índice anterior")
+    void shouldKeepThePreviousIndexWhenTheBulkIsCancelled() throws Exception {
         ImportSample sample = ImportSample.read(FIXTURE);
         Path file = sample.writeImportFile();
         try {
-            String jobId = accept("carga.json", file);
+            String jobId = accept("carga.json", file, ImportMode.BULK);
             assertThat(waitFor(jobId, "valido", "invalido", "fallido").status()).isEqualTo("valido");
             gate.arm(() -> service.cancel(jobId));
             service.importFile(jobId);
             assertThat(waitFor(jobId, "cancelado", "publicado", "fallido").status()).isEqualTo("cancelado");
-            CatalogName described = catalog.describe(ALIAS);
-            assertThat(described).isInstanceOf(CatalogName.Alias.class);
-            assertThat(((CatalogName.Alias) described).concreteIndex()).isEqualTo(PREVIOUS);
-            assertThat(catalog.listOwnedIndexes(ALIAS)).containsExactly(PREVIOUS);
+            assertStillOnPrevious();
             assertThat(catalog.count(ALIAS)).isEqualTo(sample.fixture().size());
         } finally {
             Files.deleteIfExists(file);
         }
+    }
+
+    @Test
+    @DisplayName("append: agrega al índice vigente sin crear otro, reemplaza el id que ya estaba y genera los vectores")
+    void shouldAppendToTheCurrentIndex() throws Exception {
+        ImportSample sample = ImportSample.read(FIXTURE);
+        Path file = sample.writeImportFile();
+        try {
+            String jobId = accept("carga.json", file, ImportMode.APPEND);
+            JobView valid = waitFor(jobId, "valido", "invalido", "fallido");
+            assertThat(valid.status()).isEqualTo("valido");
+            assertThat(valid.mode()).isEqualTo("append");
+            assertThat(valid.replaceCount()).isEqualTo(sample.fixture().size());
+            service.importFile(jobId);
+            JobView done = waitFor(jobId, "agregado", "fallido", "cancelado");
+            assertThat(done.status()).isEqualTo("agregado");
+            assertThat(done.written()).isEqualTo(sample.fixture().size() + 1);
+            assertStillOnPrevious();
+            assertThat(catalog.count(ALIAS)).isEqualTo(sample.fixture().size() + 1);
+            assertThat(movie(ImportSample.TITANIC).title()).isEqualTo(ImportSample.REPLACED_TITLE);
+            assertThat(movie(ImportSample.EXTRA_ID).id()).isEqualTo(ImportSample.EXTRA_ID);
+            assertCosine(sample);
+        } finally {
+            Files.deleteIfExists(file);
+        }
+    }
+
+    @Test
+    @DisplayName("append: cancelar después del primer lote deja lo escrito y dice cuántas se agregaron")
+    void shouldKeepWhatWasWrittenWhenTheAppendIsCancelled() throws Exception {
+        ImportSample sample = ImportSample.read(FIXTURE);
+        Path file = sample.writeImportFile();
+        try {
+            String jobId = accept("carga.json", file, ImportMode.APPEND);
+            assertThat(waitFor(jobId, "valido", "invalido", "fallido").status()).isEqualTo("valido");
+            gate.arm(() -> service.cancel(jobId));
+            service.importFile(jobId);
+            JobView stopped = waitFor(jobId, "cancelado", "agregado", "fallido");
+            assertThat(stopped.status()).isEqualTo("cancelado");
+            assertThat(stopped.written()).isEqualTo(2);
+            assertStillOnPrevious();
+            // Los dos primeros del archivo ya estaban en el catálogo: se reemplazaron y el conteo no cambia.
+            assertThat(catalog.count(ALIAS)).isEqualTo(sample.fixture().size());
+            assertThat(catalog.readWithVectors(ALIAS, List.of(ImportSample.EXTRA_ID))).isEmpty();
+        } finally {
+            Files.deleteIfExists(file);
+        }
+    }
+
+    private void assertStillOnPrevious() {
+        CatalogName described = catalog.describe(ALIAS);
+        assertThat(described).isInstanceOf(CatalogName.Alias.class);
+        assertThat(((CatalogName.Alias) described).concreteIndex()).isEqualTo(PREVIOUS);
+        assertThat(catalog.listOwnedIndexes(ALIAS)).containsExactly(PREVIOUS);
     }
 
     private void assertPublished(ImportSample sample, List<String> order) throws Exception {
@@ -222,8 +279,8 @@ class IngestIT {
         return order;
     }
 
-    private String accept(String name, Path file) {
-        String jobId = service.acceptFile(name, file, CsvSettings.withHeader(), ImportMode.BULK);
+    private String accept(String name, Path file, ImportMode mode) {
+        String jobId = service.acceptFile(name, file, CsvSettings.withHeader(), mode);
         jobIds.add(jobId);
         return jobId;
     }
@@ -231,7 +288,7 @@ class IngestIT {
     private void stopJobs() {
         for (String jobId : jobIds) {
             service.cancel(jobId);
-            JobView view = waitFor(jobId, "publicado", "fallido", "cancelado", "invalido");
+            JobView view = waitFor(jobId, "publicado", "agregado", "fallido", "cancelado", "invalido");
             if (!terminal(view.status())) {
                 throw new IllegalStateException("el trabajo sigue en " + view.status());
             }
@@ -240,6 +297,7 @@ class IngestIT {
 
     private static boolean terminal(String status) {
         return "publicado".equals(status)
+                || "agregado".equals(status)
                 || "fallido".equals(status)
                 || "cancelado".equals(status)
                 || "invalido".equals(status);
@@ -283,7 +341,7 @@ class IngestIT {
     }
 
     /**
-     * Envuelve el catálogo para cancelar justo cuando {@code reindex} vuelve.
+     * Envuelve el catálogo para cancelar al crear el temporal (bulk) o al volver de un lote (append).
      */
     @TestConfiguration
     static class GateConfig {
@@ -296,7 +354,7 @@ class IngestIT {
         @Bean
         @Primary
         CatalogIndex catalogIndex(ElasticsearchCatalogIndex delegate, CancelGate cancelGate) {
-            return new CancelAfterReindex(delegate, cancelGate);
+            return new CancelGateCatalog(delegate, cancelGate);
         }
     }
 }

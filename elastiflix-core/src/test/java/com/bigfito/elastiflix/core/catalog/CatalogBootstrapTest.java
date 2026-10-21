@@ -341,6 +341,12 @@ class CatalogBootstrapTest {
         }
 
         @Override
+        public AppendResult appendAll(String alias, List<Movie> movies) {
+            calls.add("append");
+            return new AppendResult(movies.size(), 0);
+        }
+
+        @Override
         public void indexOne(String name, Movie movie) {
             calls.add("indexOne");
         }

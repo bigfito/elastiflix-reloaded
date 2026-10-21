@@ -59,7 +59,8 @@ final class JobFigures {
     }
 
     private static boolean passedValidation(JobStatus status) {
-        return status == JobStatus.VALID || status == JobStatus.IMPORTING || status == JobStatus.PUBLISHED;
+        return status == JobStatus.VALID || status == JobStatus.IMPORTING || status == JobStatus.PUBLISHED
+                || status == JobStatus.APPENDED;
     }
 
     static List<ValidationIssue> preview(List<ValidationIssue> errors) {

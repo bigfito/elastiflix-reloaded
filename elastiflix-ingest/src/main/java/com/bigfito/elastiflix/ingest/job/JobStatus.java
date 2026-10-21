@@ -17,11 +17,14 @@ public enum JobStatus {
     /** Hay errores de campos o de formato. No se importa. */
     INVALID("invalido"),
 
-    /** Los lotes se están escribiendo en el índice temporal. */
+    /** Los lotes se están escribiendo: en el índice temporal (bulk) o en el vigente (append). */
     IMPORTING("importando"),
 
-    /** El alias ya apunta al índice nuevo. */
+    /** Bulk: el alias ya apunta al índice nuevo. */
     PUBLISHED("publicado"),
+
+    /** Append: todos los lotes quedaron escritos en el índice vigente. */
+    APPENDED("agregado"),
 
     /** La importación o la validación falló con una excepción. */
     FAILED("fallido"),
@@ -48,11 +51,11 @@ public enum JobStatus {
     }
 
     /**
-     * Dice si el trabajo ya no va a cambiar: inválido, publicado, fallido o cancelado.
+     * Dice si el trabajo ya no va a cambiar: inválido, publicado, agregado, fallido o cancelado.
      *
      * @return {@code true} en un estado final
      */
     public boolean terminal() {
-        return this == INVALID || this == PUBLISHED || this == FAILED || this == CANCELLED;
+        return this == INVALID || this == PUBLISHED || this == APPENDED || this == FAILED || this == CANCELLED;
     }
 }

@@ -63,6 +63,29 @@ final class CatalogRequests {
         throw new ImportException(ErrorCode.BULK_REJECTED);
     }
 
+    /**
+     * Cuenta los ítems aceptados y rechazados de un lote de append. Si hubo rechazos, deja un {@code WARN} con el
+     * primero (id y tipo de error, nunca el documento); el código lo pone quien llama.
+     *
+     * @param alias    alias donde se escribió
+     * @param response respuesta de {@code _bulk}
+     * @return aceptados y rechazados
+     */
+    static AppendResult appendResult(String alias, BulkResponse response) {
+        int rejected = 0;
+        for (BulkResponseItem item : response.items()) {
+            if (item.error() != null) {
+                rejected++;
+            }
+        }
+        if (rejected > 0) {
+            BulkResponseItem failed = firstFailure(response);
+            LOG.warn("{} ítems rechazados en {}; primero id={} tipo={}", rejected, alias,
+                    failed == null ? "" : failed.id(), errorType(failed));
+        }
+        return new AppendResult(response.items().size() - rejected, rejected);
+    }
+
     private static BulkResponseItem firstFailure(BulkResponse response) {
         for (BulkResponseItem item : response.items()) {
             if (item.error() != null) {
