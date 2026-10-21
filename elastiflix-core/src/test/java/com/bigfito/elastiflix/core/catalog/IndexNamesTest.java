@@ -33,4 +33,17 @@ class IndexNamesTest {
         assertThat(names.isOwnedBy(ALIAS, ALIAS)).isFalse();
         assertThat(names.isOwnedBy(ALIAS, "elastiflix-reloaded-20261020-153000-extra")).isFalse();
     }
+
+    @Test
+    @DisplayName("un índice fechado de otro alias que empieza igual no es del alias corto")
+    void shouldRejectTheIndexOfAnotherAliasWhenTheyShareAPrefix() {
+        // given: los dos nombres empiezan por <alias>- y el comodín <alias>-* los devuelve
+        String itIndexOfTheCatalog = "elastiflix-reloaded-it-20261020-153000";
+        String longerItAlias = "elastiflix-it-x-y-20261020-153000";
+
+        // when / then
+        assertThat(names.isOwnedBy(ALIAS, itIndexOfTheCatalog)).isFalse();
+        assertThat(names.isOwnedBy("elastiflix-it-x", longerItAlias)).isFalse();
+        assertThat(names.isOwnedBy("elastiflix-it-x-y", longerItAlias)).isTrue();
+    }
 }

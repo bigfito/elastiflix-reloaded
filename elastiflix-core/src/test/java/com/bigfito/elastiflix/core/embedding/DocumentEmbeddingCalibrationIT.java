@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import com.bigfito.elastiflix.core.TestApplication;
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
@@ -20,12 +21,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Mide el coseno de las seis combinaciones de documento contra el catálogo.
  *
  * <p>Solo lee. Escribe la tabla en {@code target/}, para no modificar el diseño en cada
- * verificación. Los números medidos se copian después a {@code docs/diseno/1.md}.</p>
+ * verificación. Los números medidos se copian después a {@code docs/diseno/1.md}. Además afirma
+ * que la combinación configurada sigue reproduciendo los vectores guardados: si el modelo cambia,
+ * la prueba falla y hay que volver a calibrar.</p>
  */
 @SpringBootTest(classes = TestApplication.class)
 class DocumentEmbeddingCalibrationIT {
@@ -43,7 +47,7 @@ class DocumentEmbeddingCalibrationIT {
      * Spring no inyecta el constructor de una prueba si no lleva {@code @Autowired}.
      *
      * @param catalog    lectura del catálogo, con vectores
-     * @param properties alias configurado
+     * @param properties alias configurado y combinación de documento elegida
      * @param embeddings servicio que expone la calibración
      */
     @Autowired
@@ -55,39 +59,54 @@ class DocumentEmbeddingCalibrationIT {
     }
 
     @Test
-    @DisplayName("mide las seis combinaciones y deja la tabla en target")
+    @DisplayName("mide las seis combinaciones, deja la tabla en target y la configurada sirve")
     void shouldMeasureDocumentCombinations() throws IOException {
+        // given
         Map<String, Movie> movies = moviesById();
-        List<String> lines = new ArrayList<>();
-        lines.add(header());
-        lines.add("|---|---|---|---|---|---|---|---|");
+
+        // when
+        List<Measurement> measurements = new ArrayList<>();
         for (Attempt attempt : attempts()) {
-            lines.add(measure(attempt, movies));
+            measurements.add(measure(attempt, movies));
         }
-        Files.createDirectories(TABLE.getParent());
-        Files.writeString(TABLE, String.join("\n", lines) + "\n");
-        assertThat(TABLE).isRegularFile();
+        writeTable(measurements);
+
+        // then: cada coseno es un número finito y la combinación que usa la demo sirve
+        for (Measurement measurement : measurements) {
+            assertThat(measurement.cosines()).allSatisfy(cosine -> assertThat(cosine).isFinite());
+        }
+        Measurement configured = configuredOf(measurements);
+        assertThat(configured.cosines())
+                .as("coseno de %s con plot_1024 para %s", configured.attempt().describe(), IDS)
+                .allSatisfy(cosine -> assertThat(cosine).isGreaterThanOrEqualTo(USEFUL));
     }
 
-    private String measure(Attempt attempt, Map<String, Movie> movies) {
-        List<String> cells = new ArrayList<>();
-        cells.add(attempt.inputLabel());
-        cells.add(attempt.prefixLabel());
-        boolean useful = true;
+    private Measurement measure(Attempt attempt, Map<String, Movie> movies) {
+        List<Double> cosines = new ArrayList<>();
         for (String id : IDS) {
-            double cosine = cosineOf(movies.get(id), attempt);
-            cells.add(String.format(Locale.ROOT, "%.6f", cosine));
-            if (cosine < USEFUL) {
-                useful = false;
-            }
+            cosines.add(cosineOf(movies.get(id), attempt));
         }
-        cells.add(useful ? "sí" : "no");
-        return "| " + String.join(" | ", cells) + " |";
+        return new Measurement(attempt, cosines);
     }
 
     private double cosineOf(Movie movie, Attempt attempt) {
         float[] generated = embeddings.embedForCalibration(movie.plot(), attempt.inputType(), attempt.prefix());
         return CosineSimilarity.between(generated, movie.plot1024());
+    }
+
+    /**
+     * Busca la medición de la combinación configurada. Un valor vacío en las propiedades equivale a
+     * no enviar el {@code input_type} o no anteponer prefijo, igual que el {@code null} de los intentos.
+     */
+    private Measurement configuredOf(List<Measurement> measurements) {
+        ElastiflixProperties.Embedding embedding = properties.embedding();
+        String inputType = blankToNull(embedding.documentInputType());
+        String prefix = blankToNull(embedding.documentPrefix());
+        return measurements.stream()
+                .filter(measurement -> measurement.attempt().matches(inputType, prefix))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("La combinación configurada ("
+                        + inputType + ", " + prefix + ") no está entre las seis medidas"));
     }
 
     private Map<String, Movie> moviesById() {
@@ -96,7 +115,10 @@ class DocumentEmbeddingCalibrationIT {
         for (Movie movie : found) {
             byId.put(movie.id(), movie);
         }
-        assertThat(byId.keySet()).containsExactlyInAnyOrderElementsOf(IDS);
+        // El catálogo vivo puede cambiar con una importación: sin estas películas no hay contra qué
+        // medir, así que la prueba se omite en lugar de fallar.
+        assumeTrue(byId.keySet().containsAll(IDS),
+                () -> "El catálogo ya no tiene las películas " + IDS + "; solo encontró " + byId.keySet());
         for (Movie movie : byId.values()) {
             assertThat(movie.plot()).isNotBlank();
             assertThat(movie.plot1024()).hasSize(VectorProjector.MODEL_DIMENSIONS);
@@ -104,8 +126,19 @@ class DocumentEmbeddingCalibrationIT {
         return byId;
     }
 
-    private static String header() {
-        return "| input_type | prefijo | " + String.join(" | ", IDS) + " | ¿Sirve? |";
+    private static void writeTable(List<Measurement> measurements) throws IOException {
+        List<String> lines = new ArrayList<>();
+        lines.add("| input_type | prefijo | " + String.join(" | ", IDS) + " | ¿Sirve? |");
+        lines.add("|---|---|---|---|---|---|---|---|");
+        for (Measurement measurement : measurements) {
+            lines.add(measurement.toRow());
+        }
+        Files.createDirectories(TABLE.getParent());
+        Files.writeString(TABLE, String.join("\n", lines) + "\n");
+    }
+
+    private static String blankToNull(String value) {
+        return value == null || value.isBlank() ? null : value;
     }
 
     private static List<Attempt> attempts() {
@@ -119,5 +152,31 @@ class DocumentEmbeddingCalibrationIT {
     }
 
     private record Attempt(String inputType, String prefix, String inputLabel, String prefixLabel) {
+
+        boolean matches(String otherInputType, String otherPrefix) {
+            return Objects.equals(inputType, otherInputType) && Objects.equals(prefix, otherPrefix);
+        }
+
+        String describe() {
+            return inputLabel + " y " + prefixLabel;
+        }
+    }
+
+    private record Measurement(Attempt attempt, List<Double> cosines) {
+
+        boolean isUseful() {
+            return cosines.stream().allMatch(cosine -> cosine >= USEFUL);
+        }
+
+        String toRow() {
+            List<String> cells = new ArrayList<>();
+            cells.add(attempt.inputLabel());
+            cells.add(attempt.prefixLabel());
+            for (double cosine : cosines) {
+                cells.add(String.format(Locale.ROOT, "%.6f", cosine));
+            }
+            cells.add(isUseful() ? "sí" : "no");
+            return "| " + String.join(" | ", cells) + " |";
+        }
     }
 }

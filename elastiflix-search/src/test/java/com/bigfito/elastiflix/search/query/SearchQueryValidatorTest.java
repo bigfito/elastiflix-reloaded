@@ -8,6 +8,8 @@ import com.bigfito.elastiflix.core.error.SearchValidationException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -26,6 +28,20 @@ class SearchQueryValidatorTest {
         assertThatCode(() -> validator.validate(fullText("titanic"))).doesNotThrowAnyException();
         assertThatCode(() -> validator.validate(vector("un barco", 100, 200))).doesNotThrowAnyException();
         assertThatCode(() -> validator.validate(hybrid("toy story"))).doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest(name = "k {0} · num_candidates {1}")
+    @CsvSource({"1, 1", "1, 200", "100, 100", "100, 10000", "10000, 10000"})
+    @DisplayName("los bordes de k y num_candidates se aceptan en vectorial e híbrida")
+    void shouldAcceptWhenKAndCandidatesSitOnTheirLimits(int k, int candidates) {
+        // given: k = 1, num_candidates = k y num_candidates = 10 000 son válidos (k ≤ num_candidates ≤ 10 000)
+        SearchQuery vectorQuery = vector("tigre", k, candidates);
+        SearchQuery hybridQuery = new SearchQuery("tigre", SearchMode.HYBRID, matchTitle(), knn(k, candidates),
+                SearchFilters.none(), 1, SearchQuery.PAGE_25);
+
+        // when / then
+        assertThatCode(() -> validator.validate(vectorQuery)).doesNotThrowAnyException();
+        assertThatCode(() -> validator.validate(hybridQuery)).doesNotThrowAnyException();
     }
 
     @Test
