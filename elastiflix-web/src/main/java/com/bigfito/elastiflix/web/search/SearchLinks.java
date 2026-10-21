@@ -47,15 +47,18 @@ public final class SearchLinks {
     /**
      * Enlace al detalle de la película conservando los parámetros de la búsqueda.
      *
+     * <p>El id va como un solo segmento codificado: {@code a/b} queda {@code /pelicula/a%2Fb} y {@code café},
+     * {@code /pelicula/caf%C3%A9}.</p>
+     *
      * @param id   identificador de la película
      * @param form formulario actual
      * @return ruta hacia el detalle
      */
     public static String detail(String id, SearchForm form) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/pelicula").pathSegment(id);
         if (form == null) {
-            return "/pelicula/" + id;
+            return EncodedQuery.of(builder);
         }
-        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/pelicula/" + id);
         query(builder, form);
         filters(builder, form);
         builder.queryParam("pagina", form.page());

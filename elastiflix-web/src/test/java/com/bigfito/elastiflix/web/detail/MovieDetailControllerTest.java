@@ -1,6 +1,8 @@
 package com.bigfito.elastiflix.web.detail;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.bigfito.elastiflix.core.catalog.CatalogStatus;
@@ -17,20 +19,26 @@ import com.bigfito.elastiflix.web.layout.LayoutAdvice;
 import com.bigfito.elastiflix.web.layout.PosterUrls;
 import com.bigfito.elastiflix.web.locale.LocaleConfig;
 import com.bigfito.elastiflix.web.locale.UiMessages;
+import com.bigfito.elastiflix.web.search.SearchForms;
+import com.bigfito.elastiflix.web.search.SearchLinks;
 import com.bigfito.elastiflix.web.search.SearchQueryMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -117,6 +125,21 @@ class MovieDetailControllerTest {
                 .andExpect(content().string(containsString("EFX-ES-007")))
                 .andExpect(content().string(containsString("Elasticsearch rechazó la operación")))
                 .andExpect(content().string(not(containsString("Esta página no existe"))));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"a/b", "café"})
+    @DisplayName("el enlace de la tarjeta abre el detalle de un id con barra o no ASCII")
+    void shouldOpenTheDetailOfAnEncodedId(String id) throws Exception {
+        // given
+        when(searches.findById(id)).thenReturn(Optional.of(Movie.identified(id)));
+        String href = SearchLinks.detail(id, SearchForms.from(new LinkedMultiValueMap<>(Map.of("q", List.of("x")))));
+
+        // when / then
+        mvc.perform(get(URI.create(href)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("detail"));
+        verify(searches).findById(id);
     }
 
     @Test
