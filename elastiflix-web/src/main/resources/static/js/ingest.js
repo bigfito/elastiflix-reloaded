@@ -10,8 +10,10 @@
   var submit = document.getElementById("file-submit");
   var importButton = document.getElementById("job-import");
   var cancelButton = document.getElementById("job-cancel");
-  var maxBytes = Number(filePanel.getAttribute("data-max-bytes")) || 150 * 1024 * 1024;
-  var maxLabel = filePanel.getAttribute("data-max-label") || "150 MB";
+  // El tope (25 MB fijos, FileChecker.MAX_FILE_SIZE) llega solo de la página. Sin él, el navegador deja pasar
+  // el archivo y el servidor lo rechaza igual con EFX-ING-003.
+  var maxBytes = Number(filePanel.getAttribute("data-max-bytes")) || Infinity;
+  var maxLabel = filePanel.getAttribute("data-max-label") || "";
   var ACTIVE = ["recibido", "validando", "importando"];
   var STATE_MARKS = { done: "✓", failed: "✕", current: "…" };
   // Forma del id que da el servidor (UUID.randomUUID()); un ?job= distinto no se usa en ninguna ruta.
