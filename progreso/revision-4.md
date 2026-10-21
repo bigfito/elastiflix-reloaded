@@ -7,21 +7,21 @@
 
 - **Unidad:** Revisión 4
 - **Nombre:** Correcciones de la cuarta revisión (tras las fases 7 y 8)
-- **Rama:** `main` (fusión de `revision-4` en el PR #25, merge `b54d67c`)
+- **Rama:** `revision-4-resto` (la primera tanda entró en `main` con el PR #25, merge `b54d67c`)
 - **Carpeta:** `E:\02 - programming\03 - elastiflix-reloaded`
 - **Herramienta de la última sesión:** Claude Code (Opus 5.5)
 
 ## Estado general
 
-decisiones 1 a 6 aplicadas y fusionadas en `main`; el resto de la lista espera instrucciones
+en curso: resto de la lista
 
 ## Punto de reanudación
 
-- **Tarea actual:** ninguna; las decisiones 1 a 6 de Adolfo están aplicadas
-- **Subpaso en curso:** ninguno
-- **Próximo paso:** que Adolfo diga qué hacer con los demás puntos de `docs/revisiones/revision-4.md` (los que
-  esta tabla no marca)
-- **Última actualización:** 2026-10-21 19:30 UTC
+- **Tarea actual:** carriles en paralelo sobre el resto de la lista
+- **Subpaso en curso:** cuatro agentes, cada uno en su worktree y su rama, sin archivos compartidos
+- **Próximo paso:** integrar las ramas de los carriles en `revision-4-resto`, correr `./mvnw verify -Pit` y las
+  pruebas de navegador, y después la documentación (U-07 mockup, U-34 a U-38)
+- **Última actualización:** 2026-10-21 19:45 UTC
 
 ## Tareas
 
@@ -94,6 +94,14 @@ Vacío.
   `main`) y se fusionó con el merge commit `b54d67c`.
 - 2026-10-21: Adolfo pidió «Sí, borra la rama revision-4 en local y en el remoto.». Se borró en los dos lados
   después de comprobar que no tenía commits fuera de `main`.
+
+- 2026-10-21: Adolfo pidió «Trabaja y resuelve todos los puntos de @docs/revisiones/revision-4.md». Se
+  trabaja en la rama `revision-4-resto` con cuatro carriles en paralelo (worktrees de Claude Code):
+  **detalle** (U-04, U-05, U-06, U-08 enlace, U-09, U-10, U-12 y U-22 del detalle, U-18 del detalle, U-23 del
+  detalle), **web e idioma** (U-08 selector, U-12, U-18, U-19, U-22, U-23, U-33 `package-info`), **carga**
+  (U-12 de carga, U-18 `data-alias`, U-20, U-21, U-25 a U-29, U-31 de ingest, U-32) y **núcleo y búsqueda**
+  (U-30, U-31 de core y search). Los carriles no escriben `progreso/`, PLAN, README ni `docs/`; la
+  documentación (U-07 estado del mockup, U-34 a U-38) va al final, sobre el código integrado.
 
 ## Resumen de diseño
 
