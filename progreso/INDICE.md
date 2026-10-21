@@ -7,14 +7,14 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 10 — Carga en modo append o bulk (Requerimiento 4)
-- **Estado de la fase:** terminada y fusionada en `main` (PR #28, `520768a`)
-- **Ramas:** `main` (la rama `fase-10-modos` se borró tras la fusión)
-- **Diseño:** [`docs/diseno/10.md`](../docs/diseno/10.md)
-- **Estado:** [`progreso/10.md`](10.md)
-- **Tarea actual:** ninguna
-- **Próximo paso:** ninguno pendiente: los requerimientos de PLAN están en `main` y las capturas, al día y aprobadas.
-- **Última actualización:** 2026-10-21 22:18 UTC
+- **Fase actual:** 11 — Índice y catálogo completo en «Acerca de» (Requerimiento 5)
+- **Estado de la fase:** en curso
+- **Ramas:** `fase-11-acerca` (sale de `main`, `5a1d82f`)
+- **Diseño:** [`docs/diseno/11.md`](../docs/diseno/11.md)
+- **Estado:** [`progreso/11.md`](11.md)
+- **Tarea actual:** 11.1 Índice de «Acerca de»
+- **Próximo paso:** agregar el índice lateral a `about.html` según `docs/diseno/11.md` (tarea 11.1).
+- **Última actualización:** 2026-10-21 22:27 UTC
 
 ## Fases
 
@@ -37,6 +37,7 @@
 | — | Revisión 4 | — | terminada | `progreso/revision-4.md` | Lista en `docs/revisiones/revision-4.md` (U-01 a U-38), toda resuelta. PR #25 (merge `b54d67c`) y PR #26 (merge `c9be924`) fusionados en `main`; ramas y worktrees de los carriles borrados. `./mvnw verify -Pit` en verde (635 + 32) y navegador 15 de 15, el 2026-10-21. Adolfo aprobó las capturas, el estado de error del mockup del detalle, el patrón ViewModel del diseño 7 y la dependencia opcional `spring-boot-web-server` en core. |
 | 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | terminado | `progreso/9.md` | `./mvnw clean verify -Pit` en verde (637 unitarias: core 78, search 76, ingest 215, web 268; 32 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 19 de 19, el 2026-10-21. Fusionada en `main` (`1047a65`, PR #27); rama `fase-9-25mb` borrada en local y en el remoto. |
 | 10 | Carga en modo append o bulk (Requerimiento 4) | — | terminado | `progreso/10.md` | `./mvnw clean verify -Pit` en verde (670 unitarias: core 80, search 76, ingest 236, web 278; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 24 de 24, el 2026-10-21. Fusionada en `main` (`520768a`, PR #28); rama `fase-10-modos` borrada en local y en el remoto. |
+| 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | en curso | `progreso/11.md` | — |
 
 ## Aprobaciones del usuario
 
@@ -101,6 +102,7 @@
 | 2026-10-21 | Capturas de «Acerca de» con los dos modos | Adolfo pidió «Sí, vuelve a tomar las capturas de «Acerca de» en español e inglés.» Se tomaron `acerca.png` y `acerca-en.png` con el catálogo real (`4823a0b`). |
 | 2026-10-21 | Capturas nuevas de «Acerca de» aprobadas | Adolfo respondió «Apruebo las 2 capturas nuevas de «Acerca de».» Son `docs/capturas/acerca.png` y `acerca-en.png` (`4823a0b`). |
 | 2026-10-21 | Cambio del mockup aprobado: «El catálogo» con los dos modos | Adolfo pidió «Sí, corrige la frase de «El catálogo» en «Acerca de» y en los dos mockups para que valga también en append.» En `About.dc.html`, `About-en.dc.html` y la página, la frase dice ahora que las búsquedas siempre leen el catálogo publicado, que bulk se publica de una sola vez o se descarta y que append se suma lote por lote. Las capturas de «Acerca de» se reemplazaron por las mismas con esa frase. |
+| 2026-10-21 | Requerimiento 5: índice y catálogo completo en «Acerca de» (Fase 11) | Adolfo pidió «Me gustaría que la página de "Acerca de" tuviera un índice que facilitara la navegación y desplazamiento por la página. Adicionalmente, la sección que hace mención al catálogo siento que esta incompleta. Debería tener una descripción completa del catálogo con todos los atributos que lo componen.» Eligió el índice lateral fijo, el catálogo en tablas por grupo con todos los atributos e implementar directo, sin mockups previos (los mockups se actualizan al final). Rama `fase-11-acerca`. |
 
 
 ## Catálogo vigente
