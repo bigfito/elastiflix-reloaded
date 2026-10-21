@@ -88,7 +88,7 @@ final class MovieDetailTables {
                 FactRow.text(messages.getFor(locale, "detail.num.voteAverage"), "vote_average",
                         voteAverage(m.voteAverage())),
                 FactRow.text(messages.getFor(locale, "detail.num.votes"), "vote_count",
-                        m.voteCount() != null ? Thousands.of(m.voteCount(), locale) : null),
+                        voteCount(m.voteCount(), locale)),
                 FactRow.text(messages.getFor(locale, "detail.num.popularity"), "popularity",
                         popularity(m.popularity())),
                 FactRow.text(messages.getFor(locale, "detail.num.userScore"), "user_score",
@@ -132,31 +132,38 @@ final class MovieDetailTables {
                         posters.url(m.backdropPath())));
     }
 
+    /**
+     * Formatea {@code vote_average} con dos decimales.
+     *
+     * @param avg promedio; puede ser nulo
+     * @return texto, o {@code null} si no hay valor (la ficha y la cabecera muestran «N/A»)
+     */
     static String voteAverage(Double avg) {
-        if (avg == null) {
-            return "—";
-        }
-        return String.format(Locale.US, "%.2f", avg);
+        return avg == null ? null : String.format(Locale.US, "%.2f", avg);
     }
 
+    /**
+     * Formatea {@code popularity} con un decimal.
+     *
+     * @param pop popularidad; puede ser nula
+     * @return texto, o {@code null} si no hay valor
+     */
     static String popularity(Double pop) {
-        if (pop == null) {
-            return "—";
-        }
-        return String.format(Locale.US, "%.1f", pop);
+        return pop == null ? null : String.format(Locale.US, "%.1f", pop);
     }
 
+    /**
+     * Formatea {@code vote_count} con el separador de miles del idioma.
+     *
+     * @param count  votos; pueden ser nulos
+     * @param locale idioma activo
+     * @return texto, o {@code null} si no hay valor (nunca «0» inventado)
+     */
     static String voteCount(Integer count, Locale locale) {
-        if (count == null) {
-            return "0";
-        }
-        return Thousands.of(count, locale);
+        return count == null ? null : Thousands.of(count, locale);
     }
 
     private static String userScore(Double score) {
-        if (score == null) {
-            return null;
-        }
-        return String.format(Locale.US, "%.1f", score);
+        return score == null ? null : String.format(Locale.US, "%.1f", score);
     }
 }

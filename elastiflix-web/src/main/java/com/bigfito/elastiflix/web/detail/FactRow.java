@@ -25,7 +25,18 @@ public record FactRow(
         boolean isText,
         boolean isEmpty) {
 
-    private static final String NOT_AVAILABLE = "N/A";
+    /** Texto de un campo sin valor: ausente, {@code null}, texto en blanco o lista vacía. */
+    static final String NOT_AVAILABLE = "N/A";
+
+    /**
+     * Devuelve el valor, o «N/A» si está ausente o en blanco.
+     *
+     * @param value valor ya formateado; puede ser nulo
+     * @return el valor o «N/A»
+     */
+    static String orNotAvailable(String value) {
+        return value == null || value.isBlank() ? NOT_AVAILABLE : value;
+    }
 
     /**
      * Fila con texto simple.

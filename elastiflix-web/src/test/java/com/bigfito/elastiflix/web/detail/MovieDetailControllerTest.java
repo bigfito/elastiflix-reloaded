@@ -143,6 +143,28 @@ class MovieDetailControllerTest {
     }
 
     @Test
+    @DisplayName("una película sin datos muestra «N/A» en la cabecera, el resumen, la sinopsis y las listas")
+    void shouldRenderNotAvailableForAnEmptyMovie() throws Exception {
+        // given
+        when(searches.findById("999")).thenReturn(Optional.of(Movie.identified("999")));
+
+        // when / then
+        mvc.perform(get("/pelicula/999").param("q", "x"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<strong class=\"rating-score\">N/A</strong>")))
+                .andExpect(content().string(containsString("· N/A votos")))
+                .andExpect(content().string(containsString("Popularidad N/A")))
+                .andExpect(content().string(containsString(
+                        "<span class=\"genre-badge empty\" title=\"genres\">N/A</span>")))
+                .andExpect(content().string(containsString("<p class=\"detail-overview-text empty\">N/A</p>")))
+                .andExpect(content().string(containsString("<p class=\"detail-plot-text empty\">N/A</p>")))
+                .andExpect(content().string(containsString("<p class=\"detail-empty\">N/A</p>")))
+                .andExpect(content().string(not(containsString("0 personas"))))
+                .andExpect(content().string(not(containsString("0 palabras clave"))))
+                .andExpect(content().string(not(containsString("—"))));
+    }
+
+    @Test
     @DisplayName("película existente con búsqueda previa responde 200 OK y renderiza la ficha técnica completa")
     void shouldRenderMovieDetailPageWhenMovieExists() throws Exception {
         Movie movie = sampleMovie();

@@ -60,12 +60,16 @@ public class MovieDetailPage {
         List<String> cast = list(m.cast());
         List<MovieKeyword> keywords = list(m.keywords());
 
+        // Lo que solo aparece en la cabecera o en la columna derecha muestra «N/A» si falta. El título original y
+        // el lema quedan vacíos para ocultar su línea en la cabecera: su «N/A» sale en la ficha técnica.
         return new MovieDetailView(
-                m.id(), text(m.title()), text(m.originalTitle()), text(m.tagline()),
-                text(m.overview()), text(m.plot()), posters.url(m.posterPath()), posters.url(m.backdropPath()),
-                MovieDetailTables.voteAverage(m.voteAverage()), MovieDetailTables.voteCount(m.voteCount(), locale),
-                MovieDetailTables.popularity(m.popularity()), ExternalLinks.imdb(m.imdbId()), homepage,
-                !homepage.isBlank(),
+                m.id(), FactRow.orNotAvailable(m.title()), headerLine(m.originalTitle()), headerLine(m.tagline()),
+                FactRow.orNotAvailable(m.overview()), FactRow.orNotAvailable(m.plot()),
+                posters.url(m.posterPath()), posters.url(m.backdropPath()),
+                FactRow.orNotAvailable(MovieDetailTables.voteAverage(m.voteAverage())),
+                FactRow.orNotAvailable(MovieDetailTables.voteCount(m.voteCount(), locale)),
+                FactRow.orNotAvailable(MovieDetailTables.popularity(m.popularity())),
+                ExternalLinks.imdb(m.imdbId()), homepage, !homepage.isBlank(),
                 MovieDetailBadges.pills(m), MovieDetailBadges.genres(m.genres()),
                 MovieDetailTables.facts(m, locale, messages),
                 MovieDetailTables.production(m, locale, messages),
@@ -75,8 +79,8 @@ public class MovieDetailPage {
                 MovieDetailSearchChips.chips(form, locale, messages), SearchLinks.returnToSearch(m.id(), form));
     }
 
-    private static String text(String value) {
-        return value == null ? "" : value;
+    private static String headerLine(String value) {
+        return value == null || value.isBlank() ? "" : value;
     }
 
     private static <T> List<T> list(List<T> items) {

@@ -706,6 +706,11 @@ h1 span { color: var(--accent-ink); }
 }
 .detail-genres { display: flex; flex-wrap: wrap; gap: 8px; }
 .genre-badge { padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.genre-badge.empty { background: var(--surface-muted); font-weight: 400; }
+.genre-badge.empty, .detail-overview-text.empty, .detail-plot-text.empty, .detail-empty {
+  color: var(--muted); font-style: italic;
+}
+.detail-empty { margin: 0; font-size: 14px; }
 .detail-ratings { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding-top: 6px; font-size: 15px; color: var(--ink-2); }
 .rating-item { display: inline-flex; align-items: center; gap: 8px; }
 .rating-score { font-family: var(--mono); font-size: 17px; }

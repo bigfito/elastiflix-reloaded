@@ -76,6 +76,59 @@ class MovieDetailPageTest {
     }
 
     @Test
+    @DisplayName("un Movie vacío muestra «N/A» en cada campo, en la ficha, la cabecera y la columna derecha")
+    void shouldShowNotAvailableInEveryFieldOfAnEmptyMovie() {
+        // given
+        Movie emptyMovie = Movie.identified("999");
+
+        // when
+        MovieDetailView view = page.build(emptyMovie, searchForm());
+
+        // then: cabecera
+        assertThat(view.title()).isEqualTo("N/A");
+        assertThat(view.voteAverage()).isEqualTo("N/A");
+        assertThat(view.voteCount()).isEqualTo("N/A");
+        assertThat(view.popularity()).isEqualTo("N/A");
+        assertThat(view.genres()).isEmpty();
+        // then: columna derecha
+        assertThat(view.overview()).isEqualTo("N/A");
+        assertThat(view.plot()).isEqualTo("N/A");
+        assertThat(view.cast()).isEmpty();
+        assertThat(view.keywords()).isEmpty();
+        assertThat(view.notAvailable()).isEqualTo("N/A");
+        // then: todas las filas de los paneles, salvo el id
+        assertThat(view.facts()).filteredOn(row -> !"id".equals(row.field()))
+                .allSatisfy(row -> assertThat(row.value()).isEqualTo("N/A"));
+        assertThat(view.production()).allSatisfy(row -> assertThat(row.value()).isEqualTo("N/A"));
+        assertThat(view.numbers()).allSatisfy(row -> assertThat(row.value()).isEqualTo("N/A"));
+        assertThat(view.images()).allSatisfy(row -> assertThat(row.value()).isEqualTo("N/A"));
+        assertThat(factValue(view.numbers(), "vote_average")).isEqualTo("N/A");
+        assertThat(factValue(view.numbers(), "vote_count")).isEqualTo("N/A");
+        assertThat(factValue(view.numbers(), "popularity")).isEqualTo("N/A");
+    }
+
+    @Test
+    @DisplayName("textos y listas en blanco cuentan como vacíos: «N/A»")
+    void shouldTreatBlankTextsAsNotAvailable() {
+        // given
+        Movie blank = new Movie("1", " ", " ", " ", " ", null, null, " ", null, null,
+                " ", " ", " ", List.of(), List.of(), List.of(), null, null, null, null, null, null, " ",
+                " ", null, null, List.of(), List.of(), List.of(), null, null, null, null);
+
+        // when
+        MovieDetailView view = page.build(blank, searchForm());
+
+        // then
+        assertThat(view.title()).isEqualTo("N/A");
+        assertThat(view.originalTitle()).isEmpty();
+        assertThat(view.tagline()).isEmpty();
+        assertThat(view.overview()).isEqualTo("N/A");
+        assertThat(view.plot()).isEqualTo("N/A");
+        assertThat(factValue(view.facts(), "tagline")).isEqualTo("N/A");
+        assertThat(factValue(view.production(), "spoken_languages")).isEqualTo("N/A");
+    }
+
+    @Test
     @DisplayName("conserva el estado de búsqueda y genera el ancla de retorno #r-{id}")
     void shouldPreserveSearchStateAndReturnHref() {
         SearchForm form = new SearchForm(
