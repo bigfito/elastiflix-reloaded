@@ -9,7 +9,11 @@ import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.ObjectNode;
 
 /**
- * Comprueba listas de textos, la colección y las palabras clave.
+ * Reparte las listas de textos y comprueba la colección y las palabras clave.
+ *
+ * <p>Un error de un subcampo lleva la ruta completa en el campo, por ejemplo {@code keywords.id} o
+ * {@code belongs_to_collection.title}. Así no se confunde con {@code id}, {@code title} o {@code plot} del
+ * documento, y la falta de uno de esos tres se sigue informando.</p>
  */
 final class NestedValues {
 
@@ -21,42 +25,11 @@ final class NestedValues {
 
     static void write(FieldKind kind, String name, JsonNode value, CheckScope scope) {
         switch (kind) {
-            case TEXT_LIST -> textList(name, value, scope);
+            case TEXT_LIST -> TextListValues.write(name, value, scope);
             case COLLECTION -> collection(name, value, scope);
             case KEYWORDS -> keywords(name, value, scope);
             default -> { /* los escalares los revisa ScalarValues; un vector no se copia: se genera desde plot */ }
         }
-    }
-
-    private static void textList(String name, JsonNode value, CheckScope scope) {
-        if (value == null || value.isNull()) {
-            return;
-        }
-        if (!value.isArray()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.TEXT_LIST.text());
-            return;
-        }
-        scope.target().set(name, texts(name, value, scope));
-    }
-
-    private static ArrayNode texts(String name, JsonNode value, CheckScope scope) {
-        ArrayNode clean = MovieNodes.MAPPER.createArrayNode();
-        for (JsonNode item : value) {
-            addText(name, item, clean, scope);
-        }
-        return clean;
-    }
-
-    private static void addText(String name, JsonNode item, ArrayNode clean, CheckScope scope) {
-        if (item == null || item.isNull() || item.isString() && item.asString().isBlank()) {
-            scope.warning(ErrorCode.EMPTY_LIST_VALUE, name, FieldNames.BLANK, IngestPhrase.SKIPPED.text());
-            return;
-        }
-        if (!item.isString()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(item), IngestPhrase.TEXT.text());
-            return;
-        }
-        clean.add(item.asString());
     }
 
     private static void collection(String name, JsonNode value, CheckScope scope) {
@@ -67,7 +40,7 @@ final class NestedValues {
             scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.OBJECT_OR_NULL.text());
             return;
         }
-        scope.target().set(name, object(value, FieldRules.COLLECTION, scope));
+        scope.target().set(name, object(value, new NestedObject(name, FieldRules.COLLECTION), scope));
     }
 
     private static void keywords(String name, JsonNode value, CheckScope scope) {
@@ -78,75 +51,93 @@ final class NestedValues {
             scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.ID_NAME_LIST.text());
             return;
         }
-        scope.target().set(name, keywordList(value, scope));
+        scope.target().set(name, keywordList(name, value, scope));
     }
 
-    private static ArrayNode keywordList(JsonNode value, CheckScope scope) {
+    private static ArrayNode keywordList(String name, JsonNode value, CheckScope scope) {
         ArrayNode clean = MovieNodes.MAPPER.createArrayNode();
         for (JsonNode item : value) {
-            addKeyword(item, clean, scope);
+            addKeyword(name, item, clean, scope);
         }
         return clean;
     }
 
-    private static void addKeyword(JsonNode item, ArrayNode clean, CheckScope scope) {
+    private static void addKeyword(String name, JsonNode item, ArrayNode clean, CheckScope scope) {
         if (item == null || item.isNull()) {
-            scope.warning(ErrorCode.EMPTY_LIST_VALUE, "keywords", FieldNames.BLANK, IngestPhrase.SKIPPED.text());
+            scope.warning(ErrorCode.EMPTY_LIST_VALUE, name, FieldNames.BLANK, IngestPhrase.SKIPPED.text());
             return;
         }
         if (!item.isObject()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, "keywords", IssueTexts.show(item), IngestPhrase.ID_NAME_OBJECT.text());
+            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(item), IngestPhrase.ID_NAME_OBJECT.text());
             return;
         }
-        clean.add(object(item, FieldRules.KEYWORD, scope));
+        clean.add(object(item, new NestedObject(name, FieldRules.KEYWORD), scope));
     }
 
-    private static ObjectNode object(JsonNode value, Set<String> allowed, CheckScope scope) {
-        ObjectNode clean = MovieNodes.MAPPER.createObjectNode();
-        value.forEachEntry((name, child) -> copyChild(name, child, allowed, clean, scope));
-        return clean;
+    private static ObjectNode object(JsonNode value, NestedObject target, CheckScope scope) {
+        value.forEachEntry((name, child) -> copyChild(target, name, child, scope));
+        return target.clean();
     }
 
-    private static void copyChild(
-            String name, JsonNode child, Set<String> allowed, ObjectNode clean, CheckScope scope) {
-        if (!allowed.contains(name)) {
-            scope.error(ErrorCode.UNKNOWN_FIELD, name, IngestPhrase.FIELD_NAMED.text(name), UNKNOWN);
+    private static void copyChild(NestedObject target, String name, JsonNode child, CheckScope scope) {
+        if (!target.allowed().contains(name)) {
+            String path = target.path(name);
+            scope.error(ErrorCode.UNKNOWN_FIELD, path, IngestPhrase.FIELD_NAMED.text(path), UNKNOWN);
             return;
         }
         if (FieldNames.ID.equals(name)) {
-            writeId(child, clean, scope);
+            writeId(target, child, scope);
             return;
         }
-        optionalText(name, child, clean, scope);
+        optionalText(target, name, child, scope);
     }
 
-    private static void writeId(JsonNode value, ObjectNode clean, CheckScope scope) {
+    private static void writeId(NestedObject target, JsonNode value, CheckScope scope) {
         if (value == null || value.isNull()) {
             return;
         }
         if (!value.isIntegralNumber() || !value.canConvertToLong()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, FieldNames.ID, IssueTexts.show(value), INTEGER);
+            scope.error(ErrorCode.TYPE_MISMATCH, target.path(FieldNames.ID), IssueTexts.show(value), INTEGER);
             return;
         }
-        clean.set(FieldNames.ID, value);
+        target.clean().set(FieldNames.ID, value);
     }
 
-    private static void optionalText(String name, JsonNode value, ObjectNode clean, CheckScope scope) {
+    private static void optionalText(NestedObject target, String name, JsonNode value, CheckScope scope) {
         if (value == null || value.isNull()) {
             return;
         }
         if (!value.isString()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.TEXT.text());
+            scope.error(ErrorCode.TYPE_MISMATCH, target.path(name), IssueTexts.show(value), IngestPhrase.TEXT.text());
             return;
         }
-        keepOptional(name, value, clean, scope);
+        keepOptional(target, name, value, scope);
     }
 
-    private static void keepOptional(String name, JsonNode value, ObjectNode clean, CheckScope scope) {
+    private static void keepOptional(NestedObject target, String name, JsonNode value, CheckScope scope) {
         if (value.asString().isBlank()) {
-            scope.warning(ErrorCode.EMPTY_TEXT, name, FieldNames.BLANK, IngestPhrase.NO_VALUE.text());
+            scope.warning(ErrorCode.EMPTY_TEXT, target.path(name), FieldNames.BLANK, IngestPhrase.NO_VALUE.text());
             return;
         }
-        clean.set(name, value);
+        target.clean().set(name, value);
+    }
+
+    /**
+     * Un objeto anidado mientras se revisa.
+     *
+     * @param parent  campo del documento del que cuelga, por ejemplo {@code keywords}
+     * @param allowed subcampos que admite el mapping
+     * @param clean   objeto nuevo, solo con lo que pasa la revisión
+     */
+    private record NestedObject(String parent, Set<String> allowed, ObjectNode clean) {
+
+        NestedObject(String parent, Set<String> allowed) {
+            this(parent, allowed, MovieNodes.MAPPER.createObjectNode());
+        }
+
+        /** Ruta del subcampo para el informe, por ejemplo {@code keywords.id}. */
+        String path(String name) {
+            return parent + "." + name;
+        }
     }
 }

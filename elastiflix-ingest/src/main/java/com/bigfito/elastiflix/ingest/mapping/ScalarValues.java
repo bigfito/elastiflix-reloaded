@@ -29,6 +29,10 @@ final class ScalarValues {
     }
 
     private static void keyword(String name, JsonNode value, CheckScope scope) {
+        if (KeywordBytes.exceeds(name, value)) {
+            KeywordBytes.reject(name, value, scope);
+            return;
+        }
         if (FieldNames.ID.equals(name) && value != null && value.isIntegralNumber()) {
             scope.target().put(name, IdTexts.of(value));
             return;

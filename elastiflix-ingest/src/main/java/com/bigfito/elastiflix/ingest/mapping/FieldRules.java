@@ -30,6 +30,11 @@ final class FieldRules {
         return KINDS.get(name);
     }
 
+    /** Los 33 nombres; una prueba los compara con el mapping empaquetado. */
+    static Set<String> names() {
+        return KINDS.keySet();
+    }
+
     private static Map<String, FieldKind> kinds() {
         Map<String, FieldKind> map = new HashMap<>();
         texts(map);

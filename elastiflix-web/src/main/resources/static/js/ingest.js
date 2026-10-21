@@ -14,6 +14,8 @@
   var maxLabel = filePanel.getAttribute("data-max-label") || "150 MB";
   var ACTIVE = ["recibido", "validando", "importando"];
   var STATE_MARKS = { done: "✓", failed: "✕", current: "…" };
+  // Forma del id que da el servidor (UUID.randomUUID()); un ?job= distinto no se usa en ninguna ruta.
+  var JOB_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
   var messages = {
     networkError: filePanel.getAttribute("data-msg-network-error"),
@@ -42,6 +44,8 @@
   var timer = 0;
   var busy = false;
   var actionError = false;
+  // true mientras se espera el primer estado de un trabajo reanudado con ?job=: ese estado elige la pestaña.
+  var resuming = false;
 
   function byId(id) {
     return document.getElementById(id);
@@ -89,6 +93,11 @@
     });
   }
 
+  // Ruta de un trabajo. El id va codificado para que nunca cambie la ruta (por ejemplo, con «../»).
+  function jobUrl(id, suffix) {
+    return "/cargar/trabajos/" + encodeURIComponent(id) + (suffix || "");
+  }
+
   function stopPolling() {
     window.clearTimeout(timer);
     timer = 0;
@@ -128,6 +137,7 @@
     jobId = "";
     busy = false;
     actionError = false;
+    resuming = false;
     updateLangSwitch("");
     ["file-block", "columns-card", "job", "job-import-card", "server-error"].forEach(function (id) {
       show(byId(id), false);
@@ -146,7 +156,8 @@
 
   var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
 
-  function selectTab(button) {
+  // Muestra la pestaña y su panel sin tocar el archivo elegido ni el trabajo en curso.
+  function showTab(button) {
     tab = button.getAttribute("data-tab");
     tabs.forEach(function (other) {
       var on = other === button;
@@ -161,6 +172,10 @@
     });
     filePanel.setAttribute("aria-labelledby", button.id);
     paintFileCopy();
+  }
+
+  function selectTab(button) {
+    showTab(button);
     resetFile();
   }
 
@@ -196,7 +211,7 @@
     setText("drop-title", filePanel.getAttribute(csv ? "data-drop-csv" : "data-drop-json"));
     setText("drop-only", filePanel.getAttribute(csv ? "data-only-csv" : "data-only-json"));
     setText("file-hint", filePanel.getAttribute(csv ? "data-hint-csv" : "data-hint-json"));
-    input.setAttribute("accept", csv ? ".csv,text/csv" : ".json,.ndjson,application/json");
+    input.setAttribute("accept", csv ? ".csv,text/csv" : ".json,application/json");
   }
 
   window.addEventListener("dragover", function (event) { event.preventDefault(); });
@@ -354,7 +369,7 @@
         }
         jobId = result.data.jobId;
         updateLangSwitch(jobId);
-        byId("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
+        byId("job-report").href = jobUrl(jobId, "/informe.csv");
         show(byId("job"), true);
         show(byId("job-import-card"), true);
         poll();
@@ -372,7 +387,7 @@
     if (!current) {
       return;
     }
-    fetch("/cargar/trabajos/" + current)
+    fetch(jobUrl(current))
       .then(readJson)
       .then(function (result) {
         if (current !== jobId) {
@@ -406,7 +421,7 @@
     cancelButton.disabled = true;
     stopPolling();
     var current = jobId;
-    fetch("/cargar/trabajos/" + current + "/" + path, { method: "POST" })
+    fetch(jobUrl(current, "/" + path), { method: "POST" })
       .then(readJson)
       .then(function (result) {
         busy = false;
@@ -439,6 +454,11 @@
   function paint(screen) {
     var job = screen.job;
     var texts = screen.texts;
+    if (resuming) {
+      // Al volver con ?job= (por ejemplo, tras cambiar de idioma), la pestaña es la del tipo del trabajo.
+      resuming = false;
+      showTab(byId(job.kind === "csv" ? "tab-csv" : "tab-json"));
+    }
     show(byId("server-error"), actionError);
     paintSteps(job);
     if (job.fileCount > 0) {
@@ -561,26 +581,18 @@
     bar.querySelector("span").style.width = Math.round(done * 100 / max) + "%";
   }
 
-  // Reanuda el sondeo si la URL trae ?job=<jobId>
+  // Reanuda el sondeo si la URL trae ?job=<jobId>. Un valor que no es un UUID se quita de la URL y se ignora.
   try {
     var params = new URLSearchParams(window.location.search);
     var initialJob = params.get("job");
-    if (initialJob) {
-      var jsonTab = byId("tab-json");
-      if (jsonTab) {
-        tab = "json";
-        tabs.forEach(function (other) {
-          var on = other === jsonTab;
-          other.classList.toggle("is-on", on);
-          other.setAttribute("aria-selected", on ? "true" : "false");
-          other.tabIndex = on ? 0 : -1;
-        });
-        show(single, false);
-        show(filePanel, true);
-        paintFileCopy();
-      }
+    if (initialJob && !JOB_ID.test(initialJob)) {
+      updateLangSwitch("");
+    } else if (initialJob) {
+      // Mientras llega el primer estado se muestra el panel de archivo; ese estado elige JSON o CSV.
+      resuming = true;
+      showTab(byId("tab-json"));
       jobId = initialJob;
-      byId("job-report").href = "/cargar/trabajos/" + jobId + "/informe.csv";
+      byId("job-report").href = jobUrl(jobId, "/informe.csv");
       show(byId("job"), true);
       show(byId("job-import-card"), true);
       updateLangSwitch(initialJob);

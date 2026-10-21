@@ -14,14 +14,15 @@ import com.bigfito.elastiflix.ingest.mapping.WarningCount;
  * @param kind           {@code json} o {@code csv}, según la extensión del archivo
  * @param fileSize       bytes del archivo subido
  * @param step           paso del mockup, del 1 al 5; empieza en 1 al recibir el archivo
- * @param batch          último lote escrito
- * @param vectorized     registros que ya tienen vector
- * @param written        registros ya escritos
+ * @param batch          número del lote en curso, desde 1, ya vectorizado y quizá todavía sin escribir; 0 antes
+ *                       del primero (ver {@link ImportProgress})
+ * @param vectorized     registros que ya tienen vector, contando el lote en curso
+ * @param written        registros que Elasticsearch ya aceptó en el índice temporal
  * @param fileCount      registros (JSON) o filas (CSV) leídos, también si el archivo es inválido
  * @param validCount     {@code fileCount} menos los registros con al menos un error
  * @param invalidRecords registros distintos con al menos un error
  * @param replaceCount   ids del archivo que ya están en el catálogo; no cambia durante la importación
- * @param errorTotal     errores del informe, no solo los seis que se muestran
+ * @param errorTotal     errores del informe entero, no solo los seis que se muestran ni los que se guardan
  * @param errors         como mucho los primeros 6 errores
  * @param warnings       advertencias agrupadas por código y campo
  * @param checks         comprobaciones superadas; vacío si la carga no está lista

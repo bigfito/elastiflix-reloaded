@@ -120,7 +120,7 @@ public record JobTexts(
             return msg("ingest.job.import.plan",
                     counted(job.fileCount(), "ingest.job.count.movie"),
                     counted(job.batches(), "ingest.job.count.batch"),
-                    String.valueOf(job.batchSize()),
+                    number(job.batchSize()),
                     alias);
         }
 
@@ -131,7 +131,7 @@ public record JobTexts(
             }
             String temp = job.tempIndex().isEmpty() ? alias + "-AAAAMMDD-HHMMSS" : job.tempIndex();
             return msg("ingest.job.progress.running", done,
-                    String.valueOf(job.batch()), String.valueOf(job.batches()), temp);
+                    number(job.batch()), number(job.batches()), temp);
         }
 
         String importLabel() {

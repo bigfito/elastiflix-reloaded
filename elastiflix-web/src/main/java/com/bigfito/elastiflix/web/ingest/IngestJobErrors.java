@@ -20,8 +20,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * Respuestas JSON de los endpoints de trabajos de carga cuando algo falla.
  *
- * <p>Solo atiende a {@link IngestJobController}: las páginas HTML siguen con {@code WebExceptionHandler}. Así
- * la página que consulta el trabajo siempre recibe JSON, nunca una página de error.</p>
+ * <p>Solo atiende a {@link IngestJobController}: las páginas HTML siguen con {@code WebExceptionHandler}. Toda
+ * falla que lanza el controlador o un servicio sale como JSON con su código, también una sin código.</p>
+ *
+ * <p>No cubre lo que Spring rechaza antes de llamar al controlador, como un {@code POST /cargar/archivo} sin la
+ * parte {@code archivo} ({@code MissingServletRequestPartException}): eso sale como el 400 de Spring, en
+ * HTML. La página de carga siempre envía esa parte, así que solo lo ve un cliente hecho a mano, y la demo no
+ * tiene un código {@code EFX-*} para «falta el archivo». El archivo demasiado grande lo atiende
+ * {@link UploadSizeErrors}.</p>
  */
 @RestControllerAdvice(assignableTypes = IngestJobController.class)
 public class IngestJobErrors {

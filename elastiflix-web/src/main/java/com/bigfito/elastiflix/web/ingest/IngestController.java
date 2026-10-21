@@ -3,6 +3,7 @@ package com.bigfito.elastiflix.web.ingest;
 import java.util.List;
 import java.util.Locale;
 
+import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.ingest.job.SaveResult;
 import com.bigfito.elastiflix.ingest.mapping.ValidationIssue;
 import com.bigfito.elastiflix.ingest.service.IngestService;
@@ -49,7 +50,7 @@ public class IngestController implements HtmlPage {
      * Muestra las pestañas. Un guardado anterior llega por flash; sus rechazos se muestran en el idioma de
      * la página, aunque se hayan producido en otro.
      *
-     * @param model  navegación, tamaño máximo y lote
+     * @param model  navegación, tamaño máximo y lote (este, ya como texto agrupado por miles)
      * @param locale idioma de la petición
      * @return plantilla {@code ingest}
      */
@@ -65,7 +66,8 @@ public class IngestController implements HtmlPage {
         model.addAttribute("nav", "cargar");
         model.addAttribute("maxFileLabel", limits.maxFileLabel());
         model.addAttribute("maxFileBytes", limits.maxFileSize().toBytes());
-        model.addAttribute("batchSize", limits.batchSize());
+        // Texto ya agrupado por miles: con MessageFormat, un int saldría «1.000» en español (U-12).
+        model.addAttribute("batchSize", Thousands.of(limits.batchSize(), locale));
         return "ingest";
     }
 

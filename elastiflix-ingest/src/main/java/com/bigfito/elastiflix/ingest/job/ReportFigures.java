@@ -27,6 +27,19 @@ record ReportFigures(List<ValidationIssue> preview, int errorTotal, int invalidR
     }
 
     /**
+     * Cuántas advertencias hubo en total, sumando los grupos.
+     *
+     * @return advertencias del informe entero
+     */
+    int warningTotal() {
+        int total = 0;
+        for (WarningCount warning : warnings) {
+            total += warning.count();
+        }
+        return total;
+    }
+
+    /**
      * Calcula las cifras de un informe.
      *
      * @param report errores y advertencias del archivo

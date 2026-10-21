@@ -82,6 +82,6 @@ class CsvRowNumbersTest {
         storeId = store.open(file.getFileName().toString(), upload, CsvSettings.withHeader());
         intake.validate(storeId);
         assertThat(store.view(storeId).status()).isEqualTo("invalido");
-        return store.require(storeId).report().errors();
+        return store.require(storeId).kept().report().errors();
     }
 }

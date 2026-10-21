@@ -93,7 +93,7 @@
     </form>
 
     <section id="panel-file" data-panel="file" role="tabpanel" aria-labelledby="tab-json" hidden
-             th:attr="data-alias=${shell.alias},data-max-bytes=${maxFileBytes},data-max-label=${maxFileLabel},
+             th:attr="data-max-bytes=${maxFileBytes},data-max-label=${maxFileLabel},
                       data-title-json=#{ingest.file.json.title},data-title-csv=#{ingest.file.csv.title},
                       data-drop-json=#{ingest.file.drop.json},data-drop-csv=#{ingest.file.drop.csv},
                       data-only-json=#{ingest.file.drop.jsonOnly},data-only-csv=#{ingest.file.drop.csvOnly},
@@ -115,7 +115,7 @@
             <span class="chips"><span id="drop-only" th:text="#{ingest.file.drop.jsonOnly}">Solo .json</span><span th:text="|#{ingest.file.drop.max(${maxFileLabel})}|">Máximo 150 MB</span><span th:text="#{ingest.file.drop.utf8}">Texto UTF-8</span></span>
             <span class="hint" id="file-hint" th:text="#{ingest.file.hint.json}">El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.</span>
           </label>
-          <input id="archivo" name="archivo" type="file" accept=".json,.ndjson,application/json">
+          <input id="archivo" name="archivo" type="file" accept=".json,application/json">
           <div id="file-chip" class="file-chip" hidden>
             <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F4A5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z M14 3v4h4"></path></svg>
             <span class="file-text"><span id="file-name" class="file-name"></span><span id="file-meta" class="file-meta"></span></span>

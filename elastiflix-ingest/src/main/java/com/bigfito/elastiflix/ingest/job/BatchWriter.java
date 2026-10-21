@@ -84,7 +84,7 @@ final class BatchWriter {
 
     private static void logBatch(WriteTotals done) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Lote {} con {} registros", done.batches(), done.written());
+            LOG.debug("Lote {} escrito; {} registros escritos en total", done.batches(), done.written());
         }
     }
 }

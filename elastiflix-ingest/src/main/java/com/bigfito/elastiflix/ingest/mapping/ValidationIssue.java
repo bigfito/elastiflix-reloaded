@@ -4,7 +4,9 @@ package com.bigfito.elastiflix.ingest.mapping;
  * Un error o una advertencia de una fila, un campo o el archivo entero.
  *
  * @param code        código {@code EFX-ING-*}
- * @param recordLabel fila, registro o {@code encabezado}
+ * @param recordLabel número de fila del CSV o de registro del JSON (el registro individual es el 1);
+ *                    {@code encabezado} para la primera fila del CSV, {@code archivo} para el archivo entero y
+ *                    {@code formulario} para un valor del registro individual que la web no pudo convertir
  * @param id          id de la película, o un guion si todavía no hay
  * @param field       campo o columna
  * @param received    valor que llegó, recortado
