@@ -9,7 +9,7 @@ import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.ObjectNode;
 
 /**
- * Comprueba listas de textos, la colección y las palabras clave.
+ * Reparte las listas de textos y comprueba la colección y las palabras clave.
  */
 final class NestedValues {
 
@@ -21,42 +21,11 @@ final class NestedValues {
 
     static void write(FieldKind kind, String name, JsonNode value, CheckScope scope) {
         switch (kind) {
-            case TEXT_LIST -> textList(name, value, scope);
+            case TEXT_LIST -> TextListValues.write(name, value, scope);
             case COLLECTION -> collection(name, value, scope);
             case KEYWORDS -> keywords(name, value, scope);
             default -> { /* los escalares los revisa ScalarValues; un vector no se copia: se genera desde plot */ }
         }
-    }
-
-    private static void textList(String name, JsonNode value, CheckScope scope) {
-        if (value == null || value.isNull()) {
-            return;
-        }
-        if (!value.isArray()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.TEXT_LIST.text());
-            return;
-        }
-        scope.target().set(name, texts(name, value, scope));
-    }
-
-    private static ArrayNode texts(String name, JsonNode value, CheckScope scope) {
-        ArrayNode clean = MovieNodes.MAPPER.createArrayNode();
-        for (JsonNode item : value) {
-            addText(name, item, clean, scope);
-        }
-        return clean;
-    }
-
-    private static void addText(String name, JsonNode item, ArrayNode clean, CheckScope scope) {
-        if (item == null || item.isNull() || item.isString() && item.asString().isBlank()) {
-            scope.warning(ErrorCode.EMPTY_LIST_VALUE, name, FieldNames.BLANK, IngestPhrase.SKIPPED.text());
-            return;
-        }
-        if (!item.isString()) {
-            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(item), IngestPhrase.TEXT.text());
-            return;
-        }
-        clean.add(item.asString());
     }
 
     private static void collection(String name, JsonNode value, CheckScope scope) {
