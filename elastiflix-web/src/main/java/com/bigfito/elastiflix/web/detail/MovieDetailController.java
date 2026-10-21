@@ -6,8 +6,6 @@ import java.util.Optional;
 import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.error.SearchValidationException;
 import com.bigfito.elastiflix.core.model.Movie;
-import com.bigfito.elastiflix.search.query.SearchQuery;
-import com.bigfito.elastiflix.search.query.SearchQueryValidator;
 import com.bigfito.elastiflix.search.result.SearchService;
 import com.bigfito.elastiflix.web.layout.HtmlPage;
 import com.bigfito.elastiflix.web.locale.UiMessages;
@@ -40,7 +38,6 @@ public class MovieDetailController implements HtmlPage {
 
     private final SearchService searchService;
     private final SearchQueryMapper mapper;
-    private final SearchQueryValidator validator;
     private final MovieDetailPage detailPage;
     private final UiMessages messages;
 
@@ -59,7 +56,6 @@ public class MovieDetailController implements HtmlPage {
             UiMessages messages) {
         this.searchService = searchService;
         this.mapper = mapper;
-        this.validator = new SearchQueryValidator();
         this.detailPage = detailPage;
         this.messages = messages;
     }
@@ -82,8 +78,8 @@ public class MovieDetailController implements HtmlPage {
             HttpServletResponse response,
             Model model) {
 
-        SearchForm form = validForm(id, params);
-        if (form == null) {
+        Optional<SearchForm> form = validForm(id, params);
+        if (form.isEmpty()) {
             return directDetailError(response, model, locale);
         }
 
@@ -96,27 +92,21 @@ public class MovieDetailController implements HtmlPage {
         }
 
         model.addAttribute("nav", "buscar");
-        model.addAttribute("detail", detailPage.build(movie.get(), form, locale));
+        model.addAttribute("detail", detailPage.build(movie.get(), form.get(), locale));
         return "detail";
     }
 
-    private SearchForm validForm(String id, MultiValueMap<String, String> params) {
-        String queryParam = params.getFirst("q");
-        if (queryParam == null || queryParam.isBlank()) {
-            LOG.warn("{}: intento de acceso al detalle de la película {} sin búsqueda previa",
-                    ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY.code(), id);
-            return null;
-        }
-
+    // El formulario, si /buscar lo aceptaría. SearchQueryMapper.toQuery ya valida todo, incluida una consulta
+    // ausente o en blanco, así que aquí no se vuelve a validar.
+    private Optional<SearchForm> validForm(String id, MultiValueMap<String, String> params) {
         SearchForm form = SearchForms.from(params);
         try {
-            SearchQuery query = mapper.toQuery(form);
-            validator.validate(query);
-            return form;
+            mapper.toQuery(form);
+            return Optional.of(form);
         } catch (SearchValidationException exception) {
-            LOG.warn("{}: parámetros de búsqueda inválidos al acceder al detalle de la película {}",
-                    ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY.code(), id);
-            return null;
+            LOG.warn("{}: el detalle de la película {} se pidió sin una búsqueda válida ({})",
+                    ErrorCode.DIRECT_DETAIL_WITHOUT_QUERY.code(), id, exception.errorCode().code());
+            return Optional.empty();
         }
     }
 

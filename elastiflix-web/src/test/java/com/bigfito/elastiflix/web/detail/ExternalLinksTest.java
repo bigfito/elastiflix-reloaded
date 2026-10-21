@@ -40,4 +40,18 @@ class ExternalLinksTest {
     void shouldStripSurroundingSpaces() {
         assertThat(ExternalLinks.webOrEmpty("  https://inception.com ")).isEqualTo("https://inception.com");
     }
+
+    @Test
+    @DisplayName("el enlace de IMDb lleva el imdb_id como un segmento de la ruta del título")
+    void shouldBuildTheImdbTitlePage() {
+        assertThat(ExternalLinks.imdb("tt1375666")).isEqualTo("https://www.imdb.com/title/tt1375666/");
+        assertThat(ExternalLinks.imdb("../a b")).isEqualTo("https://www.imdb.com/title/..%2Fa%20b/");
+    }
+
+    @Test
+    @DisplayName("sin imdb_id no hay enlace a IMDb")
+    void shouldNotLinkImdbWithoutAnId() {
+        assertThat(ExternalLinks.imdb(null)).isEmpty();
+        assertThat(ExternalLinks.imdb("  ")).isEmpty();
+    }
 }

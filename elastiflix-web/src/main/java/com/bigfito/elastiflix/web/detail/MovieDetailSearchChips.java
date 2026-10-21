@@ -18,16 +18,6 @@ final class MovieDetailSearchChips {
     }
 
     /**
-     * Construye la lista de chips que reflejan el estado de la búsqueda anterior en español.
-     *
-     * @param form formulario de búsqueda previo
-     * @return lista de chips
-     */
-    static List<SearchStateChip> chips(SearchForm form) {
-        return chips(form, Locale.forLanguageTag("es"), null);
-    }
-
-    /**
      * Construye la lista de chips que reflejan el estado de la búsqueda anterior localizados.
      *
      * @param form     formulario de búsqueda previo
@@ -40,57 +30,53 @@ final class MovieDetailSearchChips {
             return List.of();
         }
         return List.of(
-                new SearchStateChip(msg(messages, locale, "detail.chip.query", "Consulta"), "«" + form.query() + "»"),
-                new SearchStateChip(msg(messages, locale, "detail.chip.mode", "Modo"),
-                        modeLabel(form.mode(), locale, messages)),
-                new SearchStateChip(msg(messages, locale, "detail.chip.settings", "Ajustes"), settingsLabel(form)),
-                new SearchStateChip(msg(messages, locale, "detail.chip.filters", "Filtros"),
+                new SearchStateChip(messages.getFor(locale, "detail.chip.query"),
+                        messages.getFor(locale, "detail.quoted", form.query())),
+                new SearchStateChip(messages.getFor(locale, "detail.chip.mode"), modeLabel(form.mode(), locale,
+                        messages)),
+                new SearchStateChip(messages.getFor(locale, "detail.chip.settings"), settingsLabel(form)),
+                new SearchStateChip(messages.getFor(locale, "detail.chip.filters"),
                         filtersLabel(form, locale, messages)),
-                new SearchStateChip(msg(messages, locale, "detail.chip.page", "Página"),
-                        pageLabel(form, locale, messages)));
+                new SearchStateChip(messages.getFor(locale, "detail.chip.page"),
+                        messages.getFor(locale, "detail.chip.pageFormat", form.page(), form.pageSize())));
     }
 
     private static String modeLabel(String mode, Locale locale, UiMessages messages) {
         if ("vectorial".equalsIgnoreCase(mode)) {
-            return msg(messages, locale, "detail.chip.mode.vector", "Vectorial");
+            return messages.getFor(locale, "detail.chip.mode.vector");
         }
         if ("hibrida".equalsIgnoreCase(mode)) {
-            return msg(messages, locale, "detail.chip.mode.hybrid", "Híbrida");
+            return messages.getFor(locale, "detail.chip.mode.hybrid");
         }
-        return msg(messages, locale, "detail.chip.mode.fulltext", "Full-text");
+        return messages.getFor(locale, "detail.chip.mode.fulltext");
     }
 
+    // Como el mockup: full-text «tipo · campo · operador», vectorial «vector · k · num_candidates» e híbrida
+    // «tipo · operador · vector · k · num_candidates».
     private static String settingsLabel(SearchForm form) {
         if ("vectorial".equalsIgnoreCase(form.mode())) {
-            return form.vector() + DOT_SEPARATOR + "k=" + form.k() + DOT_SEPARATOR + "num_candidates="
-                    + form.candidates();
+            return knnLabel(form);
         }
         if ("hibrida".equalsIgnoreCase(form.mode())) {
-            return "RRF (60)" + DOT_SEPARATOR + form.vector() + DOT_SEPARATOR + "k=" + form.k();
+            return form.type() + DOT_SEPARATOR + operatorLabel(form) + DOT_SEPARATOR + knnLabel(form);
         }
         String field = "multi_match".equalsIgnoreCase(form.type()) ? "best_fields" : form.field();
-        String op = form.operator() != null ? form.operator().toUpperCase(Locale.ROOT) : "";
-        return form.type() + DOT_SEPARATOR + field + DOT_SEPARATOR + op;
+        return form.type() + DOT_SEPARATOR + field + DOT_SEPARATOR + operatorLabel(form);
+    }
+
+    private static String knnLabel(SearchForm form) {
+        return form.vector() + DOT_SEPARATOR + "k=" + form.k() + DOT_SEPARATOR + "num_candidates=" + form.candidates();
+    }
+
+    private static String operatorLabel(SearchForm form) {
+        return form.operator() != null ? form.operator().toUpperCase(Locale.ROOT) : "";
     }
 
     private static String filtersLabel(SearchForm form, Locale locale, UiMessages messages) {
-        List<String> chips = messages != null
-                ? AppliedFilters.chips(form, locale, messages)
-                : AppliedFilters.chips(form);
+        List<String> chips = AppliedFilters.chips(form, locale, messages);
         if (chips.isEmpty()) {
-            return msg(messages, locale, "detail.chip.noFilters", "Sin filtros");
+            return messages.getFor(locale, "detail.chip.noFilters");
         }
         return String.join(DOT_SEPARATOR, chips);
-    }
-
-    private static String pageLabel(SearchForm form, Locale locale, UiMessages messages) {
-        if (messages != null) {
-            return messages.getFor(locale, "detail.chip.pageFormat", form.page(), form.pageSize());
-        }
-        return "Página " + form.page() + DOT_SEPARATOR + form.pageSize() + " por página";
-    }
-
-    private static String msg(UiMessages messages, Locale locale, String key, String fallback) {
-        return messages != null ? messages.getFor(locale, key) : fallback;
     }
 }
