@@ -12,9 +12,9 @@
 - **Ramas:** `fase-11-acerca` (sale de `main`, `5a1d82f`)
 - **Diseño:** [`docs/diseno/11.md`](../docs/diseno/11.md)
 - **Estado:** [`progreso/11.md`](11.md)
-- **Tarea actual:** 11.1 Índice de «Acerca de»
-- **Próximo paso:** agregar el índice lateral a `about.html` según `docs/diseno/11.md` (tarea 11.1).
-- **Última actualización:** 2026-10-21 22:27 UTC
+- **Tarea actual:** 11.2 Catálogo completo
+- **Próximo paso:** crear `CatalogFields` con todos los campos y subcampos del mapping en cinco grupos, sus textos en español e inglés, la plantilla que los recorre y `CatalogFieldsTest` contra el mapping.
+- **Última actualización:** 2026-10-21 22:33 UTC
 
 ## Fases
 

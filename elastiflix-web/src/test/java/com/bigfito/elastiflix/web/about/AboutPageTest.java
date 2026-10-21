@@ -90,10 +90,33 @@ class AboutPageTest {
                 .andExpect(content().string(not(containsString("empieza como copia del catálogo actual"))))
                 .andExpect(content().string(containsString("Similarity (BM25)")))
                 .andExpect(content().string(containsString(
-                        "<div class=\"note sky\">\n        <h3>Cómo se calcula la relevancia: BM25</h3>")))
+                        "<div class=\"note sky\">\n          <h3>Cómo se calcula la relevancia: BM25</h3>")))
                 .andExpect(content().string(containsString("<section class=\"mode-cards\"")))
                 .andExpect(content().string(containsString("<span class=\"mode-icon lilac\" aria-hidden=\"true\">")))
-                .andExpect(content().string(containsString("<div class=\"note rose\">\n        <h3>Cuando no hay resultados</h3>")));
+                .andExpect(content().string(containsString("<div class=\"note rose\">\n          <h3>Cuando no hay resultados</h3>")));
+    }
+
+    @Test
+    @DisplayName("el índice enlaza a las ocho partes de la página con sus títulos, en español y en inglés")
+    void shouldLinkEverySectionFromTheIndex() throws Exception {
+        mvc.perform(get("/acerca"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<nav class=\"toc\" aria-label=\"En esta página\">")))
+                .andExpect(content().string(containsString("<summary>En esta página</summary>")))
+                .andExpect(content().string(containsString("<a href=\"#intro\">Tres formas de buscar una película</a>")))
+                .andExpect(content().string(containsString("<a href=\"#fulltext\">Full-text (léxica)</a>")))
+                .andExpect(content().string(containsString("<a href=\"#vectorial\">Vectorial</a>")))
+                .andExpect(content().string(containsString("<a href=\"#hibrida\">Híbrida</a>")))
+                .andExpect(content().string(containsString("<a href=\"#resultados\">Resultados y filtros</a>")))
+                .andExpect(content().string(containsString("<a href=\"#carga\">Carga de datos</a>")))
+                .andExpect(content().string(containsString("<a href=\"#catalogo\">El catálogo</a>")))
+                .andExpect(content().string(containsString("<a href=\"#creditos\">Créditos</a>")))
+                .andExpect(content().string(containsString("<section id=\"catalogo\"")))
+                .andExpect(content().string(containsString("/js/about.js")));
+        mvc.perform(get("/acerca").param("lang", "en"))
+                .andExpect(content().string(containsString("<summary>On this page</summary>")))
+                .andExpect(content().string(containsString("<a href=\"#resultados\">Results and filters</a>")))
+                .andExpect(content().string(containsString("<a href=\"#creditos\">Credits</a>")));
     }
 
     @Test
@@ -127,7 +150,7 @@ class AboutPageTest {
     @Test
     @DisplayName("Créditos abre con la frase del mockup y marca el idioma de cada aviso de TMDB")
     void shouldIntroduceTheCreditsAndMarkTheLanguageOfEachNotice() throws Exception {
-        String notices = "<p lang=\"en\">" + CatalogTexts.TMDB + "</p>\n      <p lang=\"es\">"
+        String notices = "<p lang=\"en\">" + CatalogTexts.TMDB + "</p>\n        <p lang=\"es\">"
                 + CatalogTexts.TMDB_ES + "</p>";
 
         mvc.perform(get("/acerca"))
