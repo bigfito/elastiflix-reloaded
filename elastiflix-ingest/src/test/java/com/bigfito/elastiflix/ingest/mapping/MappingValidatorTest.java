@@ -201,7 +201,8 @@ class MappingValidatorTest {
                 Arguments.arguments("/validation/bad-date.json", ErrorCode.TYPE_MISMATCH.code(), "release_date"),
                 Arguments.arguments("/validation/bad-boolean.json", ErrorCode.TYPE_MISMATCH.code(), "adult"),
                 Arguments.arguments("/validation/bad-integer.json", ErrorCode.TYPE_MISMATCH.code(), "runtime"),
-                Arguments.arguments("/validation/bad-nested.json", ErrorCode.UNKNOWN_FIELD.code(), "director"),
+                Arguments.arguments("/validation/bad-nested.json", ErrorCode.UNKNOWN_FIELD.code(),
+                        "belongs_to_collection.director"),
                 Arguments.arguments("/validation/duplicate-id.json", ErrorCode.DUPLICATE_ID.code(), "id"),
                 Arguments.arguments("/validation/id-mismatch.json", ErrorCode.ID_MISMATCH.code(), "_id"),
                 Arguments.arguments("/validation/blank-title.json", ErrorCode.REQUIRED_FIELD.code(), "title"));

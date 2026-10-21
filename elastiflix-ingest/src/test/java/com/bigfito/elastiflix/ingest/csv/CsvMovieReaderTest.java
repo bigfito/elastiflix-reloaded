@@ -134,7 +134,7 @@ class CsvMovieReaderTest {
                 Arguments.arguments("/validation/csv-id-mismatch.csv", ErrorCode.ID_MISMATCH.code(), "_id"),
                 Arguments.arguments("/validation/csv-bad-date.csv", ErrorCode.TYPE_MISMATCH.code(), "release_date"),
                 Arguments.arguments("/validation/csv-adult.csv", ErrorCode.TYPE_MISMATCH.code(), "adult"),
-                Arguments.arguments("/validation/csv-keyword.csv", ErrorCode.UNKNOWN_FIELD.code(), "extra"),
+                Arguments.arguments("/validation/csv-keyword.csv", ErrorCode.UNKNOWN_FIELD.code(), "keywords.extra"),
                 Arguments.arguments("/validation/csv-genres.csv", ErrorCode.TYPE_MISMATCH.code(), "genres"));
     }
 
