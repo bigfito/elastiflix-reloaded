@@ -14,7 +14,8 @@ import java.util.function.UnaryOperator;
 public record ValidationReport(List<ValidationIssue> issues) {
 
     private static final char BOM = '\uFEFF';
-    private static final String FORMULA = "=+-@";
+    /** Primeros caracteres que una hoja de cálculo toma como fórmula (OWASP, CSV injection). */
+    private static final String FORMULA = "=+-@\t\r";
     private static final String SPANISH_HEADER = "registro,id,campo,recibido,esperado";
 
     /**

@@ -166,6 +166,17 @@ class MappingValidatorTest {
     }
 
     @Test
+    @DisplayName("una celda que empieza con tabulador o retorno de carro también lleva apóstrofo")
+    void shouldNeutralizeTabAndCarriageReturnCells() {
+        ValidationIssue issue = new ValidationIssue(
+                ErrorCode.TYPE_MISMATCH.code(), "1", "\t=2", "plot", "\r=3", "un texto", false);
+
+        String csv = new ValidationReport(List.of(issue)).toErrorCsv();
+
+        assertThat(csv).contains("1,'\t=2,plot,\"'\r=3\",un texto");
+    }
+
+    @Test
     @DisplayName("las advertencias del estado se agrupan por código y campo")
     void shouldGroupWarningsByCodeAndField() {
         ValidationIssue first = new ValidationIssue(

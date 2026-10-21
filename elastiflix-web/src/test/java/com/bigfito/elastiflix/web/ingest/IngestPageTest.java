@@ -110,6 +110,14 @@ class IngestPageTest {
     }
 
     @Test
+    @DisplayName("el selector de archivos no ofrece .ndjson, que el servidor rechaza con EFX-ING-001")
+    void shouldNotOfferNdjsonInTheFilePicker() throws Exception {
+        mvc.perform(get("/cargar"))
+                .andExpect(content().string(containsString("accept=\".json,application/json\"")))
+                .andExpect(content().string(not(containsString(".ndjson"))));
+    }
+
+    @Test
     @DisplayName("escenario «Archivo rechazado»: el bloque del navegador trae los textos del mockup")
     void shouldShowTheRejectedFileCopy() throws Exception {
         mvc.perform(get("/cargar"))

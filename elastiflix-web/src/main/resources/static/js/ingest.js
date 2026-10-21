@@ -196,7 +196,7 @@
     setText("drop-title", filePanel.getAttribute(csv ? "data-drop-csv" : "data-drop-json"));
     setText("drop-only", filePanel.getAttribute(csv ? "data-only-csv" : "data-only-json"));
     setText("file-hint", filePanel.getAttribute(csv ? "data-hint-csv" : "data-hint-json"));
-    input.setAttribute("accept", csv ? ".csv,text/csv" : ".json,.ndjson,application/json");
+    input.setAttribute("accept", csv ? ".csv,text/csv" : ".json,application/json");
   }
 
   window.addEventListener("dragover", function (event) { event.preventDefault(); });
