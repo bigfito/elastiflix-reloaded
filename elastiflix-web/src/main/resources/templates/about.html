@@ -237,8 +237,9 @@
 
     <section id="creditos" aria-labelledby="h-creditos">
       <h2 id="h-creditos" th:text="#{about.credits.heading}"></h2>
-      <p th:text="${shell.tmdbNotice}"></p>
-      <p th:text="${shell.tmdbNoticeEs}"></p>
+      <p th:text="#{about.credits.intro}"></p>
+      <p lang="en" th:text="${shell.tmdbNotice}"></p>
+      <p lang="es" th:text="${shell.tmdbNoticeEs}"></p>
       <img class="tmdb-logo" width="154" height="20" alt="The Movie Database (TMDB)"
            th:src="@{/img/tmdb/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg}">
     </section>
