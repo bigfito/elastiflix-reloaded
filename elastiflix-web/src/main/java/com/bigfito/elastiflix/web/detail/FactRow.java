@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.web.detail;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.bigfito.elastiflix.core.text.Thousands;
 
@@ -69,18 +70,6 @@ public record FactRow(
     }
 
     /**
-     * Fila con importe monetario en USD con separador de miles, o «N/A» si es nulo o menor/igual a cero.
-     *
-     * @param label  etiqueta
-     * @param field  campo
-     * @param amount monto
-     * @return fila formateada
-     */
-    public static FactRow money(String label, String field, Double amount) {
-        return money(label, field, amount, java.util.Locale.forLanguageTag("es"));
-    }
-
-    /**
      * Fila con importe monetario en USD con separador de miles según el idioma,
      * o «N/A» si es nulo o menor/igual a cero.
      *
@@ -90,23 +79,11 @@ public record FactRow(
      * @param locale idioma para el separador de miles
      * @return fila formateada
      */
-    public static FactRow money(String label, String field, Double amount, java.util.Locale locale) {
+    public static FactRow money(String label, String field, Double amount, Locale locale) {
         if (amount == null || amount <= 0) {
             return empty(label, field);
         }
         return text(label, field, Thousands.of(Math.round(amount), locale) + " USD");
-    }
-
-    /**
-     * Fila con valor booleano «Sí» / «No».
-     *
-     * @param label etiqueta
-     * @param field campo
-     * @param flag  booleano
-     * @return fila formateada
-     */
-    public static FactRow yesNo(String label, String field, Boolean flag) {
-        return yesNo(label, field, flag, "Sí", "No");
     }
 
     /**

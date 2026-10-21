@@ -8,7 +8,6 @@
     toggle.addEventListener("click", function () {
       var isExpanded = toggle.getAttribute("aria-expanded") === "true";
       var nextState = !isExpanded;
-      var total = toggle.getAttribute("data-total") || "";
       var extras = document.querySelectorAll(".cast-extra");
       extras.forEach(function (el) {
         el.style.display = nextState ? "inline-flex" : "none";
