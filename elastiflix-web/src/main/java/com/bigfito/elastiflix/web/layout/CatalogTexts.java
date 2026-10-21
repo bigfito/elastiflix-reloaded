@@ -55,6 +55,18 @@ public final class CatalogTexts {
     }
 
     /**
+     * Conteo del catálogo con su unidad, por ejemplo {@code 6 899 películas}; lo usa el aviso de bulk.
+     *
+     * @param count    documentos, o {@code null} si no se pudo contar
+     * @param locale   idioma
+     * @param messages catálogo de mensajes
+     * @return el conteo
+     */
+    public static String movies(Long count, Locale locale, UiMessages messages) {
+        return counted(count, "layout.catalog.movies", locale, messages);
+    }
+
+    /**
      * Frase de «Acerca de» › «El catálogo», por ejemplo {@code Tiene 6 899 películas}.
      *
      * @param count    documentos, o {@code null} si no se pudo contar

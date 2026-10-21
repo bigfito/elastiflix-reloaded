@@ -12,9 +12,9 @@
 - **Ramas:** `fase-10-modos` (sale de `main`, `643f58b`)
 - **Diseño:** [`docs/diseno/10.md`](../docs/diseno/10.md)
 - **Estado:** [`progreso/10.md`](10.md)
-- **Tarea actual:** 10.3 Web: modo, pasos y textos
-- **Próximo paso:** recibir `modo` en `POST /cargar/archivo`, agregar la tarjeta «Modo de carga» con el aviso de bulk, los pasos, cajas, textos y botón de cada modo en español e inglés, y llevar el modo, `?job=` y el estado `agregado` a `ingest.js`, con pruebas MockMvc y de navegador.
-- **Última actualización:** 2026-10-21 21:45 UTC
+- **Tarea actual:** 10.4 Acerca de con los dos modos
+- **Próximo paso:** cambiar «Acerca de» › «Carga de datos» a los textos del mockup (entrada, «Modo append (por defecto)», «Modo bulk», «Publicación (bulk)», «Si falla (bulk)») en español e inglés, con sus pruebas MockMvc.
+- **Última actualización:** 2026-10-21 21:55 UTC
 
 ## Fases
 

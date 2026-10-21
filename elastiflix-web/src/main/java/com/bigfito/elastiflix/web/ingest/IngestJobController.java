@@ -70,6 +70,7 @@ public class IngestJobController {
      * @param file      multipart {@code archivo}
      * @param separator coma, punto y coma o tabulador
      * @param header    {@code false} si la casilla de encabezado está desmarcada
+     * @param mode      {@code append} (por defecto) o {@code bulk}; otro valor es append
      * @param locale    idioma de la petición
      * @return {@code jobId}, o 400 con el código si el archivo no sirve
      * @throws IOException si no se puede copiar el temporal
@@ -79,6 +80,7 @@ public class IngestJobController {
             @RequestParam("archivo") MultipartFile file,
             @RequestParam(name = "separador", defaultValue = ",") String separator,
             @RequestParam(name = "encabezado", defaultValue = "false") String header,
+            @RequestParam(name = "modo", required = false) String mode,
             Locale locale) throws IOException {
         rejectIfTooLarge(file);
         try {
@@ -86,7 +88,7 @@ public class IngestJobController {
         } catch (IngestValidationException exception) {
             return rejected(file, exception, locale);
         }
-        String jobId = start(file, copy(file), settings(separator, header));
+        String jobId = start(file, copy(file), settings(separator, header), ImportMode.from(mode));
         return ResponseEntity.ok(Map.of("jobId", jobId));
     }
 
@@ -185,10 +187,10 @@ public class IngestJobController {
      * excepción sigue a {@link IngestJobErrors}. Un {@code finally} con bandera evita atrapar
      * {@code RuntimeException} (regla {@code JM-ERR-01}).
      */
-    private String start(MultipartFile file, Path temp, CsvSettings settings) {
+    private String start(MultipartFile file, Path temp, CsvSettings settings, ImportMode mode) {
         boolean handedOver = false;
         try {
-            String jobId = ingest.acceptFile(file.getOriginalFilename(), temp, settings, ImportMode.BULK);
+            String jobId = ingest.acceptFile(file.getOriginalFilename(), temp, settings, mode);
             handedOver = true;
             return jobId;
         } finally {

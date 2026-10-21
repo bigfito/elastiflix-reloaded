@@ -407,6 +407,25 @@ h1 span { color: var(--accent-ink); }
 .ingest .steps .is-current { --step-bg: #EEF6FD; --step-bd: var(--sky); --step-ink: var(--sky-ink); }
 .ingest .steps .is-failed { --step-bg: #FDEEF5; --step-bd: var(--rose); --step-ink: var(--error); }
 .ingest .steps .is-ready { --step-bg: #FFF1E8; --step-bd: var(--peach); --step-ink: var(--accent-ink); }
+/* Modo de carga (Requerimiento 4): append o bulk. */
+.ingest .modes { display: flex; flex-wrap: wrap; gap: 12px; }
+.ingest .mode {
+  display: flex; align-items: flex-start; gap: 12px; flex: 1 1 280px; min-width: 0; padding: 14px 16px;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--surface); cursor: pointer;
+}
+.ingest .mode.is-on { background: #FFF1E8; border-color: var(--accent-ink); }
+.ingest .mode input { flex: none; width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent-ink); }
+.ingest .mode input:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.ingest .mode-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ingest .mode-label { font-family: var(--font); font-size: 15px; font-weight: 600; color: var(--ink); }
+.ingest .mode-label code { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--muted); }
+.ingest .mode-desc { font-size: 14px; line-height: 1.5; color: var(--ink-3); }
+.ingest .mode-warning {
+  margin: 0; display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: #FFF9E3;
+  border: 1px solid var(--butter); border-radius: 12px; font-size: 14px; line-height: 1.5; color: var(--ink-2);
+}
+.ingest .mode-warning svg { flex: none; margin-top: 2px; }
+
 .ingest .counts { display: flex; flex-wrap: wrap; gap: 12px; }
 .ingest .counts div { flex: 1 1 150px; padding: 14px 16px; border-radius: 12px; }
 .ingest .counts p { margin: 0; }

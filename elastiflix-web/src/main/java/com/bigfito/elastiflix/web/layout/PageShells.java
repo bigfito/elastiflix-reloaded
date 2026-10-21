@@ -48,6 +48,7 @@ public final class PageShells {
                 CatalogTexts.TMDB_ES,
                 status.name(),
                 phrase,
+                CatalogTexts.movies(status.documentCount(), locale, messages),
                 locale.getLanguage(),
                 esHref,
                 enHref);

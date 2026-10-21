@@ -69,7 +69,7 @@ class IngestUploadLimitTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Máximo 25 MB")))
                 .andExpect(content().string(containsString("tamaño (máximo 25 MB) antes de subir nada.")))
-                .andExpect(content().string(containsString("en lotes de 50.")))
+                .andExpect(content().string(containsString("en lotes de 50;")))
                 .andExpect(content().string(containsString("data-max-bytes=\"" + LIMIT + "\"")))
                 .andExpect(content().string(containsString("data-max-label=\"25 MB\"")))
                 .andExpect(content().string(not(containsString("200 MB"))))

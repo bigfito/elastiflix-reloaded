@@ -49,19 +49,21 @@ class IngestBatchSizeTextTest {
     }
 
     @Test
-    @DisplayName("en español, el paso 4 dice «en lotes de 1 000.»")
+    @DisplayName("en español, el paso 4 dice «en lotes de 1 000;» en los dos modos")
     void shouldGroupTheBatchSizeWithASpaceInSpanish() throws Exception {
         mvc.perform(get("/cargar"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("en lotes de 1 000.")))
+                .andExpect(content().string(containsString("por el alias, en lotes de 1 000; si un id ya existe")))
+                .andExpect(content().string(containsString("Solo los registros del archivo, en lotes de 1 000;")))
                 .andExpect(content().string(not(containsString("1.000"))));
     }
 
     @Test
-    @DisplayName("en inglés, el paso 4 dice «in batches of 1,000.»")
+    @DisplayName("en inglés, el paso 4 dice «in batches of 1,000;» en los dos modos")
     void shouldGroupTheBatchSizeWithACommaInEnglish() throws Exception {
         mvc.perform(get("/cargar").param("lang", "en"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("in batches of 1,000.")));
+                .andExpect(content().string(containsString("through the alias, in batches of 1,000; if an id")))
+                .andExpect(content().string(containsString("Only the records in the file, in batches of 1,000;")));
     }
 }
