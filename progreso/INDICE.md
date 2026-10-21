@@ -13,8 +13,8 @@
 - **Diseño:** [`docs/diseno/10.md`](../docs/diseno/10.md)
 - **Estado:** [`progreso/10.md`](10.md)
 - **Tarea actual:** ninguna
-- **Próximo paso:** decidir con Adolfo si «El catálogo» de «Acerca de» (y su mockup) deja de decir que una carga de datos se publica de una sola vez, que en append ya no es así; no hay requerimientos pendientes en PLAN.
-- **Última actualización:** 2026-10-21 22:16 UTC
+- **Próximo paso:** ninguno pendiente: los requerimientos de PLAN están en `main` y las capturas, al día y aprobadas.
+- **Última actualización:** 2026-10-21 22:18 UTC
 
 ## Fases
 
@@ -100,6 +100,7 @@
 | 2026-10-21 | Capturas nuevas de «Cargar datos» aprobadas | Adolfo respondió «Apruebo las 6 capturas nuevas de «Cargar datos».» Son `docs/capturas/cargar-registro`, `cargar-csv-valido` y `cargar-csv-invalido`, en español e inglés (`0e07c0c`). |
 | 2026-10-21 | Capturas de «Acerca de» con los dos modos | Adolfo pidió «Sí, vuelve a tomar las capturas de «Acerca de» en español e inglés.» Se tomaron `acerca.png` y `acerca-en.png` con el catálogo real (`4823a0b`). |
 | 2026-10-21 | Capturas nuevas de «Acerca de» aprobadas | Adolfo respondió «Apruebo las 2 capturas nuevas de «Acerca de».» Son `docs/capturas/acerca.png` y `acerca-en.png` (`4823a0b`). |
+| 2026-10-21 | Cambio del mockup aprobado: «El catálogo» con los dos modos | Adolfo pidió «Sí, corrige la frase de «El catálogo» en «Acerca de» y en los dos mockups para que valga también en append.» En `About.dc.html`, `About-en.dc.html` y la página, la frase dice ahora que las búsquedas siempre leen el catálogo publicado, que bulk se publica de una sola vez o se descarta y que append se suma lote por lote. Las capturas de «Acerca de» se reemplazaron por las mismas con esa frase. |
 
 
 ## Catálogo vigente

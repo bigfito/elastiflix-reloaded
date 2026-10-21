@@ -70,6 +70,9 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("blue_short-")))
                 .andExpect(content().string(containsString("elastiflix-reloaded")))
                 .andExpect(content().string(containsString("Tiene 4 322 películas.")))
+                .andExpect(content().string(containsString("las búsquedas siempre leen el catálogo publicado. Una "
+                        + "carga en bulk se publica de una sola vez o se descarta sin afectar a las búsquedas; una carga "
+                        + "en append se suma al índice vigente lote por lote.")))
                 .andExpect(content().string(containsString("se generan siempre")))
                 .andExpect(content().string(containsString("Un CSV sin encabezado se rechaza")))
                 .andExpect(content().string(containsString("El índice anterior se borra")))
@@ -114,6 +117,9 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("<dt>Bulk mode</dt>")))
                 .andExpect(content().string(containsString("<dt>If it fails (bulk)</dt>")))
                 .andExpect(content().string(containsString("It has 4,322 movies.")))
+                .andExpect(content().string(containsString("searches always read the published catalog. A bulk load "
+                        + "is published all at once or discarded without affecting searches; an append load is added "
+                        + "to the current index batch by batch.")))
                 .andExpect(content().string(containsString("Index: elastiflix-reloaded · 4,322 movies")))
                 .andExpect(content().string(containsString("Credits")));
     }
