@@ -128,6 +128,35 @@ class MovieDetailPageTest {
     }
 
     @Test
+    @DisplayName("una ruta de imagen que no es de TMDB se trata como ausente: marcador y «N/A»")
+    void shouldTreatAnInvalidImagePathAsMissing() {
+        // given
+        Movie movie = movieBuilder().images("/p.jpg') ; x", "/b.jpg');background:url('//evil.test/a.png").build();
+
+        // when
+        MovieDetailView view = page.build(movie, searchForm());
+
+        // then
+        assertThat(view.posterUrl()).isEmpty();
+        assertThat(view.backdropUrl()).isEmpty();
+        assertThat(factValue(view.images(), "poster_path")).isEqualTo("N/A");
+        assertThat(factValue(view.images(), "backdrop_path")).isEqualTo("N/A");
+    }
+
+    @Test
+    @DisplayName("una ruta de TMDB válida arma las URL del póster y del fondo")
+    void shouldBuildImageUrlsForValidPaths() {
+        // when
+        MovieDetailView view = page.build(movieBuilder().build(), searchForm());
+
+        // then
+        assertThat(view.posterUrl()).isEqualTo("https://image.tmdb.org/t/p/w342/poster.jpg");
+        assertThat(view.backdropUrl()).isEqualTo("https://image.tmdb.org/t/p/w342/backdrop.jpg");
+        assertThat(factRow(view.images(), "backdrop_path").href())
+                .isEqualTo("https://image.tmdb.org/t/p/w342/backdrop.jpg");
+    }
+
+    @Test
     @DisplayName("procesa colección existente con filas completas")
     void shouldProcessExistingCollection() {
         MovieCollection coll = new MovieCollection(12345L, "The Matrix Collection", "/back.jpg", "/poster.jpg");
@@ -221,6 +250,8 @@ class MovieDetailPageTest {
         private Double revenue = 825_532_764.0;
         private MovieCollection belongsToCollection = null;
         private String homepage = "https://inception.com";
+        private String posterPath = "/poster.jpg";
+        private String backdropPath = "/backdrop.jpg";
 
         TestMovieBuilder id(String id) {
             this.id = id;
@@ -247,6 +278,12 @@ class MovieDetailPageTest {
             return this;
         }
 
+        TestMovieBuilder images(String posterPath, String backdropPath) {
+            this.posterPath = posterPath;
+            this.backdropPath = backdropPath;
+            return this;
+        }
+
         Movie build() {
             return new Movie(
                     id, "tt1375666", title, "Inception", "en",
@@ -254,7 +291,7 @@ class MovieDetailPageTest {
                     "Your mind is the scene of the crime.", "Cobb is a skilled thief", "Inception plot",
                     List.of("Action", "Sci-Fi"), List.of(), List.of("Leonardo DiCaprio"), belongsToCollection,
                     budget, revenue, 75.2, 8.4, 32000, "PG-13",
-                    homepage, "/poster.jpg", "/backdrop.jpg",
+                    homepage, posterPath, backdropPath,
                     List.of("Warner Bros."), List.of("US"), List.of("en"),
                     null, null, null, null);
         }
