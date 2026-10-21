@@ -19,7 +19,6 @@ import com.bigfito.elastiflix.ingest.mapping.ValidatedMovies;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.springframework.util.unit.DataSize;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -162,7 +161,7 @@ class JobFiguresTest {
 
     private JobStore store(int batchSize) {
         return new JobStore(new ElastiflixProperties(null, null, null,
-                new ElastiflixProperties.Ingest(DataSize.ofMegabytes(150), batchSize), null, null, null),
+                new ElastiflixProperties.Ingest(batchSize), null, null, null),
                 Clock.systemUTC());
     }
 

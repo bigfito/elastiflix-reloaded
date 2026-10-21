@@ -17,16 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadCheck {
 
     private final FileChecker checker = new FileChecker();
-    private final IngestLimits limits;
-
-    /**
-     * Usa el tamaño máximo configurado.
-     *
-     * @param limits tamaño máximo del archivo
-     */
-    public UploadCheck(IngestLimits limits) {
-        this.limits = limits;
-    }
 
     /**
      * Comprueba nombre, tamaño y UTF-8. Si algo no cumple, lanza su {@code EFX-ING-*}.
@@ -38,7 +28,7 @@ public class UploadCheck {
     public CheckedFile requireAccepted(MultipartFile file) throws IOException {
         try (InputStream content = file.getInputStream()) {
             FileCandidate candidate = new FileCandidate(file.getOriginalFilename(), file.getSize(), content);
-            return checker.check(candidate, limits.maxFileSize());
+            return checker.check(candidate);
         }
     }
 }

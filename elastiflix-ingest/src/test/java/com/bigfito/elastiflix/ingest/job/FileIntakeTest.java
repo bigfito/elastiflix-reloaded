@@ -38,7 +38,7 @@ class FileIntakeTest {
     private final JobStore store = new JobStore(properties, Clock.systemUTC());
     private final CatalogIndex catalog = mock(CatalogIndex.class);
     private final FileIntake intake = new FileIntake(
-            new FileGate(new MovieReaderFactory(new IndexMapping()), properties),
+            new FileGate(new MovieReaderFactory(new IndexMapping())),
             new MappingValidator(), catalog, properties, store);
 
     @TempDir

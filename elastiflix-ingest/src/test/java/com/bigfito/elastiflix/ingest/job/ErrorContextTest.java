@@ -38,7 +38,7 @@ class ErrorContextTest {
     void shouldNameTheFileKindWhenTheFileCannotBeRead(String name, String code) {
         JobStore store = new JobStore(properties, Clock.systemUTC());
         String jobId = store.open(name, folder.resolve("no-existe.bin"), CsvSettings.withHeader());
-        FileGate gate = new FileGate(new MovieReaderFactory(new IndexMapping()), properties);
+        FileGate gate = new FileGate(new MovieReaderFactory(new IndexMapping()));
 
         assertThatThrownBy(() -> gate.open(store.require(jobId)))
                 .isInstanceOf(IngestValidationException.class)

@@ -72,7 +72,7 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("se generan siempre")))
                 .andExpect(content().string(containsString("Un CSV sin encabezado se rechaza")))
                 .andExpect(content().string(containsString("El índice anterior se borra")))
-                .andExpect(content().string(containsString("de máximo 150 MB y con contenido")))
+                .andExpect(content().string(containsString("de máximo 25 MB y con contenido")))
                 .andExpect(content().string(containsString("en lotes de 100 en un índice temporal")))
                 .andExpect(content().string(containsString("Similarity (BM25)")))
                 .andExpect(content().string(containsString(
@@ -96,7 +96,7 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("Results and filters")))
                 .andExpect(content().string(containsString("When there are no results")))
                 .andExpect(content().string(containsString("Loading data")))
-                .andExpect(content().string(containsString("up to 150 MB, with UTF-8 text content")))
+                .andExpect(content().string(containsString("up to 25 MB, with UTF-8 text content")))
                 .andExpect(content().string(containsString("in batches of 100 to a temporary index")))
                 .andExpect(content().string(containsString("It has 4,322 movies.")))
                 .andExpect(content().string(containsString("Index: elastiflix-reloaded · 4,322 movies")))

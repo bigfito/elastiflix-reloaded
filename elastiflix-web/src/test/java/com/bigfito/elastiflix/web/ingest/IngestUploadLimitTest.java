@@ -35,7 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Con otro tamaño máximo y otro lote en el entorno, «Cargar datos» y la subida usan esos valores (T-13).
+ * El tope de la subida son 25 MB fijos (Requerimiento 3): una {@code ELASTIFLIX_INGEST_MAX_FILE_SIZE} vieja en el
+ * entorno no lo cambia, y el lote sigue saliendo de {@code ELASTIFLIX_INGEST_BATCH_SIZE} (T-13).
  */
 @WebMvcTest(controllers = {IngestController.class, IngestJobController.class}, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test",
@@ -43,9 +44,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EnableConfigurationProperties(ElastiflixProperties.class)
 @Import({LayoutAdvice.class, MovieForms.class, UploadCheck.class, IngestLimits.class, UploadSizeErrors.class,
         IngestTranslator.class})
-class IngestConfiguredLimitsTest {
+class IngestUploadLimitTest {
 
-    private static final long LIMIT = DataSize.ofMegabytes(200).toBytes();
+    private static final long LIMIT = DataSize.ofMegabytes(25).toBytes();
 
     @Autowired
     private MockMvc mvc;
@@ -62,21 +63,32 @@ class IngestConfiguredLimitsTest {
     }
 
     @Test
-    @DisplayName("la página muestra «200 MB» y lotes de 50, y el navegador recibe el tope en bytes")
-    void shouldShowTheConfiguredLimitsWhenTheEnvironmentChangesThem() throws Exception {
+    @DisplayName("la página muestra «25 MB» y lotes de 50, y el navegador recibe el tope en bytes")
+    void shouldShowTheFixedLimitWhenAnOldEnvironmentSetsAnotherOne() throws Exception {
         mvc.perform(get("/cargar"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Máximo 200 MB")))
-                .andExpect(content().string(containsString("tamaño (máximo 200 MB) antes de subir nada.")))
+                .andExpect(content().string(containsString("Máximo 25 MB")))
+                .andExpect(content().string(containsString("tamaño (máximo 25 MB) antes de subir nada.")))
                 .andExpect(content().string(containsString("en lotes de 50.")))
                 .andExpect(content().string(containsString("data-max-bytes=\"" + LIMIT + "\"")))
-                .andExpect(content().string(containsString("data-max-label=\"200 MB\"")))
+                .andExpect(content().string(containsString("data-max-label=\"25 MB\"")))
+                .andExpect(content().string(not(containsString("200 MB"))))
                 .andExpect(content().string(not(containsString("150 MB"))));
     }
 
     @Test
-    @DisplayName("un archivo de 200 MB pasa el tope del servidor; uno de 200 MB + 1 byte responde 413")
-    void shouldUseTheConfiguredLimitWhenTheUploadArrives() throws Exception {
+    @DisplayName("en inglés, la página dice «25 MB max»")
+    void shouldShowTheFixedLimitInEnglish() throws Exception {
+        mvc.perform(get("/cargar").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("25 MB max")))
+                .andExpect(content().string(containsString("size (25 MB max) before anything is uploaded.")))
+                .andExpect(content().string(not(containsString("200 MB"))));
+    }
+
+    @Test
+    @DisplayName("un archivo de 25 MB pasa el tope del servidor; uno de 25 MB + 1 byte responde 413")
+    void shouldAcceptTheExactLimitAndRejectOneByteMore() throws Exception {
         // La fachada simulada no se queda con el temporal: lo borra como lo haría el trabajo real.
         when(ingest.acceptFile(eq("peliculas.json"), any(), any())).thenAnswer(call -> {
             Files.deleteIfExists(call.getArgument(1, Path.class));

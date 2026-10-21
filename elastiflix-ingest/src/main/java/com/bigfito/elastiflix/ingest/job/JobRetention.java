@@ -26,8 +26,8 @@ final class JobRetention {
     /**
      * Errores del informe que guarda cada trabajo: los primeros, en el orden del archivo.
      *
-     * <p>Un CSV de 150 MB con un error por fila deja unas 200 000 incidencias (40 a 60 MB); con
-     * {@value #KEEP_FINISHED} trabajos guardados serían cerca de 1 GB. Con este tope, cada trabajo guarda unos
+     * <p>Un CSV de 25 MB con un error por fila deja unas 35 000 incidencias (7 a 10 MB); con
+     * {@value #KEEP_FINISHED} trabajos guardados serían cerca de 200 MB. Con este tope, cada trabajo guarda unos
      * 2 a 3 MB y los {@value #KEEP_FINISHED} juntos, unos 50 MB. El total real de errores y de registros con
      * error se cuenta antes de recortar y la página lo sigue mostrando; el informe descargable trae solo los
      * errores guardados. Las advertencias no se guardan sueltas: solo su conteo por código y campo.</p>

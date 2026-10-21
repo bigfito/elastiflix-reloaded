@@ -30,7 +30,7 @@ class CsvRowNumbersTest {
     private final ElastiflixProperties properties = new ElastiflixProperties(null, null, null, null, null, null, null);
     private final JobStore store = new JobStore(properties, Clock.systemUTC());
     private final FileIntake intake = new FileIntake(
-            new FileGate(new MovieReaderFactory(new IndexMapping()), properties),
+            new FileGate(new MovieReaderFactory(new IndexMapping())),
             new MappingValidator(), mock(CatalogIndex.class), properties, store);
 
     @TempDir

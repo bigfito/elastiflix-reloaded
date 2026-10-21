@@ -12,9 +12,9 @@
 - **Ramas:** `fase-9-25mb` (sale de `main`, `71c5122`)
 - **Diseño:** [`docs/diseno/9.md`](../docs/diseno/9.md)
 - **Estado:** [`progreso/9.md`](9.md)
-- **Tarea actual:** 9.1 Constante de 25 MB y comprobación del servidor
-- **Próximo paso:** declarar `FileChecker.MAX_FILE_SIZE` y quitar `elastiflix.ingest.max-file-size` según `docs/diseno/9.md` (tarea 9.1).
-- **Última actualización:** 2026-10-21 20:58 UTC
+- **Tarea actual:** 9.2 Comprobación del navegador
+- **Próximo paso:** en `ingest.js`, tomar el tope solo de `data-max-bytes` y `data-max-label` (sin la reserva de 150 MB) y agregar `size.test.js` (Playwright): 25 MB pasa y 25 MB + 1 byte se rechaza, en español y en inglés
+- **Última actualización:** 2026-10-21 21:04 UTC
 
 ## Fases
 

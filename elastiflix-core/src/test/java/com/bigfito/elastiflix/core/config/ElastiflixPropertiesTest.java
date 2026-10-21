@@ -36,7 +36,6 @@ class ElastiflixPropertiesTest {
             assertThat(properties.index().alias()).isEqualTo("elastiflix-reloaded");
             assertThat(properties.inference().id()).isEqualTo(".jina-embeddings-v5-omni-small");
             assertThat(properties.ingest().batchSize()).isEqualTo(100);
-            assertThat(properties.ingest().maxFileSize().toMegabytes()).isEqualTo(150);
             assertThat(properties.poster().baseUrl()).isEqualTo("https://image.tmdb.org/t/p/w342");
             assertThat(properties.bootstrap().enabled()).isFalse();
             assertThat(properties.embedding().documentInputType()).isEqualTo("ingest");

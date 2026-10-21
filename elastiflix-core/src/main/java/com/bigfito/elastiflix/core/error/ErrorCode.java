@@ -187,10 +187,10 @@ public enum ErrorCode {
             "El nombre tiene más de un punto",
             "Renombra el archivo para que solo termine en .json o .csv"),
 
-    /** El archivo pesa más que el límite configurado. */
+    /** El archivo pesa más que el límite de la carga (25 MB). */
     FILE_TOO_LARGE("EFX-ING-003",
             "El archivo supera el tamaño máximo",
-            "Pesa más que el límite configurado",
+            "Pesa más que el límite de la carga",
             "Parte el archivo o súbelo por debajo del límite"),
 
     /** Hay bytes que no son UTF-8. */

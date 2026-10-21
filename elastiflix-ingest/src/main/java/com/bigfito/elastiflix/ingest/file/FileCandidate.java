@@ -5,7 +5,7 @@ import java.io.InputStream;
 /**
  * Archivo que alguien quiere cargar, antes de comprobarlo.
  *
- * <p>El tamaño llega aparte del contenido. Así una prueba de «150 MB + 1 byte» no tiene que
+ * <p>El tamaño llega aparte del contenido. Así una prueba de «25 MB + 1 byte» no tiene que
  * construir ese archivo ni leerlo.</p>
  *
  * @param fileName    nombre original, no la ruta temporal

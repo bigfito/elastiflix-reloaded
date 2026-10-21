@@ -13,6 +13,14 @@ import com.bigfito.elastiflix.core.error.IngestValidationException;
  */
 public final class FileChecker {
 
+    /**
+     * Tamaño máximo de un archivo de carga: 25 MB, es decir, 26 214 400 bytes (Requerimiento 3).
+     *
+     * <p>Es fijo y es el único origen del tope: de aquí salen la comprobación del navegador, la del servidor, el
+     * multipart de la web y los textos de las páginas.</p>
+     */
+    public static final DataSize MAX_FILE_SIZE = DataSize.ofMegabytes(25);
+
     private static final String JSON = "json";
     private static final String CSV = "csv";
     private static final int ONE_DOT = 1;
@@ -20,14 +28,13 @@ public final class FileChecker {
     /**
      * Comprueba el archivo y devuelve su tipo.
      *
-     * @param candidate   nombre, tamaño y contenido
-     * @param maxFileSize límite, el de {@code elastiflix.ingest.max-file-size}
+     * @param candidate nombre, tamaño y contenido
      * @return archivo aceptado
      */
-    public CheckedFile check(FileCandidate candidate, DataSize maxFileSize) {
+    public CheckedFile check(FileCandidate candidate) {
         String name = fileName(candidate.fileName());
         FileKind kind = kindOf(name);
-        requireSize(candidate.sizeInBytes(), maxFileSize);
+        requireSize(candidate.sizeInBytes());
         Utf8Decoder.requireUtf8(candidate.content());
         return new CheckedFile(name, kind);
     }
@@ -75,8 +82,8 @@ public final class FileChecker {
         throw new IngestValidationException(ErrorCode.BAD_EXTENSION);
     }
 
-    private static void requireSize(long sizeInBytes, DataSize maxFileSize) {
-        if (sizeInBytes > maxFileSize.toBytes()) {
+    private static void requireSize(long sizeInBytes) {
+        if (sizeInBytes > MAX_FILE_SIZE.toBytes()) {
             throw new IngestValidationException(ErrorCode.FILE_TOO_LARGE);
         }
     }

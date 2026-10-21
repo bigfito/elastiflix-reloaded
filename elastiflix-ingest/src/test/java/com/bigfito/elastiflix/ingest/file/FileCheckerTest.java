@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 class FileCheckerTest {
 
-    private static final DataSize LIMIT = DataSize.ofMegabytes(150);
+    private static final DataSize LIMIT = FileChecker.MAX_FILE_SIZE;
     private static final byte[] UTF8_BOM = {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
 
     private final FileChecker checker = new FileChecker();
@@ -30,7 +30,7 @@ class FileCheckerTest {
     @ValueSource(strings = {"elastiflix-reloaded.json", "peliculas_2026.csv", "CATALOGO.JSON"})
     @DisplayName("acepta json y csv, también en mayúsculas")
     void shouldAcceptJsonAndCsvWhenTheNameHasOneDot(String fileName) {
-        CheckedFile checked = checker.check(candidate(fileName, text("[]")), LIMIT);
+        CheckedFile checked = checker.check(candidate(fileName, text("[]")));
 
         assertThat(checked.fileName()).isEqualTo(fileName);
         if (fileName.toLowerCase().endsWith(".json")) {
@@ -51,7 +51,13 @@ class FileCheckerTest {
     }
 
     @Test
-    @DisplayName("un byte por encima de 150 MB se rechaza sin leer el contenido")
+    @DisplayName("el tope es fijo: 25 MB, 26 214 400 bytes")
+    void shouldFixTheLimitAtTwentyFiveMegabytes() {
+        assertThat(FileChecker.MAX_FILE_SIZE.toBytes()).isEqualTo(26_214_400L);
+    }
+
+    @Test
+    @DisplayName("un byte por encima de 25 MB se rechaza sin leer el contenido")
     void shouldRejectOneByteOverTheLimitWithoutReading() {
         InputStream trap = new InputStream() {
             @Override
@@ -61,18 +67,18 @@ class FileCheckerTest {
         };
         FileCandidate candidate = new FileCandidate("grande.json", LIMIT.toBytes() + 1, trap);
 
-        assertThatThrownBy(() -> checker.check(candidate, LIMIT))
+        assertThatThrownBy(() -> checker.check(candidate))
                 .isInstanceOf(IngestValidationException.class)
                 .extracting(thrown -> ((IngestValidationException) thrown).errorCode())
                 .isEqualTo(ErrorCode.FILE_TOO_LARGE);
     }
 
     @Test
-    @DisplayName("el tamaño exacto de 150 MB pasa a la comprobación de UTF-8")
+    @DisplayName("el tamaño exacto de 25 MB pasa a la comprobación de UTF-8")
     void shouldAcceptTheExactLimitWhenTheTextIsUtf8() {
         FileCandidate candidate = new FileCandidate("justo.json", LIMIT.toBytes(), text(""));
 
-        CheckedFile checked = checker.check(candidate, LIMIT);
+        CheckedFile checked = checker.check(candidate);
 
         assertThat(checked.kind()).isEqualTo(FileKind.JSON);
     }
@@ -83,7 +89,7 @@ class FileCheckerTest {
         byte[] broken = {(byte) 0xC3, (byte) 0x28};
         FileCandidate candidate = new FileCandidate("roto.json", broken.length, new ByteArrayInputStream(broken));
 
-        assertThatThrownBy(() -> checker.check(candidate, LIMIT))
+        assertThatThrownBy(() -> checker.check(candidate))
                 .isInstanceOf(IngestValidationException.class)
                 .extracting(thrown -> ((IngestValidationException) thrown).errorCode())
                 .isEqualTo(ErrorCode.INVALID_UTF8);
@@ -97,13 +103,13 @@ class FileCheckerTest {
         withBom[UTF8_BOM.length] = 'o';
         withBom[UTF8_BOM.length + 1] = 'k';
 
-        assertThat(checker.check(candidate("con-bom.json", new ByteArrayInputStream(withBom)), LIMIT).kind())
+        assertThat(checker.check(candidate("con-bom.json", new ByteArrayInputStream(withBom))).kind())
                 .isEqualTo(FileKind.JSON);
-        assertThat(checker.check(candidate("vacio.csv", text("")), LIMIT).kind()).isEqualTo(FileKind.CSV);
+        assertThat(checker.check(candidate("vacio.csv", text(""))).kind()).isEqualTo(FileKind.CSV);
     }
 
     private void assertCode(String fileName, ErrorCode code) {
-        assertThatThrownBy(() -> checker.check(candidate(fileName, text("")), LIMIT))
+        assertThatThrownBy(() -> checker.check(candidate(fileName, text(""))))
                 .isInstanceOf(IngestValidationException.class)
                 .extracting(thrown -> ((IngestValidationException) thrown).errorCode())
                 .isEqualTo(code);
