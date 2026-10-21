@@ -165,7 +165,7 @@ class MovieDetailPageTest {
                 .containsExactly("Consulta", "Modo", "Ajustes", "Filtros", "Página");
         assertThat(stateValue(view.searchState(), "Consulta")).isEqualTo("«matrix»");
         assertThat(stateValue(view.searchState(), "Modo")).isEqualTo("Full-text");
-        assertThat(stateValue(view.searchState(), "Página")).isEqualTo("Página 2 · 50 por página");
+        assertThat(stateValue(view.searchState(), "Página")).isEqualTo("2 · 50 por página");
     }
 
     @Test
@@ -277,7 +277,7 @@ class MovieDetailPageTest {
                 .containsExactly("Query", "Mode", "Settings", "Filters", "Page");
         assertThat(stateValue(view.searchState(), "Query")).isEqualTo("“matrix”");
         assertThat(stateValue(view.searchState(), "Mode")).isEqualTo("Full-text");
-        assertThat(stateValue(view.searchState(), "Page")).isEqualTo("Page 2 · 50 per page");
+        assertThat(stateValue(view.searchState(), "Page")).isEqualTo("2 · 50 per page");
 
         assertThat(factLabel(view.facts(), "id")).isEqualTo("Id");
         assertThat(factLabel(view.facts(), "release_date")).isEqualTo("Release date");

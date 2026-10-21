@@ -439,20 +439,24 @@ Cada pantalla tiene su versión en inglés (`<Página>-en.dc.html`); la traducci
 
 ## 📸 Capturas
 
-Capturas de página completa con la aplicación conectada al catálogo real; el pie muestra su conteo. La
-comparación con los mockups está en [`progreso/4.md`](progreso/4.md).
+Capturas de página completa con la aplicación conectada al catálogo real (6 899 películas), en español y en
+inglés; el pie muestra su conteo. Se tomaron el 2026-10-21 en la revisión 4 (ventana de 1440 px, Chromium con
+Playwright 1.49.1) y esperan la aprobación de Adolfo. La comparación anterior con los mockups está en
+[`progreso/4.md`](progreso/4.md).
 
-| Página | Captura |
-|---|---|
-| Inicio `GET /` | ![Inicio](docs/capturas/inicio.png) |
-| Resultados · Full-text | ![Resultados full-text](docs/capturas/resultados-fulltext.png) |
-| Resultados · Vectorial | ![Resultados vectorial](docs/capturas/resultados-vectorial.png) |
-| Resultados · Híbrida | ![Resultados híbrida](docs/capturas/resultados-hibrida.png) |
-| Cargar datos · Registro individual | ![Registro individual](docs/capturas/cargar-registro.png) |
-| Cargar datos · CSV válido, listo para importar | ![CSV válido](docs/capturas/cargar-csv-valido.png) |
-| Cargar datos · CSV que no coincide con el mapping | ![CSV inválido](docs/capturas/cargar-csv-invalido.png) |
-| Acerca de `GET /acerca` | ![Acerca de](docs/capturas/acerca.png) |
-| Ruta desconocida | ![No encontrada](docs/capturas/no-encontrada.png) |
+| Página | Español | English |
+|---|---|---|
+| Inicio `GET /` | ![Inicio](docs/capturas/inicio.png) | ![Inicio (EN)](docs/capturas/inicio-en.png) |
+| Resultados · Full-text | ![Resultados · Full-text](docs/capturas/resultados-fulltext.png) | ![Resultados · Full-text (EN)](docs/capturas/resultados-fulltext-en.png) |
+| Resultados · Vectorial | ![Resultados · Vectorial](docs/capturas/resultados-vectorial.png) | ![Resultados · Vectorial (EN)](docs/capturas/resultados-vectorial-en.png) |
+| Resultados · Híbrida | ![Resultados · Híbrida](docs/capturas/resultados-hibrida.png) | ![Resultados · Híbrida (EN)](docs/capturas/resultados-hibrida-en.png) |
+| Detalle de película `GET /pelicula/{id}` | ![Detalle de película](docs/capturas/detalle.png) | ![Detalle de película (EN)](docs/capturas/detalle-en.png) |
+| Detalle sin búsqueda (`EFX-SRCH-012`) | ![Detalle sin búsqueda (`EFX-SRCH-012`)](docs/capturas/detalle-sin-busqueda.png) | ![Detalle sin búsqueda (`EFX-SRCH-012`) (EN)](docs/capturas/detalle-sin-busqueda-en.png) |
+| Cargar datos · Registro individual | ![Cargar datos · Registro individual](docs/capturas/cargar-registro.png) | ![Cargar datos · Registro individual (EN)](docs/capturas/cargar-registro-en.png) |
+| Cargar datos · CSV válido, listo para importar | ![Cargar datos · CSV válido, listo para importar](docs/capturas/cargar-csv-valido.png) | ![Cargar datos · CSV válido, listo para importar (EN)](docs/capturas/cargar-csv-valido-en.png) |
+| Cargar datos · CSV que no coincide con el mapping | ![Cargar datos · CSV que no coincide con el mapping](docs/capturas/cargar-csv-invalido.png) | ![Cargar datos · CSV que no coincide con el mapping (EN)](docs/capturas/cargar-csv-invalido-en.png) |
+| Acerca de `GET /acerca` | ![Acerca de](docs/capturas/acerca.png) | ![Acerca de (EN)](docs/capturas/acerca-en.png) |
+| Ruta desconocida | ![Ruta desconocida](docs/capturas/no-encontrada.png) | ![Ruta desconocida (EN)](docs/capturas/no-encontrada-en.png) |
 
 ## 📖 Documentación
 
