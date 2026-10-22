@@ -8,12 +8,12 @@
 ## Punto de reanudación
 
 - **Fase actual:** 13 — La primera carga crea el catálogo (Requerimiento 7)
-- **Estado de la fase:** terminado; PR abierto, sin fusionar
+- **Estado de la fase:** terminado; PR #31 abierto, sin fusionar
 - **Ramas:** `fase-13-primera-carga` (sale de `main`, `8204b3c`)
 - **Diseño:** [`docs/diseno/13.md`](../docs/diseno/13.md)
 - **Estado:** [`progreso/13.md`](13.md)
 - **Tarea actual:** ninguna; la fase 13 está cerrada
-- **Próximo paso:** Adolfo revisa el PR de `fase-13-primera-carga` y decide la fusión en `main`.
+- **Próximo paso:** Adolfo revisa el PR #31 (`fase-13-primera-carga`) y decide la fusión en `main`.
 - **Última actualización:** 2026-10-22 16:05 UTC
 
 ## Fases
@@ -39,7 +39,7 @@
 | 10 | Carga en modo append o bulk (Requerimiento 4) | — | terminado | `progreso/10.md` | `./mvnw clean verify -Pit` en verde (670 unitarias: core 80, search 76, ingest 236, web 278; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 24 de 24, el 2026-10-21. Fusionada en `main` (`520768a`, PR #28); rama `fase-10-modos` borrada en local y en el remoto. |
 | 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | terminado | `progreso/11.md` | `./mvnw clean verify -Pit` en verde (677 unitarias: core 80, search 76, ingest 236, web 285; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-21. Fusionada en `main` (`b8b5292`, PR #29); rama `fase-11-acerca` borrada en local y en el remoto. |
 | 12 | Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6) | — | terminado | `progreso/12.md` | `./mvnw clean verify -Pit` en verde (687 unitarias: core 80, search 76, ingest 236, web 295; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-22. Fusionada en `main` (`c61f652`, PR #30); rama `fase-12-requeridos` borrada en local y en el remoto. |
-| 13 | La primera carga crea el catálogo (Requerimiento 7) | — | terminado (PR abierto) | `progreso/13.md` | `./mvnw clean verify -Pit` en verde (703 unitarias: core 81, search 76, ingest 247, web 299; 38 de integración, con `FirstCatalogIT`); navegador 27/27; primera carga probada en la app contra un alias `elastiflix-it-` vacío (2026-10-22) |
+| 13 | La primera carga crea el catálogo (Requerimiento 7) | — | terminado (PR #31 abierto) | `progreso/13.md` | `./mvnw clean verify -Pit` en verde (703 unitarias: core 81, search 76, ingest 247, web 299; 38 de integración, con `FirstCatalogIT`); navegador 27/27; primera carga probada en la app contra un alias `elastiflix-it-` vacío (2026-10-22) |
 
 ## Aprobaciones del usuario
 
