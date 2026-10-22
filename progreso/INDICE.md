@@ -12,8 +12,8 @@
 - **Ramas:** `fase-14-un-modulo` (sale de `main`, `af3583b`)
 - **Diseño:** [`docs/diseno/14.md`](../docs/diseno/14.md)
 - **Estado:** [`progreso/14.md`](14.md)
-- **Tarea actual:** 14.1 Un solo módulo
-- **Próximo paso:** mover el código a un solo módulo según `docs/diseno/14.md` (tarea 14.1).
+- **Tarea actual:** 14.2 ArchUnit: los límites que ponía Maven
+- **Próximo paso:** reglas de ArchUnit para los límites que ponía Maven (tarea 14.2).
 - **Última actualización:** 2026-10-22 16:00 UTC
 
 ## Fases

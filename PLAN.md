@@ -1595,7 +1595,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 - **Revisa una decisión aprobada:** la estructura de cuatro módulos de §4 y de la tarea 0.4.
 - **Fase 14 — Tareas** (rama `fase-14-un-modulo`; diseño en `docs/diseno/14.md`, sin compuerta 🔒):
   - [x] **14.0** Diseño técnico en `docs/diseno/14.md`.
-  - [ ] **14.1** Un solo módulo: `git mv` de los cuatro `src/`, POM único, `ElastiflixApplication` en
+  - [x] **14.1** Un solo módulo: `git mv` de los cuatro `src/`, POM único, `ElastiflixApplication` en
     `com.bigfito.elastiflix`, pruebas sin `TestApplication` ni `application.yml` de prueba, rutas sin `..`.
     `./mvnw clean verify -Pit` con los mismos totales.
   - [ ] **14.2** ArchUnit: `core`, `search` e `ingest` sin `jakarta.servlet`, `org.springframework.ui`,

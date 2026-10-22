@@ -14,17 +14,9 @@
     <groupId>com.bigfito</groupId>
     <artifactId>elastiflix-reloaded</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
     <name>elastiflix-reloaded</name>
     <description>Demo de búsqueda full-text, vectorial e híbrida sobre Elasticsearch Serverless.</description>
-
-    <modules>
-        <module>elastiflix-core</module>
-        <module>elastiflix-search</module>
-        <module>elastiflix-ingest</module>
-        <module>elastiflix-web</module>
-    </modules>
 
     <properties>
         <java.version>25</java.version>
@@ -37,39 +29,75 @@
         <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
     </properties>
 
-    <!-- Los módulos no declaran versiones: Boot o este bloque las fijan. -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.bigfito</groupId>
-                <artifactId>elastiflix-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.bigfito</groupId>
-                <artifactId>elastiflix-search</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.bigfito</groupId>
-                <artifactId>elastiflix-ingest</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.bigfito</groupId>
-                <artifactId>elastiflix-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.tngtech.archunit</groupId>
-                <artifactId>archunit-junit6</artifactId>
-                <version>${archunit.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <!-- Un solo módulo (Requerimiento 8, fase 14). Las partes core, search, ingest y web son paquetes de
+         com.bigfito.elastiflix; ArchitectureTest vigila sus límites. Boot fija las versiones, salvo ArchUnit. -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-elasticsearch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit6</artifactId>
+            <version>${archunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
+        <resources>
+            <!-- Al declarar recursos hay que repetir los propios (plantillas, estáticos, mensajes, spring.factories). -->
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <!-- El mapping del repo viaja en el jar como classpath:elasticsearch/elastiflix-reloaded-mapping.json. -->
+            <resource>
+                <directory>${project.basedir}/elasticsearch</directory>
+                <includes>
+                    <include>elastiflix-reloaded-mapping.json</include>
+                </includes>
+                <targetPath>elasticsearch</targetPath>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -111,7 +139,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven-checkstyle-plugin.version}</version>
                 <configuration>
-                    <configLocation>${maven.multiModuleProjectDirectory}/config/checkstyle/checkstyle.xml</configLocation>
+                    <configLocation>${project.basedir}/config/checkstyle/checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <failOnViolation>true</failOnViolation>
                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
@@ -139,7 +167,7 @@
                 <version>${maven-pmd-plugin.version}</version>
                 <configuration>
                     <rulesets>
-                        <ruleset>${maven.multiModuleProjectDirectory}/config/pmd/pmd-ruleset.xml</ruleset>
+                        <ruleset>${project.basedir}/config/pmd/pmd-ruleset.xml</ruleset>
                     </rulesets>
                     <targetJdk>25</targetJdk>
                     <printFailingErrors>true</printFailingErrors>
