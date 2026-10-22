@@ -8,12 +8,12 @@
 ## Punto de reanudación
 
 - **Fase actual:** 14 — Un solo módulo Maven (Requerimiento 8)
-- **Estado de la fase:** terminado; PR abierto, sin fusionar
+- **Estado de la fase:** terminado; PR #32 abierto, sin fusionar
 - **Ramas:** `fase-14-un-modulo` (sale de `main`, `af3583b`)
 - **Diseño:** [`docs/diseno/14.md`](../docs/diseno/14.md)
 - **Estado:** [`progreso/14.md`](14.md)
 - **Tarea actual:** ninguna; la fase 14 está cerrada
-- **Próximo paso:** Adolfo revisa el PR de `fase-14-un-modulo` y decide la fusión en `main`.
+- **Próximo paso:** Adolfo revisa el PR #32 (`fase-14-un-modulo`) y decide la fusión en `main`.
 - **Última actualización:** 2026-10-22 16:15 UTC
 
 ## Fases
@@ -40,7 +40,7 @@
 | 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | terminado | `progreso/11.md` | `./mvnw clean verify -Pit` en verde (677 unitarias: core 80, search 76, ingest 236, web 285; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-21. Fusionada en `main` (`b8b5292`, PR #29); rama `fase-11-acerca` borrada en local y en el remoto. |
 | 12 | Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6) | — | terminado | `progreso/12.md` | `./mvnw clean verify -Pit` en verde (687 unitarias: core 80, search 76, ingest 236, web 295; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-22. Fusionada en `main` (`c61f652`, PR #30); rama `fase-12-requeridos` borrada en local y en el remoto. |
 | 13 | La primera carga crea el catálogo (Requerimiento 7) | — | terminado | `progreso/13.md` | `./mvnw clean verify -Pit` en verde (703 unitarias: core 81, search 76, ingest 247, web 299; 38 de integración, con `FirstCatalogIT`); navegador 27/27; primera carga probada en la app contra un alias `elastiflix-it-` vacío (2026-10-22). Fusionada en `main` (`85f59ad`, PR #31); rama `fase-13-primera-carga` borrada en local y en el remoto |
-| 14 | Un solo módulo Maven (Requerimiento 8) | — | terminado (PR abierto) | `progreso/14.md` | `./mvnw clean verify -Pit` en verde (704 unitarias: las 703 de la fase 13 más la regla nueva de ArchUnit; 38 de integración); navegador 27/27; la app desde el jar nuevo y con `spring-boot:run`, página por página (2026-10-22) |
+| 14 | Un solo módulo Maven (Requerimiento 8) | — | terminado (PR #32 abierto) | `progreso/14.md` | `./mvnw clean verify -Pit` en verde (704 unitarias: las 703 de la fase 13 más la regla nueva de ArchUnit; 38 de integración); navegador 27/27; la app desde el jar nuevo y con `spring-boot:run`, página por página (2026-10-22) |
 
 ## Aprobaciones del usuario
 

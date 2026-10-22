@@ -28,7 +28,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > «Acerca de») también está en `main` (PR #29). La fase 12 (Requerimiento 6: campos obligatorios de cada formato
 > en «Acerca de») también está en `main` (PR #30). La fase 13 (Requerimiento 7: la primera carga crea el
 > catálogo) también está en `main` (PR #31). La fase 14 (Requerimiento 8: un solo módulo de Maven) está en
-> revisión en la rama `fase-14-un-modulo`. El
+> revisión (PR #32). El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
