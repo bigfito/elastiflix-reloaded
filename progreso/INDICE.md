@@ -8,13 +8,13 @@
 ## Punto de reanudación
 
 - **Fase actual:** 12 — Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6)
-- **Estado de la fase:** en curso
+- **Estado de la fase:** terminada en la rama `fase-12-requeridos`; falta el PR hacia `main`
 - **Ramas:** `fase-12-requeridos` (sale de `main`, `8b916fa`)
 - **Diseño:** [`docs/diseno/12.md`](../docs/diseno/12.md)
 - **Estado:** [`progreso/12.md`](12.md)
-- **Tarea actual:** 12.2 Mockups, capturas, documentación y verificación
-- **Próximo paso:** sumar las dos columnas y la nota a `About.dc.html` y `About-en.dc.html`, volver a tomar las capturas de «Acerca de», actualizar el README y correr `./mvnw clean verify -Pit` y las pruebas de navegador.
-- **Última actualización:** 2026-10-22 15:07 UTC
+- **Tarea actual:** ninguna; la fase espera el PR
+- **Próximo paso:** abrir el PR de `fase-12-requeridos` hacia `main`; las capturas nuevas de «Acerca de» y los mockups esperan la aprobación de Adolfo.
+- **Última actualización:** 2026-10-22 15:12 UTC
 
 ## Fases
 
@@ -38,7 +38,7 @@
 | 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | terminado | `progreso/9.md` | `./mvnw clean verify -Pit` en verde (637 unitarias: core 78, search 76, ingest 215, web 268; 32 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 19 de 19, el 2026-10-21. Fusionada en `main` (`1047a65`, PR #27); rama `fase-9-25mb` borrada en local y en el remoto. |
 | 10 | Carga en modo append o bulk (Requerimiento 4) | — | terminado | `progreso/10.md` | `./mvnw clean verify -Pit` en verde (670 unitarias: core 80, search 76, ingest 236, web 278; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 24 de 24, el 2026-10-21. Fusionada en `main` (`520768a`, PR #28); rama `fase-10-modos` borrada en local y en el remoto. |
 | 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | terminado | `progreso/11.md` | `./mvnw clean verify -Pit` en verde (677 unitarias: core 80, search 76, ingest 236, web 285; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-21. Fusionada en `main` (`b8b5292`, PR #29); rama `fase-11-acerca` borrada en local y en el remoto. |
-| 12 | Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6) | — | en curso | `progreso/12.md` | — |
+| 12 | Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6) | — | terminado en la rama `fase-12-requeridos` | `progreso/12.md` | `./mvnw clean verify -Pit` en verde (687 unitarias: core 80, search 76, ingest 236, web 295; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-22. Falta el PR hacia `main`. |
 
 ## Aprobaciones del usuario
 

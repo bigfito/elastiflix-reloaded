@@ -25,7 +25,8 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > en español e inglés (fase 8), y la revisión 4 que las corrigió (PR #25 y #26). La fase 9 (Requerimiento 3:
 > archivos de hasta 25 MB) también está en `main` (PR #27). La fase 10 (Requerimiento 4: carga en modo
 > append o bulk) también está en `main` (PR #28). La fase 11 (Requerimiento 5: índice y catálogo completo en
-> «Acerca de») también está en `main` (PR #29). El
+> «Acerca de») también está en `main` (PR #29). La fase 12 (Requerimiento 6: campos obligatorios de cada formato
+> en «Acerca de») está en la rama `fase-12-requeridos`. El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -173,6 +174,8 @@ Un catálogo de más de 25 MB se carga con un bulk (el primer archivo) y varios 
 | 🧾 `.json` | Exportación del índice (`documents`, `mapping`, `document_count`), arreglo de películas o NDJSON |
 | 📊 `.csv` | UTF-8 con o sin BOM, coma, **encabezado obligatorio** (sin encabezado se rechaza); listas y anidados como JSON en la celda |
 
+- **Campos obligatorios:** en los dos formatos y en los dos modos, `id`, `title` y `plot` con valor (en `.csv`, como
+  columnas del encabezado); el resto es opcional. «Acerca de» › «El catálogo» lo dice campo por campo.
 - **Antes de subir:** solo `.json` o `.csv`, sin dobles extensiones, máximo **25 MB**, UTF-8. El tope es fijo
   (Requerimiento 3): no hay variable para cambiarlo, y una `ELASTIFLIX_INGEST_MAX_FILE_SIZE` que siga en un `.env`
   viejo se ignora. Un catálogo más grande se parte en archivos de hasta 25 MB.
@@ -358,7 +361,8 @@ Las capturas de la aplicación en marcha están en [docs/capturas/](docs/captura
 - Registro individual directo al alias, visible en la búsqueda siguiente.
 - Cinco páginas: Inicio (tres modos y sugerencias), Resultados, Detalle de película, Cargar datos y Acerca de
   (tabla de precisión, créditos de TMDB, un índice fijo a la izquierda que marca la sección que se lee y, en «El
-  catálogo», todas las propiedades del mapping por grupo, con su tipo, contenido y uso).
+  catálogo», todas las propiedades del mapping por grupo, con su tipo, contenido, uso y si un `.json` o un `.csv`
+  tiene que traerlas para cargarse).
 - Detalle de película en `/pelicula/{id}`: todos los campos del documento salvo los vectores, cifras en USD,
   «N/A» en los campos vacíos y regreso a los resultados con la búsqueda intacta. Sin una búsqueda válida
   responde 400 con `EFX-SRCH-012`; un `id` que no existe, 404; si Elasticsearch falla, la página de error
@@ -477,7 +481,8 @@ a tomar el 2026-10-21 al cerrar la fase 10, con la tarjeta «Modo de carga» en 
 modos; Adolfo aprobó esas seis el mismo día. Las dos de «Acerca de» también se volvieron a tomar ese día, con la
 sección «Carga de datos» en los dos modos, y Adolfo también las aprobó; después se reemplazaron, a pedido suyo,
 por las mismas con la frase corregida de «El catálogo». La fase 11 las volvió a tomar con el índice y el
-catálogo completo, y Adolfo las aprobó. La comparación anterior con los mockups está en
+catálogo completo, y Adolfo las aprobó. La fase 12 las volvió a tomar con las columnas de obligatorios en `.json` y
+`.csv`; esperan la aprobación de Adolfo. La comparación anterior con los mockups está en
 [`progreso/4.md`](progreso/4.md).
 
 | Página | Español | English |
