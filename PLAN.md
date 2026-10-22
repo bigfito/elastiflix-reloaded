@@ -1576,7 +1576,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   cabecera y el pie dicen «Conectado · el catálogo todavía no existe».
 - **Revisa una decisión aprobada:** el diseño 1 (2026-10-18) decidió no crear un catálogo vacío; ese criterio queda
   solo para la migración de la tarea 1.8.
-- **Fase 13 — Tareas** (rama `fase-13-primera-carga`; diseño en `docs/diseno/13.md`, sin compuerta 🔒):
+- **Fase 13 — Tareas** (diseño en `docs/diseno/13.md`, sin compuerta 🔒; fusionada en `main` con el PR #31, `85f59ad`):
   - [x] **13.0** Diseño técnico en `docs/diseno/13.md`.
   - [x] **13.1** Bulk y registro individual crean el catálogo cuando falta (`CatalogIndex.publish` con anterior nulo, `CatalogAliases.currentIndex`, `FirstCatalog`); append bloqueado con `EFX-IMP-010` en la validación y en `AppendJob`. Pruebas unitarias y `FirstCatalogIT` sobre un alias propio vacío.
   - [x] **13.2** Web: aviso en «Cargar datos», append deshabilitado y bulk marcado sin catálogo; cabecera y pie con «el catálogo todavía no existe», en español e inglés. Pruebas MockMvc y de navegador.
