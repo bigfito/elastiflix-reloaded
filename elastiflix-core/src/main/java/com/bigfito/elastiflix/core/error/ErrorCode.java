@@ -344,7 +344,13 @@ public enum ErrorCode {
     APPEND_CANCELLED("EFX-IMP-009",
             "La carga se canceló",
             "Alguien pidió cancelar",
-            "Lo que ya se escribió se queda en el catálogo; la página dice cuántas películas se agregaron");
+            "Lo que ya se escribió se queda en el catálogo; la página dice cuántas películas se agregaron"),
+
+    /** Modo append sin catálogo: el alias no existe todavía (Requerimiento 7). */
+    APPEND_WITHOUT_CATALOG("EFX-IMP-010",
+            "El catálogo todavía no existe",
+            "La carga en modo append agrega al catálogo y el alias no apunta a ningún índice",
+            "Carga primero un archivo en modo bulk o guarda un registro individual: los dos crean el catálogo");
 
     private final String code;
     private final String whatHappened;

@@ -36,7 +36,7 @@ public final class OrphanCleaner {
      *
      * @param catalog   operaciones del catálogo
      * @param alias     alias de esta importación
-     * @param liveIndex índice que está detrás del alias
+     * @param liveIndex índice que está detrás del alias, o {@code null} si el catálogo todavía no existe
      */
     public void clean(CatalogIndex catalog, String alias, String liveIndex) {
         for (String index : catalog.listOwnedIndexes(alias)) {

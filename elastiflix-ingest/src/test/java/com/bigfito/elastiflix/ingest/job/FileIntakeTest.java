@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
+import com.bigfito.elastiflix.core.catalog.CatalogName;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
@@ -140,6 +141,42 @@ class FileIntakeTest {
         assertThat(view.status()).isEqualTo("valido");
         assertThat(view.mode()).isEqualTo("bulk");
         assertThat(view.replaceCount()).isEqualTo(6899);
+        verify(catalog, never()).existingIds(anyString(), anyList());
+    }
+
+    @Test
+    @DisplayName("en bulk sin catálogo, no se reemplaza nada: la primera carga lo crea")
+    void shouldReplaceNothingWhenBulkCreatesTheCatalog() throws Exception {
+        // given
+        when(catalog.describe("elastiflix-reloaded")).thenReturn(new CatalogName.Missing("elastiflix-reloaded"));
+        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n");
+        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
+
+        // when
+        intake.validate(jobId);
+        JobView view = store.view(jobId);
+
+        // then
+        assertThat(view.status()).isEqualTo("valido");
+        assertThat(view.replaceCount()).isZero();
+        verify(catalog, never()).count(anyString());
+    }
+
+    @Test
+    @DisplayName("en append sin catálogo, el trabajo falla con EFX-IMP-010 y no pregunta por los ids")
+    void shouldFailWhenAppendHasNoCatalog() throws Exception {
+        // given
+        when(catalog.describe("elastiflix-reloaded")).thenReturn(new CatalogName.Missing("elastiflix-reloaded"));
+        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n");
+        String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.APPEND);
+
+        // when
+        intake.validate(jobId);
+        JobView view = store.view(jobId);
+
+        // then
+        assertThat(view.status()).isEqualTo("fallido");
+        assertThat(view.failureCode()).isEqualTo(ErrorCode.APPEND_WITHOUT_CATALOG.code());
         verify(catalog, never()).existingIds(anyString(), anyList());
     }
 

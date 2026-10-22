@@ -122,3 +122,22 @@ test('un append «agregado» deja los cuatro pasos completados y sin paso 5', as
     assert.equal(await page.isDisabled('#job-cancel'), true);
   });
 });
+
+// Requerimiento 7 (fase 13): sin catálogo, la página la sirve otra instancia de la aplicación con un alias
+// `elastiflix-it-…` que no existe (NO_CATALOG_URL). Sin esa variable, la prueba se omite.
+const NO_CATALOG_URL = process.env.NO_CATALOG_URL;
+
+test('sin catálogo: aviso, append deshabilitado, bulk marcado sin aviso de borrado y paso 5 visible',
+  { skip: !NO_CATALOG_URL && 'falta NO_CATALOG_URL' }, async () => {
+    await withPage(async (page) => {
+      await page.goto(NO_CATALOG_URL + '/cargar?lang=es');
+      assert.match(await page.textContent('#catalog-missing'), /todavía no existe\. Se crea con la primera carga/);
+      assert.match(await page.textContent('.connection'), /Conectado · el catálogo todavía no existe/);
+      await page.click('#tab-json');
+      assert.equal(await page.isDisabled('input[name="modo"][value="append"]'), true);
+      assert.equal(await page.isChecked('input[name="modo"][value="bulk"]'), true);
+      assert.equal(await page.isHidden('#bulk-warning'), true);
+      assert.equal(await page.textContent('#step4-title'), 'Importación en un índice temporal');
+      assert.equal(await page.isVisible('#steps li[data-step="5"]'), true);
+    });
+  });

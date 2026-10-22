@@ -2,6 +2,7 @@ package com.bigfito.elastiflix.web.layout;
 
 import java.util.Locale;
 
+import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.text.Thousands;
 import com.bigfito.elastiflix.web.locale.UiMessages;
 
@@ -24,7 +25,18 @@ public final class CatalogTexts {
     }
 
     /**
-     * Pastilla de conexión: conectado, o sin conexión con el código EFX.
+     * Si Elasticsearch respondió que el alias no existe ({@code EFX-ES-002}): el catálogo todavía no se creó y lo crea
+     * la primera carga (Requerimiento 7).
+     *
+     * @param errorCode código del estado, o {@code null}
+     * @return {@code true} si el catálogo todavía no existe
+     */
+    public static boolean missing(String errorCode) {
+        return ErrorCode.CATALOG_NOT_FOUND.code().equals(errorCode);
+    }
+
+    /**
+     * Pastilla de conexión: conectado, conectado sin catálogo, o sin conexión con el código EFX.
      *
      * @param connected si Elasticsearch respondió
      * @param errorCode código de la falla, o {@code null}
@@ -35,6 +47,9 @@ public final class CatalogTexts {
     public static String connection(boolean connected, String errorCode, Locale locale, UiMessages messages) {
         if (connected) {
             return messages.getFor(locale, "layout.catalog.connected");
+        }
+        if (missing(errorCode)) {
+            return messages.getFor(locale, "layout.catalog.missing");
         }
         String cause = errorCode == null || errorCode.isBlank() ? "Elasticsearch Serverless" : errorCode;
         return messages.getFor(locale, "layout.catalog.disconnected", cause);

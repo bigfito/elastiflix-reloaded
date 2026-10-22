@@ -7,14 +7,14 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 12 — Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6)
-- **Estado de la fase:** terminada y fusionada en `main` (PR #30, `c61f652`)
-- **Ramas:** `main` (la rama `fase-12-requeridos` se borró tras la fusión)
-- **Diseño:** [`docs/diseno/12.md`](../docs/diseno/12.md)
-- **Estado:** [`progreso/12.md`](12.md)
-- **Tarea actual:** ninguna
-- **Próximo paso:** ninguno pendiente: los requerimientos 1 a 6 de PLAN están en `main` y las capturas, al día y aprobadas.
-- **Última actualización:** 2026-10-22 15:13 UTC
+- **Fase actual:** 13 — La primera carga crea el catálogo (Requerimiento 7)
+- **Estado de la fase:** terminado; PR #31 abierto, sin fusionar
+- **Ramas:** `fase-13-primera-carga` (sale de `main`, `8204b3c`)
+- **Diseño:** [`docs/diseno/13.md`](../docs/diseno/13.md)
+- **Estado:** [`progreso/13.md`](13.md)
+- **Tarea actual:** ninguna; la fase 13 está cerrada
+- **Próximo paso:** Adolfo revisa el PR #31 (`fase-13-primera-carga`) y decide la fusión en `main`.
+- **Última actualización:** 2026-10-22 16:05 UTC
 
 ## Fases
 
@@ -39,6 +39,7 @@
 | 10 | Carga en modo append o bulk (Requerimiento 4) | — | terminado | `progreso/10.md` | `./mvnw clean verify -Pit` en verde (670 unitarias: core 80, search 76, ingest 236, web 278; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 24 de 24, el 2026-10-21. Fusionada en `main` (`520768a`, PR #28); rama `fase-10-modos` borrada en local y en el remoto. |
 | 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | terminado | `progreso/11.md` | `./mvnw clean verify -Pit` en verde (677 unitarias: core 80, search 76, ingest 236, web 285; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-21. Fusionada en `main` (`b8b5292`, PR #29); rama `fase-11-acerca` borrada en local y en el remoto. |
 | 12 | Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6) | — | terminado | `progreso/12.md` | `./mvnw clean verify -Pit` en verde (687 unitarias: core 80, search 76, ingest 236, web 295; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-22. Fusionada en `main` (`c61f652`, PR #30); rama `fase-12-requeridos` borrada en local y en el remoto. |
+| 13 | La primera carga crea el catálogo (Requerimiento 7) | — | terminado (PR #31 abierto) | `progreso/13.md` | `./mvnw clean verify -Pit` en verde (703 unitarias: core 81, search 76, ingest 247, web 299; 38 de integración, con `FirstCatalogIT`); navegador 27/27; primera carga probada en la app contra un alias `elastiflix-it-` vacío (2026-10-22) |
 
 ## Aprobaciones del usuario
 
@@ -107,6 +108,7 @@
 | 2026-10-21 | Cierre y fusión de la Fase 11 (Requerimiento 5) | Adolfo respondió «Apruebo las capturas y los mockups nuevos de «Acerca de»; fusiona el PR #29 en main, deja local y remoto al día y borra la rama.» Aprobó las capturas nuevas de «Acerca de» y los mockups `About.dc.html` y `About-en.dc.html`. PR #29 fusionado con el merge commit `b8b5292` a las 22:44 UTC; la rama `fase-11-acerca` se borró en local y en el remoto. |
 | 2026-10-22 | Requerimiento 6: campos obligatorios de cada formato en «Acerca de» (Fase 12) | Adolfo pidió «En la página de "Acerca de" en la sección del catálogo, quiero que añadas 2 columnas a la tabla. Una columna que indique si el campo del catálogo es requerido al momento de hacer el import del .json y similarmente otra columna que indique si el campo es requerido al momento de hacer el import del .csv. De este modo, el usuario que lea este apartado podrá saber y entender qué campos debe tener su .json o su .csv para poder hacer una operación de import sea en modo reemplazo o modo append.» Mismo camino que la fase 11: implementar directo con su PR y los mockups al final. Rama `fase-12-requeridos`. |
 | 2026-10-22 | Cierre y fusión de la Fase 12 (Requerimiento 6) | Adolfo respondió «Apruebo las capturas y los mockups nuevos de «Acerca de»; fusiona el PR #30 en main, deja local y remoto al día y borra la rama.» Aprobó las capturas nuevas de «Acerca de» y los mockups `About.dc.html` y `About-en.dc.html`. PR #30 fusionado con el merge commit `c61f652` a las 15:13 UTC; la rama `fase-12-requeridos` se borró en local y en el remoto. |
+| 2026-10-22 | Requerimiento 7: la primera carga crea el catálogo (Fase 13) | Adolfo pidió «Sí. Que bulk y el registro individual creen el catálogo (índice con el mapping y alias) cuando no existe, y que append quede bloqueado con un mensaje claro. Regístralo como requerimiento nuevo con su fase y su PR.» Revisa la decisión «no crear un catálogo vacío» del diseño 1 para la carga; la migración de la tarea 1.8 la conserva. Rama `fase-13-primera-carga`. |
 
 
 ## Catálogo vigente

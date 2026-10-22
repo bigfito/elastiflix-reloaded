@@ -55,7 +55,8 @@ public interface CatalogIndex {
     long count(String name);
 
     /**
-     * Publica el alias en una sola llamada: lo agrega al índice nuevo y borra el anterior.
+     * Publica el alias en una sola llamada: lo agrega al índice nuevo y borra el anterior. Sin índice anterior (el
+     * catálogo todavía no existe, Requerimiento 7), solo lo agrega.
      *
      * <p>Pide {@code timeout} de 10 s, por debajo del socket-timeout del cliente ({@code master_timeout} no existe
      * en Serverless).
@@ -63,7 +64,7 @@ public interface CatalogIndex {
      *
      * @param alias         alias del catálogo
      * @param newIndex      índice que se queda con el alias
-     * @param previousIndex índice que se borra en la misma llamada
+     * @param previousIndex índice que se borra en la misma llamada, o {@code null} en la primera publicación
      */
     void publish(String alias, String newIndex, String previousIndex);
 

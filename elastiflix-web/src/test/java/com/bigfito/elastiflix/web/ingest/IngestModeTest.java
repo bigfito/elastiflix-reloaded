@@ -28,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -38,7 +39,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * El modo de carga (Requerimiento 4): la tarjeta de la página y el parámetro {@code modo} de la subida.
+ * El modo de carga (Requerimiento 4): la tarjeta de la página y el parámetro {@code modo} de la subida. Sin catálogo
+ * (Requerimiento 7), append viene deshabilitado y bulk marcado.
  */
 @WebMvcTest(controllers = {IngestController.class, IngestJobController.class}, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
@@ -91,7 +93,7 @@ class IngestModeTest {
                 .andExpect(content().string(containsString("Modo de carga")))
                 .andExpect(content().string(containsString("Agregar al catálogo")))
                 .andExpect(content().string(containsString("Reemplazar el catálogo")))
-                .andExpect(content().string(containsString("name=\"modo\" value=\"append\" checked")))
+                .andExpect(content().string(containsString("name=\"modo\" value=\"append\" checked=\"checked\">")))
                 .andExpect(content().string(containsString("name=\"modo\" value=\"bulk\">")))
                 .andExpect(content().string(containsString("Con bulk, el catálogo actual (6 899 películas) se borra "
                         + "al publicar y queda solo con las películas de este archivo.")))
@@ -112,6 +114,51 @@ class IngestModeTest {
                 .andExpect(content().string(containsString("With bulk, the current catalog (6,899 movies) is deleted "
                         + "at publication and only the movies in this file remain.")))
                 .andExpect(content().string(containsString("<span id=\"step4-title\">Write to the catalog</span>")));
+    }
+
+    @Test
+    @DisplayName("sin catálogo: el aviso, append deshabilitado, bulk marcado y sin aviso de borrado")
+    void shouldBlockAppendWhenTheCatalogIsMissing() throws Exception {
+        when(catalog.status()).thenReturn(missingCatalog());
+
+        mvc.perform(get("/cargar"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("El catálogo <code>elastiflix-reloaded</code> todavía no "
+                        + "existe. Se crea con la primera carga: un archivo en modo bulk o un registro individual. "
+                        + "La carga en modo append queda bloqueada hasta entonces.")))
+                .andExpect(content().string(containsString("data-no-catalog=\"true\"")))
+                .andExpect(content().string(containsString(
+                        "name=\"modo\" value=\"append\" disabled=\"disabled\">")))
+                .andExpect(content().string(containsString("name=\"modo\" value=\"bulk\" checked=\"checked\">")))
+                .andExpect(content().string(containsString("Conectado · el catálogo todavía no existe")))
+                .andExpect(content().string(containsString("Índice: elastiflix-reloaded · todavía no existe")));
+    }
+
+    @Test
+    @DisplayName("sin catálogo, en inglés, el aviso y la cabecera dicen que todavía no existe")
+    void shouldBlockAppendWhenTheCatalogIsMissingInEnglish() throws Exception {
+        when(catalog.status()).thenReturn(missingCatalog());
+
+        mvc.perform(get("/cargar").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("The catalog <code>elastiflix-reloaded</code> doesn't "
+                        + "exist yet. The first load creates it: a file in bulk mode or a single record. "
+                        + "Append loads are blocked until then.")))
+                .andExpect(content().string(containsString("Connected · the catalog doesn&#39;t exist yet")))
+                .andExpect(content().string(containsString("Index: elastiflix-reloaded · doesn&#39;t exist yet")));
+    }
+
+    @Test
+    @DisplayName("con catálogo, la página no trae el aviso de catálogo inexistente")
+    void shouldNotWarnWhenTheCatalogExists() throws Exception {
+        mvc.perform(get("/cargar"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(not(containsString("id=\"catalog-missing\""))))
+                .andExpect(content().string(containsString("data-no-catalog=\"false\"")));
+    }
+
+    private static CatalogStatus missingCatalog() {
+        return new CatalogStatus("elastiflix-reloaded", null, null, false, "EFX-ES-002");
     }
 
     private static MockMultipartHttpServletRequestBuilder upload() {

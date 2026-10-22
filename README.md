@@ -26,7 +26,8 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > archivos de hasta 25 MB) también está en `main` (PR #27). La fase 10 (Requerimiento 4: carga en modo
 > append o bulk) también está en `main` (PR #28). La fase 11 (Requerimiento 5: índice y catálogo completo en
 > «Acerca de») también está en `main` (PR #29). La fase 12 (Requerimiento 6: campos obligatorios de cada formato
-> en «Acerca de») también está en `main` (PR #30). El
+> en «Acerca de») también está en `main` (PR #30). La fase 13 (Requerimiento 7: la primera carga crea el
+> catálogo) está en revisión (PR #31). El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -63,7 +64,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 | 🌐 | **Bilingüe (ES · EN)** | Interfaz completa en español e inglés con selector en el encabezado y cookie de preferencia |
 | 🎛️ | **Filtros dinámicos** | Adultos, géneros, fecha de estreno, idiomas y clasificación, con conteos |
 | 📄 | **Paginación** | 25 · 50 · 100 resultados por página |
-| 📥 | **Carga de datos** | Registro individual o archivos `.json` / `.csv`, validados contra el mapping |
+| 📥 | **Carga de datos** | Registro individual o archivos `.json` / `.csv`, validados contra el mapping; la primera carga crea el catálogo |
 | ℹ️ | **Acerca de la demo** | Explicación de cada modo dentro de la aplicación, con un índice fijo y el catálogo completo |
 
 ## 🔎 Los tres modos de búsqueda
@@ -240,8 +241,10 @@ elastiflix-reloaded/
 
 > [!IMPORTANT]
 > Los **Comandos** se probaron en un `git clone` limpio, con `.env`, sobre un proyecto que ya tenía el
-> catálogo. Los pasos de «Preparar el catálogo» siguen la documentación de Elasticsearch y el código de la
-> migración, pero no se han probado en un proyecto vacío.
+> catálogo. La primera carga de «Preparar el catálogo» se probó el 2026-10-22 contra un alias `elastiflix-it-…` que
+> no existía: un registro individual y un archivo en bulk crearon cada uno el índice con el mapping y el alias, y
+> append quedó bloqueado. La migración de un índice concreto sigue la documentación de Elasticsearch y el código de
+> la tarea 1.8, pero no se ha probado en un proyecto vacío.
 
 **Prerrequisitos**
 
@@ -294,29 +297,27 @@ La aplicación lee `.env` por su cuenta al arrancar; exportar las variables solo
 
 **Preparar el catálogo** (solo si el proyecto no tiene `elastiflix-reloaded`)
 
-La aplicación no crea un catálogo vacío: lee siempre por el alias. En un proyecto nuevo:
+La primera carga crea el catálogo (Requerimiento 7, fase 13). En un proyecto vacío:
 
-1. Crear el índice concreto `elastiflix-reloaded` con el mapping del repositorio:
+1. Arrancar la aplicación (`./mvnw -pl elastiflix-web spring-boot:run`) y abrir http://localhost:8080/cargar. La
+   cabecera dice «Conectado · el catálogo todavía no existe» y la página avisa que la primera carga lo crea.
+2. Importar el archivo de películas en modo **bulk** desde «Importar .json» o «Importar .csv» (la tarjeta «Modo de
+   carga» ya trae bulk marcado y append deshabilitado), o guardar un **registro individual**. Los dos crean
+   `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` con el mapping del repositorio y le ponen el alias `elastiflix-reloaded`
+   con `_aliases`. Los vectores de la sinopsis se generan con el servicio de inferencia.
+3. Desde ahí, append agrega películas al catálogo. Antes de que exista, append se rechaza con `EFX-IMP-010`.
 
-   ```bash
-   curl -sS -X PUT "$ELASTICSEARCH_URL/elastiflix-reloaded" \
-     -H "Authorization: ApiKey $ELASTICSEARCH_API_KEY" -H 'Content-Type: application/json' \
-     --data-binary @elasticsearch/elastiflix-reloaded-mapping.json
-   ```
+Si el proyecto tiene un **índice concreto** llamado `elastiflix-reloaded` (de antes de la tarea 1.8), hay que
+convertirlo en alias. El comando copia el índice a `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` y, en una sola llamada,
+borra el índice concreto y crea el alias. Termina por sí solo:
 
-2. Convertirlo en alias. El comando copia el índice a `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` y, en una
-   sola llamada, borra el índice concreto y crea el alias. Termina por sí solo:
+```bash
+./mvnw -q install -DskipTests
+./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
+```
 
-   ```bash
-   ./mvnw -q install -DskipTests
-   ./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
-   ```
-
-   Si el nombre ya es un alias, el comando no crea ni borra índices: el log dice a cuál apunta y el
-   proceso termina con código 0.
-3. Arrancar la aplicación (`./mvnw -pl elastiflix-web spring-boot:run`), abrir
-   http://localhost:8080/cargar e importar el archivo de películas desde la pestaña «Importar .json» o
-   «Importar .csv». Los vectores de la sinopsis se generan con el servicio de inferencia.
+Si el nombre ya es un alias, el comando no crea ni borra índices: el log dice a cuál apunta y el proceso termina
+con código 0. Si el nombre no existe, la migración se detiene sin crear nada: el catálogo lo crea la primera carga.
 
 **Comandos**
 

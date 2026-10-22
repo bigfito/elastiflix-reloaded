@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
 import com.bigfito.elastiflix.core.catalog.CatalogName;
+import com.bigfito.elastiflix.core.catalog.CatalogName.Missing;
 import com.bigfito.elastiflix.core.catalog.IndexNames;
 import com.bigfito.elastiflix.core.client.MovieJsonMapper;
 import com.bigfito.elastiflix.core.embedding.EmbeddingService;
@@ -339,6 +340,57 @@ class ImportJobTest {
                 .isEqualTo(ErrorCode.CATALOG_NOT_ALIAS);
         verify(catalog, never()).createWithMapping(anyString());
         verify(catalog, never()).deleteIndex(anyString());
+    }
+
+    @Test
+    @DisplayName("sin alias es la primera carga: crea el temporal y publica solo con add")
+    void shouldCreateTheCatalogWhenTheAliasIsMissing() {
+        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Missing(ALIAS));
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of(ORPHAN));
+        when(catalog.count(temp)).thenReturn(1L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+
+        runOne();
+
+        verify(catalog).createWithMapping(temp);
+        verify(catalog).writeAll(eq(temp), anyList());
+        verify(catalog).publish(ALIAS, temp, null);
+        verify(catalog).deleteIndex(ORPHAN);
+        verify(catalog, never()).deleteIndex(temp);
+        assertThat(progress).extracting(ImportProgress::step).containsExactly(4, 4, 4, 5);
+    }
+
+    @Test
+    @DisplayName("en la primera carga, si _aliases responde 4xx y el alias sigue sin existir, borra el temporal")
+    void shouldDeleteTheTempWhenTheFirstPublishIsRejected() {
+        Missing missing = new CatalogName.Missing(ALIAS);
+        when(catalog.describe(ALIAS)).thenReturn(missing, missing);
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        when(catalog.count(temp)).thenReturn(1L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+        doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, rejected()))
+                .when(catalog).publish(ALIAS, temp, null);
+
+        assertThatThrownBy(() -> runOne()).isInstanceOf(ElasticsearchAccessException.class)
+                .extracting(error -> ((ElasticsearchAccessException) error).errorCode())
+                .isEqualTo(ErrorCode.ALIAS_PUBLISH_FAILED);
+        verify(catalog).deleteIndex(temp);
+    }
+
+    @Test
+    @DisplayName("en la primera carga, si publicar se corta y el alias ya apunta al temporal, queda publicado")
+    void shouldTreatTheFirstPublishAsDoneWhenTheAliasPointsAtTheTemp() {
+        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Missing(ALIAS), new CatalogName.Alias(ALIAS, temp));
+        when(catalog.listOwnedIndexes(ALIAS)).thenReturn(List.of());
+        when(catalog.count(temp)).thenReturn(1L);
+        when(embeddings.embedDocuments(anyList())).thenReturn(List.of(vector()));
+        doThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE, new IOException("corte")))
+                .when(catalog).publish(ALIAS, temp, null);
+
+        runOne();
+
+        verify(catalog, never()).deleteIndex(anyString());
+        assertThat(progress).extracting(ImportProgress::step).endsWith(5);
     }
 
     private void readyToWrite() {
