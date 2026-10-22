@@ -51,11 +51,11 @@ valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 
 ## Trabajo abierto
 
-Las fases 0 a 11 y las revisiones 1 a 4 están cerradas. Lo pendiente es lo que diga
+Las fases 0 a 11 y las revisiones 1 a 4 están cerradas; la 12 (Requerimiento 6) está en curso. Lo pendiente es lo que diga
 `progreso/INDICE.md` › «Punto de reanudación». Una revisión en carriles paralelos sigue «Cómo trabajar en
 paralelo» de `docs/revisiones/revision-3.md`: rama y archivo de estado por carril; PLAN, README, `docs/` e
 `INDICE.md` los escribe solo el cierre. «Requerimientos nuevos» de PLAN: el 1 y el 2 están hechos (fases 7 y 8);
-el 3, en la fase 9; el 4, en la fase 10; el 5, en la 11.
+el 3, en la fase 9; el 4, en la 10; el 5, en la 11; el 6, en la 12.
 
 ## Regla de oro sobre el orden de trabajo
 

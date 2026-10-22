@@ -439,15 +439,18 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <h2 id="h-catalogo" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">El catálogo</h2>
 </div>
 <p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">El catálogo está en <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">elastiflix-reloaded</code>, un alias que apunta al índice vigente: las búsquedas siempre leen el catálogo publicado. Una carga en bulk se publica de una sola vez o se descarta sin afectar a las búsquedas; una carga en append se suma al índice vigente lote por lote. Tiene 6 899 películas. Estas son todas sus propiedades, las de <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">elastiflix-reloaded-mapping.json</code>, agrupadas como en el formulario de «Cargar datos». La columna «Uso» dice dónde las usa la demo: la tarjeta es cada resultado de la búsqueda y el detalle, la página de cada película.</p>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Las dos últimas columnas dicen qué tiene que traer un archivo para cargarse, en modo append o bulk (las reglas son las mismas): en un <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">.json</code>, cada película trae <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">plot</code> con valor; en un <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">.csv</code>, el encabezado tiene esas tres columnas y cada fila, su valor. Los demás campos son opcionales, pero si vienen deben respetar su tipo, y un campo o una columna que no está en estas tablas rechaza el archivo.</p>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Identificación y títulos</h3>
 <div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
-<table style="width: 100%; min-width: 560px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
 <thead>
 <tr style="background: #FFFFFF; text-align: left">
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 30%">Campo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 14%">Tipo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: auto">Contenido</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 20%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
 </tr>
 </thead>
 <tbody>
@@ -456,43 +459,55 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Identificador de la película en TMDB; también es el <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">_id</code> del documento</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">imdb_id</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Identificador en IMDb, por ejemplo tt0120338; el detalle enlaza a su ficha</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">title</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Título de la película</td>
 <td style="padding: 14px 18px; color: #585266">Full-text, Híbrida, tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">original_title</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Título original</td>
 <td style="padding: 14px 18px; color: #585266">Full-text, Híbrida, tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">original_language</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Idioma original, como código ISO 639-1: en, es, fr…</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 </tbody>
 </table>
 </div>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Sinopsis y textos</h3>
 <div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
-<table style="width: 100%; min-width: 560px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
 <thead>
 <tr style="background: #FFFFFF; text-align: left">
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 30%">Campo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 14%">Tipo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: auto">Contenido</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 20%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
 </tr>
 </thead>
 <tbody>
@@ -501,49 +516,63 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Sinopsis; origen de los tres vectores</td>
 <td style="padding: 14px 18px; color: #585266">Tarjeta y detalle; origen de los vectores</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">overview</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Resumen de TMDB</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">tagline</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Frase promocional de la película</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">plot_256</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
 <td style="padding: 14px 18px; color: #585266">Vector de 256 dimensiones: los primeros 256 valores del de 1024, renormalizados</td>
 <td style="padding: 14px 18px; color: #585266">Vectorial, Híbrida</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">plot_512</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
 <td style="padding: 14px 18px; color: #585266">Vector de 512 dimensiones: los primeros 512 valores del de 1024, renormalizados</td>
 <td style="padding: 14px 18px; color: #585266">Vectorial, Híbrida</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">plot_1024</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
 <td style="padding: 14px 18px; color: #585266">Vector de 1024 dimensiones de la sinopsis, generado con jina-embeddings-v5-omni-small</td>
 <td style="padding: 14px 18px; color: #585266">Vectorial, Híbrida</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
 </tr>
 </tbody>
 </table>
 </div>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Clasificación, fecha y estado</h3>
 <div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
-<table style="width: 100%; min-width: 560px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
 <thead>
 <tr style="background: #FFFFFF; text-align: left">
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 30%">Campo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 14%">Tipo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: auto">Contenido</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 20%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
 </tr>
 </thead>
 <tbody>
@@ -552,73 +581,95 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Géneros, por ejemplo Drama, Comedy o Action</td>
 <td style="padding: 14px 18px; color: #585266">Filtro, tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">keywords</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">nested</td>
 <td style="padding: 14px 18px; color: #585266">Palabras clave de TMDB: una lista de objetos con <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">id</code> y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">name</code></td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">keywords.<wbr>id</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">long</td>
 <td style="padding: 14px 18px; color: #585266">Identificador de la palabra clave en TMDB</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
 </tr>
 <tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">keywords.<wbr>name</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">La palabra clave, por ejemplo iceberg</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">rating</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Clasificación: G, PG, PG-13, R, NC-17 o NR</td>
 <td style="padding: 14px 18px; color: #585266">Filtro y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">release_date</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">date</td>
 <td style="padding: 14px 18px; color: #585266">Fecha de estreno en yyyy-MM-dd (medido en el catálogo original de 4 322 películas: de 1902 a 2023)</td>
 <td style="padding: 14px 18px; color: #585266">Filtro, tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">runtime</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">integer</td>
 <td style="padding: 14px 18px; color: #585266">Duración en minutos</td>
 <td style="padding: 14px 18px; color: #585266">Tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">status</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Estado de producción, por ejemplo Released</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">adult</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">boolean</td>
 <td style="padding: 14px 18px; color: #585266">Contenido para adultos (medido en el catálogo original de 4 322 películas: ninguna película del catálogo lo es)</td>
 <td style="padding: 14px 18px; color: #585266">Filtro y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">video</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">boolean</td>
 <td style="padding: 14px 18px; color: #585266">Si el registro es un video y no una película de cine</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 </tbody>
 </table>
 </div>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Métricas</h3>
 <div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
-<table style="width: 100%; min-width: 560px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
 <thead>
 <tr style="background: #FFFFFF; text-align: left">
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 30%">Campo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 14%">Tipo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: auto">Contenido</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 20%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
 </tr>
 </thead>
 <tbody>
@@ -627,49 +678,63 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
 <td style="padding: 14px 18px; color: #585266">Popularidad según TMDB</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">vote_average</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
 <td style="padding: 14px 18px; color: #585266">Promedio de los votos, de 0 a 10</td>
 <td style="padding: 14px 18px; color: #585266">Tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">vote_count</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">integer</td>
 <td style="padding: 14px 18px; color: #585266">Número de votos</td>
 <td style="padding: 14px 18px; color: #585266">Tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">user_score</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
 <td style="padding: 14px 18px; color: #585266">Puntuación de los usuarios</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">budget</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
 <td style="padding: 14px 18px; color: #585266">Presupuesto en USD; vacío o en 0 se muestra como N/A</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">revenue</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
 <td style="padding: 14px 18px; color: #585266">Recaudación en USD; vacía o en 0 se muestra como N/A</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 </tbody>
 </table>
 </div>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Reparto, producción y medios</h3>
 <div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
-<table style="width: 100%; min-width: 560px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
 <thead>
 <tr style="background: #FFFFFF; text-align: left">
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 30%">Campo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 14%">Tipo</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: auto">Contenido</th>
-<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; width: 20%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
 </tr>
 </thead>
 <tbody>
@@ -678,72 +743,96 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Reparto: una lista de nombres</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">production_companies</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Productoras</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">production_countries</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Países de producción</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">spoken_languages</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Idiomas hablados, con su nombre propio: English, Español, Français…</td>
 <td style="padding: 14px 18px; color: #585266">Filtro y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">poster_path</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Ruta del póster en el CDN de imágenes de TMDB</td>
 <td style="padding: 14px 18px; color: #585266">Tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">backdrop_path</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Ruta de la imagen de fondo en el CDN de imágenes de TMDB</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">homepage</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
 <td style="padding: 14px 18px; color: #585266">Sitio web oficial; solo se enlaza si es una dirección http o https</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">belongs_to_collection</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">nested</td>
 <td style="padding: 14px 18px; color: #585266">Colección o saga a la que pertenece: un objeto con <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">name</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">poster_path</code> y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">backdrop_path</code></td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
 </tr>
 <tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">belongs_to_collection.<wbr>id</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">long</td>
 <td style="padding: 14px 18px; color: #585266">Identificador de la colección en TMDB</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
 </tr>
 <tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">belongs_to_collection.<wbr>name</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Nombre de la colección, por ejemplo Harry Potter Collection</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
 </tr>
 <tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">belongs_to_collection.<wbr>poster_path</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Ruta del póster de la colección</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
 </tr>
 <tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
 <td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">belongs_to_collection.<wbr>backdrop_path</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Ruta de la imagen de fondo de la colección</td>
 <td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
 </tr>
 </tbody>
 </table>
@@ -777,7 +866,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFCDB2","options":["#FFCDB2","#CDBDF6","#BDE8D7","#BFE0F6"]},"$preview":{"width":1440,"height":10400}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFCDB2","options":["#FFCDB2","#CDBDF6","#BDE8D7","#BFE0F6"]},"$preview":{"width":1440,"height":11200}}'>
 class Component extends DCLogic {
   renderVals() {
     return { accent: this.props.accent ?? '#FFCDB2' };

@@ -344,9 +344,12 @@ html { scroll-behavior: smooth; }
 .about tr.subfield td:first-child { padding-left: 32px; color: var(--muted); }
 .about tr.subfield td { background: var(--surface-muted-2); }
 .about .catalog-fields { table-layout: fixed; }
-.about .catalog-fields th:nth-child(1) { width: 30%; }
-.about .catalog-fields th:nth-child(2) { width: 14%; }
-.about .catalog-fields th:nth-child(4) { width: 20%; }
+.about .catalog-fields { min-width: 860px; }
+.about .catalog-fields th:nth-child(1) { width: 22%; }
+.about .catalog-fields th:nth-child(2) { width: 11%; }
+.about .catalog-fields th:nth-child(4) { width: 15%; }
+.about .catalog-fields th:nth-child(5), .about .catalog-fields th:nth-child(6) { width: 13%; }
+.about .catalog-fields td.req-yes { color: var(--ink); font-weight: 600; }
 .about .catalog-fields td:first-child { overflow-wrap: break-word; }
 .about ul, .about ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; }
 .tmdb-logo { width: 154px; height: 20px; }
