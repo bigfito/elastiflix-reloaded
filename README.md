@@ -333,6 +333,13 @@ La aplicación no crea un catálogo vacío: lee siempre por el alias. En un proy
 El penúltimo comando es la conversión a alias de «Preparar el catálogo»: si el nombre ya es un alias, no
 crea ni borra índices. `spring-boot:run` solo lee el catálogo por el alias.
 
+**Desde IntelliJ IDEA:** abre la carpeta raíz como proyecto Maven y ejecuta `ElastiflixApplication` (módulo
+`elastiflix-web`); lee el `.env` de la raíz con cualquiera de los dos directorios de trabajo, la raíz o
+`elastiflix-web`. IntelliJ compila en las mismas carpetas `target/classes` que Maven: después de un
+`./mvnw clean …`, haz **Build › Rebuild Project** antes de ejecutar. Si no, su compilación incremental puede dejar
+un módulo sin clases y el arranque falla con `ClassNotFoundException` (por ejemplo,
+`ElasticsearchCredentialsEnvironmentPostProcessor`).
+
 Las capturas de la aplicación en marcha están en [docs/capturas/](docs/capturas/).
 
 **Qué incluye**
