@@ -53,6 +53,7 @@
   - [Requerimiento 4 — Carga en modo append o bulk](#requerimiento-4--carga-de-archivos-en-modo-append-o-bulk)
   - [Requerimiento 5 — Índice y catálogo completo en «Acerca de»](#requerimiento-5--índice-y-catálogo-completo-en-acerca-de)
   - [Requerimiento 6 — Campos obligatorios de cada formato en «Acerca de»](#requerimiento-6--campos-obligatorios-de-cada-formato-en-acerca-de)
+  - [Requerimiento 7 — La primera carga crea el catálogo](#requerimiento-7--la-primera-carga-crea-el-catálogo)
 - [Variables de entorno](#variables-de-entorno-envexample)
 - [Referencias](#referencias)
 
@@ -1563,6 +1564,23 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - [x] **12.0** Diseño técnico en `docs/diseno/12.md`.
   - [x] **12.1** Columnas «Obligatorio en .json» y «Obligatorio en .csv» en las cinco tablas, con la nota de la sección, en español e inglés. `CatalogRequirementsTest` contra el validador real y pruebas MockMvc.
   - [x] **12.2** Mockups, capturas de «Acerca de», README, verificación de fase (`./mvnw clean verify`, navegador), `progreso/12.md` e `INDICE.md`.
+
+### Requerimiento 7 — La primera carga crea el catálogo
+
+- **Origen:** pedido de Adolfo del 2026-10-22, al preguntar qué pasa si alguien clona el repo con un proyecto
+  Serverless vacío: «Sí. Que bulk y el registro individual creen el catálogo (índice con el mapping y alias) cuando no existe, y que append quede bloqueado con un mensaje claro. Regístralo como requerimiento nuevo con su fase y su PR.»
+- **Qué cambia:** si el alias no existe, una carga en **bulk** crea el índice `<alias>-<AAAAMMDD-HHMMSS>` con el
+  mapping del repo y lo publica con `_aliases` solo con `add`; un **registro individual** crea el mismo catálogo antes
+  de guardar la película; **append** queda bloqueado con `EFX-IMP-010`, que dice que primero hay que hacer una carga
+  en bulk o un registro individual. «Cargar datos» avisa que el catálogo todavía no existe y deshabilita append; la
+  cabecera y el pie dicen «Conectado · el catálogo todavía no existe».
+- **Revisa una decisión aprobada:** el diseño 1 (2026-10-18) decidió no crear un catálogo vacío; ese criterio queda
+  solo para la migración de la tarea 1.8.
+- **Fase 13 — Tareas** (rama `fase-13-primera-carga`; diseño en `docs/diseno/13.md`, sin compuerta 🔒):
+  - [x] **13.0** Diseño técnico en `docs/diseno/13.md`.
+  - [ ] **13.1** Bulk y registro individual crean el catálogo cuando falta (`CatalogIndex.publish` con anterior nulo, `CatalogAliases.currentIndex`, `FirstCatalog`); append bloqueado con `EFX-IMP-010` en la validación y en `AppendJob`. Pruebas unitarias y `FirstCatalogIT` sobre un alias propio vacío.
+  - [ ] **13.2** Web: aviso en «Cargar datos», append deshabilitado y bulk marcado sin catálogo; cabecera y pie con «el catálogo todavía no existe», en español e inglés. Pruebas MockMvc y de navegador.
+  - [ ] **13.3** Verificación de fase (`./mvnw clean verify -Pit`, navegador, la app contra un alias vacío), documentación (`AGENTS.md`, README «Puesta en marcha», PLAN, diseños 1 y 3), `progreso/13.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 
