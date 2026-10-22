@@ -464,6 +464,7 @@ html { scroll-behavior: smooth; }
 .ingest .mode.is-on { background: #FFF1E8; border-color: var(--accent-ink); }
 .ingest .mode input { flex: none; width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent-ink); }
 .ingest .mode input:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.ingest .mode:has(input:disabled) { opacity: 0.55; cursor: not-allowed; }
 .ingest .mode-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .ingest .mode-label { font-family: var(--font); font-size: 15px; font-weight: 600; color: var(--ink); }
 .ingest .mode-label code { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--muted); }

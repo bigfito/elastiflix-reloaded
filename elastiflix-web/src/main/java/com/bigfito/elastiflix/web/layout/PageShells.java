@@ -35,8 +35,11 @@ public final class PageShells {
      */
     public static PageShell from(CatalogStatus status, HttpServletRequest request, UiMessages messages) {
         Locale locale = SupportedLocale.current();
+        boolean missing = CatalogTexts.missing(status.errorCode());
         String connection = CatalogTexts.connection(status.connected(), status.errorCode(), locale, messages);
-        String index = CatalogTexts.indexLine(status.name(), status.documentCount(), locale, messages);
+        String index = missing
+                ? messages.getFor(locale, "layout.catalog.index.missing", status.name())
+                : CatalogTexts.indexLine(status.name(), status.documentCount(), locale, messages);
         String phrase = CatalogTexts.moviePhrase(status.documentCount(), locale, messages);
         String esHref = LanguageSwitchLinks.hrefFor(request, "es");
         String enHref = LanguageSwitchLinks.hrefFor(request, "en");
@@ -44,6 +47,7 @@ public final class PageShells {
                 connection,
                 index,
                 status.connected(),
+                missing,
                 CatalogTexts.TMDB,
                 CatalogTexts.TMDB_ES,
                 status.name(),

@@ -72,4 +72,17 @@ class LayoutPageTest {
                 .andExpect(content().string(containsString("Índice: elastiflix-reloaded · conteo no disponible")))
                 .andExpect(content().string(not(containsString("sin películas"))));
     }
+
+    @Test
+    @DisplayName("sin catálogo (EFX-ES-002), la cabecera dice conectado y el pie que el índice todavía no existe")
+    void shouldSayTheCatalogDoesNotExistYet() throws Exception {
+        when(catalog.status()).thenReturn(new CatalogStatus("elastiflix-reloaded", null, null, false, "EFX-ES-002"));
+
+        mvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Conectado · el catálogo todavía no existe")))
+                .andExpect(content().string(containsString("Índice: elastiflix-reloaded · todavía no existe")))
+                .andExpect(content().string(not(containsString("Sin conexión"))))
+                .andExpect(content().string(not(containsString("is-down"))));
+    }
 }

@@ -161,6 +161,8 @@
 
   var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]"));
   var modeInputs = Array.prototype.slice.call(document.querySelectorAll('input[name="modo"]'));
+  // Sin catálogo (Requerimiento 7), append viene deshabilitado y bulk marcado; no hay catálogo que bulk borre.
+  var noCatalog = (byId("mode-card") || document.body).getAttribute("data-no-catalog") === "true";
 
   // Modo de la tarjeta «Modo de carga»: append (por defecto) o bulk.
   function selectedMode() {
@@ -175,7 +177,7 @@
       option.checked = option.value === mode;
       option.closest(".mode").classList.toggle("is-on", option.checked);
     });
-    show(byId("bulk-warning"), bulk);
+    show(byId("bulk-warning"), bulk && !noCatalog);
     var step4 = document.querySelector('#steps li[data-step="4"]');
     if (step4) {
       setText("step4-title", step4.getAttribute(bulk ? "data-title-bulk" : "data-title-append"));
@@ -196,6 +198,9 @@
       }
     });
   });
+
+  // La tarjeta llega con el modo del servidor: bulk si el catálogo todavía no existe.
+  paintMode(selectedMode());
 
   // Muestra la pestaña y su panel sin tocar el archivo elegido ni el trabajo en curso.
   function showTab(button) {

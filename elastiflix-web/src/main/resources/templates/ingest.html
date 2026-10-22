@@ -13,6 +13,7 @@
     <h1 th:text="#{ingest.heading}">Cargar datos</h1>
     <p class="lead" th:utext="#{ingest.lead}">Agrega películas al catálogo una por una o importa un archivo. Los tres vectores de la sinopsis (<code>plot_256</code>, <code>plot_512</code>, <code>plot_1024</code>) se generan automáticamente a partir de <code>plot</code> con jina-embeddings-v5-omni-small.</p>
     </section>
+    <p id="catalog-missing" class="mode-warning" role="status" th:if="${shell.catalogMissing}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z M12 10v4 M12 17h.01"></path></svg><span th:utext="#{ingest.noCatalog(${#strings.escapeXml(shell.alias)})}">El catálogo todavía no existe.</span></p>
     <p class="notice-ok" role="status" th:if="${savedTitle != null}"><th:block th:text="#{ingest.savedOk}">Se guardó</th:block> <span th:text="${savedTitle}">título</span>.</p>
     <ul class="alert" th:if="${rejected != null}">
       <li th:each="issue : ${rejected}" th:text="|${issue.code} · ${issue.field} · ${issue.expected}.|">error</li>
@@ -106,11 +107,11 @@
                       data-state-done=#{ingest.step.state.done},data-state-current=#{ingest.step.state.current},
                       data-state-failed=#{ingest.step.state.failed},data-state-ready=#{ingest.step.state.ready},
                       data-state-pending=#{ingest.step.state.pending}">
-      <div class="card" id="mode-card">
+      <div class="card" id="mode-card" th:attr="data-no-catalog=${shell.catalogMissing}">
         <h2 class="h3" id="mode-title" th:text="#{ingest.mode.title}">Modo de carga</h2>
         <div class="modes" role="radiogroup" aria-labelledby="mode-title">
-          <label class="mode is-on"><input type="radio" name="modo" value="append" checked><span class="mode-body"><span class="mode-label"><th:block th:text="#{ingest.mode.append.label}">Agregar al catálogo</th:block> <code>append</code></span><span class="mode-desc" th:text="#{ingest.mode.append.desc}">Las películas del archivo se agregan al índice actual.</span></span></label>
-          <label class="mode"><input type="radio" name="modo" value="bulk"><span class="mode-body"><span class="mode-label"><th:block th:text="#{ingest.mode.bulk.label}">Reemplazar el catálogo</th:block> <code>bulk</code></span><span class="mode-desc" th:text="#{ingest.mode.bulk.desc}">Se crea un índice nuevo solo con las películas del archivo.</span></span></label>
+          <label class="mode" th:classappend="${shell.catalogMissing} ? '' : 'is-on'"><input type="radio" name="modo" value="append" th:checked="${!shell.catalogMissing}" th:disabled="${shell.catalogMissing}"><span class="mode-body"><span class="mode-label"><th:block th:text="#{ingest.mode.append.label}">Agregar al catálogo</th:block> <code>append</code></span><span class="mode-desc" th:text="#{ingest.mode.append.desc}">Las películas del archivo se agregan al índice actual.</span></span></label>
+          <label class="mode" th:classappend="${shell.catalogMissing} ? 'is-on' : ''"><input type="radio" name="modo" value="bulk" th:checked="${shell.catalogMissing}"><span class="mode-body"><span class="mode-label"><th:block th:text="#{ingest.mode.bulk.label}">Reemplazar el catálogo</th:block> <code>bulk</code></span><span class="mode-desc" th:text="#{ingest.mode.bulk.desc}">Se crea un índice nuevo solo con las películas del archivo.</span></span></label>
         </div>
         <p id="bulk-warning" class="mode-warning" hidden><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z M12 10v4 M12 17h.01"></path></svg><span th:text="#{ingest.mode.bulk.warning(${shell.movies})}">Con bulk, el catálogo actual se borra al publicar.</span></p>
       </div>
