@@ -189,6 +189,10 @@ The catalog is the `elastiflix-reloaded` alias (configurable), which points to a
 4. Click **Validate file**. When validation finishes, click **Replace the catalog with 4 records**.
 5. When step 5, «Publication», is completed, reload the page: the footer shows the new index and **4 movies**.
 
+To get the **full 6,899-movie catalog**, use the files in [`data/`](data/README.md#english): load
+`elastiflix-reloaded_01.json` in **bulk** and then `_02` to `_07` in **append** (or the same ones in `.csv`). Each part
+is under 5 MB and also works on its own, in bulk, as a smaller catalog of about 985 movies.
+
 You can also create the catalog by saving a movie in the **Single record** tab (`id`, `title`, and `plot` are
 required). To load your own catalog, prepare a `.json` or `.csv` file as described in [Loading data](#-loading-data);
 «About» › «The catalog» lists every field and whether it is required.
@@ -326,7 +330,8 @@ A file is loaded in one of two modes, chosen on the «Load mode» card:
 - **No catalog yet:** bulk and the single record create the index with the mapping and the alias; append stays
   blocked (`EFX-IMP-010`) until the catalog exists.
 
-A catalog larger than 25 MB is loaded with one bulk (the first file) and several appends.
+A catalog larger than 25 MB is loaded with one bulk (the first file) and several appends. That is how the full
+catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
 
 | Form | Format |
 |---|---|
@@ -431,6 +436,7 @@ elastiflix-reloaded/
 │   └── 🌐 web/                             controllers and 5 Thymeleaf pages in Spanish and English
 ├── 🖼️  src/main/resources/                  application.yml · templates · static files · ES/EN messages
 ├── 🧪 src/test/                            java/ (same packages) · resources/ · browser/ (Playwright)
+├── 🎞️  data/                               full 6,899-movie catalog in 7 parts (.json and .csv)
 ├── 🗄️  elasticsearch/                       index mapping and sample movies (.json and .csv)
 ├── 🧹 config/                              Checkstyle and PMD rules
 ├── 📚 docs/                                code conventions · architecture · screenshots
@@ -497,6 +503,7 @@ Full pages with the app connected to a 6,899-movie catalog, in Spanish and Engli
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Architecture and the numbered search, detail, and load flows (in Spanish) |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | How the code is written and what the build checks (in Spanish) |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Index mapping (33 fields) |
+| 🎞️ [`data/README.md`](data/README.md#english) | The full catalog in 7 parts: how to load it and its format |
 | 🎬 [`elasticsearch/fixtures/`](elasticsearch/fixtures/) | Four sample movies in `.json` and `.csv`, and a query vector |
 | 🎨 [`design/README.md`](design/README.md) | Page mockups and design tokens (in Spanish) |
 | 🧪 [`src/test/browser/README.md`](src/test/browser/README.md) | Browser tests (in Spanish) |

@@ -10,6 +10,8 @@ mvnw text eol=lf
 
 # Fixtures: se conservan byte a byte (el CSV usa \r\n entre filas y \n dentro de celdas)
 elasticsearch/fixtures/** -text
+data/*.json -text
+data/*.csv -text
 
 # Binarios
 *.png binary

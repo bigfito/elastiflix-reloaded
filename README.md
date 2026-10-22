@@ -191,6 +191,10 @@ El catálogo es el alias `elastiflix-reloaded` (configurable), que apunta a un �
 5. Cuando el paso 5, «Publicación», quede completado, recarga la página: el pie muestra el índice nuevo y
    **4 películas**.
 
+Para tener el **catálogo completo de 6 899 películas**, usa los archivos de [`data/`](data/README.md): carga
+`elastiflix-reloaded_01.json` en **bulk** y después `_02` a `_07` en **append** (o los mismos en `.csv`). Cada parte
+pesa menos de 5 MB y también sirve sola, en bulk, como un catálogo más chico de unas 985 películas.
+
 También puedes crear el catálogo guardando una película en la pestaña **Registro individual** (`id`, `title` y
 `plot` son obligatorios). Para cargar tu propio catálogo, prepara un `.json` o un `.csv` como se explica en
 [Carga de datos](#-carga-de-datos); «Acerca de» › «El catálogo» lista cada campo y si es obligatorio.
@@ -331,7 +335,8 @@ Un archivo se carga en uno de dos modos, que se elige en la tarjeta «Modo de ca
 - **Sin catálogo:** bulk y el registro individual crean el índice con el mapping y el alias; append queda bloqueado
   (`EFX-IMP-010`) hasta que el catálogo exista.
 
-Un catálogo de más de 25 MB se carga con un bulk (el primer archivo) y varios append.
+Un catálogo de más de 25 MB se carga con un bulk (el primer archivo) y varios append. Así se carga el catálogo
+completo que trae [`data/`](data/README.md), repartido en 7 partes.
 
 | Forma | Formato |
 |---|---|
@@ -436,6 +441,7 @@ elastiflix-reloaded/
 │   └── 🌐 web/                             controladores y 5 páginas Thymeleaf en español e inglés
 ├── 🖼️  src/main/resources/                  application.yml · plantillas · estáticos · mensajes ES/EN
 ├── 🧪 src/test/                            java/ (mismos paquetes) · resources/ · browser/ (Playwright)
+├── 🎞️  data/                               catálogo completo de 6 899 películas en 7 partes (.json y .csv)
 ├── 🗄️  elasticsearch/                       mapping del índice y películas de ejemplo (.json y .csv)
 ├── 🧹 config/                              reglas de Checkstyle y PMD
 ├── 📚 docs/                                convenciones de código · arquitectura · capturas
@@ -500,6 +506,7 @@ Páginas completas con la aplicación conectada a un catálogo de 6 899 películ
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos numerados de búsqueda, detalle y carga |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo está escrito el código y qué verifica el build |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice (33 campos) |
+| 🎞️ [`data/README.md`](data/README.md) | Catálogo completo en 7 partes: cómo cargarlo y su formato |
 | 🎬 [`elasticsearch/fixtures/`](elasticsearch/fixtures/) | Cuatro películas de ejemplo en `.json` y `.csv`, y un vector de consulta |
 | 🎨 [`design/README.md`](design/README.md) | Mockups de las páginas y tokens de diseño |
 | 🧪 [`src/test/browser/README.md`](src/test/browser/README.md) | Pruebas de navegador |
