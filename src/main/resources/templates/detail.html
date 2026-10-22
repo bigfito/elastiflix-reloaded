@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es" th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragments/head :: head(${detail.title})}"></th:block>
+</head>
+<body>
+<div class="page">
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+  <header th:replace="~{fragments/chrome :: header}"></header>
+
+  <main class="detail-main">
+    <nav th:attr="aria-label=#{detail.nav.aria}" class="detail-return-bar">
+      <div class="detail-return-action">
+        <a th:href="@{${detail.returnHref}}" class="btn-accent detail-return-btn">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5 M11 6l-6 6l6 6"></path></svg>
+          <span th:text="#{detail.nav.back}">Volver a los resultados</span>
+        </a>
+        <span class="detail-return-hint" th:text="#{detail.nav.hint}">Tu búsqueda queda como la dejaste:</span>
+      </div>
+      <ul th:attr="aria-label=#{detail.nav.stateAria}" class="detail-state-chips">
+        <li th:each="s : ${detail.searchState}" class="detail-state-chip">
+          <span class="detail-state-chip-label" th:text="${s.label}">Consulta</span>
+          <span th:text="${s.value}">«inception»</span>
+        </li>
+      </ul>
+    </nav>
+
+    <section aria-labelledby="m-title" class="detail-hero">
+      <!--/* El marcador va siempre dentro: el CSS lo oculta mientras haya imagen y detail.js lo muestra si falla. */-->
+      <div class="detail-backdrop" th:classappend="${detail.backdropUrl.isEmpty()} ? 'missing'"
+           th:style="${detail.backdropUrl.isEmpty()} ? null : |background-image: url('${detail.backdropUrl}');|"
+           th:data-backdrop="${detail.backdropUrl.isEmpty()} ? null : ${detail.backdropUrl}"
+           role="img" th:attr="aria-label=#{detail.backdrop.aria(${detail.title})}">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3z M3 15l5-5l5 5 M14 13l2-2l5 5"></path></svg>
+        <span class="mono-tag">backdrop_path</span>
+      </div>
+
+      <div class="detail-hero-body">
+        <div class="detail-poster-wrap">
+          <img th:if="${!detail.posterUrl.isEmpty()}" th:src="${detail.posterUrl}" th:attr="alt=#{detail.poster.alt(${detail.title})}" class="detail-poster-img" width="260" height="390">
+          <div th:if="${detail.posterUrl.isEmpty()}" class="detail-poster-missing" role="img" th:attr="aria-label=#{detail.poster.alt(${detail.title})}">
+            <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg>
+            <span class="mono-tag">poster_path</span>
+          </div>
+        </div>
+
+        <div class="detail-hero-info">
+          <p class="detail-id-tag" th:text="#{detail.hero.id(${detail.id})}">Película · id 27205</p>
+          <h1 id="m-title" class="detail-title" th:text="${detail.title}">Inception</h1>
+          <p class="detail-original-title" th:if="${!detail.originalTitle.isEmpty()}"><span th:text="#{detail.hero.originalTitle}">Título original:</span> <span th:text="${detail.originalTitle}">Inception</span></p>
+          <p class="detail-tagline" th:if="${!detail.tagline.isEmpty()}" th:text="#{detail.quoted(${detail.tagline})}">«Your mind is the scene of the crime.»</p>
+          <div class="detail-pills" th:if="${!detail.pills.isEmpty()}">
+            <span class="pill" th:each="p : ${detail.pills}" th:title="${p.field}">
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6578" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path th:attr="d=${p.icon}"></path></svg>
+              <span th:text="${p.value}">2010-07-15</span>
+            </span>
+          </div>
+          <div class="detail-genres" th:attr="aria-label=#{detail.hero.genresAria}">
+            <span class="genre-badge" th:each="g : ${detail.genres}" th:text="${g.name}" th:style="|background: ${g.bg};|">Action</span>
+            <span class="genre-badge empty" th:if="${detail.genres.isEmpty()}" title="genres" th:text="${detail.notAvailable()}">N/A</span>
+          </div>
+          <div class="detail-ratings">
+            <span class="rating-item"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="#E9B949" stroke="none"><path d="M12 3l2.7 5.6l6.1.9l-4.4 4.3l1 6.1L12 17l-5.4 2.9l1-6.1L3.2 9.5l6.1-.9z"></path></svg><strong class="rating-score" th:text="${detail.voteAverage}">8.36</strong><span class="rating-votes" th:text="${detail.voteCount == detail.notAvailable()} ? #{detail.hero.votes.none} : #{detail.hero.votes(${detail.voteCount})}">· 35 000 votos</span></span>
+            <span class="rating-item popularity"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9 M10 19V5 M16 19v-7 M22 19H2"></path></svg><span th:text="#{detail.hero.popularity(${detail.popularity})}">Popularidad 82.5</span></span>
+          </div>
+          <div class="detail-hero-actions">
+            <a th:if="${!detail.imdbHref.isEmpty()}" th:href="${detail.imdbHref}" target="_blank" rel="noopener noreferrer" class="btn-accent">
+              <span th:text="#{detail.hero.imdb}">Ver en IMDb</span>
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6 M20 4l-9 9 M18 14v6H4V6h6"></path></svg>
+            </a>
+            <a th:if="${detail.hasHomepage}" th:href="${detail.homepage}" target="_blank" rel="noopener noreferrer" class="btn-line">
+              <span th:text="#{detail.hero.homepage}">Sitio oficial</span>
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6 M20 4l-9 9 M18 14v6H4V6h6"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="detail-grid">
+      <aside class="detail-aside">
+        <section class="card" aria-labelledby="s-facts">
+          <span id="s-facts"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6 M9 2v4h6V2 M5 4h2v18h10V4h2 M9 11h6 M9 15h6"></path></svg><span th:text="#{detail.section.facts}">Ficha técnica</span></h2></span>
+          <dl class="detail-dl">
+            <div class="row" th:each="f : ${detail.facts}">
+              <dt><span th:text="${f.label}">Título</span><code th:text="${f.field}">title</code></dt>
+              <dd th:if="${f.link}"><a th:href="${f.href}" th:text="${f.value}" target="_blank" rel="noopener noreferrer">enlace</a></dd>
+              <dd th:if="${f.text}" th:text="${f.value}">valor</dd>
+              <dd th:if="${f.empty}" class="empty" th:text="${f.value}">N/A</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="card" aria-labelledby="s-prod">
+          <span id="s-prod"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8B6E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18 M5 21V9l7-5l7 5v12 M9 21v-6h6v6"></path></svg><span th:text="#{detail.section.prod}">Producción e idiomas</span></h2></span>
+          <dl class="detail-dl">
+            <div class="row" th:each="f : ${detail.production}">
+              <dt><span th:text="${f.label}">Productoras</span><code th:text="${f.field}">production_companies</code></dt>
+              <dd th:if="${f.link}"><a th:href="${f.href}" th:text="${f.value}" target="_blank" rel="noopener noreferrer">enlace</a></dd>
+              <dd th:if="${f.text}" th:text="${f.value}">valor</dd>
+              <dd th:if="${f.empty}" class="empty" th:text="${f.value}">N/A</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="card" aria-labelledby="s-numbers">
+          <span id="s-numbers"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A8336B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9 M10 19V5 M16 19v-7 M22 19H2"></path></svg><span th:text="#{detail.section.numbers}">Cifras</span></h2></span>
+          <dl class="detail-dl">
+            <div class="row" th:each="f : ${detail.numbers}">
+              <dt><span th:text="${f.label}">Presupuesto</span><code th:text="${f.field}">budget</code></dt>
+              <dd th:if="${f.link}"><a th:href="${f.href}" th:text="${f.value}" target="_blank" rel="noopener noreferrer">enlace</a></dd>
+              <dd th:if="${f.text}" th:text="${f.value}">valor</dd>
+              <dd th:if="${f.empty}" class="empty" th:text="${f.value}">N/A</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="card" aria-labelledby="s-coll">
+          <span id="s-coll"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6A50C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z M8 3h8 M6 21h12"></path></svg><span th:text="#{detail.section.coll}">Colección</span><code>belongs_to_collection</code></h2></span>
+          <div th:if="${detail.hasCollection}">
+            <p class="collection-title" th:text="${detail.collName}">Nombre de colección</p>
+            <dl class="detail-dl">
+              <div class="row" th:each="f : ${detail.collection}">
+                <dt><span th:text="${f.label}">Identificador</span><code th:text="${f.field}">id</code></dt>
+                <dd th:if="${f.link}"><a th:href="${f.href}" th:text="${f.value}" target="_blank" rel="noopener noreferrer">enlace</a></dd>
+                <dd th:if="${f.text}" th:text="${f.value}">valor</dd>
+                <dd th:if="${f.empty}" class="empty" th:text="${f.value}">N/A</dd>
+              </div>
+            </dl>
+          </div>
+          <div th:if="${!detail.hasCollection}">
+            <p class="detail-muted-text" th:text="#{detail.section.noColl}">No pertenece a ninguna colección.</p>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="s-img">
+          <span id="s-img"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3z M3 15l5-5l5 5 M14 13l2-2l5 5"></path></svg><span th:text="#{detail.section.images}">Imágenes</span></h2></span>
+          <dl class="detail-dl">
+            <div class="row" th:each="f : ${detail.images}">
+              <dt><span th:text="${f.label}">Póster</span><code th:text="${f.field}">poster_path</code></dt>
+              <dd th:if="${f.link}"><a th:href="${f.href}" th:text="${f.value}" target="_blank" rel="noopener noreferrer">enlace</a></dd>
+              <dd th:if="${f.text}" th:text="${f.value}">valor</dd>
+              <dd th:if="${f.empty}" class="empty" th:text="${f.value}">N/A</dd>
+            </div>
+          </dl>
+          <p class="detail-hint" th:text="#{detail.images.hint}">Las imágenes se cargan del CDN de TMDB a partir de estas rutas.</p>
+        </section>
+      </aside>
+
+      <div class="detail-content">
+        <section class="card" aria-labelledby="s-overview">
+          <span id="s-overview"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16 M4 12h16 M4 18h10"></path></svg><span th:text="#{detail.section.overview}">Resumen</span><code>overview</code></h2></span>
+          <p class="detail-overview-text" th:classappend="${detail.overview == detail.notAvailable()} ? 'empty'" th:text="${detail.overview}">Resumen de la película.</p>
+        </section>
+
+        <section class="card" aria-labelledby="s-plot">
+          <span id="s-plot"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z M9 9h6 M9 13h6 M9 17h4"></path></svg><span th:text="#{detail.section.plot}">Sinopsis</span><code>plot</code></h2></span>
+          <p class="detail-plot-text" th:classappend="${detail.plot == detail.notAvailable()} ? 'empty'" th:text="${detail.plot}">Sinopsis completa de la película.</p>
+          <p class="detail-plot-note">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>
+            <span th:text="#{detail.plot.hint}">La búsqueda vectorial compara la consulta con esta sinopsis.</span>
+          </p>
+        </section>
+
+        <section class="card" aria-labelledby="s-cast">
+          <span id="s-cast"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6A50C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8z M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1 M17 3.5a4 4 0 0 1 0 7 M22 21v-1a6 6 0 0 0-4-5.7"></path></svg><span th:text="#{detail.section.cast}">Reparto</span><code>cast</code></h2></span>
+          <p class="detail-empty" th:if="${detail.cast.isEmpty()}" th:text="${detail.notAvailable()}">N/A</p>
+          <th:block th:unless="${detail.cast.isEmpty()}">
+          <p class="detail-sub-meta" th:text="#{detail.cast.meta(${detail.castCount})}">0 personas, en el orden del catálogo.</p>
+          <ul class="detail-chips-list" id="cast-list">
+            <li class="chip" th:each="c, iter : ${detail.cast}" th:text="${c}"
+                th:classappend="${iter.index >= detail.castLimit()} ? 'cast-extra' : ''">Actor</li>
+          </ul>
+          <!--/* Sin JavaScript se ve todo el reparto y el botón queda oculto; detail.js recoge la lista y lo muestra. */-->
+          <button type="button" class="toggle" id="cast-toggle" th:if="${detail.hasMoreCast()}" hidden
+                  aria-controls="cast-list" aria-expanded="false" th:attr="data-show-more=#{detail.cast.showMore(${detail.castCount})},data-show-less=#{detail.cast.showLess}">
+            <span class="toggle-text" th:text="#{detail.cast.showMore(${detail.castCount})}">Ver todo el reparto (25)</span>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="toggle-icon" d="M6 9l6 6l6-6"></path></svg>
+          </button>
+          </th:block>
+        </section>
+
+        <section class="card" aria-labelledby="s-keywords">
+          <span id="s-keywords"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9h9v9l-9 9z M16 8h.01"></path></svg><span th:text="#{detail.section.keywords}">Palabras clave</span><code>keywords</code></h2></span>
+          <p class="detail-empty" th:if="${detail.keywords.isEmpty()}" th:text="${detail.notAvailable()}">N/A</p>
+          <th:block th:unless="${detail.keywords.isEmpty()}">
+          <p class="detail-sub-meta" th:text="#{detail.keywords.meta(${detail.keywordCount})}">0 palabras clave, con su identificador.</p>
+          <ul class="detail-chips-list">
+            <li class="chip" th:each="k : ${detail.keywords}">
+              <span th:text="${k.name}">nombre</span>
+              <small th:text="${k.id}">0</small>
+            </li>
+          </ul>
+          </th:block>
+        </section>
+      </div>
+    </div>
+
+    <div class="detail-bottom-bar">
+      <a th:href="@{${detail.returnHref}}" class="btn-line detail-return-btn-bottom">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5 M11 6l-6 6l6 6"></path></svg>
+        <span th:text="#{detail.nav.back}">Volver a los resultados</span>
+      </a>
+      <a href="#m-title" class="detail-top-link" th:text="#{detail.nav.top}">Ir al inicio de la ficha</a>
+    </div>
+
+    <div class="detail-disclaimer">
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>
+      <p th:utext="#{detail.disclaimer}">Esta página muestra todos los campos del documento, salvo los vectores de la sinopsis (<code>plot_256</code>, <code>plot_512</code> y <code>plot_1024</code>). Un campo sin valor aparece como «N/A».</p>
+    </div>
+  </main>
+
+  <footer th:replace="~{fragments/chrome :: footer}"></footer>
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+</div>
+<script th:src="@{/js/detail.js}"></script>
+</body>
+</html>

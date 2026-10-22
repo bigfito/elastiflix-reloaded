@@ -1,0 +1,71 @@
+flowchart LR
+  user(["Usuario en el navegador"])
+
+  subgraph app["Elastiflix-Movies Java · Spring Boot 4.1.1 · Java 25 · un solo módulo"]
+    direction TB
+    subgraph web["web · com.bigfito.elastiflix.web"]
+      pages["Páginas Thymeleaf en español e inglés<br/>Inicio · Resultados · Detalle · Cargar datos · Acerca de<br/>error EFX-* · 404"]
+      locale["LocaleConfig<br/>lang · cookie elastiflix-lang<br/>messages_es / messages_en.properties"]
+      ctrl["Controladores MVC<br/>y ControllerAdvice"]
+      detail["MovieDetailController<br/>GET /pelicula/{id}"]
+      ingtr["IngestTranslator<br/>textos de la carga por clave"]
+      health["Actuator /health<br/>indicador del catálogo"]
+    end
+    subgraph search["search · com.bigfito.elastiflix.search"]
+      facade_s["SearchService"]
+      strat["Estrategias<br/>Full-text BM25 · Vectorial k-NN · Híbrida RRF"]
+      facets["Filtros, facetas<br/>y paginación"]
+    end
+    subgraph ingest["ingest · com.bigfito.elastiflix.ingest"]
+      facade_i["IngestService"]
+      readers["Validación de archivo<br/>lectores JSON / CSV"]
+      validator["Validación contra<br/>el mapping"]
+      phrase["IngestPhrase<br/>frases fijas de la carga"]
+      job["Trabajo de importación<br/>lotes de 100 · índice temporal · swap de alias<br/>vectores siempre por inferencia · vuelta atrás"]
+    end
+    subgraph core["core · com.bigfito.elastiflix.core"]
+      client["Cliente Java de Elasticsearch 9.x<br/>Jackson3JsonpMapper"]
+      catalog["CatalogIndex<br/>alias, índices, reindex, conteo<br/>findById sin vectores"]
+      emb["EmbeddingService<br/>consulta Query: · documentos ingest sin prefijo<br/>recorte 512 y 256"]
+      mapping["IndexMapping<br/>elastiflix-reloaded-mapping.json"]
+    end
+  end
+
+  subgraph es["Elasticsearch Serverless"]
+    alias[("Alias elastiflix-reloaded")]
+    idx[("Índice vigente<br/>elastiflix-reloaded-AAAAMMDD-HHMMSS")]
+    tmp[("Índice temporal<br/>durante una carga")]
+    inf["Endpoint de inferencia<br/>.jina-embeddings-v5-omni-small"]
+  end
+
+  locale -.->|"idioma de cada página"| pages
+
+  user -->|"1 consulta"| pages
+  pages --> ctrl
+  ctrl -->|"2"| facade_s
+  facade_s --> strat
+  strat -->|"3 vector de la consulta"| emb
+  emb -->|"4 _inference"| inf
+  strat -->|"5 _search / _msearch"| client
+  client --> alias
+  alias --> idx
+  idx -.->|"6 resultados"| facets
+  facets -.->|"7 página de resultados"| pages
+
+  pages -->|"H título de una tarjeta<br/>con la búsqueda en la URL"| detail
+  detail -->|"I findById<br/>sin búsqueda válida: 400 EFX-SRCH-012"| facade_s
+  facade_s -->|"J GET _doc sin plot_256/512/1024<br/>found=false: 404 · error de Elasticsearch: página EFX"| catalog
+
+  user -->|"A archivo .json / .csv"| pages
+  ctrl -->|"B"| facade_i
+  facade_i --> readers --> validator
+  validator --> mapping
+  validator -->|"C si todo coincide"| job
+  job -->|"D copia + lotes"| tmp
+  job -->|"E vectores de todos los registros"| emb
+  job -->|"F swap atómico y borrado del anterior"| catalog
+  catalog --> alias
+  health -.-> catalog
+  facade_i -->|"G registro individual directo"| catalog
+  ctrl -.->|"estado del trabajo e informe CSV"| ingtr
+  ingtr -.->|"reconoce cada frase por su clave"| phrase

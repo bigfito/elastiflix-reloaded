@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Elastiflix-Movies Java · Detalle de película</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF7F1}
+a{color:#3A3548}a:hover{color:#A9502A}
+.fh{margin:0;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#A8336B}
+.fh code{font-family:'IBM Plex Mono',monospace;text-transform:none;letter-spacing:0;color:#6B6578}
+.card{box-sizing:border-box;padding:22px 24px;background:#FFFFFF;border:1px solid #E2D8CA;border-radius:16px;display:flex;flex-direction:column;gap:14px}
+.h2{margin:0;display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;color:#2E2A3B}
+.h2 code{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:12px;color:#6B6578}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:12px;padding:10px 0;border-top:1px solid #EFE7DC}
+.row dt{display:flex;flex-direction:column;gap:2px;font-size:13px;color:#585266}
+.row dt code{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B6578}
+.row dd{margin:0;font-size:14px;line-height:1.5;color:#2E2A3B;overflow-wrap:anywhere}
+.empty{color:#6B6578;font-style:italic}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px solid #E2D8CA;background:#FBF7F1;font-size:13px;color:#3A3548}
+.chip small{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B6578}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#F3ECE2;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#3A3548}
+.toggle{align-self:flex-start;min-height:44px;padding:0 16px;border:1px solid #E2D8CA;border-radius:12px;background:#FFFFFF;color:#3A3548;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.toggle:hover{border-color:#A9502A;color:#A9502A}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #FBF7F1; color: #2E2A3B; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<div aria-hidden="true" style="height: 10px; margin: 14px 0 0; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 32px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
+<div aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: {{accent}}; display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="#2E2A3B" stroke="none"><path d="M8 5.5v13l10.5-6.5z"></path></svg>
+</div>
+<nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 24px; font-size: 15px">
+<a href="Main.dc.html" aria-current="page" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; color: #2E2A3B; border-bottom: 2px solid #A9502A; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14z M20 20l-3.5-3.5"></path></svg>Buscar</a>
+<a href="Ingest.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>Cargar datos</a>
+<a href="About.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M12 11v5 M12 8h.01"></path></svg>Acerca de la demo</a>
+</nav>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<nav aria-label="Idioma" style="display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid #E2D8CA; border-radius: 999px; background: #FFFFFF">
+<a href="Detail.dc.html" lang="es" hreflang="es" title="Español" aria-current="true" style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; padding: 0 12px; border-radius: 999px; background: #FFCDB2; color: #2E2A3B; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; text-decoration: none"><span aria-hidden="true">ES</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Español</span></a>
+<a href="Detail-en.dc.html" lang="en" hreflang="en" title="English" style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; padding: 0 12px; border-radius: 999px; color: #4F4A5E; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; text-decoration: none"><span aria-hidden="true">EN</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">English</span></a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid #E2D8CA; border-radius: 999px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #4F4A5E">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #2E8B6E"></span>
+<span>Conectado · Elasticsearch Serverless</span>
+</div>
+</div>
+</header>
+
+<main style="flex: 1; width: 100%; max-width: 1280px; box-sizing: border-box; margin: 0 auto; padding: 16px 20px 72px; display: flex; flex-direction: column; gap: 24px">
+
+<sc-if value="{{showDetail}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 24px">
+
+<nav aria-label="Volver a tu búsqueda" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 12px 14px 12px 12px; background: #FFFFFF; border: 1px solid #E2D8CA; border-radius: 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; min-width: 0">
+<a href="Results.dc.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 12px; background: {{accent}}; color: #2E2A3B; font-size: 14px; font-weight: 600; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5 M11 6l-6 6l6 6"></path></svg>Volver a los resultados</a>
+<span style="font-size: 13px; color: #585266">Tu búsqueda queda como la dejaste:</span>
+</div>
+<ul aria-label="Estado de la búsqueda" style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{searchState}}" as="s" hint-placeholder-count="5">
+<li style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid #E2D8CA; background: #FBF7F1; font-size: 12px; color: #4F4A5E"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6B6578">{{s.label}}</span>{{s.value}}</li>
+</sc-for>
+</ul>
+</nav>
+
+<section aria-labelledby="m-title" style="background: #FFFFFF; border: 1px solid #E2D8CA; border-radius: 20px; overflow: hidden">
+<div role="img" aria-label="Imagen de fondo de {{m.title}}" style="height: 260px; box-sizing: border-box; padding: 14px 18px; background: #F3ECE2; border-bottom: 1px dashed #D3C6B4; display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px; color: #6B6578">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3z M3 15l5-5l5 5 M14 13l2-2l5 5"></path></svg>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px">backdrop_path</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px; padding: 0 28px 28px">
+<div role="img" aria-label="Póster de {{m.title}}" style="flex: none; width: 260px; height: 390px; margin-top: -170px; box-sizing: border-box; border-radius: 14px; background: #F3ECE2; border: 4px solid #FFFFFF; outline: 1px dashed #D3C6B4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #6B6578">
+<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px">poster_path</span>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; padding-top: 24px; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #A9502A">Película · id {{m.id}}</p>
+<h1 id="m-title" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.05">{{m.title}}</h1>
+<p style="margin: 0; font-size: 14px; color: #585266">Título original: <span style="font-weight: 600; color: #3A3548">{{m.original_title}}</span></p>
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500; font-size: 20px; line-height: 1.35; color: #4F4A5E">«{{m.tagline}}»</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{pills}}" as="p" hint-placeholder-count="5">
+<span class="pill" title="{{p.field}}"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6578" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{p.icon}}"></path></svg>{{p.value}}</span>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px" aria-label="Géneros">
+<sc-for list="{{genres}}" as="g" hint-placeholder-count="3">
+<span style="padding: 6px 14px; border-radius: 999px; background: {{g.bg}}; font-size: 14px; font-weight: 600; color: #2E2A3B">{{g.name}}</span>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding-top: 6px; font-size: 15px; color: #3A3548">
+<span style="display: inline-flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="#E9B949" stroke="none"><path d="M12 3l2.7 5.6l6.1.9l-4.4 4.3l1 6.1L12 17l-5.4 2.9l1-6.1L3.2 9.5l6.1-.9z"></path></svg><strong style="font-family: 'IBM Plex Mono', monospace; font-size: 17px">{{voteAverage}}</strong><span style="color: #585266">· {{voteCount}} votos</span></span>
+<span style="display: inline-flex; align-items: center; gap: 8px; color: #585266"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9 M10 19V5 M16 19v-7 M22 19H2"></path></svg>Popularidad {{popularity}}</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 6px">
+<a href="{{imdbHref}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 12px; background: {{accent}}; color: #2E2A3B; font-size: 14px; font-weight: 600; text-decoration: none">Ver en IMDb<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6 M20 4l-9 9 M18 14v6H4V6h6"></path></svg></a>
+<sc-if value="{{hasHomepage}}" hint-placeholder-val="{{ true }}">
+<a href="{{m.homepage}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid #E2D8CA; border-radius: 12px; color: #3A3548; font-size: 14px; font-weight: 600; text-decoration: none">Sitio oficial<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6 M20 4l-9 9 M18 14v6H4V6h6"></path></svg></a>
+</sc-if>
+</div>
+</div>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px">
+
+<aside style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+
+<section class="card" aria-labelledby="s-facts">
+<span id="s-facts"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6 M9 2v4h6V2 M5 4h2v18h10V4h2 M9 11h6 M9 15h6"></path></svg>Ficha técnica<code></code></h2></span>
+<dl style="margin: 0">
+<sc-for list="{{facts}}" as="f" hint-placeholder-count="12">
+<div class="row">
+<dt>{{f.label}}<code>{{f.field}}</code></dt>
+<sc-if value="{{f.isLink}}" hint-placeholder-val="{{ false }}">
+<dd><a href="{{f.href}}">{{f.value}}</a></dd>
+</sc-if>
+<sc-if value="{{f.isText}}" hint-placeholder-val="{{ true }}">
+<dd>{{f.value}}</dd>
+</sc-if>
+<sc-if value="{{f.isEmpty}}" hint-placeholder-val="{{ false }}">
+<dd class="empty">{{f.value}}</dd>
+</sc-if>
+</div>
+</sc-for>
+</dl>
+</section>
+
+<section class="card" aria-labelledby="s-prod">
+<span id="s-prod"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8B6E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18 M5 21V9l7-5l7 5v12 M9 21v-6h6v6"></path></svg>Producción e idiomas<code></code></h2></span>
+<dl style="margin: 0">
+<sc-for list="{{production}}" as="f" hint-placeholder-count="3">
+<div class="row">
+<dt>{{f.label}}<code>{{f.field}}</code></dt>
+<sc-if value="{{f.isLink}}" hint-placeholder-val="{{ false }}">
+<dd><a href="{{f.href}}">{{f.value}}</a></dd>
+</sc-if>
+<sc-if value="{{f.isText}}" hint-placeholder-val="{{ true }}">
+<dd>{{f.value}}</dd>
+</sc-if>
+<sc-if value="{{f.isEmpty}}" hint-placeholder-val="{{ false }}">
+<dd class="empty">{{f.value}}</dd>
+</sc-if>
+</div>
+</sc-for>
+</dl>
+</section>
+
+<section class="card" aria-labelledby="s-numbers">
+<span id="s-numbers"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A8336B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9 M10 19V5 M16 19v-7 M22 19H2"></path></svg>Cifras<code></code></h2></span>
+<dl style="margin: 0">
+<sc-for list="{{numbers}}" as="f" hint-placeholder-count="6">
+<div class="row">
+<dt>{{f.label}}<code>{{f.field}}</code></dt>
+<sc-if value="{{f.isLink}}" hint-placeholder-val="{{ false }}">
+<dd><a href="{{f.href}}">{{f.value}}</a></dd>
+</sc-if>
+<sc-if value="{{f.isText}}" hint-placeholder-val="{{ true }}">
+<dd>{{f.value}}</dd>
+</sc-if>
+<sc-if value="{{f.isEmpty}}" hint-placeholder-val="{{ false }}">
+<dd class="empty">{{f.value}}</dd>
+</sc-if>
+</div>
+</sc-for>
+</dl>
+</section>
+
+<section class="card" aria-labelledby="s-coll" style="background: {{collBg}}; border-color: {{collBorder}}">
+<span id="s-coll"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6A50C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z M8 3h8 M6 21h12"></path></svg>Colección<code>belongs_to_collection</code></h2></span>
+<sc-if value="{{hasCollection}}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 19px">{{collName}}</p>
+<dl style="margin: 0">
+<sc-for list="{{collection}}" as="f" hint-placeholder-count="4">
+<div class="row">
+<dt>{{f.label}}<code>{{f.field}}</code></dt>
+<sc-if value="{{f.isLink}}" hint-placeholder-val="{{ false }}">
+<dd><a href="{{f.href}}">{{f.value}}</a></dd>
+</sc-if>
+<sc-if value="{{f.isText}}" hint-placeholder-val="{{ true }}">
+<dd>{{f.value}}</dd>
+</sc-if>
+<sc-if value="{{f.isEmpty}}" hint-placeholder-val="{{ false }}">
+<dd class="empty">{{f.value}}</dd>
+</sc-if>
+</div>
+</sc-for>
+</dl>
+</sc-if>
+<sc-if value="{{noCollection}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; color: #585266">No pertenece a ninguna colección.</p>
+</sc-if>
+</section>
+
+<section class="card" aria-labelledby="s-img">
+<span id="s-img"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3z M3 15l5-5l5 5 M14 13l2-2l5 5"></path></svg>Imágenes<code></code></h2></span>
+<dl style="margin: 0">
+<sc-for list="{{images}}" as="f" hint-placeholder-count="2">
+<div class="row">
+<dt>{{f.label}}<code>{{f.field}}</code></dt>
+<sc-if value="{{f.isLink}}" hint-placeholder-val="{{ false }}">
+<dd><a href="{{f.href}}">{{f.value}}</a></dd>
+</sc-if>
+<sc-if value="{{f.isText}}" hint-placeholder-val="{{ true }}">
+<dd>{{f.value}}</dd>
+</sc-if>
+<sc-if value="{{f.isEmpty}}" hint-placeholder-val="{{ false }}">
+<dd class="empty">{{f.value}}</dd>
+</sc-if>
+</div>
+</sc-for>
+</dl>
+<p style="margin: 0; font-size: 12px; line-height: 1.5; color: #6B6578">Las imágenes se cargan del CDN de TMDB a partir de estas rutas.</p>
+</section>
+
+</aside>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+
+<section class="card" aria-labelledby="s-overview">
+<span id="s-overview"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16 M4 12h16 M4 18h10"></path></svg>Resumen<code>overview</code></h2></span>
+<p style="margin: 0; font-size: 16px; line-height: 1.65; color: #3A3548">{{m.overview}}</p>
+</section>
+
+<section class="card" aria-labelledby="s-plot">
+<span id="s-plot"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z M9 9h6 M9 13h6 M9 17h4"></path></svg>Sinopsis<code>plot</code></h2></span>
+<p style="margin: 0; font-size: 15px; line-height: 1.7; color: #3A3548; white-space: pre-line">{{m.plot}}</p>
+<p style="margin: 0; display: flex; align-items: flex-start; gap: 8px; padding-top: 12px; border-top: 1px solid #EFE7DC; font-size: 13px; line-height: 1.5; color: #585266"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>La búsqueda vectorial compara la consulta con esta sinopsis.</p>
+</section>
+
+<section class="card" aria-labelledby="s-cast">
+<span id="s-cast"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6A50C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8z M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1 M17 3.5a4 4 0 0 1 0 7 M22 21v-1a6 6 0 0 0-4-5.7"></path></svg>Reparto<code>cast</code></h2></span>
+<p style="margin: -6px 0 0; font-size: 13px; color: #6B6578">{{castCount}} personas, en el orden del catálogo.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{castShown}}" as="c" hint-placeholder-count="12">
+<li class="chip">{{c}}</li>
+</sc-for>
+</ul>
+<sc-if value="{{castHasMore}}" hint-placeholder-val="{{ true }}">
+<button type="button" class="toggle" onClick="{{toggleCast}}" aria-expanded="{{castExpanded}}">{{castToggleLabel}}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{castToggleIcon}}"></path></svg></button>
+</sc-if>
+</section>
+
+<section class="card" aria-labelledby="s-keywords">
+<span id="s-keywords"><h2 class="h2"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9h9v9l-9 9z M16 8h.01"></path></svg>Palabras clave<code>keywords</code></h2></span>
+<p style="margin: -6px 0 0; font-size: 13px; color: #6B6578">{{keywordCount}} palabras clave, con su identificador.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{keywords}}" as="k" hint-placeholder-count="10">
+<li class="chip">{{k.name}}<small>{{k.id}}</small></li>
+</sc-for>
+</ul>
+</section>
+
+</div>
+
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Results.dc.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid #E2D8CA; border-radius: 12px; background: #FFFFFF; color: #3A3548; font-size: 14px; font-weight: 600; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5 M11 6l-6 6l6 6"></path></svg>Volver a los resultados</a>
+<a href="#m-title" style="font-size: 14px">Ir al inicio de la ficha</a>
+</div>
+
+<div style="display: flex; align-items: flex-start; gap: 10px; padding: 16px 18px; background: #FFFFFF; border: 1px solid #E2D8CA; border-radius: 14px">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #585266">Esta página muestra todos los campos del documento, salvo los vectores de la sinopsis (<code style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">plot_512</code> y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">plot_1024</code>). Un campo sin valor aparece como «N/A».</p>
+</div>
+
+</div>
+</sc-if>
+
+<sc-if value="{{showError}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="e-title" style="width: 100%; max-width: 720px; box-sizing: border-box; margin: 0 auto; padding: 48px 0 64px; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #A9502A">No se pudo completar</p>
+<h1 id="e-title" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 40px">EFX-SRCH-012</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3A3548">Tu búsqueda falló y la ficha de la película no se puede abrir.</p>
+<a href="Main.dc.html" style="align-self: flex-start; font-size: 15px; font-weight: 600">Volver a buscar</a>
+</section>
+</sc-if>
+
+</main>
+
+<footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">
+<span>Elastiflix-Movies Java · demo de búsqueda · Datos de películas: TMDB</span>
+<span>Índice: elastiflix-reloaded · 6 899 películas</span>
+</footer>
+
+<div aria-hidden="true" style="height: 10px; margin: 0 0 14px; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFCDB2","options":["#FFCDB2","#CDBDF6","#BDE8D7","#BFE0F6"]},"pelicula":{"editor":"enum","options":["Inception","The Equalizer 2"],"default":"Inception"},"estado":{"editor":"enum","options":["Ficha","Error EFX-SRCH-012"],"default":"Ficha"},"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { allCast: false };
+  }
+  renderVals() {
+    const MOVIES = {
+ "Inception": {
+  "id": 27205,
+  "imdb_id": "tt1375666",
+  "title": "Inception",
+  "original_title": "Inception",
+  "original_language": "en",
+  "release_date": "2010-07-15",
+  "runtime": 148,
+  "status": "Released",
+  "adult": false,
+  "video": false,
+  "tagline": "Your mind is the scene of the crime.",
+  "overview": "Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible: \"inception\", the implantation of another person's idea into a target's subconscious.",
+  "plot": "Inception is a 2010 science fiction action film written, directed, and produced by Christopher Nolan. The movie follows Cobb, a skilled thief who specializes in entering people's dreams and stealing their secrets.\n\nThe story begins with Cobb (Leonardo DiCaprio), a former soldier who lost his wife, Mal (Marion Cotillard), in a tragic accident. Cobb is haunted by the guilt of not being able to save her and is unable to return to the United States to see his children due to a past mistake that led to her death.\n\nCobb is approached by a wealthy businessman named Saito (Ken Watanabe) who offers him a chance to redeem himself and clear his name. Saito wants Cobb to perform a task known as \"inception\" - planting an idea in someone's mind instead of stealing one. The target is Robert Fischer (Cillian Murphy), the son of a dying business magnate, who needs to be convinced to dissolve his father's company.\n\nTo accomplish this, Cobb assembles a team of experts: Arthur (Joseph Gordon-Levitt), a point man; Ariadne (Ellen Page), an architect who designs the dreamscapes; Eames (Tom Hardy), a forger who can impersonate people in the dreams; and Saito, who joins the team as a consultant.\n\nThe team plans to perform \"inception\" by entering Fischer's dreams and convincing him to break up his father's company. However, things become complicated when Cobb's subconscious, fueled by guilt and anger, begins to sabotage the mission. Mal appears in Cobb's dreams, causing tension among the team.\n\nAs the team navigates multiple levels of dreams within dreams, they face various obstacles and challenges. The dream world becomes increasingly unstable, and the team must work together to stay one step ahead of their projections and maintain control over the dream state.\n\nThe climax of the movie features a thrilling sequence where Cobb's team performs a complex \"inception\" on Fischer, planting an idea in his mind that ultimately leads to the dissolution of the company. However, just as they think they've succeeded, Cobb is forced to confront his own guilt and emotions, which threaten to destroy the entire operation.\n\nIn the end, Cobb returns to the United States to see his children, but not before he performs a final \" extraction\" from his subconscious, allowing him to move on from his past and find closure. The movie ends with Cobb reunited with his children, but the audience is left wondering whether he's truly in a dream state or if he's finally found peace.\n\nThroughout the film, Nolan explores themes of reality, identity, and the power of the human mind. The movie's complex plot and multiple layers of dreams create a sense of tension and uncertainty, keeping the audience engaged until the very end.",
+  "genres": [
+   "Action",
+   "Science Fiction",
+   "Adventure"
+  ],
+  "keywords": [
+   {
+    "id": 90,
+    "name": "paris, france"
+   },
+   {
+    "id": 470,
+    "name": "spy"
+   },
+   {
+    "id": 490,
+    "name": "philosophy"
+   },
+   {
+    "id": 1501,
+    "name": "allegory"
+   },
+   {
+    "id": 1566,
+    "name": "dream"
+   },
+   {
+    "id": 1930,
+    "name": "kidnapping"
+   },
+   {
+    "id": 2887,
+    "name": "manipulation"
+   },
+   {
+    "id": 3800,
+    "name": "airplane"
+   },
+   {
+    "id": 4563,
+    "name": "virtual reality"
+   },
+   {
+    "id": 9844,
+    "name": "car crash"
+   },
+   {
+    "id": 10051,
+    "name": "heist"
+   },
+   {
+    "id": 10084,
+    "name": "rescue"
+   },
+   {
+    "id": 10364,
+    "name": "mission"
+   },
+   {
+    "id": 10937,
+    "name": "memory"
+   },
+   {
+    "id": 12436,
+    "name": "architecture"
+   },
+   {
+    "id": 12670,
+    "name": "los angeles, california"
+   },
+   {
+    "id": 186789,
+    "name": "dream world"
+   },
+   {
+    "id": 234868,
+    "name": "subconscious"
+   }
+  ],
+  "cast": [
+   "Leonardo DiCaprio",
+   "Joseph Gordon-Levitt",
+   "Ellen Page",
+   "Tom Hardy",
+   "Ken Watanabe",
+   "Cillian Murphy",
+   "Marion Cotillard",
+   "Michael Caine",
+   "Dileep Rao",
+   "Tom Berenger",
+   "Pete Postlethwaite",
+   "Lukas Haas",
+   "Talulah Riley",
+   "Tohoru Masamune",
+   "Taylor Geare",
+   "Claire Geare",
+   "Johnathan Geare",
+   "Yuji Okumoto",
+   "Earl Cameron",
+   "Ryan Hayward",
+   "Miranda Nolan",
+   "Russ Fega",
+   "Tim Kelleher",
+   "Coralie Dedykere",
+   "Silvie Laguna",
+   "Virgile Bramly",
+   "Nicolas Clerc",
+   "Jean-Michel Dagory",
+   "Marc Raducci"
+  ],
+  "belongs_to_collection": null,
+  "budget": 160000000,
+  "revenue": 825532764,
+  "popularity": 75.194,
+  "vote_average": 8.36,
+  "vote_count": 32774,
+  "rating": "PG-13",
+  "homepage": "https://www.warnerbros.com/movies/inception",
+  "poster_path": "/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg",
+  "backdrop_path": "/s3TBrRGB1iav7gFOCNx3H31MoES.jpg",
+  "production_companies": [
+   "Warner Bros. Pictures",
+   "Legendary Pictures",
+   "Syncopy"
+  ],
+  "production_countries": [
+   "United Kingdom",
+   "United States of America"
+  ],
+  "spoken_languages": [
+   "English",
+   "日本語",
+   "Kiswahili"
+  ],
+  "user_score": null
+ },
+ "The Equalizer 2": {
+  "id": 345887,
+  "imdb_id": "tt3766354",
+  "title": "The Equalizer 2",
+  "original_title": "The Equalizer 2",
+  "original_language": "en",
+  "release_date": "2018-07-19",
+  "runtime": 121,
+  "status": "Released",
+  "adult": false,
+  "video": false,
+  "tagline": "There is no equal.",
+  "overview": "Robert McCall, who serves an unflinching justice for the exploited and oppressed, embarks on a relentless, globe-trotting quest for vengeance when a long-time girl friend is murdered.",
+  "plot": "The Equalizer 2 is a 2018 American action-thriller film directed by Antoine Fuqua and written by Richard Wenk, based on the character created by Michael Sloan. The movie stars Denzel Washington reprising his role as Robert McCall, a retired CIA operative who uses his skills to help those in need.\n\nThe story begins with Robert McCall (Denzel Washington) living a quiet life in Boston, working as a handyman and helping people in need. However, his peaceful existence is disrupted when he receives a distress call from a young woman named Susan Plummer (Melissa Leo), who claims to be being stalked by her husband's former business partner, Teddy Madsen (Dimitri Lezcano).\n\nAs McCall delves deeper into the situation, he discovers that Susan was involved in a money laundering scheme with Madsen and his associates. However, when she tries to leave the country, Madsen and his men kidnap her and force her to return to Boston.\n\nMcCall sets out on a mission to rescue Susan and bring Madsen's operation to justice. Along the way, he teams up with a local cop, Detective Dave Daniels (Ted Levine), who is initially skeptical of McCall's abilities but eventually becomes an ally.\n\nAs the story unfolds, McCall faces off against Madsen's henchmen in a series of intense and violent confrontations. Meanwhile, Susan struggles to come to terms with her past mistakes and the danger that has now landed on her doorstep.\n\nThe plot thickens when McCall discovers that Madsen is involved in a larger money laundering scheme that reaches the highest levels of government. With the help of Detective Daniels, McCall sets out to take down Madsen's operation and bring the corrupt officials to justice.\n\nIn the climactic final act, McCall faces off against Madsen in an explosive showdown at a warehouse on the waterfront. The two engage in a fierce battle, with McCall using his skills and cunning to gain the upper hand.\n\nUltimately, McCall emerges victorious, but not without sustaining serious injuries. As he lies wounded on the ground, Susan arrives and helps him escape from Madsen's men. The movie ends with McCall and Susan driving away from Boston, leaving behind the danger and corruption that had threatened their lives.\n\nThroughout the film, Denzel Washington delivers a powerful performance as Robert McCall, bringing depth and nuance to the character. The action sequences are intense and well-choreographed, making for an exciting and thrilling ride. Overall, The Equalizer 2 is a gripping and entertaining thriller that explores themes of justice, redemption, and the power of one person to make a difference.",
+  "genres": [
+   "Action",
+   "Thriller",
+   "Crime"
+  ],
+  "keywords": [
+   {
+    "id": 570,
+    "name": "rape"
+   },
+   {
+    "id": 591,
+    "name": "cia"
+   },
+   {
+    "id": 779,
+    "name": "martial arts"
+   },
+   {
+    "id": 1562,
+    "name": "hostage"
+   },
+   {
+    "id": 1930,
+    "name": "kidnapping"
+   },
+   {
+    "id": 2215,
+    "name": "hurricane"
+   },
+   {
+    "id": 2231,
+    "name": "drug dealer"
+   },
+   {
+    "id": 9663,
+    "name": "sequel"
+   },
+   {
+    "id": 9748,
+    "name": "revenge"
+   },
+   {
+    "id": 9826,
+    "name": "murder"
+   },
+   {
+    "id": 10726,
+    "name": "gang"
+   },
+   {
+    "id": 14546,
+    "name": "massacre"
+   },
+   {
+    "id": 221233,
+    "name": "elite forces"
+   },
+   {
+    "id": 266013,
+    "name": "vigilante justice"
+   }
+  ],
+  "cast": [
+   "Denzel Washington",
+   "Pedro Pascal",
+   "Ashton Sanders",
+   "Bill Pullman",
+   "Melissa Leo",
+   "Jonathan Scarfe",
+   "Orson Bean",
+   "Sakina Jaffrey",
+   "Kazy Tauginas",
+   "Garrett Golden",
+   "Adam Karst",
+   "Alican Barlas",
+   "Rhys Olivia Cote",
+   "Tamara Hickey",
+   "Ken Baltin",
+   "Colin Allen",
+   "Antoine de Lartigue",
+   "Abigail Marlowe",
+   "Jim Loutzenhiser",
+   "Alessandra Noelle Rosenfeld",
+   "Lillie Dickens",
+   "Rex Baning",
+   "Lance A. Williams",
+   "Caroline Day",
+   "Rory Benjamin Smith",
+   "Ted Arcidi",
+   "Rutherford Cius",
+   "Wesley Pereira",
+   "David Carrasquillo",
+   "Nathaniel Chaney",
+   "Jermaine Holt",
+   "Drew Cooper",
+   "Jay Hieron",
+   "Naheem Garcia",
+   "Gloria Papert",
+   "Phil Tavares",
+   "Tim Doherty",
+   "Cj Stuart",
+   "Donald Cerrone",
+   "Gabrielle Lorthe",
+   "Karen Strong",
+   "Marley Dauphin",
+   "Elena Capaldi",
+   "Penélope de la Rosa",
+   "Miguel Nascimento",
+   "Maximillian McNamara",
+   "Gerry Pucci",
+   "Phyllis Kay",
+   "Johnny L. Hernandez",
+   "Andrei Arlovski",
+   "Liam McNeill",
+   "Arthur Hiou",
+   "Lance Norris"
+  ],
+  "belongs_to_collection": {
+   "backdrop_path": "/f66hwFPSXgVBTmLwurPMgJHVNec.jpg",
+   "id": 523855,
+   "name": "The Equalizer Collection",
+   "poster_path": "/oA03Tjsmhu6uC3NczkkPZcbYq75.jpg"
+  },
+  "budget": 62000000,
+  "revenue": 190400157,
+  "popularity": 57.749,
+  "vote_average": 6.652,
+  "vote_count": 4204,
+  "rating": "R",
+  "homepage": "https://www.sonypictures.com/movies/theequalizer2",
+  "poster_path": "/cQvc9N6JiMVKqol3wcYrGshsIdZ.jpg",
+  "backdrop_path": "/z7noaCJ4KtmhwHw7QcNtnMMo4Qy.jpg",
+  "production_companies": [
+   "Columbia Pictures",
+   "Sony Pictures",
+   "Escape Artists",
+   "Mace Neufeld Productions",
+   "Fuqua Films",
+   "Lonetree Entertainment",
+   "ZHIV Productions"
+  ],
+  "production_countries": [
+   "United States of America"
+  ],
+  "spoken_languages": [
+   "العربية",
+   "English",
+   "Français",
+   "עִבְרִית",
+   "Español",
+   "Türkçe"
+  ],
+  "user_score": null
+ }
+};
+    const accent = this.props.accent ?? '#FFCDB2';
+    const showError = this.props.estado === 'Error EFX-SRCH-012';
+    const m = MOVIES[this.props.pelicula ?? 'Inception'] || MOVIES['Inception'];
+    const EMPTY = 'N/A';
+    const grouped = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    const has = (v) => v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && v.length === 0);
+    const row = (label, field, value, href) => {
+      const ok = has(value);
+      const text = ok ? (Array.isArray(value) ? value.join(', ') : String(value)) : EMPTY;
+      const isLink = ok && !!href;
+      return { label, field, value: text, href: href || '', isLink, isText: ok && !href, isEmpty: !ok };
+    };
+    const yesNo = (b) => (b === true ? 'Sí' : b === false ? 'No' : null);
+    const money = (n) => (has(n) && n > 0 ? grouped(Math.round(n)) + ' USD' : null);
+    const TMDB = 'https://image.tmdb.org/t/p/w342';
+    const coll = m.belongs_to_collection;
+
+    const facts = [
+      row('Identificador', 'id', m.id),
+      row('IMDb', 'imdb_id', m.imdb_id, has(m.imdb_id) ? 'https://www.imdb.com/title/' + m.imdb_id + '/' : ''),
+      row('Título', 'title', m.title),
+      row('Título original', 'original_title', m.original_title),
+      row('Lema', 'tagline', m.tagline),
+      row('Idioma original', 'original_language', m.original_language),
+      row('Fecha de estreno', 'release_date', m.release_date),
+      row('Duración', 'runtime', has(m.runtime) ? m.runtime + ' min' : null),
+      row('Estado', 'status', m.status),
+      row('Clasificación', 'rating', m.rating),
+      row('Contenido para adultos', 'adult', yesNo(m.adult)),
+      row('Video', 'video', yesNo(m.video)),
+      row('Sitio oficial', 'homepage', m.homepage, has(m.homepage) ? m.homepage : '')
+    ];
+    const production = [
+      row('Productoras', 'production_companies', m.production_companies),
+      row('Países de producción', 'production_countries', m.production_countries),
+      row('Idiomas hablados', 'spoken_languages', m.spoken_languages)
+    ];
+    const numbers = [
+      row('Presupuesto', 'budget', money(m.budget)),
+      row('Recaudación', 'revenue', money(m.revenue)),
+      row('Calificación promedio', 'vote_average', m.vote_average),
+      row('Votos', 'vote_count', has(m.vote_count) ? grouped(m.vote_count) : null),
+      row('Popularidad', 'popularity', m.popularity),
+      row('Puntuación de usuarios', 'user_score', m.user_score)
+    ];
+    const collection = coll ? [
+      row('Identificador', 'id', coll.id),
+      row('Nombre', 'name', coll.name),
+      row('Póster', 'poster_path', coll.poster_path),
+      row('Imagen de fondo', 'backdrop_path', coll.backdrop_path)
+    ] : [];
+    const images = [
+      row('Póster', 'poster_path', m.poster_path, has(m.poster_path) ? TMDB + m.poster_path : ''),
+      row('Imagen de fondo', 'backdrop_path', m.backdrop_path, has(m.backdrop_path) ? TMDB + m.backdrop_path : '')
+    ];
+
+    const ICON = {
+      date: 'M4 6h16v14H4z M4 10h16 M8 3v5 M16 3v5',
+      time: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M12 7v5l3 2',
+      rating: 'M12 3l7 3v5c0 5-3.5 8.5-7 10c-3.5-1.5-7-5-7-10V6z',
+      lang: 'M4 5h10 M9 3v2 M6 5c1 4 4 7 8 8 M13 5c-1 4-4 7-8 8 M14 21l4-9l4 9 M15.5 18h5',
+      status: 'M5 12l4 4l10-10'
+    };
+    const pills = [
+      { field: 'release_date', icon: ICON.date, value: m.release_date },
+      { field: 'runtime', icon: ICON.time, value: m.runtime + ' min' },
+      { field: 'rating', icon: ICON.rating, value: m.rating },
+      { field: 'original_language', icon: ICON.lang, value: m.original_language },
+      { field: 'status', icon: ICON.status, value: m.status }
+    ].filter((p) => has(p.value));
+    const PASTEL = ['#BFE0F6', '#BDE8D7', '#FBE7A1', '#CDBDF6', '#F7C1D9', '#FFCDB2'];
+    const genres = (m.genres || []).map((name, i) => ({ name, bg: PASTEL[i % PASTEL.length] }));
+
+    const searchState = [
+      { label: 'Consulta', value: '«[consulta]»' },
+      { label: 'Modo', value: '[Full-text · Vectorial · Híbrida]' },
+      { label: 'Ajustes', value: '[tipo · operador · vector · k · num_candidates]' },
+      { label: 'Filtros', value: '[filtros aplicados]' },
+      { label: 'Página', value: '[n] de [N] · [25] por página' }
+    ];
+    const cast = m.cast || [];
+    const LIMIT = 18;
+    const all = this.state.allCast;
+    return {
+      accent,
+      showDetail: !showError,
+      showError,
+      m,
+      searchState,
+      pills,
+      genres,
+      voteAverage: m.vote_average,
+      voteCount: grouped(m.vote_count),
+      popularity: m.popularity,
+      imdbHref: 'https://www.imdb.com/title/' + m.imdb_id + '/',
+      hasHomepage: has(m.homepage),
+      castCount: cast.length,
+      castShown: all ? cast : cast.slice(0, LIMIT),
+      castHasMore: cast.length > LIMIT,
+      castExpanded: all ? 'true' : 'false',
+      castToggleLabel: all ? 'Mostrar menos' : 'Ver todo el reparto (' + cast.length + ')',
+      castToggleIcon: all ? 'M6 15l6-6l6 6' : 'M6 9l6 6l6-6',
+      toggleCast: () => this.setState({ allCast: !all }),
+      keywords: (m.keywords || []).map((k) => ({ name: k.name, id: k.id })),
+      keywordCount: (m.keywords || []).length,
+      facts, production, numbers, collection, images,
+      hasCollection: !!coll,
+      noCollection: !coll,
+      collName: coll ? coll.name : '',
+      collBg: coll ? '#F3EFFD' : '#FFFFFF',
+      collBorder: coll ? '#CDBDF6' : '#E2D8CA'
+    };
+  }
+}
+</script>
+</body>
+</html>

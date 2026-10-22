@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragments/head :: head(#{home.page.title})}"></th:block>
+</head>
+<body>
+<div class="page">
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+  <header th:replace="~{fragments/chrome :: header}"></header>
+  <main class="home">
+    <div class="home-card">
+      <div class="home-mark" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg>
+      </div>
+      <p class="eyebrow" th:text="#{home.eyebrow}"></p>
+      <h1>Elastiflix-Movies <span>Java</span></h1>
+      <p class="lead" th:text="#{home.lead}"></p>
+
+      <form id="search-form" role="search" th:action="@{/buscar}" method="get"
+            th:attr="data-dims-suffix=#{home.vector.dims.suffix},
+                     data-err-k=#{home.knn.error.k},
+                     data-err-cand-max=#{home.knn.error.candMax},
+                     data-err-cand-min=#{home.knn.error.candMin}">
+        <label class="visually-hidden" for="q" th:text="#{home.query.label}"></label>
+        <div class="sbox">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <input id="q" name="q" type="search" autocomplete="off" th:placeholder="#{home.query.placeholder}" aria-invalid="false" aria-describedby="query-error">
+          <button class="go" type="submit"><th:block th:text="#{home.query.submit}"></th:block>
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14 M13 6l6 6l-6 6"></path></svg>
+          </button>
+        </div>
+        <p id="query-error" class="alert" role="alert" hidden th:text="#{home.query.error}"></p>
+        <input type="hidden" name="modo" value="fulltext">
+        <input type="hidden" name="tipo" value="match">
+        <input type="hidden" name="campo" value="title">
+        <input type="hidden" name="operador" value="or">
+        <input type="hidden" name="vector" value="plot_256">
+        <input type="hidden" name="k" value="100">
+        <input type="hidden" name="candidatos" value="200">
+
+        <div class="mode-row">
+          <div role="group" th:attr="aria-label=#{home.mode.aria}" class="mode-group">
+            <span class="mode-label" th:text="#{home.mode.label}"></span>
+            <div class="pills">
+              <button type="button" class="pill is-on" data-set="modo" data-value="fulltext" aria-pressed="true"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg><th:block th:text="#{home.mode.fulltext}"></th:block></button>
+              <button type="button" class="pill" data-set="modo" data-value="vectorial" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg><th:block th:text="#{home.mode.vector}"></th:block></button>
+              <button type="button" class="pill" data-set="modo" data-value="hibrida" aria-pressed="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg><th:block th:text="#{home.mode.hybrid}"></th:block></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-sky" data-panel="lexical">
+          <h3 class="panel-title hybrid-only" th:text="#{home.lexical.hybridTitle}"></h3>
+          <div role="group" th:attr="aria-label=#{home.lexical.type.label}" class="setting">
+            <span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9 M17 6h3 M4 12h3 M11 12h9 M4 18h11 M19 18h1 M15 4v4 M9 10v4 M17 16v4"></path></svg><th:block th:text="#{home.lexical.type.label}"></th:block></span>
+            <div class="pills">
+              <button type="button" class="seg is-on" data-set="tipo" data-value="match" aria-pressed="true">match</button>
+              <button type="button" class="seg" data-set="tipo" data-value="multi_match" aria-pressed="false">multi-match</button>
+            </div>
+          </div>
+          <div role="group" th:attr="aria-label=#{home.lexical.field.label}" class="setting" data-when="match">
+            <span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18v12H3z M8 10v4"></path></svg><th:block th:text="#{home.lexical.field.label}"></th:block></span>
+            <div class="pills">
+              <button type="button" class="seg is-on" data-set="campo" data-value="title" aria-pressed="true">title</button>
+              <button type="button" class="seg" data-set="campo" data-value="original_title" aria-pressed="false">original_title</button>
+            </div>
+          </div>
+          <div role="group" th:attr="aria-label=#{home.lexical.operator.label}" class="setting">
+            <span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10z M15 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10z"></path></svg><th:block th:text="#{home.lexical.operator.label}"></th:block></span>
+            <div class="pills">
+              <button type="button" class="seg is-on" data-set="operador" data-value="or" aria-pressed="true">OR</button>
+              <button type="button" class="seg" data-set="operador" data-value="and" aria-pressed="false">AND</button>
+            </div>
+          </div>
+          <p class="help multi-only" th:utext="#{home.lexical.multiHelp}"></p>
+          <p class="help" th:utext="#{home.lexical.bm25Help}"></p>
+        </div>
+
+        <div class="panel panel-mint" data-panel="vector" hidden>
+          <h3 class="panel-title hybrid-only" th:text="#{home.vector.hybridTitle}"></h3>
+          <div role="group" th:attr="aria-label=#{home.vector.field.aria}" class="setting">
+            <span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5 M12 5h7v7"></path></svg><th:block th:text="#{home.vector.field.label}"></th:block></span>
+            <div class="pills">
+              <button type="button" class="seg is-on" data-set="vector" data-value="plot_256" aria-pressed="true">plot_256</button>
+              <button type="button" class="seg" data-set="vector" data-value="plot_512" aria-pressed="false">plot_512</button>
+              <button type="button" class="seg" data-set="vector" data-value="plot_1024" aria-pressed="false">plot_1024</button>
+            </div>
+          </div>
+          <p class="dims"><strong data-dims th:text="#{home.vector.dims.initial}"></strong> <th:block th:utext="#{home.vector.dims.help}"></th:block></p>
+          <div class="setting">
+            <label for="knn-k"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16 M4 12h10 M4 18h6"></path></svg>k</label>
+            <input id="knn-k" type="number" min="1" step="1" value="100" aria-invalid="false" aria-describedby="knn-error">
+          </div>
+          <p class="dims"><th:block th:utext="#{home.vector.k.help}"></th:block> <span class="hybrid-only" th:text="#{home.vector.k.hybridHelp}"></span></p>
+          <div class="setting">
+            <label for="knn-cand"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h.01 M12 5h.01 M19 5h.01 M5 12h.01 M12 12h.01 M19 12h.01 M5 19h.01 M12 19h.01 M19 19h.01"></path></svg>num_candidates</label>
+            <input id="knn-cand" type="number" min="1" max="10000" step="1" value="200" aria-invalid="false" aria-describedby="knn-error">
+          </div>
+          <p class="dims" th:utext="#{home.vector.cand.help}"></p>
+          <p id="knn-error" class="alert" role="alert" hidden></p>
+          <p class="help" th:utext="#{home.vector.knnHelp}"></p>
+        </div>
+
+        <div class="panel panel-lavender" data-panel="hybrid" hidden>
+          <h3 class="panel-title" th:text="#{home.hybrid.title}"></h3>
+          <p class="help" th:utext="#{home.hybrid.rrfHelp}"></p>
+        </div>
+      </form>
+
+      <section aria-labelledby="sug" class="suggestions">
+        <h2 id="sug" th:text="#{home.suggestions.heading}"></h2>
+        <div class="chips">
+          <div th:each="set : ${suggestions}" class="chip-set" th:attr="data-key=${set.key}" th:hidden="${!set.visible}">
+            <a th:each="link : ${set.links}" th:href="${link.href}" class="chip">
+              <span aria-hidden="true" th:text="${link.emoji}"></span>
+              <span th:text="${link.text}"></span>
+              <span class="tag" th:text="${link.tag}"></span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer th:replace="~{fragments/chrome :: footer}"></footer>
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+</div>
+<script th:src="@{/js/home.js}"></script>
+</body>
+</html>

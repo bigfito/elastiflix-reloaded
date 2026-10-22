@@ -1,0 +1,154 @@
+package com.bigfito.elastiflix.core.catalog;
+
+import java.time.Clock;
+
+import com.bigfito.elastiflix.core.config.ElastiflixProperties;
+import com.bigfito.elastiflix.core.error.ElasticsearchAccessException;
+import com.bigfito.elastiflix.core.error.ElasticsearchDiagnostics;
+import com.bigfito.elastiflix.core.error.ErrorCode;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+/**
+ * Pasa el catálogo de un índice concreto a un alias, sin tocar nada si ya es alias.
+ *
+ * <p>Si publicar falla, lee el nombre otra vez. Alias en el índice nuevo: ya quedó publicado.
+ * Elasticsearch rechazó {@code _aliases} con un 4xx y el nombre sigue siendo índice concreto: borra el
+ * nuevo y responde {@code EFX-ES-004}. En cualquier otro caso (corte, 5xx, no se puede leer): deja el
+ * nuevo y responde {@code EFX-IMP-006}.</p>
+ */
+@Component
+public class CatalogBootstrap {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CatalogBootstrap.class);
+
+    private final CatalogIndex catalog;
+    private final ElastiflixProperties properties;
+    private final IndexNames names;
+    private final Clock clock;
+
+    /**
+     * Crea la migración.
+     *
+     * @param catalog    operaciones del catálogo
+     * @param properties alias configurado
+     * @param names      nombres con fecha UTC
+     * @param clock      reloj de esa fecha
+     */
+    public CatalogBootstrap(CatalogIndex catalog, ElastiflixProperties properties, IndexNames names, Clock clock) {
+        this.catalog = catalog;
+        this.properties = properties;
+        this.names = names;
+        this.clock = clock;
+    }
+
+    /**
+     * Migra el índice concreto, o no hace nada si el alias ya existe.
+     */
+    public void migrate() {
+        String alias = properties.index().alias();
+        CatalogName described = catalog.describe(alias);
+        if (described instanceof CatalogName.Alias found) {
+            logExisting(alias, found.concreteIndex());
+            return;
+        }
+        requireConcrete(described);
+        copyAndPublish(alias);
+    }
+
+    private long verifiedCount(String alias, String target) {
+        catalog.reindex(alias, target, () -> false);
+        catalog.refresh(target);
+        long copied = catalog.count(target);
+        if (catalog.count(alias) != copied) {
+            throw new ElasticsearchAccessException(ErrorCode.REINDEX_COUNT_MISMATCH);
+        }
+        return copied;
+    }
+
+    private void requireConcrete(CatalogName described) {
+        if (described instanceof CatalogName.Missing) {
+            throw new ElasticsearchAccessException(ErrorCode.CATALOG_NOT_FOUND);
+        }
+        if (described instanceof CatalogName.Ambiguous) {
+            throw new ElasticsearchAccessException(ErrorCode.ALIAS_AMBIGUOUS);
+        }
+    }
+
+    private void copyAndPublish(String alias) {
+        String target = names.timestamped(alias, clock);
+        catalog.createWithMapping(target);
+        publish(alias, target, copy(alias, target));
+    }
+
+    private long copy(String alias, String target) {
+        try {
+            return verifiedCount(alias, target);
+        } catch (ElasticsearchAccessException exception) {
+            deleteNewIfOriginalRemains(alias, target);
+            throw exception;
+        }
+    }
+
+    private void publish(String alias, String target, long documents) {
+        try {
+            catalog.publish(alias, target, alias);
+        } catch (ElasticsearchAccessException exception) {
+            confirmOrReject(alias, target, exception);
+        }
+        LOG.info("El alias {} quedó en {} con {} documentos", alias, target, documents);
+    }
+
+    private void confirmOrReject(String alias, String target, ElasticsearchAccessException failure) {
+        CatalogName described = readAlias(alias);
+        if (pointsTo(described, target)) {
+            return;
+        }
+        // Solo un 4xx es un rechazo seguro: un corte o un 5xx pudo aplicar _aliases después de describe.
+        if (ElasticsearchDiagnostics.isClientRejection(failure) && described instanceof CatalogName.ConcreteIndex) {
+            deleteNew(target);
+            throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, failure);
+        }
+        throw new ElasticsearchAccessException(ErrorCode.PUBLISH_UNCERTAIN, failure);
+    }
+
+    private CatalogName readAlias(String alias) {
+        try {
+            return catalog.describe(alias);
+        } catch (ElasticsearchAccessException exception) {
+            throw new ElasticsearchAccessException(ErrorCode.PUBLISH_UNCERTAIN, exception);
+        }
+    }
+
+    private static boolean pointsTo(CatalogName described, String index) {
+        return described instanceof CatalogName.Alias found && index.equals(found.concreteIndex());
+    }
+
+    private void deleteNew(String target) {
+        try {
+            catalog.deleteIndex(target);
+        } catch (ElasticsearchAccessException exception) {
+            LOG.warn("No se pudo borrar el índice nuevo {}", target);
+        }
+    }
+
+    private void logExisting(String alias, String concreteIndex) {
+        try {
+            LOG.info("El alias {} ya apunta a {} con {} documentos", alias, concreteIndex, catalog.count(alias));
+        } catch (ElasticsearchAccessException exception) {
+            LOG.info("El alias {} ya apunta a {} ({})", alias, concreteIndex, exception.errorCode().code());
+        }
+    }
+
+    private void deleteNewIfOriginalRemains(String alias, String target) {
+        try {
+            if (catalog.describe(alias) instanceof CatalogName.ConcreteIndex) {
+                deleteNew(target);
+            }
+        } catch (ElasticsearchAccessException exception) {
+            LOG.warn("No se pudo borrar el índice nuevo {}", target);
+        }
+    }
+}

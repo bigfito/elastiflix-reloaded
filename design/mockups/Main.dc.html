@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Elastiflix-Movies Java · Inicio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF7F1}
+a{color:#3A3548}a:hover{color:#A9502A}
+input::placeholder{color:#6B6578}
+.sbox:focus-within{border-color:#A9502A}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #FBF7F1; color: #2E2A3B; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<div aria-hidden="true" style="height: 10px; margin: 14px 0 0; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 32px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
+<div aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: {{accent}}; display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="#2E2A3B" stroke="none"><path d="M8 5.5v13l10.5-6.5z"></path></svg>
+</div>
+<nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 24px; font-size: 15px">
+<a href="#" aria-current="page" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; color: #2E2A3B; border-bottom: 2px solid #A9502A; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14z M20 20l-3.5-3.5"></path></svg>Buscar</a>
+<a href="Ingest.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>Cargar datos</a>
+<a href="About.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M12 11v5 M12 8h.01"></path></svg>Acerca de la demo</a>
+</nav>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<nav aria-label="Idioma" style="display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid #E2D8CA; border-radius: 999px; background: #FFFFFF">
+<a href="Main.dc.html" lang="es" hreflang="es" title="Español" aria-current="true" style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; padding: 0 12px; border-radius: 999px; background: #FFCDB2; color: #2E2A3B; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; text-decoration: none"><span aria-hidden="true">ES</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Español</span></a>
+<a href="Main-en.dc.html" lang="en" hreflang="en" title="English" style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; padding: 0 12px; border-radius: 999px; color: #4F4A5E; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; text-decoration: none"><span aria-hidden="true">EN</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">English</span></a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid #E2D8CA; border-radius: 999px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #4F4A5E">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #2E8B6E"></span>
+<span>Conectado · Elasticsearch Serverless</span>
+</div>
+</div>
+</header>
+
+<main style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 64px">
+<div style="width: 100%; max-width: 780px; text-align: center">
+
+<div aria-hidden="true" style="width: 64px; height: 64px; margin: 0 auto 22px; border-radius: 18px; background: #FFF1E8; border: 1px solid #FFCDB2; display: flex; align-items: center; justify-content: center">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg>
+</div>
+
+<p style="margin: 0 0 18px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #A9502A">Demo · búsqueda full-text, vectorial e híbrida</p>
+
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(44px, 7vw, 80px); line-height: 1; letter-spacing: -0.025em">Elastiflix-Movies <span style="color: #A9502A">Java</span></h1>
+
+<p style="margin: 20px auto 0; max-width: 560px; font-size: 18px; line-height: 1.5; color: #585266">Busca en el catálogo de películas y compara cómo responden la búsqueda full-text (léxica), la vectorial y la híbrida.</p>
+
+<form role="search" onSubmit="{{onSubmit}}" style="margin-top: 40px">
+<label for="q" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Consulta de búsqueda</label>
+<div class="sbox" style="display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 20px; background: #F6F0E8; border: 1px solid #E2D8CA; border-radius: 16px; text-align: left">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input id="q" type="search" autocomplete="off" placeholder="Describe la película que buscas…" value="{{query}}" onChange="{{onQuery}}" style="flex: 1; min-width: 0; background: transparent; border: none; outline: none; color: #2E2A3B; font-family: inherit; font-size: 18px; padding: 14px 0">
+<a href="Results.dc.html" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; height: 52px; padding: 0 22px 0 26px; border: none; border-radius: 12px; background: {{accent}}; color: #2E2A3B; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer">Buscar<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M13 6l6 6l-6 6"></path></svg></a>
+</div>
+</form>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; margin-top: 20px">
+<div role="group" aria-label="Modo de búsqueda" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6B6578">Modo</span>
+<div style="display: flex; gap: 4px; padding: 4px; background: #F6F0E8; border: 1px solid #E2D8CA; border-radius: 999px">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{m.pressed}}" onClick="{{m.pick}}" style="{{m.style}}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{m.icon}}"></path></svg><span>{{m.label}}</span></button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<sc-if value="{{isLexical}}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 16px; padding: 16px 20px; background: #EEF6FD; border: 1px solid #BFE0F6; border-radius: 14px; display: flex; flex-direction: column; gap: 12px; text-align: left">
+<sc-if value="{{isHybrid}}" hint-placeholder-val="{{ false }}">
+<h3 style="margin: 0; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #1F6FA8"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg>Componente full-text · BM25</h3>
+</sc-if>
+<div role="group" aria-label="Tipo de consulta" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<span style="width: 160px; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6B6578"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9 M17 6h3 M4 12h3 M11 12h9 M4 18h11 M19 18h1 M15 4v4 M9 10v4 M17 16v4"></path></svg>Tipo de consulta</span>
+<div style="display: flex; gap: 4px; padding: 4px; background: #F6F0E8; border: 1px solid #E2D8CA; border-radius: 999px">
+<sc-for list="{{queryTypes}}" as="t" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{isMatch}}" hint-placeholder-val="{{ true }}">
+<div role="group" aria-label="Campo" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<span style="width: 160px; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6B6578"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18v12H3z M8 10v4"></path></svg>Campo</span>
+<div style="display: flex; gap: 4px; padding: 4px; background: #F6F0E8; border: 1px solid #E2D8CA; border-radius: 999px">
+<sc-for list="{{fields}}" as="f" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{f.pressed}}" onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<div role="group" aria-label="Operador" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<span style="width: 160px; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6B6578"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10z M15 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10z"></path></svg>Operador</span>
+<div style="display: flex; gap: 4px; padding: 4px; background: #F6F0E8; border: 1px solid #E2D8CA; border-radius: 999px">
+<sc-for list="{{operators}}" as="o" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{isMulti}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: flex-start; gap: 10px; padding-top: 12px; border-top: 1px solid #EFE7DC">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #585266">multi-match busca en los dos campos, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">original_title</code>, con el tipo <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">best_fields</code>: cada campo se evalúa por separado y cuenta el que mejor coincide. Con AND, todas las palabras deben aparecer en un mismo campo.</p>
+</div>
+</sc-if>
+<div style="display: flex; align-items: flex-start; gap: 10px; padding-top: 12px; border-top: 1px solid #EFE7DC">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #585266"><strong style="font-weight: 600; color: #3A3548">Retrieval con BM25:</strong> la relevancia de cada película se calcula con BM25, el algoritmo de puntuación por defecto de Elasticsearch para campos <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">text</code>. Favorece los términos de la consulta que aparecen en el campo y que son poco comunes en el catálogo, y ajusta la puntuación según la longitud del campo.</p>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isVector}}" hint-placeholder-val="{{ false }}">
+<div style="margin-top: 16px; padding: 16px 20px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 14px; display: flex; flex-direction: column; gap: 12px; text-align: left">
+<sc-if value="{{isHybrid}}" hint-placeholder-val="{{ false }}">
+<h3 style="margin: 0; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #1E7A5C"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg>Componente vectorial · k-NN</h3>
+</sc-if>
+<div role="group" aria-label="Campo vectorial" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<span style="width: 160px; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6B6578"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5 M12 5h7v7"></path></svg>Vector k-NN</span>
+<div style="display: flex; gap: 4px; padding: 4px; background: #F6F0E8; border: 1px solid #E2D8CA; border-radius: 999px">
+<sc-for list="{{vectors}}" as="v" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{v.pressed}}" onClick="{{v.pick}}" style="{{v.style}}">{{v.label}}</button>
+</sc-for>
+</div>
+</div>
+<p style="margin: -4px 0 4px; font-size: 13px; line-height: 1.5; color: #585266"><strong style="font-weight: 600; color: #3A3548">{{vectorDims}} dimensiones.</strong> Es una de las tres representaciones vectoriales de la sinopsis (<code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code>). Más dimensiones suelen capturar más matices del significado, a cambio de más memoria y de comparaciones más costosas.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<label for="knn-k" style="width: 160px; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6B6578"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16 M4 12h10 M4 18h6"></path></svg>k</label>
+<input id="knn-k" type="number" min="1" step="1" value="{{k}}" onChange="{{onK}}" aria-describedby="knn-k-help" aria-invalid="{{knnInvalid}}" style="width: 128px; min-height: 44px; box-sizing: border-box; padding: 0 14px; background: #F6F0E8; border: 1px solid #E2D8CA; border-radius: 12px; color: #2E2A3B; font-family: 'IBM Plex Mono', monospace; font-size: 14px">
+</div>
+<p id="knn-k-help" style="margin: -4px 0 4px; font-size: 13px; line-height: 1.5; color: #585266">Número máximo de resultados que devuelve la búsqueda vectorial, después de combinar los candidatos de todos los shards; se reparten en páginas de 25, 50 o 100. Debe ser menor o igual que <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">num_candidates</code>.<sc-if value="{{isHybrid}}" hint-placeholder-val="{{ false }}"> En modo híbrido también fija cuántos resultados de cada lista entran a la fusión y cuántos resultados combinados se pueden recorrer.</sc-if></p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<label for="knn-cand" style="width: 160px; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6B6578"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h.01 M12 5h.01 M19 5h.01 M5 12h.01 M12 12h.01 M19 12h.01 M5 19h.01 M12 19h.01 M19 19h.01"></path></svg>num_candidates</label>
+<input id="knn-cand" type="number" min="1" max="10000" step="1" value="{{numCandidates}}" onChange="{{onCandidates}}" aria-describedby="knn-cand-help" aria-invalid="{{knnInvalid}}" style="width: 128px; min-height: 44px; box-sizing: border-box; padding: 0 14px; background: #F6F0E8; border: 1px solid #E2D8CA; border-radius: 12px; color: #2E2A3B; font-family: 'IBM Plex Mono', monospace; font-size: 14px">
+</div>
+<p id="knn-cand-help" style="margin: -4px 0 4px; font-size: 13px; line-height: 1.5; color: #585266">Candidatos que se evalúan en cada shard antes de quedarse con los <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">k</code> mejores. Subirlo tiende a mejorar la precisión, a cambio de más tiempo de respuesta. Máximo 10 000.</p>
+<sc-if value="{{knnError}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #B9472A"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M12 8v5 M12 16h.01"></path></svg>{{knnErrorText}}</p>
+</sc-if>
+<div style="display: flex; align-items: flex-start; gap: 10px; padding-top: 12px; border-top: 1px solid #EFE7DC">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #585266"><strong style="font-weight: 600; color: #3A3548">k-NN (k vecinos más cercanos):</strong> tu consulta se convierte en un vector y se buscan las películas cuya sinopsis tiene el vector más cercano. Elasticsearch lo hace de forma aproximada sobre un grafo HNSW, sin comparar contra todo el catálogo, lo que la hace rápida aunque no siempre exacta.</p>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isHybrid}}" hint-placeholder-val="{{ false }}">
+<div style="margin-top: 16px; padding: 16px 20px; background: #F3EFFD; border: 1px solid #CDBDF6; border-radius: 14px; display: flex; flex-direction: column; gap: 12px; text-align: left">
+<h3 style="margin: 0; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6A50C8"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg>Fusión · RRF</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #585266"><strong style="font-weight: 600; color: #3A3548">Reciprocal Rank Fusion:</strong> Elasticsearch ejecuta por separado la búsqueda BM25 y la búsqueda k-NN, y combina las dos listas según la posición de cada película en ellas, no según su puntuación, porque las escalas de BM25 y de la similitud vectorial no son comparables. Una película que aparece arriba en ambas listas sube en el resultado final.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{showSuggestions}}" hint-placeholder-val="{{ true }}">
+<section aria-labelledby="sug" style="margin-top: 52px">
+<h2 id="sug" style="margin: 0 0 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6578"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6 M10 21h4 M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"></path></svg>Prueba con estas consultas</h2>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px">
+<sc-for list="{{suggestions}}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{s.pick}}" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 16px; background: {{s.bg}}; border: 1px solid {{s.border}}; border-radius: 999px; color: #3A3548; font-family: inherit; font-size: 15px; cursor: pointer">
+<span aria-hidden="true" style="font-size: 18px; line-height: 1">{{s.emoji}}</span>
+<span>{{s.text}}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{s.ink}}">{{s.tag}}</span>
+</button>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+</div>
+</main>
+
+<footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">
+<span>Elastiflix-Movies Java · demo de búsqueda</span>
+<span>Índice: elastiflix-reloaded · 6 899 películas</span>
+</footer>
+
+<div aria-hidden="true" style="height: 10px; margin: 0 0 14px; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFCDB2","options":["#FFCDB2","#CDBDF6","#BDE8D7","#BFE0F6"]},"showSuggestions":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mode: 'lexical', queryType: 'match', field: 'title', operator: 'or', vector: 'plot_256', k: '100', numCandidates: '200', query: '' };
+  }
+  renderVals() {
+    const s = this.state;
+    const accent = this.props.accent ?? '#FFCDB2';
+    const showSuggestions = this.props.showSuggestions ?? true;
+    const base = 'display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: none; border-radius: 999px; font-family: inherit; font-size: 15px; cursor: pointer; ';
+    const on = base + 'background: #2E2A3B; color: #FBF7F1; font-weight: 600';
+    const off = base + 'background: transparent; color: #4F4A5E; font-weight: 500';
+    const MODE_BG = { lexical: '#BFE0F6', vector: '#BDE8D7', hybrid: '#CDBDF6' };
+    const labels = { lexical: 'Full-text (léxica)', vector: 'Vectorial', hybrid: 'Híbrida' };
+    const icons = {
+      lexical: 'M4 7V5h16v2 M9 19h6 M12 5v14',
+      vector: 'M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z',
+      hybrid: 'M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9'
+    };
+    const modes = ['lexical', 'vector', 'hybrid'].map((id) => ({
+      label: labels[id],
+      icon: icons[id],
+      pressed: s.mode === id ? 'true' : 'false',
+      style: s.mode === id ? base + 'background: ' + MODE_BG[id] + '; color: #2E2A3B; font-weight: 600' : off,
+      pick: () => this.setState({ mode: id })
+    }));
+    const segBase = 'min-height: 44px; padding: 0 16px; border: none; border-radius: 999px; font-family: \'IBM Plex Mono\', monospace; font-size: 14px; cursor: pointer; ';
+    const segOn = segBase + 'background: #2E2A3B; color: #FBF7F1; font-weight: 500';
+    const segOff = segBase + 'background: transparent; color: #4F4A5E; font-weight: 400';
+    const seg = (ids, names, current, key) => ids.map((id) => ({
+      label: names[id],
+      pressed: current === id ? 'true' : 'false',
+      style: current === id ? segOn : segOff,
+      pick: () => this.setState({ [key]: id })
+    }));
+    const queryTypes = seg(['match', 'multi'], { match: 'match', multi: 'multi-match' }, s.queryType, 'queryType');
+    const fields = seg(['title', 'original_title'], { title: 'title', original_title: 'original_title' }, s.field, 'field');
+    const operators = seg(['or', 'and'], { or: 'OR', and: 'AND' }, s.operator, 'operator');
+    const vectors = seg(['plot_256', 'plot_512', 'plot_1024'], { plot_256: 'plot_256', plot_512: 'plot_512', plot_1024: 'plot_1024' }, s.vector, 'vector');
+    const kNum = Number(s.k), cNum = Number(s.numCandidates);
+    let knnErrorText = '';
+    if (!Number.isInteger(kNum) || kNum < 1) knnErrorText = 'k debe ser un entero mayor o igual que 1.';
+    else if (!Number.isInteger(cNum) || cNum > 10000) knnErrorText = 'num_candidates debe ser un entero de máximo 10 000.';
+    else if (cNum < kNum) knnErrorText = 'num_candidates debe ser mayor o igual que k.';
+    const isAnd = s.operator === 'and';
+    const byOp = (orTag, andTag) => (isAnd ? andTag : orTag);
+    let sug;
+    if (s.mode === 'lexical') {
+      if (s.queryType === 'match' && s.field === 'title') {
+        sug = [
+          { text: 'Spirited Away', tag: 'título traducido' },
+          { text: 'dark knight', tag: byOp('OR: 40 resultados', 'AND: 3 resultados') },
+          { text: 'love story', tag: byOp('OR: 65 resultados', 'AND: 1 resultado') }
+        ];
+      } else if (s.queryType === 'match') {
+        sug = [
+          { text: 'Kolejne 365 dni', tag: 'título original · en title: 0' },
+          { text: 'el secreto', tag: byOp('OR: 16 resultados', 'AND: 1 resultado') },
+          { text: 'le fabuleux destin', tag: byOp('OR: 14 resultados', 'AND: 1 resultado') }
+        ];
+      } else {
+        sug = [
+          { text: 'heaven cielo', tag: byOp('OR: 6 resultados', 'AND: 0 · palabras en campos distintos') },
+          { text: 'next kolejne', tag: byOp('OR: 11 resultados', 'AND: 0 · palabras en campos distintos') },
+          { text: 'parasite 기생충', tag: byOp('OR: 1 resultado', 'AND: 0 · palabras en campos distintos') }
+        ];
+      }
+    } else if (s.mode === 'vector') {
+      const titanicPos = { plot_256: '4.º lugar', plot_512: '3.º lugar', plot_1024: '1.º lugar' }[s.vector];
+      const inceptionPos = { plot_256: 'fuera del top 10', plot_512: '4.º lugar', plot_1024: '3.º lugar' }[s.vector];
+      const lifeOfPiPos = { plot_256: '10.º lugar', plot_512: '3.º lugar', plot_1024: '2.º lugar' }[s.vector];
+      const spiritedPos = { plot_256: '4.º lugar', plot_512: '1.º lugar', plot_1024: '1.º lugar' }[s.vector];
+      const etPos = { plot_256: '3.º lugar', plot_512: '1.º lugar', plot_1024: '1.º lugar' }[s.vector];
+      sug = [
+        { text: 'un barco de lujo choca con un iceberg en su viaje inaugural', tag: 'Titanic: ' + titanicPos },
+        { text: 'un ladrón roba secretos entrando en los sueños de las personas', tag: 'Inception: ' + inceptionPos },
+        { text: 'un robot solitario que limpia la Tierra', tag: 'WALL·E: 1.º lugar' },
+        { text: 'a lonely robot cleaning up Earth', tag: 'en inglés · WALL·E: 1.º lugar' },
+        { text: 'un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano', tag: 'Life of Pi: ' + lifeOfPiPos },
+        { text: 'una niña queda atrapada en un mundo de espíritus y trabaja en una casa de baños para salvar a sus padres convertidos en cerdos', tag: 'Spirited Away: ' + spiritedPos },
+        { text: 'un niño esconde a un pequeño extraterrestre perdido y lo ayuda a volver a su planeta', tag: 'E.T.: ' + etPos }
+      ];
+    } else if (isAnd) {
+      sug = [
+        { text: 'toy story juguetes que cobran vida', tag: 'AND: léxico 0 · decide el vectorial' },
+        { text: 'laberinto fauno niña en la guerra', tag: 'AND: léxico 0 · decide el vectorial' }
+      ];
+    } else {
+      sug = [
+        { text: 'dark knight joker caos en la ciudad', tag: 'título + trama' },
+        { text: 'titanic historia de amor en un barco que se hunde', tag: 'Titanic: 1.º vectorial, 2.º léxico' },
+        { text: "ocean's eleven robo a casinos", tag: 'título + trama' }
+      ];
+    }
+    const emojis = {
+      'Spirited Away': '🐉',
+      'dark knight': '🦇',
+      'love story': '💘',
+      'Kolejne 365 dni': '📅',
+      'el secreto': '🔍',
+      'le fabuleux destin': '🥐',
+      'heaven cielo': '☁️',
+      'next kolejne': '⏭️',
+      'parasite 기생충': '🏠',
+      'un barco de lujo choca con un iceberg en su viaje inaugural': '🚢',
+      'un ladrón roba secretos entrando en los sueños de las personas': '🌀',
+      'un robot solitario que limpia la Tierra': '🤖',
+      'a lonely robot cleaning up Earth': '🤖',
+      'un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano': '🐅',
+      'una niña queda atrapada en un mundo de espíritus y trabaja en una casa de baños para salvar a sus padres convertidos en cerdos': '🏮',
+      'un niño esconde a un pequeño extraterrestre perdido y lo ayuda a volver a su planeta': '🚲',
+      'toy story juguetes que cobran vida': '🧸',
+      'laberinto fauno niña en la guerra': '🌿',
+      'dark knight joker caos en la ciudad': '🦇',
+      'titanic historia de amor en un barco que se hunde': '🚢',
+      "ocean's eleven robo a casinos": '🎰'
+    };
+    const TONES = [['#FFCDB2','#FFF1E8','#A9502A'], ['#BFE0F6','#EEF6FD','#1F6FA8'], ['#BDE8D7','#ECF8F3','#1E7A5C'], ['#CDBDF6','#F3EFFD','#6A50C8'], ['#FBE7A1','#FFF9E3','#8A6A12'], ['#F7C1D9','#FDEEF5','#A8336B']];
+    const suggestions = sug.map((x, i) => ({ ...x, bg: TONES[i % TONES.length][1], border: TONES[i % TONES.length][0], ink: TONES[i % TONES.length][2], emoji: emojis[x.text] || '🎬', pick: () => this.setState({ query: x.text }) }));
+    return {
+      accent,
+      showSuggestions,
+      query: s.query,
+      modes,
+      isLexical: s.mode === 'lexical' || s.mode === 'hybrid',
+      isMatch: (s.mode === 'lexical' || s.mode === 'hybrid') && s.queryType === 'match',
+      isMulti: (s.mode === 'lexical' || s.mode === 'hybrid') && s.queryType === 'multi',
+      isHybrid: s.mode === 'hybrid',
+      queryTypes,
+      fields,
+      operators,
+      isVector: s.mode === 'vector' || s.mode === 'hybrid',
+      vectors,
+      vectorDims: { plot_256: '256', plot_512: '512', plot_1024: '1024' }[s.vector],
+      k: s.k,
+      knnError: knnErrorText !== '',
+      knnErrorText,
+      knnInvalid: knnErrorText !== '' ? 'true' : 'false',
+      numCandidates: s.numCandidates,
+      onK: (e) => this.setState({ k: e.target.value }),
+      onCandidates: (e) => this.setState({ numCandidates: e.target.value }),
+      suggestions,
+      onQuery: (e) => this.setState({ query: e.target.value }),
+      onSubmit: (e) => { e.preventDefault(); }
+    };
+  }
+}
+</script>
+</body>
+</html>

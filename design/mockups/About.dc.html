@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Elastiflix-Movies Java · Acerca de la demo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF7F1}
+a{color:#3A3548}a:hover{color:#A9502A}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #FBF7F1; color: #2E2A3B; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<div aria-hidden="true" style="height: 10px; margin: 14px 0 0; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 32px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px">
+<div aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: {{accent}}; display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="#2E2A3B" stroke="none"><path d="M8 5.5v13l10.5-6.5z"></path></svg>
+</div>
+<nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 24px; font-size: 15px">
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14z M20 20l-3.5-3.5"></path></svg>Buscar</a>
+<a href="Ingest.dc.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>Cargar datos</a>
+<a href="#" aria-current="page" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; color: #2E2A3B; border-bottom: 2px solid #A9502A; padding-bottom: 4px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M12 11v5 M12 8h.01"></path></svg>Acerca de la demo</a>
+</nav>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<nav aria-label="Idioma" style="display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid #E2D8CA; border-radius: 999px; background: #FFFFFF">
+<a href="About.dc.html" lang="es" hreflang="es" title="Español" aria-current="true" style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; padding: 0 12px; border-radius: 999px; background: #FFCDB2; color: #2E2A3B; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; text-decoration: none"><span aria-hidden="true">ES</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Español</span></a>
+<a href="About-en.dc.html" lang="en" hreflang="en" title="English" style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; padding: 0 12px; border-radius: 999px; color: #4F4A5E; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; text-decoration: none"><span aria-hidden="true">EN</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">English</span></a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid #E2D8CA; border-radius: 999px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #4F4A5E">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8597" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg>
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #2E8B6E"></span>
+<span>Conectado · Elasticsearch Serverless</span>
+</div>
+</div>
+</header>
+
+<main style="flex: 1; width: 100%; max-width: 1320px; box-sizing: border-box; margin: 0 auto; padding: 48px 20px 80px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; align-items: start">
+<nav aria-label="En esta página" style="position: sticky; top: 24px; align-self: start">
+<p style="margin: 0 0 12px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6A50C8">En esta página</p>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; border-left: 2px solid #EFE7DC">
+<li><a href="#intro" aria-current="location" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid #A9502A; color: #2E2A3B; font-size: 14px; line-height: 1.35; text-decoration: none; font-weight: 600">Tres formas de buscar una película</a></li>
+<li><a href="#fulltext" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Full-text (léxica)</a></li>
+<li><a href="#vectorial" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Vectorial</a></li>
+<li><a href="#hibrida" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Híbrida</a></li>
+<li><a href="#resultados" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Resultados y filtros</a></li>
+<li><a href="#carga" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Carga de datos</a></li>
+<li><a href="#catalogo" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">El catálogo</a></li>
+<li><a href="#creditos" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Créditos</a></li>
+</ol>
+</nav>
+<div style="display: flex; flex-direction: column; gap: 72px; min-width: 0; max-width: 1040px">
+
+<section aria-labelledby="intro" style="display: flex; flex-direction: column; gap: 18px">
+<p style="margin: 0; display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #A9502A"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M7 4v16 M17 4v16 M3 8h4 M3 12h4 M3 16h4 M17 8h4 M17 12h4 M17 16h4"></path></svg>Acerca de la demo</p>
+<h1 id="intro" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(38px, 5.5vw, 60px); line-height: 1.05; letter-spacing: -0.02em">Tres formas de buscar una película</h1>
+<p style="margin: 0; max-width: 720px; font-size: 18px; line-height: 1.6; color: #585266">Elastiflix-Movies Java busca en un catálogo de películas guardado en un índice de Elasticsearch Serverless. Con la misma consulta puedes probar tres modos de búsqueda y ver cómo cambia lo que encuentra cada uno: por palabras, por significado o combinando ambos. Además puedes acotar los resultados con filtros y cargar nuevas películas al catálogo.</p>
+</section>
+
+<section aria-label="Resumen de los modos" style="display: flex; flex-wrap: wrap; gap: 16px">
+<a href="#fulltext" style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px; padding: 24px; background: #EEF6FD; border: 1px solid #BFE0F6; border-radius: 16px; text-decoration: none; color: #2E2A3B">
+<span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #BFE0F6; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg></span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px">Full-text (léxica)</span>
+<span style="font-size: 15px; line-height: 1.5; color: #585266">Encuentra películas cuyo título contiene las palabras de tu consulta.</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #1F6FA8">BM25 · title, original_title</span>
+</a>
+<a href="#vectorial" style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px; padding: 24px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 16px; text-decoration: none; color: #2E2A3B">
+<span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #BDE8D7; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg></span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px">Vectorial</span>
+<span style="font-size: 15px; line-height: 1.5; color: #585266">Encuentra películas cuya sinopsis se parece en significado a lo que describes.</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #1E7A5C">k-NN · plot_256, plot_512, plot_1024</span>
+</a>
+<a href="#hibrida" style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px; padding: 24px; background: #F3EFFD; border: 1px solid #CDBDF6; border-radius: 16px; text-decoration: none; color: #2E2A3B">
+<span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #CDBDF6; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6A50C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg></span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px">Híbrida</span>
+<span style="font-size: 15px; line-height: 1.5; color: #585266">Ejecuta las dos búsquedas anteriores y combina sus resultados en una sola lista.</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6A50C8">BM25 + k-NN · fusión RRF</span>
+</a>
+</section>
+
+<section id="fulltext" aria-labelledby="h-fulltext" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #BFE0F6; border: 1px solid #BFE0F6; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg></span>
+<h2 id="h-fulltext" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Full-text (léxica)</h2>
+</div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Busca coincidencias de términos en los campos <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">original_title</code>, ambos de tipo <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">text</code>. Elasticsearch analiza el texto de la consulta en tokens y los compara con los tokens indexados de cada título.</p>
+
+<div style="padding: 22px 24px; background: #EEF6FD; border: 1px solid #BFE0F6; border-radius: 16px; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-size: 17px; font-weight: 600">Cómo se calcula la relevancia: BM25</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266">BM25 es el algoritmo de puntuación por defecto de Elasticsearch para campos <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">text</code>. Favorece los términos de la consulta que aparecen en el campo y que son poco comunes en el catálogo. Dos parámetros controlan su comportamiento: <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">k1</code> (por defecto 1.2) limita cuánto suma que un término se repita, y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548">b</code> (por defecto 0.75) ajusta la puntuación según la longitud del campo.</p>
+</div>
+
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Ajustes disponibles</h3>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Tipo de consulta: match</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Busca en un solo campo, que eliges entre <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">original_title</code>.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Tipo de consulta: multi-match</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Busca en los dos campos a la vez con el tipo <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">best_fields</code>: cada campo se evalúa por separado y la película recibe la puntuación del campo que mejor coincide.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Operador: OR</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Basta con que aparezca una de las palabras de la consulta. Es el comportamiento por defecto de Elasticsearch.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Operador: AND</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Deben aparecer todas las palabras. Con multi-match y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">best_fields</code>, todas deben estar en un mismo campo: no se pueden repartir entre <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">original_title</code>.</dd>
+</div>
+</dl>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 14px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6578">Documentación</span>
+<a href="https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query">Match query</a>
+<a href="https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query">Multi-match query</a>
+<a href="https://www.elastic.co/docs/reference/elasticsearch/index-settings/similarity">Similarity (BM25)</a>
+</div>
+</section>
+
+<section id="vectorial" aria-labelledby="h-vectorial" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #BDE8D7; border: 1px solid #BDE8D7; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg></span>
+<h2 id="h-vectorial" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Vectorial</h2>
+</div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Busca por significado en la sinopsis de cada película (campo <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">plot</code>). El texto de tu consulta se convierte en un vector con el modelo <strong style="font-weight: 600; color: #3A3548">jina-embeddings-v5-omni-small</strong> y Elasticsearch devuelve las películas cuyos vectores de sinopsis están más cerca, usando el retriever <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">knn</code>.</p>
+
+<div style="padding: 22px 24px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 16px; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-size: 17px; font-weight: 600">Cómo funciona k-NN</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266">k-NN (k vecinos más cercanos) busca los vectores más próximos al vector de la consulta. Elasticsearch lo hace de forma aproximada sobre un grafo HNSW: recorre el grafo en lugar de comparar contra todo el catálogo, lo que la hace rápida aunque no siempre exacta.</p>
+</div>
+
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Las tres representaciones de la sinopsis</h3>
+<p style="margin: 0; max-width: 760px; font-size: 15px; line-height: 1.6; color: #585266">El objetivo de este modo es comprobar cómo el número de dimensiones del vector influye en la precisión de los resultados. Los tres campos vienen del mismo modelo: su dimensión nativa es 1024 y admite recorte Matryoshka a 256 y 512.</p>
+<div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
+<table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px">
+<thead>
+<tr style="background: #FFFFFF; text-align: left">
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Dimensiones</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Origen</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
+<td style="padding: 14px 18px; color: #585266">256</td>
+<td style="padding: 14px 18px; color: #585266">Primeros valores del vector de 1024, renormalizados (Matryoshka)</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
+<td style="padding: 14px 18px; color: #585266">512</td>
+<td style="padding: 14px 18px; color: #585266">Primeros valores del vector de 1024, renormalizados (Matryoshka)</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
+<td style="padding: 14px 18px; color: #585266">1024</td>
+<td style="padding: 14px 18px; color: #585266">Vector completo del modelo</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div style="display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px; background: #FFFFFF; border: 1px solid #E2D8CA; border-radius: 14px">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><path d="M12 3l8 4v5c0 5-3.5 8-8 9c-4.5-1-8-4-8-9V7z M9 12l2 2l4-4"></path></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266"><strong style="font-weight: 600; color: #3A3548">Una comparación justa.</strong> Los tres campos usan la misma configuración de índice: <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">index_options</code> de tipo <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">hnsw</code> con vectores float sin cuantización, los mismos <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">m</code> (16) y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">ef_construction</code> (100), los valores por defecto de Elasticsearch, y similitud <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">cosine</code>. Así, la única diferencia entre ellos es el número de dimensiones.</p>
+</div>
+
+<div style="padding: 22px 24px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 16px; display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 600"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10 M10 20V4 M16 20v-7 M3 20h18"></path></svg>Precisión medida por dimensión</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Se midió con 32 descripciones de trama (26 en español y 6 en inglés), cada una con una sola película correcta del catálogo y sin palabras de su título. Las posiciones se obtuvieron en Elasticsearch y se confirmaron con una búsqueda exacta por fuerza bruta: coinciden en todos los casos.</p>
+<div style="overflow-x: auto; background: #FFFFFF; border: 1px solid #BDE8D7; border-radius: 12px">
+<table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px">
+<thead><tr style="text-align: left"><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Campo</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Correcta en 1.er lugar</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Entre las 5 primeras</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Entre las 10 primeras</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">MRR@10</th></tr></thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</td><td style="padding: 12px 16px; color: #585266">22 de 32 (69 %)</td><td style="padding: 12px 16px; color: #585266">29</td><td style="padding: 12px 16px; color: #585266">30</td><td style="padding: 12px 16px; color: #585266">0.774</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</td><td style="padding: 12px 16px; color: #585266">25 de 32 (78 %)</td><td style="padding: 12px 16px; color: #585266">31</td><td style="padding: 12px 16px; color: #585266">32</td><td style="padding: 12px 16px; color: #585266">0.853</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</td><td style="padding: 12px 16px; color: #585266">26 de 32 (81 %)</td><td style="padding: 12px 16px; color: #585266">31</td><td style="padding: 12px 16px; color: #585266">31</td><td style="padding: 12px 16px; color: #585266">0.880</td></tr>
+</tbody>
+</table>
+</div>
+
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #585266">El MRR premia que la película correcta quede arriba: vale 1 si siempre sale 1.ª y 0.5 si siempre sale 2.ª. En 24 de las 32 consultas la posición es la misma en los tres campos; las diferencias se concentran en las descripciones más difíciles:</p>
+<div style="overflow-x: auto; background: #FFFFFF; border: 1px solid #BDE8D7; border-radius: 12px">
+<table style="width: 100%; min-width: 480px; border-collapse: collapse; font-size: 15px">
+<thead><tr style="text-align: left"><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Película</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">plot_256</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">plot_512</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">plot_1024</th></tr></thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Inception</td><td style="padding: 12px 16px; color: #585266">21.º</td><td style="padding: 12px 16px; color: #585266">4.º</td><td style="padding: 12px 16px; color: #585266">3.º</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Life of Pi</td><td style="padding: 12px 16px; color: #585266">10.º</td><td style="padding: 12px 16px; color: #585266">3.º</td><td style="padding: 12px 16px; color: #585266">2.º</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Spirited Away</td><td style="padding: 12px 16px; color: #585266">4.º</td><td style="padding: 12px 16px; color: #585266">1.º</td><td style="padding: 12px 16px; color: #585266">1.º</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Titanic</td><td style="padding: 12px 16px; color: #585266">4.º</td><td style="padding: 12px 16px; color: #585266">3.º</td><td style="padding: 12px 16px; color: #585266">1.º</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">E.T. the Extra-Terrestrial</td><td style="padding: 12px 16px; color: #585266">3.º</td><td style="padding: 12px 16px; color: #585266">1.º</td><td style="padding: 12px 16px; color: #585266">1.º</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Coco</td><td style="padding: 12px 16px; color: #585266">2.º</td><td style="padding: 12px 16px; color: #585266">1.º</td><td style="padding: 12px 16px; color: #585266">1.º</td></tr>
+</tbody>
+</table>
+</div>
+
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.6; color: #585266">
+<li>256 dimensiones pierde precisión de forma clara; 512 queda muy cerca de 1024 con la mitad del tamaño.</li>
+<li>Más dimensiones no siempre es mejor en cada caso: Forrest Gump queda 21.º, 8.º y 18.º.</li>
+<li>Con 32 consultas es una tendencia clara, no una conclusión estadística firme.</li>
+</ul>
+</div>
+
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Ajustes disponibles</h3>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Vector k-NN</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">El campo sobre el que se busca: <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</code> o <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</code>. Más dimensiones suelen capturar más matices del significado, a cambio de más memoria y de comparaciones más costosas.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">k</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Número máximo de resultados que devuelve la búsqueda vectorial, después de combinar los candidatos de todos los shards; se reparten en páginas de 25, 50 o 100. Debe ser menor o igual que <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">num_candidates</code>. Valor inicial: 100.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">num_candidates</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Candidatos que se evalúan en cada shard antes de quedarse con los <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">k</code> mejores. Subirlo tiende a mejorar la precisión, a cambio de más tiempo de respuesta. Máximo 10 000. Valor inicial: 200.</dd>
+</div>
+</dl>
+
+<p style="margin: 0; max-width: 760px; font-size: 14px; line-height: 1.6; color: #6B6578">Nota de implementación: para recuperación, el modelo espera el prefijo <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">Query: </code> en las consultas. Las sinopsis se vectorizan con <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">input_type</code> <code style="font-family: 'IBM Plex Mono', monospace; color: #4F4A5E">ingest</code> y sin prefijo.</p>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 14px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6578">Documentación</span>
+<a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/retrievers/knn-retriever">kNN retriever</a>
+<a href="https://www.elastic.co/docs/solutions/search/vector/knn/approximate-knn">Approximate kNN</a>
+<a href="https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/dense-vector">Dense vector</a>
+<a href="https://huggingface.co/jinaai/jina-embeddings-v5-omni-small">jina-embeddings-v5-omni-small</a>
+</div>
+</section>
+
+<section id="hibrida" aria-labelledby="h-hibrida" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #CDBDF6; border: 1px solid #CDBDF6; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6A50C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3 M12 12v9"></path></svg></span>
+<h2 id="h-hibrida" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Híbrida</h2>
+</div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Combina los dos modos anteriores con los mismos ajustes. El retriever <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">rrf</code> agrupa un retriever <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">standard</code>, con la consulta <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">match</code> o <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">multi_match</code> del componente full-text, y un retriever <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">knn</code> del componente vectorial.</p>
+
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px">
+<div style="flex: 1 1 220px; padding: 18px 20px; background: #EEF6FD; border: 1px solid #BFE0F6; border-radius: 14px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #1F6FA8">1 · Componente full-text</span>
+<span style="font-size: 15px; line-height: 1.5; color: #585266">Lista ordenada por BM25 sobre <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> y/o <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">original_title</code>.</span>
+</div>
+<div style="flex: 1 1 220px; padding: 18px 20px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 14px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #1E7A5C">2 · Componente vectorial</span>
+<span style="font-size: 15px; line-height: 1.5; color: #585266">Lista ordenada por cercanía k-NN sobre el vector de sinopsis elegido.</span>
+</div>
+<div style="flex: 1 1 220px; padding: 18px 20px; background: #F3EFFD; border: 1px solid #CDBDF6; border-radius: 14px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6A50C8">3 · Fusión RRF</span>
+<span style="font-size: 15px; line-height: 1.5; color: #4F4A5E">Una sola lista final, ordenada por la posición de cada película en las dos listas.</span>
+</div>
+</div>
+
+<div style="padding: 22px 24px; background: #F3EFFD; border: 1px solid #CDBDF6; border-radius: 16px; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-size: 17px; font-weight: 600">Cómo funciona Reciprocal Rank Fusion</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266">RRF combina las dos listas según la posición de cada película en ellas, no según su puntuación, porque las escalas de BM25 y de la similitud vectorial no son comparables. Una película que aparece arriba en ambas listas sube en el resultado final.</p>
+</div>
+
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Parámetros de la fusión</h3>
+<p style="margin: 0; max-width: 760px; font-size: 15px; line-height: 1.6; color: #585266">La demo no los expone en la interfaz: <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">rank_constant</code> usa el valor por defecto de Elasticsearch y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">rank_window_size</code> lo fija la aplicación.</p>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">rank_constant = 60</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Cuanto más alto, más influencia tienen las películas que están más abajo en cada lista.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">rank_window_size = k</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Cuántos resultados de cada componente entran a la fusión y cuántos resultados combinados se pueden recorrer. La aplicación lo iguala a <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">k</code> (100 por defecto), así que ambos componentes aportan la misma cantidad y las páginas de 25, 50 o 100 nunca salen vacías.</dd>
+</div>
+</dl>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 14px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6578">Documentación</span>
+<a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/retrievers/rrf-retriever">RRF retriever</a>
+</div>
+</section>
+
+<section id="resultados" aria-labelledby="h-resultados" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #F7C1D9; border: 1px solid #F7C1D9; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A8336B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"></path></svg></span>
+<h2 id="h-resultados" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Resultados y filtros</h2>
+</div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Los resultados se muestran por páginas, con la puntuación que corresponde a cada modo, y se pueden acotar con filtros que se calculan a partir de los propios resultados.</p>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Paginación</h3>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">25 · 50 · 100 por página</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">El usuario elige el tamaño de página y se mueve con Anterior, Siguiente o el número de página. Al cambiar el tamaño o aplicar filtros se vuelve a la página 1.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Full-text</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Se pueden recorrer todas las coincidencias con <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">from</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">size</code>, hasta el límite de 10 000 que fija <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">index.max_result_window</code>.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Vectorial</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Hay como máximo <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">k</code> resultados (100 por defecto), repartidos en páginas.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Híbrida</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Hay como máximo <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">rank_window_size</code> resultados combinados. La aplicación lo iguala a <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">k</code>, así que <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">from + size</code> nunca supera la ventana y ninguna página sale vacía.</dd>
+</div>
+</dl>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Puntuación de cada resultado</h3>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Full-text</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Puntuación BM25. No tiene una escala fija: solo sirve para comparar resultados de una misma búsqueda.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Vectorial</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Similitud k-NN. Con <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">cosine</code>, Elasticsearch devuelve (1 + coseno) / 2, un valor entre 0 y 1.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Híbrida</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">La puntuación BM25 y la similitud k-NN, cada una con la posición de la película en su lista, más la puntuación RRF que define el orden final.</dd>
+</div>
+</dl>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Filtros</h3>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Campos</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266"><code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">adult</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">genres</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">release_date</code> (rango desde–hasta), <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">spoken_languages</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">rating</code>.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Combinación</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Entre filtros distintos se cumplen todos; dentro de un mismo filtro basta con uno de los valores marcados. Los cambios se aplican al pulsar APLICAR; la fecha «Desde» no puede ser posterior a «Hasta».</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Valores dinámicos</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Cada filtro muestra solo los valores presentes en los resultados actuales, con cuántos resultados tienen cada uno, y se recalculan cada vez que cambian los resultados. Los valores ya marcados siguen visibles para poder desmarcarlos.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">En Elasticsearch</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Full-text: los filtros van en el contexto <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">filter</code> de la consulta, que no altera la puntuación BM25, y los valores salen de agregaciones <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">terms</code>. Vectorial: los filtros van en el <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">filter</code> del retriever <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">knn</code>, que se aplica durante la búsqueda, así que se devuelven <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">k</code> películas que los cumplen. Híbrida: van en el <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">filter</code> del retriever <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">rrf</code>, que se aplica a las dos búsquedas.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Valores en Vectorial e Híbrida</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">La aplicación los calcula sobre los resultados devueltos (hasta <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">k</code>). En RRF las agregaciones incluirían todas las coincidencias de cada búsqueda, incluso películas que no aparecen en la lista combinada.</dd>
+</div>
+</dl>
+<div style="padding: 22px 24px; background: #FDEEF5; border: 1px solid #F7C1D9; border-radius: 16px; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-size: 17px; font-weight: 600">Cuando no hay resultados</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Si la búsqueda no encuentra nada, la página lo dice y sugiere ajustes según el modo (por ejemplo, OR en lugar de AND). Si la búsqueda sí encontró películas pero ninguna cumple los filtros, lo explica y ofrece quitarlos.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 14px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6578">Documentación</span>
+<a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/paginate-search-results">Paginación</a>
+<a href="https://www.elastic.co/docs/reference/aggregations/search-aggregations-bucket-terms-aggregation">Terms aggregation</a>
+<a href="https://www.elastic.co/docs/solutions/search/vector/knn/filtered-knn-search">Filtrar kNN</a>
+<a href="https://www.elastic.co/docs/reference/elasticsearch/rest-apis/retrievers/rrf-retriever">RRF retriever</a>
+</div>
+</section>
+
+<section id="carga" aria-labelledby="h-carga" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #FFCDB2; border: 1px solid #FFCDB2; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg></span>
+<h2 id="h-carga" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Carga de datos</h2>
+</div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Se pueden agregar películas una por una o importar un archivo. Un archivo se puede cargar en dos modos: append, que agrega las películas al catálogo, o bulk, que lo reemplaza. En los dos se valida todo el archivo antes de escribir.</p>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Formas de carga</h3>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Registro individual</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Formulario con los campos del mapping. <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> son obligatorios.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Archivo .json</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">La exportación del índice (objeto con <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">documents</code> y, opcionalmente, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">mapping</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">document_count</code>), un arreglo de películas o NDJSON.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Archivo .csv</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Texto UTF-8 con o sin BOM, separado por comas y con encabezado. Un CSV sin encabezado se rechaza. Las listas y los objetos anidados van como JSON dentro de la celda.</dd>
+</div>
+</dl>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Validaciones</h3>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Antes de subir</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Solo .json o .csv, sin dobles extensiones, de máximo 25 MB y con contenido de texto UTF-8. El servidor repite estas comprobaciones.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Contra el mapping</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Se revisa el archivo completo: cada campo debe existir en el mapping y tener su tipo (<code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">release_date</code> en yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">adult</code> booleano, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">keywords</code> y <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">belongs_to_collection</code> como objetos anidados). <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> no se puede repetir.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Si algo no coincide</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">La carga se detiene y no se importa ningún registro. La página muestra cada error con su registro, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code>, campo, valor recibido y lo que espera el mapping, y permite descargar el informe completo.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Advertencias</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Lo que no rompe el mapping no detiene la carga: por ejemplo, los valores vacíos dentro de una lista se omiten y los textos vacíos se guardan sin valor.</dd>
+</div>
+</dl>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Importación</h3>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Vectores</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Los tres vectores se generan siempre desde <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> con el servicio de inferencia de Elasticsearch (jina-embeddings-v5-omni-small, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">input_type</code> <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">ingest</code> y sin prefijo). Si el archivo trae <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</code> o <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</code>, se ignoran.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Modo append (por defecto)</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Las películas del archivo se agregan al índice vigente a través del alias, en lotes de 100 y sin índice temporal. Si un <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> ya existe, la película se reemplaza. Si un lote falla o se cancela la carga, lo ya escrito se queda y la página dice cuántas películas se agregaron.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Modo bulk</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Las películas del archivo se escriben en lotes de 100 en un índice temporal nuevo, que contiene solo las películas del archivo: el catálogo actual no se copia.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Publicación (bulk)</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Al terminar se comprueba el conteo y el alias <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">elastiflix-reloaded</code> pasa al índice nuevo en una sola operación atómica. El índice anterior se borra.</dd>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
+<dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Si falla (bulk)</dt>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Si Elasticsearch rechaza un lote o la comprobación no cuadra, se borra el índice temporal y el catálogo queda exactamente como estaba.</dd>
+</div>
+</dl>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 14px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6578">Documentación</span>
+<a href="https://www.elastic.co/docs/manage-data/data-store/aliases">Alias de índices</a>
+<a href="https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/dense-vector">Dense vector</a>
+</div>
+</section>
+
+<section id="catalogo" aria-labelledby="h-catalogo" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #FBE7A1; border: 1px solid #FBE7A1; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg></span>
+<h2 id="h-catalogo" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">El catálogo</h2>
+</div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">El catálogo está en <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">elastiflix-reloaded</code>, un alias que apunta al índice vigente: las búsquedas siempre leen el catálogo publicado. Una carga en bulk se publica de una sola vez o se descarta sin afectar a las búsquedas; una carga en append se suma al índice vigente lote por lote. Tiene 6 899 películas. Estas son todas sus propiedades, las de <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">elastiflix-reloaded-mapping.json</code>, agrupadas como en el formulario de «Cargar datos». La columna «Uso» dice dónde las usa la demo: la tarjeta es cada resultado de la búsqueda y el detalle, la página de cada película.</p>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Las dos últimas columnas dicen qué tiene que traer un archivo para cargarse, en modo append o bulk (las reglas son las mismas): en un <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">.json</code>, cada película trae <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">title</code> y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">plot</code> con valor; en un <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">.csv</code>, el encabezado tiene esas tres columnas y cada fila, su valor. Los demás campos son opcionales, pero si vienen deben respetar su tipo, y un campo o una columna que no está en estas tablas rechaza el archivo.</p>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Identificación y títulos</h3>
+<div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<thead>
+<tr style="background: #FFFFFF; text-align: left">
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">id</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Identificador de la película en TMDB; también es el <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">_id</code> del documento</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">imdb_id</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Identificador en IMDb, por ejemplo tt0120338; el detalle enlaza a su ficha</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">title</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">Título de la película</td>
+<td style="padding: 14px 18px; color: #585266">Full-text, Híbrida, tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">original_title</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">Título original</td>
+<td style="padding: 14px 18px; color: #585266">Full-text, Híbrida, tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">original_language</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Idioma original, como código ISO 639-1: en, es, fr…</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Sinopsis y textos</h3>
+<div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<thead>
+<tr style="background: #FFFFFF; text-align: left">
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">plot</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">Sinopsis; origen de los tres vectores</td>
+<td style="padding: 14px 18px; color: #585266">Tarjeta y detalle; origen de los vectores</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+<td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Sí</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">overview</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">Resumen de TMDB</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">tagline</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Frase promocional de la película</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">plot_256</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
+<td style="padding: 14px 18px; color: #585266">Vector de 256 dimensiones: los primeros 256 valores del de 1024, renormalizados</td>
+<td style="padding: 14px 18px; color: #585266">Vectorial, Híbrida</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">plot_512</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
+<td style="padding: 14px 18px; color: #585266">Vector de 512 dimensiones: los primeros 512 valores del de 1024, renormalizados</td>
+<td style="padding: 14px 18px; color: #585266">Vectorial, Híbrida</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">plot_1024</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">dense_vector</td>
+<td style="padding: 14px 18px; color: #585266">Vector de 1024 dimensiones de la sinopsis, generado con jina-embeddings-v5-omni-small</td>
+<td style="padding: 14px 18px; color: #585266">Vectorial, Híbrida</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+<td style="padding: 14px 18px; color: #585266">No; si viene, se ignora y se genera</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Clasificación, fecha y estado</h3>
+<div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<thead>
+<tr style="background: #FFFFFF; text-align: left">
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">genres</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Géneros, por ejemplo Drama, Comedy o Action</td>
+<td style="padding: 14px 18px; color: #585266">Filtro, tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">keywords</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">nested</td>
+<td style="padding: 14px 18px; color: #585266">Palabras clave de TMDB: una lista de objetos con <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">id</code> y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">name</code></td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">keywords.<wbr>id</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">long</td>
+<td style="padding: 14px 18px; color: #585266">Identificador de la palabra clave en TMDB</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">keywords.<wbr>name</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">La palabra clave, por ejemplo iceberg</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">rating</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Clasificación: G, PG, PG-13, R, NC-17 o NR</td>
+<td style="padding: 14px 18px; color: #585266">Filtro y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">release_date</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">date</td>
+<td style="padding: 14px 18px; color: #585266">Fecha de estreno en yyyy-MM-dd (medido en el catálogo original de 4 322 películas: de 1902 a 2023)</td>
+<td style="padding: 14px 18px; color: #585266">Filtro, tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">runtime</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">integer</td>
+<td style="padding: 14px 18px; color: #585266">Duración en minutos</td>
+<td style="padding: 14px 18px; color: #585266">Tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">status</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Estado de producción, por ejemplo Released</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">adult</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">boolean</td>
+<td style="padding: 14px 18px; color: #585266">Contenido para adultos (medido en el catálogo original de 4 322 películas: ninguna película del catálogo lo es)</td>
+<td style="padding: 14px 18px; color: #585266">Filtro y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">video</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">boolean</td>
+<td style="padding: 14px 18px; color: #585266">Si el registro es un video y no una película de cine</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Métricas</h3>
+<div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<thead>
+<tr style="background: #FFFFFF; text-align: left">
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">popularity</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
+<td style="padding: 14px 18px; color: #585266">Popularidad según TMDB</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">vote_average</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
+<td style="padding: 14px 18px; color: #585266">Promedio de los votos, de 0 a 10</td>
+<td style="padding: 14px 18px; color: #585266">Tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">vote_count</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">integer</td>
+<td style="padding: 14px 18px; color: #585266">Número de votos</td>
+<td style="padding: 14px 18px; color: #585266">Tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">user_score</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
+<td style="padding: 14px 18px; color: #585266">Puntuación de los usuarios</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">budget</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
+<td style="padding: 14px 18px; color: #585266">Presupuesto en USD; vacío o en 0 se muestra como N/A</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">revenue</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">float</td>
+<td style="padding: 14px 18px; color: #585266">Recaudación en USD; vacía o en 0 se muestra como N/A</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Reparto, producción y medios</h3>
+<div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<thead>
+<tr style="background: #FFFFFF; text-align: left">
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Campo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Tipo</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Contenido</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Uso</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Obligatorio en .csv</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">cast</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Reparto: una lista de nombres</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">production_companies</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Productoras</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">production_countries</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Países de producción</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">spoken_languages</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Idiomas hablados, con su nombre propio: English, Español, Français…</td>
+<td style="padding: 14px 18px; color: #585266">Filtro y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">poster_path</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">Ruta del póster en el CDN de imágenes de TMDB</td>
+<td style="padding: 14px 18px; color: #585266">Tarjeta y detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">backdrop_path</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Ruta de la imagen de fondo en el CDN de imágenes de TMDB</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">homepage</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Sitio web oficial; solo se enlaza si es una dirección http o https</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">belongs_to_collection</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">nested</td>
+<td style="padding: 14px 18px; color: #585266">Colección o saga a la que pertenece: un objeto con <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">name</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">poster_path</code> y <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">backdrop_path</code></td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">belongs_to_collection.<wbr>id</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">long</td>
+<td style="padding: 14px 18px; color: #585266">Identificador de la colección en TMDB</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">belongs_to_collection.<wbr>name</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">Nombre de la colección, por ejemplo Harry Potter Collection</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">belongs_to_collection.<wbr>poster_path</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">Ruta del póster de la colección</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">belongs_to_collection.<wbr>backdrop_path</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
+<td style="padding: 14px 18px; color: #585266">Ruta de la imagen de fondo de la colección</td>
+<td style="padding: 14px 18px; color: #585266">Detalle</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; va en el JSON de la celda de su objeto</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="creditos" aria-labelledby="h-creditos" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #F7C1D9; border: 1px solid #F7C1D9; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A8336B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6l6.1.9l-4.4 4.3l1 6.1L12 17l-5.4 2.9l1-6.1L3.2 9.5l6.1-.9z"></path></svg></span>
+<h2 id="h-creditos" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Créditos</h2>
+</div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Los datos de las películas y las imágenes de pósters vienen de TMDB (The Movie Database).</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding: 24px; background: #FFFFFF; border: 1px solid #E2D8CA; border-radius: 16px">
+<img src="/_blob/4e96d3ac3f014a61def0c6625b400e09" width="154" height="20" alt="The Movie Database (TMDB)" style="flex: none">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<p lang="en" style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3548">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+<p lang="es" style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.</p>
+</div>
+</div>
+</section>
+
+</div>
+</main>
+
+<footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">
+<span>Elastiflix-Movies Java · demo de búsqueda</span>
+<span>Índice: elastiflix-reloaded · 6 899 películas</span>
+</footer>
+
+<div aria-hidden="true" style="height: 10px; margin: 0 0 14px; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFCDB2","options":["#FFCDB2","#CDBDF6","#BDE8D7","#BFE0F6"]},"$preview":{"width":1440,"height":11200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#FFCDB2' };
+  }
+}
+</script>
+</body>
+</html>

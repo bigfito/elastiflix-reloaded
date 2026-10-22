@@ -1,0 +1,26 @@
+# Secretos y configuración local (nunca a git)
+.env
+.env.*
+!.env.example
+*.p12
+*.jks
+
+# Maven
+target/
+
+# IDE y herramientas
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.DS_Store
+
+# Archivos temporales de carga de datos
+uploads-tmp/
+*.log
+
+# Dependencias de las pruebas de navegador
+src/test/browser/node_modules
+src/test/browser/package-lock.json

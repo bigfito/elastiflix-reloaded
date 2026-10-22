@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es" th:lang="${shell != null ? shell.lang : #locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragments/head :: head(#{ingest.page.title})}"></th:block>
+</head>
+<body>
+<div class="page">
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+  <header th:replace="~{fragments/chrome :: header}"></header>
+  <main class="ingest">
+    <section class="intro">
+    <p class="eyebrow"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg><span th:text="#{ingest.eyebrow(${shell.alias})}">Índice elastiflix-reloaded</span></p>
+    <h1 th:text="#{ingest.heading}">Cargar datos</h1>
+    <p class="lead" th:utext="#{ingest.lead}">Agrega películas al catálogo una por una o importa un archivo. Los tres vectores de la sinopsis (<code>plot_256</code>, <code>plot_512</code>, <code>plot_1024</code>) se generan automáticamente a partir de <code>plot</code> con jina-embeddings-v5-omni-small.</p>
+    </section>
+    <p id="catalog-missing" class="mode-warning" role="status" th:if="${shell.catalogMissing}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z M12 10v4 M12 17h.01"></path></svg><span th:utext="#{ingest.noCatalog(${#strings.escapeXml(shell.alias)})}">El catálogo todavía no existe.</span></p>
+    <p class="notice-ok" role="status" th:if="${savedTitle != null}"><th:block th:text="#{ingest.savedOk}">Se guardó</th:block> <span th:text="${savedTitle}">título</span>.</p>
+    <ul class="alert" th:if="${rejected != null}">
+      <li th:each="issue : ${rejected}" th:text="|${issue.code} · ${issue.field} · ${issue.expected}.|">error</li>
+    </ul>
+
+    <div role="tablist" th:attr="aria-label=#{ingest.tabs.aria}" class="tabs">
+      <button type="button" class="tab is-on" role="tab" id="tab-single" data-tab="single" aria-selected="true" aria-controls="panel-single"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M5 12h14"></path></svg><span th:text="#{ingest.tabs.single}">Registro individual</span></button>
+      <button type="button" class="tab" role="tab" id="tab-json" data-tab="json" aria-selected="false" tabindex="-1" aria-controls="panel-file"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4H6a2 2 0 0 0-2 2v4l-1 2l1 2v4a2 2 0 0 0 2 2h2 M16 4h2a2 2 0 0 1 2 2v4l1 2l-1 2v4a2 2 0 0 1-2 2h-2"></path></svg><span th:text="#{ingest.tabs.json}">Importar .json</span></button>
+      <button type="button" class="tab" role="tab" id="tab-csv" data-tab="csv" aria-selected="false" tabindex="-1" aria-controls="panel-file"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z M4 10h16 M4 15h16 M10 4v16"></path></svg><span th:text="#{ingest.tabs.csv}">Importar .csv</span></button>
+    </div>
+
+    <form id="panel-single" th:action="@{/cargar/registro}" method="post" data-panel="single" class="record" role="tabpanel" aria-labelledby="tab-single">
+      <div class="card">
+        <h2 class="h3" th:text="#{ingest.single.section.id}">Identificación y títulos</h2>
+        <div class="grid">
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.id}">ID</th:block> <span class="req">*</span> <code>id</code></span><input class="inp" name="id" required><span class="hint" th:text="#{ingest.single.id.hint}">Si el id ya existe, la película se reemplaza.</span></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.imdb}">ID de IMDb</th:block> <code>imdb_id</code></span><input class="inp" name="imdb_id"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.title}">Título</th:block> <span class="req">*</span> <code>title</code></span><input class="inp" name="title" required></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.originalTitle}">Título original</th:block> <code>original_title</code></span><input class="inp" name="original_title"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.originalLanguage}">Idioma original</th:block> <code>original_language</code></span><input class="inp" name="original_language" placeholder="es, en, ja…"></label>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="h3" th:text="#{ingest.single.section.plot}">Sinopsis y textos</h2>
+        <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.plot}">Sinopsis</th:block> <span class="req">*</span> <code>plot</code></span><textarea class="inp" name="plot" rows="4" required></textarea><span class="hint" th:text="#{ingest.single.plot.hint}">Obligatoria: de aquí se generan los tres vectores de la búsqueda vectorial.</span></label>
+        <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.overview}">Resumen</th:block> <code>overview</code></span><textarea class="inp" name="overview" rows="3"></textarea></label>
+        <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.tagline}">Frase promocional</th:block> <code>tagline</code></span><input class="inp" name="tagline"></label>
+      </div>
+      <div class="card">
+        <h2 class="h3" th:text="#{ingest.single.section.rating}">Clasificación, fecha y estado</h2>
+        <div class="grid">
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.genres}">Géneros</th:block> <code>genres</code></span><input class="inp" name="genres" th:attr="placeholder=#{ingest.single.genres.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.keywords}">Palabras clave</th:block> <code>keywords.name</code></span><input class="inp" name="keywords" th:attr="placeholder=#{ingest.single.keywords.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.rating}">Clasificación</th:block> <code>rating</code></span>
+            <select class="inp" name="rating"><option value="" th:text="#{ingest.single.rating.none}">Sin clasificación</option><option>G</option><option>PG</option><option>PG-13</option><option>R</option><option>NC-17</option><option>NR</option></select>
+          </label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.releaseDate}">Fecha de estreno</th:block> <code>release_date</code></span><input class="inp" type="date" name="release_date"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.runtime}">Duración (min)</th:block> <code>runtime</code></span><input class="inp" type="number" name="runtime" min="0" step="1"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.status}">Estado</th:block> <code>status</code></span><input class="inp" name="status" list="status-list" placeholder="Released"></label>
+          <datalist id="status-list"><option value="Released"></option><option value="Post Production"></option><option value="In Production"></option></datalist>
+        </div>
+        <div class="checks-row">
+          <label class="chk"><input type="checkbox" name="adult" value="true"><th:block th:text="#{ingest.single.adult}">Contenido para adultos</th:block> <code>adult</code></label>
+          <label class="chk"><input type="checkbox" name="video" value="true"><th:block th:text="#{ingest.single.video}">Es un video</th:block> <code>video</code></label>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="h3" th:text="#{ingest.single.section.metrics}">Métricas</h2>
+        <div class="grid">
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.popularity}">Popularidad</th:block> <code>popularity</code></span><input class="inp" type="number" name="popularity" step="any"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.voteAverage}">Calificación promedio</th:block> <code>vote_average</code></span><input class="inp" type="number" name="vote_average" step="any"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.voteCount}">Número de votos</th:block> <code>vote_count</code></span><input class="inp" type="number" name="vote_count" min="0" step="1"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.userScore}">Puntuación de usuarios</th:block> <code>user_score</code></span><input class="inp" type="number" name="user_score" step="any"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.budget}">Presupuesto</th:block> <code>budget</code></span><input class="inp" type="number" name="budget" step="any"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.revenue}">Recaudación</th:block> <code>revenue</code></span><input class="inp" type="number" name="revenue" step="any"></label>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="h3" th:text="#{ingest.single.section.cast}">Reparto, producción y medios</h2>
+        <div class="grid">
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.cast}">Reparto</th:block> <code>cast</code></span><input class="inp" name="cast" th:attr="placeholder=#{ingest.single.cast.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.companies}">Productoras</th:block> <code>production_companies</code></span><input class="inp" name="production_companies" th:attr="placeholder=#{ingest.single.companies.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.countries}">Países</th:block> <code>production_countries</code></span><input class="inp" name="production_countries" th:attr="placeholder=#{ingest.single.countries.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.languages}">Idiomas hablados</th:block> <code>spoken_languages</code></span><input class="inp" name="spoken_languages" th:attr="placeholder=#{ingest.single.languages.placeholder}"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.poster}">Póster</th:block> <code>poster_path</code></span><input class="inp" name="poster_path"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.backdrop}">Imagen de fondo</th:block> <code>backdrop_path</code></span><input class="inp" name="backdrop_path"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.homepage}">Sitio web</th:block> <code>homepage</code></span><input class="inp" type="url" name="homepage"></label>
+          <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.collection}">Colección</th:block> <code>belongs_to_collection.name</code></span><input class="inp" name="collection"></label>
+        </div>
+      </div>
+      <div class="actions">
+        <p class="hint"><span class="req">*</span> <th:block th:text="#{ingest.single.requiredFields}">Campos obligatorios.</th:block></p>
+        <div class="buttons">
+          <button type="reset" class="btn-ghost" th:text="#{ingest.single.clear}">Limpiar</button>
+          <button type="submit" class="btn-primary"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l9-10"></path></svg><th:block th:text="#{ingest.single.save}">Guardar película</th:block></button>
+        </div>
+      </div>
+    </form>
+
+    <section id="panel-file" data-panel="file" role="tabpanel" aria-labelledby="tab-json" hidden
+             th:attr="data-max-bytes=${maxFileBytes},data-max-label=${maxFileLabel},
+                      data-title-json=#{ingest.file.json.title},data-title-csv=#{ingest.file.csv.title},
+                      data-drop-json=#{ingest.file.drop.json},data-drop-csv=#{ingest.file.drop.csv},
+                      data-only-json=#{ingest.file.drop.jsonOnly},data-only-csv=#{ingest.file.drop.csvOnly},
+                      data-hint-json=#{ingest.file.hint.json},data-hint-csv=#{ingest.file.hint.csv},
+                      data-msg-network-error=#{ingest.msg.networkError},data-msg-poll-retry=#{ingest.msg.pollRetry},
+                      data-msg-rejected=#{ingest.msg.rejected},data-msg-utf8-error=#{ingest.msg.utf8Error},
+                      data-msg-ext-error=#{ingest.msg.extError},data-msg-multi-ext-error=#{ingest.msg.multiExtError},
+                      data-msg-size-error=#{ingest.msg.sizeError},data-msg-header-error=#{ingest.msg.headerError},
+                      data-msg-field-for=#{ingest.mapping.fieldFor},
+                      data-state-done=#{ingest.step.state.done},data-state-current=#{ingest.step.state.current},
+                      data-state-failed=#{ingest.step.state.failed},data-state-ready=#{ingest.step.state.ready},
+                      data-state-pending=#{ingest.step.state.pending}">
+      <div class="card" id="mode-card" th:attr="data-no-catalog=${shell.catalogMissing}">
+        <h2 class="h3" id="mode-title" th:text="#{ingest.mode.title}">Modo de carga</h2>
+        <div class="modes" role="radiogroup" aria-labelledby="mode-title">
+          <label class="mode" th:classappend="${shell.catalogMissing} ? '' : 'is-on'"><input type="radio" name="modo" value="append" th:checked="${!shell.catalogMissing}" th:disabled="${shell.catalogMissing}"><span class="mode-body"><span class="mode-label"><th:block th:text="#{ingest.mode.append.label}">Agregar al catálogo</th:block> <code>append</code></span><span class="mode-desc" th:text="#{ingest.mode.append.desc}">Las películas del archivo se agregan al índice actual.</span></span></label>
+          <label class="mode" th:classappend="${shell.catalogMissing} ? 'is-on' : ''"><input type="radio" name="modo" value="bulk" th:checked="${shell.catalogMissing}"><span class="mode-body"><span class="mode-label"><th:block th:text="#{ingest.mode.bulk.label}">Reemplazar el catálogo</th:block> <code>bulk</code></span><span class="mode-desc" th:text="#{ingest.mode.bulk.desc}">Se crea un índice nuevo solo con las películas del archivo.</span></span></label>
+        </div>
+        <p id="bulk-warning" class="mode-warning" hidden><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z M12 10v4 M12 17h.01"></path></svg><span th:text="#{ingest.mode.bulk.warning(${shell.movies})}">Con bulk, el catálogo actual se borra al publicar.</span></p>
+      </div>
+
+      <div class="card">
+        <h2 class="h3" id="file-title" th:text="#{ingest.file.json.title}">Archivo JSON</h2>
+        <form id="file-form" novalidate>
+          <label class="drop" id="drop" for="archivo">
+            <svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>
+            <span id="drop-title" class="drop-title" th:text="#{ingest.file.drop.json}">Arrastra tu archivo .json aquí o haz clic para elegirlo</span>
+            <span class="chips"><span id="drop-only" th:text="#{ingest.file.drop.jsonOnly}">Solo .json</span><span th:text="|#{ingest.file.drop.max(${maxFileLabel})}|">Máximo 150 MB</span><span th:text="#{ingest.file.drop.utf8}">Texto UTF-8</span></span>
+            <span class="hint" id="file-hint" th:text="#{ingest.file.hint.json}">El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.</span>
+          </label>
+          <input id="archivo" name="archivo" type="file" accept=".json,application/json">
+          <div id="file-chip" class="file-chip" hidden>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F4A5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z M14 3v4h4"></path></svg>
+            <span class="file-text"><span id="file-name" class="file-name"></span><span id="file-meta" class="file-meta"></span></span>
+            <label for="archivo" class="change" th:text="#{ingest.file.change}">Cambiar archivo</label>
+          </div>
+          <div class="grid" data-csv hidden>
+            <label class="fld"><span class="lbl" th:text="#{ingest.file.csv.separator}">Separador</span>
+              <select class="inp" name="separador">
+                <option value="," th:text="#{ingest.file.csv.sep.comma}">Coma ( , )</option>
+                <option value=";" th:text="#{ingest.file.csv.sep.semicolon}">Punto y coma ( ; )</option>
+                <option value="tab" th:text="#{ingest.file.csv.sep.tab}">Tabulador</option>
+              </select>
+            </label>
+            <label class="fld"><span class="lbl" th:text="#{ingest.file.csv.encoding}">Codificación</span>
+              <select class="inp" name="codificacion">
+                <option th:text="#{ingest.file.csv.enc.utf8bom}">UTF-8 con BOM</option>
+                <option th:text="#{ingest.file.csv.enc.utf8}">UTF-8</option>
+              </select>
+            </label>
+            <label class="chk chk-end"><input type="checkbox" name="encabezado" value="true" checked><th:block th:text="#{ingest.file.csv.header}">La primera fila contiene los nombres de columna</th:block></label>
+          </div>
+          <div class="buttons end"><button type="submit" id="file-submit" class="btn-primary" disabled><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg><th:block th:text="#{ingest.file.submit}">Validar archivo</th:block></button></div>
+        </form>
+        <p id="server-error" class="alert" role="alert" hidden></p>
+      </div>
+
+      <div class="card">
+        <h2 class="h3" th:text="#{ingest.steps.title}">Proceso de carga</h2>
+        <ol class="steps" id="steps">
+          <li data-step="1"><span class="mark" aria-hidden="true">1</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step1.title}">Comprobación en el navegador</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step1.detail(${maxFileLabel})}">Extensión, tipo y tamaño (máximo 150 MB) antes de subir nada.</span></span></li>
+          <li data-step="2"><span class="mark" aria-hidden="true">2</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step2.title}">Subida al servidor</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step2.detail}">El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.</span></span></li>
+          <li data-step="3"><span class="mark" aria-hidden="true">3</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step3.title}">Validación contra el mapping</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step3.detail}">Tipo de cada campo de cada registro; si algo no coincide, se detiene todo.</span></span></li>
+          <li data-step="4" th:attr="data-title-append=#{ingest.step4.append.title},data-title-bulk=#{ingest.step4.title},data-detail-append=#{ingest.step4.append.detail(${batchSize})},data-detail-bulk=#{ingest.step4.detail(${batchSize})}"><span class="mark" aria-hidden="true">4</span><span class="step-body"><span class="step-title"><span id="step4-title" th:text="#{ingest.step4.append.title}">Escritura en el catálogo</span> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" id="step4-detail" th:text="#{ingest.step4.append.detail(${batchSize})}">Los registros se agregan al índice vigente por el alias, en lotes de 100.</span></span></li>
+          <li data-step="5" hidden><span class="mark" aria-hidden="true">5</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step5.title}">Publicación</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step5.detail(${shell.alias})}">El alias <span th:text="${shell.alias}">elastiflix-reloaded</span> pasa al índice nuevo y el índice anterior se borra, en una sola operación.</span></span></li>
+        </ol>
+      </div>
+
+      <div id="file-block" class="block" role="alert" hidden>
+        <h2><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B9472A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M9 9l6 6 M15 9l-6 6"></path></svg><th:block th:text="#{ingest.block.title}">No se puede cargar este archivo</th:block></h2>
+        <p th:text="#{ingest.block.text}">El archivo se rechazó en el navegador, antes de subirlo, así que no salió de tu equipo ni se importó nada.</p>
+        <ul id="file-reasons"></ul>
+        <p class="hint" th:text="#{ingest.block.hint(${maxFileLabel})}">Antes de subir se comprueba la extensión y el tipo (.json o .csv, sin dobles extensiones), el tamaño (máximo 150 MB) y que el contenido sea texto UTF-8. El servidor repite estas comprobaciones al recibirlo.</p>
+      </div>
+
+      <div id="columns-card" class="card" hidden>
+        <h2 class="h3" th:text="#{ingest.columns.title}">Correspondencia de columnas</h2>
+        <p class="hint" id="mapping-note"></p>
+        <div class="table-wrap">
+          <table class="data-table columns">
+            <thead><tr><th scope="col" th:text="#{ingest.columns.th.csv}">Columna del CSV</th><th scope="col" th:text="#{ingest.columns.th.index}">Campo del índice</th><th scope="col" th:text="#{ingest.columns.th.content}">Contenido de la celda</th><th scope="col" th:text="#{ingest.columns.th.status}">Estado</th></tr></thead>
+            <tbody id="column-rows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="job" class="card" hidden>
+        <h2 class="h3" th:text="#{ingest.job.title}">Validación contra el mapping del índice</h2>
+        <div class="counts">
+          <div><p th:text="#{ingest.job.count.read}">Registros leídos</p><p id="count-read">0</p></div>
+          <div><p th:text="#{ingest.job.count.valid}">Válidos</p><p id="count-valid">0</p></div>
+          <div><p id="count-replace-label" th:text="#{ingest.job.count.replace}">Reemplazarán existentes</p><p id="count-replace">0</p></div>
+          <div><p th:text="#{ingest.job.count.errors}">Errores</p><p id="count-errors">0</p></div>
+        </div>
+        <div id="job-stopped" class="stopped" role="alert" hidden>
+          <h3><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B9472A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M9 9l6 6 M15 9l-6 6"></path></svg><th:block th:text="#{ingest.job.stopped.title}">La carga se detuvo: los datos no coinciden con el mapping del índice</th:block></h3>
+          <p th:utext="#{ingest.job.stopped.lead}">Se revisó el archivo completo y se encontraron <strong id="error-summary">0 errores</strong>. <strong>No se importó ningún registro.</strong> Corrige el archivo y vuelve a cargarlo; la carga solo continúa cuando todo el archivo coincide con el mapping.</p>
+          <div class="table-wrap">
+            <table class="data-table errors">
+              <thead><tr><th scope="col" id="location-label" th:text="#{ingest.job.th.record}">Registro</th><th scope="col" th:text="#{ingest.job.th.id}">id</th><th scope="col" th:text="#{ingest.job.th.field}">Campo</th><th scope="col" th:text="#{ingest.job.th.received}">Se recibió</th><th scope="col" th:text="#{ingest.job.th.expected}">El mapping espera</th></tr></thead>
+              <tbody id="job-errors"></tbody>
+            </table>
+          </div>
+          <div class="report-row">
+            <p class="hint" id="error-range" th:text="#{ingest.job.errorRange('0', '0')}">Mostrando 0 de 0 errores.</p>
+            <a id="job-report" class="btn-report" href="#"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12 M7 11l5 5l5-5 M4 20h16"></path></svg><th:block th:text="#{ingest.job.report.download}">Descargar informe completo (.csv)</th:block></a>
+          </div>
+        </div>
+        <div id="job-ok" hidden>
+          <h3 class="list-title" th:text="#{ingest.job.checks.title}">Comprobaciones superadas</h3>
+          <ul id="job-checks" class="passed"></ul>
+          <h3 class="list-title" id="warnings-title" th:text="#{ingest.job.warnings.title}">Advertencias · no detienen la carga</h3>
+          <ul id="job-warnings" class="warned"></ul>
+        </div>
+        <p id="job-failure" class="alert" role="alert" hidden></p>
+        <p class="hint" th:utext="#{ingest.job.rules.hint}">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code>release_date</code> en yyyy-MM-dd, <code>adult</code> booleano, <code>keywords</code> y <code>belongs_to_collection</code> como objetos anidados); <code>id</code>, <code>title</code> y <code>plot</code> son obligatorios y <code>id</code> no se puede repetir. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. Si un <code>id</code> ya existe en el índice, el registro reemplaza a la película existente.</p>
+      </div>
+
+      <div id="job-import-card" class="card" hidden>
+        <h2 class="h3" th:text="#{ingest.import.title}">Importación</h2>
+        <p id="import-text" class="body-text"></p>
+        <div id="progress" role="progressbar" th:attr="aria-label=#{ingest.import.progress}" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0"><span></span></div>
+        <p class="hint" id="progress-text"></p>
+        <div class="buttons end">
+          <button type="button" id="job-cancel" class="btn-ghost" disabled th:text="#{ingest.import.cancel}">Cancelar importación</button>
+          <button type="button" id="job-import" class="btn-primary" disabled><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg><span id="job-import-label" th:text="#{ingest.import.blocked}">Importación bloqueada</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer th:replace="~{fragments/chrome :: footer}"></footer>
+  <div th:replace="~{fragments/chrome :: stripe}"></div>
+</div>
+<script th:src="@{/js/ingest.js}"></script>
+</body>
+</html>
