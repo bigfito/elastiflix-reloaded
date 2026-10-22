@@ -1580,7 +1580,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - [x] **13.0** Diseño técnico en `docs/diseno/13.md`.
   - [x] **13.1** Bulk y registro individual crean el catálogo cuando falta (`CatalogIndex.publish` con anterior nulo, `CatalogAliases.currentIndex`, `FirstCatalog`); append bloqueado con `EFX-IMP-010` en la validación y en `AppendJob`. Pruebas unitarias y `FirstCatalogIT` sobre un alias propio vacío.
   - [x] **13.2** Web: aviso en «Cargar datos», append deshabilitado y bulk marcado sin catálogo; cabecera y pie con «el catálogo todavía no existe», en español e inglés. Pruebas MockMvc y de navegador.
-  - [ ] **13.3** Verificación de fase (`./mvnw clean verify -Pit`, navegador, la app contra un alias vacío), documentación (`AGENTS.md`, README «Puesta en marcha», PLAN, diseños 1 y 3), `progreso/13.md` e `INDICE.md`.
+  - [x] **13.3** Verificación de fase (`./mvnw clean verify -Pit`, navegador, la app contra un alias vacío), documentación (`AGENTS.md`, README «Puesta en marcha», PLAN, diseños 1 y 3), `progreso/13.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 
