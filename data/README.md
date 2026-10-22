@@ -39,8 +39,12 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
 - Los campos son los del mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «Acerca de» › «El catálogo»
   describe cada uno.
 
-Los datos y los pósters de las películas vienen de [TMDB](https://www.themoviedb.org/). *This product uses the TMDB
-API but is not endorsed or certified by TMDB.*
+## Créditos y aviso de uso
+
+Estos datos se publican con fines exclusivamente académicos y demostrativos, sin ningún lucro comercial. Los créditos
+de la información corresponden a [TMDB](https://www.themoviedb.org/) (datos de las películas y pósters) y a
+[Wikipedia](https://www.wikipedia.org/) (textos de las películas, bajo la licencia
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es)). *This product uses the TMDB API but is not endorsed or certified by TMDB.*
 
 ---
 
@@ -73,5 +77,9 @@ you prefer.
 - The fields are those of the mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «About the demo» › «The
   catalog» describes each one.
 
-Movie data and posters come from [TMDB](https://www.themoviedb.org/). *This product uses the TMDB API but is not
-endorsed or certified by TMDB.*
+### Credits and terms of use
+
+This data is published for academic and demonstration purposes only, with no commercial profit. Credit for the
+information goes to [TMDB](https://www.themoviedb.org/) (movie data and posters) and to
+[Wikipedia](https://www.wikipedia.org/) (movie texts, under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license). *This product uses
+the TMDB API but is not endorsed or certified by TMDB.*

@@ -32,6 +32,11 @@ Every result shows where its score comes from, so you can see why a movie ranks 
 another. The app also lets you **load and validate** movies (one at a time or from `.json` and `.csv` files) and
 generates the vector of each plot with the Elasticsearch inference service.
 
+> [!NOTE]
+> **A project for academic and demonstration purposes only.** It does not seek or intend any commercial profit. The
+> movie information belongs to its sources, [TMDB](https://www.themoviedb.org/) and [Wikipedia](https://www.wikipedia.org/); see
+> [Credits and terms of use](#-credits-and-terms-of-use).
+
 ## 📚 Contents
 
 - [✨ What you can do](#-what-you-can-do)
@@ -48,7 +53,7 @@ generates the vector of each plot with the Elasticsearch inference service.
 - [✅ Code quality](#-code-quality)
 - [📸 Screenshots](#-screenshots)
 - [📖 Documentation](#-documentation)
-- [🙏 Credits](#-credits)
+- [🙏 Credits and terms of use](#-credits-and-terms-of-use)
 
 ---
 
@@ -517,11 +522,22 @@ Full pages with the app connected to a 6,899-movie catalog, in Spanish and Engli
 [dense_vector](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/dense-vector) ·
 [alias](https://www.elastic.co/docs/manage-data/data-store/aliases)
 
-## 🙏 Credits
+## 🙏 Credits and terms of use
 
-Movie data and posters come from [TMDB](https://www.themoviedb.org/).
-*This product uses the TMDB API but is not endorsed or certified by TMDB.* The attribution appears in the footer of
-every page and in «About» › «Credits».
+**Academic and demonstration purposes.** Elastiflix-Movies Java is an academic project that demonstrates full-text,
+vector, and hybrid search techniques. It is not a commercial product: it is not sold, it shows no advertising, and in
+no way does it intend to make a commercial profit from itself or from the information it uses.
+
+**Information credits.** Credit for the movie information goes to:
+
+- **[TMDB](https://www.themoviedb.org/)** (The Movie Database): movie data and posters.
+  *This product uses the TMDB API but is not endorsed or certified by TMDB.* The attribution also appears in the footer of
+  every page and in «About the demo» › «Credits».
+- **[Wikipedia](https://www.wikipedia.org/)**: movie texts. Wikipedia content is published under the
+  [Creative Commons Attribution-ShareAlike 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
+
+Names, trademarks, posters, and texts belong to their respective owners. This project is not affiliated with or
+endorsed by TMDB or Wikipedia.
 
 ---
 

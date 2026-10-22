@@ -32,6 +32,11 @@ Cada resultado muestra de dónde sale su puntuación, así que puedes ver por qu
 modo y más abajo en otro. La aplicación también deja **cargar y validar** películas (una por una o desde archivos
 `.json` y `.csv`) y genera los vectores de cada sinopsis con el servicio de inferencia de Elasticsearch.
 
+> [!NOTE]
+> **Proyecto con fines exclusivamente académicos y demostrativos.** No persigue ni pretende obtener ningún lucro
+> comercial. La información de las películas pertenece a sus fuentes, [TMDB](https://www.themoviedb.org/) y
+> [Wikipedia](https://www.wikipedia.org/); ver [Créditos y aviso de uso](#-créditos-y-aviso-de-uso).
+
 ## 📚 Contenido
 
 - [✨ Qué puedes hacer](#-qué-puedes-hacer)
@@ -48,7 +53,7 @@ modo y más abajo en otro. La aplicación también deja **cargar y validar** pel
 - [✅ Calidad de código](#-calidad-de-código)
 - [📸 Capturas](#-capturas)
 - [📖 Documentación](#-documentación)
-- [🙏 Créditos](#-créditos)
+- [🙏 Créditos y aviso de uso](#-créditos-y-aviso-de-uso)
 
 ---
 
@@ -520,11 +525,22 @@ Páginas completas con la aplicación conectada a un catálogo de 6 899 películ
 [dense_vector](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/dense-vector) ·
 [alias](https://www.elastic.co/docs/manage-data/data-store/aliases)
 
-## 🙏 Créditos
+## 🙏 Créditos y aviso de uso
 
-Los datos y los pósters de las películas vienen de [TMDB](https://www.themoviedb.org/).
-*This product uses the TMDB API but is not endorsed or certified by TMDB.* La atribución aparece en el pie de cada
-página y en «Acerca de» › «Créditos».
+**Fines académicos y demostrativos.** Elastiflix-Movies Java es un proyecto académico que demuestra técnicas de
+búsqueda full-text, vectorial e híbrida. No es un producto comercial: no se vende, no muestra publicidad y de ninguna
+manera pretende obtener un lucro comercial con él ni con la información que usa.
+
+**Créditos de la información.** Los créditos de la información de las películas corresponden a:
+
+- **[TMDB](https://www.themoviedb.org/)** (The Movie Database): datos de las películas y pósters.
+  *This product uses the TMDB API but is not endorsed or certified by TMDB.* La atribución también aparece en el pie de
+  cada página y en «Acerca de» › «Créditos».
+- **[Wikipedia](https://www.wikipedia.org/)**: textos de las películas. El contenido de Wikipedia se publica bajo la licencia
+  [Creative Commons Atribución-CompartirIgual 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es).
+
+Los nombres, marcas, pósters y textos pertenecen a sus respectivos titulares. Este proyecto no está afiliado ni
+avalado por TMDB ni por Wikipedia.
 
 ---
 
