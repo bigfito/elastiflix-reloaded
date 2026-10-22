@@ -52,6 +52,7 @@
   - [Requerimiento 3 — Archivos de carga de hasta 25 MB](#requerimiento-3--archivos-de-carga-de-hasta-25-mb)
   - [Requerimiento 4 — Carga en modo append o bulk](#requerimiento-4--carga-de-archivos-en-modo-append-o-bulk)
   - [Requerimiento 5 — Índice y catálogo completo en «Acerca de»](#requerimiento-5--índice-y-catálogo-completo-en-acerca-de)
+  - [Requerimiento 6 — Campos obligatorios de cada formato en «Acerca de»](#requerimiento-6--campos-obligatorios-de-cada-formato-en-acerca-de)
 - [Variables de entorno](#variables-de-entorno-envexample)
 - [Referencias](#referencias)
 
@@ -1547,6 +1548,20 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - [x] **11.1** Índice de «Acerca de»: lateral fijo con la sección visible marcada (`about.js`), plegable en pantallas angostas, en español e inglés. Pruebas MockMvc y de navegador.
   - [x] **11.2** Catálogo completo: `CatalogFields` con todos los campos y subcampos del mapping en cinco grupos, textos en español e inglés y una prueba que compara las filas con `elasticsearch/elastiflix-reloaded-mapping.json`.
   - [x] **11.3** Mockups `About.dc.html` y `About-en.dc.html`, capturas de «Acerca de», README, verificación de fase (`./mvnw clean verify`, navegador), `progreso/11.md` e `INDICE.md`.
+
+### Requerimiento 6 — Campos obligatorios de cada formato en «Acerca de»
+
+- **Origen:** pedido de Adolfo del 2026-10-22: «En la página de "Acerca de" en la sección del catálogo, quiero que añadas 2 columnas a la tabla. Una columna que indique si el campo del catálogo es requerido al momento de hacer el import del .json y similarmente otra columna que indique si el campo es requerido al momento de hacer el import del .csv. De este modo, el usuario que lea este apartado podrá saber y entender qué campos debe tener su .json o su .csv para poder hacer una operación de import sea en modo reemplazo o modo append.»
+- **Qué cambia:** cada tabla de «Acerca de» › «El catálogo» suma «Obligatorio en .json» y «Obligatorio en .csv»,
+  con las reglas del validador: `id`, `title` y `plot` son obligatorios en los dos formatos (en CSV, como columnas
+  del encabezado y con valor en cada fila); los vectores se ignoran si vienen; los subcampos de los objetos anidados
+  van, en CSV, dentro del JSON de la celda de su objeto; el resto es opcional. Las reglas son las mismas en append y
+  en bulk.
+- **Camino:** el de la fase 11 (implementar directo con su PR; mockups `About.dc.html` y `About-en.dc.html` al final).
+- **Fase 12 — Tareas** (rama `fase-12-requeridos`; diseño en `docs/diseno/12.md`, sin compuerta 🔒):
+  - [x] **12.0** Diseño técnico en `docs/diseno/12.md`.
+  - [ ] **12.1** Columnas «Obligatorio en .json» y «Obligatorio en .csv» en las cinco tablas, con la nota de la sección, en español e inglés. `CatalogRequirementsTest` contra el validador real y pruebas MockMvc.
+  - [ ] **12.2** Mockups, capturas de «Acerca de», README, verificación de fase (`./mvnw clean verify`, navegador), `progreso/12.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
 

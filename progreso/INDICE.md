@@ -7,14 +7,14 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 11 — Índice y catálogo completo en «Acerca de» (Requerimiento 5)
-- **Estado de la fase:** terminada y fusionada en `main` (PR #29, `b8b5292`)
-- **Ramas:** `main` (la rama `fase-11-acerca` se borró tras la fusión)
-- **Diseño:** [`docs/diseno/11.md`](../docs/diseno/11.md)
-- **Estado:** [`progreso/11.md`](11.md)
-- **Tarea actual:** ninguna
-- **Próximo paso:** ninguno pendiente: los requerimientos 1 a 5 de PLAN están en `main` y las capturas, al día y aprobadas.
-- **Última actualización:** 2026-10-21 22:45 UTC
+- **Fase actual:** 12 — Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6)
+- **Estado de la fase:** en curso
+- **Ramas:** `fase-12-requeridos` (sale de `main`, `8b916fa`)
+- **Diseño:** [`docs/diseno/12.md`](../docs/diseno/12.md)
+- **Estado:** [`progreso/12.md`](12.md)
+- **Tarea actual:** 12.1 Columnas de obligatorios
+- **Próximo paso:** sumar las columnas «Obligatorio en .json» y «Obligatorio en .csv» según `docs/diseno/12.md` (tarea 12.1).
+- **Última actualización:** 2026-10-22 15:04 UTC
 
 ## Fases
 
@@ -38,6 +38,7 @@
 | 9 | Archivos de carga de hasta 25 MB (Requerimiento 3) | — | terminado | `progreso/9.md` | `./mvnw clean verify -Pit` en verde (637 unitarias: core 78, search 76, ingest 215, web 268; 32 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 19 de 19, el 2026-10-21. Fusionada en `main` (`1047a65`, PR #27); rama `fase-9-25mb` borrada en local y en el remoto. |
 | 10 | Carga en modo append o bulk (Requerimiento 4) | — | terminado | `progreso/10.md` | `./mvnw clean verify -Pit` en verde (670 unitarias: core 80, search 76, ingest 236, web 278; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 24 de 24, el 2026-10-21. Fusionada en `main` (`520768a`, PR #28); rama `fase-10-modos` borrada en local y en el remoto. |
 | 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | terminado | `progreso/11.md` | `./mvnw clean verify -Pit` en verde (677 unitarias: core 80, search 76, ingest 236, web 285; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-21. Fusionada en `main` (`b8b5292`, PR #29); rama `fase-11-acerca` borrada en local y en el remoto. |
+| 12 | Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6) | — | en curso | `progreso/12.md` | — |
 
 ## Aprobaciones del usuario
 
@@ -104,6 +105,7 @@
 | 2026-10-21 | Cambio del mockup aprobado: «El catálogo» con los dos modos | Adolfo pidió «Sí, corrige la frase de «El catálogo» en «Acerca de» y en los dos mockups para que valga también en append.» En `About.dc.html`, `About-en.dc.html` y la página, la frase dice ahora que las búsquedas siempre leen el catálogo publicado, que bulk se publica de una sola vez o se descarta y que append se suma lote por lote. Las capturas de «Acerca de» se reemplazaron por las mismas con esa frase. |
 | 2026-10-21 | Requerimiento 5: índice y catálogo completo en «Acerca de» (Fase 11) | Adolfo pidió «Me gustaría que la página de "Acerca de" tuviera un índice que facilitara la navegación y desplazamiento por la página. Adicionalmente, la sección que hace mención al catálogo siento que esta incompleta. Debería tener una descripción completa del catálogo con todos los atributos que lo componen.» Eligió el índice lateral fijo, el catálogo en tablas por grupo con todos los atributos e implementar directo, sin mockups previos (los mockups se actualizan al final). Rama `fase-11-acerca`. |
 | 2026-10-21 | Cierre y fusión de la Fase 11 (Requerimiento 5) | Adolfo respondió «Apruebo las capturas y los mockups nuevos de «Acerca de»; fusiona el PR #29 en main, deja local y remoto al día y borra la rama.» Aprobó las capturas nuevas de «Acerca de» y los mockups `About.dc.html` y `About-en.dc.html`. PR #29 fusionado con el merge commit `b8b5292` a las 22:44 UTC; la rama `fase-11-acerca` se borró en local y en el remoto. |
+| 2026-10-22 | Requerimiento 6: campos obligatorios de cada formato en «Acerca de» (Fase 12) | Adolfo pidió «En la página de "Acerca de" en la sección del catálogo, quiero que añadas 2 columnas a la tabla. Una columna que indique si el campo del catálogo es requerido al momento de hacer el import del .json y similarmente otra columna que indique si el campo es requerido al momento de hacer el import del .csv. De este modo, el usuario que lea este apartado podrá saber y entender qué campos debe tener su .json o su .csv para poder hacer una operación de import sea en modo reemplazo o modo append.» Mismo camino que la fase 11: implementar directo con su PR y los mockups al final. Rama `fase-12-requeridos`. |
 
 
 ## Catálogo vigente
