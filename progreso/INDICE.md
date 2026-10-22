@@ -12,9 +12,9 @@
 - **Ramas:** `fase-12-requeridos` (sale de `main`, `8b916fa`)
 - **Diseño:** [`docs/diseno/12.md`](../docs/diseno/12.md)
 - **Estado:** [`progreso/12.md`](12.md)
-- **Tarea actual:** 12.1 Columnas de obligatorios
-- **Próximo paso:** sumar las columnas «Obligatorio en .json» y «Obligatorio en .csv» según `docs/diseno/12.md` (tarea 12.1).
-- **Última actualización:** 2026-10-22 15:04 UTC
+- **Tarea actual:** 12.2 Mockups, capturas, documentación y verificación
+- **Próximo paso:** sumar las dos columnas y la nota a `About.dc.html` y `About-en.dc.html`, volver a tomar las capturas de «Acerca de», actualizar el README y correr `./mvnw clean verify -Pit` y las pruebas de navegador.
+- **Última actualización:** 2026-10-22 15:07 UTC
 
 ## Fases
 

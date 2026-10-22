@@ -1,6 +1,7 @@
 package com.bigfito.elastiflix.web.about;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Todos los campos del mapping {@code elastiflix-reloaded}, como los describe «Acerca de» › «El catálogo»
@@ -9,6 +10,11 @@ import java.util.List;
  * <p>Los grupos son los del formulario de «Cargar datos»; los vectores van con la sinopsis, de donde salen. Cada
  * subcampo de un objeto anidado tiene su fila. {@code CatalogFieldsTest} compara esta lista con
  * {@code elasticsearch/elastiflix-reloaded-mapping.json}: si el mapping cambia, la prueba lo dice.</p>
+ *
+ * <p>Las columnas de obligatorios (Requerimiento 6) siguen las reglas del validador, las mismas en append y en bulk:
+ * {@code id}, {@code title} y {@code plot} son obligatorios en los dos formatos, los vectores se ignoran si vienen y,
+ * en CSV, los subcampos van dentro del JSON de la celda de su objeto. {@code CatalogRequirementsTest} las compara con
+ * el validador real.</p>
  */
 public final class CatalogFields {
 
@@ -27,6 +33,9 @@ public final class CatalogFields {
     private static final String FILTER_CARD = "filterCard";
     private static final String LEXICAL = "lexical";
     private static final String VECTORS = "vector";
+
+    private static final Set<String> REQUIRED = Set.of("id", "title", "plot");
+    private static final String REQ = "about.catalog.req.";
 
     /** Los cinco grupos, en el orden de la página. */
     public static final List<CatalogGroup> GROUPS = List.of(
@@ -83,6 +92,21 @@ public final class CatalogFields {
     }
 
     private static CatalogField field(String name, String type, String use) {
-        return new CatalogField(name, type, "about.catalog.f." + name, "about.catalog.use." + use);
+        return new CatalogField(name, type, "about.catalog.f." + name, "about.catalog.use." + use,
+                REQ + requirement(name, type, false), REQ + requirement(name, type, true));
+    }
+
+    /**
+     * Qué dice la celda de obligatorio: {@code yes}, {@code ignored} (vectores, que se generan), {@code inCell}
+     * (subcampo de un objeto, en la celda JSON de un CSV) o {@code no}.
+     */
+    private static String requirement(String name, String type, boolean csv) {
+        if (REQUIRED.contains(name)) {
+            return "yes";
+        }
+        if (VECTOR.equals(type)) {
+            return "ignored";
+        }
+        return csv && name.contains(".") ? "inCell" : "no";
     }
 }

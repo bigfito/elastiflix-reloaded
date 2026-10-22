@@ -138,12 +138,22 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("<td>keywords.<wbr>name</td><td>text</td>")))
                 .andExpect(content().string(containsString("<td>belongs_to_collection.<wbr>backdrop_path</td><td>text</td>")))
                 .andExpect(content().string(containsString("<td>user_score</td><td>float</td>")))
-                .andExpect(content().string(containsString("agrupadas como en el formulario de «Cargar datos»")));
+                .andExpect(content().string(containsString("agrupadas como en el formulario de «Cargar datos»")))
+                .andExpect(content().string(containsString("<th>Obligatorio en .json</th><th>Obligatorio en .csv</th>")))
+                .andExpect(content().string(containsString("<td>Detalle</td><td class=\"req-yes\">Sí</td>"
+                        + "<td class=\"req-yes\">Sí</td>")))
+                .andExpect(content().string(containsString("<td>Vectorial, Híbrida</td><td>No; si viene, se ignora y "
+                        + "se genera</td><td>No; si viene, se ignora y se genera</td>")))
+                .andExpect(content().string(containsString("<td>Detalle</td><td>No</td><td>No; va en el JSON de la "
+                        + "celda de su objeto</td>")))
+                .andExpect(content().string(containsString("en modo append o bulk (las reglas son las mismas)")));
         mvc.perform(get("/acerca").param("lang", "en"))
                 .andExpect(content().string(containsString("<h3>Cast, production and media</h3>")))
                 .andExpect(content().string(containsString("<td>runtime</td><td>integer</td><td>Runtime in minutes</td>"
                         + "<td>Card and detail</td>")))
-                .andExpect(content().string(containsString("grouped as in the «Load data» form")));
+                .andExpect(content().string(containsString("grouped as in the «Load data» form")))
+                .andExpect(content().string(containsString("<th>Required in .json</th><th>Required in .csv</th>")))
+                .andExpect(content().string(containsString("in append or bulk mode (the rules are the same)")));
     }
 
     @Test

@@ -55,7 +55,7 @@ class CatalogFieldsTest {
 
     @ParameterizedTest(name = "messages_{0}")
     @ValueSource(strings = {"es", "en"})
-    @DisplayName("el título de cada grupo y el contenido y el uso de cada fila existen en los dos idiomas")
+    @DisplayName("el título de cada grupo y los textos de cada celda existen en los dos idiomas")
     void shouldHaveEveryTextInBothLanguages(String lang) throws IOException {
         Properties messages = new Properties();
         try (Reader reader = Files.newBufferedReader(
@@ -65,7 +65,8 @@ class CatalogFieldsTest {
         for (CatalogGroup group : CatalogFields.GROUPS) {
             assertThat(messages).containsKey(group.titleKey());
             for (CatalogField field : group.fields()) {
-                assertThat(messages).containsKey(field.contentKey()).containsKey(field.useKey());
+                assertThat(messages).containsKey(field.contentKey()).containsKey(field.useKey())
+                        .containsKey(field.jsonKey()).containsKey(field.csvKey());
             }
         }
     }

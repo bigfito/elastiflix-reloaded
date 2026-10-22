@@ -1560,7 +1560,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
 - **Camino:** el de la fase 11 (implementar directo con su PR; mockups `About.dc.html` y `About-en.dc.html` al final).
 - **Fase 12 — Tareas** (rama `fase-12-requeridos`; diseño en `docs/diseno/12.md`, sin compuerta 🔒):
   - [x] **12.0** Diseño técnico en `docs/diseno/12.md`.
-  - [ ] **12.1** Columnas «Obligatorio en .json» y «Obligatorio en .csv» en las cinco tablas, con la nota de la sección, en español e inglés. `CatalogRequirementsTest` contra el validador real y pruebas MockMvc.
+  - [x] **12.1** Columnas «Obligatorio en .json» y «Obligatorio en .csv» en las cinco tablas, con la nota de la sección, en español e inglés. `CatalogRequirementsTest` contra el validador real y pruebas MockMvc.
   - [ ] **12.2** Mockups, capturas de «Acerca de», README, verificación de fase (`./mvnw clean verify`, navegador), `progreso/12.md` e `INDICE.md`.
 
 ## Variables de entorno (`.env.example`)
