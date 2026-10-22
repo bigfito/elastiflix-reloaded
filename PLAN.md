@@ -54,6 +54,7 @@
   - [Requerimiento 5 — Índice y catálogo completo en «Acerca de»](#requerimiento-5--índice-y-catálogo-completo-en-acerca-de)
   - [Requerimiento 6 — Campos obligatorios de cada formato en «Acerca de»](#requerimiento-6--campos-obligatorios-de-cada-formato-en-acerca-de)
   - [Requerimiento 7 — La primera carga crea el catálogo](#requerimiento-7--la-primera-carga-crea-el-catálogo)
+  - [Requerimiento 8 — Un solo módulo Maven](#requerimiento-8--un-solo-módulo-maven)
 - [Variables de entorno](#variables-de-entorno-envexample)
 - [Referencias](#referencias)
 
@@ -1581,6 +1582,27 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - [x] **13.1** Bulk y registro individual crean el catálogo cuando falta (`CatalogIndex.publish` con anterior nulo, `CatalogAliases.currentIndex`, `FirstCatalog`); append bloqueado con `EFX-IMP-010` en la validación y en `AppendJob`. Pruebas unitarias y `FirstCatalogIT` sobre un alias propio vacío.
   - [x] **13.2** Web: aviso en «Cargar datos», append deshabilitado y bulk marcado sin catálogo; cabecera y pie con «el catálogo todavía no existe», en español e inglés. Pruebas MockMvc y de navegador.
   - [x] **13.3** Verificación de fase (`./mvnw clean verify -Pit`, navegador, la app contra un alias vacío), documentación (`AGENTS.md`, README «Puesta en marcha», PLAN, diseños 1 y 3), `progreso/13.md` e `INDICE.md`.
+
+### Requerimiento 8 — Un solo módulo Maven
+
+- **Origen:** pedido de Adolfo del 2026-10-22: «Quiero que re-organices la estructura del proyecto para que sea un git mono-repo, maven single-module.  Los módulos que creaste que cuelguen del paquete java com.bigfito.elastiflix según sea necesario.  Es importante que nada se rompa.  De esta forma, un desarrollador junior podrá entender mejor el proyecto sin perderse entre los diferentes módulos.»
+- **Qué cambia:** un solo `pom.xml` (`packaging jar`) y un solo `src/`. Las partes `core`, `search`, `ingest` y `web`
+  siguen como paquetes de `com.bigfito.elastiflix`, sin cambiar de nombre; `ElastiflixApplication` pasa al paquete
+  raíz. ArchUnit vigila los límites que antes ponía Maven (Spring MVC, Servlet y HTTP solo en `web`). El jar pasa a
+  `target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar`.
+- **Nada se rompe:** `./mvnw clean verify -Pit` con los mismos totales de la fase 13 (703 unitarias y 38 de
+  integración), las 27 pruebas de navegador y la aplicación probada página por página.
+- **Revisa una decisión aprobada:** la estructura de cuatro módulos de §4 y de la tarea 0.4.
+- **Fase 14 — Tareas** (rama `fase-14-un-modulo`; diseño en `docs/diseno/14.md`, sin compuerta 🔒):
+  - [x] **14.0** Diseño técnico en `docs/diseno/14.md`.
+  - [ ] **14.1** Un solo módulo: `git mv` de los cuatro `src/`, POM único, `ElastiflixApplication` en
+    `com.bigfito.elastiflix`, pruebas sin `TestApplication` ni `application.yml` de prueba, rutas sin `..`.
+    `./mvnw clean verify -Pit` con los mismos totales.
+  - [ ] **14.2** ArchUnit: `core`, `search` e `ingest` sin `jakarta.servlet`, `org.springframework.ui`,
+    `org.springframework.http` ni `org.springframework.boot.webmvc`.
+  - [ ] **14.3** Verificación de fase (navegador, la app desde el jar nuevo) y documentación vigente (README,
+    `AGENTS.md`, `CLAUDE.md`, PLAN §2–§8 y nota en «FASES», `docs/`, `design/README.md`, `.cursor/rules`,
+    `.gitignore`), `progreso/14.md` e `INDICE.md`; PR.
 
 ## Variables de entorno (`.env.example`)
 

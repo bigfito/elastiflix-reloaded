@@ -7,14 +7,14 @@
 
 ## Punto de reanudación
 
-- **Fase actual:** 13 — La primera carga crea el catálogo (Requerimiento 7)
-- **Estado de la fase:** terminada y fusionada en `main` (PR #31, `85f59ad`)
-- **Ramas:** `main` (la rama `fase-13-primera-carga` se borró tras la fusión)
-- **Diseño:** [`docs/diseno/13.md`](../docs/diseno/13.md)
-- **Estado:** [`progreso/13.md`](13.md)
-- **Tarea actual:** ninguna
-- **Próximo paso:** ninguno pendiente: los requerimientos 1 a 7 de PLAN están en `main`.
-- **Última actualización:** 2026-10-22 15:44 UTC
+- **Fase actual:** 14 — Un solo módulo Maven (Requerimiento 8)
+- **Estado de la fase:** en curso
+- **Ramas:** `fase-14-un-modulo` (sale de `main`, `af3583b`)
+- **Diseño:** [`docs/diseno/14.md`](../docs/diseno/14.md)
+- **Estado:** [`progreso/14.md`](14.md)
+- **Tarea actual:** 14.1 Un solo módulo
+- **Próximo paso:** mover el código a un solo módulo según `docs/diseno/14.md` (tarea 14.1).
+- **Última actualización:** 2026-10-22 16:00 UTC
 
 ## Fases
 
@@ -40,6 +40,7 @@
 | 11 | Índice y catálogo completo en «Acerca de» (Requerimiento 5) | — | terminado | `progreso/11.md` | `./mvnw clean verify -Pit` en verde (677 unitarias: core 80, search 76, ingest 236, web 285; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-21. Fusionada en `main` (`b8b5292`, PR #29); rama `fase-11-acerca` borrada en local y en el remoto. |
 | 12 | Campos obligatorios de cada formato en «Acerca de» (Requerimiento 6) | — | terminado | `progreso/12.md` | `./mvnw clean verify -Pit` en verde (687 unitarias: core 80, search 76, ingest 236, web 295; 35 de integración; Checkstyle 0, PMD 0, ArchUnit en verde) y navegador 26 de 26, el 2026-10-22. Fusionada en `main` (`c61f652`, PR #30); rama `fase-12-requeridos` borrada en local y en el remoto. |
 | 13 | La primera carga crea el catálogo (Requerimiento 7) | — | terminado | `progreso/13.md` | `./mvnw clean verify -Pit` en verde (703 unitarias: core 81, search 76, ingest 247, web 299; 38 de integración, con `FirstCatalogIT`); navegador 27/27; primera carga probada en la app contra un alias `elastiflix-it-` vacío (2026-10-22). Fusionada en `main` (`85f59ad`, PR #31); rama `fase-13-primera-carga` borrada en local y en el remoto |
+| 14 | Un solo módulo Maven (Requerimiento 8) | — | en curso | `progreso/14.md` | — |
 
 ## Aprobaciones del usuario
 
@@ -110,6 +111,7 @@
 | 2026-10-22 | Cierre y fusión de la Fase 12 (Requerimiento 6) | Adolfo respondió «Apruebo las capturas y los mockups nuevos de «Acerca de»; fusiona el PR #30 en main, deja local y remoto al día y borra la rama.» Aprobó las capturas nuevas de «Acerca de» y los mockups `About.dc.html` y `About-en.dc.html`. PR #30 fusionado con el merge commit `c61f652` a las 15:13 UTC; la rama `fase-12-requeridos` se borró en local y en el remoto. |
 | 2026-10-22 | Requerimiento 7: la primera carga crea el catálogo (Fase 13) | Adolfo pidió «Sí. Que bulk y el registro individual creen el catálogo (índice con el mapping y alias) cuando no existe, y que append quede bloqueado con un mensaje claro. Regístralo como requerimiento nuevo con su fase y su PR.» Revisa la decisión «no crear un catálogo vacío» del diseño 1 para la carga; la migración de la tarea 1.8 la conserva. Rama `fase-13-primera-carga`. |
 | 2026-10-22 | Cierre y fusión de la Fase 13 (Requerimiento 7) | Adolfo respondió «Sí, fusiona el PR #31 en main, deja local y remoto al día y borra la rama.» PR #31 fusionado con el merge commit `85f59ad` a las 15:44 UTC; la rama `fase-13-primera-carga` se borró en local y en el remoto. |
+| 2026-10-22 | Requerimiento 8: un solo módulo Maven (Fase 14) | Adolfo pidió «Quiero que re-organices la estructura del proyecto para que sea un git mono-repo, maven single-module.  Los módulos que creaste que cuelguen del paquete java com.bigfito.elastiflix según sea necesario.  Es importante que nada se rompa.  De esta forma, un desarrollador junior podrá entender mejor el proyecto sin perderse entre los diferentes módulos.» Revisa la estructura de cuatro módulos de PLAN §4 y de la tarea 0.4. Rama `fase-14-un-modulo`. |
 
 
 ## Catálogo vigente
