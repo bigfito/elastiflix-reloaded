@@ -15,9 +15,10 @@ import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.sli
 /**
  * Comprueba la matriz de dependencias de {@code PLAN.md}, sección 8.
  *
- * <p>Cada regla es una lista de prohibición. Un módulo puede usar cualquier otra librería
- * gestionada por el POM padre mientras no toque lo que aquí se prohíbe. Solo se importan
- * las clases de producción de los cuatro módulos.</p>
+ * <p>El proyecto es un solo módulo de Maven (Requerimiento 8): {@code core}, {@code search}, {@code ingest} y
+ * {@code web} son paquetes que comparten classpath, así que estas reglas son las que los mantienen separados. Cada
+ * regla es una lista de prohibición: un paquete puede usar cualquier otra librería del POM mientras no toque lo que
+ * aquí se prohíbe. Solo se importan las clases de producción.</p>
  */
 @AnalyzeClasses(
         packages = "com.bigfito.elastiflix",
@@ -31,6 +32,10 @@ class ArchitectureTest {
     private static final String SPRING_WEB = "org.springframework.web..";
     private static final String THYMELEAF = "org.thymeleaf..";
     private static final String ELASTIC_CLIENT = "co.elastic.clients..";
+    private static final String SERVLET = "jakarta.servlet..";
+    private static final String SPRING_UI = "org.springframework.ui..";
+    private static final String SPRING_HTTP = "org.springframework.http..";
+    private static final String BOOT_WEBMVC = "org.springframework.boot.webmvc..";
 
     /** El núcleo no conoce la búsqueda, la carga, la web, Spring MVC ni Thymeleaf. */
     @ArchTest
@@ -51,7 +56,16 @@ class ArchitectureTest {
             .that().resideInAPackage(INGEST)
             .should().dependOnClassesThat().resideInAnyPackage(SEARCH, WEB, SPRING_WEB, THYMELEAF);
 
-    /** La web no usa el cliente de Elasticsearch; llama a las fachadas de los otros módulos. */
+    /**
+     * Servlet, HTTP y los modelos de Spring MVC son de la web. Con cuatro módulos lo impedía Maven, porque no estaban
+     * en el classpath de core, search e ingest; con uno solo lo impide esta regla.
+     */
+    @ArchTest
+    static final ArchRule onlyWebUsesTheServletStack = noClasses()
+            .that().resideInAnyPackage(CORE, SEARCH, INGEST)
+            .should().dependOnClassesThat().resideInAnyPackage(SERVLET, SPRING_UI, SPRING_HTTP, BOOT_WEBMVC);
+
+    /** La web no usa el cliente de Elasticsearch; llama a las fachadas de los otros paquetes. */
     @ArchTest
     static final ArchRule webDoesNotUseElasticsearchClient = noClasses()
             .that().resideInAPackage(WEB)
@@ -59,15 +73,16 @@ class ArchitectureTest {
 
     /**
      * No hay ciclos entre core, search, ingest y web.
-     * El paréntesis de la expresión captura el nombre del módulo.
+     * El paréntesis de la expresión captura el nombre del paquete.
+     * {@code ElastiflixApplication}, en la raíz, no pertenece a ninguno.
      */
     @ArchTest
-    static final ArchRule noCyclesBetweenModules = slices()
+    static final ArchRule noCyclesBetweenPackages = slices()
             .matching("com.bigfito.elastiflix.(*)..")
             .should().beFreeOfCycles();
 
     /**
-     * Un controlador vive en el módulo web y su nombre termina en {@code Controller}.
+     * Un controlador vive en el paquete web y su nombre termina en {@code Controller}.
      */
     @ArchTest
     static final ArchRule controllersLiveOnlyInWeb = classes()

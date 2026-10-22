@@ -12,8 +12,8 @@
 - **Ramas:** `fase-14-un-modulo` (sale de `main`, `af3583b`)
 - **Diseño:** [`docs/diseno/14.md`](../docs/diseno/14.md)
 - **Estado:** [`progreso/14.md`](14.md)
-- **Tarea actual:** 14.2 ArchUnit: los límites que ponía Maven
-- **Próximo paso:** reglas de ArchUnit para los límites que ponía Maven (tarea 14.2).
+- **Tarea actual:** 14.3 Verificación de fase, documentación y PR
+- **Próximo paso:** verificación de la fase 14, documentación y PR (tarea 14.3).
 - **Última actualización:** 2026-10-22 16:00 UTC
 
 ## Fases

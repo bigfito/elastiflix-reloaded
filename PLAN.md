@@ -1598,7 +1598,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   - [x] **14.1** Un solo módulo: `git mv` de los cuatro `src/`, POM único, `ElastiflixApplication` en
     `com.bigfito.elastiflix`, pruebas sin `TestApplication` ni `application.yml` de prueba, rutas sin `..`.
     `./mvnw clean verify -Pit` con los mismos totales.
-  - [ ] **14.2** ArchUnit: `core`, `search` e `ingest` sin `jakarta.servlet`, `org.springframework.ui`,
+  - [x] **14.2** ArchUnit: `core`, `search` e `ingest` sin `jakarta.servlet`, `org.springframework.ui`,
     `org.springframework.http` ni `org.springframework.boot.webmvc`.
   - [ ] **14.3** Verificación de fase (navegador, la app desde el jar nuevo) y documentación vigente (README,
     `AGENTS.md`, `CLAUDE.md`, PLAN §2–§8 y nota en «FASES», `docs/`, `design/README.md`, `.cursor/rules`,
