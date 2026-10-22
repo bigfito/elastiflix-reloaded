@@ -6,18 +6,18 @@ revisión 2 (S-09 y S-10), donde el criterio pide una prueba de JS o de navegado
 
 ## Cómo correrlas
 
-1. Arranca la aplicación. No hace falta Elasticsearch: estas pruebas no importan nada.
+1. Arranca la aplicación desde la raíz del repo. No hace falta Elasticsearch: estas pruebas no importan nada.
    `utf8.test.js` y `size.test.js` solo usan la comprobación del navegador en `/cargar`. `ingest.test.js` y `mode.test.js` simulan con
    `page.route()` las respuestas de `/cargar/archivo` y `/cargar/trabajos/*`. `suggestions.test.js`
    intercepta `/buscar` y solo afirma la URL a la que navega la sugerencia.
 
    ```bash
-   ./mvnw -q install -DskipTests
+   ./mvnw -q package -DskipTests
    ELASTICSEARCH_URL=http://localhost:9200 ELASTICSEARCH_API_KEY=test SERVER_PORT=8089 \
-     java -jar elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar
+     java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar
    ```
 
-2. En otra terminal, desde esta carpeta:
+2. En otra terminal, desde esta carpeta (`src/test/browser`):
 
    ```bash
    npm install
@@ -31,7 +31,7 @@ revisión 2 (S-09 y S-10), donde el criterio pide una prueba de JS o de navegado
 
    ```bash
    ELASTIFLIX_INDEX_ALIAS=elastiflix-it-sincatalogo SERVER_PORT=8090 \
-     java -jar elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar   # lee ELASTICSEARCH_URL y la API key de .env
+     java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar   # lee ELASTICSEARCH_URL y la API key de .env
    BASE_URL=http://localhost:8089 NO_CATALOG_URL=http://localhost:8090 npm test
    ```
 

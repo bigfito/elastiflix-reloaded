@@ -27,7 +27,8 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > append o bulk) también está en `main` (PR #28). La fase 11 (Requerimiento 5: índice y catálogo completo en
 > «Acerca de») también está en `main` (PR #29). La fase 12 (Requerimiento 6: campos obligatorios de cada formato
 > en «Acerca de») también está en `main` (PR #30). La fase 13 (Requerimiento 7: la primera carga crea el
-> catálogo) también está en `main` (PR #31). El
+> catálogo) también está en `main` (PR #31). La fase 14 (Requerimiento 8: un solo módulo de Maven) está en
+> revisión en la rama `fase-14-un-modulo`. El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -195,16 +196,18 @@ Un catálogo de más de 25 MB se carga con un bulk (el primer archivo) y varios 
 
 ```mermaid
 flowchart LR
-  user(["👤 Usuario"]) --> web["🌐 elastiflix-web<br/>Thymeleaf + Spring MVC"]
-  web --> search["🔎 elastiflix-search<br/>BM25 · k-NN · RRF · facetas"]
-  web --> ingest["📥 elastiflix-ingest<br/>validación · importación"]
-  search --> core["⚙️ elastiflix-core<br/>cliente ES · catálogo · embeddings"]
+  user(["👤 Usuario"]) --> web["🌐 web<br/>Thymeleaf + Spring MVC"]
+  web --> search["🔎 search<br/>BM25 · k-NN · RRF · facetas"]
+  web --> ingest["📥 ingest<br/>validación · importación"]
+  search --> core["⚙️ core<br/>cliente ES · catálogo · embeddings"]
   ingest --> core
   core --> es[("🗄️ Elasticsearch Serverless<br/>alias elastiflix-reloaded")]
   core --> inf["🧠 Inferencia<br/>.jina-embeddings-v5-omni-small"]
 ```
 
-Diagrama completo con los flujos numerados: [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid).
+Es una sola aplicación Spring Boot en un solo módulo de Maven. `core`, `search`, `ingest` y `web` son paquetes de
+`com.bigfito.elastiflix`; `ArchitectureTest` (ArchUnit) comprueba que cada uno use solo lo que le toca, como indican
+las flechas. Diagrama completo con los flujos numerados: [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid).
 
 ## 🧰 Stack
 
@@ -224,11 +227,15 @@ Diagrama completo con los flujos numerados: [`docs/arquitectura.mermaid`](docs/a
 ```
 elastiflix-reloaded/
 ├── 📄 PLAN.md · AGENTS.md · CLAUDE.md · README.md
-├── 📦 pom.xml · mvnw · .mvn/            build de Maven
-├── ⚙️  elastiflix-core/                  modelo · cliente ES · alias e índices · embeddings
-├── 🔎 elastiflix-search/                match / multi_match · knn · rrf · filtros · facetas
-├── 📥 elastiflix-ingest/                validación · lectores JSON/CSV · importación · swap de alias
-├── 🌐 elastiflix-web/                   único ejecutable · 5 páginas Thymeleaf en español e inglés
+├── 📦 pom.xml · mvnw · .mvn/            build de Maven (un solo módulo)
+├── ☕ src/main/java/com/bigfito/elastiflix/
+│   ├── ElastiflixApplication.java       punto de entrada
+│   ├── ⚙️  core/                         modelo · cliente ES · alias e índices · embeddings
+│   ├── 🔎 search/                       match / multi_match · knn · rrf · filtros · facetas
+│   ├── 📥 ingest/                       validación · lectores JSON/CSV · importación · swap de alias
+│   └── 🌐 web/                          5 páginas Thymeleaf en español e inglés
+├── 🖼️  src/main/resources/               application.yml · plantillas · estáticos · mensajes ES/EN
+├── 🧪 src/test/                         java/ (mismos paquetes) · resources/ · browser/ (Playwright)
 ├── 🧹 config/                           Checkstyle y PMD (congelados)
 ├── 📚 docs/                             convenciones · arquitectura · diseños por fase · glosario EN · revisiones · capturas
 ├── 🎨 design/                           mockups aprobados y tokens de diseño
@@ -282,7 +289,7 @@ La aplicación lee `.env` por su cuenta al arrancar; exportar las variables solo
   [claves de API de Elasticsearch](https://www.elastic.co/docs/deploy-manage/api-keys/elasticsearch-api-keys).
 - El endpoint de inferencia `.jina-embeddings-v5-omni-small` tiene que existir. El id sale de
   `ELASTIFLIX_INFERENCE_ID` en `.env`, con el mismo valor por defecto en
-  [`application.yml`](elastiflix-web/src/main/resources/application.yml). Comprobarlo:
+  [`application.yml`](src/main/resources/application.yml). Comprobarlo:
 
   ```bash
   curl -sS -H "Authorization: ApiKey $ELASTICSEARCH_API_KEY" \
@@ -299,7 +306,7 @@ La aplicación lee `.env` por su cuenta al arrancar; exportar las variables solo
 
 La primera carga crea el catálogo (Requerimiento 7, fase 13). En un proyecto vacío:
 
-1. Arrancar la aplicación (`./mvnw -pl elastiflix-web spring-boot:run`) y abrir http://localhost:8080/cargar. La
+1. Arrancar la aplicación (`./mvnw spring-boot:run`) y abrir http://localhost:8080/cargar. La
    cabecera dice «Conectado · el catálogo todavía no existe» y la página avisa que la primera carga lo crea.
 2. Importar el archivo de películas en modo **bulk** desde «Importar .json» o «Importar .csv» (la tarjeta «Modo de
    carga» ya trae bulk marcado y append deshabilitado), o guardar un **registro individual**. Los dos crean
@@ -312,8 +319,7 @@ convertirlo en alias. El comando copia el índice a `elastiflix-reloaded-<AAAAMM
 borra el índice concreto y crea el alias. Termina por sí solo:
 
 ```bash
-./mvnw -q install -DskipTests
-./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
+./mvnw spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
 ```
 
 Si el nombre ya es un alias, el comando no crea ni borra índices: el log dice a cuál apunta y el proceso termina
@@ -324,25 +330,27 @@ con código 0. Si el nombre no existe, la migración se detiene sin crear nada: 
 ```bash
 ./mvnw -v                                        # Maven 3.10.0 y Java 25
 ./mvnw -q validate                               # enforcer de Java y Maven
-./mvnw -q -DskipTests package                    # jar de elastiflix-web
+./mvnw -q -DskipTests package                    # target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar
 ./mvnw verify                                    # unitarias, ArchUnit, Checkstyle y PMD
 ./mvnw verify -Pit                               # lo anterior más integración y smoke (requiere .env)
 # Pruebas de navegador del JavaScript (Node.js y Chromium; fuera de verify):
-# ver elastiflix-web/src/test/browser/README.md
-./mvnw -q install -DskipTests                    # instala los módulos para spring-boot:run
-./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
-./mvnw -pl elastiflix-web spring-boot:run        # http://localhost:8080
+# ver src/test/browser/README.md
+./mvnw spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
+./mvnw spring-boot:run                           # http://localhost:8080
+java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar   # lo mismo, desde el jar (lee .env de la carpeta actual)
 ```
 
-El penúltimo comando es la conversión a alias de «Preparar el catálogo»: si el nombre ya es un alias, no
-crea ni borra índices. `spring-boot:run` solo lee el catálogo por el alias.
+El comando con `bootstrap.enabled=true` es la conversión a alias de «Preparar el catálogo»: si el nombre ya es un
+alias, no crea ni borra índices. `spring-boot:run` solo lee el catálogo por el alias. Corre los comandos desde la
+raíz del repo: ahí está `.env`.
 
-**Desde IntelliJ IDEA:** abre la carpeta raíz como proyecto Maven y ejecuta `ElastiflixApplication` (módulo
-`elastiflix-web`); lee el `.env` de la raíz con cualquiera de los dos directorios de trabajo, la raíz o
-`elastiflix-web`. IntelliJ compila en las mismas carpetas `target/classes` que Maven: después de un
-`./mvnw clean …`, haz **Build › Rebuild Project** antes de ejecutar. Si no, su compilación incremental puede dejar
-un módulo sin clases y el arranque falla con `ClassNotFoundException` (por ejemplo,
-`ElasticsearchCredentialsEnvironmentPostProcessor`).
+**Desde IntelliJ IDEA:** abre la carpeta raíz como proyecto Maven y ejecuta
+`com.bigfito.elastiflix.ElastiflixApplication` con la raíz del repo como directorio de trabajo (ahí está `.env`).
+Si ya tenías el proyecto abierto con los cuatro módulos de antes de la fase 14, usa **Maven › Reload All Maven
+Projects** y vuelve a crear la configuración de ejecución: la clase cambió de paquete. IntelliJ compila en la misma
+carpeta `target/classes` que Maven: después de un `./mvnw clean …`, haz **Build › Rebuild Project** antes de
+ejecutar. Si no, su compilación incremental puede dejar clases sin compilar y el arranque falla con
+`ClassNotFoundException` (por ejemplo, `ElasticsearchCredentialsEnvironmentPostProcessor`).
 
 Las capturas de la aplicación en marcha están en [docs/capturas/](docs/capturas/).
 
@@ -458,7 +466,7 @@ al cerrar cada fase.
 |---|---|
 | Checkstyle 14.3.0 | Tamaño y complejidad de métodos, nombres, Javadoc, `catch` vacíos, `System.out`, inyección por campo, secretos literales |
 | PMD 7.28.0 | Complejidad cognitiva, clases dios, excepciones genéricas, código sin uso |
-| ArchUnit 1.5.1 | Matriz de dependencias entre módulos; la web no usa el cliente de Elasticsearch |
+| ArchUnit 1.5.1 | Matriz de dependencias entre los paquetes `core`, `search`, `ingest` y `web`; Spring MVC y Servlet solo en `web`; la web no usa el cliente de Elasticsearch |
 
 ## 🎨 Diseño
 

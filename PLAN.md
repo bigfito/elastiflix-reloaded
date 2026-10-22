@@ -130,10 +130,10 @@ No los rediseñes. **Únicos ajustes de texto autorizados** (decisiones del usua
 
 ```mermaid
 flowchart LR
-  user(["Usuario"]) --> web["elastiflix-web<br/>Thymeleaf + Spring MVC"]
-  web --> search["elastiflix-search<br/>BM25 · k-NN · RRF · facetas"]
-  web --> ingest["elastiflix-ingest<br/>validación · importación"]
-  search --> core["elastiflix-core<br/>cliente ES · catálogo · embeddings"]
+  user(["Usuario"]) --> web["web<br/>Thymeleaf + Spring MVC"]
+  web --> search["search<br/>BM25 · k-NN · RRF · facetas"]
+  web --> ingest["ingest<br/>validación · importación"]
+  search --> core["core<br/>cliente ES · catálogo · embeddings"]
   ingest --> core
   core --> es[("Elasticsearch Serverless<br/>alias elastiflix-reloaded")]
   core --> inf["Inferencia<br/>.jina-embeddings-v5-omni-small"]
@@ -144,7 +144,9 @@ configuración de idioma, está en [`docs/arquitectura.mermaid`](docs/arquitectu
 
 **Notas de implementación**
 
-- **Un solo ejecutable:** `elastiflix-web` (Spring Boot). `core`, `search` e `ingest` son librerías.
+- **Un solo módulo y un solo ejecutable** (Requerimiento 8, fase 14): un `pom.xml` y un `src/`. `core`, `search`,
+  `ingest` y `web` son paquetes de `com.bigfito.elastiflix`; `ElastiflixApplication` está en la raíz. Hasta la fase
+  13 eran cuatro módulos de Maven; sus límites los vigila ahora ArchUnit (§8).
 - **Alias como punto de lectura:** todas las búsquedas van al alias `elastiflix-reloaded`. El índice
   real se llama `<alias>-<AAAAMMDD-HHMMSS>` (UTC), por ejemplo `elastiflix-reloaded-20261020-153000`. Una carga de archivo en modo bulk escribe en un
   índice nuevo, solo con el archivo, y publica con **una sola llamada atómica a `_aliases`**: `add` del alias al índice nuevo
@@ -201,10 +203,9 @@ Versiones verificadas en la web el 2026-10-17.
 - No se usa Spring Data Elasticsearch, Lombok ni Jackson 2 en el código propio (Jackson 2 queda como
   dependencia transitiva, sin uso).
 - Zona horaria: **UTC**. Paquete base: `com.bigfito.elastiflix`. `groupId`: `com.bigfito`.
-- `elastiflix-core` declara además `org.springframework.boot:spring-boot-web-server` como dependencia
-  **opcional** y sin versión (la gestiona el BOM de Boot), solo por `WebServerApplicationContext`:
-  `CatalogBootstrapRunner` pregunta al contexto si hay servidor web (revisión 4, U-30; registrada en
-  `docs/diseno/1.md`). Al ser opcional, search e ingest no la heredan; la web ya la trae con su starter.
+- `CatalogBootstrapRunner` (`core`) usa `WebServerApplicationContext` para preguntar al contexto si hay servidor
+  web (revisión 4, U-30; registrada en `docs/diseno/1.md`). Hasta la fase 13, `elastiflix-core` declaraba
+  `spring-boot-web-server` como dependencia opcional; con un solo módulo la trae `spring-boot-starter-webmvc`.
 
 ## 4. Estructura del repositorio
 
@@ -216,7 +217,7 @@ elastiflix-reloaded/
 ├── README.md
 ├── .cursor/rules/              ← regla de Cursor para archivos .java
 ├── .env.example                ← variables de entorno sin valores reales
-├── pom.xml                     ← POM padre (packaging pom) · Java 25 · Spring Boot 4.1.1   [Fase 0]
+├── pom.xml                     ← único POM (packaging jar) · Java 25 · Spring Boot 4.1.1  [Fases 0 y 14]
 ├── mvnw · mvnw.cmd · .mvn/     ← Maven Wrapper 3.10.0                                        [Fase 0]
 ├── config/
 │   ├── checkstyle/checkstyle.xml
@@ -236,14 +237,22 @@ elastiflix-reloaded/
 ├── progreso/
 │   ├── INDICE.md               ← fase actual y próximo paso global
 │   └── _PLANTILLA.md           ← estado por fase
-├── elastiflix-core/            ← modelo, cliente ES, catálogo (alias, índices), mapping, embeddings  [Fase 1]
-├── elastiflix-search/          ← match/multi_match, knn, rrf, filtros, facetas, paginación          [Fase 2]
-├── elastiflix-ingest/          ← validación, lectores JSON/CSV, importación por lotes, swap de alias [Fase 3]
-└── elastiflix-web/             ← único ejecutable: Spring Boot + Thymeleaf (5 páginas, ES · EN)     [Fases 0, 4, 7 y 8]
+└── src/
+    ├── main/java/com/bigfito/elastiflix/
+    │   ├── ElastiflixApplication.java  ← punto de entrada                                       [Fase 14]
+    │   ├── core/               ← modelo, cliente ES, catálogo (alias, índices), mapping, embeddings  [Fase 1]
+    │   ├── search/             ← match/multi_match, knn, rrf, filtros, facetas, paginación          [Fase 2]
+    │   ├── ingest/             ← validación, lectores JSON/CSV, importación por lotes, swap de alias [Fase 3]
+    │   └── web/                ← Spring MVC + Thymeleaf (5 páginas, ES · EN)                       [Fases 4, 7 y 8]
+    ├── main/resources/         ← application.yml, plantillas, estáticos, mensajes, META-INF/spring.factories
+    └── test/                   ← java/ (mismos paquetes y architecture/), resources/, browser/ (Playwright)
 ```
 
+Hasta la fase 13 cada parte era un módulo de Maven (`elastiflix-core/`, `-search/`, `-ingest/` y `-web/`, con su
+`pom.xml` y su `src/`). Las fases 0 a 13, sus diseños y su estado en `progreso/` conservan esas rutas.
+
 `progreso/` guarda el **estado del desarrollo**; no tiene relación con ningún estado de la aplicación
-(por ejemplo, el estado de un trabajo de importación vive en memoria dentro de `elastiflix-ingest`).
+(por ejemplo, el estado de un trabajo de importación vive en memoria dentro del paquete `ingest`).
 
 ## 5. Contrato de la aplicación web
 
@@ -303,7 +312,7 @@ registrado como bean `elastiflixCatalogHealthIndicator`, con `management.endpoin
 (§7). Alimenta el indicador «Conectado · Elasticsearch Serverless» del header y el pie
 «Índice: elastiflix-reloaded · N películas», donde N es el conteo real del alias.
 
-**Límites entre módulos** (interfaces que define el diseño de la Fase 1 y consumen las demás):
+**Límites entre paquetes** (interfaces que define el diseño de la Fase 1 y consumen las demás):
 `CatalogIndex`, `EmbeddingService`, `IndexMapping`, `CatalogStatusService` (en `core`);
 `SearchService` (en `search`); `IngestService` (en `ingest`). La web solo conoce estas fachadas y sus
 `record` de entrada y salida.
@@ -317,7 +326,7 @@ forma `^/[\w.-]+$` y trata cualquier otra como ausente (revisión 4, U-04).
 ## 6. Modelo de datos
 
 - **Mapping:** [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json)
-  (33 campos). Es la referencia para crear índices y para validar cargas. `elastiflix-core` lo empaqueta
+  (33 campos). Es la referencia para crear índices y para validar cargas. El `pom.xml` lo empaqueta
   como recurso desde esa misma ruta (sin copiarlo).
 - **Campos que usa la demo:**
 
@@ -391,11 +400,11 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
 - **Configuración:** el usuario pone sus valores en `.env` (raíz del repo) o en variables de entorno.
   `.env` se importa como archivo de propiedades y **cada propiedad se declara con un marcador
   `${VARIABLE:valor por defecto}`** (las claves en mayúsculas de un archivo importado no se enlazan solas
-  a `elastiflix.*`). Configuración de `elastiflix-web/src/main/resources/application.yml`:
+  a `elastiflix.*`). Configuración de `src/main/resources/application.yml`:
 
   | Propiedad | Valor |
   |---|---|
-  | `spring.config.import` | `optional:file:.env[.properties],optional:file:../.env[.properties]` (raíz al ejecutar el jar; carpeta del módulo con `spring-boot:run` y Failsafe) |
+  | `spring.config.import` | `optional:file:.env[.properties]` (la raíz del repo: ahí trabajan `spring-boot:run`, Surefire y Failsafe, y desde ahí se ejecuta el jar; hasta la fase 13 se agregaba `../.env` para la carpeta de cada módulo) |
   | `elastiflix.elasticsearch.url` | `${ELASTICSEARCH_URL:}` (obligatoria: si está vacía, la aplicación no arranca y muestra `EFX-CFG-001`) |
   | `elastiflix.elasticsearch.api-key` | `${ELASTICSEARCH_API_KEY:}` (obligatoria: `EFX-CFG-002`) |
   | `spring.elasticsearch.uris` | `${elastiflix.elasticsearch.url}` |
@@ -419,15 +428,15 @@ prueba se omite y no pasa en falso. No se afloja el criterio en el código.
   tarea se cancela con `_tasks/<id>/_cancel` (sin esperar en la llamada) y se confirma con hasta 3 lecturas
   de 20 s antes de borrar el índice temporal (revisión 2, S-01; revisión 3, T-01).
 
-  Los topes del multipart no van en el YAML: `UploadMultipartConfig` (`elastiflix-web`) crea el
+  Los topes del multipart no van en el YAML: `UploadMultipartConfig` (paquete `web`) crea el
   `MultipartConfigElement` con el archivo hasta `FileChecker.MAX_FILE_SIZE` (25 MB) y la petición hasta ese
   valor más 1 MB (26 MB; los otros campos del formulario). El tamaño máximo no se configura: el Requerimiento 3
   (fase 9) quitó `elastiflix.ingest.max-file-size` y `ELASTIFLIX_INGEST_MAX_FILE_SIZE`, que desde la revisión 3
   (T-13) movían los dos topes.
 
   Los valores de embeddings de documento (`elastiflix.embedding.*`) **no** van en el YAML: son los
-  valores por defecto (`@DefaultValue`) del `record` de propiedades de `elastiflix-core`, fijados por la
-  calibración de la tarea 1.9, para que todos los módulos y pruebas usen los mismos.
+  valores por defecto (`@DefaultValue`) del `record` de propiedades de `core`, fijados por la
+  calibración de la tarea 1.9, para que todo el código y las pruebas usen los mismos.
 - **Secretos:** solo en `.env` (excluido por `.gitignore`). Nunca en código, YAML, pruebas, logs ni
   commits.
 - **Integración contra Elasticsearch:** las pruebas de lectura usan `elastiflix-reloaded` sin
@@ -463,14 +472,16 @@ de»**: son listas de prohibición. La columna «Uso esperado» es orientativa; 
 gestionada por el POM padre (por ejemplo `jakarta.validation`, `jakarta.json`,
 `org.springframework.stereotype`) está permitida mientras no esté prohibida.
 
-| Módulo (paquete) | Uso esperado | No puede depender de |
+| Paquete | Uso esperado | No puede depender de |
 |---|---|---|
-| `elastiflix-core` (`com.bigfito.elastiflix.core..`) | Cliente de Elasticsearch, Jackson 3, SLF4J, Spring sin web | `..search..`, `..ingest..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
-| `elastiflix-search` (`com.bigfito.elastiflix.search..`) | `core`, cliente de Elasticsearch, Spring sin web | `..ingest..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
-| `elastiflix-ingest` (`com.bigfito.elastiflix.ingest..`) | `core`, cliente de Elasticsearch, Jackson 3, Spring sin web | `..search..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
-| `elastiflix-web` (`com.bigfito.elastiflix.web..`) | Fachadas y `record` de `search`, `ingest` y `core` (modelo, errores, estado, propiedades), Spring MVC, Thymeleaf, Actuator | `co.elastic.clients..` |
+| `core` (`com.bigfito.elastiflix.core..`) | Cliente de Elasticsearch, Jackson 3, SLF4J, Spring sin web | `..search..`, `..ingest..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
+| `search` (`com.bigfito.elastiflix.search..`) | `core`, cliente de Elasticsearch, Spring sin web | `..ingest..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
+| `ingest` (`com.bigfito.elastiflix.ingest..`) | `core`, cliente de Elasticsearch, Jackson 3, Spring sin web | `..search..`, `..web..`, `org.springframework.web..`, `org.thymeleaf..` |
+| `web` (`com.bigfito.elastiflix.web..`) | Fachadas y `record` de `search`, `ingest` y `core` (modelo, errores, estado, propiedades), Spring MVC, Thymeleaf, Actuator | `co.elastic.clients..` |
 
-Además: sin ciclos entre módulos (`slices().matching("com.bigfito.elastiflix.(*)..")`); los
+Además: `core`, `search` e `ingest` no usan `jakarta.servlet..`, `org.springframework.ui..`,
+`org.springframework.http..` ni `org.springframework.boot.webmvc..` (fase 14: con un solo módulo ya están en el
+classpath); sin ciclos entre paquetes (`slices().matching("com.bigfito.elastiflix.(*)..")`); los
 controladores solo en `..web..` y con nombre `*Controller`; ninguna clase usa `System.out`/`System.err`.
 
 **Verificación automática.**
@@ -540,6 +551,12 @@ Se versionan en git; `.gitignore` nunca los excluye.
 ---
 
 ## FASES
+
+> **Nota de la fase 14 (Requerimiento 8):** las fases 0 a 13 se hicieron con cuatro módulos de Maven. Sus rutas y
+> comandos describen el repo de ese momento. Equivalencias: `elastiflix-<parte>/src/…` → `src/…` (mismos paquetes);
+> `./mvnw … -pl elastiflix-<parte> -am` → `./mvnw …` (sin `-pl`); `./mvnw -q install -DskipTests` antes de
+> `spring-boot:run` ya no hace falta; `elastiflix-web/target/elastiflix-web-0.1.0-SNAPSHOT.jar` →
+> `target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar`; las `TestApplication` de core, search e ingest → `ElastiflixApplication`.
 
 ### Fase 0 — Andamiaje y calidad
 
@@ -1600,7 +1617,7 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
     `./mvnw clean verify -Pit` con los mismos totales.
   - [x] **14.2** ArchUnit: `core`, `search` e `ingest` sin `jakarta.servlet`, `org.springframework.ui`,
     `org.springframework.http` ni `org.springframework.boot.webmvc`.
-  - [ ] **14.3** Verificación de fase (navegador, la app desde el jar nuevo) y documentación vigente (README,
+  - [x] **14.3** Verificación de fase (navegador, la app desde el jar nuevo) y documentación vigente (README,
     `AGENTS.md`, `CLAUDE.md`, PLAN §2–§8 y nota en «FASES», `docs/`, `design/README.md`, `.cursor/rules`,
     `.gitignore`), `progreso/14.md` e `INDICE.md`; PR.
 

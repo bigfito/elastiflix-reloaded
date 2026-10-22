@@ -21,7 +21,7 @@ componentes y comportamiento. No se rediseñan.
 > detalle (requerimiento 1, fase 7); las versiones `-en` y el selector «ES · EN» del header (requerimiento 2,
 > fase 8). La traducción sigue `docs/i18n/glosario-en.md`. El conteo del pie y de «Acerca de» sale siempre de
 > `_count`; el número de los mockups es un ejemplo. El logo de TMDB de «Créditos» es
-> `elastiflix-web/src/main/resources/static/img/tmdb/…svg`, subido al canvas.
+> `src/main/resources/static/img/tmdb/…svg`, subido al canvas.
 >
 > **Pendiente de implementar:** los 25 MB y el modo de carga append · bulk de `Ingest*.dc.html` y
 > `About*.dc.html` (requerimientos 3 y 4), que esperan el consentimiento de Adolfo.

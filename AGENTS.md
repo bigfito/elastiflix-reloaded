@@ -44,7 +44,7 @@ cerrada, cambio de agente). **Al iniciar cualquier sesión, antes de escribir c�
 **híbrida (RRF)** sobre el alias `elastiflix-reloaded` de **Elasticsearch Serverless**, con filtros
 dinámicos, paginación y carga segura de datos (.json/.csv). El índice y el conteo vigentes están en
 `progreso/INDICE.md` › «Catálogo vigente». Java 25, Spring Boot 4.1.1, Thymeleaf 3.1.5, cliente Java de
-Elasticsearch 9.4.5, Maven 3.10.0, mono-repo con 4 módulos. Las fases 0 a 13 están en `main`. Las verificaciones
+Elasticsearch 9.4.5, Maven 3.10.0, un solo módulo (fase 14). Las fases 0 a 13 están en `main`. Las verificaciones
 históricas contaron 4 322 películas (catálogo anterior al 2026-10-18). `SmokeIT` y `CatalogStatusServiceIT` afirman
 los 6 899 documentos; las IT de búsqueda, los valores de §6; se omiten con `assumeTrue` si `_count` cambió.
 
@@ -70,10 +70,9 @@ a 13.
 ./mvnw -q test                                   # pruebas unitarias
 ./mvnw verify                                    # unitarias + ArchUnit + Checkstyle + PMD (sin red)
 ./mvnw verify -Pit                               # + integración (Failsafe; requiere .env)
-./mvnw -q install -DskipTests
-./mvnw -pl elastiflix-web spring-boot:run        # http://localhost:8080
+./mvnw spring-boot:run                           # http://localhost:8080 (desde la raíz: lee .env)
 # Migración del índice concreto a alias (tarea 1.8; termina sola):
-./mvnw -pl elastiflix-web spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
+./mvnw spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
 ```
 
 **Windows:** ejecuta **todos** los comandos del plan en **Git Bash**, donde `./mvnw`, `&&`, `echo $?`,
@@ -83,15 +82,17 @@ de `&&` y `$LASTEXITCODE` en lugar de `$?`.
 
 ## Estructura del repo
 
-- `elastiflix-core/` — modelo, cliente ES (`Jackson3JsonpMapper`), mapping, alias e índices, embeddings.
-- `elastiflix-search/` — `match`/`multi_match` BM25, `knn`, `rrf`, filtros, facetas, paginación.
-- `elastiflix-ingest/` — comprobación de archivos, lectores JSON/CSV, validación vs mapping, importación.
-- `elastiflix-web/` — único ejecutable: Spring MVC + Thymeleaf (Inicio, Resultados, Detalle, Cargar datos, Acerca de).
+- Un solo `pom.xml` y un solo `src/` (fase 14). Paquetes de `com.bigfito.elastiflix` (`ElastiflixApplication` en la
+  raíz), con sus pruebas en los mismos paquetes de `src/test/java`:
+  - `core` — modelo, cliente ES (`Jackson3JsonpMapper`), mapping, alias e índices, embeddings.
+  - `search` — `match`/`multi_match` BM25, `knn`, `rrf`, filtros, facetas, paginación.
+  - `ingest` — comprobación de archivos, lectores JSON/CSV, validación vs mapping, importación.
+  - `web` — Spring MVC + Thymeleaf (Inicio, Resultados, Detalle, Cargar datos, Acerca de).
+- `src/test/browser/` — pruebas de navegador (Playwright), fuera de `verify`.
 - `config/` — Checkstyle y PMD (**congelados**). `docs/` — convenciones, arquitectura, diseños por fase.
 - `design/mockups/` — pantallas aprobadas; `design/README.md` — tokens de diseño.
 - `elasticsearch/` — mapping del índice y fixtures reales (4 películas en .json y .csv, vector de consulta).
 - `progreso/` — estado del desarrollo para retomar sesiones (versionado; no es estado de la aplicación).
-- Paquete base: `com.bigfito.elastiflix.<core|search|ingest|web>`.
 
 ## Reglas de código
 
@@ -108,8 +109,8 @@ defecto de tu herramienta y sobre cualquier skill instalada. Resumen:
    Factory (lector por tipo de archivo), Gateway/Adapter (cliente ES e inferencia), Observer (progreso
    de importación), Builder solo el del cliente ES. Otros, con justificación y aprobación.
 5. **Spring:** inyección por constructor (nunca `@Autowired` en campos), `@ConfigurationProperties` con
-   `record`; Spring MVC y Thymeleaf **solo** en `elastiflix-web`; la web **no** usa
-   `co.elastic.clients`.
+   `record`; Spring MVC, Servlet y Thymeleaf **solo** en el paquete `web` (lo vigila ArchUnit); la web **no**
+   usa `co.elastic.clients`.
 6. **Errores:** `ElastiflixException` con códigos `EFX-<ÁREA>-<NNN>` y mensaje «qué pasó · causa
    probable · acción sugerida»; nunca `catch` vacío ni genérico; conserva la causa.
 7. **Logging:** SLF4J parametrizado; niveles según la guía; **nunca** API key, vectores completos,

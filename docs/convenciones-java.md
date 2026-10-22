@@ -83,7 +83,7 @@ El estilo es el de **JavaMentor** (Java 25 LTS, Spring Boot, Maven):
 
 | Patrón | Dónde | Por qué |
 |---|---|---|
-| Strategy | `elastiflix-search`: una estrategia por modo (full-text, vectorial, híbrida) | Cada modo construye su petición de forma distinta; agregar uno no toca los demás |
+| Strategy | paquete `search`: una estrategia por modo (full-text, vectorial, híbrida) | Cada modo construye su petición de forma distinta; agregar uno no toca los demás |
 | Facade | `SearchService` e `IngestService` | La capa web ve una sola entrada por caso de uso |
 | Factory (método estático o clase pequeña) | Elegir lector por tipo de archivo (`.json` / `.csv`) | Oculta qué lector se usa |
 | Gateway / Adapter | `core`: envoltura del cliente de Elasticsearch y del endpoint de inferencia | Aísla el cliente; facilita las pruebas con dobles |
@@ -120,7 +120,7 @@ genéricas (usa clases con nombre de responsabilidad), Visitor, reflexión.
 
 | Elemento | Convención | Ejemplo |
 |---|---|---|
-| Paquete | `com.bigfito.elastiflix.<módulo>.<área>` | `com.bigfito.elastiflix.search.facet` |
+| Paquete | `com.bigfito.elastiflix.<parte>.<área>` (`core`, `search`, `ingest` o `web`) | `com.bigfito.elastiflix.search.facet` |
 | Clase | Sustantivo en PascalCase | `HybridSearchStrategy`, `MappingValidator` |
 | Interfaz | Capacidad, sin prefijo `I` | `EmbeddingService`, `SearchStrategy` |
 | Implementación | Calificador + interfaz | `InferenceEmbeddingService` |
@@ -141,7 +141,8 @@ Abreviaturas permitidas en nombres: `RRF`, `BM25`, `KNN`, `CSV`, `JSON`, `NDJSON
 - **Secretos** solo por variables de entorno o `.env` (importado con `spring.config.import`); nunca en
   `application.yml` ni en el código (regla `JM-SEC-01`).
 - **Dónde va Spring:** `core`, `search` e `ingest` pueden usar `spring-context` (`@Service`,
-  `@Configuration`) pero **no** Spring MVC ni Thymeleaf; eso solo vive en `elastiflix-web`.
+  `@Configuration`) pero **no** Spring MVC, Servlet ni Thymeleaf; eso solo vive en el paquete `web`. El proyecto es
+  un solo módulo de Maven (fase 14), así que lo impide `ArchitectureTest`, no el classpath.
 - **Controladores delgados:** validan la entrada, llaman a un servicio y eligen la vista. Sin lógica
   de búsqueda ni de ingesta.
 - **Manejo global de errores:** un `@ControllerAdvice` traduce `ElastiflixException` a una página o
@@ -153,11 +154,11 @@ Abreviaturas permitidas en nombres: `RRF`, `BM25`, `KNN`, `CSV`, `JSON`, `NDJSON
   `spring-boot-starter-actuator`, `spring-boot-starter-validation`, `spring-boot-starter-elasticsearch`;
   para MockMvc, `spring-boot-starter-webmvc-test`. `HealthIndicator` está en
   `org.springframework.boot.health.contributor`.
-- **Clase principal:** escanea los cuatro módulos y no es una clase de utilidades (Checkstyle la exime
-  por `@SpringBootApplication`). Pasa la verificación automática tal cual:
+- **Clase principal:** vive en el paquete raíz para que Spring escanee las cuatro partes, y no es una clase de
+  utilidades (Checkstyle la exime por `@SpringBootApplication`). Pasa la verificación automática tal cual:
 
 ```java
-package com.bigfito.elastiflix.web;
+package com.bigfito.elastiflix;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -165,9 +166,12 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 /**
  * Punto de entrada de Elastiflix-Movies Java.
+ *
+ * <p>Está en el paquete raíz para que Spring escanee sus cuatro partes: {@code core}, {@code search},
+ * {@code ingest} y {@code web}.</p>
  */
-@SpringBootApplication(scanBasePackages = "com.bigfito.elastiflix")
-@ConfigurationPropertiesScan("com.bigfito.elastiflix")
+@SpringBootApplication
+@ConfigurationPropertiesScan
 public class ElastiflixApplication {
 
     /**
@@ -244,19 +248,18 @@ SLF4J con un `private static final Logger LOG` por clase.
 - **Unitarias** (`*Test`, Surefire): sin red ni Elasticsearch; el cliente y la inferencia se sustituyen
   por dobles.
 - **Integración** (`*IT`, Failsafe, **perfil de Maven** `it`: `./mvnw verify -Pit`): contra el proyecto
-  Elasticsearch Serverless configurado en `.env`. `core`, `search` e `ingest` tienen su
-  `TestApplication` (`@SpringBootConfiguration`) y su `src/test/resources/application.yml`, que importa
-  `optional:file:../.env[.properties]`; `web` **no**: usa `ElastiflixApplication` y su `application.yml`
-  principal (ver `PLAN.md` tarea 0.6).
+  Elasticsearch Serverless configurado en `.env`. Todas usan `ElastiflixApplication` (`@SpringBootTest`) y el
+  `application.yml` de la aplicación, que importa `optional:file:.env[.properties]` desde la raíz del repo, donde
+  trabajan Maven, Surefire y Failsafe (fase 14; antes cada módulo tenía su `TestApplication`).
   - Las unitarias no necesitan `.env` ni red: JUnit puro o `ApplicationContextRunner`; las de web con
     contexto (`@WebMvcTest`) pasan URL y API key ficticias en `properties` y simulan las fachadas.
-  - Los fixtures se leen desde `../elasticsearch/fixtures/`, relativo a la carpeta del módulo.
+  - Los fixtures se leen desde `elasticsearch/fixtures/`, relativo a la raíz del repo.
   - Las de **lectura** usan el alias `elastiflix-reloaded` y no lo modifican.
   - Las de **escritura** crean su propio alias `elastiflix-it-<aleatorio>` y lo borran al terminar,
     pase o falle la prueba. **Nunca** escriben en `elastiflix-reloaded`.
 - **Prohibido:** `Thread.sleep` (usa espera con condición), pruebas que dependan del orden,
   `@Disabled` sin motivo, aserciones vacías, datos reales de credenciales en recursos de prueba.
-- Las pruebas de arquitectura (ArchUnit) viven en `elastiflix-web/src/test/java/.../architecture/`
+- Las pruebas de arquitectura (ArchUnit) viven en `src/test/java/com/bigfito/elastiflix/architecture/`
   y corren en `./mvnw verify`.
 
 ## 11. Reglas de dominio que afectan el código
@@ -568,7 +571,7 @@ class KnnSettingsTest {
 
 ## 14. Qué se verifica automáticamente
 
-`./mvnw verify` ejecuta todo lo siguiente sobre `src/main/java` de cada módulo y falla ante la primera
+`./mvnw verify` ejecuta todo lo siguiente sobre `src/main/java` y falla ante la primera
 violación.
 
 | Regla | Herramienta | Umbral o patrón |
