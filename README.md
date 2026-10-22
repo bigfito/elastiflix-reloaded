@@ -26,7 +26,7 @@ Demo de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)*
 > archivos de hasta 25 MB) también está en `main` (PR #27). La fase 10 (Requerimiento 4: carga en modo
 > append o bulk) también está en `main` (PR #28). La fase 11 (Requerimiento 5: índice y catálogo completo en
 > «Acerca de») también está en `main` (PR #29). La fase 12 (Requerimiento 6: campos obligatorios de cada formato
-> en «Acerca de») está en la rama `fase-12-requeridos`. El
+> en «Acerca de») también está en `main` (PR #30). El
 > estado y el próximo paso están en [`progreso/INDICE.md`](progreso/INDICE.md), junto con el índice y el conteo
 > vigentes del alias `elastiflix-reloaded` («Catálogo vigente»).
 
@@ -482,7 +482,7 @@ modos; Adolfo aprobó esas seis el mismo día. Las dos de «Acerca de» también
 sección «Carga de datos» en los dos modos, y Adolfo también las aprobó; después se reemplazaron, a pedido suyo,
 por las mismas con la frase corregida de «El catálogo». La fase 11 las volvió a tomar con el índice y el
 catálogo completo, y Adolfo las aprobó. La fase 12 las volvió a tomar con las columnas de obligatorios en `.json` y
-`.csv`; esperan la aprobación de Adolfo. La comparación anterior con los mockups está en
+`.csv`, y Adolfo también las aprobó. La comparación anterior con los mockups está en
 [`progreso/4.md`](progreso/4.md).
 
 | Página | Español | English |

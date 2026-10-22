@@ -1558,7 +1558,8 @@ correcciones (`U-01` … `U-38`): 17 importantes y 21 menores, ninguna crítica.
   van, en CSV, dentro del JSON de la celda de su objeto; el resto es opcional. Las reglas son las mismas en append y
   en bulk.
 - **Camino:** el de la fase 11 (implementar directo con su PR; mockups `About.dc.html` y `About-en.dc.html` al final).
-- **Fase 12 — Tareas** (rama `fase-12-requeridos`; diseño en `docs/diseno/12.md`, sin compuerta 🔒):
+  Adolfo aprobó esos mockups y las capturas el 2026-10-22.
+- **Fase 12 — Tareas** (diseño en `docs/diseno/12.md`, sin compuerta 🔒; fusionada en `main` con el PR #30, `c61f652`):
   - [x] **12.0** Diseño técnico en `docs/diseno/12.md`.
   - [x] **12.1** Columnas «Obligatorio en .json» y «Obligatorio en .csv» en las cinco tablas, con la nota de la sección, en español e inglés. `CatalogRequirementsTest` contra el validador real y pruebas MockMvc.
   - [x] **12.2** Mockups, capturas de «Acerca de», README, verificación de fase (`./mvnw clean verify`, navegador), `progreso/12.md` e `INDICE.md`.
