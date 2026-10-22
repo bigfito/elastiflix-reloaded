@@ -532,7 +532,7 @@ no way does it intend to make a commercial profit from itself or from the inform
 
 - **[TMDB](https://www.themoviedb.org/)** (The Movie Database): movie data and posters.
   *This product uses the TMDB API but is not endorsed or certified by TMDB.* The attribution also appears in the footer of
-  every page and in «About the demo» › «Credits».
+  every page and in «About the demo» › «Credits and terms of use», which also carries the academic-purpose notice.
 - **[Wikipedia](https://www.wikipedia.org/)**: movie texts. Wikipedia content is published under the
   [Creative Commons Attribution-ShareAlike 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
 

@@ -535,7 +535,7 @@ manera pretende obtener un lucro comercial con él ni con la información que us
 
 - **[TMDB](https://www.themoviedb.org/)** (The Movie Database): datos de las películas y pósters.
   *This product uses the TMDB API but is not endorsed or certified by TMDB.* La atribución también aparece en el pie de
-  cada página y en «Acerca de» › «Créditos».
+  cada página y en «Acerca de» › «Créditos y aviso de uso», que también trae el aviso de fines académicos.
 - **[Wikipedia](https://www.wikipedia.org/)**: textos de las películas. El contenido de Wikipedia se publica bajo la licencia
   [Creative Commons Atribución-CompartirIgual 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es).
 

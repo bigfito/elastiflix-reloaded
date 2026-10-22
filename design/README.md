@@ -20,7 +20,7 @@ en inglés (`-en`).
 
 - Los valores entre corchetes (`[release_date]`, `[vote_count]`…) y las variables `{{…}}` son marcadores: en la
   aplicación salen de Elasticsearch, igual que los conteos del pie y de «Acerca de».
-- El logo de TMDB de «Créditos» es `src/main/resources/static/img/tmdb/…svg`.
+- El logo de TMDB de «Créditos y aviso de uso» es `src/main/resources/static/img/tmdb/…svg`.
 - En el error `EFX-SRCH-012`, la aplicación usa su página de error común: muestra el código, el «qué pasó» y el
   enlace «Volver a buscar», y el menú no marca ninguna página.
 

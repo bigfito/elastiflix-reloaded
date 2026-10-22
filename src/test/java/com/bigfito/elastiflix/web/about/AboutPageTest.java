@@ -25,7 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Acerca de muestra las secciones del mockup, la tabla de precisión y los créditos de TMDB.
+ * Acerca de muestra las secciones del mockup, la tabla de precisión, los créditos de TMDB y de Wikipedia y el aviso
+ * de fines académicos.
  */
 @WebMvcTest(controllers = AboutController.class, properties = {
         "elastiflix.elasticsearch.url=http://localhost:9200", "elastiflix.elasticsearch.api-key=test"})
@@ -110,13 +111,13 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("<a href=\"#resultados\">Resultados y filtros</a>")))
                 .andExpect(content().string(containsString("<a href=\"#carga\">Carga de datos</a>")))
                 .andExpect(content().string(containsString("<a href=\"#catalogo\">El catálogo</a>")))
-                .andExpect(content().string(containsString("<a href=\"#creditos\">Créditos</a>")))
+                .andExpect(content().string(containsString("<a href=\"#creditos\">Créditos y aviso de uso</a>")))
                 .andExpect(content().string(containsString("<section id=\"catalogo\"")))
                 .andExpect(content().string(containsString("/js/about.js")));
         mvc.perform(get("/acerca").param("lang", "en"))
                 .andExpect(content().string(containsString("<summary>On this page</summary>")))
                 .andExpect(content().string(containsString("<a href=\"#resultados\">Results and filters</a>")))
-                .andExpect(content().string(containsString("<a href=\"#creditos\">Credits</a>")));
+                .andExpect(content().string(containsString("<a href=\"#creditos\">Credits and terms of use</a>")));
     }
 
     @Test
@@ -181,11 +182,11 @@ class AboutPageTest {
                         + "is published all at once or discarded without affecting searches; an append load is added "
                         + "to the current index batch by batch.")))
                 .andExpect(content().string(containsString("Index: elastiflix-reloaded · 4,322 movies")))
-                .andExpect(content().string(containsString("Credits")));
+                .andExpect(content().string(containsString("<a href=\"#creditos\">Credits and terms of use</a>")));
     }
 
     @Test
-    @DisplayName("Créditos abre con la frase del mockup y marca el idioma de cada aviso de TMDB")
+    @DisplayName("Créditos presenta a TMDB con su frase y marca el idioma de cada aviso de TMDB")
     void shouldIntroduceTheCreditsAndMarkTheLanguageOfEachNotice() throws Exception {
         String notices = "<p lang=\"en\">" + CatalogTexts.TMDB + "</p>\n        <p lang=\"es\">"
                 + CatalogTexts.TMDB_ES + "</p>";
@@ -201,5 +202,29 @@ class AboutPageTest {
                 .andExpect(content().string(containsString(
                         "<p>Movie data and poster images come from TMDB (The Movie Database).</p>")))
                 .andExpect(content().string(containsString(notices)));
+    }
+
+    @Test
+    @DisplayName("Créditos abre con el aviso de fines académicos y da el crédito a TMDB y a Wikipedia, en los dos idiomas")
+    void shouldStateTheAcademicPurposeAndCreditTmdbAndWikipedia() throws Exception {
+        mvc.perform(get("/acerca"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<div class=\"note lilac\">\n          <h3>Fines académicos "
+                        + "y demostrativos</h3>")))
+                .andExpect(content().string(containsString("de ninguna manera pretende obtener un lucro comercial")))
+                .andExpect(content().string(containsString(
+                        "<p>Los créditos de la información de las películas corresponden a TMDB y a Wikipedia.</p>")))
+                .andExpect(content().string(containsString(
+                        "Los textos de las películas vienen de <a href=\"https://www.wikipedia.org/\">Wikipedia</a>")))
+                .andExpect(content().string(containsString("https://creativecommons.org/licenses/by-sa/4.0/deed.es")));
+
+        mvc.perform(get("/acerca").param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("<h3>Academic and demonstration purposes</h3>")))
+                .andExpect(content().string(containsString("in no way does it intend to make a commercial profit")))
+                .andExpect(content().string(containsString(
+                        "<p>Credit for the movie information goes to TMDB and Wikipedia.</p>")))
+                .andExpect(content().string(containsString(
+                        "Movie texts come from <a href=\"https://www.wikipedia.org/\">Wikipedia</a>")));
     }
 }
