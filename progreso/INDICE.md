@@ -12,8 +12,8 @@
 - **Ramas:** `fase-13-primera-carga` (sale de `main`, `8204b3c`)
 - **Diseño:** [`docs/diseno/13.md`](../docs/diseno/13.md)
 - **Estado:** [`progreso/13.md`](13.md)
-- **Tarea actual:** 13.1 Bulk y registro individual crean el catálogo; append bloqueado
-- **Próximo paso:** implementar la primera carga según `docs/diseno/13.md` (tarea 13.1).
+- **Tarea actual:** 13.2 Web: aviso, append deshabilitado, cabecera y pie
+- **Próximo paso:** aviso de «Cargar datos», append deshabilitado y textos de cabecera y pie sin catálogo (tarea 13.2).
 - **Última actualización:** 2026-10-22 15:22 UTC
 
 ## Fases

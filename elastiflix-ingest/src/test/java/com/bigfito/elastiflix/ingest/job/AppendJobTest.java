@@ -172,7 +172,7 @@ class AppendJobTest {
     @Test
     @DisplayName("un alias que no existe, en varios índices o un índice concreto dan su código sin escribir nada")
     void shouldRefuseWhatIsNotAnAliasOfOneIndex() {
-        assertCatalogRefused(new CatalogName.Missing(ALIAS), ErrorCode.CATALOG_NOT_FOUND);
+        assertCatalogRefused(new CatalogName.Missing(ALIAS), ErrorCode.APPEND_WITHOUT_CATALOG);
         assertCatalogRefused(new CatalogName.Ambiguous(ALIAS), ErrorCode.ALIAS_AMBIGUOUS);
         assertCatalogRefused(new CatalogName.ConcreteIndex(ALIAS), ErrorCode.CATALOG_NOT_ALIAS);
     }

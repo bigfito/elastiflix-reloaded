@@ -60,7 +60,7 @@ public final class AppendJob {
             ImportListener listener,
             BooleanSupplier cancelled) {
         ensureRunning(cancelled);
-        CatalogAliases.require(catalog, alias);
+        CatalogAliases.require(catalog, alias, ErrorCode.APPEND_WITHOUT_CATALOG);
         listener.onProgress(new ImportProgress(JobSteps.IMPORT, 0, 0, 0, NO_TEMP));
         Tally tally = new Tally();
         try {

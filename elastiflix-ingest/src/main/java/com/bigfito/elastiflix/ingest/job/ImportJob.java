@@ -21,9 +21,10 @@ import org.springframework.stereotype.Component;
  * Modo bulk: escribe las películas del archivo en un índice temporal y publica.
  *
  * <p>El temporal tiene solo las películas del archivo: el catálogo actual no se copia (Requerimiento 4), así que
- * al publicar el catálogo queda con ellas. Si algo falla antes de publicar, borra el temporal. Si {@code publish}
- * falla, primero lee el alias: solo borra el temporal cuando Elasticsearch rechazó la publicación con un 4xx y el
- * alias sigue en el índice anterior.</p>
+ * al publicar el catálogo queda con ellas. Si el alias todavía no existe, es la primera carga (Requerimiento 7):
+ * {@code _aliases} solo agrega el alias y «no publicado» significa que el alias sigue sin existir. Si algo falla
+ * antes de publicar, borra el temporal. Si {@code publish} falla, primero lee el alias: solo borra el temporal
+ * cuando Elasticsearch rechazó la publicación con un 4xx y el alias sigue en el índice anterior.</p>
  */
 @Component
 public final class ImportJob {
@@ -78,12 +79,11 @@ public final class ImportJob {
             ImportListener listener,
             BooleanSupplier cancelled) {
         ensureRunning(cancelled);
-        CatalogName.Alias found = CatalogAliases.require(catalog, alias);
-        cleaner.clean(catalog, alias, found.concreteIndex());
+        String previous = CatalogAliases.currentIndex(catalog, alias);
+        cleaner.clean(catalog, alias, previous);
         String temp = names.timestamped(alias, clock);
         createTemp(temp);
-        importInto(new ImportContext(
-                alias, found.concreteIndex(), temp, source, counts, listener, cancelled));
+        importInto(new ImportContext(alias, previous, temp, source, counts, listener, cancelled));
     }
 
     /**
@@ -154,8 +154,12 @@ public final class ImportJob {
      * trabajo igual terminó bien, así que solo queda un {@code WARN} y {@code run} vuelve sin excepción.
      */
     private void published(ImportContext context, WriteTotals totals, long expected) {
-        LOG.info("La importación publicó {} en {} y borró {} ({} documentos)",
-                context.alias(), context.temp(), context.previous(), expected);
+        if (context.previous() == null) {
+            LOG.info("La primera carga creó {} en {} ({} documentos)", context.alias(), context.temp(), expected);
+        } else {
+            LOG.info("La importación publicó {} en {} y borró {} ({} documentos)",
+                    context.alias(), context.temp(), context.previous(), expected);
+        }
         try {
             context.listener().onProgress(totals.notice(JobSteps.PUBLISH, context.temp()));
         } catch (ElastiflixException exception) {
@@ -181,7 +185,7 @@ public final class ImportJob {
         if (pointsTo(described, context.temp())) {
             return;
         }
-        if (ElasticsearchDiagnostics.isClientRejection(failure) && pointsTo(described, context.previous())) {
+        if (ElasticsearchDiagnostics.isClientRejection(failure) && stillPrevious(described, context.previous())) {
             throw new ElasticsearchAccessException(ErrorCode.ALIAS_PUBLISH_FAILED, failure);
         }
         throw uncertain(failure);
@@ -193,6 +197,14 @@ public final class ImportJob {
         } catch (ElastiflixException exception) {
             throw uncertain(exception);
         }
+    }
+
+    /** El alias quedó como antes de publicar: en el índice anterior o, en la primera carga, sin existir. */
+    private static boolean stillPrevious(CatalogName described, String previous) {
+        if (previous == null) {
+            return described instanceof CatalogName.Missing;
+        }
+        return pointsTo(described, previous);
     }
 
     private static boolean pointsTo(CatalogName described, String index) {

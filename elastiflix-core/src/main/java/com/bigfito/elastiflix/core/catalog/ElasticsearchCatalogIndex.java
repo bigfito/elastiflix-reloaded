@@ -114,7 +114,9 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
         call(alias, () -> {
             client.indices().updateAliases(request -> request
                     .timeout(limit -> limit.time(PUBLISH_LIMIT))
-                    .actions(CatalogRequests.add(alias, newIndex), CatalogRequests.remove(previousIndex)));
+                    .actions(previousIndex == null
+                            ? List.of(CatalogRequests.add(alias, newIndex))
+                            : List.of(CatalogRequests.add(alias, newIndex), CatalogRequests.remove(previousIndex))));
             return null;
         });
     }

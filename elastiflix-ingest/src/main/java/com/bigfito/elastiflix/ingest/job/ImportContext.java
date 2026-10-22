@@ -6,7 +6,7 @@ import java.util.function.BooleanSupplier;
  * Datos de una importación que ya pasó la validación.
  *
  * @param alias     alias del catálogo
- * @param previous  índice concreto que está detrás del alias
+ * @param previous  índice concreto que está detrás del alias, o {@code null} en la primera carga
  * @param temp      índice temporal
  * @param source    lotes de películas
  * @param counts    conteos del archivo

@@ -67,6 +67,26 @@ class ElasticsearchCatalogIndexTest {
     }
 
     @Test
+    @DisplayName("publish sin índice anterior (primera carga) manda solo la acción add")
+    // Mockito entrega la función del cliente sin el tipo genérico.
+    @SuppressWarnings("unchecked")
+    void shouldOnlyAddTheAliasWhenThereIsNoPreviousIndex() throws Exception {
+        // given
+        when(client.indices()).thenReturn(indices);
+        ArgumentCaptor<Function<UpdateAliasesRequest.Builder, ObjectBuilder<UpdateAliasesRequest>>> captor =
+                ArgumentCaptor.forClass(Function.class);
+
+        // when
+        catalog.publish("demo", "demo-20261022-030405", null);
+
+        // then
+        verify(indices).updateAliases(captor.capture());
+        UpdateAliasesRequest sent = captor.getValue().apply(new UpdateAliasesRequest.Builder()).build();
+        assertThat(sent.actions()).hasSize(1);
+        assertThat(sent.actions().getFirst().add().index()).isEqualTo("demo-20261022-030405");
+    }
+
+    @Test
     @DisplayName("indexOne escribe por el alias con require_alias=true y refresh=wait_for")
     // Mockito entrega la función del cliente sin el tipo genérico.
     @SuppressWarnings("unchecked")

@@ -84,21 +84,6 @@ class ImportJobEdgeTest {
     }
 
     @Test
-    @DisplayName("un alias que no existe da EFX-ES-002 sin crear ni borrar índices")
-    void shouldRefuseAMissingCatalog() {
-        // given
-        when(catalog.describe(ALIAS)).thenReturn(new CatalogName.Missing(ALIAS));
-
-        // when
-        ElastiflixException thrown = run(movies(1), 100, () -> false);
-
-        // then
-        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.CATALOG_NOT_FOUND);
-        verify(catalog, never()).createWithMapping(anyString());
-        verify(catalog, never()).deleteIndex(anyString());
-    }
-
-    @Test
     @DisplayName("un alias en varios índices da EFX-ES-005 sin crear ni borrar índices")
     void shouldRefuseAnAmbiguousAlias() {
         // given

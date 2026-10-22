@@ -18,6 +18,7 @@ import com.bigfito.elastiflix.ingest.job.ImportMode;
 import com.bigfito.elastiflix.ingest.job.FileGate;
 import com.bigfito.elastiflix.ingest.job.AppendJob;
 import com.bigfito.elastiflix.ingest.job.FileIntake;
+import com.bigfito.elastiflix.ingest.job.FirstCatalog;
 import com.bigfito.elastiflix.ingest.job.ImportJob;
 import com.bigfito.elastiflix.ingest.job.ImportRunner;
 import com.bigfito.elastiflix.ingest.job.IndividualRecord;
@@ -103,7 +104,8 @@ class IngestServiceTest {
                 new ImportRunner(new ImportJob(
                         catalog, names, Clock.systemUTC(), vectorizer, new OrphanCleaner(names)),
                         new AppendJob(catalog, vectorizer), store, properties),
-                new IndividualRecord(new MappingValidator(), vectorizer, catalog),
+                new IndividualRecord(new MappingValidator(), vectorizer, catalog,
+                        new FirstCatalog(catalog, names, Clock.systemUTC())),
                 properties);
     }
 

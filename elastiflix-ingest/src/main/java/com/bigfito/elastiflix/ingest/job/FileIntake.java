@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.bigfito.elastiflix.core.catalog.CatalogIndex;
+import com.bigfito.elastiflix.core.catalog.CatalogName;
 import com.bigfito.elastiflix.core.config.ElastiflixProperties;
 import com.bigfito.elastiflix.core.error.ElastiflixException;
 import com.bigfito.elastiflix.core.error.ErrorCode;
@@ -136,9 +137,7 @@ public final class FileIntake {
         if (store.stopIfCancelled(work)) {
             return;
         }
-        int replaced = work.mode() == ImportMode.BULK
-                ? Math.toIntExact(catalog.count(properties.index().alias()))
-                : replacements(movies);
+        int replaced = work.mode() == ImportMode.BULK ? catalogSize() : replacements(movies);
         store.ready(jobId, new ValidatedMovies(movies, report, replaced));
     }
 
@@ -146,14 +145,28 @@ public final class FileIntake {
      * Append: cuántos ids del archivo ya están en el catálogo. En bulk se reemplaza el catálogo entero, así que se
      * cuentan sus documentos. Se pregunta solo con el archivo ya válido: con
      * Elasticsearch caído, un archivo con errores igual muestra sus errores. Los ids no se repiten, porque
-     * un id repetido es un error.
+     * un id repetido es un error. Append sin catálogo no tiene a qué agregar (Requerimiento 7): para aquí con
+     * {@code EFX-IMP-010}, que dice que primero hay que cargar en bulk o guardar un registro individual.
      */
     private int replacements(List<Movie> movies) {
+        String alias = properties.index().alias();
+        if (catalog.describe(alias) instanceof CatalogName.Missing) {
+            throw new ImportException(ErrorCode.APPEND_WITHOUT_CATALOG);
+        }
         List<String> ids = new ArrayList<>();
         for (Movie movie : movies) {
             ids.add(movie.id());
         }
-        return catalog.existingIds(properties.index().alias(), ids).size();
+        return catalog.existingIds(alias, ids).size();
+    }
+
+    /** Lo que bulk reemplaza: el catálogo entero, o nada si todavía no existe (la primera carga lo crea). */
+    private int catalogSize() {
+        String alias = properties.index().alias();
+        if (catalog.describe(alias) instanceof CatalogName.Missing) {
+            return 0;
+        }
+        return Math.toIntExact(catalog.count(alias));
     }
 
     /** {@code EFX-ING-001} a {@code 004} son las comprobaciones del paso 2; lo demás ya es el paso 3. */
