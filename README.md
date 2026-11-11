@@ -2,6 +2,8 @@
 
 # 🎬 Elastiflix-Movies Java
 
+*(repo: elastiflix-reloaded, la versión vigente de la familia Elastiflix)*
+
 **Busca películas por palabras, por significado o combinando ambos, y compara cómo responde cada modo.**
 
 Demo web de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (RRF)** sobre un catálogo de películas en
@@ -18,6 +20,15 @@ Demo web de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (R
 </div>
 
 ---
+
+## 🗂️ Familia Elastiflix
+
+**elastiflix-reloaded** es la demo vigente de Elastiflix.
+
+- **[elastiflix-reloaded](https://github.com/bigfito/elastiflix-reloaded)**: la demo vigente (Java 25, Spring Boot 4.1, Elasticsearch Serverless; búsqueda full-text, k-NN e híbrida con RRF, y carga de datos incluida).
+- [elastiflix-java](https://github.com/bigfito/elastiflix-java): versión anterior, que compara seis modos de búsqueda (ELSER, E5, reranking).
+- [elastiflix-loader-java](https://github.com/bigfito/elastiflix-loader-java): cargador masivo del índice `elastiflix-movies` que usa `elastiflix-java`.
+- Inspirada en la demo original de Elastic, [elastic/Elastiflix](https://github.com/elastic/Elastiflix) (fork en [bigfito/elastiflix](https://github.com/bigfito/elastiflix)).
 
 ## 🎯 Objetivo
 
@@ -39,6 +50,7 @@ modo y más abajo en otro. La aplicación también deja **cargar y validar** pel
 
 ## 📚 Contenido
 
+- [🗂️ Familia Elastiflix](#-familia-elastiflix)
 - [✨ Qué puedes hacer](#-qué-puedes-hacer)
 - [🚀 Guía de inicio, de principio a fin](#-guía-de-inicio-de-principio-a-fin)
 - [🔎 Los tres modos de búsqueda](#-los-tres-modos-de-búsqueda)
@@ -116,7 +128,7 @@ Elasticsearch, y habrás hecho una búsqueda en cada modo.
 ### 3. Clona el repositorio y configura `.env`
 
 ```bash
-git clone <url-del-repositorio> elastiflix-reloaded
+git clone https://github.com/bigfito/elastiflix-reloaded.git
 cd elastiflix-reloaded
 cp .env.example .env
 ```
@@ -436,6 +448,7 @@ las flechas. El diagrama completo, con los flujos numerados de búsqueda, detall
 ```
 elastiflix-reloaded/
 ├── 📄 README.md · README.en.md
+├── 📄 LICENSE                               MIT: solo el código, no los datos de películas
 ├── 📦 pom.xml · mvnw · mvnw.cmd · .mvn/     build de Maven (un solo módulo)
 ├── 🔑 .env.example                          variables de entorno (cópialo como .env)
 ├── ☕ src/main/java/com/bigfito/elastiflix/
@@ -516,6 +529,7 @@ Páginas completas con la aplicación conectada a un catálogo de 6 899 películ
 | 🎨 [`design/README.md`](design/README.md) | Mockups de las páginas y tokens de diseño |
 | 🧪 [`src/test/browser/README.md`](src/test/browser/README.md) | Pruebas de navegador |
 | 📸 [`docs/capturas/`](docs/capturas/) | Capturas de las páginas |
+| ⚖️ [`LICENSE`](LICENSE) | Licencia MIT del código. No cubre los datos de TMDB ni de Wikipedia |
 
 **Referencias de Elasticsearch:**
 [match](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query) ·
@@ -530,6 +544,9 @@ Páginas completas con la aplicación conectada a un catálogo de 6 899 películ
 **Fines académicos y demostrativos.** Elastiflix-Movies Java es un proyecto académico que demuestra técnicas de
 búsqueda full-text, vectorial e híbrida. No es un producto comercial: no se vende, no muestra publicidad y de ninguna
 manera pretende obtener un lucro comercial con él ni con la información que usa.
+
+**Licencia.** El código se publica bajo licencia [MIT](LICENSE); esa licencia cubre solo el código, no los datos de
+películas, que conservan la licencia de sus fuentes (TMDB y Wikipedia, CC BY-SA 4.0).
 
 **Créditos de la información.** Los créditos de la información de las películas corresponden a:
 
