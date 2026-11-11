@@ -10,7 +10,7 @@ A web demo of **full-text (BM25)**, **vector (k-NN)**, and **hybrid (RRF)** sear
 **Elasticsearch Serverless**, with a Spanish and English interface.
 
 ![Java](https://img.shields.io/badge/Java-25_LTS-FFCDB2?style=for-the-badge&logo=openjdk&logoColor=2E2A3B&labelColor=FBF7F1)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.1-BDE8D7?style=for-the-badge&logo=springboot&logoColor=1E7A5C&labelColor=FBF7F1)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.2-BDE8D7?style=for-the-badge&logo=springboot&logoColor=1E7A5C&labelColor=FBF7F1)
 ![Maven](https://img.shields.io/badge/Maven-3.10.0-FBE7A1?style=for-the-badge&logo=apachemaven&logoColor=A9502A&labelColor=FBF7F1)
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Serverless-BFE0F6?style=for-the-badge&logo=elasticsearch&logoColor=1F6FA8&labelColor=FBF7F1)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.5-CDBDF6?style=for-the-badge&logo=thymeleaf&logoColor=6A50C8&labelColor=FBF7F1)
@@ -468,11 +468,11 @@ The source code, its comments, and the logs are written in Spanish; identifiers 
 | | Component | Version |
 |---|---|---|
 | ☕ | Java (LTS) | 25 |
-| 🍃 | Spring Boot | 4.1.1 |
+| 🍃 | Spring Boot | 4.1.2 |
 | 📦 | Maven (Maven Wrapper) | 3.10.0 |
 | 🖼️ | Thymeleaf | 3.1.5 |
-| 🔍 | Elasticsearch Java client | 9.4.5 (managed by Spring Boot) |
-| 🧩 | Jackson 3 (`Jackson3JsonpMapper`) | 3.1.5 |
+| 🔍 | Elasticsearch Java client | 9.4.8 (managed by Spring Boot) |
+| 🧩 | Jackson 3 (`Jackson3JsonpMapper`) | 3.1.7 |
 | 🧠 | jina-embeddings-v5-omni-small | endpoint `.jina-embeddings-v5-omni-small` |
 | 🧹 | Checkstyle · PMD · ArchUnit (`archunit-junit6`) | 14.3.0 · 7.28.0 · 1.5.1 |
 
