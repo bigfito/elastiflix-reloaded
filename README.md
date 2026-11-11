@@ -58,6 +58,7 @@ modo y más abajo en otro. La aplicación también deja **cargar y validar** pel
 - [📥 Carga de datos](#-carga-de-datos)
 - [⚙️ Configuración](#️-configuración)
 - [🧪 Pruebas](#-pruebas)
+- [☁️ Despliegue en Google Cloud](#️-despliegue-en-google-cloud)
 - [🩺 Solución de problemas](#-solución-de-problemas)
 - [🏗️ Arquitectura](#️-arquitectura)
 - [📁 Estructura del repositorio](#-estructura-del-repositorio)
@@ -402,6 +403,41 @@ El estado del catálogo (alias, índice vigente y conteo) también está en `GET
   precisión. Con otro catálogo, las que comparan conteos y posiciones se omiten y algunas pueden fallar, porque
   buscan películas concretas (por ejemplo, la `597`, Titanic).
 
+## ☁️ Despliegue en Google Cloud
+
+La demo en producción responde en **https://elastiflix.bigfito.cloud** y **https://elastiflix.bigfito.dev**. Cada push a
+`main` la vuelve a construir y desplegar sin pasos manuales:
+
+```mermaid
+flowchart LR
+  gh["GitHub · push a main"] --> cb["Cloud Build<br/>Dockerfile + ./mvnw verify"]
+  cb --> are["Artifact Registry<br/>us-east1"]
+  cb --> arw["Artifact Registry<br/>us-west1"]
+  are --> cre["Cloud Run<br/>prod-elastiflix-east1"]
+  arw --> crw["Cloud Run<br/>prod-elastiflix-west1"]
+  user(["👤 Visitante"]) --> lb["Balanceador HTTPS global<br/>región más cercana"]
+  lb --> cre
+  lb --> crw
+  cre --> es[("Elasticsearch Serverless")]
+  crw --> es
+```
+
+| Pieza | Detalle |
+|---|---|
+| [`Dockerfile`](Dockerfile) | Dos etapas: compila con JDK 25 y corre `./mvnw verify` (si falla, no hay imagen); la imagen final lleva solo el JRE 25 y el jar, con un usuario sin privilegios |
+| [`.dockerignore`](.dockerignore) | Lista de permitidos: `.env`, `target/` y `data/` nunca entran en la imagen |
+| [`cloudbuild.yaml`](cloudbuild.yaml) | Construye una vez, etiqueta con el commit corto, publica en `prod-elastiflix-us-east1` y `prod-elastiflix-us-west1`, y despliega los dos servicios en paralelo |
+| Cloud Run | `prod-elastiflix-east1` y `prod-elastiflix-west1`: 1 vCPU, 1 GiB, de 0 a 3 instancias, CPU asignada fuera de las peticiones (las importaciones corren en segundo plano), afinidad de sesión y tráfico solo desde el balanceador |
+| Credenciales | `ELASTICSEARCH_URL` y `ELASTICSEARCH_API_KEY` vienen de Secret Manager (`elastiflix-elasticsearch-url`, `elastiflix-elasticsearch-api-key`) |
+| Balanceador | Global, con NEG serverless en las dos regiones: cada visitante llega a la región más cercana. HTTP redirige a HTTPS |
+
+Para probar la imagen en tu máquina, con las credenciales de tu `.env`:
+
+```bash
+docker build -t elastiflix .
+docker run --rm -p 8080:8080 --env-file .env elastiflix
+```
+
 ## 🩺 Solución de problemas
 
 | Síntoma | Causa probable | Qué hacer |
@@ -450,6 +486,7 @@ elastiflix-reloaded/
 ├── 📄 README.md · README.en.md
 ├── 📄 LICENSE                               MIT: solo el código, no los datos de películas
 ├── 📦 pom.xml · mvnw · mvnw.cmd · .mvn/     build de Maven (un solo módulo)
+├── 🐳 Dockerfile · .dockerignore · cloudbuild.yaml   imagen y pipeline de Cloud Build
 ├── 🔑 .env.example                          variables de entorno (cópialo como .env)
 ├── ☕ src/main/java/com/bigfito/elastiflix/
 │   ├── ElastiflixApplication.java          punto de entrada

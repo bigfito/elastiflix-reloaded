@@ -1,0 +1,10 @@
+# Lista de permitidos: al contexto de la imagen solo entra lo necesario para compilar y probar.
+# Así .env, target/, data/ y las pruebas de navegador nunca llegan a la imagen.
+*
+!pom.xml
+!mvnw
+!.mvn/
+!config/
+!elasticsearch/
+!src/
+src/test/browser/

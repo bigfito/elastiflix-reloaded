@@ -1,0 +1,79 @@
+# Pipeline de Cloud Build: cada push a main construye la imagen, la publica en Artifact Registry
+# (us-east1 y us-west1) y la despliega en los dos servicios de Cloud Run. El balanceador global
+# envía a cada visitante a la región más cercana.
+substitutions:
+  _EAST: us-east1-docker.pkg.dev/${PROJECT_ID}/prod-elastiflix-us-east1/elastiflix
+  _WEST: us-west1-docker.pkg.dev/${PROJECT_ID}/prod-elastiflix-us-west1/elastiflix
+  _RUNTIME_SA: bigfito-web-runtime@${PROJECT_ID}.iam.gserviceaccount.com
+
+steps:
+  # El Dockerfile compila y corre ./mvnw verify; si falla, no se publica nada.
+  - id: build
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-t', '${_EAST}:${SHORT_SHA}', '-t', '${_WEST}:${SHORT_SHA}', '.']
+
+  - id: push-east1
+    name: gcr.io/cloud-builders/docker
+    args: ['push', '${_EAST}:${SHORT_SHA}']
+    waitFor: ['build']
+
+  - id: push-west1
+    name: gcr.io/cloud-builders/docker
+    args: ['push', '${_WEST}:${SHORT_SHA}']
+    waitFor: ['build']
+
+  # Cada servicio usa la imagen de su región. La configuración va completa en cada despliegue,
+  # así el pipeline también puede crear el servicio si no existe.
+  - id: deploy-east1
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - prod-elastiflix-east1
+      - --image=${_EAST}:${SHORT_SHA}
+      - --region=us-east1
+      - --service-account=${_RUNTIME_SA}
+      - --ingress=internal-and-cloud-load-balancing
+      - --set-secrets=ELASTICSEARCH_URL=elastiflix-elasticsearch-url:latest,ELASTICSEARCH_API_KEY=elastiflix-elasticsearch-api-key:latest
+      - --port=8080
+      - --cpu=1
+      - --memory=1Gi
+      - --min-instances=0
+      - --max-instances=3
+      - --concurrency=80
+      - --no-cpu-throttling
+      - --cpu-boost
+      - --session-affinity
+      - --quiet
+    waitFor: ['push-east1']
+
+  - id: deploy-west1
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - prod-elastiflix-west1
+      - --image=${_WEST}:${SHORT_SHA}
+      - --region=us-west1
+      - --service-account=${_RUNTIME_SA}
+      - --ingress=internal-and-cloud-load-balancing
+      - --set-secrets=ELASTICSEARCH_URL=elastiflix-elasticsearch-url:latest,ELASTICSEARCH_API_KEY=elastiflix-elasticsearch-api-key:latest
+      - --port=8080
+      - --cpu=1
+      - --memory=1Gi
+      - --min-instances=0
+      - --max-instances=3
+      - --concurrency=80
+      - --no-cpu-throttling
+      - --cpu-boost
+      - --session-affinity
+      - --quiet
+    waitFor: ['push-west1']
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  dynamicSubstitutions: true
+
+timeout: 1800s
