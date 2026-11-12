@@ -110,7 +110,13 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 
 ## 5. Bloqueos abiertos
 
-Ninguno.
+- **B-01 (turno 06):** `ShippedCatalogValidationTest` quedó en rojo tras `lote-011` por **un** aviso
+  `EFX-ING-026`: la trama de `286554` (*Two Night Stand*, artículo `enwiki:Two Night Stand#revid=1374292408`) cita el
+  globo «I'm sorry, I'm an asshole» y la expresión `\bi'?m sorry\b` de `PlotChecks.ASSISTANT` dispara en cualquier
+  posición del texto. Es un falso positivo sobre una cita de la película: la trama es la correcta de Wikipedia
+  (NS-1a). R-05 ya anticipó que la regla nueva de WP-03 va anclada al inicio del texto. Lo resuelve Claude Code en
+  R-06 (corrección de la regla o decisión); mientras tanto, los lotes del turno 06 se commitean con la prueba en
+  rojo por este único aviso, y cada corrida se revisa para confirmar que no aparecen avisos nuevos.
 
 ## 6. Métricas de relevancia
 
