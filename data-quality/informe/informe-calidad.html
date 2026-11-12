@@ -1,0 +1,250 @@
+<title>Calidad de elastiflix-reloaded</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una columna de lectura (~72ch) con tablas y gráficos que pueden ocupar más ancho; tokens tomados de elastiflix.css */
+:root {
+  --bg: #FBF7F1; --surface: #FFFFFF; --muted-bg: #F3ECE2; --border: #E2D8CA;
+  --ink: #2E2A3B; --ink-3: #4F4A5E; --muted: #6B6578; --accent: #A9502A;
+  --crit: #B9472A; --crit-bg: #F9DDD3; --high: #A8336B; --high-bg: #F7D9E7;
+  --mid: #8A6A00; --mid-bg: #FBEDBF; --low: #1F6FA8; --low-bg: #D6EAF8;
+  --ok: #1E7A5C; --ok-bg: #D3F0E4;
+  --seg1: #1F6FA8; --seg2: #A8336B; --seg3: #1E7A5C;
+  --font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1C1A24; --surface: #252230; --muted-bg: #2D2939; --border: #3D3849;
+  --ink: #EEEAF5; --ink-3: #C9C3D6; --muted: #A39CB2; --accent: #E58A5E;
+  --crit: #F08A6C; --crit-bg: #4A2A24; --high: #EE8DBB; --high-bg: #45243A;
+  --mid: #E8C55A; --mid-bg: #413716; --low: #7CB8E8; --low-bg: #1E3447;
+  --ok: #6FD1A8; --ok-bg: #1C3A30;
+  --seg1: #7CB8E8; --seg2: #EE8DBB; --seg3: #6FD1A8; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #1C1A24; --surface: #252230; --muted-bg: #2D2939; --border: #3D3849;
+  --ink: #EEEAF5; --ink-3: #C9C3D6; --muted: #A39CB2; --accent: #E58A5E;
+  --crit: #F08A6C; --crit-bg: #4A2A24; --high: #EE8DBB; --high-bg: #45243A;
+  --mid: #E8C55A; --mid-bg: #413716; --low: #7CB8E8; --low-bg: #1E3447;
+  --ok: #6FD1A8; --ok-bg: #1C3A30;
+  --seg1: #7CB8E8; --seg2: #EE8DBB; --seg3: #6FD1A8; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font: 15px/1.6 var(--font); }
+.wrap { max-width: 980px; margin: 0 auto; padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 44px; }
+.prose { max-width: 72ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 44px); }
+h2 { font-size: 26px; }
+h3 { font-size: 18px; }
+p { margin: 0; }
+section { display: grid; gap: 16px; min-width: 0; }
+code, .mono { font-family: var(--mono); font-size: 0.88em; }
+code { background: var(--muted-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--muted); font-size: 13px; }
+.meta span b { color: var(--ink-3); font-weight: 500; }
+header { display: grid; gap: 14px; }
+.lede { font-size: 18px; line-height: 1.55; color: var(--ink-3); max-width: 68ch; }
+.lede strong { color: var(--ink); }
+
+/* scorecard */
+.score { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.dim { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
+.dim .name { font-weight: 600; font-size: 14px; }
+.dim .why { color: var(--muted); font-size: 13px; line-height: 1.45; }
+.pill { justify-self: start; font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; }
+.p-ok { color: var(--ok); background: var(--ok-bg); }
+.p-low { color: var(--low); background: var(--low-bg); }
+.p-mid { color: var(--mid); background: var(--mid-bg); }
+.p-high { color: var(--high); background: var(--high-bg); }
+.p-crit { color: var(--crit); background: var(--crit-bg); }
+
+/* stacked bar */
+.bar { display: flex; height: 34px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.bar div { display: flex; align-items: center; padding: 0 10px; font: 500 12px var(--mono); color: var(--bg); white-space: nowrap; overflow: hidden; }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 20px; font-size: 13.5px; }
+.legend div { display: grid; grid-template-columns: 12px 1fr; gap: 10px; align-items: start; }
+.sw { width: 12px; height: 12px; border-radius: 3px; margin-top: 5px; }
+.legend b { font-variant-numeric: tabular-nums; }
+
+/* tables */
+.tbl { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: 0; }
+th { font: 500 11px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--muted-bg); }
+td.n { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; font-family: var(--mono); font-size: 13px; }
+td .pill { white-space: nowrap; }
+.find-title { font-weight: 600; }
+.small { color: var(--muted); font-size: 12.5px; }
+
+/* quotes from data */
+.sample { border-left: 3px solid var(--border); padding: 8px 14px; background: var(--surface); border-radius: 0 8px 8px 0; font-size: 13.5px; color: var(--ink-3); display: grid; gap: 4px; }
+.sample .src { font: 500 11.5px var(--mono); color: var(--muted); }
+.samples { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+
+ul.clean { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+ol.recs { margin: 0; padding-left: 1.3em; display: grid; gap: 12px; }
+ol.recs li::marker { font-family: var(--mono); color: var(--accent); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.two > * { min-width: 0; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 0; }
+a { color: var(--accent); }
+footer { color: var(--muted); font-size: 13px; display: grid; gap: 8px; }
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">02-dataset-quality · revisión de calidad</span>
+  <h1>Calidad de elastiflix-reloaded</h1>
+  <div class="meta">
+    <span><b>Índice</b> <code>elastiflix-reloaded-20261112-144129</code> (alias <code>elastiflix-reloaded</code>)</span>
+    <span><b>Películas</b> 6 899</span>
+    <span><b>Medido</b> 12 nov 2026, en vivo, solo lectura</span>
+  </div>
+  <p class="lede">La <strong>estructura del índice está sana</strong>: ids únicos, mapping fiel al del repo, vectores completos, normalizados y al día con el texto, y el índice coincide campo por campo con <code>data/</code>. El problema está en el <strong>contenido de <code>plot</code></strong>, que es justo el campo que alimenta los tres vectores y BM25. Una de cada cinco sinopsis es un ensayo temático escrito por un modelo de lenguaje, varias atribuyen el reparto o la dirección a otras personas, dos son respuestas de un asistente y casi una cuarta parte son el resumen de una línea de TMDB. Ninguna de las reglas de advertencia actuales (<code>EFX-ING-025</code>, <code>026</code>, <code>028</code>) detecta estos casos.</p>
+</header>
+
+<section>
+  <h2>Resumen por dimensión</h2>
+  <div class="score">
+    <div class="dim"><span class="pill p-ok">Sana</span><span class="name">Identidad y unicidad</span><span class="why"><code>_id</code> = <code>id</code> en las 6 899 películas; <code>imdb_id</code> único y con formato válido; sin películas duplicadas.</span></div>
+    <div class="dim"><span class="pill p-ok">Sana</span><span class="name">Vectores</span><span class="why">Los 3 campos en el 100 %; normas entre 0,998 y 1,002; 256 y 512 son el recorte exacto de 1024; 52 de 52 re-generados dan coseno 1,0000.</span></div>
+    <div class="dim"><span class="pill p-ok">Sana</span><span class="name">Mapping y procedencia</span><span class="why">Igual al del repo, salvo <code>bfloat16</code> por defecto de Serverless. El índice coincide al 100 % con <code>data/</code>.</span></div>
+    <div class="dim"><span class="pill p-crit">Crítica</span><span class="name">Sinopsis (<code>plot</code>)</span><span class="why">1 408 ensayos generados, datos inventados, 2 respuestas de asistente y 686 sinopsis de menos de 200 caracteres.</span></div>
+    <div class="dim"><span class="pill p-mid">Media</span><span class="name">Palabras clave</span><span class="why">Ids reutilizados con otro nombre (<em>The Matrix</em> y la trilogía <em>Back to the Future</em>), 14 ids con varios nombres.</span></div>
+    <div class="dim"><span class="pill p-mid">Media</span><span class="name">Vocabularios</span><span class="why"><code>?????</code> como idioma, «Pусский» con P latina, <code>cn</code>, «United States» suelto, «No Language» junto a idiomas.</span></div>
+    <div class="dim"><span class="pill p-low">Baja</span><span class="name">Higiene de texto</span><span class="why">86 valores con espacios en los extremos, 27 con espacio duro, 8 sin NFC, 3 con <code>&amp;amp;</code>; 140 nombres de reparto casi duplicados.</span></div>
+    <div class="dim"><span class="pill p-low">Baja</span><span class="name">Números y fechas</span><span class="why">Sin ceros, negativos ni fechas futuras. Dos montos sospechosos y dos puntuaciones que discrepan hasta 5 puntos.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>De dónde viene cada sinopsis</h2>
+  <p class="prose">El catálogo dice que los textos de las películas son de Wikipedia (CC BY-SA). Al leer las 6 899 sinopsis aparecen tres poblaciones con calidad muy distinta. Solo la primera está etiquetada en <code>enrichment.plot</code>; las otras dos no tienen etiqueta de procedencia.</p>
+  <div class="bar" role="img" aria-label="Sinopsis por origen: 1 622 de TMDB, 1 408 ensayos generados y 3 869 de tipo enciclopédico">
+    <div style="width:23.5%; background: var(--seg1)">1 622</div>
+    <div style="width:20.4%; background: var(--seg2)">1 408</div>
+    <div style="width:56.1%; background: var(--seg3)">3 869</div>
+  </div>
+  <div class="legend">
+    <div><span class="sw" style="background: var(--seg1)"></span><span><b>23,5 % · resumen de TMDB.</b> Etiquetado <code>tmdb_overview</code>. Mediana de 227 caracteres, contra 2 234 del catálogo; 1 255 son idénticos a <code>overview</code>.</span></div>
+    <div><span class="sw" style="background: var(--seg2)"></span><span><b>20,4 % · ensayo generado.</b> Dos o más fórmulas típicas de un modelo («delves into», «thought-provoking», «complexities of», «At its core»). Sin etiqueta.</span></div>
+    <div><span class="sw" style="background: var(--seg3)"></span><span><b>56,1 % · tipo enciclopédico.</b> Suelen abrir con la ficha («X is a 2004 American film directed by…») y mezclan producción y taquilla con la trama. Sin etiqueta.</span></div>
+  </div>
+  <p class="small">Otras 802 películas del tercer grupo tienen una sola de esas fórmulas: 2 210 en total (32 %) muestran al menos una señal de texto generado.</p>
+</section>
+
+<section>
+  <h2>Hallazgos priorizados</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Severidad</th><th>Hallazgo</th><th>Películas</th><th>Ejemplo</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill p-crit">Crítica</span></td><td><span class="find-title">El plot es la respuesta de un asistente</span><br><span class="small">No es un marcador exacto, así que <code>EFX-ING-025</code> lo deja pasar</span></td><td class="n">2</td><td><code>671</code> <em>Harry Potter and the Philosopher's Stone</em>: «[No match found] Please provide more information…». <code>799546</code> <em>Luckiest Girl Alive</em>: «I don't have information on a movie titled…»</td></tr>
+      <tr><td><span class="pill p-high">Alta</span></td><td><span class="find-title">Datos inventados en el plot</span><br><span class="small">Reparto o dirección que no corresponde, verificado contra <code>cast</code></span></td><td class="n">11 verif.<br>193 cand.</td><td><em>Babylon A.D.</em> con Gerard Butler (es Vin Diesel); <em>Wild Child</em> con Emma Watson (es Emma Roberts); <em>Pawn Sacrifice</em> «directed by Gambit»; <em>The Vigil</em> con una trama distinta</td></tr>
+      <tr><td><span class="pill p-high">Alta</span></td><td><span class="find-title">El modelo corrige el año</span><br><span class="small">«is a 2003 film, not 2004»; <code>026</code> solo detecta «, not Nombre»</span></td><td class="n">6</td><td><em>The Brown Bunny</em>, <em>Death Race 2</em>, <em>Pawn Sacrifice</em>, <em>The Bad Batch</em>, <em>While We're Young</em>, <em>You Won't Be Alone</em></td></tr>
+      <tr><td><span class="pill p-high">Alta</span></td><td><span class="find-title">Sinopsis tipo ensayo temático</span><br><span class="small">833 con «At its core»; <code>EFX-ING-028</code> dispara en 0</span></td><td class="n">1 408</td><td>8 de las 37 películas objetivo del harness: <em>Titanic</em>, <em>Life of Pi</em>, <em>The Godfather</em>, <em>The Dark Knight</em>, <em>Shrek</em>, <em>E.T.</em>, <em>Zootopia</em>, <em>Inside Out</em></td></tr>
+      <tr><td><span class="pill p-high">Alta</span></td><td><span class="find-title">Misma sinopsis para dos películas distintas</span><br><span class="small">Coseno 0,989; el único par por encima de 0,95</span></td><td class="n">2</td><td><code>1450</code> <em>Blood: The Last Vampire</em> (2009, live-action) usa el ensayo del anime <code>919</code> (2000) y lo llama «anime film»</td></tr>
+      <tr><td><span class="pill p-mid">Media</span></td><td><span class="find-title">Sinopsis muy cortas</span><br><span class="small">Poco contexto para los vectores; 53 tienen menos de 100 caracteres</span></td><td class="n">686</td><td><code>287003</code> «The deconstruction of the Avatar scenes and sets» (48 caracteres)</td></tr>
+      <tr><td><span class="pill p-mid">Media</span></td><td><span class="find-title">Plot con producción y crítica</span><br><span class="small">Taquilla, reseñas, Rotten Tomatoes, «The film stars…»</span></td><td class="n">1 549</td><td>3 734 sinopsis abren con la ficha «X is a YYYY … film» y 3 846 dicen «directed by»</td></tr>
+      <tr><td><span class="pill p-mid">Media</span></td><td><span class="find-title">Palabras clave con id ajeno</span><br><span class="small">El id de TMDB pertenece a otra palabra</span></td><td class="n">4 + 14 ids</td><td><em>The Matrix</em>: <code>12377</code> «virtual reality» (es «zombie» en 84 películas), <code>303361</code> «matrix», además de «time travel» y «fictional war». <em>BTTF III</em>: <code>12377</code> «wild west», «dystopia»</td></tr>
+      <tr><td><span class="pill p-mid">Media</span></td><td><span class="find-title">Idioma ilegible</span></td><td class="n">2</td><td><em>K.G.F: Chapter 1</em> y <em>2</em>: <code>?????</code> en lugar de ಕನ್ನಡ (canarés)</td></tr>
+      <tr><td><span class="pill p-mid">Media</span></td><td><span class="find-title">Montos imposibles</span></td><td class="n">2</td><td><em>Money Plane</em>: revenue 618; <em>Inuyasha the Movie</em>: budget 10 540 con revenue 10 539 779</td></tr>
+      <tr><td><span class="pill p-low">Baja</span></td><td><span class="find-title">Dos puntuaciones que no cuadran</span><br><span class="small"><code>user_score</code> es de TMDB del 22-oct-2026; <code>vote_average</code> es de otra fecha</span></td><td class="n">254 ≥0,5<br>81 ≥1,0</td><td><em>Sanctuary</em>: 1,0 frente a 6,1; casi siempre en películas con menos de 20 votos</td></tr>
+      <tr><td><span class="pill p-low">Baja</span></td><td><span class="find-title">Etiquetas que no son canónicas</span></td><td class="n">≈245</td><td>«Pусский» con P latina (214 películas); <code>cn</code> para cantonés (27); «United States» en <em>The Terminator</em>; «TV-PG» (1)</td></tr>
+      <tr><td><span class="pill p-low">Baja</span></td><td><span class="find-title">Espacios y Unicode</span><br><span class="small">Rompen filtros y conteos exactos</span></td><td class="n">121</td><td>«principal witness␠» (keyword), «Xosé Manuel Olveira␠», «Paulina Gaitán» sin NFC, «oil rig» con NBSP, <code>&amp;amp;</code> en <code>9779</code></td></tr>
+      <tr><td><span class="pill p-low">Baja</span></td><td><span class="find-title">Entidades casi duplicadas</span></td><td class="n">140 / 17</td><td>Reparto: Zoe Saldana / Zoe Saldaña, Clifton Collins Jr / Jr. Compañías: Media Pro / Mediapro, HandMade Films / Hand Made Films</td></tr>
+      <tr><td><span class="pill p-low">Baja</span></td><td><span class="find-title">Colección partida en dos ids</span></td><td class="n">2</td><td><em>Death Note Relight 2</em> (<code>1034193</code> en vez de <code>102019</code>); <em>Cinderella and the Secret Prince</em> en la «Cinderella Collection» de Disney</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Cómo se ven los textos problemáticos</h2>
+  <div class="samples">
+    <div class="sample"><span class="src">621707 · The Vigil (2020)</span>«…is a 2020 American thriller film directed by Kiran Deol. The movie revolves around a retired police officer who seeks revenge…» <span class="small">La película es de terror, sobre un velatorio judío en Brooklyn; reparto real: Dave Davis, Lynn Cohen.</span></div>
+    <div class="sample"><span class="src">763568 · Arlo the Alligator Boy (2021)</span>«…an animated film that explores the complexities of identity, community, and acceptance… At its core, the movie delves into themes of self-discovery…» <span class="small">Ensayo sin trama concreta: el vector representa temas genéricos.</span></div>
+    <div class="sample"><span class="src">38408 · Life As We Know It (2010)</span>«…directed by Glen Ficarra and John Requa… The movie stars Jennifer Aniston and Paul Rudd…» <span class="small">Dirige Greg Berlanti; actúan Katherine Heigl y Josh Duhamel.</span></div>
+  </div>
+</section>
+
+<section class="two">
+  <div style="display:grid; gap:12px">
+    <h2>Completitud</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Campo</th><th>Sin valor</th><th>%</th></tr></thead>
+      <tbody>
+        <tr><td><code>budget</code></td><td class="n">2 436</td><td class="n">35,3</td></tr>
+        <tr><td><code>revenue</code></td><td class="n">1 934</td><td class="n">28,0</td></tr>
+        <tr><td><code>homepage</code></td><td class="n">1 804</td><td class="n">26,1</td></tr>
+        <tr><td><code>tagline</code></td><td class="n">1 188</td><td class="n">17,2</td></tr>
+        <tr><td><code>rating</code> (además, 455 «NR»)</td><td class="n">715</td><td class="n">10,4</td></tr>
+        <tr><td><code>keywords</code></td><td class="n">307</td><td class="n">4,4</td></tr>
+        <tr><td><code>production_companies</code></td><td class="n">61</td><td class="n">0,9</td></tr>
+        <tr><td><code>cast</code></td><td class="n">16</td><td class="n">0,2</td></tr>
+        <tr><td><code>backdrop_path</code></td><td class="n">15</td><td class="n">0,2</td></tr>
+        <tr><td><code>imdb_id</code></td><td class="n">10</td><td class="n">0,1</td></tr>
+        <tr><td><code>vote_*</code>, <code>user_score</code></td><td class="n">5</td><td class="n">0,1</td></tr>
+        <tr><td><code>id</code>, <code>title</code>, <code>plot</code>, vectores</td><td class="n">0</td><td class="n">0</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div style="display:grid; gap:12px; align-content:start">
+    <h2>Campos sin información</h2>
+    <p><code>adult</code> y <code>video</code> son <code>false</code> en las 6 899 películas, y <code>status</code> es siempre «Released». El filtro <code>adult</code> de la página de resultados nunca cambia el resultado.</p>
+    <h3>Otras observaciones</h3>
+    <ul class="clean">
+      <li>Fechas de 1902-04-17 a 2023-08-02: el catálogo termina tres años antes de la fecha del snapshot de TMDB. 30 fechas caen en 1 de enero; algunas parecen marcadores (<em>Mystic River</em>, <em>The Painted Veil</em>).</li>
+      <li>147 películas duran menos de 40 minutos (cortos de Pixar, especiales de Kung Fu Panda). Son reales, pero conviven con largometrajes sin un campo que los distinga.</li>
+      <li>127 películas tienen menos de 10 votos: su promedio no es confiable para ordenar.</li>
+      <li>503 de las 1 039 colecciones tienen una sola película en el catálogo.</li>
+      <li>La trilogía <em>Back to the Future</em> comparte el mismo <code>backdrop_path</code>.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Lo que está bien</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Comprobación</th><th>Resultado</th></tr></thead>
+    <tbody>
+      <tr><td>Unicidad de <code>id</code> e <code>imdb_id</code>, <code>_id</code> = <code>id</code></td><td>Sin excepciones</td></tr>
+      <tr><td>Vectores presentes, dimensiones correctas, sin NaN ni ceros</td><td>6 899 × 3</td></tr>
+      <tr><td><code>plot_256</code> y <code>plot_512</code> = prefijo renormalizado de <code>plot_1024</code></td><td>Coseno mínimo 0,99999 (precisión bfloat16)</td></tr>
+      <tr><td>Vectores al día con el <code>plot</code> actual (52 re-generados con <code>input_type: ingest</code>)</td><td>Coseno 1,0000 en los 52</td></tr>
+      <tr><td>Índice frente a <code>data/elastiflix-reloaded_0*.json</code></td><td>Iguales en todos los campos</td></tr>
+      <tr><td>Campos fuera del mapping, ceros, negativos, fechas futuras o inválidas</td><td>Ninguno</td></tr>
+      <tr><td>Mojibake, caracteres de control, etiquetas HTML</td><td>Ninguno</td></tr>
+      <tr><td>Sinopsis idénticas entre películas, marcadores exactos, markdown</td><td>Ninguno</td></tr>
+      <tr><td>Etiquetas de <code>enrichment</code> sobre campos vacíos</td><td>Ninguna</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small prose">Diferencias de mapping: el índice vivo agrega <code>element_type: bfloat16</code> a los tres vectores (por defecto en Serverless) y no guarda el <code>"type": "object"</code> explícito de <code>enrichment</code>. Ninguno de los dos cambia el comportamiento. El mapping no declara <code>dynamic: strict</code>: si un documento con un campo nuevo llegara sin pasar por la app, Elasticsearch lo mapearía solo.</p>
+</section>
+
+<section>
+  <h2>Recomendaciones, en orden</h2>
+  <ol class="recs prose">
+    <li><b>Reemplazar las 2 respuestas de asistente</b> (<code>671</code>, <code>799546</code>) y <b>corregir los 11 casos verificados</b> de datos inventados, más <code>1450</code>. Son pocos y afectan búsquedas de películas muy conocidas.</li>
+    <li><b>Reescribir los 1 408 ensayos</b> con la trama real (Wikipedia, sección Plot) y etiquetarlos en <code>enrichment.plot</code>. Antes, medir con el harness: 8 de los 37 objetivos están en este grupo, así que el cambio se verá en las métricas.</li>
+    <li><b>Ampliar las reglas de advertencia.</b> <code>025</code>: «[No match found]», «Please provide», «I don't have information». <code>026</code>: «film, not YYYY». <code>028</code>: «At its core», «explores the theme(s) of», «delves into the complexities». Con eso, una recarga de <code>data/</code> habría señalado estos casos.</li>
+    <li><b>Etiquetar el origen de todas las sinopsis</b> (por ejemplo <code>wikipedia_plot</code> o <code>llm_generated</code>) para que el crédito «textos de Wikipedia» sea verificable y se pueda filtrar por calidad.</li>
+    <li><b>Limpiar el texto del plot enciclopédico</b>: quitar la ficha inicial y los párrafos de taquilla y crítica, para que el vector represente la trama.</li>
+    <li><b>Completar las sinopsis cortas</b> (686 de menos de 200 caracteres), empezando por las 53 de menos de 100.</li>
+    <li><b>Normalizar al cargar</b>: <code>strip</code>, NFC y NBSP a espacio en <code>cast</code>, <code>keywords.name</code> y textos; cambiar la P latina (U+0050) de «Pусский» por la Р cirílica (U+0420), o usar códigos ISO, <code>?????</code> → ಕನ್ನಡ, «United States» → «United States of America».</li>
+    <li><b>Corregir las palabras clave</b> de <code>603</code>, <code>105</code>, <code>165</code> y <code>196</code> con los ids reales de TMDB, y unificar las 2 colecciones partidas.</li>
+    <li><b>Decidir una sola puntuación</b> (<code>user_score</code> o <code>vote_average</code>) o documentar que vienen de fechas distintas; revisar los 2 montos imposibles.</li>
+    <li>Opcional: <code>dynamic: strict</code> en el mapping, y quitar <code>adult</code> de los filtros o documentar que el catálogo no tiene contenido adulto.</li>
+  </ol>
+</section>
+
+<hr>
+<footer>
+  <p><b>Método.</b> Lectura completa del índice con PIT y <code>search_after</code> (6 899 documentos con sus tres vectores), perfil de cada campo, reglas cruzadas entre campos, comparación con <code>data/</code>, matriz de cosenos de <code>plot_1024</code> y re-generación de 52 vectores con el endpoint <code>.jina-embeddings-v5-omni-small</code>. No se escribió nada en el índice.</p>
+  <p><b>Límites.</b> La detección de texto generado usa fórmulas léxicas: puede haber falsos positivos en sinopsis reales con ese estilo y falsos negativos en ensayos sin esas fórmulas. Los 193 candidatos de reparto que no coincide salen de una heurística: los 11 verificados se leyeron a mano.</p>
+  <p>El detalle por película (2 514 filas, 2 401 películas) está en <code>hallazgos.csv</code>, junto a los scripts del análisis.</p>
+</footer>
+</div>

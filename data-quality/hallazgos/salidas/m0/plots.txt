@@ -1,0 +1,237 @@
+603 «The Matrix» (1999) [(4565, 'dystopia'), (4379, 'time travel'), (12377, 'virtual reality'), (14946, 'fictional war'), (303361, 'matrix')]
+105 «Back to the Future» (1985) [(391, 'flying car'), (4776, 'race against time'), (389, 'clock tower'), (830, 'car race'), (952, 'lightning'), (953, 'guitar'), (1436, 'inventor'), (1743, 'journey in the past'), (3338, 'invention'), (4379, 'time travel'), (6733, 'bullying'), (5455, 'time machine'), (10125, 'mad scientist'), (9673, 'love'), (11860, 'fish out of water'), (13015, 'terrorism'), (18425, 'teenage love'), (40850, 'destiny'), (163070, 'burlesque'), (186189, 'hidden identity'), (206720, 'teenage life'), (206736, 'changing the past or future'), (208349, 'kids'), (208611, '1950s'), (288816, 'lighthearted'), (325811, 'excited'), (325840, 'optimistic')]
+196 «Back to the Future Part III» (1990) [(4379, 'time travel'), (12377, 'wild west'), (303361, 'delorean'), (14946, 'fictional war'), (4565, 'dystopia')]
+165 «Back to the Future Part II» (1989) [(391, 'flying car'), (390, 'skateboarding'), (830, 'car race'), (952, 'lightning'), (953, 'guitar'), (1436, 'inventor'), (4379, 'time travel'), (10738, 'diner'), (9844, 'car crash'), (9663, 'sequel'), (12026, 'alternate history'), (18171, 'thunderstorm'), (189102, 'tunnel'), (196664, 'high school dance'), (200918, 'angry'), (208349, 'kids'), (226370, 'hoverboard'), (257783, '2010s'), (288816, 'lighthearted'), (325809, 'enthusiastic')]
+
+## plot largo: min 48 p5 149 p25 1198 med 2234 p75 2448 p95 2670 max 3423
+   palabras: min 8 med 370 max 576
+   < 200 chars: 686  < 100: 53  > 8000: 0
+
+## más cortos: 20
+    (48, '287003 «Avatar: Scene Deconstruction» (2009)', 'The deconstruction of the Avatar scenes and sets', 'tmdb_overview')
+    (67, '376570 «Hush» (2016)', 'A deaf woman is stalked by a psychotic killer in her secluded home.', 'tmdb_overview')
+    (67, '77887 «Hawaiian Vacation» (2011)', "The toys throw Ken and Barbie a Hawaiian vacation in Bonnie's room.", 'tmdb_overview')
+    (71, '470114 «24 Hours to Live» (2017)', 'An assassin seeks redemption after being given a second chance at life.', 'tmdb_overview')
+    (72, '407887 «Operation Chromite» (2016)', "A squad of soldiers fight in the Korean War's crucial Battle of Incheon.", 'tmdb_overview')
+    (73, '883987 «Megan» (2020)', 'A hiker finds shelter in a mountain lodge inhabited by two strange women.', 'tmdb_overview')
+    (74, '70435 «Haywire» (2011)', 'A black ops soldier seeks payback after she is betrayed and left for dead.', 'tmdb_overview')
+    (75, '301875 «Equals» (2015)', 'A futuristic love story set in a world where emotions have been eradicated.', 'tmdb_overview')
+    (77, '365942 «The Space Between Us» (2017)', 'A young man raised by scientists on Mars returns to Earth to find his father.', 'tmdb_overview')
+    (79, '157825 «White Bird in a Blizzard» (2014)', "In 1988, a teenage girl's life is thrown into chaos when her mother disappears.", 'tmdb_overview')
+    (79, '322240 «Nine Lives» (2016)', "A stuffy businessman finds himself trapped inside the body of his family's cat.", 'tmdb_overview')
+    (82, '68812 «The Iceman» (2012)', 'The true story of Richard Kuklinski, the notorious contract killer and family man.', 'tmdb_overview')
+    (85, '15019 «I Could Never Be Your Woman» (2007)', 'A mother falls for a younger man while her daughter falls in love for the first time.', 'tmdb_overview')
+    (85, '354279 «Charming» (2018)', 'Three fairy tale princesses find themselves engaged to the same guy, Prince Charming.', 'tmdb_overview')
+    (85, '459202 «Boo 2! A Madea Halloween» (2017)', 'Madea and the gang encounter monsters, goblins and boogeymen at a haunted campground.', 'tmdb_overview')
+    (86, '15485 «Disney Princess Enchanted Tales: Follow Your Dreams» (2007)', 'Princess Aurora and Princess Jasmine learn valuable life lessons in two short stories.', 'tmdb_overview')
+    (87, '123103 «Aftershock» (2012)', 'Mayhem and death follow when an earthquake traps a group of tourists in a Chilean town.', 'tmdb_overview')
+    (87, '239459 «No Half Measures: Creating the Final Season of Breaking Bad» (2013)', 'A documentary about the making of season five of the acclaimed AMC series Breaking Bad.', 'tmdb_overview')
+    (87, '245703 «Midnight Special» (2016)', 'A father and son go on the run after the dad learns his child possesses special powers.', 'tmdb_overview')
+    (87, '443700 «Altitude» (2017)', 'A female FBI agent is offered millions to help a thief escape from a hijacked airplane.', 'tmdb_overview')
+
+## más largos: 8
+    (3423, '334533 «Captain Fantastic» (2016)')
+    (3325, '271110 «Captain America: Civil War» (2016)')
+    (3306, '513347 «Flavors of Youth» (2018)')
+    (3259, '38 «Eternal Sunshine of the Spotless Mind» (2004)')
+    (3242, '87827 «Life of Pi» (2012)')
+    (3197, '281338 «War for the Planet of the Apes» (2017)')
+    (3192, '119450 «Dawn of the Planet of the Apes» (2014)')
+    (3163, '13027 «Eagle Eye» (2008)')
+
+## plot idéntico a overview: 1255  etiquetados tmdb_overview: 1255
+
+## etiquetado tmdb_overview pero plot != overview: 367
+    ('1584 «School of Rock» (2003)', 'Fired from his band and hard up for cash, guitarist and vocalist Dewey Finn fina', '|', 'Fired from his band and hard up for cash, guitarist and vocalist Dewey Finn fina')
+    ('883 «Coffee and Cigarettes» (2003)', 'An anthology of eleven vignettes featuring star-studded casts of extremely uniqu', '|', 'Coffee And Cigarettes is a collection of eleven films from cult director Jim Jar')
+    ('1103 «Escape from New York» (1981)', 'In a world ravaged by crime, the entire island of Manhattan has been converted i', '|', "In the future, crime is out of control and New York City's Manhattan is a maximu")
+    ('1255 «The Host» (2006)', 'A teenage girl is captured by a giant mutated squid-like creature that appears f', '|', 'Following the dumping of gallons of toxic waste in the river, a giant mutated sq')
+    ("1365 «Monster's Ball» (2001)", 'A prison guard begins a tentative romance with the unsuspecting widow of a man w', '|', 'Set in the southern USA, a racist white man, Hank, falls in love with a black wo')
+    ('1580 «Rope» (1948)', 'Two young men attempt to prove they committed the perfect murder by hosting a di', '|', 'Two men attempt to prove they committed the perfect crime by hosting a dinner pa')
+    ('437 «Cube 2: Hypercube» (2002)', 'Eight strangers awaken with no memory, in a puzzling cube-shaped room where the ', '|', 'The sequel to the low budget first film Cube. This time the prisoners find them ')
+    ('438 «Cube Zero» (2004)', 'A young programmer whose job is to watch over the reality-warping Cube defies or', '|', 'Cube Zero is the third film in the trilogy yet this time instead of a film about')
+    ('614 «Wild Strawberries» (1957)', 'Crotchety retired doctor Isak Borg travels from Stockholm to Lund, Sweden, with ', '|', 'Crotchety retired doctor Isak Borg travels from Stockholm to Lund, Sweden, with ')
+    ('17 «The Dark» (2005)', 'In an attempt to pull her family together, Adèlle travels with her young daughte', '|', 'Adèlle goes to Wales with her daughter Sarah to try and patch things up with Sar')
+
+## plot == overview sin etiqueta: 0
+   plot desde overview (largo mediano): 227
+
+## plot duplicado exacto: 0
+
+## overview duplicado: 2
+    ['88557 «Pokémon the Movie: White - Victini and Zekrom» (2011)', '115223 «Pokémon the Movie: Black - Victini and Reshiram» (2011)']
+    ['282069 «Parasyte: Part 1» (2014)', '282070 «Parasyte: Part 2» (2015)']
+
+## mismo inicio (150 chars): 1
+    ['919 «Blood: The Last Vampire» (2000)', '1450 «Blood: The Last Vampire» (2009)']
+
+## plot · ASSISTANT: 0
+
+## plot · MARKDOWN: 0
+
+## plot · THEMES: 0
+
+## plot · wiki cita [n]: 0
+
+## plot · wiki encabezado: 0
+
+## plot · ficha inicial («X is a 2004 ... film»): 3734
+    ('1581 «The Holiday» (2006)', 'The Holiday is a romantic comedy film')
+    ('1593 «Night at the Museum» (2006)', 'Night at the Museum is a 2006 American fantasy adventure com')
+    ('1599 «I ♥ Huckabees» (2004)', 'I ♥ Huckabees is a thought-provoking film')
+    ('1620 «Hitman» (2007)', 'Hitman is a 2007 action spy film')
+    ('1636 «Bedazzled» (2000)', 'Bedazzled is a 2000 American fantasy comedy film')
+    ('1646 «Freedom Writers» (2007)', 'Freedom Writers is a 2007 American biographical drama film')
+    ('1685 «Beneath the Planet of the Apes» (1970)', 'Beneath the Planet of the Apes is a 1970 science fiction fil')
+    ('1691 «Hostel: Part II» (2007)', 'Hostel: Part II is a 2007 American horror film')
+    ("1696 «The Devil's Rejects» (2005)", "The Devil's Rejects is a 2005 American horror film")
+    ('1724 «The Incredible Hulk» (2008)', 'The Incredible Hulk is a 2008 superhero film')
+    ('1726 «Iron Man» (2008)', 'Iron Man is a 2008 superhero film')
+    ('1729 «The Forbidden Kingdom» (2008)', 'The Forbidden Kingdom is a fantasy wuxia film')
+
+## plot · meta (the film/movie ...): 1189
+    ('1904 «Memoirs of a Geisha» (2005)', 'The movie stars')
+    ('1931 «Stomp the Yard» (2007)', 'The movie stars')
+    ('1933 «The Others» (2001)', 'The film grossed')
+    ('1949 «Zodiac» (2007)', 'The film stars')
+    ('1970 «The Grudge» (2004)', 'The movie stars')
+    ('1991 «Death Proof» (2007)', 'The film stars')
+    ('916 «Bullitt» (1968)', 'The movie stars')
+    ('1538 «Collateral» (2004)', 'The movie stars')
+    ('411 «The Chronicles of Narnia: The Lion, the Witch and the Wardrobe» (2005)', 'The film premiered')
+    ('429 «The Good, the Bad and the Ugly» (1966)', 'the film was released')
+    ('492 «Being John Malkovich» (1999)', 'The movie stars')
+    ('587 «Big Fish» (2003)', 'The movie stars')
+
+## plot · producción/recepción: 1549
+    ('1593 «Night at the Museum» (2006)', 'box office')
+    ('1597 «Meet the Parents» (2000)', 'grossed $')
+    ('1646 «Freedom Writers» (2007)', 'received positive reviews')
+    ('1830 «Lord of War» (2005)', 'received mixed reviews')
+    ('1844 «Entrapment» (1999)', 'Rotten Tomatoes')
+    ('1858 «Transformers» (2007)', 'received mixed reviews')
+    ('1865 «Pirates of the Caribbean: On Stranger Tides» (2011)', 'received mixed reviews')
+    ('1892 «Return of the Jedi» (1983)', 'received mixed reviews')
+    ('1903 «Vanilla Sky» (2001)', 'grossed $')
+    ('1913 «The Sea Inside» (2004)', 'Rotten Tomatoes')
+    ('1921 «Sweet November» (2001)', 'Rotten Tomatoes')
+    ('1933 «The Others» (2001)', 'grossed $')
+
+## plot · dirección (directed by): 3846
+    ('1593 «Night at the Museum» (2006)', 'directed by')
+    ('1597 «Meet the Parents» (2000)', 'directed by')
+    ('1620 «Hitman» (2007)', 'directed by')
+    ('1636 «Bedazzled» (2000)', 'directed by')
+    ('1646 «Freedom Writers» (2007)', 'directed by')
+    ('1685 «Beneath the Planet of the Apes» (1970)', 'directed by')
+    ('1691 «Hostel: Part II» (2007)', 'directed by')
+    ("1696 «The Devil's Rejects» (2005)", 'directed by')
+    ('1724 «The Incredible Hulk» (2008)', 'directed by')
+    ('1726 «Iron Man» (2008)', 'directed by')
+    ('1729 «The Forbidden Kingdom» (2008)', 'directed by')
+    ('1735 «The Mummy: Tomb of the Dragon Emperor» (2008)', 'directed by')
+
+## plot · en español/otro idioma: 18
+    ('10743 «Confidence» (2003)', 'con. When one of them, Big Al, is found shot dead, the other')
+    ('417384 «Scary Stories to Tell in the Dark» (2019)', 'del Toro, Patrick Melton and Marcus Dunstan, and del Toro al')
+    ('648990 «La Casa» (2020)', 'La Casa (The House) is a 2020 Chilean horror film directed b')
+    ('845885 «Dark Blood» (2021)', 'La Picota, and used former guerrilla and paramilitary fighte')
+    ('927341 «Hunting Ava Bravo» (2022)', 'del Castillo, Chris Copier and Tavolaro among the producers,')
+    ('1057095 «An Eclectic Christmas» (2022)', 'Los Angeles who spends time with her beloved Aunt Freida (Fr')
+    ('55 «Amores Perros» (2000)', 'El Chivo, a hitman and former teacher jailed for guerrilla t')
+    ('8880 «Che: Part Two» (2008)', 'del Toro, the cast includes Catalina Sandino Moreno, Franka ')
+    ("1417 «Pan's Labyrinth» (2006)", 'El laberinto del fauno) is a Spanish-language dark fantasy f')
+    ("1433 «The Devil's Backbone» (2001)", 'del Toro, produced by El Deseo, and written by Guillermo del')
+    ('10501 «The Road to El Dorado» (2000)', 'El Dorado is a 2000 American animated adventure comedy film ')
+    ('9884 «Collateral Damage» (2002)', 'El Diablo to Los Angeles and engages him in a fierce gun bat')
+
+## plot · termina sin puntuación: 8
+    ('82675 «Taken 2» (2012)', 's')
+    ('394741 «Stan & Ollie» (2018)', 'c')
+    ('467433 «A Question of Faith» (2017)', 's')
+    ('475557 «Joker» (2019)', 's')
+    ('9513 «Garfield: A Tail of Two Kitties» (2006)', 's')
+    ('150540 «Inside Out» (2015)', '5')
+    ('51880 «Oscar and the Lady in Pink» (2009)', 't')
+    ('287003 «Avatar: Scene Deconstruction» (2009)', 's')
+
+## plot · URL: 0
+
+## plot · spoiler/notice: 11
+    ('10665 «The Strangers» (2008)', 'spoiler')
+    ('37169 «The Human Centipede (First Sequence)» (2009)', 'spoiler')
+    ('23827 «Paranormal Activity» (2007)', 'spoiler')
+    ('507903 «Spoiler Alert» (2022)', 'Spoiler')
+    ('828947 «Beavis and Butt-Head Do the Universe» (2022)', 'Spoiler')
+    ('843241 «The Seven Deadly Sins: Cursed by Light» (2021)', 'spoiler')
+    ('398181 «You Were Never Really Here» (2017)', 'spoiler')
+    ('489999 «Searching» (2018)', 'spoiler')
+    ('499932 «The Devil All the Time» (2020)', 'spoiler')
+    ('689249 «Money Heist: The Phenomenon» (2020)', 'spoiler')
+    ('979163 «Beyond Infinity: Buzz and the Journey to Lightyear» (2022)', 'spoiler')
+
+## plot · segunda persona IA: 26
+    ('2018 «The Wedding Planner» (2001)', 'Overall, the film')
+    ("3602 «I'll Always Know What You Did Last Summer» (2006)", 'Overall, the movie')
+    ('11313 «Hearts in Atlantis» (2001)', 'Overall, the film')
+    ('12212 «Urban Legends: Final Cut» (2000)', 'Overall, the movie')
+    ('12444 «Harry Potter and the Deathly Hallows: Part 1» (2010)', "Here's a summary")
+    ('41446 «Scream 4» (2011)', 'In conclusion')
+    ('39107 «Dragon Ball Z: Fusion Reborn» (1995)', 'In conclusion')
+    ('141043 «A Long Way Down» (2014)', 'Overall, the movie')
+    ('286554 «Two Night Stand» (2014)', 'Overall, the film')
+    ('335983 «Venom» (2018)', "Here's a plot")
+    ('465003 «The Red Sea Diving Resort» (2019)', 'Overall, the movie')
+    ('741335 «Sing a Bit of Harmony» (2021)', 'Let Me')
+
+## plot · lista viñetas: 0
+
+## plot con >10% no-ASCII: 0
+
+## plot que parece es: 0
+
+## plot que parece fr: 0
+
+## plot que parece de: 0
+
+## overview con nombres propios que el plot no menciona (¿plot de otra película?): 257
+    ('1581 «The Holiday» (2006)', ['Each', 'Kingdom', 'States', 'United'], 'The Holiday is a romantic comedy film released in 2006 by Columbia Pictures. The movie follows the s')
+    ('1985 «The Constant Gardener» (2005)', ['British', 'Justin', 'Quayle', 'Tessa'], 'The Constant Gardener is a thought-provoking film that delves into the complexities of human nature,')
+    ("671 «Harry Potter and the Philosopher's Stone» (2001)", ['Harry', 'Hogwarts', 'Potter', 'School', 'Witchcraft', 'Wizardry'], '[No match found]\n\nPlease provide more information, such as the title or production company, to help ')
+    ('107 «Snatch» (2000)', ['Jewish', 'Russian', 'Unscrupulous'], 'Snatch is a 2000 crime comedy film written and directed by Guy Ritchie and produced by Matthew Vaugh')
+    ('140 «Bad Education» (2004)', ['Enrique', 'Father', 'Ignacio', 'Manolo'], 'Bad Education is a thought-provoking film that delves into the complexities of human nature, moralit')
+    ('9104 «Buffalo Soldiers» (2002)', ['Berlin', 'Germany', 'West'], 'Buffalo Soldiers is a 2002 American drama film directed by Gregor Jordan. The movie explores the com')
+    ('9288 «Dungeons & Dragons: Wrath of the Dragon God» (2005)', ['Damodar', 'Due', 'Freeborn', 'Izmir', 'Profion', 'Ridley'], 'Dungeons & Dragons: Wrath of the Dragon God is an action-adventure film that delves into the world o')
+    ('9381 «Babylon A.D.» (2008)', ['Eastern', 'Europe', 'York'], 'Babylon A.D. is a 2008 science fiction action film directed by Vincenzo Natali, starring Gerard Butl')
+    ('9582 «A Guy Thing» (2003)', ['Becky', 'Desperate', 'Karen', 'Morse', 'Paul'], 'A Guy Thing is a romantic comedy that explores the complexities of male friendships and relationship')
+    ('9664 «Flyboys» (2006)', ['Americans', 'Escadrille', 'French', 'Lafayette'], 'Flyboys is an action-drama film that revolves around the lives of young American pilots during World')
+    ('8827 «99 francs» (2007)', ['France', 'Octave', 'Parango', 'Paris', 'Ross', 'Witchcraft'], '"99 Francs" is a thought-provoking drama that delves into the complexities of human relationships an')
+    ('9030 «The Eye» (2008)', ['Helen', 'Sydney', 'Violinist', 'Wells'], 'The Eye is a psychological horror-thriller film that delves into the darker aspects of human nature ')
+    ('2355 «Reign Over Me» (2007)', ['Rekindling', 'September', 'York'], 'Reign Over Me is a poignant and powerful drama that delves into the complexities of grief, loss, and')
+    ("3602 «I'll Always Know What You Did Last Summer» (2006)", ['Colorado', 'July', 'Several'], "I'll Always Know What You Did Last Summer is a psychological horror-thriller film that delves into t")
+    ('4244 «The Kid» (2000)', ['Duritz', 'Powerful', 'Russ', 'Rusty'], "The Kid (2000) is a drama film that revolves around the story of a young boy named Chris Cooper's ch")
+    ('4942 «Leatherheads» (2008)', ['Everyone', 'Football', 'Professional'], 'Leatherheads is a 2008 American sports comedy directed by George Clooney, who also stars, written by')
+    ('4959 «The International» (2009)', ['Berlin', 'Finding', 'Istanbul', 'Milan', 'Uncovering', 'York'], 'The International is an action thriller film that delves into the darker aspects of global politics ')
+    ('6171 «Dreamcatcher» (2003)', ['Challenged', 'Four', 'Maine'], 'Dreamcatcher is a science fiction horror film directed by Lawrence Kasdan, based on the novel of the')
+    ('11042 «The Barbarian Invasions» (2003)', ['Alain', 'Canadian', 'Claude', 'Decline', 'Diane', 'Dominique'], 'The Barbarian Invasions is a poignant and introspective drama that explores the complexities of huma')
+    ('11081 «Taking Lives» (2004)', ['Illeana', 'Montreal', 'Recruited', 'Scott'], 'Taking Lives is a psychological thriller that delves into the darker aspects of human nature and the')
+    ('11208 «Wicker Park» (2004)', ['Chicago', 'China', 'Lisa', 'Matthew'], 'Wicker Park is a 2004 American romantic thriller film directed by Phedon Papamichael. The movie revo')
+    ('11237 «Anacondas: The Hunt for the Blood Orchid» (2004)', ['Battling', 'Borneo', 'Heat', 'Led'], 'Anacondas: The Hunt for the Blood Orchid is a 2004 American adventure horror film directed by Louis ')
+    ('11397 «Not Another Teen Movie» (2001)', ['High', 'Hughes', 'Jane', 'John', 'School'], 'Not Another Teen Movie is a 2001 American comedy film directed by Joel Zwick and written by Todd Phi')
+    ('13922 «The Great Raid» (2005)', ['Battalion', 'Ranger', 'Sixth'], 'The Great Raid is a powerful and emotional war drama that delves into the themes of sacrifice, camar')
+    ('14061 «The Edge of Love» (2008)', ['Caitlin', 'Dylan', 'Killick', 'London', 'Thomas', 'Vera'], 'The Edge of Love is a 2008 British romantic drama film that explores the complexities of love, relat')
+    ('14114 «You Got Served» (2004)', ['Angeles', 'Grandberry', 'Harvey', 'Houston', 'Kim', 'Lil'], 'You Got Served is a 2004 dance film that revolves around the world of competitive breakdancing. The ')
+    ('11804 «White Noise» (2005)', ['Electronic', 'Phenomenon', 'Voice'], 'White Noise is a 2005 supernatural horror film directed by Geoffrey Sax and starring Michael Keaton ')
+    ('11849 «Dungeons & Dragons» (2000)', ['Empire', 'Empress', 'Izmer', 'Profion', 'Savina'], 'Dungeons & Dragons (2000) is a fantasy adventure film that explores the complexities of male friends')
+    ('12253 «Biker Boyz» (2003)', ['African', 'Cali', 'Galloway', 'Manuel'], 'Biker Boyz is an action-packed film that delves into the world of street racing and loyalty among bi')
+    ('9973 «Air Buddies» (2006)', ['Buddy', 'Five', 'Molly'], 'Air Buddies is a heartwarming film that revolves around the adventures of a group of adorable and lo')
+    ('10007 «See No Evil» (2006)', ['Blackwell', 'Goodnight', 'Hotel', 'Jacob'], 'See No Evil is a supernatural horror film that revolves around the story of a blind man named Bob, w')
+    ('10361 «Ginger Snaps 2: Unleashed» (2004)', ['Another', 'Bailey', 'Brigitte', 'Downs', 'Ghost', 'Monkshood'], 'Ginger Snaps 2: Unleashed is a horror-comedy film that explores the theme of female empowerment and ')
+    ("9900 «Grandma's Boy» (2006)", ['Alex', 'Even', 'Xbox'], "Grandma's Boy is a comedy film that explores the complexities of male relationships and the struggle")
+    ('12703 «The Brown Bunny» (2004)', ['Bud', 'California', 'Clay', 'Daisy', 'Formula', 'Hampshire'], 'The Brown Bunny is a 2003 film, not 2004, directed by Vincent Gallo and produced by Wild Bunch.\n\nThe')
+    ('13008 «An American Crime» (2007)', ['Baniszewski', 'Gertrude', 'Indiana'], 'An American Crime is a thought-provoking drama that delves into the complexities of human nature, ex')
+    ('13499 «Yours, Mine & Ours» (2005)', ['Academy', 'Admiral', 'Beardsley', 'Coast', 'Frank', 'Guard'], 'Yours, Mine & Ours is a family comedy film that explores the challenges and joys of blended families')
+    ('13505 «The Perfect Score» (2004)', ['Center', 'Princeton', 'Six', 'Testing'], 'The Perfect Score is a 2004 American teen comedy-drama film directed by Brian Robbins. The movie rev')
+    ('14846 «Little Black Book» (2004)', ['Barb', 'Derek', 'Determined', 'Stacy'], 'Little Black Book is a 2004 romantic comedy-drama film that explores the complexities of female frie')
+    ('15283 «Pom Poko» (1994)', ['Hills', 'Raccoons', 'Tama'], 'Pom Poko is a 1994 animated fantasy film written and directed by Isao Takahata, produced by Studio G')
+    ('49524 «R.I.P.D.» (2013)', ['Department', 'Peace', 'Rest'], 'R.I.P.D. is a supernatural action-comedy film directed by Robert Schwentke and written by Scott Waug')

@@ -1,0 +1,2 @@
+# hallazgos.csv se compara byte a byte con lo que regenera findings_csv.py, que separa filas con CRLF
+hallazgos/**/*.csv -text
