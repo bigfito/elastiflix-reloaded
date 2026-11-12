@@ -248,11 +248,12 @@ load creates the catalog (step 7).
 
 ### 🔤 Full-text (lexical) · BM25
 
-Matches terms in `title` and `original_title` (both `text`).
+Matches terms in the titles (`title`, `original_title`) or in the plot (`plot`), all `text`. Plots are in English:
+with `plot`, a query in Spanish finds almost no matches.
 
 | Setting | Options |
 |---|---|
-| Query type | `match` (one field: `title` **or** `original_title`) · `multi-match` (`best_fields` over both) |
+| Query type | `match` (one field: `title`, `original_title`, **or** `plot`) · `multi-match` (`best_fields` over both titles) |
 | Operator | `OR` (one word is enough; default) · `AND` (all words; with `multi-match`, in the same field) |
 
 > [!TIP]
@@ -282,11 +283,11 @@ quantization): the only difference is the number of dimensions. **Measured preci
 
 | Field | 🥇 Correct in 1st place | Top 5 | Top 10 | MRR@10 | nDCG@10 |
 |---|---|---|---|---|---|
-| `plot_256` | 15 of 40 (38%) | 26 | 31 | 0.614 | 0.623 |
-| `plot_512` | 22 of 40 (55%) | 30 | 37 | 0.767 | 0.770 |
-| `plot_1024` | 26 of 40 (65%) | 37 | 37 | 0.823 | 0.823 |
+| `plot_256` | 15 of 40 (38%) | 26 | 31 | 0.614 | 0.605 |
+| `plot_512` | 22 of 40 (55%) | 30 | 37 | 0.766 | 0.741 |
+| `plot_1024` | 27 of 40 (68%) | 38 | 38 | 0.846 | 0.817 |
 
-> 1024 dimensions puts the correct movie in the top 5 for 37 of 40 queries; 512 comes close at half the size, and 256
+> 1024 dimensions puts the correct movie in the top 5 for 38 of 40 queries; 512 comes close at half the size, and 256
 > clearly loses precision.
 
 Queries are embedded with `input_type: search` and the `Query: ` prefix; plots, with `input_type: ingest` and no
@@ -305,11 +306,26 @@ each movie in each list, not by its score, because BM25 and similarity scores ar
 Every result shows its BM25 score, its k-NN similarity, its position in each list, and the RRF score:
 `Σ 1 / (60 + position)`.
 
-> [!NOTE]
-> The [relevance harness](eval/README.md#-relevance-harness) shows the cost of combining: with queries that describe
-> the plot, BM25 on the title almost never finds the movie (plots share no words with the title) and its list pushes
-> the vector list down. Hybrid with `plot_1024` scores nDCG@10 = 0.474, against 0.823 for vector search alone; with
-> title searches in English, on the other hand, BM25 alone is best (0.910) and hybrid comes close (0.830 to 0.851).
+### 📏 Which mode to use, according to the harness
+
+nDCG@10 from the [relevance harness](eval/README.md#-relevance-harness): 40 queries with graded judgments, where 1
+means the best movies ended up at the top.
+
+| Configuration | Total | es · plot | en · plot | es · title | en · title |
+|---|---|---|---|---|---|
+| `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
+| `bm25_plot` | 0.430 | 0.075 | 0.823 | 0.000 | 0.745 |
+| `knn_plot_1024` | **0.817** | **0.854** | 0.721 | **0.977** | 0.835 |
+| `rrf_title_knn1024` | 0.474 | 0.549 | 0.192 | 0.746 | 0.823 |
+| `rrf_plot_knn1024` | 0.709 | 0.549 | **0.888** | 0.580 | 0.782 |
+
+- **Plots are in English.** BM25 on `plot` does very well with English descriptions (0.823, more than vector search)
+  and finds almost nothing in Spanish (0.075). Vector search is multilingual and responds the same in both languages.
+- **BM25 on the title is useful for searching by title in English**, and for nothing else: with plot descriptions it
+  doesn't find the movie, and in hybrid search its list pushes the vector list down.
+- **Hybrid with `plot`** is the best with English descriptions (0.888) and clearly beats hybrid with `title` (0.709
+  versus 0.474), but with Spanish queries it falls below vector search alone.
+- Overall, vector search with `plot_1024` is the most even option.
 
 ## 🎛️ Results, filters, and pagination
 
@@ -371,6 +387,16 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
 - **Before uploading:** only `.json` or `.csv`, no double extensions, at most **25 MB** (a fixed limit), UTF-8.
 - **Against the mapping:** the whole file is checked, all or nothing. If something doesn't match, each error is shown
   (record, `id`, field, received value, what the mapping expects), and the report can be downloaded as CSV.
+- **Zeros and lists:** a `0` in `budget`, `revenue`, `runtime`, `vote_average`, or `vote_count` is stored without a
+  value (`EFX-ING-023`): in this catalog a zero means unknown. An empty optional text is also stored without a value
+  (`EFX-ING-022`) and a gap in a list is skipped (`EFX-ING-021`). A repeated text in `genres`, `cast`,
+  `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
+  and the first occurrence is kept (`EFX-ING-024`).
+- **Plot:** a `plot` that is a placeholder (for example `[No information found]`) or shorter than 40 characters
+  rejects the file (`EFX-ING-025`). Language-model leftovers (for example "couldn't find" or "knowledge cutoff"),
+  markdown, and a plot repeated inside the same file are warnings and do not stop the load (`EFX-ING-026` and
+  `EFX-ING-027`): an error would reject the whole file, and the published catalog still shares three plots and keeps
+  model phrasing.
 - **Vectors:** `plot_256`, `plot_512`, and `plot_1024` are **always** generated from `plot` with the inference
   service. If the file includes them, they are ignored with a warning; the form doesn't ask for them.
 - **Provenance:** `enrichment` is optional (`null` or absent is fine too). When present, it is an object whose keys
@@ -403,7 +429,7 @@ The catalog status (alias, current index, and count) is also available at `GET /
 |---|---|---|
 | `./mvnw verify` | Unit and architecture (ArchUnit) tests, Checkstyle, and PMD | Nothing else |
 | `./mvnw verify -Pit` | The above plus the integration tests and the smoke test | `.env` and the Serverless project |
-| `./mvnw verify -Pit -Dit.test=RelevanceIT` | Only the [relevance harness](eval/README.md#-relevance-harness): `_rank_eval` of the 7 configurations against `eval/judgments.jsonl`, with the minimums in `eval/thresholds.json` as the gate | `.env` and the reference catalog |
+| `./mvnw verify -Pit -Dit.test=RelevanceIT` | Only the [relevance harness](eval/README.md#-relevance-harness): `_rank_eval` of the 10 configurations against `eval/judgments.jsonl`, with the minimums in `eval/thresholds.json` as the gate | `.env` and the reference catalog |
 | `npm test` in `src/test/browser` | Tests of the pages' JavaScript with Playwright | The running app and Node.js; see [its README](src/test/browser/README.md) (in Spanish) |
 
 - Integration tests that **write** use their own `elastiflix-it-<random>` aliases and delete them when they finish;

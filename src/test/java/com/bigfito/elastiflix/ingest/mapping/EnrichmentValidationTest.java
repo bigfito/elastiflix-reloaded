@@ -31,6 +31,9 @@ import static org.assertj.core.api.Assertions.tuple;
  */
 class EnrichmentValidationTest {
 
+    /** Más de 40 caracteres: si no, la sinopsis se rechaza con {@code EFX-ING-025} antes de mirar las etiquetas. */
+    private static final String PLOT = "Una sinopsis lo bastante larga para pasar el control.";
+
     private static final JsonMapper MAPPER = MovieJsonMapper.create();
 
     private final MappingValidator validator = new MappingValidator();
@@ -39,14 +42,10 @@ class EnrichmentValidationTest {
     private Path folder;
 
     @ParameterizedTest(name = "{0}")
-    @ValueSource(strings = {
-            "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"P\"}",
-            "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"P\",\"enrichment\":null}",
-            "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"P\",\"enrichment\":{}}"
-    })
+    @ValueSource(strings = {"", ",\"enrichment\":null", ",\"enrichment\":{}"})
     @DisplayName("ausente, null o vacío se aceptan y la película queda sin procedencia")
-    void shouldAcceptAMovieWithoutTags(String json) {
-        Movie movie = validate(json).movies().getFirst();
+    void shouldAcceptAMovieWithoutTags(String extra) {
+        Movie movie = validate(movie(extra)).movies().getFirst();
 
         assertThat(movie.enrichment()).isNull();
     }
@@ -54,9 +53,8 @@ class EnrichmentValidationTest {
     @Test
     @DisplayName("guarda las etiquetas conocidas y omite un texto en blanco con EFX-ING-022")
     void shouldKeepKnownTagsAndSkipABlankOne() {
-        ValidatedMovies checked = validate("""
-                {"id":"1","title":"T","plot":"P","enrichment":{"plot":"tmdb_overview","budget":"  ","cast":null}}
-                """);
+        String tags = ",\"enrichment\":{\"plot\":\"tmdb_overview\",\"budget\":\"  \",\"cast\":null}";
+        ValidatedMovies checked = validate(movie(tags));
 
         assertThat(checked.report().errors()).isEmpty();
         assertThat(checked.report().warnings())
@@ -68,9 +66,7 @@ class EnrichmentValidationTest {
     @Test
     @DisplayName("una clave que el mapping no declara es EFX-ING-007 con la ruta completa")
     void shouldRejectAnUnknownTag() {
-        ValidationReport report = validate("""
-                {"id":"1","title":"T","plot":"P","enrichment":{"director":"tmdb"}}
-                """).report();
+        ValidationReport report = validate(movie(",\"enrichment\":{\"director\":\"tmdb\"}")).report();
 
         assertThat(report.errors())
                 .extracting(ValidationIssue::code, ValidationIssue::field, ValidationIssue::received)
@@ -80,13 +76,13 @@ class EnrichmentValidationTest {
 
     @ParameterizedTest(name = "{0}")
     @ValueSource(strings = {
-            "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"P\",\"enrichment\":[]}",
-            "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"P\",\"enrichment\":\"tmdb\"}",
-            "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"P\",\"enrichment\":{\"plot\":1}}"
+            ",\"enrichment\":[]",
+            ",\"enrichment\":\"tmdb\"",
+            ",\"enrichment\":{\"plot\":1}"
     })
     @DisplayName("un valor que no es un objeto de textos es EFX-ING-012")
-    void shouldRejectATagThatIsNotText(String json) {
-        assertThat(validate(json).report().errors())
+    void shouldRejectATagThatIsNotText(String extra) {
+        assertThat(validate(movie(extra)).report().errors())
                 .extracting(ValidationIssue::code)
                 .containsExactly(ErrorCode.TYPE_MISMATCH.code());
     }
@@ -95,8 +91,7 @@ class EnrichmentValidationTest {
     @DisplayName("una etiqueta más larga que un término de Lucene es EFX-ING-012")
     void shouldRejectATagLongerThanALuceneTerm() {
         String tag = "a".repeat(32_767);
-        ValidationReport report = validate(
-                "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"P\",\"enrichment\":{\"plot\":\"" + tag + "\"}}").report();
+        ValidationReport report = validate(movie(",\"enrichment\":{\"plot\":\"" + tag + "\"}")).report();
 
         assertThat(report.errors())
                 .extracting(ValidationIssue::code, ValidationIssue::field)
@@ -107,8 +102,9 @@ class EnrichmentValidationTest {
     @DisplayName("en CSV el objeto va como JSON compacto en la celda y una celda vacía es null")
     void shouldReadEnrichmentFromAJsonCell() throws Exception {
         String cell = "{\"plot\":\"tmdb_overview\",\"user_score\":\"wikidata\"}";
-        String csv = "id,title,plot,enrichment\r\n1,T,P,\"" + cell.replace("\"", "\"\"")
-                + "\"\r\n2,U,Q,\r\n";
+        String quoted = "\"" + cell.replace("\"", "\"\"") + "\"";
+        String csv = "id,title,plot,enrichment\r\n1,T," + PLOT + "," + quoted
+                + "\r\n2,U," + PLOT + ",\r\n";
         Path file = folder.resolve("peliculas.csv");
         Files.writeString(file, csv, StandardCharsets.UTF_8);
 
@@ -119,6 +115,10 @@ class EnrichmentValidationTest {
         assertThat(checked.movies()).extracting(Movie::id, Movie::enrichment).containsExactly(
                 tuple("1", Map.of("plot", "tmdb_overview", "user_score", "wikidata")),
                 tuple("2", null));
+    }
+
+    private static String movie(String extra) {
+        return "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"" + PLOT + "\"" + extra + "}";
     }
 
     private ValidatedMovies validate(String json) {

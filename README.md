@@ -250,11 +250,12 @@ Si el nombre no existe, se detiene sin crear nada: en ese caso, el catálogo lo 
 
 ### 🔤 Full-text (léxica) · BM25
 
-Busca coincidencias de términos en `title` y `original_title` (ambos `text`).
+Busca coincidencias de términos en los títulos (`title`, `original_title`) o en la sinopsis (`plot`), todos `text`.
+Las sinopsis están en inglés: con `plot`, una consulta en español casi no encuentra coincidencias.
 
 | Ajuste | Opciones |
 |---|---|
-| Tipo de consulta | `match` (un campo: `title` **o** `original_title`) · `multi-match` (`best_fields` sobre los dos) |
+| Tipo de consulta | `match` (un campo: `title`, `original_title` **o** `plot`) · `multi-match` (`best_fields` sobre los dos títulos) |
 | Operador | `OR` (basta una palabra; por defecto) · `AND` (todas; con `multi-match`, en un mismo campo) |
 
 > [!TIP]
@@ -285,11 +286,11 @@ sin cuantización): la única diferencia es el número de dimensiones. **Precisi
 
 | Campo | 🥇 Correcta en 1.er lugar | Top 5 | Top 10 | MRR@10 | nDCG@10 |
 |---|---|---|---|---|---|
-| `plot_256` | 15 de 40 (38 %) | 26 | 31 | 0.614 | 0.623 |
-| `plot_512` | 22 de 40 (55 %) | 30 | 37 | 0.767 | 0.770 |
-| `plot_1024` | 26 de 40 (65 %) | 37 | 37 | 0.823 | 0.823 |
+| `plot_256` | 15 de 40 (38 %) | 26 | 31 | 0.614 | 0.605 |
+| `plot_512` | 22 de 40 (55 %) | 30 | 37 | 0.766 | 0.741 |
+| `plot_1024` | 27 de 40 (68 %) | 38 | 38 | 0.846 | 0.817 |
 
-> 1024 dimensiones pone la película correcta entre las 5 primeras en 37 de 40 consultas; 512 queda cerca con la mitad
+> 1024 dimensiones pone la película correcta entre las 5 primeras en 38 de 40 consultas; 512 queda cerca con la mitad
 > del tamaño y 256 pierde precisión de forma clara.
 
 Las consultas se vectorizan con `input_type: search` y el prefijo `Query: `; las sinopsis, con `input_type: ingest`
@@ -309,12 +310,27 @@ la similitud no son comparables.
 Cada resultado muestra su puntuación BM25, su similitud k-NN, su posición en cada lista y la puntuación
 RRF: `Σ 1 / (60 + posición)`.
 
-> [!NOTE]
-> El [harness de relevancia](eval/README.md) muestra el costo de combinar: con consultas que describen la trama, BM25
-> sobre el título casi nunca encuentra la película (las sinopsis no comparten palabras con el título) y su lista
-> desplaza a la vectorial. La híbrida con `plot_1024` saca nDCG@10 = 0.474, contra 0.823 de la vectorial sola; con
-> búsquedas por título en inglés, en cambio, BM25 sola es la mejor (0.910) y la híbrida queda cerca
-> (0.830 a 0.851).
+### 📏 Qué modo conviene, según el harness
+
+nDCG@10 del [harness de relevancia](eval/README.md): 40 consultas con juicios graduados, donde 1 significa que las
+mejores películas quedaron arriba.
+
+| Configuración | Total | es · trama | en · trama | es · título | en · título |
+|---|---|---|---|---|---|
+| `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
+| `bm25_plot` | 0.430 | 0.075 | 0.823 | 0.000 | 0.745 |
+| `knn_plot_1024` | **0.817** | **0.854** | 0.721 | **0.977** | 0.835 |
+| `rrf_title_knn1024` | 0.474 | 0.549 | 0.192 | 0.746 | 0.823 |
+| `rrf_plot_knn1024` | 0.709 | 0.549 | **0.888** | 0.580 | 0.782 |
+
+- **Las sinopsis están en inglés.** BM25 sobre `plot` es muy bueno con descripciones en inglés (0.823, más que la
+  vectorial) y casi no encuentra nada en español (0.075). La vectorial es multilingüe y responde igual en los dos
+  idiomas.
+- **BM25 sobre el título sirve para buscar por título en inglés**, y para nada más: con descripciones de la trama no
+  encuentra la película, y en la híbrida su lista desplaza a la vectorial.
+- **La híbrida con `plot`** es la mejor con descripciones en inglés (0.888) y supera con claridad a la híbrida con
+  `title` (0.709 contra 0.474), pero con consultas en español queda por debajo de la vectorial sola.
+- En conjunto, la vectorial con `plot_1024` es la opción más pareja.
 
 ## 🎛️ Resultados, filtros y paginación
 
@@ -377,6 +393,16 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
 - **Antes de subir:** solo `.json` o `.csv`, sin dobles extensiones, máximo **25 MB** (tope fijo), UTF-8.
 - **Contra el mapping:** se revisa el archivo completo, todo o nada. Si algo no coincide, se muestra cada error
   (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe en CSV.
+- **Ceros y listas:** un `0` en `budget`, `revenue`, `runtime`, `vote_average` o `vote_count` se guarda sin valor
+  (`EFX-ING-023`): en este catálogo el cero significa desconocido. Un texto opcional vacío también se guarda sin
+  valor (`EFX-ING-022`) y un hueco en una lista se omite (`EFX-ING-021`). Un texto repetido en `genres`, `cast`,
+  `production_companies`, `production_countries` o `spoken_languages`, o una palabra clave con el mismo `id`, se
+  omite y se conserva la primera aparición (`EFX-ING-024`).
+- **Sinopsis:** un `plot` que es un marcador (por ejemplo `[No information found]`) o que tiene menos de 40
+  caracteres rechaza el archivo (`EFX-ING-025`). Restos de un modelo de lenguaje (por ejemplo «couldn't find» o
+  «knowledge cutoff»), markdown y una sinopsis repetida dentro del mismo archivo se avisan y no detienen la carga
+  (`EFX-ING-026` y `EFX-ING-027`): un error rechazaría el archivo entero, y el catálogo publicado todavía comparte
+  tres sinopsis y conserva frases de un modelo.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan desde `plot` con el servicio de
   inferencia. Si el archivo los trae, se ignoran con una advertencia; el formulario no los pide.
 - **Procedencia:** `enrichment` es opcional (`null` o ausente también vale). Si viene, es un objeto cuyas claves
@@ -409,7 +435,7 @@ El estado del catálogo (alias, índice vigente y conteo) también está en `GET
 |---|---|---|
 | `./mvnw verify` | Pruebas unitarias, de arquitectura (ArchUnit), Checkstyle y PMD | Nada más |
 | `./mvnw verify -Pit` | Lo anterior más las pruebas de integración y el smoke test | `.env` y el proyecto Serverless |
-| `./mvnw verify -Pit -Dit.test=RelevanceIT` | Solo el [harness de relevancia](eval/README.md): `_rank_eval` de las 7 configuraciones contra `eval/judgments.jsonl`, con los mínimos de `eval/thresholds.json` como gate | `.env` y el catálogo de referencia |
+| `./mvnw verify -Pit -Dit.test=RelevanceIT` | Solo el [harness de relevancia](eval/README.md): `_rank_eval` de las 10 configuraciones contra `eval/judgments.jsonl`, con los mínimos de `eval/thresholds.json` como gate | `.env` y el catálogo de referencia |
 | `npm test` en `src/test/browser` | Pruebas del JavaScript de las páginas con Playwright | La aplicación en marcha y Node.js; ver [su README](src/test/browser/README.md) |
 
 - Las pruebas de integración que **escriben** usan alias propios `elastiflix-it-<aleatorio>` y los borran al

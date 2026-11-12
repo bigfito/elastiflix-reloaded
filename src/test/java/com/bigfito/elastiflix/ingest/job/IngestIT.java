@@ -316,7 +316,7 @@ class IngestIT {
 
     private static Movie oneMovie() {
         return MovieJsonMapper.create().readValue(
-                "{\"id\":\"" + SINGLE_ID + "\",\"title\":\"Suelta\",\"plot\":\"una historia corta para la prueba\"}",
+                "{\"id\":\"" + SINGLE_ID + "\",\"title\":\"Suelta\",\"plot\":\"una historia corta para la prueba de integracion del registro\"}",
                 Movie.class);
     }
 

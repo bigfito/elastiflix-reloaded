@@ -65,6 +65,12 @@ class HomePageTest {
                 .andExpect(content().string(containsString("OR: 57 resultados")))
                 .andExpect(content().string(containsString("AND: 2 resultados")))
                 .andExpect(content().string(containsString("título original · en title: 3")))
+                .andExpect(content().string(containsString("data-key=\"fulltext-match-plot-or\"")))
+                .andExpect(content().string(containsString(
+                        "/buscar?q=ogre%20donkey%20princess&amp;modo=fulltext&amp;tipo=match&amp;operador=or"
+                                + "&amp;campo=plot")))
+                .andExpect(content().string(containsString("OR: 164 resultados")))
+                .andExpect(content().string(containsString("data-value=\"plot\"")))
                 .andExpect(content().string(containsString("modo=vectorial")))
                 .andExpect(content().string(containsString("vector=plot_1024")))
                 .andExpect(content().string(containsString("Titanic: 4.º lugar")))

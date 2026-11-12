@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvMovieReader;
@@ -41,14 +42,15 @@ class ShippedCatalogValidationTest {
     @Test
     @DisplayName("los 7 JSON y los 7 CSV se aceptan, con procedencia en 6 898 películas")
     void shouldLoadEveryPartWithEnrichment() {
-        Map<String, Integer> warnings = new TreeMap<>();
+        Map<String, Integer> jsonWarnings = new TreeMap<>();
+        Map<String, Integer> csvWarnings = new TreeMap<>();
         List<Movie> fromJson = new ArrayList<>();
         List<Movie> fromCsv = new ArrayList<>();
 
         for (int part = 1; part <= 7; part++) {
             String name = "elastiflix-reloaded_0" + part;
-            fromJson.addAll(readJson(DATA.resolve(name + ".json"), warnings));
-            fromCsv.addAll(readCsv(DATA.resolve(name + ".csv"), warnings));
+            fromJson.addAll(readJson(DATA.resolve(name + ".json"), jsonWarnings));
+            fromCsv.addAll(readCsv(DATA.resolve(name + ".csv"), csvWarnings));
         }
 
         assertThat(fromJson).hasSize(MOVIES).isEqualTo(fromCsv);
@@ -57,7 +59,11 @@ class ShippedCatalogValidationTest {
                 .singleElement()
                 .extracting(Movie::enrichment)
                 .isNull();
-        assertThat(warnings).isEmpty();
+        assertThat(csvWarnings).isEqualTo(jsonWarnings);
+        assertThat(jsonWarnings).containsExactlyInAnyOrderEntriesOf(Map.of(
+                ErrorCode.DUPLICATE_LIST_VALUE.code(), 268,
+                ErrorCode.SUSPECT_PLOT.code(), 686,
+                ErrorCode.DUPLICATE_PLOT.code(), 1));
     }
 
     private List<Movie> readJson(Path file, Map<String, Integer> warnings) {

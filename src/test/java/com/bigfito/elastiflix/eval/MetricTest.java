@@ -22,8 +22,8 @@ class MetricTest {
     @Test
     @DisplayName("la híbrida y la vectorial usan los valores por defecto de la aplicación")
     void shouldUseTheAppDefaults() {
-        assertThat(EvalConfig.RRF_256.query("x").knn().k()).isEqualTo(100);
-        assertThat(EvalConfig.RRF_256.query("x").knn().numCandidates()).isEqualTo(200);
+        assertThat(EvalConfig.RRF_TITLE_256.query("x").knn().k()).isEqualTo(100);
+        assertThat(EvalConfig.RRF_TITLE_256.query("x").knn().numCandidates()).isEqualTo(200);
         assertThat(EvalConfig.KNN_512.query("x").knn().field().fieldName()).isEqualTo("plot_512");
     }
 }

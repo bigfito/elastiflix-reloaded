@@ -27,9 +27,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * <p>Solo lee. No crea ni borra índices. No escribe el vector. Afirma la posición medida sobre
  * 6 899 películas, con {@code k = 100} y {@code num_candidates = 200}: el 2026-10-18, y Life of Pi de
- * nuevo el 2026-10-21 y el 2026-11-11. La última medición es del catálogo reconstruido desde {@code data/}, con los
- * vectores generados de nuevo por el servicio de inferencia: como el k-NN es aproximado, una película al borde puede
- * moverse un lugar. No se afloja el criterio en el código. Si el conteo cambió, la prueba se omite.</p>
+ * nuevo el 2026-10-21, el 2026-11-11 y el 2026-11-12. Las dos últimas mediciones son de catálogos reconstruidos
+ * desde {@code data/}, con los vectores generados de nuevo por el servicio de inferencia: como el k-NN es aproximado,
+ * una película al borde puede moverse un lugar (Life of Pi quedó 4.ª y luego 5.ª con {@code plot_1024}). No se afloja
+ * el criterio en el código. Si el conteo cambió, la prueba se omite.</p>
  */
 @SpringBootTest
 class VectorSearchIT {
@@ -116,7 +117,7 @@ class VectorSearchIT {
                         "un barco de lujo choca con un iceberg en su viaje inaugural", "597", 36, 7, 4),
                 Arguments.of(
                         "un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano",
-                        "87827", 31, 7, 4),
+                        "87827", 31, 7, 5),
                 Arguments.of("un robot solitario que limpia la Tierra", "10681", 1, 1, 1));
     }
 }

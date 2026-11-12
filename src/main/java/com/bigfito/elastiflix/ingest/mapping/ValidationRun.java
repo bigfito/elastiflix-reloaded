@@ -2,7 +2,9 @@ package com.bigfito.elastiflix.ingest.mapping;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.bigfito.elastiflix.core.model.Movie;
@@ -19,6 +21,8 @@ final class ValidationRun {
     private final List<Movie> movies = new ArrayList<>();
     private final Set<String> seen = new HashSet<>();
     private final Set<String> ids = new HashSet<>();
+    /** Huella de la sinopsis ya vista y el id de la primera película que la trajo. */
+    private final Map<String, String> plots = new LinkedHashMap<>();
     private boolean failed;
 
     void add(ValidationIssue issue) {
@@ -53,5 +57,9 @@ final class ValidationRun {
 
     Set<String> ids() {
         return ids;
+    }
+
+    Map<String, String> plots() {
+        return plots;
     }
 }

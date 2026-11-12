@@ -47,7 +47,7 @@ class RankEvalBodiesTest {
     @Test
     @DisplayName("la híbrida usa la búsqueda RRF de la aplicación, no sus listas de apoyo")
     void shouldUseTheFusedRrfSearch() {
-        ObjectNode body = bodies.body(EvalConfig.RRF_1024, "alias", "un barco", MODEL);
+        ObjectNode body = bodies.body(EvalConfig.RRF_TITLE_1024, "alias", "un barco", MODEL);
 
         assertThat(body.at("/retriever/rrf/rank_window_size").asInt()).isEqualTo(100);
         assertThat(body.at("/retriever/rrf/retrievers")).hasSize(2);

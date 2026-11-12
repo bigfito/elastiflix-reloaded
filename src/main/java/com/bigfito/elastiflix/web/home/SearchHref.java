@@ -23,7 +23,7 @@ public final class SearchHref {
      *
      * @param query    texto
      * @param type     {@code match} o {@code multi_match}
-     * @param field    {@code title} u {@code original_title}; vacío en multi-match
+     * @param field    {@code title}, {@code original_title} o {@code plot}; vacío en multi-match
      * @param operator {@code or} o {@code and}
      * @return ruta con query string
      */

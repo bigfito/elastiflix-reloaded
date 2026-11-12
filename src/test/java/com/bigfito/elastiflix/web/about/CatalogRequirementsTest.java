@@ -126,7 +126,8 @@ class CatalogRequirementsTest {
     }
 
     private static ObjectNode movie() {
-        return MAPPER.createObjectNode().put("id", "1").put("title", "Título").put("plot", "Una sinopsis");
+        return MAPPER.createObjectNode().put("id", "1").put("title", "Título")
+                .put("plot", "Sinopsis de prueba suficientemente larga para validar.");
     }
 
     private static List<CatalogField> fields() {

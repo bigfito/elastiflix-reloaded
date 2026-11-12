@@ -12,8 +12,10 @@ mínimo.
 |---|---|
 | `bm25_title` | Full-text, `match` sobre `title` (lo que hace la aplicación por defecto) |
 | `bm25_multi_match` | Full-text, `multi_match` sobre `title` y `original_title` |
+| `bm25_plot` | Full-text, `match` sobre la sinopsis (`plot`) |
 | `knn_plot_256` · `knn_plot_512` · `knn_plot_1024` | Vectorial con cada número de dimensiones |
-| `rrf_plot_256` · `rrf_plot_1024` | Híbrida RRF: `match` sobre `title` más k-NN |
+| `rrf_title_knn256` · `rrf_title_knn1024` | Híbrida RRF: `match` sobre `title` más k-NN (la primera es la combinación por defecto) |
+| `rrf_plot_knn256` · `rrf_plot_knn1024` | Híbrida RRF: `match` sobre `plot` más k-NN |
 
 Todas usan los valores por defecto de la página de Inicio (`OR`, `k = 100`, `num_candidates = 200`). Las peticiones
 salen de los **mismos armadores que usa la aplicación** y el vector de cada consulta del mismo servicio de inferencia,
@@ -93,8 +95,10 @@ minimum.
 |---|---|
 | `bm25_title` | Full-text, `match` on `title` (the app's default) |
 | `bm25_multi_match` | Full-text, `multi_match` on `title` and `original_title` |
+| `bm25_plot` | Full-text, `match` on the plot (`plot`) |
 | `knn_plot_256` · `knn_plot_512` · `knn_plot_1024` | Vector search with each number of dimensions |
-| `rrf_plot_256` · `rrf_plot_1024` | Hybrid RRF: `match` on `title` plus k-NN |
+| `rrf_title_knn256` · `rrf_title_knn1024` | Hybrid RRF: `match` on `title` plus k-NN (the first is the default combination) |
+| `rrf_plot_knn256` · `rrf_plot_knn1024` | Hybrid RRF: `match` on `plot` plus k-NN |
 
 They all use the Home page defaults (`OR`, `k = 100`, `num_candidates = 200`). The requests come from **the same
 builders the app uses**, and each query vector from the same inference service, so the harness measures what the app

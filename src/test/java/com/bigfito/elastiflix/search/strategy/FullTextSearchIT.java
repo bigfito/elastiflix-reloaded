@@ -23,11 +23,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Las ocho consultas full-text de la tabla de verificación, contra el catálogo real.
+ * Las diez consultas full-text de la tabla de verificación, contra el catálogo real.
  *
- * <p>Solo lee. No crea ni borra índices. Afirma los totales OR y AND medidos el 2026-10-18 sobre
- * 6 899 películas. No se afloja el criterio en el código. Si el conteo cambió, la prueba se
- * omite.</p>
+ * <p>Solo lee. No crea ni borra índices. Afirma los totales OR y AND medidos sobre 6 899 películas el
+ * 2026-10-18, y los de {@code plot} el 2026-11-12. No se afloja el criterio en el código. Si el conteo cambió,
+ * la prueba se omite.</p>
  */
 @SpringBootTest
 class FullTextSearchIT {
@@ -91,7 +91,9 @@ class FullTextSearchIT {
                 row("le fabuleux destin", MatchType.MATCH, TextField.ORIGINAL_TITLE, 26, 1),
                 row("heaven cielo", MatchType.MULTI_MATCH, null, 10, 0),
                 row("next kolejne", MatchType.MULTI_MATCH, null, 15, 0),
-                row("parasite 기생충", MatchType.MULTI_MATCH, null, 1, 0));
+                row("parasite 기생충", MatchType.MULTI_MATCH, null, 1, 0),
+                row("ogre donkey princess", MatchType.MATCH, TextField.PLOT, 164, 3),
+                row("bathhouse spirits", MatchType.MATCH, TextField.PLOT, 92, 1));
     }
 
     private static Arguments row(
