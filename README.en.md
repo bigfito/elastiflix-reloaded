@@ -363,6 +363,16 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
 - **Before uploading:** only `.json` or `.csv`, no double extensions, at most **25 MB** (a fixed limit), UTF-8.
 - **Against the mapping:** the whole file is checked, all or nothing. If something doesn't match, each error is shown
   (record, `id`, field, received value, what the mapping expects), and the report can be downloaded as CSV.
+- **Zeros and lists:** a `0` in `budget`, `revenue`, `runtime`, `vote_average`, or `vote_count` is stored without a
+  value (`EFX-ING-023`): in this catalog a zero means unknown. An empty optional text is also stored without a value
+  (`EFX-ING-022`) and a gap in a list is skipped (`EFX-ING-021`). A repeated text in `genres`, `cast`,
+  `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
+  and the first occurrence is kept (`EFX-ING-024`).
+- **Plot:** a `plot` that is a placeholder (for example `[No information found]`) or shorter than 40 characters
+  rejects the file (`EFX-ING-025`). Language-model leftovers (for example "couldn't find" or "knowledge cutoff"),
+  markdown, and a plot repeated inside the same file are warnings and do not stop the load (`EFX-ING-026` and
+  `EFX-ING-027`): an error would reject the whole file, and the published catalog still shares three plots and keeps
+  model phrasing.
 - **Vectors:** `plot_256`, `plot_512`, and `plot_1024` are **always** generated from `plot` with the inference
   service. If the file includes them, they are ignored with a warning; the form doesn't ask for them.
 - **Single user:** the demo is meant for one person at a time; it has no concurrency controls.

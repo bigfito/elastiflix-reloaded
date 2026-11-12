@@ -67,14 +67,19 @@ class MappingValidatorTest {
         assertThat(result.report().errors()).isEmpty();
         assertThat(result.report().warnings())
                 .extracting(ValidationIssue::code, ValidationIssue::field)
-                .containsExactly(tuple(ErrorCode.EMPTY_TEXT.code(), "homepage"));
+                .containsExactlyInAnyOrder(
+                        tuple(ErrorCode.EMPTY_TEXT.code(), "homepage"),
+                        tuple(ErrorCode.DUPLICATE_LIST_VALUE.code(), "cast"));
         assertThat(result.replaceCount()).isEqualTo(1);
         assertThat(result.movies()).filteredOn(movie -> "597".equals(movie.id()))
                 .singleElement()
-                .satisfies(movie -> assertThat(movie.homepage()).isNull());
+                .satisfies(movie -> {
+                    assertThat(movie.homepage()).isNull();
+                    assertThat(movie.cast()).doesNotHaveDuplicates().containsOnlyOnce("Erik Holland");
+                });
         assertThat(result.movies()).usingRecursiveComparison()
                 .withEqualsForType(Arrays::equals, float[].class)
-                .ignoringFields("homepage")
+                .ignoringFields("homepage", "cast")
                 .isEqualTo(moviesOf(documents));
     }
 
@@ -126,7 +131,7 @@ class MappingValidatorTest {
     @DisplayName("un null opcional no avisa y un hueco de lista sí")
     void shouldWarnOnlyForAHoleInsideAList() {
         JsonNode documents = MAPPER.readTree("""
-                [{"id":"1","title":"Una","plot":"texto","homepage":null,"genres":["Drama",""]}]
+                [{"id":"1","title":"Una","plot":"Sinopsis de prueba suficientemente larga para validar.","homepage":null,"genres":["Drama",""]}]
                 """);
 
         ValidatedMovies result = validator.validate(children(documents), Set.of());
@@ -196,7 +201,7 @@ class MappingValidatorTest {
     @DisplayName("un id con espacio se busca con ese mismo texto")
     void shouldKeepTheSpaceInsideAnId() {
         JsonNode documents = MAPPER.readTree("""
-                [{"id":" 7","title":"Una","plot":"texto"}]
+                [{"id":" 7","title":"Una","plot":"Sinopsis de prueba suficientemente larga para validar."}]
                 """);
         JsonNode id = children(documents).getFirst().get("id");
 

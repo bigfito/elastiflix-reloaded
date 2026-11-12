@@ -1,11 +1,6 @@
 package com.bigfito.elastiflix.core.error;
 
-/**
- * Catálogo de códigos de error de Elastiflix.
- *
- * <p>Cada código explica qué pasó, la causa probable y la acción sugerida, para que quien use la
- * demo sepa cómo resolver o reportar la falla. Este enum es la lista completa.</p>
- */
+/** Catálogo completo de códigos. Cada uno dice qué pasó, la causa probable y qué hacer. */
 public enum ErrorCode {
 
     /** Falta {@code ELASTICSEARCH_URL} al arrancar. */
@@ -258,7 +253,26 @@ public enum ErrorCode {
             "Un texto vacío se guardó sin valor",
             "Un texto opcional solo tiene espacios",
             "No hace falta traer el campo si no tiene texto"),
-
+    /** Un cero en budget, revenue, runtime, vote_average o vote_count se guardó sin valor. */
+    ZERO_AS_NULL("EFX-ING-023", "Un cero se guardó sin valor",
+            "budget, revenue, runtime, vote_average o vote_count llegó en 0, que aquí significa desconocido",
+            "Quita el campo o déjalo vacío si no conoces el número"),
+    /** Un texto o una palabra clave repetidos se omitieron. Se conserva el primero. */
+    DUPLICATE_LIST_VALUE("EFX-ING-024", "Un valor repetido dentro de una lista se omitió",
+            "El mismo texto, o la misma palabra clave, ya estaba en la lista",
+            "Deja cada valor una sola vez; se conserva el primero"),
+    /** La sinopsis es un marcador o no llega a 40 caracteres. Rechaza el archivo. */
+    PLACEHOLDER_PLOT("EFX-ING-025", "La sinopsis no sirve: es un marcador o es demasiado corta",
+            "plot dice que no hay información, o tiene menos de 40 caracteres",
+            "Escribe una sinopsis real de al menos 40 caracteres"),
+    /** La sinopsis parece traer restos de un modelo. No rechaza el archivo. */
+    SUSPECT_PLOT("EFX-ING-026", "La sinopsis parece traer restos de un modelo de lenguaje",
+            "El texto incluye fórmulas de un asistente, markdown o una aclaración del tipo «, not»",
+            "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
+    /** La misma sinopsis está en otra película del archivo. No rechaza el archivo. */
+    DUPLICATE_PLOT("EFX-ING-027", "La sinopsis coincide con la de otra película del archivo",
+            "Otro id del mismo archivo tiene la misma sinopsis, ya sin espacios ni mayúsculas de más",
+            "Si es un error, escribe una sinopsis propia; si no hay otra fuente, se puede cargar igual"),
     /** {@code document_count} no coincide con la lista {@code documents}. */
     DOCUMENT_COUNT_MISMATCH("EFX-ING-008",
             "document_count no coincide con los documentos",
@@ -315,12 +329,7 @@ public enum ErrorCode {
             "El identificador no está en memoria",
             "Vuelve a subir el archivo"),
 
-    /**
-     * La publicación no confirmó el resultado.
-     *
-     * <p>Lo usan la importación y la migración. El índice nuevo se deja: borrarlo podría vaciar
-     * el catálogo si el alias ya apunta a él.</p>
-     */
+    /** La publicación no se confirmó. El índice nuevo se deja: borrarlo podría vaciar el catálogo. */
     PUBLISH_UNCERTAIN("EFX-IMP-006",
             "No se sabe si el alias se publicó",
             "_aliases no confirmó el cambio y el alias no se pudo leer o no quedó en un estado que permita "
@@ -366,7 +375,6 @@ public enum ErrorCode {
 
     /**
      * Devuelve el código visible, por ejemplo {@code EFX-ES-001}.
-     *
      * @return el código del error
      */
     public String code() {
@@ -375,10 +383,6 @@ public enum ErrorCode {
 
     /**
      * Devuelve solo qué pasó, sin el código ni la causa.
-     *
-     * <p>La página de resultados lo muestra junto al campo. La de error lo pone bajo el código,
-     * que va en el título.</p>
-     *
      * @return el texto corto del error
      */
     public String summary() {
@@ -387,7 +391,6 @@ public enum ErrorCode {
 
     /**
      * Compone el mensaje en el formato del proyecto.
-     *
      * @return mensaje con qué pasó, causa probable y acción sugerida
      */
     public String userMessage() {

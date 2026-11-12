@@ -63,6 +63,7 @@ public final class MappingValidator {
         CheckedDocument checked = checker.check(document, label);
         run.addAll(checked.issues());
         remember(checked, label, run);
+        PlotChecks.noteDuplicate(checked, label, run);
         if (!run.failed()) {
             run.movies().add(MovieDocuments.fromNode(checked.body()));
         }

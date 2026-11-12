@@ -29,7 +29,7 @@ class NestedPathTest {
     void shouldReportTheMissingIdWhenAKeywordIdIsWrong() {
         // when
         ValidationReport report = validate("""
-                {"title":"T","plot":"P","keywords":[{"id":"x"}]}
+                {"title":"T","plot":"Sinopsis de prueba suficientemente larga para validar.","keywords":[{"id":"x"}]}
                 """);
 
         // then
@@ -45,7 +45,7 @@ class NestedPathTest {
     void shouldReportTheMissingTitleWhenTheCollectionHasATitle() {
         // when
         ValidationReport report = validate("""
-                {"id":"1","plot":"P","belongs_to_collection":{"id":1,"title":"Saga"}}
+                {"id":"1","plot":"Sinopsis de prueba suficientemente larga para validar.","belongs_to_collection":{"id":1,"title":"Saga"}}
                 """);
 
         // then
@@ -62,7 +62,7 @@ class NestedPathTest {
     void shouldUseThePathInNestedWarnings() {
         // when
         ValidationReport report = validate("""
-                {"id":"1","title":"T","plot":"P","keywords":[{"id":7,"name":"  "}]}
+                {"id":"1","title":"T","plot":"Sinopsis de prueba suficientemente larga para validar.","keywords":[{"id":7,"name":"  "}]}
                 """);
 
         // then

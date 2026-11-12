@@ -52,10 +52,17 @@ final class ScalarValues {
     }
 
     private static void keepText(String name, JsonNode value, CheckScope scope, boolean required) {
-        if (!value.asString().isBlank()) {
-            scope.target().set(name, value);
+        if (value.asString().isBlank()) {
+            blankText(name, scope, required);
             return;
         }
+        if (FieldNames.PLOT.equals(name) && !PlotChecks.keep(value.asString(), scope)) {
+            return;
+        }
+        scope.target().set(name, value);
+    }
+
+    private static void blankText(String name, CheckScope scope, boolean required) {
         if (required) {
             scope.error(ErrorCode.REQUIRED_FIELD, name, FieldNames.BLANK, TEXT);
             return;
@@ -78,22 +85,31 @@ final class ScalarValues {
         if (value == null || value.isNull()) {
             return;
         }
-        if (fitsInt(value)) {
-            scope.target().set(name, value);
+        if (!fitsInt(value)) {
+            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), INTEGER);
             return;
         }
-        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), INTEGER);
+        keepNumber(name, value, scope);
     }
 
     private static void decimal(String name, JsonNode value, CheckScope scope) {
         if (value == null || value.isNull()) {
             return;
         }
-        if (value.isNumber() && Float.isFinite((float) value.doubleValue())) {
-            scope.target().set(name, value);
+        if (!value.isNumber() || !Float.isFinite((float) value.doubleValue())) {
+            scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.FINITE_FLOAT.text());
             return;
         }
-        scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(value), IngestPhrase.FINITE_FLOAT.text());
+        keepNumber(name, value, scope);
+    }
+
+    /** Un 0 en presupuesto, recaudación, duración o votos no es un dato: se omite. */
+    private static void keepNumber(String name, JsonNode value, CheckScope scope) {
+        if (FieldRules.unknownZero(name) && value.doubleValue() == 0d) {
+            scope.warning(ErrorCode.ZERO_AS_NULL, name, "0", IngestPhrase.NO_VALUE.text());
+            return;
+        }
+        scope.target().set(name, value);
     }
 
     private static void date(String name, JsonNode value, CheckScope scope) {

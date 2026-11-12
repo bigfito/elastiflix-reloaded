@@ -135,7 +135,13 @@ public enum IngestPhrase {
     /** Comprobación superada: registros leídos. */
     CHECK_READ("{0} registros leídos, con id, title y plot."),
     /** Comprobación superada: ids únicos. */
-    CHECK_UNIQUE_IDS("Ningún id repetido.");
+    CHECK_UNIQUE_IDS("Ningún id repetido."),
+    /** Se esperaba una sinopsis real y con largo suficiente. */
+    REAL_PLOT("una sinopsis real de al menos {0} caracteres"),
+    /** Advertencia: la sinopsis parece de un modelo. */
+    CLEAN_PLOT("una sinopsis sin restos de un modelo"),
+    /** Advertencia: la sinopsis ya está en otra película del archivo. */
+    DISTINCT_PLOT("una sinopsis distinta");
 
     private final String spanish;
     private final Pattern pattern;

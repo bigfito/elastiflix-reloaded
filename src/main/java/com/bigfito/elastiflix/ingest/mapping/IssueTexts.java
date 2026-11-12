@@ -13,7 +13,10 @@ final class IssueTexts {
     }
 
     static String show(JsonNode value) {
-        String text = value.toString();
+        return clip(value.toString());
+    }
+
+    static String clip(String text) {
         if (text.length() <= LIMIT) {
             return text;
         }

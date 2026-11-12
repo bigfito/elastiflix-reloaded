@@ -1,5 +1,6 @@
 package com.bigfito.elastiflix.ingest.mapping;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
@@ -56,13 +57,15 @@ final class NestedValues {
 
     private static ArrayNode keywordList(String name, JsonNode value, CheckScope scope) {
         ArrayNode clean = MovieNodes.MAPPER.createArrayNode();
+        Set<String> seen = new LinkedHashSet<>();
         for (JsonNode item : value) {
-            addKeyword(name, item, clean, scope);
+            addKeyword(name, item, clean, seen, scope);
         }
         return clean;
     }
 
-    private static void addKeyword(String name, JsonNode item, ArrayNode clean, CheckScope scope) {
+    private static void addKeyword(
+            String name, JsonNode item, ArrayNode clean, Set<String> seen, CheckScope scope) {
         if (item == null || item.isNull()) {
             scope.warning(ErrorCode.EMPTY_LIST_VALUE, name, FieldNames.BLANK, IngestPhrase.SKIPPED.text());
             return;
@@ -71,7 +74,19 @@ final class NestedValues {
             scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(item), IngestPhrase.ID_NAME_OBJECT.text());
             return;
         }
-        clean.add(object(item, new NestedObject(name, FieldRules.KEYWORD), scope));
+        keepKeyword(name, item, clean, seen, scope);
+    }
+
+    /** El duplicado se decide por {@code id}. Sin id no hay con qué comparar y se conserva. */
+    private static void keepKeyword(
+            String name, JsonNode item, ArrayNode clean, Set<String> seen, CheckScope scope) {
+        ObjectNode built = object(item, new NestedObject(name, FieldRules.KEYWORD), scope);
+        JsonNode id = built.get(FieldNames.ID);
+        if (id != null && !seen.add(id.asString())) {
+            scope.warning(ErrorCode.DUPLICATE_LIST_VALUE, name, id.asString(), IngestPhrase.SKIPPED.text());
+            return;
+        }
+        clean.add(built);
     }
 
     private static ObjectNode object(JsonNode value, NestedObject target, CheckScope scope) {
