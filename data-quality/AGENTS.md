@@ -13,7 +13,7 @@ la bitácora y en git, en la rama local `dq/ronda-4`.
 |---|---|---|
 | **Google Antigravity** | Ejecutor | Ejecuta las tareas de su turno (roles DATOS, JAVA, EVAL o DOCS, según la tarea) |
 | **Cursor** | Ejecutor | Igual que Antigravity |
-| **GitHub Copilot** (modo agente) | Ejecutor | Igual que Antigravity |
+| **GitHub Copilot** (modo agente, con el modelo **Kimi K3**) | Ejecutor | Igual que Antigravity |
 | **Claude Code** | Revisor y coordinador | Después de **cada** turno de ejecución: revisa todo lo que hizo el ejecutor, **corrige** lo que quedó mal, deja el tablero listo y da paso al siguiente. No toma tareas del plan |
 | **Dueña del proyecto** (humana) | Decide y aprueba | Contesta P-0, H-1, H-2 y D-xx; integra los hitos en `main`; da la orden de arrancar cada turno |
 
@@ -167,7 +167,7 @@ como carpeta, y envía el mensaje de la tabla.
 |---|---|---|
 | **Google Antigravity** | Agent Manager, con el worktree como workspace. Si planea con sus propios artefactos, el plan oficial sigue siendo `PLAN.md` y el estado, `BITACORA.md` | `Eres Google Antigravity, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Cursor** | Chat en modo Agent. Agrega `data-quality/` al contexto | `Eres Cursor, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
-| **GitHub Copilot** | Copilot Chat de VS Code en modo Agent. Agrega `data-quality/AGENTS.md` y `data-quality/BITACORA.md` como contexto (`#file`) | `Eres GitHub Copilot, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
+| **GitHub Copilot** | Copilot Chat de VS Code en modo Agent, con **Kimi K3** como modelo. Firma sus commits como `Agente: GitHub Copilot (Kimi K3)`. Agrega `data-quality/AGENTS.md` y `data-quality/BITACORA.md` como contexto (`#file`) | `Eres GitHub Copilot, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Claude Code** | `data-quality/CLAUDE.md` importa este archivo | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
 
 Comandos con variables de entorno, según el shell:
