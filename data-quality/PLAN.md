@@ -130,7 +130,7 @@ modelo, así que ningún agente escribe sinopsis.**
 | **NS-4 · Identidad** | El artículo se encuentra por `imdb_id` → Wikidata (propiedad P345) → enlace `enwiki`. Sin `imdb_id` o sin resultado: búsqueda por título, aceptada solo si el año coincide ±1 **y** aparecen en el artículo al menos 2 nombres de `cast` |
 | **NS-5 · Procedencia** | `enrichment.plot` = `wikipedia_plot_AAAA-MM-DD` (fecha de descarga) o `tmdb_overview`. Cada sinopsis de Wikipedia se agrega a `data-quality/fuentes/plot-fuentes.tsv` (`id`, título del artículo, `revid`, fecha): es la atribución que pide CC BY-SA |
 | **NS-6 · Alcance** | Solo cambian `plot` y `enrichment.plot`. `overview` no se toca |
-| **NS-7 · Red** | `User-Agent: elastiflix-data-quality/1.0 (academic demo)`, sin datos personales; como máximo 1 petición por segundo a Wikipedia; SPARQL en lotes de 200 ids; respuestas guardadas en `data-quality/work/cache/` |
+| **NS-7 · Red** | `User-Agent: elastiflix-data-quality/1.0 (<contacto>) python-urllib`, con el contacto (correo o URL completa) que decida la dueña del proyecto en **D-05**, guardado como `DQ_WIKI_CONTACTO` en `.env` y nunca en git. Wikimedia limita a **10 peticiones por minuto** a quien no se identifica y a 200 a quien da un contacto: con contacto, 1 petición por segundo; sin contacto, una cada 6,5 s. Un 429 o 503 respeta `Retry-After`. SPARQL en lotes de 200 ids; respuestas guardadas en `data-quality/work/cache/` (cambio de R-02) |
 
 ## Flujo de un cambio de datos
 

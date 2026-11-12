@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 17:24 UTC · Cursor (Grok 4.7) · ejecutor (turno 02)
+**Última actualización:** 2026-11-12 17:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-02)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -19,7 +19,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | Turno | Ejecutor | Tareas (detalle en el plan) | Estado | Inicio | Etiqueta `dq-t` | Revisión |
 |---|---|---|---|---|---|---|
 | 01 | Google Antigravity | WP-00 T-01 a T-04 | REVISADO | 2026-11-12 | `dq-t01` | [R-01](bitacora/R-01.md) |
-| 02 | Cursor | WP-00 T-05 y T-09 | EN REVISIÓN | 2026-11-12 | `dq-t02` | — |
+| 02 | Cursor | WP-00 T-05 y T-09 | REVISADO | 2026-11-12 | `dq-t02` | [R-02](bitacora/R-02.md) |
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | PENDIENTE | — | — | — |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | PENDIENTE | — | — | — |
 | 05 | Cursor | WP-02 lotes `002`–`006` | PENDIENTE | — | — | — |
@@ -63,12 +63,14 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 |---|---|---|---|---|---|
 | R-00 | (plan inicial) | APROBADO | 23 de la revisión independiente del plan | `ebab666` y siguiente | Diario del plan, §8 |
 | R-01 | 01 · Google Antigravity | APROBADO CON CORRECCIONES | 3 defectos de validación en `catalogo.py` y `aplicar_cambios.py`; trazabilidad de correcciones en `estado.tsv` | `fb06ad8` | [R-01](bitacora/R-01.md) |
+| R-02 | 02 · Cursor | APROBADO CON CORRECCIONES | Límite de Wikimedia (429), subtítulos dentro de la trama, comilla final, `--agente` por defecto | `83af348` | [R-02](bitacora/R-02.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-02** del turno 02 de Cursor (`dq-r01..dq-t02`: WP-00 T-05 `wiki_plot.py` y T-09
-> `proponer_trama.py`). No se aplicó ningún lote a `data/`. Al aprobarse R-02, sigue el **turno 03 · GitHub Copilot**
-> (WP-00 T-06, T-07, T-08 y T-10).
+> **Turno 03 · GitHub Copilot:** WP-00 T-06 (`cargar.py`), T-07 (M0), T-08 (staging, H-1 aprobada) y T-10
+> (`publicar.py`). Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-02](bitacora/R-02.md) y revisa su commit
+> `83af348`. El punto de partida es la etiqueta `dq-r02`. Este turno no usa Wikipedia.
+> **Dueña del proyecto:** contestar **D-05** (contacto del `User-Agent`) antes del turno 04.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -83,6 +85,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-02 | ¿Qué puntuación muestra la demo? (WP-09) | A · B · C del plan | A: mantener las dos y rotularlas | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · opción A; WP-09 T-01 no necesita memo |
 | D-03 | ¿`"dynamic": "strict"` en el mapping? (WP-10) | Sí · No | Sí | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · sí, `dynamic: strict` |
 | D-04 | ¿Quitar el filtro `adult`? (WP-10) | Sí · No | No; documentar | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · no se quita; se documenta |
+| D-05 | ¿Qué contacto va en el `User-Agent` para Wikipedia y Wikidata (NS-7)? Sin contacto, Wikimedia limita a 10 peticiones por minuto y las unas 5 950 descargas de los turnos 4 a 13 tardan 11 h o más en total; con contacto, menos de 2 h. El valor va en `.env` como `DQ_WIKI_CONTACTO=` y no se commitea | URL pública del repo · un correo · sin contacto | Lo que prefiera la dueña del proyecto: es un dato suyo que se envía a Wikimedia | ABIERTA · se necesita antes del turno 04 |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
 
 ## 4. Decisiones tomadas
@@ -186,3 +189,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: `./mvnw -q verify` (798 pruebas, 0 fallos); `catalogo.py --verificar` 14/14; `aplicar_cambios.py
   --verificar` con los tres rechazos nuevos.
 - Para el siguiente: turno 02, Cursor.
+
+### 2026-11-12 17:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-02)
+- Hice: P-06 registrada antes de la revisión (`4e25443`). Revisión del turno 02 de Cursor: APROBADO CON
+  CORRECCIONES (`83af348`). Wikimedia limita a 10 peticiones por minuto a un `User-Agent` sin contacto; se abre
+  D-05 y se ajusta NS-7. Detalle en `bitacora/R-02.md`.
+- Evidencia: `wiki_plot.py --verificar` y `proponer_trama.py --comprobar` en verde; lote real de las 13 de WP-01
+  propuesto en `work/r02-wp01/` (13 de 13 con trama) y simulado sin escribir `data/`.
+- Para el siguiente: turno 03, GitHub Copilot.
