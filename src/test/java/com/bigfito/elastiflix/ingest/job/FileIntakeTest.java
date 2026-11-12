@@ -49,7 +49,7 @@ class FileIntakeTest {
     @DisplayName("una doble extensión (EFX-ING-002) detiene el paso 2")
     void shouldStopStepTwoWhenTheFileHasTwoExtensions() throws Exception {
         // given
-        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n");
+        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,Sinopsis de prueba suficientemente larga para validar.\n");
         String jobId = store.open("peliculas.json.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
 
         // when
@@ -69,7 +69,7 @@ class FileIntakeTest {
         // given
         Path upload = Files.writeString(folder.resolve("subida.bin"), """
                 id,title,plot,release_date
-                1,A,p,16/07/1999
+                1,A,Sinopsis de prueba suficientemente larga para validar.,16/07/1999
                 """);
         String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
 
@@ -92,7 +92,7 @@ class FileIntakeTest {
                 .thenThrow(new ElasticsearchAccessException(ErrorCode.ELASTICSEARCH_UNAVAILABLE));
         Path upload = Files.writeString(folder.resolve("subida.bin"), """
                 id,title,plot,release_date
-                1,A,p,16/07/1999
+                1,A,Sinopsis de prueba suficientemente larga para validar.,16/07/1999
                 """);
         String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
 
@@ -112,7 +112,7 @@ class FileIntakeTest {
     void shouldCountReplacementsWhenTheFileIsValid() throws Exception {
         // given
         when(catalog.existingIds("elastiflix-reloaded", List.of("1", "2"))).thenReturn(Set.of("2"));
-        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n2,B,q\n");
+        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,Sinopsis de prueba suficientemente larga para validar.\n2,B,Otra sinopsis de prueba suficientemente larga y distinta.\n");
         String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.APPEND);
 
         // when
@@ -130,7 +130,7 @@ class FileIntakeTest {
     void shouldCountTheCatalogWhenTheModeIsBulk() throws Exception {
         // given
         when(catalog.count("elastiflix-reloaded")).thenReturn(6899L);
-        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n2,B,q\n");
+        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,Sinopsis de prueba suficientemente larga para validar.\n2,B,Otra sinopsis de prueba suficientemente larga y distinta.\n");
         String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
 
         // when
@@ -149,7 +149,7 @@ class FileIntakeTest {
     void shouldReplaceNothingWhenBulkCreatesTheCatalog() throws Exception {
         // given
         when(catalog.describe("elastiflix-reloaded")).thenReturn(new CatalogName.Missing("elastiflix-reloaded"));
-        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n");
+        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,Sinopsis de prueba suficientemente larga para validar.\n");
         String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.BULK);
 
         // when
@@ -167,7 +167,7 @@ class FileIntakeTest {
     void shouldFailWhenAppendHasNoCatalog() throws Exception {
         // given
         when(catalog.describe("elastiflix-reloaded")).thenReturn(new CatalogName.Missing("elastiflix-reloaded"));
-        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n");
+        Path upload = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,Sinopsis de prueba suficientemente larga para validar.\n");
         String jobId = store.open("peliculas.csv", upload, CsvSettings.withHeader(), ImportMode.APPEND);
 
         // when

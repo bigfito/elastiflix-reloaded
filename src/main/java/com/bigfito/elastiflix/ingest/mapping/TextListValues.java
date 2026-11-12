@@ -1,5 +1,8 @@
 package com.bigfito.elastiflix.ingest.mapping;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import com.bigfito.elastiflix.core.error.ErrorCode;
 
 import tools.jackson.databind.JsonNode;
@@ -27,13 +30,14 @@ final class TextListValues {
 
     private static ArrayNode texts(String name, JsonNode value, CheckScope scope) {
         ArrayNode clean = MovieNodes.MAPPER.createArrayNode();
+        Set<String> seen = new LinkedHashSet<>();
         for (JsonNode item : value) {
-            addText(name, item, clean, scope);
+            addText(name, item, clean, seen, scope);
         }
         return clean;
     }
 
-    private static void addText(String name, JsonNode item, ArrayNode clean, CheckScope scope) {
+    private static void addText(String name, JsonNode item, ArrayNode clean, Set<String> seen, CheckScope scope) {
         if (item == null || item.isNull() || item.isString() && item.asString().isBlank()) {
             scope.warning(ErrorCode.EMPTY_LIST_VALUE, name, FieldNames.BLANK, IngestPhrase.SKIPPED.text());
             return;
@@ -42,15 +46,20 @@ final class TextListValues {
             scope.error(ErrorCode.TYPE_MISMATCH, name, IssueTexts.show(item), IngestPhrase.TEXT.text());
             return;
         }
-        keepText(name, item, clean, scope);
+        keepText(name, item, clean, seen, scope);
     }
 
     /** Las listas de textos son {@code keyword} sin {@code ignore_above}: cada texto tiene tope de bytes. */
-    private static void keepText(String name, JsonNode item, ArrayNode clean, CheckScope scope) {
+    private static void keepText(String name, JsonNode item, ArrayNode clean, Set<String> seen, CheckScope scope) {
         if (KeywordBytes.exceeds(name, item)) {
             KeywordBytes.reject(name, item, scope);
             return;
         }
-        clean.add(item.asString());
+        String text = item.asString();
+        if (!seen.add(text)) {
+            scope.warning(ErrorCode.DUPLICATE_LIST_VALUE, name, IssueTexts.clip(text), IngestPhrase.SKIPPED.text());
+            return;
+        }
+        clean.add(text);
     }
 }

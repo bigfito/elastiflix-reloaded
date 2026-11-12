@@ -59,10 +59,10 @@ class CsvRowNumbersTest {
         // given
         Path file = Files.writeString(folder.resolve("mezcla.csv"), """
                 id,title,plot,release_date
-                1,A,p,16/07/1999
+                1,A,Sinopsis de prueba suficientemente larga para validar.,16/07/1999
 
                 2,B
-                3,C,p,1999-99-99
+                3,C,Sinopsis de prueba suficientemente larga para validar.,1999-99-99
                 """);
 
         // when

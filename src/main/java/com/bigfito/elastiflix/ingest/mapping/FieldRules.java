@@ -13,6 +13,10 @@ final class FieldRules {
             "id", "name", "backdrop_path", "poster_path");
     static final Set<String> KEYWORD = Set.of("id", "name");
 
+    /** En estos campos un 0 no es una medida: es desconocido y se guarda sin valor. */
+    static final Set<String> ZERO_AS_NULL = Set.of(
+            "budget", "revenue", "runtime", "vote_average", "vote_count");
+
     private static final Map<String, FieldKind> KINDS = kinds();
 
     private FieldRules() {
@@ -24,6 +28,10 @@ final class FieldRules {
 
     static boolean required(String name) {
         return FieldNames.REQUIRED.contains(name);
+    }
+
+    static boolean unknownZero(String name) {
+        return ZERO_AS_NULL.contains(name);
     }
 
     static FieldKind kind(String name) {

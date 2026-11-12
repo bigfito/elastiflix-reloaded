@@ -45,7 +45,8 @@ class NumberRangeTest {
     @DisplayName("una celda CSV fuera de rango o con decimales en un entero es un error de fila")
     void shouldRejectOutOfRangeCsvCells(String field, String cell) throws Exception {
         // given
-        String content = "id,title,plot," + field + "\n1,T,p," + cell + "\n";
+        String content = "id,title,plot," + field + "\n1,T,"
+                + "Sinopsis de prueba suficientemente larga para validar.," + cell + "\n";
         Path file = Files.writeString(folder.resolve("numeros.csv"), content);
 
         // when
@@ -68,7 +69,7 @@ class NumberRangeTest {
     @DisplayName("un número JSON fuera de rango es un error de registro")
     void shouldRejectOutOfRangeJsonNumbers(String field, String number) {
         JsonNode node = MovieJsonMapper.create().readTree(
-                "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"p\",\"" + field + "\":" + number + "}");
+                "{\"id\":\"1\",\"title\":\"T\",\"plot\":\"Sinopsis de prueba suficientemente larga para validar.\",\"" + field + "\":" + number + "}");
 
         ValidatedMovies checked = validator.validate(List.of(node), Set.of());
 
@@ -81,7 +82,7 @@ class NumberRangeTest {
     @Test
     @DisplayName("un id numérico de 25 dígitos se guarda como texto, sin pasar por long")
     void shouldKeepALongNumericIdAsText() {
-        JsonNode node = MovieJsonMapper.create().readTree("{\"id\":" + DIGITS_25 + ",\"title\":\"T\",\"plot\":\"p\"}");
+        JsonNode node = MovieJsonMapper.create().readTree("{\"id\":" + DIGITS_25 + ",\"title\":\"T\",\"plot\":\"Sinopsis de prueba suficientemente larga para validar.\"}");
 
         ValidatedMovies checked = validator.validate(List.of(node), Set.of());
 
@@ -92,7 +93,7 @@ class NumberRangeTest {
     @Test
     @DisplayName("el id de una palabra clave de 25 dígitos es un error, no una falla al convertir")
     void shouldRejectAHugeKeywordId() {
-        JsonNode node = MovieJsonMapper.create().readTree("{\"id\":\"1\",\"title\":\"T\",\"plot\":\"p\","
+        JsonNode node = MovieJsonMapper.create().readTree("{\"id\":\"1\",\"title\":\"T\",\"plot\":\"Sinopsis de prueba suficientemente larga para validar.\","
                 + "\"keywords\":[{\"id\":" + DIGITS_25 + ",\"name\":\"x\"}]}");
 
         ValidatedMovies checked = validator.validate(List.of(node), Set.of());

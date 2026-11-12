@@ -393,6 +393,16 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
 - **Antes de subir:** solo `.json` o `.csv`, sin dobles extensiones, máximo **25 MB** (tope fijo), UTF-8.
 - **Contra el mapping:** se revisa el archivo completo, todo o nada. Si algo no coincide, se muestra cada error
   (registro, `id`, campo, valor recibido, lo que espera el mapping) y se puede descargar el informe en CSV.
+- **Ceros y listas:** un `0` en `budget`, `revenue`, `runtime`, `vote_average` o `vote_count` se guarda sin valor
+  (`EFX-ING-023`): en este catálogo el cero significa desconocido. Un texto opcional vacío también se guarda sin
+  valor (`EFX-ING-022`) y un hueco en una lista se omite (`EFX-ING-021`). Un texto repetido en `genres`, `cast`,
+  `production_companies`, `production_countries` o `spoken_languages`, o una palabra clave con el mismo `id`, se
+  omite y se conserva la primera aparición (`EFX-ING-024`).
+- **Sinopsis:** un `plot` que es un marcador (por ejemplo `[No information found]`) o que tiene menos de 40
+  caracteres rechaza el archivo (`EFX-ING-025`). Restos de un modelo de lenguaje (por ejemplo «couldn't find» o
+  «knowledge cutoff»), markdown y una sinopsis repetida dentro del mismo archivo se avisan y no detienen la carga
+  (`EFX-ING-026` y `EFX-ING-027`): un error rechazaría el archivo entero, y el catálogo publicado todavía comparte
+  tres sinopsis y conserva frases de un modelo.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan desde `plot` con el servicio de
   inferencia. Si el archivo los trae, se ignoran con una advertencia; el formulario no los pide.
 - **Un solo usuario:** la demo está pensada para una persona a la vez; no tiene controles de concurrencia.

@@ -392,7 +392,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Against the mapping</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">The whole file is checked: every field must exist in the mapping and have its type (<code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">release_date</code> as yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">adult</code> as a boolean, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">keywords</code> and <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">belongs_to_collection</code> as nested objects). <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> can't be repeated.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">The whole file is checked: every field must exist in the mapping and have its type (<code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">release_date</code> as yyyy-MM-dd, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">adult</code> as a boolean, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">keywords</code> and <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">belongs_to_collection</code> as nested objects). <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code> can't be repeated. A plot that is a placeholder (for example [No information found]) or shorter than 40 characters rejects the file (EFX-ING-025).</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">If something doesn't match</dt>
@@ -400,7 +400,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Warnings</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Anything that doesn't break the mapping doesn't stop the load: for example, empty values inside a list are skipped and empty strings are stored without a value.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Anything that doesn't break the mapping doesn't stop the load: a 0 in budget, revenue, runtime, vote_average or vote_count is stored without a value (EFX-ING-023); a repeated text in a list, or a keyword with the same id, is skipped (EFX-ING-024); an empty text is stored without a value and a gap in a list is skipped (EFX-ING-022 and EFX-ING-021). A plot with language-model leftovers, or one repeated inside the file, is only a warning (EFX-ING-026 and EFX-ING-027).</dd>
 </div>
 </dl>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600">Import</h3>
