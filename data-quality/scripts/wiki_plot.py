@@ -520,12 +520,17 @@ _NO_PELICULA = re.compile(
 _PELICULA = re.compile(r"(?i)\b(?:film|movie)\b")
 
 
-# El artículo se presenta como obra en dos partes: «Che is a two-part 2008…» o «Red Cliff … is a 2008–09 … film» (R-10).
-_VARIAS_PARTES = re.compile(r"(?i)\bis an? (?:two-part\b|(?:19|20)\d{2}\s*[–-]\s*\d{2,4}\b)")
+# El artículo se presenta como obra en dos partes: «Che is a two-part 2008…» o «Red Cliff … is a 2008–09 … film» (R-10),
+# o como trilogía o saga: «Berserk: The Golden Age Arc … is a Japanese anime film trilogy» (R-11). Los adjetivos entre
+# «is a» y «trilogy» no pueden ser «of», «to», «in»…: «is a reboot of the Spider-Man film series» es una sola película.
+_VARIAS_PARTES = re.compile(
+    r"(?i)\bis an? (?:two-part\b|(?:19|20)\d{2}\s*[–-]\s*\d{2,4}\b"
+    r"|(?:(?!(?:of|to|in|from|the|and|for|with)\b)[\w'’-]+\s){0,5}(?:trilogy|duology|tetralogy|film series)\b)"
+)
 
 
 def es_articulo_de_varias_partes(extracto: str) -> bool:
-    """True si la primera línea presenta el artículo como una obra en dos partes, cuya trama abarca ambas."""
+    """True si la primera línea presenta el artículo como obra en dos partes, trilogía o saga, cuya trama abarca varias."""
     return bool(_VARIAS_PARTES.search(extracto.split("\n", 1)[0][:400]))
 
 
@@ -548,7 +553,7 @@ def trama(articulo: str) -> Trama | None:
         print(f"{pag.titulo}: el artículo es de una serie, un videojuego o un manga, no de la película", file=sys.stderr)
         return None
     if es_articulo_de_varias_partes(pag.extracto):
-        print(f"{pag.titulo}: el artículo es de una obra en dos partes; su trama abarca las dos", file=sys.stderr)
+        print(f"{pag.titulo}: el artículo es de una obra en varias partes; su trama abarca más de una", file=sys.stderr)
         return None
     texto = texto_de_extracto(pag.extracto)
     if texto is None:
@@ -605,6 +610,14 @@ def comprobar_texto() -> None:
     for dos_partes in ("Che is a two-part 2008 epic biographical film about Ernesto Guevara.",
                        "Red Cliff, also known as Chibi, is a 2008–09 internationally co-produced epic war film."):
         _exigir(es_articulo_de_varias_partes(dos_partes), f"Obra en dos partes no detectada: {dos_partes}")
+    for saga in ("Berserk: The Golden Age Arc (Japanese: ...) is a Japanese anime film trilogy, which adapts the manga.",
+                 "Kizumonogatari is a Japanese anime film trilogy based on the novel by Nisio Isin.",
+                 "Digimon Adventure tri. is a Japanese adventure anime film series."):
+        _exigir(es_articulo_de_varias_partes(saga), f"Trilogía o saga no detectada: {saga}")
+    for una in ("The Amazing Spider-Man is a 2012 superhero film. It is a reboot of the Spider-Man film series.",
+                "Deadpool is a 2016 superhero film. It is a spin-off of the X-Men film series.",
+                "Bionicle: The Legend Reborn is a 2009 animated film. It is a stand-alone sequel to the trilogy."):
+        _exigir(not es_articulo_de_varias_partes(una), f"Una película de una saga es una sola película: {una}")
     for una in ("The Wind That Shakes the Barley is a 2006 war drama film set during the Irish War (1919–1921).",
                 "Dragonball Evolution is a 2009 superhero film based on the 1984–95 manga series Dragon Ball."):
         _exigir(not es_articulo_de_varias_partes(una), f"Un período histórico no es una obra en dos partes: {una}")
