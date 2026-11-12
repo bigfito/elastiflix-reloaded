@@ -86,7 +86,7 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 
 <div class="card">
 <h2 class="h3">Sinopsis y textos</h2>
-<label class="fld"><span class="lbl">Sinopsis <span class="req">*</span><code>plot</code></span><textarea class="inp" rows="4" required style="resize: vertical"></textarea><span class="hint">Obligatoria: de aquí se generan los tres vectores de la búsqueda vectorial.</span></label>
+<label class="fld"><span class="lbl">Sinopsis <span class="req">*</span><code>plot</code></span><textarea class="inp" rows="4" required style="resize: vertical"></textarea><span class="hint">Obligatoria, de al menos 40 caracteres: de aquí se generan los tres vectores de la búsqueda vectorial.</span></label>
 <label class="fld"><span class="lbl">Resumen <code>overview</code></span><textarea class="inp" rows="3" style="resize: vertical"></textarea></label>
 <label class="fld"><span class="lbl">Frase promocional <code>tagline</code></span><input class="inp" type="text"></label>
 </div>
@@ -430,12 +430,12 @@ class Component extends DCLogic {
       errorCount: scen === 'mismatch' ? '23' : '0',
       locLabel: isCsv ? 'Fila' : 'Registro',
       errors: [
-        { loc: isCsv ? 'encabezado' : 'todos', id: '—', field: 'director', got: isCsv ? 'Una columna llamada director' : 'El campo director en 512 registros', expected: 'Ese campo no existe en el mapping del índice' },
-        { loc: isCsv ? '38' : '37', id: '27205', field: 'plot_512', got: 'Una lista de 384 números', expected: 'dense_vector de 512 dimensiones' },
-        { loc: isCsv ? '103' : '102', id: '603', field: 'release_date', got: '"16/07/1999"', expected: 'date con formato yyyy-MM-dd, por ejemplo 1999-07-16' },
-        { loc: isCsv ? '216' : '215', id: '155', field: 'keywords', got: isCsv ? '"batman, joker" (texto, no JSON)' : 'Una lista de textos ["batman", "joker"]', expected: 'nested: lista de objetos {id, name}' },
-        { loc: isCsv ? '389' : '388', id: '680', field: 'adult', got: '"yes"', expected: 'boolean: true o false' },
-        { loc: isCsv ? '402' : '401', id: '13', field: 'vote_count', got: '12.5', expected: 'integer' }
+        { loc: isCsv ? 'encabezado' : 'todos', id: '—', field: 'director', got: isCsv ? 'Una columna llamada director' : 'Un campo llamado director', expected: 'Ese campo no existe en el mapping del índice' },
+        { loc: isCsv ? '38' : '37', id: '27205', field: 'plot', got: 'Una película.', expected: 'una sinopsis real de al menos 40 caracteres' },
+        { loc: isCsv ? '103' : '102', id: '603', field: 'release_date', got: '"16/07/1999"', expected: 'una fecha yyyy-MM-dd' },
+        { loc: isCsv ? '216' : '215', id: '155', field: 'keywords', got: isCsv ? '"batman, joker" (texto, no JSON)' : 'Una lista de textos ["batman", "joker"]', expected: 'una lista de {id, name}' },
+        { loc: isCsv ? '389' : '388', id: '680', field: 'adult', got: '"yes"', expected: 'true o false' },
+        { loc: isCsv ? '402' : '401', id: '13', field: 'vote_count', got: '12.5', expected: 'un número entero' }
       ],
       importText: scen === 'mismatch'
         ? 'La importación está bloqueada: el archivo no coincide con el mapping del índice y no se escribió ningún registro.'

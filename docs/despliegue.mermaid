@@ -8,7 +8,7 @@ flowchart LR
     subgraph ci["Pipeline · cloudbuild.yaml"]
       direction TB
       trigger["Trigger de Cloud Build<br/>prod-elastiflix · rama ^main$"]
-      build["1 build<br/>Dockerfile: JDK 25 + ./mvnw verify<br/>si falla, no hay imagen"]
+      build["1 build<br/>Dockerfile: JDK 25 + ./mvnw verify<br/>pruebas, Checkstyle y PMD, con eval/ y las 14 partes de data/<br/>si falla, no hay imagen"]
       pushe["2 push-east1"]
       pushw["2 push-west1"]
       depe["3 deploy-east1<br/>gcloud run deploy"]

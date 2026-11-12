@@ -54,7 +54,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <li><a href="#resultados" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Results and filters</a></li>
 <li><a href="#carga" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Loading data</a></li>
 <li><a href="#catalogo" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">The catalog</a></li>
-<li><a href="#creditos" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Credits</a></li>
+<li><a href="#creditos" style="display: block; margin-left: -2px; padding: 7px 12px; border-left: 2px solid transparent; color: #585266; font-size: 14px; line-height: 1.35; text-decoration: none">Credits and terms of use</a></li>
 </ol>
 </nav>
 <div style="display: flex; flex-direction: column; gap: 72px; min-width: 0; max-width: 1040px">
@@ -70,7 +70,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #BFE0F6; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg></span>
 <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px">Full-text (lexical)</span>
 <span style="font-size: 15px; line-height: 1.5; color: #585266">Finds movies whose title contains the words in your query.</span>
-<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #1F6FA8">BM25 · title, original_title</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #1F6FA8">BM25 · title, original_title, plot</span>
 </a>
 <a href="#vectorial" style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px; padding: 24px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 16px; text-decoration: none; color: #2E2A3B">
 <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #BDE8D7; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7l4.7 1.8l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg></span>
@@ -91,7 +91,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #BFE0F6; border: 1px solid #BFE0F6; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2 M9 19h6 M12 5v14"></path></svg></span>
 <h2 id="h-fulltext" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Full-text (lexical)</h2>
 </div>
-<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Matches terms in the <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">title</code> and <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">original_title</code> fields, both of type <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">text</code>. Elasticsearch analyzes the query text into tokens and compares them with the indexed tokens of each title.</p>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Matches terms in the titles (<code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">title</code> and <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">original_title</code>) or in the plot (<code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">plot</code>), all of type <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">text</code>. Elasticsearch analyzes the query text into tokens and compares them with the indexed tokens of the field. Plots are in English: with <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">plot</code>, a query in Spanish finds almost no matches.</p>
 
 <div style="padding: 22px 24px; background: #EEF6FD; border: 1px solid #BFE0F6; border-radius: 16px; display: flex; flex-direction: column; gap: 10px">
 <h3 style="margin: 0; font-size: 17px; font-weight: 600">How relevance is scored: BM25</h3>
@@ -102,7 +102,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Query type: match</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Searches a single field, which you choose: <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> or <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">original_title</code>.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Searches a single field, which you choose: <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">original_title</code>, or <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code>.</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Query type: multi-match</dt>
@@ -185,31 +185,31 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px">
 <thead><tr style="text-align: left"><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Field</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Correct at rank 1</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">In the top 5</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">In the top 10</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">MRR@10</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">nDCG@10</th></tr></thead>
 <tbody>
-<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</td><td style="padding: 12px 16px; color: #585266">15 of 40 (38%)</td><td style="padding: 12px 16px; color: #585266">26</td><td style="padding: 12px 16px; color: #585266">31</td><td style="padding: 12px 16px; color: #585266">0.614</td><td style="padding: 12px 16px; color: #585266">0.605</td></tr>
-<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</td><td style="padding: 12px 16px; color: #585266">22 of 40 (55%)</td><td style="padding: 12px 16px; color: #585266">30</td><td style="padding: 12px 16px; color: #585266">37</td><td style="padding: 12px 16px; color: #585266">0.766</td><td style="padding: 12px 16px; color: #585266">0.741</td></tr>
-<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</td><td style="padding: 12px 16px; color: #585266">27 of 40 (68%)</td><td style="padding: 12px 16px; color: #585266">38</td><td style="padding: 12px 16px; color: #585266">38</td><td style="padding: 12px 16px; color: #585266">0.846</td><td style="padding: 12px 16px; color: #585266">0.817</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_256</td><td style="padding: 12px 16px; color: #585266">12 of 40 (30%)</td><td style="padding: 12px 16px; color: #585266">23</td><td style="padding: 12px 16px; color: #585266">27</td><td style="padding: 12px 16px; color: #585266">0.506</td><td style="padding: 12px 16px; color: #585266">0.524</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_512</td><td style="padding: 12px 16px; color: #585266">17 of 40 (43%)</td><td style="padding: 12px 16px; color: #585266">29</td><td style="padding: 12px 16px; color: #585266">32</td><td style="padding: 12px 16px; color: #585266">0.657</td><td style="padding: 12px 16px; color: #585266">0.652</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot_1024</td><td style="padding: 12px 16px; color: #585266">23 of 40 (58%)</td><td style="padding: 12px 16px; color: #585266">33</td><td style="padding: 12px 16px; color: #585266">37</td><td style="padding: 12px 16px; color: #585266">0.755</td><td style="padding: 12px 16px; color: #585266">0.743</td></tr>
 </tbody>
 </table>
 </div>
 
-<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #585266">MRR rewards ranking the correct movie near the top: it is 1 if the movie always comes 1st and 0.5 if it always comes 2nd; nDCG also rewards the other relevant movies. In 18 of the 40 queries the rank is the same in all three fields; these are some of the ones that change the most:</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #585266">MRR rewards ranking the correct movie near the top: it is 1 if the movie always comes 1st and 0.5 if it always comes 2nd; nDCG also rewards the other relevant movies. In 15 of the 40 queries the rank is the same in all three fields; these are some of the ones that change the most:</p>
 <div style="overflow-x: auto; background: #FFFFFF; border: 1px solid #BDE8D7; border-radius: 12px">
 <table style="width: 100%; min-width: 480px; border-collapse: collapse; font-size: 15px">
 <thead><tr style="text-align: left"><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">Movie</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">plot_256</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">plot_512</th><th scope="col" style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578">plot_1024</th></tr></thead>
 <tbody>
-<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Titanic</td><td style="padding: 12px 16px; color: #585266">outside the top 10</td><td style="padding: 12px 16px; color: #585266">6th</td><td style="padding: 12px 16px; color: #585266">2nd</td></tr>
-<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Spirited Away</td><td style="padding: 12px 16px; color: #585266">outside the top 10</td><td style="padding: 12px 16px; color: #585266">8th</td><td style="padding: 12px 16px; color: #585266">1st</td></tr>
-<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Life of Pi</td><td style="padding: 12px 16px; color: #585266">outside the top 10</td><td style="padding: 12px 16px; color: #585266">7th</td><td style="padding: 12px 16px; color: #585266">5th</td></tr>
-<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">The Lion King</td><td style="padding: 12px 16px; color: #585266">6th</td><td style="padding: 12px 16px; color: #585266">1st</td><td style="padding: 12px 16px; color: #585266">1st</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Titanic</td><td style="padding: 12px 16px; color: #585266">outside the top 10</td><td style="padding: 12px 16px; color: #585266">outside the top 10</td><td style="padding: 12px 16px; color: #585266">7th</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Spirited Away</td><td style="padding: 12px 16px; color: #585266">outside the top 10</td><td style="padding: 12px 16px; color: #585266">10th</td><td style="padding: 12px 16px; color: #585266">1st</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Life of Pi</td><td style="padding: 12px 16px; color: #585266">outside the top 10</td><td style="padding: 12px 16px; color: #585266">outside the top 10</td><td style="padding: 12px 16px; color: #585266">7th</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">The Lion King</td><td style="padding: 12px 16px; color: #585266">7th</td><td style="padding: 12px 16px; color: #585266">1st</td><td style="padding: 12px 16px; color: #585266">1st</td></tr>
 <tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Shrek</td><td style="padding: 12px 16px; color: #585266">7th</td><td style="padding: 12px 16px; color: #585266">1st</td><td style="padding: 12px 16px; color: #585266">1st</td></tr>
-<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Star Wars</td><td style="padding: 12px 16px; color: #585266">6th</td><td style="padding: 12px 16px; color: #585266">8th</td><td style="padding: 12px 16px; color: #585266">2nd</td></tr>
+<tr style="border-top: 1px solid #EFE7DC"><td style="padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; color: #3A3548">Star Wars</td><td style="padding: 12px 16px; color: #585266">5th</td><td style="padding: 12px 16px; color: #585266">7th</td><td style="padding: 12px 16px; color: #585266">2nd</td></tr>
 </tbody>
 </table>
 </div>
 
 <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.6; color: #585266">
-<li>256 dimensions clearly lose precision; 512 comes close to 1024 at half the size, and 1024 puts the correct movie in the top 5 for 38 of the 40 queries.</li>
-<li>More dimensions aren't always better for every query: for "la guerra de las galaxias", Star Wars ranks 6th with 256, 8th with 512, and 2nd with 1024.</li>
+<li>256 dimensions clearly lose precision; 512 sits in between at half the size, and 1024 puts the correct movie in the top 5 for 33 of the 40 queries.</li>
+<li>More dimensions aren't always better for every query: for "la guerra de las galaxias", Star Wars ranks 5th with 256, 7th with 512, and 2nd with 1024.</li>
 <li>With 40 queries this is a clear trend, not a firm statistical conclusion. The same harness also measures full-text and hybrid search; it lives in the repository's eval/ folder.</li>
 </ul>
 </div>
@@ -251,7 +251,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px">
 <div style="flex: 1 1 220px; padding: 18px 20px; background: #EEF6FD; border: 1px solid #BFE0F6; border-radius: 14px; display: flex; flex-direction: column; gap: 6px">
 <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #1F6FA8">1 · Full-text component</span>
-<span style="font-size: 15px; line-height: 1.5; color: #585266">List sorted by BM25 over <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> and/or <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">original_title</code>.</span>
+<span style="font-size: 15px; line-height: 1.5; color: #585266">List sorted by BM25 over the chosen field: <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">original_title</code>, or <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code>, or both titles with multi-match.</span>
 </div>
 <div style="flex: 1 1 220px; padding: 18px 20px; background: #ECF8F3; border: 1px solid #BDE8D7; border-radius: 14px; display: flex; flex-direction: column; gap: 6px">
 <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #1E7A5C">2 · Vector component</span>
@@ -373,7 +373,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #EFE7DC">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">Single record</dt>
-<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">A form with the mapping fields. <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> and <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> are required.</dd>
+<dd style="flex: 1 1 400px; margin: 0; font-size: 15px; line-height: 1.6; color: #585266">A form with the mapping fields. <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">title</code> and <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> are required, and the record is checked with the same rules as a file (for example, a <code style="font-family: 'IBM Plex Mono', monospace; color: #3A3548">plot</code> of at least 40 characters).</dd>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid #EFE7DC">
 <dt style="flex: 0 0 220px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #3A3548">.json file</dt>
@@ -438,7 +438,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #FBE7A1; border: 1px solid #FBE7A1; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3s-8-1.3-8-3s3.6-3 8-3z M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg></span>
 <h2 id="h-catalogo" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">The catalog</h2>
 </div>
-<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">The catalog lives in <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">elastiflix-reloaded</code>, an alias that points to the current index: searches always read the published catalog. A bulk load is published all at once or discarded without affecting searches; an append load is added to the current index batch by batch. It has 6,899 movies. These are all its properties, the ones in <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">elastiflix-reloaded-mapping.json</code>, grouped as in the «Load data» form. The «Used in» column says where the demo uses them: the card is each search result and the detail, each movie page.</p>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">The catalog lives in <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">elastiflix-reloaded</code>, an alias that points to the current index: searches always read the published catalog. A bulk load is published all at once or discarded without affecting searches; an append load is added to the current index batch by batch. It has 6,899 movies. These are all its properties, the ones in <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">elastiflix-reloaded-mapping.json</code>, grouped as in the «Load data» form, plus the «Provenance» group, which describes the optional <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">enrichment</code> object. The «Used in» column says where the demo uses them: the card is each search result and the detail, each movie page.</p>
 <p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">The last two columns say what a file must include to be loaded, in append or bulk mode (the rules are the same): in a <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">.json</code>, every movie has <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">id</code>, <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">title</code> and <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">plot</code> with a value; in a <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.92em; color: #3A3548; background: #F3ECE2; padding: 1px 6px; border-radius: 6px">.csv</code>, the header has those three columns and every row, their value. The other fields are optional, but if present they must match their type, and a field or column that is not in these tables rejects the file.</p>
 <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Identification and titles</h3>
 <div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
@@ -515,7 +515,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">plot</td>
 <td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">text</td>
 <td style="padding: 14px 18px; color: #585266">Plot; source of the three vectors</td>
-<td style="padding: 14px 18px; color: #585266">Card and detail; source of the vectors</td>
+<td style="padding: 14px 18px; color: #585266">Full-text, Hybrid, card and detail; source of the vectors</td>
 <td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Yes</td>
 <td style="padding: 14px 18px; color: #2E2A3B; font-weight: 600">Yes</td>
 </tr>
@@ -837,13 +837,211 @@ a{color:#3A3548}a:hover{color:#A9502A}
 </tbody>
 </table>
 </div>
+<h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 600; color: #2E2A3B">Provenance</h3>
+<div style="overflow-x: auto; border: 1px solid #E2D8CA; border-radius: 14px">
+<table style="width: 100%; min-width: 860px; table-layout: fixed; border-collapse: collapse; font-size: 15px">
+<thead>
+<tr style="background: #FFFFFF; text-align: left">
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 22%">Field</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 11%">Type</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: auto">Content</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 15%">Used in</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Required in .json</th>
+<th scope="col" style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #6B6578; box-sizing: border-box; width: 13%">Required in .csv</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #3A3548; overflow-wrap: break-word">enrichment</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">object</td>
+<td style="padding: 14px 18px; color: #585266">Optional object with the source of each field: one keyword tag per field. null or absent when the movie has no tags</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>backdrop_path</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for backdrop_path</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>belongs_to_collection</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for belongs_to_collection</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>budget</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for budget</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>cast</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for cast</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>genres</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for genres</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>homepage</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for homepage</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>imdb_id</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for imdb_id</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>keywords</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for keywords</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>overview</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for overview</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>plot</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for plot, for example tmdb_overview</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>poster_path</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for poster_path</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>production_companies</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for production_companies</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>production_countries</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for production_countries</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>rating</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for rating</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>revenue</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for revenue</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>runtime</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for runtime</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>spoken_languages</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for spoken_languages</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>tagline</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for tagline</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>user_score</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for user_score</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>vote_average</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for vote_average</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+<tr style="background: #F6F0E8; border-top: 1px solid #EFE7DC">
+<td style="padding: 14px 18px 14px 32px; font-family: 'IBM Plex Mono', monospace; color: #6B6578; overflow-wrap: break-word">enrichment.<wbr>vote_count</td>
+<td style="padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; color: #585266">keyword</td>
+<td style="padding: 14px 18px; color: #585266">Provenance tag for vote_count</td>
+<td style="padding: 14px 18px; color: #585266">Index only</td>
+<td style="padding: 14px 18px; color: #585266">No</td>
+<td style="padding: 14px 18px; color: #585266">No; it goes in the JSON of its object&#x27;s cell</td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 
 <section id="creditos" aria-labelledby="h-creditos" style="display: flex; flex-direction: column; gap: 22px">
 <div style="display: flex; align-items: center; gap: 14px">
 <span aria-hidden="true" style="width: 44px; height: 44px; flex: none; border-radius: 12px; background: #F7C1D9; border: 1px solid #F7C1D9; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A8336B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6l6.1.9l-4.4 4.3l1 6.1L12 17l-5.4 2.9l1-6.1L3.2 9.5l6.1-.9z"></path></svg></span>
-<h2 id="h-creditos" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Credits</h2>
+<h2 id="h-creditos" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.01em">Credits and terms of use</h2>
 </div>
+<div style="padding: 22px 24px; background: #F3EFFD; border: 1px solid #CDBDF6; border-radius: 16px; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-size: 17px; font-weight: 600">Academic and demonstration purposes</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Elastiflix-Movies Java is an academic project that demonstrates full-text, vector, and hybrid search techniques. It is not a commercial product: it is not sold, it shows no advertising, and in no way does it intend to make a commercial profit from itself or from the information it uses.</p>
+</div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Credit for the movie information goes to TMDB and Wikipedia.</p>
 <p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Movie data and poster images come from TMDB (The Movie Database).</p>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding: 24px; background: #FFFFFF; border: 1px solid #E2D8CA; border-radius: 16px">
 <img src="/_blob/4e96d3ac3f014a61def0c6625b400e09" width="154" height="20" alt="The Movie Database (TMDB)" style="flex: none">
@@ -852,6 +1050,8 @@ a{color:#3A3548}a:hover{color:#A9502A}
 <p lang="es" style="margin: 0; font-size: 15px; line-height: 1.6; color: #585266">Este producto usa la API de TMDB, pero no está avalado ni certificado por TMDB.</p>
 </div>
 </div>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Movie texts come from <a href="https://www.wikipedia.org/">Wikipedia</a>, whose content is published under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a> license.</p>
+<p style="margin: 0; max-width: 760px; font-size: 17px; line-height: 1.65; color: #4F4A5E">Names, trademarks, posters, and texts belong to their respective owners. This demo is not affiliated with or endorsed by TMDB or Wikipedia.</p>
 </section>
 
 </div>
@@ -866,7 +1066,7 @@ a{color:#3A3548}a:hover{color:#A9502A}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFCDB2","options":["#FFCDB2","#CDBDF6","#BDE8D7","#BFE0F6"]},"$preview":{"width":1440,"height":11200}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFCDB2","options":["#FFCDB2","#CDBDF6","#BDE8D7","#BFE0F6"]},"$preview":{"width":1440,"height":13300}}'>
 class Component extends DCLogic {
   renderVals() {
     return { accent: this.props.accent ?? '#FFCDB2' };

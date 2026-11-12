@@ -11,7 +11,7 @@
     <section class="intro">
     <p class="eyebrow"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg><span th:text="#{ingest.eyebrow(${shell.alias})}">Índice elastiflix-reloaded</span></p>
     <h1 th:text="#{ingest.heading}">Cargar datos</h1>
-    <p class="lead" th:utext="#{ingest.lead}">Agrega películas al catálogo una por una o importa un archivo. Los tres vectores de la sinopsis (<code>plot_256</code>, <code>plot_512</code>, <code>plot_1024</code>) se generan automáticamente a partir de <code>plot</code> con jina-embeddings-v5-omni-small.</p>
+    <p class="lead" th:utext="#{ingest.lead}">Agrega películas al catálogo una por una, o importa un archivo para agregarlas (append) o para reemplazar el catálogo completo (bulk). Los tres vectores de la sinopsis (<code>plot_256</code>, <code>plot_512</code>, <code>plot_1024</code>) se generan automáticamente a partir de <code>plot</code> con jina-embeddings-v5-omni-small.</p>
     </section>
     <p id="catalog-missing" class="mode-warning" role="status" th:if="${shell.catalogMissing}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6A12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z M12 10v4 M12 17h.01"></path></svg><span th:utext="#{ingest.noCatalog(${#strings.escapeXml(shell.alias)})}">El catálogo todavía no existe.</span></p>
     <p class="notice-ok" role="status" th:if="${savedTitle != null}"><th:block th:text="#{ingest.savedOk}">Se guardó</th:block> <span th:text="${savedTitle}">título</span>.</p>
@@ -38,7 +38,7 @@
       </div>
       <div class="card">
         <h2 class="h3" th:text="#{ingest.single.section.plot}">Sinopsis y textos</h2>
-        <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.plot}">Sinopsis</th:block> <span class="req">*</span> <code>plot</code></span><textarea class="inp" name="plot" rows="4" required></textarea><span class="hint" th:text="#{ingest.single.plot.hint}">Obligatoria: de aquí se generan los tres vectores de la búsqueda vectorial.</span></label>
+        <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.plot}">Sinopsis</th:block> <span class="req">*</span> <code>plot</code></span><textarea class="inp" name="plot" rows="4" minlength="40" required></textarea><span class="hint" th:text="#{ingest.single.plot.hint}">Obligatoria, de al menos 40 caracteres: de aquí se generan los tres vectores de la búsqueda vectorial.</span></label>
         <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.overview}">Resumen</th:block> <code>overview</code></span><textarea class="inp" name="overview" rows="3"></textarea></label>
         <label class="fld"><span class="lbl"><th:block th:text="#{ingest.single.tagline}">Frase promocional</th:block> <code>tagline</code></span><input class="inp" name="tagline"></label>
       </div>
@@ -122,7 +122,7 @@
           <label class="drop" id="drop" for="archivo">
             <svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A9502A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4 M7 9l5-5l5 5 M4 20h16"></path></svg>
             <span id="drop-title" class="drop-title" th:text="#{ingest.file.drop.json}">Arrastra tu archivo .json aquí o haz clic para elegirlo</span>
-            <span class="chips"><span id="drop-only" th:text="#{ingest.file.drop.jsonOnly}">Solo .json</span><span th:text="|#{ingest.file.drop.max(${maxFileLabel})}|">Máximo 150 MB</span><span th:text="#{ingest.file.drop.utf8}">Texto UTF-8</span></span>
+            <span class="chips"><span id="drop-only" th:text="#{ingest.file.drop.jsonOnly}">Solo .json</span><span th:text="|#{ingest.file.drop.max(${maxFileLabel})}|">Máximo 25 MB</span><span th:text="#{ingest.file.drop.utf8}">Texto UTF-8</span></span>
             <span class="hint" id="file-hint" th:text="#{ingest.file.hint.json}">El archivo de exportación del índice (objeto con la lista documents y, opcionalmente, mapping y document_count), un arreglo de películas o NDJSON. Los campos usan los nombres del índice.</span>
           </label>
           <input id="archivo" name="archivo" type="file" accept=".json,application/json">
@@ -155,7 +155,7 @@
       <div class="card">
         <h2 class="h3" th:text="#{ingest.steps.title}">Proceso de carga</h2>
         <ol class="steps" id="steps">
-          <li data-step="1"><span class="mark" aria-hidden="true">1</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step1.title}">Comprobación en el navegador</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step1.detail(${maxFileLabel})}">Extensión, tipo y tamaño (máximo 150 MB) antes de subir nada.</span></span></li>
+          <li data-step="1"><span class="mark" aria-hidden="true">1</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step1.title}">Comprobación en el navegador</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step1.detail(${maxFileLabel})}">Extensión, tipo y tamaño (máximo 25 MB) antes de subir nada.</span></span></li>
           <li data-step="2"><span class="mark" aria-hidden="true">2</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step2.title}">Subida al servidor</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step2.detail}">El servidor de aplicaciones recibe el archivo y repite las comprobaciones de tipo y tamaño.</span></span></li>
           <li data-step="3"><span class="mark" aria-hidden="true">3</span><span class="step-body"><span class="step-title"><th:block th:text="#{ingest.step3.title}">Validación contra el mapping</th:block> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" th:text="#{ingest.step3.detail}">Tipo de cada campo de cada registro; si algo no coincide, se detiene todo.</span></span></li>
           <li data-step="4" th:attr="data-title-append=#{ingest.step4.append.title},data-title-bulk=#{ingest.step4.title},data-detail-append=#{ingest.step4.append.detail(${batchSize})},data-detail-bulk=#{ingest.step4.detail(${batchSize})}"><span class="mark" aria-hidden="true">4</span><span class="step-body"><span class="step-title"><span id="step4-title" th:text="#{ingest.step4.append.title}">Escritura en el catálogo</span> <span class="state" th:text="|· #{ingest.step.state.pending}|">· pendiente</span></span><span class="step-detail" id="step4-detail" th:text="#{ingest.step4.append.detail(${batchSize})}">Los registros se agregan al índice vigente por el alias, en lotes de 100.</span></span></li>
@@ -167,7 +167,7 @@
         <h2><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B9472A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M9 9l6 6 M15 9l-6 6"></path></svg><th:block th:text="#{ingest.block.title}">No se puede cargar este archivo</th:block></h2>
         <p th:text="#{ingest.block.text}">El archivo se rechazó en el navegador, antes de subirlo, así que no salió de tu equipo ni se importó nada.</p>
         <ul id="file-reasons"></ul>
-        <p class="hint" th:text="#{ingest.block.hint(${maxFileLabel})}">Antes de subir se comprueba la extensión y el tipo (.json o .csv, sin dobles extensiones), el tamaño (máximo 150 MB) y que el contenido sea texto UTF-8. El servidor repite estas comprobaciones al recibirlo.</p>
+        <p class="hint" th:text="#{ingest.block.hint(${maxFileLabel})}">Antes de subir se comprueba la extensión y el tipo (.json o .csv, sin dobles extensiones), el tamaño (máximo 25 MB) y que el contenido sea texto UTF-8. El servidor repite estas comprobaciones al recibirlo.</p>
       </div>
 
       <div id="columns-card" class="card" hidden>
@@ -210,7 +210,7 @@
           <ul id="job-warnings" class="warned"></ul>
         </div>
         <p id="job-failure" class="alert" role="alert" hidden></p>
-        <p class="hint" th:utext="#{ingest.job.rules.hint}">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code>release_date</code> en yyyy-MM-dd, <code>adult</code> booleano, <code>keywords</code> y <code>belongs_to_collection</code> como objetos anidados); <code>id</code>, <code>title</code> y <code>plot</code> son obligatorios y <code>id</code> no se puede repetir. Un <code>plot</code> marcador o de menos de 40 caracteres rechaza el archivo. Un 0 en <code>budget</code>, <code>revenue</code>, <code>runtime</code>, <code>vote_average</code> o <code>vote_count</code> se guarda sin valor; un valor repetido en una lista se omite; una sinopsis con restos de un modelo, un ensayo de temas o repetida en el archivo solo se avisa. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. Si un <code>id</code> ya existe en el índice, el registro reemplaza a la película existente.</p>
+        <p class="hint" th:utext="#{ingest.job.rules.hint}">Reglas: cada campo debe existir en el mapping del índice y tener su tipo (<code>release_date</code> en yyyy-MM-dd, <code>adult</code> booleano, <code>keywords</code> y <code>belongs_to_collection</code> como objetos anidados); <code>id</code>, <code>title</code> y <code>plot</code> son obligatorios y <code>id</code> no se puede repetir. Un <code>plot</code> marcador o de menos de 40 caracteres rechaza el archivo. Un 0 en <code>budget</code>, <code>revenue</code>, <code>runtime</code>, <code>vote_average</code> o <code>vote_count</code> se guarda sin valor; un valor repetido en una lista se omite; una sinopsis con restos de un modelo, un ensayo de temas o repetida en el archivo solo se avisa. Se valida el archivo completo antes de escribir nada: <strong>si un solo registro no coincide, la carga se detiene y no se importa ningún registro</strong>. En modo append, si un <code>id</code> ya existe en el índice, el registro reemplaza a la película existente; en modo bulk, el catálogo queda solo con las películas del archivo.</p>
       </div>
 
       <div id="job-import-card" class="card" hidden>

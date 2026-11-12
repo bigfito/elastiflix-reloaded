@@ -92,8 +92,8 @@ class FullTextSearchIT {
                 row("heaven cielo", MatchType.MULTI_MATCH, null, 10, 0),
                 row("next kolejne", MatchType.MULTI_MATCH, null, 15, 0),
                 row("parasite 기생충", MatchType.MULTI_MATCH, null, 1, 0),
-                row("ogre donkey princess", MatchType.MATCH, TextField.PLOT, 164, 3),
-                row("bathhouse spirits", MatchType.MATCH, TextField.PLOT, 92, 1));
+                row("ogre donkey princess", MatchType.MATCH, TextField.PLOT, 162, 3),
+                row("bathhouse spirits", MatchType.MATCH, TextField.PLOT, 87, 1));
     }
 
     private static Arguments row(

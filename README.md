@@ -34,7 +34,7 @@ Demo web de búsqueda **full-text (BM25)**, **vectorial (k-NN)** e **híbrida (R
 
 Elastiflix-Movies Java es una demo académica que pone lado a lado las tres formas de buscar en Elasticsearch:
 
-- **Full-text:** encuentra las películas cuyo título contiene tus palabras.
+- **Full-text:** encuentra las películas cuyo título o sinopsis contiene tus palabras.
 - **Vectorial:** encuentra las películas cuya sinopsis *significa* algo parecido a lo que describes, aunque no comparta
   ninguna palabra.
 - **Híbrida:** combina las dos listas en una sola.
@@ -78,7 +78,7 @@ modo y más abajo en otro. La aplicación también deja **cargar y validar** pel
 | 📋 | **Resultados** `GET /buscar` | Puntuaciones de cada modo, filtros con conteos, paginación de 25 · 50 · 100 |
 | 🎬 | **Detalle** `GET /pelicula/{id}` | Ficha técnica completa, cifras en USD y regreso a los resultados con la búsqueda intacta |
 | 📥 | **Cargar datos** `GET /cargar` | Registro individual o archivos `.json` / `.csv`, validados contra el mapping; modos append y bulk |
-| ℹ️ | **Acerca de** `GET /acerca` | Cómo funciona cada modo, la precisión medida, todos los campos del catálogo y los créditos |
+| ℹ️ | **Acerca de** `GET /acerca` | Cómo funciona cada modo, los resultados y filtros, cómo se cargan y validan los datos, la precisión medida, todos los campos del catálogo y los créditos |
 
 Toda la interfaz está en **español e inglés**: selector «ES · EN» en el encabezado, parámetro `?lang=en` y cookie
 `elastiflix-lang`. El pie muestra el índice vigente y cuántas películas tiene.
@@ -286,12 +286,14 @@ sin cuantización): la única diferencia es el número de dimensiones. **Precisi
 
 | Campo | 🥇 Correcta en 1.er lugar | Top 5 | Top 10 | MRR@10 | nDCG@10 |
 |---|---|---|---|---|---|
-| `plot_256` | 15 de 40 (38 %) | 26 | 31 | 0.614 | 0.605 |
-| `plot_512` | 22 de 40 (55 %) | 30 | 37 | 0.766 | 0.741 |
-| `plot_1024` | 27 de 40 (68 %) | 38 | 38 | 0.846 | 0.817 |
+| `plot_256` | 12 de 40 (30 %) | 23 | 27 | 0.506 | 0.524 |
+| `plot_512` | 17 de 40 (43 %) | 29 | 32 | 0.657 | 0.652 |
+| `plot_1024` | 23 de 40 (58 %) | 33 | 37 | 0.755 | 0.743 |
 
-> 1024 dimensiones pone la película correcta entre las 5 primeras en 38 de 40 consultas; 512 queda cerca con la mitad
-> del tamaño y 256 pierde precisión de forma clara.
+> 1024 dimensiones pone la película correcta entre las 5 primeras en 33 de 40 consultas; 512 queda en medio con la
+> mitad del tamaño y 256 pierde precisión de forma clara. La medición es del catálogo actual de `data/`: al pasar 1 641
+> sinopsis al overview de TMDB, más corto, esas películas compiten con las buscadas y la precisión bajó (el nDCG@10 de
+> `plot_1024` era 0.817 con las sinopsis anteriores).
 
 Las consultas se vectorizan con `input_type: search` y el prefijo `Query: `; las sinopsis, con `input_type: ingest`
 y sin prefijo.
@@ -317,19 +319,19 @@ mejores películas quedaron arriba.
 
 | Configuración | Total | es · trama | en · trama | es · título | en · título |
 |---|---|---|---|---|---|
-| `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
-| `bm25_plot` | 0.430 | 0.075 | 0.823 | 0.000 | 0.745 |
-| `knn_plot_1024` | **0.817** | **0.854** | 0.721 | **0.977** | 0.835 |
-| `rrf_title_knn1024` | 0.474 | 0.549 | 0.192 | 0.746 | 0.823 |
-| `rrf_plot_knn1024` | 0.709 | 0.549 | **0.888** | 0.580 | 0.782 |
+| `bm25_title` | 0.114 | 0.000 | 0.000 | 0.000 | **0.911** |
+| `bm25_plot` | 0.422 | 0.077 | 0.802 | 0.000 | 0.737 |
+| `knn_plot_1024` | **0.743** | **0.764** | 0.615 | **0.975** | 0.830 |
+| `rrf_title_knn1024` | 0.461 | 0.465 | 0.231 | 0.731 | 0.870 |
+| `rrf_plot_knn1024` | 0.651 | 0.477 | **0.834** | 0.495 | 0.781 |
 
-- **Las sinopsis están en inglés.** BM25 sobre `plot` es muy bueno con descripciones en inglés (0.823, más que la
-  vectorial) y casi no encuentra nada en español (0.075). La vectorial es multilingüe y responde igual en los dos
-  idiomas.
+- **Las sinopsis están en inglés.** BM25 sobre `plot` es muy bueno con descripciones en inglés (0.802, más que la
+  vectorial) y casi no encuentra nada en español (0.077). La vectorial es multilingüe: encuentra la película en los
+  dos idiomas (0.764 en español y 0.615 en inglés).
 - **BM25 sobre el título sirve para buscar por título en inglés**, y para nada más: con descripciones de la trama no
   encuentra la película, y en la híbrida su lista desplaza a la vectorial.
-- **La híbrida con `plot`** es la mejor con descripciones en inglés (0.888) y supera con claridad a la híbrida con
-  `title` (0.709 contra 0.474), pero con consultas en español queda por debajo de la vectorial sola.
+- **La híbrida con `plot`** es la mejor con descripciones en inglés (0.834) y supera con claridad a la híbrida con
+  `title` (0.651 contra 0.461), pero con consultas en español queda por debajo de la vectorial sola.
 - En conjunto, la vectorial con `plot_1024` es la opción más pareja.
 
 ## 🎛️ Resultados, filtros y paginación
@@ -383,7 +385,7 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
 
 | Forma | Formato |
 |---|---|
-| ✍️ Registro individual | Formulario con los campos del mapping (`id`, `title` y `plot` obligatorios); se escribe **directamente en el catálogo** |
+| ✍️ Registro individual | Formulario con los campos del mapping (`id`, `title` y `plot` obligatorios, `plot` de al menos 40 caracteres); se revisa con las mismas reglas que un archivo y se escribe **directamente en el catálogo** |
 | 🧾 `.json` | Exportación del índice (objeto con `documents` y, opcionalmente, `mapping` y `document_count`), arreglo de películas o NDJSON |
 | 📊 `.csv` | UTF-8 con o sin BOM, separador coma, punto y coma o tabulador, **encabezado obligatorio**; listas, objetos anidados y `enrichment` como JSON en la celda |
 
@@ -399,7 +401,7 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   `production_companies`, `production_countries` o `spoken_languages`, o una palabra clave con el mismo `id`, se
   omite y se conserva la primera aparición (`EFX-ING-024`).
 - **Sinopsis:** un `plot` que es un marcador (por ejemplo `[No information found]`) o que tiene menos de 40
-  caracteres rechaza el archivo (`EFX-ING-025`). Restos de un modelo de lenguaje (por ejemplo «I couldn't find»,
+  caracteres rechaza el archivo, o el registro individual (`EFX-ING-025`). Restos de un modelo de lenguaje (por ejemplo «I couldn't find»,
   «find any information» o «knowledge cutoff»), markdown y una aclaración «, not Nombre» justo después de
   «directed by» o «produced by» se avisan y no detienen la carga (`EFX-ING-026`). Una sinopsis repetida dentro
   del mismo archivo también se avisa (`EFX-ING-027`). Un ensayo de temas (por ejemplo «main themes», «the main
@@ -409,7 +411,8 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan desde `plot` con el servicio de
   inferencia. Si el archivo los trae, se ignoran con una advertencia; el formulario no los pide.
 - **Procedencia:** `enrichment` es opcional (`null` o ausente también vale). Si viene, es un objeto cuyas claves
-  son campos del mapping y cuyos valores son textos keyword con la fuente de ese dato. Una clave desconocida
+  son las 21 que el mapping declara dentro de `enrichment` (por ejemplo `plot`, `budget` o `poster_path`) y cuyos
+  valores son textos keyword con la fuente de ese dato. Una clave desconocida
   rechaza el archivo (`EFX-ING-007`); un valor que no es texto, también (`EFX-ING-012`); un texto en blanco se
   omite con la advertencia `EFX-ING-022`. En CSV va como JSON compacto en la columna `enrichment`, igual que los
   demás objetos; una celda vacía es null. El formulario de registro individual no lo pide.

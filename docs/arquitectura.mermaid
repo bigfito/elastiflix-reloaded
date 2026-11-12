@@ -19,7 +19,7 @@ flowchart LR
     subgraph ingest["ingest · com.bigfito.elastiflix.ingest"]
       facade_i["IngestService"]
       readers["Validación de archivo<br/>lectores JSON / CSV"]
-      validator["Validación contra<br/>el mapping"]
+      validator["Validación contra el mapping<br/>tipos de los 34 campos · ceros a null · repetidos fuera<br/>plot marcador o de menos de 40: rechazo<br/>restos de modelo, ensayo de temas o plot repetido: aviso"]
       phrase["IngestPhrase<br/>frases fijas de la carga"]
       job["Trabajo de importación en segundo plano<br/>append: lotes de 100 por el alias, lo escrito se queda<br/>bulk: índice temporal solo con el archivo · swap de alias · vuelta atrás<br/>vectores siempre por inferencia"]
     end
@@ -59,8 +59,9 @@ flowchart LR
   user -->|"A archivo .json / .csv"| pages
   ctrl -->|"B"| facade_i
   facade_i --> readers --> validator
-  validator --> mapping
-  validator -->|"C si todo coincide"| job
+  readers -->|"columnas del CSV"| mapping
+  validator -.->|"mismas reglas, comparadas por una prueba"| mapping
+  validator -->|"C sin errores<br/>las advertencias no detienen"| job
   job -->|"D append: lotes por el alias<br/>al índice vigente"| catalog
   job -->|"D bulk: lotes en un temporal<br/>sin copiar el catálogo"| tmp
   job -->|"E vectores de cada lote"| emb

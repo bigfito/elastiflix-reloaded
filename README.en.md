@@ -34,7 +34,7 @@ A web demo of **full-text (BM25)**, **vector (k-NN)**, and **hybrid (RRF)** sear
 
 Elastiflix-Movies Java is an academic demo that puts the three ways of searching in Elasticsearch side by side:
 
-- **Full-text:** finds the movies whose title contains your words.
+- **Full-text:** finds the movies whose title or plot contains your words.
 - **Vector:** finds the movies whose plot *means* something similar to what you describe, even if it shares no
   words with it.
 - **Hybrid:** combines both lists into one.
@@ -78,7 +78,7 @@ generates the vector of each plot with the Elasticsearch inference service.
 | 📋 | **Results** `GET /buscar` | Scores for each mode, filters with counts, pages of 25 · 50 · 100 |
 | 🎬 | **Detail** `GET /pelicula/{id}` | Full movie record, amounts in USD, and a way back to the results with the search intact |
 | 📥 | **Load data** `GET /cargar` | A single record or `.json` / `.csv` files, validated against the mapping; append and bulk modes |
-| ℹ️ | **About the demo** `GET /acerca` | How each mode works, the measured precision, every catalog field, and the credits |
+| ℹ️ | **About the demo** `GET /acerca` | How each mode works, results and filters, how data is loaded and validated, the measured precision, every catalog field, and the credits |
 
 The whole interface is in **Spanish and English**: an «ES · EN» switch in the header, the `?lang=en` parameter,
 and the `elastiflix-lang` cookie. The footer shows the current index and how many movies it holds.
@@ -283,12 +283,14 @@ quantization): the only difference is the number of dimensions. **Measured preci
 
 | Field | 🥇 Correct in 1st place | Top 5 | Top 10 | MRR@10 | nDCG@10 |
 |---|---|---|---|---|---|
-| `plot_256` | 15 of 40 (38%) | 26 | 31 | 0.614 | 0.605 |
-| `plot_512` | 22 of 40 (55%) | 30 | 37 | 0.766 | 0.741 |
-| `plot_1024` | 27 of 40 (68%) | 38 | 38 | 0.846 | 0.817 |
+| `plot_256` | 12 of 40 (30%) | 23 | 27 | 0.506 | 0.524 |
+| `plot_512` | 17 of 40 (43%) | 29 | 32 | 0.657 | 0.652 |
+| `plot_1024` | 23 of 40 (58%) | 33 | 37 | 0.755 | 0.743 |
 
-> 1024 dimensions puts the correct movie in the top 5 for 38 of 40 queries; 512 comes close at half the size, and 256
-> clearly loses precision.
+> 1024 dimensions puts the correct movie in the top 5 for 33 of 40 queries; 512 sits in between at half the size, and
+> 256 clearly loses precision. This is measured on the current catalog in `data/`: after 1,641 plots were switched to the
+> shorter TMDB overview, those movies compete with the ones sought and precision dropped (`plot_1024` nDCG@10 was 0.817
+> with the previous plots).
 
 Queries are embedded with `input_type: search` and the `Query: ` prefix; plots, with `input_type: ingest` and no
 prefix.
@@ -313,18 +315,19 @@ means the best movies ended up at the top.
 
 | Configuration | Total | es · plot | en · plot | es · title | en · title |
 |---|---|---|---|---|---|
-| `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
-| `bm25_plot` | 0.430 | 0.075 | 0.823 | 0.000 | 0.745 |
-| `knn_plot_1024` | **0.817** | **0.854** | 0.721 | **0.977** | 0.835 |
-| `rrf_title_knn1024` | 0.474 | 0.549 | 0.192 | 0.746 | 0.823 |
-| `rrf_plot_knn1024` | 0.709 | 0.549 | **0.888** | 0.580 | 0.782 |
+| `bm25_title` | 0.114 | 0.000 | 0.000 | 0.000 | **0.911** |
+| `bm25_plot` | 0.422 | 0.077 | 0.802 | 0.000 | 0.737 |
+| `knn_plot_1024` | **0.743** | **0.764** | 0.615 | **0.975** | 0.830 |
+| `rrf_title_knn1024` | 0.461 | 0.465 | 0.231 | 0.731 | 0.870 |
+| `rrf_plot_knn1024` | 0.651 | 0.477 | **0.834** | 0.495 | 0.781 |
 
-- **Plots are in English.** BM25 on `plot` does very well with English descriptions (0.823, more than vector search)
-  and finds almost nothing in Spanish (0.075). Vector search is multilingual and responds the same in both languages.
+- **Plots are in English.** BM25 on `plot` does very well with English descriptions (0.802, more than vector search)
+  and finds almost nothing in Spanish (0.077). Vector search is multilingual: it finds the movie in both languages
+  (0.764 in Spanish and 0.615 in English).
 - **BM25 on the title is useful for searching by title in English**, and for nothing else: with plot descriptions it
   doesn't find the movie, and in hybrid search its list pushes the vector list down.
-- **Hybrid with `plot`** is the best with English descriptions (0.888) and clearly beats hybrid with `title` (0.709
-  versus 0.474), but with Spanish queries it falls below vector search alone.
+- **Hybrid with `plot`** is the best with English descriptions (0.834) and clearly beats hybrid with `title` (0.651
+  versus 0.461), but with Spanish queries it falls below vector search alone.
 - Overall, vector search with `plot_1024` is the most even option.
 
 ## 🎛️ Results, filters, and pagination
@@ -377,7 +380,7 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
 
 | Form | Format |
 |---|---|
-| ✍️ Single record | A form with the mapping's fields (`id`, `title`, and `plot` required); written **directly to the catalog** |
+| ✍️ Single record | A form with the mapping's fields (`id`, `title`, and `plot` required, `plot` at least 40 characters); checked with the same rules as a file and written **directly to the catalog** |
 | 🧾 `.json` | An index export (an object with `documents` and, optionally, `mapping` and `document_count`), an array of movies, or NDJSON |
 | 📊 `.csv` | UTF-8 with or without BOM, comma, semicolon, or tab separator, **header required**; lists, nested objects, and `enrichment` as JSON in the cell |
 
@@ -393,7 +396,7 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
   and the first occurrence is kept (`EFX-ING-024`).
 - **Plot:** a `plot` that is a placeholder (for example `[No information found]`) or shorter than 40 characters
-  rejects the file (`EFX-ING-025`). Language-model leftovers (for example "I couldn't find", "find any information",
+  rejects the file, or the single record (`EFX-ING-025`). Language-model leftovers (for example "I couldn't find", "find any information",
   or "knowledge cutoff"), markdown, and a ", not Name" clarification right after "directed by" or "produced by"
   are warnings and do not stop the load (`EFX-ING-026`). A plot repeated inside the same file is also a warning
   (`EFX-ING-027`). A themes essay (for example "main themes", "the main theme of", or a "Themes:" heading) is
@@ -403,7 +406,8 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
 - **Vectors:** `plot_256`, `plot_512`, and `plot_1024` are **always** generated from `plot` with the inference
   service. If the file includes them, they are ignored with a warning; the form doesn't ask for them.
 - **Provenance:** `enrichment` is optional (`null` or absent is fine too). When present, it is an object whose keys
-  are mapping fields and whose values are keyword texts with the source of that field. An unknown key rejects the
+  are the 21 the mapping declares under `enrichment` (for example `plot`, `budget`, or `poster_path`) and whose
+  values are keyword texts with the source of that field. An unknown key rejects the
   file (`EFX-ING-007`); a value that is not text does too (`EFX-ING-012`); a blank text is dropped with warning
   `EFX-ING-022`. In CSV it is compact JSON in the `enrichment` column, the same as the other objects; an empty cell
   is null. The single-record form does not ask for it.

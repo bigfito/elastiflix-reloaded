@@ -86,7 +86,7 @@ input::placeholder,textarea::placeholder{color:#A39DAD}
 
 <div class="card">
 <h2 class="h3">Plot and text</h2>
-<label class="fld"><span class="lbl">Plot <span class="req">*</span><code>plot</code></span><textarea class="inp" rows="4" required style="resize: vertical"></textarea><span class="hint">Required: the three vectors for vector search are generated from this field.</span></label>
+<label class="fld"><span class="lbl">Plot <span class="req">*</span><code>plot</code></span><textarea class="inp" rows="4" required style="resize: vertical"></textarea><span class="hint">Required, at least 40 characters: the three vectors for vector search are generated from this field.</span></label>
 <label class="fld"><span class="lbl">Overview <code>overview</code></span><textarea class="inp" rows="3" style="resize: vertical"></textarea></label>
 <label class="fld"><span class="lbl">Tagline <code>tagline</code></span><input class="inp" type="text"></label>
 </div>
@@ -430,12 +430,12 @@ class Component extends DCLogic {
       errorCount: scen === 'mismatch' ? '23' : '0',
       locLabel: isCsv ? 'Row' : 'Record',
       errors: [
-        { loc: isCsv ? 'header' : 'all', id: '—', field: 'director', got: isCsv ? 'A column named director' : 'The director field in 512 records', expected: "That field doesn't exist in the index mapping" },
-        { loc: isCsv ? '38' : '37', id: '27205', field: 'plot_512', got: 'A list of 384 numbers', expected: 'dense_vector with 512 dimensions' },
-        { loc: isCsv ? '103' : '102', id: '603', field: 'release_date', got: '"16/07/1999"', expected: 'date in yyyy-MM-dd format, e.g. 1999-07-16' },
-        { loc: isCsv ? '216' : '215', id: '155', field: 'keywords', got: isCsv ? '"batman, joker" (text, not JSON)' : 'A list of strings ["batman", "joker"]', expected: 'nested: a list of {id, name} objects' },
-        { loc: isCsv ? '389' : '388', id: '680', field: 'adult', got: '"yes"', expected: 'boolean: true or false' },
-        { loc: isCsv ? '402' : '401', id: '13', field: 'vote_count', got: '12.5', expected: 'integer' }
+        { loc: isCsv ? 'header' : 'all', id: '—', field: 'director', got: isCsv ? 'A column named director' : 'A field named director', expected: "That field doesn't exist in the index mapping" },
+        { loc: isCsv ? '38' : '37', id: '27205', field: 'plot', got: 'A movie.', expected: 'a real plot of at least 40 characters' },
+        { loc: isCsv ? '103' : '102', id: '603', field: 'release_date', got: '"16/07/1999"', expected: 'a date in yyyy-MM-dd format' },
+        { loc: isCsv ? '216' : '215', id: '155', field: 'keywords', got: isCsv ? '"batman, joker" (text, not JSON)' : 'A list of strings ["batman", "joker"]', expected: 'a list of {id, name}' },
+        { loc: isCsv ? '389' : '388', id: '680', field: 'adult', got: '"yes"', expected: 'true or false' },
+        { loc: isCsv ? '402' : '401', id: '13', field: 'vote_count', got: '12.5', expected: 'an integer' }
       ],
       importText: scen === 'mismatch'
         ? "The import is blocked: the file doesn't match the index mapping and no records were written."

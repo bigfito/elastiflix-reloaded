@@ -129,7 +129,7 @@ genéricas (usa clases con nombre de responsabilidad), Visitor, reflexión.
 | Booleano | `is`/`has`/`can` | `isAdult`, `hasValidVectors` |
 | Constante | MAYÚSCULAS | `MAX_NUM_CANDIDATES` |
 | Excepción | Termina en `Exception` | `IngestValidationException` |
-| Prueba | Clase + `Test` / `IT` | `KnnSettingsTest`, `FullTextSearchIT` |
+| Prueba | Clase + `Test` / `IT` | `SearchQueryValidatorTest`, `FullTextSearchIT` |
 
 Abreviaturas permitidas en nombres: `RRF`, `BM25`, `KNN`, `CSV`, `JSON`, `NDJSON`, `UTF`, `API`,
 `URL`, `HTTP`, `IMDB`.
@@ -209,7 +209,7 @@ public class ElastiflixApplication {
 - Los errores de validación de la ingesta **no son excepciones por registro**: se acumulan como
   `record ValidationIssue(String code, String recordLabel, String id, String field, String received,
   String expected, boolean warning)`
-  y se lanzan juntos al final.
+  y se reúnen en un `ValidationReport` que la página muestra completo; nada se lanza.
 
 ## 8. Logging
 
@@ -217,7 +217,7 @@ SLF4J con un `private static final Logger LOG` por clase.
 
 | Nivel | Cuándo | Ejemplo |
 |---|---|---|
-| `ERROR` | Falla que el usuario ve, con su código | `EFX-IMP-002 · Elasticsearch rechazó el lote 7 de 44; se borró el índice temporal` |
+| `ERROR` | Falla que el usuario ve, con su código | `EFX-IMP-001 · Elasticsearch rechazó el lote 7 de 44; se borró el índice temporal` |
 | `WARN` | Situación anómala recuperable | `Ingesta con 62 advertencias (valores vacíos omitidos en spoken_languages)` |
 | `INFO` | Eventos de negocio | `Búsqueda híbrida: 100 resultados en 182 ms`; `Alias elastiflix-reloaded → elastiflix-reloaded-20261020-153000` |
 | `DEBUG` | Detalle para diagnosticar | Texto de la consulta y ajustes elegidos |
@@ -244,7 +244,7 @@ SLF4J con un `private static final Logger LOG` por clase.
 ## 10. Pruebas
 
 - JUnit Jupiter (JUnit 6 en Spring Boot 4), AssertJ y Mockito (de `spring-boot-starter-test`).
-- **Nombres:** método en inglés `should<Resultado>When<Condición>` y `@DisplayName` en español.
+- **Nombres:** método en inglés `should<Resultado>[When<Condición>]` y `@DisplayName` en español.
 - Estructura con comentarios `// given`, `// when`, `// then`.
 - **Unitarias** (`*Test`, Surefire): sin red ni Elasticsearch; el cliente y la inferencia se sustituyen
   por dobles.
@@ -422,6 +422,9 @@ public class ElastiflixException extends RuntimeException {
 
 **`record` con validación en el constructor compacto**
 
+Enseña la forma. En el código, `KnnSettings` es un `record` sin validación: estas comprobaciones las hace
+`SearchQueryValidator`, con los mismos códigos.
+
 ```java
 package com.bigfito.elastiflix.search.query;
 
@@ -447,13 +450,13 @@ public record KnnSettings(VectorField vectorField, int k, int numCandidates) {
      */
     public KnnSettings {
         if (k < 1) {
-            throw new ElastiflixException(ErrorCode.KNN_K_BELOW_ONE);
+            throw new ElastiflixException(ErrorCode.K_TOO_SMALL);
         }
         if (numCandidates > MAX_NUM_CANDIDATES) {
-            throw new ElastiflixException(ErrorCode.KNN_CANDIDATES_ABOVE_MAX);
+            throw new ElastiflixException(ErrorCode.CANDIDATES_TOO_LARGE);
         }
         if (numCandidates < k) {
-            throw new ElastiflixException(ErrorCode.KNN_CANDIDATES_BELOW_K);
+            throw new ElastiflixException(ErrorCode.CANDIDATES_BELOW_K);
         }
     }
 
@@ -562,7 +565,7 @@ class KnnSettingsTest {
                 () -> new KnnSettings(VectorField.PLOT_512, 100, 50));
 
         // then
-        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.KNN_CANDIDATES_BELOW_K);
+        assertThat(thrown.errorCode()).isEqualTo(ErrorCode.CANDIDATES_BELOW_K);
     }
 }
 ```

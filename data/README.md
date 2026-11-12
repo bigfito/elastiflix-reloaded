@@ -7,13 +7,13 @@ Exportación completa del catálogo `elastiflix-reloaded`: **6 899 películas** 
 
 | Parte | Películas | `id` desde – hasta | `.json` | `.csv` |
 |---|---|---|---|---|
-| `elastiflix-reloaded_01` | 986 | 11 – 9965 | 4,7 MB | 3,8 MB |
-| `elastiflix-reloaded_02` | 986 | 9966 – 24238 | 4,2 MB | 3,4 MB |
-| `elastiflix-reloaded_03` | 986 | 24271 – 103332 | 4,3 MB | 3,4 MB |
-| `elastiflix-reloaded_04` | 986 | 103370 – 324849 | 4,3 MB | 3,5 MB |
-| `elastiflix-reloaded_05` | 985 | 324852 – 470035 | 4,3 MB | 3,5 MB |
-| `elastiflix-reloaded_06` | 985 | 470044 – 649520 | 4,2 MB | 3,4 MB |
-| `elastiflix-reloaded_07` | 985 | 649918 – 1059999 | 3,9 MB | 3,1 MB |
+| `elastiflix-reloaded_01` | 986 | 11 – 9965 | 4,3 MB | 3,4 MB |
+| `elastiflix-reloaded_02` | 986 | 9966 – 24238 | 3,9 MB | 3,1 MB |
+| `elastiflix-reloaded_03` | 986 | 24271 – 103332 | 4,0 MB | 3,2 MB |
+| `elastiflix-reloaded_04` | 986 | 103370 – 324849 | 4,0 MB | 3,2 MB |
+| `elastiflix-reloaded_05` | 985 | 324852 – 470035 | 4,0 MB | 3,2 MB |
+| `elastiflix-reloaded_06` | 985 | 470044 – 649520 | 4,0 MB | 3,2 MB |
+| `elastiflix-reloaded_07` | 985 | 649918 – 1059999 | 3,8 MB | 3,0 MB |
 
 ## Cómo usarlos
 

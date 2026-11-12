@@ -227,7 +227,7 @@ class Component extends DCLogic {
       pick: () => this.setState({ [key]: id })
     }));
     const queryTypes = seg(['match', 'multi'], { match: 'match', multi: 'multi-match' }, s.queryType, 'queryType');
-    const fields = seg(['title', 'original_title'], { title: 'title', original_title: 'original_title' }, s.field, 'field');
+    const fields = seg(['title', 'original_title', 'plot'], { title: 'title', original_title: 'original_title', plot: 'plot' }, s.field, 'field');
     const operators = seg(['or', 'and'], { or: 'OR', and: 'AND' }, s.operator, 'operator');
     const vectors = seg(['plot_256', 'plot_512', 'plot_1024'], { plot_256: 'plot_256', plot_512: 'plot_512', plot_1024: 'plot_1024' }, s.vector, 'vector');
     const kNum = Number(s.k), cNum = Number(s.numCandidates);
@@ -244,6 +244,12 @@ class Component extends DCLogic {
           { text: 'Spirited Away', tag: 'título traducido' },
           { text: 'dark knight', tag: byOp('OR: 40 resultados', 'AND: 3 resultados') },
           { text: 'love story', tag: byOp('OR: 65 resultados', 'AND: 1 resultado') }
+        ];
+      } else if (s.queryType === 'match' && s.field === 'plot') {
+        sug = [
+          { text: 'ogre donkey princess', tag: byOp('OR: 162 resultados', 'AND: 3 resultados') },
+          { text: 'bathhouse spirits', tag: byOp('OR: 87 resultados', 'AND: 1 resultado') },
+          { text: 'clownfish ocean son', tag: byOp('OR: 864 resultados', 'AND: 1 resultado') }
         ];
       } else if (s.queryType === 'match') {
         sug = [
