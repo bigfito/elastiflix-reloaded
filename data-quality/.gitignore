@@ -1,0 +1,3 @@
+# Caché local del análisis: documentos, vectores y descargas. Se regenera con scripts/analizar.py.
+work/
+__pycache__/

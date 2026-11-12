@@ -1,0 +1,38 @@
+{'plot_256': 6899, 'plot_512': 6899, 'plot_1024': 6899}
+plot_256 dims incorrectas/faltantes: 0 []
+   norma: min 0.9981 max 1.0017  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_512 dims incorrectas/faltantes: 0 []
+   norma: min 0.9980 max 1.0020  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_1024 dims incorrectas/faltantes: 0 []
+   norma: min 0.9982 max 1.0019  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_256 vs prefijo normalizado de plot_1024: cos min 0.99999 p1 1.00000 med 1.00000  <0.999: 0 ['838330', '366668', '22371', '723072', '320846']
+plot_512 vs prefijo normalizado de plot_1024: cos min 0.99999 p1 1.00000 med 1.00000  <0.999: 0 ['299551', '59437', '3489', '8009', '20544']
+
+## pares plot_1024 con coseno > 0.95: 1
+   0.9892  919 «Blood: The Last Vampire» (2000)  ~  1450 «Blood: The Last Vampire» (2009)
+   distribución del vecino más cercano: p50 0.601 p90 0.760 p99 0.874 max 0.989
+
+## hubs (veces que son el vecino más cercano de otra película):
+     12  9717 «Shoot to Kill» plot_len=1633
+     11  631060 «Things Heard & Seen» plot_len=136
+     10  4964 «Knocked Up» plot_len=230
+     10  362826 «Wildling» plot_len=95
+      9  470114 «24 Hours to Live» plot_len=71
+      9  75612 «Oblivion» plot_len=2830
+      9  130150 «Labor Day» plot_len=172
+      8  3472 «Dirty Pretty Things» plot_len=1764
+      8  77875 «Playing for Keeps» plot_len=125
+      8  381283 «mother!» plot_len=2417
+      8  184098 «Think Like a Man Too» plot_len=1307
+      8  16643 «Life or Something Like It» plot_len=1248
+
+## re-embedding de 52 sinopsis actuales vs plot_1024 guardado: min 1.0000 med 1.0000
+   1.0000 254263 «The Swan Princess: A Royal Family Tale»
+   1.0000 671 «Harry Potter and the Philosopher's Stone»
+   1.0000 11820 «Mona Lisa Smile»
+   1.0000 228066 «Victor Frankenstein»
+   1.0000 799546 «Luckiest Girl Alive»
+   1.0000 1059301 «Guillermo del Toro's Pinocchio: Handcarved Cinema»
+   1.0000 284274 «Iron Man & Captain America: Heroes United»
+   1.0000 41283 «Faster»
+   < 0.99: 0

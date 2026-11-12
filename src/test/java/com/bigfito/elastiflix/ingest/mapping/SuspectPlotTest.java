@@ -43,7 +43,7 @@ class SuspectPlotTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("legitimateProse")
-    @DisplayName("la prosa de las doce sinopsis que quedan no se avisa")
+    @DisplayName("la prosa legítima de las sinopsis no se avisa")
     void shouldKeepLegitimateProse(String id, String plot) {
         ValidatedMovies result = validate(plot);
 
@@ -84,6 +84,15 @@ class SuspectPlotTest {
 
     private static Stream<Arguments> legitimateProse() {
         return Stream.of(
+                Arguments.of("286554",
+                        "Minutes later, she starts laughing upon seeing the balloon that reads \"I'm sorry, I'm an "
+                                + "asshole\" and calls Alec to make sure he is okay."),
+                Arguments.of("420245",
+                        "In her nightmare, the woman looks at Jess and says \"Przepraszam\" (\"I'm sorry\" in Polish), "
+                                + "before slitting her own throat."),
+                Arguments.of("cita tipográfica",
+                        "When they meet again at the station, he only manages to say “I apologize for "
+                                + "everything” before the train leaves."),
                 Arguments.of("1597",
                         "Pam produces his exam results, and it emerges that the CIA could not find him "
                                 + "because his real name is Gaylord."),

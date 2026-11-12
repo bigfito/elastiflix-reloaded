@@ -1,0 +1,127 @@
+## firmas de texto de modelo (docs por firma):
+   delves into                                   1012
+   thought-provoking                             756
+   complexities of                               1013
+   explores the (themes|complexities|world)      986
+   revolves around                               476
+   poignant                                      409
+   heartwarming                                  576
+   Overall, the                                  321
+   In conclusion                                 5
+   serves as a                                   163
+   testament to                                  66
+   human nature                                  304
+   tapestry                                      35
+   navigate(s) the                               341
+   not YEAR / correction                         6
+   no match/please provide                       12
+   film is known for                             5
+
+## docs con >=1 firma: 2210  con >=2 (alta probabilidad de texto generado): 1408
+   por origen de plot (enrichment.plot): Counter({'wikipedia/sin etiqueta': 1408})
+
+## no match / please provide / negaciones: 12
+    ("671 «Harry Potter and the Philosopher's Stone» (2001)", '[No match found]', '[No match found]  Please provide more information, such as the title or production company, to help me narrow down the search.')
+    ('36736 «The Drawn Together Movie: The Movie!» (2010)', 'is not a real', 'The Drawn Together Movie: The Movie! is a 2010 American adult animated musical black comedy based on the Comedy Central sitcom Drawn Together. Written and execu')
+    ('111083 «The Body» (2012)', 'there is no record', 'The Body (Spanish: El cuerpo) is a 2012 Spanish psychological thriller directed by Oriol Paulo, from a screenplay he co-wrote with Lara Sendim. José Coronado st')
+    ('167073 «Brooklyn» (2015)', 'Unable to find', "Brooklyn is a 2015 romantic period drama directed by John Crowley and written by Nick Hornby, adapted from Colm Tóibín's 2009 novel. Saoirse Ronan stars as a yo")
+    ('212778 «Chef» (2014)', 'unable to find', 'Chef is a 2014 road comedy-drama film written, produced and directed by Jon Favreau, who stars as Carl Casper, a celebrity chef who starts a food truck business')
+    ('242828 «When Marnie Was There» (2014)', 'is not a real', 'When Marnie Was There is a 2014 Japanese animated drama film written and directed by Hiromasa Yonebayashi, produced by Studio Ghibli. The movie follows the stor')
+    ('317925 «A la mala» (2015)', 'unable to find', 'A la mala (Spanish for "by foul means") is a 2015 Mexican romantic comedy film directed by Pedro Pablo Ibarra and written by Issa López and Ari Rosen. Starring ')
+    ('577922 «Tenet» (2020)', 'may be confusing', 'Tenet is a 2020 spy thriller film directed by Christopher Nolan, produced by Emma Thomas and Cale Boyter, and written by Nolan.  The story follows a secret agen')
+    ('581726 «Infinite» (2021)', 'unable to find', 'Infinite is a 2021 American science fiction action film directed by Antoine Fuqua from a screenplay by Ian Shorr, based on a story by Todd Stein adapted from D.')
+    ('628914 «Queenpins» (2021)', 'unable to find', 'Queenpins is a 2021 American crime comedy film written and directed by Aron Gaudet and Gita Pullapilly. Kristen Bell and Kirby Howell-Baptiste star as two frien')
+    ('799546 «Luckiest Girl Alive» (2022)', "I don't have", 'I don\'t have information on a movie titled "Luckiest Girl Alive" released in 2022 by Made Up Stories.   However, I do know that there is a novel with the same t')
+    ('845140 «Kitchen Brigade» (2022)', 'Unable to find', 'Kitchen Brigade (French: La Brigade) is a 2022 French comedy-drama film directed by Louis-Julien Petit, who wrote the screenplay with Liza Benguigui, Sophie Ben')
+
+## correcciones «not YEAR»: 6
+    ("252512 «While We're Young» (2015)", "While We're Young is a 2014 film, not 2015, directed by Noah Baumbach and produced by Scott Rudin Productions.\n\nThe movie explores the compl")
+    ("883083 «You Won't Be Alone» (2022)", "You Won't Be Alone is a 2021 film, not 2022, directed by Levan Gabriadze and produced by Head Gear Films. The movie is set in 19th-century M")
+    ('245698 «Pawn Sacrifice» (2015)', "Pawn Sacrifice is a 2014 film, not 2015, directed by Gambit and starring Tobey Maguire.\n\nThe movie revolves around Bobby Fischer's (Tobey Ma")
+    ('51620 «Death Race 2» (2010)', "Death Race 2 is a 2008 film, not 2010, directed by Rob Cohen and produced by Moonstone Pictures and Summit Entertainment. Here's a detailed ")
+    ('12703 «The Brown Bunny» (2004)', 'The Brown Bunny is a 2003 film, not 2004, directed by Vincent Gallo and produced by Wild Bunch.\n\nThe Brown Bunny is a surrealist drama that ')
+    ('316154 «The Bad Batch» (2017)', "The Bad Batch is a 2016 film, not 2017. It's an American post-apocalyptic science fiction film directed by Ana Lily Amirpour.\n\nThe movie exp")
+
+## plot nombra protagonistas que no están en cast (posible alucinación): 201
+    ('1921 «Sweet November» (2001)', ['Anthony Newley', 'Sandy Dennis'], '2/2')
+    ('824 «Moulin Rouge!» (2001)', ['Ewan McGregor. The'], '1/2')
+    ('924 «Dawn of the Dead» (2004)', ['Mena Suvari'], '1/2')
+    ('597 «Titanic» (1997)', ["Celine Dion's"], '1/2')
+    ('619 «The Bodyguard» (1992)', ['Kevin Costner. The', "Whitney Houston's"], '2/3')
+    ('9381 «Babylon A.D.» (2008)', ['Gerard Butler', 'Moon Bloodgood.'], '2/2')
+    ('8398 «The Hitcher» (2007)', ['Rutger Hauer', 'C. Thomas Howell', 'Jennifer Jason Leigh.'], '3/3')
+    ("8676 «Fool's Gold» (2008)", ['Kate Hudson.'], '1/2')
+    ('8999 «Derailed» (2005)', ['Jennifer Aniston.'], '1/2')
+    ('4550 «Sympathy for Lady Vengeance» (2005)', ['Kim Sun-a'], '1/2')
+    ('7873 «Harsh Times» (2005)', ['Nick Stahl'], '1/2')
+    ('11026 «Exorcist: The Beginning» (2004)', ['Stellan Skarsg'], '1/1')
+    ('11358 «Walking Tall» (2004)', ['The Rock'], '1/1')
+    ('11451 «Herbie Fully Loaded» (2005)', ['Steve Coogan'], '1/2')
+    ('13523 «Sex Drive» (2008)', ['Josh Peck'], '1/2')
+    ('13811 «Knowing» (2009)', ['Aaron Eckhart'], '1/2')
+    ('13971 «Wild Child» (2008)', ['Emma Watson', 'Billy Connolly'], '2/2')
+    ('10066 «House of Wax» (2005)', ['Ewan McGregor', 'Hayden Christensen'], '2/3')
+    ('10214 «Son of the Mask» (2005)', ['Ben Affleck'], '1/2')
+    ('9757 «Norbit» (2007)', ['Eddie Murphy. The'], '1/1')
+    ('9896 «Rat Race» (2001)', ['Will Ferrell', 'Jon Heder', 'Steve Carell'], '3/3')
+    ('48340 «Sanctum» (2011)', ['Rhys Ifans', 'Forest Whitaker'], '2/2')
+    ('48650 «Room in Rome» (2010)', ['Olga Kurylenko'], '1/1')
+    ('41233 «Step Up 3D» (2010)', ['Kenny Wormald', 'Amanda Seyfried'], '2/3')
+    ('44048 «Unstoppable» (2010)', ['Chris Pine.'], '1/2')
+    ('16907 «Naruto: Ninja Clash in the Land of Snow» (2004)', ['Yukie Fujikaze'], '1/1')
+    ('37834 «Knight and Day» (2010)', ['Cameron Diaz.'], '1/2')
+    ('38408 «Life As We Know It» (2010)', ['Jennifer Aniston', 'Paul Rudd'], '2/2')
+    ('40662 «Batman: Under the Red Hood» (2010)', ['Jason Todd'], '1/1')
+    ('20943 «The Ugly Truth» (2009)', ['Gerard Butler.'], '1/2')
+    ('21191 «Sin Nombre» (2009)', ['Diego Luna', 'Jeremy Renner'], '2/2')
+    ('26022 «My Name Is Khan» (2010)', ['Kal Penn', 'Anupam Kher'], '2/3')
+    ('27581 «The Other Guys» (2010)', ['Mark Wahlberg.'], '1/2')
+    ('27582 «The Mechanic» (2011)', ['Ben Foster.'], '1/2')
+    ('32823 «Get Him to the Greek» (2010)', ['Aldous Snow'], '1/1')
+    ('36218 «Pokémon: Jirachi - Wish Maker» (2003)', ['Ash Ketchum'], '1/1')
+    ('36691 «Solitary Man» (2009)', ['Michael Douglas. The'], '1/1')
+    ('75624 «Naruto Shippuden the Movie: Blood Prison» (2011)', ['Maile Flanagan', 'Matthew Mercer', 'Carrie Keranen. Distributed'], '3/3')
+    ('124459 «The Incredible Burt Wonderstone» (2013)', ['Ryan Reynolds'], '1/2')
+    ('132344 «Before Midnight» (2013)', ['Julie Delpy. It'], '1/2')
+
+--- 621707 «The Vigil» (2020) 8.5
+The Vigil is a 2020 American thriller film directed by Kiran Deol. The movie revolves around a retired police officer who seeks revenge against a corrupt cop responsible for his partner's death.
+
+At its core, The Vigil explores the themes of grief, trauma, and the blurred lines between justice and vigilantism. The protagonist's quest for vengeance is driven by his emotional pain and sense of betrayal, which serves as a catalyst for his downward spiral into darkness. As he navigates the complex web of corruption and deceit, the film raises questions about the morality of taking the law into one's own hands.
+
+The Vigil also delves into the psychological effects of trauma on individuals and how it can shape their perceptions of reality. The protagonist's experiences have left him with a deep-seated sense of anger and resentment, which he struggles to reconcile with his own moral code. This 
+
+--- 763568 «Arlo the Alligator Boy» (2021) 7.5
+Arlo the Alligator Boy is an animated film that explores the complexities of identity, community, and acceptance. The story revolves around Arlo, a young alligator boy who struggles to find his place in a world where he doesn't quite fit in with either humans or other alligators.
+
+At its core, the movie delves into themes of self-discovery and belonging. Arlo's journey is a powerful metaphor for navigating the challenges of growing up and finding one's own unique identity. As he navigates the complexities of his mixed heritage, Arlo must confront the expectations of those around him and learn to embrace his individuality.
+
+The film also touches on the importance of community and acceptance. Through Arlo's relationships with the people and creatures in his life, the movie highlights the value of finding a supportive network that celebrates diversity and promotes inclusivity. By exploring 
+
+--- 507569 «The Seven Deadly Sins: Prisoners of the Sky» (2018) 7.5
+The Seven Deadly Sins: Prisoners of the Sky is an anime film that delves into the complexities of human nature, morality, and the consequences of one's actions. The story revolves around Meliodas, a powerful warrior who finds himself trapped in a mysterious realm known as the "Sky," where he must confront his own darkness and the true nature of his existence.
+
+At its core, the film explores the theme of redemption and personal growth. Meliodas, once a hero, is now forced to confront the depths of his own depravity and the harm caused by his actions. This introspection serves as a catalyst for his transformation, as he grapples with the consequences of his past mistakes and seeks a path towards forgiveness and redemption.
+
+The film also touches on the idea of free will versus destiny, raising questions about whether individuals can truly change their fate or if it is predetermined by exte
+
+--- 124157 «The Thieves» (2012) 7
+The Thieves is a 2012 South Korean heist film directed by Suk Kyung-chae. The movie revolves around a group of professional thieves who plan to steal a priceless artifact from a museum in Macau.
+
+At its core, The Thieves explores the themes of loyalty, betrayal, and redemption. The characters are complex and multi-dimensional, with each one having their own motivations and backstories that drive their actions throughout the story. As the heist unfolds, alliances are tested, and old wounds are reopened, leading to a web of deceit and mistrust.
+
+The film also delves into the idea of identity and how it is shaped by our experiences and relationships. The characters are not one-dimensional figures, but rather nuanced individuals with their own strengths and weaknesses. As they navigate the complexities of their heist, they are forced to confront their own demons and question who they truly a
+
+--- 348892 «Bajrangi Bhaijaan» (2015) 7.0
+Bajrangi Bhaijaan is a heartwarming and thought-provoking film that explores several profound themes. At its core, the movie delves into the complexities of human relationships, love, and acceptance.
+
+One of the primary themes of Bajrangi Bhaijaan is the power of love and compassion. The titular character, Bajrangi, is a kind-hearted and gentle soul who selflessly seeks to reunite his friend with his mother, despite facing numerous obstacles and challenges along the way. His unwavering dedication to this cause serves as a testament to the transformative impact that love can have on individuals and communities.
+
+The film also explores the theme of faith and spirituality, highlighting the importance of understanding and respecting different cultures and beliefs. Bajrangi's journey is marked by his encounters with various characters who embody distinct spiritual traditions, forcing him to c
+
+--- 11313 «Hearts in Atlantis» (2001) 6.5
+Hearts in Atlantis is a poignant and nostalgic film that explores the complexities of human relationships, identity, and the struggles of growing up during the tumultuous 1960s. The movie delves into the lives of a group of young people navigating love, loss, and self-discovery amidst the backdrop of social change.
+
+At its core, Hearts in Atlantis is a story about the fragility of human connections and the ways in which they can both heal and hurt us. The film's characters are often torn between their desire for independence and their need for belonging, as they grapple with the uncertainty of their futures and the constraints of societal expectations.
+
+The movie also explores themes of nostalgia and the bittersweet nature of memories. The characters' experiences are often tinged with a sense of longing and wistfulness, as they reflect on past loves, losses, and moments of triumph. This 
