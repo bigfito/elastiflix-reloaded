@@ -279,16 +279,18 @@ las películas cuya sinopsis (`plot`) tiene el vector más cercano, con un grafo
 | `num_candidates` | 200 | `k ≤ num_candidates ≤ 10 000` |
 
 Los tres campos usan la misma configuración (`hnsw`, `m = 16`, `ef_construction = 100`, `cosine`, float
-sin cuantización): la única diferencia es el número de dimensiones. **Precisión medida** con 32
-descripciones de trama sobre un catálogo de 6 899 películas:
+sin cuantización): la única diferencia es el número de dimensiones. **Precisión medida** con el
+[harness de relevancia](eval/README.md): 40 consultas en español e inglés, con juicios graduados, sobre el catálogo de
+6 899 películas.
 
-| Campo | 🥇 Correcta en 1.er lugar | Top 5 | Top 10 | MRR@10 |
-|---|---|---|---|---|
-| `plot_256` | 22 de 32 (69 %) | 29 | 30 | 0.774 |
-| `plot_512` | 25 de 32 (78 %) | 31 | 32 | 0.853 |
-| `plot_1024` | 26 de 32 (81 %) | 31 | 31 | 0.880 |
+| Campo | 🥇 Correcta en 1.er lugar | Top 5 | Top 10 | MRR@10 | nDCG@10 |
+|---|---|---|---|---|---|
+| `plot_256` | 15 de 40 (38 %) | 26 | 31 | 0.614 | 0.623 |
+| `plot_512` | 22 de 40 (55 %) | 30 | 37 | 0.767 | 0.770 |
+| `plot_1024` | 26 de 40 (65 %) | 37 | 37 | 0.823 | 0.823 |
 
-> 512 dimensiones queda muy cerca de 1024 con la mitad del tamaño; 256 pierde precisión de forma clara.
+> 1024 dimensiones pone la película correcta entre las 5 primeras en 37 de 40 consultas; 512 queda cerca con la mitad
+> del tamaño y 256 pierde precisión de forma clara.
 
 Las consultas se vectorizan con `input_type: search` y el prefijo `Query: `; las sinopsis, con `input_type: ingest`
 y sin prefijo.
@@ -306,6 +308,13 @@ la similitud no son comparables.
 
 Cada resultado muestra su puntuación BM25, su similitud k-NN, su posición en cada lista y la puntuación
 RRF: `Σ 1 / (60 + posición)`.
+
+> [!NOTE]
+> El [harness de relevancia](eval/README.md) muestra el costo de combinar: con consultas que describen la trama, BM25
+> sobre el título casi nunca encuentra la película (las sinopsis no comparten palabras con el título) y su lista
+> desplaza a la vectorial. La híbrida con `plot_1024` saca nDCG@10 = 0.474, contra 0.823 de la vectorial sola; con
+> búsquedas por título en inglés, en cambio, BM25 sola es la mejor (0.910) y la híbrida queda cerca
+> (0.830 a 0.851).
 
 ## 🎛️ Resultados, filtros y paginación
 
@@ -395,6 +404,7 @@ El estado del catálogo (alias, índice vigente y conteo) también está en `GET
 |---|---|---|
 | `./mvnw verify` | Pruebas unitarias, de arquitectura (ArchUnit), Checkstyle y PMD | Nada más |
 | `./mvnw verify -Pit` | Lo anterior más las pruebas de integración y el smoke test | `.env` y el proyecto Serverless |
+| `./mvnw verify -Pit -Dit.test=RelevanceIT` | Solo el [harness de relevancia](eval/README.md): `_rank_eval` de las 7 configuraciones contra `eval/judgments.jsonl`, con los mínimos de `eval/thresholds.json` como gate | `.env` y el catálogo de referencia |
 | `npm test` en `src/test/browser` | Pruebas del JavaScript de las páginas con Playwright | La aplicación en marcha y Node.js; ver [su README](src/test/browser/README.md) |
 
 - Las pruebas de integración que **escriben** usan alias propios `elastiflix-it-<aleatorio>` y los borran al
@@ -501,6 +511,7 @@ elastiflix-reloaded/
 │   └── 🌐 web/                             controladores y 5 páginas Thymeleaf en español e inglés
 ├── 🖼️  src/main/resources/                  application.yml · plantillas · estáticos · mensajes ES/EN
 ├── 🧪 src/test/                            java/ (mismos paquetes) · resources/ · browser/ (Playwright)
+├── 🎯 eval/                                consultas, juicios y mínimos del harness de relevancia
 ├── 🎞️  data/                               catálogo completo de 6 899 películas en 7 partes (.json y .csv)
 ├── 🗄️  elasticsearch/                       mapping del índice y películas de ejemplo (.json y .csv)
 ├── 🧹 config/                              reglas de Checkstyle y PMD
@@ -568,6 +579,7 @@ Páginas completas con la aplicación conectada a un catálogo de 6 899 películ
 | ☁️ [`docs/despliegue.mermaid`](docs/despliegue.mermaid) | Pipeline de Cloud Build, las dos regiones de Cloud Run y el balanceador |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo está escrito el código y qué verifica el build |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice (33 campos) |
+| 🎯 [`eval/README.md`](eval/README.md) | Harness de relevancia: consultas, escala de juicios, métricas y cómo correrlo |
 | 🎞️ [`data/README.md`](data/README.md) | Catálogo completo en 7 partes: cómo cargarlo y su formato |
 | 🎬 [`elasticsearch/fixtures/`](elasticsearch/fixtures/) | Cuatro películas de ejemplo en `.json` y `.csv`, y un vector de consulta |
 | 🎨 [`design/README.md`](design/README.md) | Mockups de las páginas y tokens de diseño |

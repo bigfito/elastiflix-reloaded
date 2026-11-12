@@ -276,16 +276,18 @@ whose plot (`plot`) has the closest vector, using an **HNSW** graph.
 | `num_candidates` | 200 | `k ≤ num_candidates ≤ 10,000` |
 
 The three fields share the same configuration (`hnsw`, `m = 16`, `ef_construction = 100`, `cosine`, float without
-quantization): the only difference is the number of dimensions. **Measured precision** with 32 plot descriptions on
-a catalog of 6,899 movies:
+quantization): the only difference is the number of dimensions. **Measured precision** with the
+[relevance harness](eval/README.md#-relevance-harness): 40 queries in Spanish and English, with graded judgments, on the
+6,899-movie catalog.
 
-| Field | 🥇 Correct in 1st place | Top 5 | Top 10 | MRR@10 |
-|---|---|---|---|---|
-| `plot_256` | 22 of 32 (69%) | 29 | 30 | 0.774 |
-| `plot_512` | 25 of 32 (78%) | 31 | 32 | 0.853 |
-| `plot_1024` | 26 of 32 (81%) | 31 | 31 | 0.880 |
+| Field | 🥇 Correct in 1st place | Top 5 | Top 10 | MRR@10 | nDCG@10 |
+|---|---|---|---|---|---|
+| `plot_256` | 15 of 40 (38%) | 26 | 31 | 0.614 | 0.623 |
+| `plot_512` | 22 of 40 (55%) | 30 | 37 | 0.767 | 0.770 |
+| `plot_1024` | 26 of 40 (65%) | 37 | 37 | 0.823 | 0.823 |
 
-> 512 dimensions comes very close to 1024 at half the size; 256 clearly loses precision.
+> 1024 dimensions puts the correct movie in the top 5 for 37 of 40 queries; 512 comes close at half the size, and 256
+> clearly loses precision.
 
 Queries are embedded with `input_type: search` and the `Query: ` prefix; plots, with `input_type: ingest` and no
 prefix.
@@ -302,6 +304,12 @@ each movie in each list, not by its score, because BM25 and similarity scores ar
 
 Every result shows its BM25 score, its k-NN similarity, its position in each list, and the RRF score:
 `Σ 1 / (60 + position)`.
+
+> [!NOTE]
+> The [relevance harness](eval/README.md#-relevance-harness) shows the cost of combining: with queries that describe
+> the plot, BM25 on the title almost never finds the movie (plots share no words with the title) and its list pushes
+> the vector list down. Hybrid with `plot_1024` scores nDCG@10 = 0.474, against 0.823 for vector search alone; with
+> title searches in English, on the other hand, BM25 alone is best (0.910) and hybrid comes close (0.830 to 0.851).
 
 ## 🎛️ Results, filters, and pagination
 
@@ -390,6 +398,7 @@ The catalog status (alias, current index, and count) is also available at `GET /
 |---|---|---|
 | `./mvnw verify` | Unit and architecture (ArchUnit) tests, Checkstyle, and PMD | Nothing else |
 | `./mvnw verify -Pit` | The above plus the integration tests and the smoke test | `.env` and the Serverless project |
+| `./mvnw verify -Pit -Dit.test=RelevanceIT` | Only the [relevance harness](eval/README.md#-relevance-harness): `_rank_eval` of the 7 configurations against `eval/judgments.jsonl`, with the minimums in `eval/thresholds.json` as the gate | `.env` and the reference catalog |
 | `npm test` in `src/test/browser` | Tests of the pages' JavaScript with Playwright | The running app and Node.js; see [its README](src/test/browser/README.md) (in Spanish) |
 
 - Integration tests that **write** use their own `elastiflix-it-<random>` aliases and delete them when they finish;
@@ -496,6 +505,7 @@ elastiflix-reloaded/
 │   └── 🌐 web/                             controllers and 5 Thymeleaf pages in Spanish and English
 ├── 🖼️  src/main/resources/                  application.yml · templates · static files · ES/EN messages
 ├── 🧪 src/test/                            java/ (same packages) · resources/ · browser/ (Playwright)
+├── 🎯 eval/                                queries, judgments, and minimums of the relevance harness
 ├── 🎞️  data/                               full 6,899-movie catalog in 7 parts (.json and .csv)
 ├── 🗄️  elasticsearch/                       index mapping and sample movies (.json and .csv)
 ├── 🧹 config/                              Checkstyle and PMD rules
@@ -564,6 +574,7 @@ Full pages with the app connected to a 6,899-movie catalog, in Spanish and Engli
 | ☁️ [`docs/despliegue.mermaid`](docs/despliegue.mermaid) | Cloud Build pipeline, the two Cloud Run regions, and the load balancer (in Spanish) |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | How the code is written and what the build checks (in Spanish) |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Index mapping (33 fields) |
+| 🎯 [`eval/README.md`](eval/README.md#-relevance-harness) | Relevance harness: queries, rating scale, metrics, and how to run it |
 | 🎞️ [`data/README.md`](data/README.md#english) | The full catalog in 7 parts: how to load it and its format |
 | 🎬 [`elasticsearch/fixtures/`](elasticsearch/fixtures/) | Four sample movies in `.json` and `.csv`, and a query vector |
 | 🎨 [`design/README.md`](design/README.md) | Page mockups and design tokens (in Spanish) |
