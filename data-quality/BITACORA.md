@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 17:45 UTC · GitHub Copilot (Kimi K3) · ejecutor (turno 03)
+**Última actualización:** 2026-11-12 18:15 UTC · Claude Code (Claude Opus 5.5) · revisor (R-03)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -20,7 +20,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 |---|---|---|---|---|---|---|
 | 01 | Google Antigravity | WP-00 T-01 a T-04 | REVISADO | 2026-11-12 | `dq-t01` | [R-01](bitacora/R-01.md) |
 | 02 | Cursor | WP-00 T-05 y T-09 | REVISADO | 2026-11-12 | `dq-t02` | [R-02](bitacora/R-02.md) |
-| 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | EN REVISIÓN | 2026-11-12 | `dq-t03` | — |
+| 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | REVISADO | 2026-11-12 | `dq-t03` | [R-03](bitacora/R-03.md) |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | PENDIENTE | — | — | — |
 | 05 | Cursor | WP-02 lotes `002`–`006` | PENDIENTE | — | — | — |
 | 06 | GitHub Copilot | WP-02 lotes `007`–`011` | PENDIENTE | — | — | — |
@@ -44,7 +44,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 | WP | Título | Estado | Turnos | Actualizado |
 |---|---|---|---|---|
-| WP-00 | Preparación del equipo | EN CURSO · T-01 a T-10 hechas (pendiente R-03) | 1, 2, 3 | 2026-11-12 |
+| WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | PENDIENTE | 4 | — |
 | WP-02 | Reescribir los ensayos generados | PENDIENTE | 4, 5, 6, 7 | — |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
@@ -64,14 +64,14 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-00 | (plan inicial) | APROBADO | 23 de la revisión independiente del plan | `ebab666` y siguiente | Diario del plan, §8 |
 | R-01 | 01 · Google Antigravity | APROBADO CON CORRECCIONES | 3 defectos de validación en `catalogo.py` y `aplicar_cambios.py`; trazabilidad de correcciones en `estado.tsv` | `fb06ad8` | [R-01](bitacora/R-01.md) |
 | R-02 | 02 · Cursor | APROBADO CON CORRECCIONES | Límite de Wikimedia (429), subtítulos dentro de la trama, comilla final, `--agente` por defecto | `83af348` | [R-02](bitacora/R-02.md) |
+| R-03 | 03 · GitHub Copilot | APROBADO CON CORRECCIONES | Guardas de borrado de `publicar.py` (alias y comodines); comando del harness sobre staging | `0ab67e4` | [R-03](bitacora/R-03.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-03** del turno 03 de GitHub Copilot (WP-00 T-06 `cargar.py`, T-07 M0, T-08 staging y T-10
-> `publicar.py`; rango `dq-r02..dq-t03`). Al cerrar, WP-00 pasa a HECHA y sigue el **turno 04 · Google Antigravity**:
-> WP-01 completo y WP-02 `lote-001`. Ojo con la desviación del harness anotada en `bitacora/WP-00.md`: con
-> `ELASTIFLIX_INDEX_ALIAS` en el entorno fallan 5 pruebas unitarias que suponen el alias por defecto; conviene
-> ajustar `AGENTS.md` §9 o fijar el alias en esas pruebas.
+> **Turno 04 · Google Antigravity:** **WP-01 completo** (13 películas) y **WP-02 `lote-001`** (las 13 de
+> `wp02-prioridad.tsv` y 87 más). Es el primer turno que cambia `data/`: sigue el flujo de datos de `PLAN.md` paso a
+> paso. Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-03](bitacora/R-03.md) y revisa su commit `0ab67e4`.
+> El punto de partida es la etiqueta `dq-r03`. WP-00 está HECHA.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -209,3 +209,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: el `User-Agent` es `elastiflix-data-quality/1.0 (https://github.com/bigfito/elastiflix-reloaded)
   python-urllib`, con pausa de 1 s; 8 de 8 tramas de `wp02-prioridad.tsv` descargadas sin ningún 429.
 - Para el siguiente: turno 03, GitHub Copilot.
+
+### 2026-11-12 18:15 UTC · Claude Code (Claude Opus 5.5) · revisor (R-03)
+- Hice: revisión del turno 03 de GitHub Copilot. APROBADO CON CORRECCIONES (`0ab67e4`): guardas de borrado en
+  `publicar.py` y comando del harness sobre staging en `AGENTS.md` §9. WP-00 queda HECHA. Detalle en
+  `bitacora/R-03.md`.
+- Evidencia: producción intacta (`elastiflix-reloaded-20261112-144129`, 6 899); staging con 6 899 y comprobaciones de
+  `publicar.py` en verde; harness sobre staging repetido con el comando corregido, dentro de ±0.02 de M0.
+- Para el siguiente: turno 04, Google Antigravity.
