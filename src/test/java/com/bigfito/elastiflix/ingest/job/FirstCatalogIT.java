@@ -175,7 +175,7 @@ class FirstCatalogIT {
 
     private static Movie oneMovie() {
         return MovieJsonMapper.create().readValue(
-                "{\"id\":\"" + SINGLE_ID + "\",\"title\":\"Primera\",\"plot\":\"la primera película del catálogo\"}",
+                "{\"id\":\"" + SINGLE_ID + "\",\"title\":\"Primera\",\"plot\":\"la primera película del catálogo de demostración\"}",
                 Movie.class);
     }
 

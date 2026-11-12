@@ -106,7 +106,8 @@ class KeywordBytesTest {
     }
 
     private static ObjectNode movie(String id) {
-        return MAPPER.createObjectNode().put("id", id).put("title", "T").put("plot", "P");
+        return MAPPER.createObjectNode().put("id", id).put("title", "T")
+                .put("plot", "Sinopsis de prueba suficientemente larga para validar.");
     }
 
     private static void assertSingleError(ValidatedMovies checked, String field, String expected) {

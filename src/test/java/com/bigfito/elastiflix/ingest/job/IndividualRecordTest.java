@@ -46,6 +46,7 @@ class IndividualRecordTest {
 
     private static final Clock CLOCK = Clock.fixed(Instant.parse("2026-10-22T03:04:05Z"), ZoneOffset.UTC);
     private static final String NEW_INDEX = "demo-20261022-030405";
+    private static final String PLOT = "Sinopsis de prueba suficientemente larga para validar.";
 
     @Mock
     private CatalogIndex catalog;
@@ -57,13 +58,13 @@ class IndividualRecordTest {
         when(catalog.describe("demo")).thenReturn(new CatalogName.Alias("demo", "demo-20261018-000000"));
         IndividualRecord records = records();
 
-        SaveResult result = records.save("demo", movie("{\"id\":\"7\",\"title\":\"Una\",\"plot\":\"texto\"}"));
+        SaveResult result = records.save("demo", movie("{\"id\":\"7\",\"title\":\"Una\",\"plot\":\"" + PLOT + "\"}"));
 
         assertThat(result).isInstanceOf(SaveResult.Saved.class);
         verify(catalog, never()).createWithMapping(anyString());
         ArgumentCaptor<Movie> written = ArgumentCaptor.forClass(Movie.class);
         verify(catalog).indexOne(eq("demo"), written.capture());
-        verify(embeddings).embedDocuments(List.of("texto"));
+        verify(embeddings).embedDocuments(List.of(PLOT));
         assertThat(written.getValue().id()).isEqualTo("7");
         assertThat(written.getValue().plot1024()).hasSize(1024);
         assertThat(written.getValue().plot512()).hasSize(512);
@@ -75,7 +76,7 @@ class IndividualRecordTest {
     void shouldNotIndexWhenTheTitleIsBlank() {
         IndividualRecord records = records();
 
-        SaveResult result = records.save("demo", movie("{\"id\":\"7\",\"title\":\"   \",\"plot\":\"texto\"}"));
+        SaveResult result = records.save("demo", movie("{\"id\":\"7\",\"title\":\"   \",\"plot\":\"" + PLOT + "\"}"));
 
         assertThat(result).isInstanceOf(SaveResult.Rejected.class);
         assertThat(((SaveResult.Rejected) result).report().errors())
@@ -94,7 +95,7 @@ class IndividualRecordTest {
         when(catalog.describe("demo")).thenReturn(new CatalogName.Missing("demo"));
         IndividualRecord records = records();
 
-        SaveResult result = records.save("demo", movie("{\"id\":\"7\",\"title\":\"Una\",\"plot\":\"texto\"}"));
+        SaveResult result = records.save("demo", movie("{\"id\":\"7\",\"title\":\"Una\",\"plot\":\"" + PLOT + "\"}"));
 
         assertThat(result).isInstanceOf(SaveResult.Saved.class);
         InOrder order = inOrder(catalog);

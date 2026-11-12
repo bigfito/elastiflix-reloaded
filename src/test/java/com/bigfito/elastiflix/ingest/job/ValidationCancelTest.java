@@ -95,7 +95,7 @@ class ValidationCancelTest {
     }
 
     private String upload() throws Exception {
-        Path file = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,p\n2,B,q\n");
+        Path file = Files.writeString(folder.resolve("subida.bin"), "id,title,plot\n1,A,Sinopsis de prueba suficientemente larga para validar.\n2,B,Otra sinopsis de prueba suficientemente larga y distinta.\n");
         return store.open("peliculas.csv", file, CsvSettings.withHeader(), ImportMode.BULK);
     }
 }
