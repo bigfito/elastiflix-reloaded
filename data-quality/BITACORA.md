@@ -18,7 +18,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 | Turno | Ejecutor | Tareas (detalle en el plan) | Estado | Inicio | Etiqueta `dq-t` | Revisión |
 |---|---|---|---|---|---|---|
-| 01 | Google Antigravity | WP-00 T-01 a T-04 | PENDIENTE | — | — | — |
+| 01 | Google Antigravity | WP-00 T-01 a T-04 | EN CURSO | 2026-11-12 | — | — |
 | 02 | Cursor | WP-00 T-05 y T-09 | PENDIENTE | — | — | — |
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | PENDIENTE | — | — | — |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | PENDIENTE | — | — | — |
@@ -44,7 +44,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 | WP | Título | Estado | Turnos | Actualizado |
 |---|---|---|---|---|
-| WP-00 | Preparación del equipo | PENDIENTE | 1, 2, 3 | — |
+| WP-00 | Preparación del equipo | EN CURSO | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | PENDIENTE | 4 | — |
 | WP-02 | Reescribir los ensayos generados | PENDIENTE | 4, 5, 6, 7 | — |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
