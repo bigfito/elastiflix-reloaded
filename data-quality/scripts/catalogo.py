@@ -7,12 +7,18 @@ Garantiza round-trip byte a byte entre data/ y las estructuras en memoria:
   orden de columnas, listas y objetos como JSON compacto y `enrichment` con las claves en el orden del mapping).
 - `sha(valor) -> str` calcula el SHA-256 hexadecimal de `json.dumps(valor, ensure_ascii=False, separators=(',', ':'), sort_keys=True)`,
   donde un campo ausente vale `None` (`null` en JSON).
+- `validar_cambio(campo, nuevo)` rechaza un campo que no existe en el catálogo o un valor de `enrichment.*` que no es
+  texto, antes de que llegue a `data/` (revisión R-01).
+
+`guardar()` exige exactamente las mismas películas que la plantilla (no agrega ni pierde ninguna en silencio) y
+escribe las 14 partes primero en archivos temporales y después las reemplaza, para no dejar `data/` a medias.
 """
 import argparse
 import csv
 import hashlib
 import io
 import json
+import os
 import pathlib
 import sys
 from typing import Any, Iterable
@@ -68,6 +74,37 @@ def _cargar_claves_enrichment() -> list[str]:
 
 
 ENRICHMENT_KEYS = _cargar_claves_enrichment()
+
+# Campos que un lote puede cambiar. `_id` e `id` identifican la película y no se cambian.
+CAMPOS_EDITABLES = frozenset(COLUMNAS) - {"_id", "id"}
+SUBCAMPOS_COLECCION = frozenset({"id", "name", "poster_path", "backdrop_path"})
+
+
+def validar_cambio(campo: str, nuevo: Any) -> None:
+    """Lanza `ValueError` si `campo` no existe en el catálogo o si `nuevo` no sirve para ese campo.
+
+    Admite los 30 campos editables de primer nivel, `enrichment.<clave del mapping>` (texto o `null`, como exige
+    `EFX-ING-012`) y `belongs_to_collection.<id|name|poster_path|backdrop_path>`.
+    """
+    if "." not in campo:
+        if campo not in CAMPOS_EDITABLES:
+            raise ValueError(f"campo {campo!r} no existe en el catálogo o no se puede cambiar")
+        if campo == "enrichment" and nuevo is not None:
+            if not isinstance(nuevo, dict):
+                raise ValueError("enrichment debe ser un objeto o null")
+            for clave, valor in nuevo.items():
+                validar_cambio(f"enrichment.{clave}", valor)
+        return
+    padre, hijo = campo.split(".", 1)
+    if padre == "enrichment":
+        if hijo not in ENRICHMENT_KEYS:
+            raise ValueError(f"enrichment.{hijo} no es una de las {len(ENRICHMENT_KEYS)} claves del mapping")
+        if nuevo is not None and not (isinstance(nuevo, str) and nuevo.strip()):
+            raise ValueError(f"enrichment.{hijo} debe ser un texto no vacío o null (EFX-ING-012)")
+        return
+    if padre == "belongs_to_collection" and hijo in SUBCAMPOS_COLECCION:
+        return
+    raise ValueError(f"ruta {campo!r} no admitida: solo enrichment.<clave> y belongs_to_collection.<subcampo>")
 
 
 def ordenar_enrichment(enr: dict[str, Any] | None) -> dict[str, Any] | None:
@@ -198,11 +235,24 @@ def guardar(
     else:
         por_id = {str(d["id"]): normalizar_doc(d) for d in docs}
 
+    plantillas = {}
+    ids_plantilla: set[str] = set()
     for base in PARTES:
-        orig_json_path = plantilla_path / f"{base}.json"
-        orig = json.loads(orig_json_path.read_text(encoding="utf-8"))
+        plantillas[base] = json.loads((plantilla_path / f"{base}.json").read_text(encoding="utf-8"))
+        ids_plantilla.update(str(d["id"]) for d in plantillas[base]["documents"])
+    faltan = ids_plantilla - set(por_id)
+    sobran = set(por_id) - ids_plantilla
+    if faltan or sobran:
+        raise ValueError(
+            f"guardar() no agrega ni quita películas: faltan {len(faltan)} {sorted(faltan)[:5]}, "
+            f"sobran {len(sobran)} {sorted(sobran)[:5]}. No se escribió nada."
+        )
+
+    escritos: list[tuple[pathlib.Path, pathlib.Path]] = []
+    for base in PARTES:
+        orig = plantillas[base]
         ids_parte = [str(d["id"]) for d in orig["documents"]]
-        part_docs = [por_id[doc_id] for doc_id in ids_parte if doc_id in por_id]
+        part_docs = [por_id[doc_id] for doc_id in ids_parte]
 
         out_obj = {
             "index": orig["index"],
@@ -214,8 +264,14 @@ def guardar(
             "documents": part_docs,
         }
         texto_json = json.dumps(out_obj, indent=1, ensure_ascii=False) + "\n"
-        (destino_path / f"{base}.json").write_bytes(texto_json.encode("utf-8"))
-        _escribir_csv(destino_path / f"{base}.csv", part_docs)
+        tmp_json = destino_path / f"{base}.json.tmp"
+        tmp_csv = destino_path / f"{base}.csv.tmp"
+        tmp_json.write_bytes(texto_json.encode("utf-8"))
+        _escribir_csv(tmp_csv, part_docs)
+        escritos += [(tmp_json, destino_path / f"{base}.json"), (tmp_csv, destino_path / f"{base}.csv")]
+    # Las 14 partes ya están completas en disco: recién ahora se reemplazan los originales.
+    for tmp, final in escritos:
+        os.replace(tmp, final)
 
 
 def verificar() -> int:

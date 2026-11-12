@@ -127,11 +127,11 @@ def actualizar_estado_tsv(ruta_estado: pathlib.Path, cambios: list[dict[str, Any
                 break
 
         if not actualizada and _es_correccion(motivo):
+            # La fila conserva su lote original, para saber de dónde venía el error; el motivo nombra la corrección.
             for fila in filas:
                 if fila["id"] == doc_id:
-                    fila["lote"] = lote_id
                     fila["resultado"] = nuevo_res
-                    fila["motivo"] = motivo
+                    fila["motivo"] = f"{motivo} ({lote_id})"
                     actualizada = True
                     break
 
@@ -184,6 +184,11 @@ def aplicar_lote(
         campo = str(c["campo"])
         antes_esp = str(c["antes_sha256"])
         nuevo_val = c["nuevo"]
+
+        try:
+            catalogo.validar_cambio(campo, nuevo_val)
+        except ValueError as exc:
+            raise ValueError(f"{ruta_lote.name}:{idx}: id={doc_id}: {exc}. Se rechaza el lote completo.") from exc
 
         val_actual = catalogo.obtener_campo(doc, campo)
         sha_actual = catalogo.sha(val_actual)
@@ -314,7 +319,31 @@ def verificar_en_work() -> int:
     assert (cat_dir / "elastiflix-reloaded_01.json").read_bytes() == bytes_tras_paso_2
     assert estado_path.read_text(encoding="utf-8") == estado_tras_paso_1
 
-    print("Verificación T-04 en work/prueba_lote/: OK (aplicación, idempotencia y rechazo por antes_sha256).")
+    # Pasos 4 y 5 (R-01): un campo que no existe y un enrichment que no es texto rechazan el lote sin tocar nada
+    for paso, campo, valor in ((4, "plt", "errata"), (5, "enrichment.plot", 123)):
+        lote_malo = cambios_dir / f"lote-00{paso}-invalido.jsonl"
+        linea = dict(lineas_lote[0], lote=f"lote-00{paso}", campo=campo, nuevo=valor,
+                     antes_sha256=catalogo.sha(catalogo.obtener_campo(catalogo.cargar(cat_dir)["11"], campo)))
+        lote_malo.write_text(json.dumps(linea, ensure_ascii=False) + "\n", encoding="utf-8")
+        try:
+            aplicar_lote(lote_malo, catalogo_dir=cat_dir, ruta_estado=estado_path)
+            raise AssertionError(f"Paso {paso}: el lote con {campo}={valor!r} NO fue rechazado")
+        except ValueError as exc:
+            print(f"[RECHAZO ESPERADO] {exc}")
+        assert (cat_dir / "elastiflix-reloaded_01.json").read_bytes() == bytes_tras_paso_2
+
+    # Paso 6 (R-01): guardar() con una película de menos no escribe nada
+    incompleto = catalogo.cargar(cat_dir)
+    incompleto.pop("11")
+    try:
+        catalogo.guardar(incompleto, destino=cat_dir, plantilla_dir=cat_dir)
+        raise AssertionError("Paso 6: guardar() aceptó un catálogo con una película de menos")
+    except ValueError as exc:
+        print(f"[RECHAZO ESPERADO] {exc}")
+    assert (cat_dir / "elastiflix-reloaded_01.json").read_bytes() == bytes_tras_paso_2
+
+    print("Verificación T-04 en work/prueba_lote/: OK (aplicación, idempotencia, rechazo por antes_sha256, "
+          "campo desconocido, enrichment no textual y catálogo incompleto).")
     return 0
 
 
