@@ -1,5 +1,6 @@
-# Lista de permitidos: al contexto de la imagen solo entra lo necesario para compilar y probar.
-# Así .env, target/, data/ y las pruebas de navegador nunca llegan a la imagen.
+# Lista de permitidos: al contexto solo entra lo necesario para compilar y probar.
+# .env, target/ y las pruebas de navegador quedan fuera. data/ entra en la etapa de
+# compilación porque las pruebas leen el catálogo; la imagen final no lo copia.
 *
 !pom.xml
 !mvnw
@@ -7,5 +8,6 @@
 !config/
 !elasticsearch/
 !eval/
+!data/
 !src/
 src/test/browser/
