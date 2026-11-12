@@ -55,7 +55,7 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
 
 Estos datos se publican con fines exclusivamente académicos y demostrativos, sin ningún lucro comercial. Los créditos
 de la información corresponden a [TMDB](https://www.themoviedb.org/) (datos de las películas y pósters) y a
-[Wikipedia](https://www.wikipedia.org/) (textos de las películas, bajo la licencia
+[Wikipedia](https://www.wikipedia.org/) (las sinopsis con `enrichment.plot = wikipedia_plot_…`, bajo la licencia
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es)). *This product uses the TMDB API but is not endorsed or certified by TMDB.*
 
 ---
@@ -93,7 +93,7 @@ you prefer.
 
   | Value | Meaning |
   |---|---|
-  | `wikipedia_plot_AAAA-MM-DD` | Plot section of the Wikipedia article, downloaded on that date |
+  | `wikipedia_plot_YYYY-MM-DD` | Plot section of the Wikipedia article, downloaded on that date |
   | `tmdb_overview` | TMDB overview |
   | `tmdb_overview_translated:<lang>` | Translated TMDB overview (one movie, `zh-CN`) |
   | `tmdb_metadata_summary` | Summary built from TMDB metadata (one movie) |
@@ -105,5 +105,5 @@ you prefer.
 
 This data is published for academic and demonstration purposes only, with no commercial profit. Credit for the
 information goes to [TMDB](https://www.themoviedb.org/) (movie data and posters) and to
-[Wikipedia](https://www.wikipedia.org/) (movie texts, under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license). *This product uses
+[Wikipedia](https://www.wikipedia.org/) (the synopses tagged `enrichment.plot = wikipedia_plot_…`, under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license). *This product uses
 the TMDB API but is not endorsed or certified by TMDB.*

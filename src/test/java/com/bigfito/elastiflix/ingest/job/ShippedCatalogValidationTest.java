@@ -58,6 +58,9 @@ class ShippedCatalogValidationTest {
 
         assertThat(fromJson).hasSize(MOVIES).isEqualTo(fromCsv);
         assertThat(fromJson).filteredOn(movie -> movie.enrichment() != null).hasSize(WITH_TAGS);
+        assertThat(fromJson).allSatisfy(movie -> assertThat(movie.enrichment().get("plot"))
+                .as("enrichment.plot de %s", movie.id())
+                .isNotBlank());
     }
 
     private List<Movie> accept(Path part, FileKind kind) {
