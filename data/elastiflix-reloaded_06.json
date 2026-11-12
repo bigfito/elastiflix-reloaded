@@ -555,6 +555,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "wikidata",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -871,6 +872,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -1369,6 +1371,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -1456,6 +1459,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -1560,6 +1564,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -1889,6 +1894,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -2137,6 +2143,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -2487,6 +2494,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -2567,6 +2575,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -2790,6 +2799,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -3206,6 +3216,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -3266,6 +3277,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -3382,6 +3394,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -3453,6 +3466,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -3624,6 +3638,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -3917,6 +3932,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -4001,6 +4017,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -4265,6 +4282,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -4493,6 +4511,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -4580,6 +4599,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -4701,6 +4721,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -4790,6 +4811,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -5370,6 +5392,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -5674,6 +5697,7 @@
     "Český"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -5789,6 +5813,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -5894,6 +5919,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -5978,6 +6004,7 @@
     "suomi"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -6177,6 +6204,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -6467,6 +6495,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -6548,6 +6577,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -6634,6 +6664,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -6739,6 +6770,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -7056,6 +7088,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "production_companies": "tmdb_api_2026-10-22",
     "production_countries": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -7156,6 +7189,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -7337,6 +7371,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -7439,6 +7474,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -7638,6 +7674,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -7751,6 +7788,7 @@
     "Português"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -7929,6 +7967,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -8041,6 +8080,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -8113,6 +8153,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -8288,6 +8329,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -8532,6 +8574,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -8761,6 +8804,7 @@
     "Deutsch"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -9202,6 +9246,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -9281,6 +9326,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "production_countries": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -9465,6 +9511,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -9816,6 +9863,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -9981,6 +10029,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -10053,6 +10102,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -10149,6 +10199,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -10323,6 +10374,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -10584,6 +10636,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -10879,6 +10932,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -10957,6 +11011,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -11225,6 +11280,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -11543,6 +11599,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -11652,6 +11709,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -11728,6 +11786,7 @@
    "enrichment": {
     "homepage": "wikidata",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -11807,6 +11866,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -12000,6 +12060,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -12166,6 +12227,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -12336,6 +12398,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox_range_midpoint",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -12682,6 +12745,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -13105,6 +13169,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -13530,6 +13595,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -13610,6 +13676,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -13753,6 +13820,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -13822,6 +13890,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -14072,6 +14141,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -14168,6 +14238,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -14314,6 +14385,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "production_companies": "tmdb_api_2026-10-22",
     "production_countries": "tmdb_api_2026-10-22",
     "tagline": "tmdb_api_2026-10-22",
@@ -14495,6 +14567,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -14738,6 +14811,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -14875,6 +14949,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -15121,6 +15196,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -15450,6 +15526,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -15627,6 +15704,7 @@
     "हिन्दी"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox_fx:INR:2018",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -15788,6 +15866,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -15878,6 +15957,7 @@
     "हिन्दी"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox_fx:INR:2022",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -16029,6 +16109,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -16618,6 +16699,7 @@
     "Deutsch"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -17060,6 +17142,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -17325,6 +17408,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -17942,6 +18026,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -18282,6 +18367,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -18442,6 +18528,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -18539,6 +18626,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -18973,6 +19061,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -19336,6 +19425,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -19722,6 +19812,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -19818,6 +19909,7 @@
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "runtime": "tmdb_api_2026-10-22",
     "tagline": "tmdb_api_2026-10-22",
@@ -19920,6 +20012,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -20017,6 +20110,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -20494,6 +20588,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -20599,6 +20694,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -20805,6 +20901,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -20995,6 +21092,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -21084,6 +21182,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -21288,6 +21387,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -21452,6 +21552,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -21627,6 +21728,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -21878,6 +21980,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -21991,6 +22094,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -22245,6 +22349,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -22466,6 +22571,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -22634,6 +22740,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -22742,6 +22849,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -22909,6 +23017,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -23059,6 +23168,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -23207,6 +23317,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -23437,6 +23548,7 @@
     "普通话"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -23627,6 +23739,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -23753,6 +23866,7 @@
     "ελληνικά"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -23942,6 +24056,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -24041,6 +24156,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -24124,6 +24240,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -24397,6 +24514,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -24688,6 +24806,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -24961,6 +25080,7 @@
     "Malti"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -25136,6 +25256,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -25538,6 +25659,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -25640,6 +25762,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -25821,6 +25944,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -25938,6 +26062,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -26403,6 +26528,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -26615,6 +26741,7 @@
     "Italiano"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -26950,6 +27077,7 @@
    ],
    "enrichment": {
     "budget": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -27166,6 +27294,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -27297,6 +27426,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -27405,6 +27535,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -27936,6 +28067,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -28169,6 +28301,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -28372,6 +28505,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -28609,6 +28743,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -28862,6 +28997,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -29357,6 +29493,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -29458,6 +29595,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -29736,6 +29874,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -30171,6 +30310,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -30246,6 +30386,7 @@
     "广州话 / 廣州話"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -30410,6 +30551,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -30490,6 +30632,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -30701,6 +30844,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -30768,6 +30912,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -30885,6 +31030,7 @@
     "Hrvatski"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -31053,6 +31199,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -31218,6 +31365,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -31301,6 +31449,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -31457,6 +31606,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -31786,6 +31936,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -32010,6 +32161,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -32320,6 +32472,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -32460,6 +32613,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -32561,6 +32715,7 @@
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "budget": "tmdb_api_2026-10-22",
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -32658,6 +32813,7 @@
     "suomi"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -32836,6 +32992,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -33315,6 +33472,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -33435,6 +33593,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -33691,6 +33850,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -33778,6 +33938,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -33860,6 +34021,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -34199,6 +34361,7 @@
     "svenska"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -34268,6 +34431,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -34385,6 +34549,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -34482,6 +34647,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -34622,6 +34788,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -34767,6 +34934,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -35041,6 +35209,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -35413,6 +35582,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -35515,6 +35685,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -35600,6 +35771,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -35709,6 +35881,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -35823,6 +35996,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -35915,6 +36089,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -35997,6 +36172,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -36061,6 +36237,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -36181,6 +36358,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -36313,6 +36491,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -36499,6 +36678,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -36659,6 +36839,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -37144,6 +37325,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -37235,6 +37417,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -37352,6 +37535,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -37436,6 +37620,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -37544,6 +37729,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -37656,6 +37842,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -37806,6 +37993,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -37876,6 +38064,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -38001,6 +38190,7 @@
     "Italiano"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -38215,6 +38405,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -38365,6 +38556,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -38720,6 +38912,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -39128,6 +39321,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -39225,6 +39419,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -39297,6 +39492,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -39452,6 +39648,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -39658,6 +39855,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -39798,6 +39996,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -40143,6 +40342,7 @@
    ],
    "spoken_languages": [],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -40404,6 +40604,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -40522,6 +40723,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -40582,6 +40784,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -40787,6 +40990,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -40881,6 +41085,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -41098,6 +41303,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -41571,6 +41777,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -41746,6 +41953,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -41865,6 +42073,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -42197,6 +42406,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -42410,6 +42620,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -42510,6 +42721,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -42623,6 +42835,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -42785,6 +42998,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -42931,6 +43145,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -43121,6 +43336,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -43318,6 +43534,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -43907,6 +44124,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -44041,6 +44259,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -44207,6 +44426,7 @@
     "svenska"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -44480,6 +44700,7 @@
     "Deutsch"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -44604,6 +44825,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -44706,6 +44928,7 @@
    ],
    "enrichment": {
     "budget": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -45134,6 +45357,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -45425,6 +45649,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -45552,6 +45777,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -45642,6 +45868,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -45735,6 +45962,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -45991,6 +46219,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -46083,6 +46312,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -46633,6 +46863,7 @@
     "Tiếng Việt"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -46702,6 +46933,7 @@
    "enrichment": {
     "budget": "wikipedia_infobox",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -46786,6 +47018,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -46888,6 +47121,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -47029,6 +47263,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -47248,6 +47483,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -47360,6 +47596,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -47471,6 +47708,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -47840,6 +48078,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -48079,6 +48318,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -48517,6 +48757,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -48698,6 +48939,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -49113,6 +49355,7 @@
    "enrichment": {
     "budget": "wikipedia_infobox_fx:EUR:2019",
     "homepage": "wikidata",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -49278,6 +49521,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -49410,6 +49654,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -50046,6 +50291,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -50237,6 +50483,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -50360,6 +50607,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -50779,6 +51027,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -51193,6 +51442,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -51264,6 +51514,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -51572,6 +51823,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -51661,6 +51913,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -51813,6 +52066,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -52025,6 +52279,7 @@
     "हिन्दी"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -52191,6 +52446,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -52515,6 +52771,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -52664,6 +52921,7 @@
     "Deutsch"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -52885,6 +53143,7 @@
     "Italiano"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -53192,6 +53451,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -53281,6 +53541,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -53630,6 +53891,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -53728,6 +53990,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -53941,6 +54204,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -54154,6 +54418,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -54328,6 +54593,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -54399,6 +54665,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -54468,6 +54735,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -54555,6 +54823,7 @@
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "budget": "wikipedia_infobox",
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -54633,6 +54902,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -54708,6 +54978,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -54972,6 +55243,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -55080,6 +55352,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -55371,6 +55644,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -55441,6 +55715,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -55516,6 +55791,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -55894,6 +56170,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -55996,6 +56273,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -56094,6 +56372,7 @@
    "enrichment": {
     "budget": "wikidata",
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -56377,6 +56656,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -56434,6 +56714,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "production_companies": "tmdb_api_2026-10-22",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
@@ -56497,6 +56778,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -56582,6 +56864,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -56784,6 +57067,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "production_countries": "wikidata",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "wikipedia_infobox",
@@ -56970,6 +57254,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -57108,6 +57393,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -57237,6 +57523,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -57376,6 +57663,7 @@
     "Türkçe"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -57543,6 +57831,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -57821,6 +58110,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -57888,6 +58178,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -57971,6 +58262,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -58171,6 +58463,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -58511,6 +58804,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -58749,6 +59043,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -58997,6 +59292,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -59139,6 +59435,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -59296,6 +59593,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -59374,6 +59672,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -59603,6 +59902,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -60221,6 +60521,7 @@
     "Italiano"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -60348,6 +60649,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -60484,6 +60786,7 @@
     "普通话"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -60587,6 +60890,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -60711,6 +61015,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "imdb_id": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -60846,6 +61151,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -61784,6 +62090,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -61937,6 +62244,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -62427,6 +62735,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "runtime": "tmdb_api_2026-10-22",
@@ -62641,6 +62950,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -62723,6 +63033,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -62796,6 +63107,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -62925,6 +63237,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -63005,6 +63318,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "production_countries": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -63097,6 +63411,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -63465,6 +63780,7 @@
     "Dansk"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -63556,6 +63872,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -63649,6 +63966,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -63719,6 +64037,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -63831,6 +64150,7 @@
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "imdb_id": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
@@ -63997,6 +64317,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -64076,6 +64397,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "production_companies": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -64219,6 +64541,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -64303,6 +64626,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -64460,6 +64784,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -64569,6 +64894,7 @@
     "普通话"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -64928,6 +65254,7 @@
     "فارسی"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -64993,6 +65320,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -65109,6 +65437,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -65200,6 +65529,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -65439,6 +65769,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "runtime": "tmdb_api_2026-10-22",
@@ -65539,6 +65870,7 @@
     "budget": "tmdb_api_2026-10-22",
     "homepage": "wikidata",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -65851,6 +66183,7 @@
     "Português"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -65998,6 +66331,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -66308,6 +66642,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox_fx:RUB:2020",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -66397,6 +66732,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -66654,6 +66990,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -66717,6 +67054,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox_fx:RUB:2022",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -67094,6 +67432,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -67495,6 +67834,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -67601,6 +67941,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -67698,6 +68039,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox_fx:RUB:2020",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -67814,6 +68156,7 @@
    "enrichment": {
     "budget": "wikipedia_infobox_fx:RUB:2020",
     "homepage": "wikidata",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox_fx:RUB:2020",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -67943,6 +68286,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -68219,6 +68563,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -68401,6 +68746,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -68638,6 +68984,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -68773,6 +69120,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -68880,6 +69228,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -68951,6 +69300,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -69210,6 +69560,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -69310,6 +69661,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -69450,6 +69802,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -69834,6 +70187,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -70283,6 +70637,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -70497,6 +70852,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -70790,6 +71146,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -71130,6 +71487,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -71278,6 +71636,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -71470,6 +71829,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -71567,6 +71927,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -71711,6 +72072,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox_range_midpoint",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -71796,6 +72158,7 @@
    ],
    "enrichment": {
     "budget": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -71854,6 +72217,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -71931,6 +72295,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox_fx:KRW:2021",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -72065,6 +72430,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -72312,6 +72678,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -72445,6 +72812,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -72582,6 +72950,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -72757,6 +73126,7 @@
     "Deutsch"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -72859,6 +73229,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -73056,6 +73427,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -73368,6 +73740,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -73554,6 +73927,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -73755,6 +74129,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -73833,6 +74208,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -73943,6 +74319,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -74008,6 +74385,7 @@
     "普通话"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -74101,6 +74479,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -74169,6 +74548,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -74298,6 +74678,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -74407,6 +74788,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -74486,6 +74868,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -74626,6 +75009,7 @@
     "Polski"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -74733,6 +75117,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -74812,6 +75197,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -74936,6 +75322,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -75047,6 +75434,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -75157,6 +75545,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -75267,6 +75656,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -75387,6 +75777,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -75564,6 +75955,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -75652,6 +76044,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -75727,6 +76120,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -75811,6 +76205,7 @@
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -75997,6 +76392,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox_fx:JPY:2019",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -76207,6 +76603,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -76310,6 +76707,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -76669,6 +77067,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -76766,6 +77165,7 @@
     "Deutsch"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -76887,6 +77287,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -76984,6 +77385,7 @@
    "enrichment": {
     "budget": "wikipedia_infobox",
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -77049,6 +77451,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -77160,6 +77563,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -77243,6 +77647,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "tagline": "tmdb_api_2026-10-22",
@@ -77414,6 +77819,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -77532,6 +77938,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -77595,6 +78002,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -77654,6 +78062,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -77901,6 +78310,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "wikidata",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
@@ -78010,6 +78420,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -78100,6 +78511,7 @@
     "Italiano"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -78339,6 +78751,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -78624,6 +79037,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -78847,6 +79261,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -78918,6 +79333,7 @@
    ],
    "enrichment": {
     "cast": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
@@ -79020,6 +79436,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -79120,6 +79537,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -79252,6 +79670,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -79529,6 +79948,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -79642,6 +80062,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -79719,6 +80140,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -79968,6 +80390,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "production_companies": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -80292,6 +80715,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -80396,6 +80820,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -80659,6 +81084,7 @@
    ],
    "enrichment": {
     "budget": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -81063,6 +81489,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -81297,6 +81724,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -81401,6 +81829,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -81601,6 +82030,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -81896,6 +82326,7 @@
     "budget": "wikipedia_infobox",
     "homepage": "tmdb_api_2026-10-22",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -82021,6 +82452,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -82136,6 +82568,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikidata",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -82319,6 +82752,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -82398,6 +82832,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "runtime": "tmdb_api_2026-10-22",
@@ -82462,6 +82897,7 @@
     "普通话"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -82678,6 +83114,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -82793,6 +83230,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -82909,6 +83347,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -82985,6 +83424,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -83180,6 +83620,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -83437,6 +83878,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -83545,6 +83987,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -83639,6 +84082,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -83839,6 +84283,7 @@
    ],
    "enrichment": {
     "budget": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -83955,6 +84400,7 @@
     "Deutsch"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -84190,6 +84636,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -84268,6 +84715,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -84442,6 +84890,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -84539,6 +84988,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -84608,6 +85058,7 @@
     "Português"
    ],
    "enrichment": {
+    "plot": "unverified",
     "production_companies": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -84694,6 +85145,7 @@
     "Latin"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -84785,6 +85237,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -84869,6 +85322,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "runtime": "tmdb_api_2026-10-22",
@@ -84984,6 +85438,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85096,6 +85551,7 @@
    "enrichment": {
     "budget": "wikipedia_infobox",
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85262,6 +85718,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85316,6 +85773,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -85428,6 +85886,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85519,6 +85978,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85622,6 +86082,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85915,6 +86376,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85979,6 +86441,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox_fx:EUR:2021",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -86073,6 +86536,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -86263,6 +86727,7 @@
     "Português"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -86380,6 +86845,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -86503,6 +86969,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -86626,6 +87093,7 @@
     "budget": "tmdb_api_2026-10-22",
     "homepage": "tmdb_api_2026-10-22",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "runtime": "tmdb_api_2026-10-22",
@@ -86902,6 +87370,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -87193,6 +87662,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -87312,6 +87782,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -87518,6 +87989,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -87932,6 +88404,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -88070,6 +88543,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -88194,6 +88668,7 @@
     "budget": "tmdb_api_2026-10-22",
     "homepage": "tmdb_api_2026-10-22",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "poster_path": "tmdb_api_2026-10-22",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
@@ -88292,6 +88767,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -88534,6 +89010,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -88747,6 +89224,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -89020,6 +89498,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -89209,6 +89688,7 @@
     "Italiano"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -89379,6 +89859,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -89750,6 +90231,7 @@
     "svenska"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -89882,6 +90364,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -89940,6 +90423,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -90632,6 +91116,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -90837,6 +91322,7 @@
     "العربية"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -90992,6 +91478,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -91407,6 +91894,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -91540,6 +92028,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -92063,6 +92552,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -92300,6 +92790,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -92420,6 +92911,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -92696,6 +93188,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -92925,6 +93418,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -93001,6 +93495,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -93069,6 +93564,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -93170,6 +93666,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -93235,6 +93732,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox_fx:TWD:2019",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox_fx:TWD:2019",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -93307,6 +93805,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -93361,6 +93860,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -93453,6 +93953,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -93659,6 +94160,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -93743,6 +94245,7 @@
     "Norsk"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -94195,6 +94698,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -94528,6 +95032,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -94978,6 +95483,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -95175,6 +95681,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -95290,6 +95797,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -95767,6 +96275,7 @@
    "enrichment": {
     "budget": "wikipedia_infobox",
     "homepage": "wikidata",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -95957,6 +96466,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -96024,6 +96534,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -96153,6 +96664,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -96367,6 +96879,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -96471,6 +96984,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -96584,6 +97098,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -96685,6 +97200,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -96757,6 +97273,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -96843,6 +97360,7 @@
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -96972,6 +97490,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -97475,6 +97994,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -97536,6 +98056,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -97818,6 +98339,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -98042,6 +98564,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -98112,6 +98635,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -98292,6 +98816,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -98617,6 +99142,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -98829,6 +99355,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -99020,6 +99547,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -99107,6 +99635,7 @@
     "Pусский"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -99209,6 +99738,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -99320,6 +99850,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -99486,6 +100017,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -99595,6 +100127,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -99991,6 +100524,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -100078,6 +100612,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -100237,6 +100772,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -100319,6 +100855,7 @@
     "普通话"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -100525,6 +101062,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -100578,6 +101116,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -100690,6 +101229,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -100753,6 +101293,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "production_countries": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -100840,6 +101381,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -100912,6 +101454,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
@@ -101060,6 +101603,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -101222,6 +101766,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -101284,6 +101829,7 @@
     "Magyar"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -101479,6 +102025,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -101715,6 +102262,7 @@
     "普通话"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -101824,6 +102372,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -101965,6 +102514,7 @@
    "enrichment": {
     "budget": "wikidata",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -102066,6 +102616,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -102121,6 +102672,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -102214,6 +102766,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "tmdb_api_2026-10-22",
     "runtime": "tmdb_api_2026-10-22",
@@ -102376,6 +102929,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -102487,6 +103041,7 @@
     "Français"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -102593,6 +103148,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -102664,6 +103220,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -102756,6 +103313,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -102925,6 +103483,7 @@
     "日本語"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -103019,6 +103578,7 @@
    "enrichment": {
     "homepage": "wikidata",
     "imdb_id": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -103166,6 +103726,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -103421,6 +103982,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -103621,6 +104183,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -103805,6 +104368,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -104244,6 +104808,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -104359,6 +104924,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -104454,6 +105020,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -104550,6 +105117,7 @@
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "budget": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -104737,6 +105305,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -104911,6 +105480,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -105020,6 +105590,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "keywords": "tmdb_api_2026-10-22",
+    "plot": "unverified",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22",
     "vote_average": "tmdb_api_2026-10-22",
@@ -105087,6 +105658,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -105204,6 +105776,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -105271,6 +105844,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -105364,6 +105938,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -105426,6 +106001,7 @@
     "Español"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -105801,6 +106377,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "unverified",
     "user_score": "tmdb_api_2026-10-22"
    }
   }
