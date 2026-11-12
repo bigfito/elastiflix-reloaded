@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.bigfito.elastiflix.core.error.ErrorCode;
 import com.bigfito.elastiflix.core.mapping.IndexMapping;
 import com.bigfito.elastiflix.core.model.Movie;
 import com.bigfito.elastiflix.ingest.csv.CsvMovieReader;
@@ -60,10 +59,9 @@ class ShippedCatalogValidationTest {
                 .extracting(Movie::enrichment)
                 .isNull();
         assertThat(csvWarnings).isEqualTo(jsonWarnings);
-        assertThat(jsonWarnings).containsExactlyInAnyOrderEntriesOf(Map.of(
-                ErrorCode.DUPLICATE_LIST_VALUE.code(), 268,
-                ErrorCode.SUSPECT_PLOT.code(), 686,
-                ErrorCode.DUPLICATE_PLOT.code(), 1));
+        assertThat(jsonWarnings)
+                .as("EFX-ING-023, 024, 025, 026 y 027")
+                .isEmpty();
     }
 
     private List<Movie> readJson(Path file, Map<String, Integer> warnings) {

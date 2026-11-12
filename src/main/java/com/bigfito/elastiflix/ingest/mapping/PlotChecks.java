@@ -16,8 +16,9 @@ import tools.jackson.databind.JsonNode;
  * Revisa {@code plot}: rechaza un marcador o un texto de menos de {@value #MIN_PLOT_LENGTH} caracteres,
  * y avisa (sin rechazar) de restos de un modelo o de una sinopsis repetida en el archivo.
  *
- * <p>Un error rechaza el archivo completo. El catálogo que se publica todavía tiene sinopsis compartidas
- * y frases de un modelo, así que esas dos revisiones son advertencias.</p>
+ * <p>Un error rechaza el archivo completo. Una frase de asistente, markdown o una aclaración de ficha
+ * se avisan: rechazarlas tiraría el archivo entero. La aclaración «, not Nombre» solo cuenta justo
+ * después de «directed by» o «produced by»; «unable to find work» y un «, not» de la historia no.</p>
  */
 final class PlotChecks {
 
@@ -27,12 +28,22 @@ final class PlotChecks {
     private static final Pattern PLACEHOLDER = Pattern.compile(
             "(?i)^\\[?\\s*no information found\\s*\\]?$");
     private static final Pattern ASSISTANT = Pattern.compile(
-            "(?i)\\b(?:i )?(?:couldn'?t|could not|was unable to|unable to) find\\b"
-                    + "|knowledge cutoff|as of my (?:last )?(?:knowledge|update|training)"
-                    + "|\\bi'?m sorry\\b|\\bi apologi[sz]e\\b");
+            "(?i)\\bI (?:couldn't|could not|was unable to) find\\b"
+                    + "|find any information"
+                    + "|knowledge cutoff"
+                    + "|as of my (?:last )?(?:knowledge|update|training)"
+                    + "|\\bi'?m sorry\\b"
+                    + "|\\bi apologi[sz]e\\b");
     private static final Pattern MARKDOWN_BOLD = Pattern.compile("\\*\\*");
     private static final Pattern MARKDOWN_HEADING = Pattern.compile("(?m)^#+ ");
-    private static final Pattern NOT_CLARIFICATION = Pattern.compile(", not [A-Z][A-Za-z0-9.'&-]{0,40}");
+    private static final Pattern CREDIT = Pattern.compile("(?i)\\b(?:directed|produced) by\\b");
+    private static final Pattern NOT_NAME = Pattern.compile(", not [A-Z][A-Za-z0-9.'&-]{0,40}");
+
+    /**
+     * Caracteres entre «directed by» o «produced by» y «, not Nombre».
+     * 160 cubre la aclaración más larga que sí era un resto (id 249070, a 153).
+     */
+    private static final int NOT_WINDOW = 160;
     private static final Pattern SPACES = Pattern.compile("\\s+");
     private static final String SHA_256 = "SHA-256";
 
@@ -94,9 +105,25 @@ final class PlotChecks {
             found = markdown(plot);
         }
         if (found == null) {
-            found = first(NOT_CLARIFICATION, plot);
+            found = notClarification(plot);
         }
         return found;
+    }
+
+    /**
+     * «directed by …, not Estudio» o «produced by …, not Estudio».
+     * Un «, not» suelto, como el de una historia, no cuenta.
+     */
+    private static String notClarification(String plot) {
+        Matcher credit = CREDIT.matcher(plot);
+        while (credit.find()) {
+            int from = credit.end();
+            Matcher correction = NOT_NAME.matcher(plot);
+            if (correction.find(from) && correction.start() <= from + NOT_WINDOW) {
+                return IssueTexts.clip(correction.group());
+            }
+        }
+        return null;
     }
 
     private static String markdown(String plot) {
