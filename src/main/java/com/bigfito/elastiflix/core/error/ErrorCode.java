@@ -257,13 +257,13 @@ public enum ErrorCode {
     DUPLICATE_LIST_VALUE("EFX-ING-024", "Un valor repetido dentro de una lista se omitió",
             "El mismo texto, o la misma palabra clave, ya estaba en la lista",
             "Deja cada valor una sola vez; se conserva el primero"),
-    /** La sinopsis es un marcador o no llega a 40 caracteres. Rechaza el archivo. */
-    PLACEHOLDER_PLOT("EFX-ING-025", "La sinopsis no sirve: es un marcador o es demasiado corta",
-            "plot dice que no hay información, o tiene menos de 40 caracteres",
+    /** La sinopsis es un marcador, abre con una negativa del asistente o no llega a 40 caracteres. Rechaza. */
+    PLACEHOLDER_PLOT("EFX-ING-025", "La sinopsis no sirve: es un marcador, abre con una negativa o es demasiado corta",
+            "Empieza con «no match found», «I don't have information» o «please provide», o tiene menos de 40",
             "Escribe una sinopsis real de al menos 40 caracteres"),
     /** La sinopsis parece traer restos de un modelo. No rechaza el archivo. */
     SUSPECT_PLOT("EFX-ING-026", "La sinopsis parece traer restos de un modelo de lenguaje",
-            "El texto incluye una fórmula de asistente, markdown o «, not» tras «directed by» o «produced by»",
+            "Asistente, «is a 2004 film, not 2005», «here's a summary», markdown o «, not» tras un crédito",
             "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
     /** La misma sinopsis está en otra película del archivo. No rechaza el archivo. */
     DUPLICATE_PLOT("EFX-ING-027", "La sinopsis coincide con la de otra película del archivo",
@@ -271,7 +271,7 @@ public enum ErrorCode {
             "Si es un error, escribe una sinopsis propia; si no hay otra fuente, se puede cargar igual"),
     /** La sinopsis parece un ensayo de temas. No rechaza el archivo. */
     ESSAY_PLOT("EFX-ING-028", "La sinopsis parece un ensayo de temas de un modelo",
-            "Habla de «main themes», de «the main theme of» o encabeza una lista de temas",
+            "«main themes», «at its core», «explores the theme of», «delves into the complexities» o una lista",
             "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
     /** {@code document_count} no coincide con la lista {@code documents}. */
     DOCUMENT_COUNT_MISMATCH("EFX-ING-008",

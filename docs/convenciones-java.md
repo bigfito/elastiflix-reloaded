@@ -199,7 +199,7 @@ public class ElastiflixApplication {
 | Conexión e índice | `EFX-ES` | sin conexión, alias inexistente |
 | Embeddings | `EFX-EMB` | endpoint de inferencia no disponible, dimensión inesperada |
 | Búsqueda | `EFX-SRCH` | `num_candidates < k`, full-text con `from ≥ 10 000`, consulta vacía |
-| Validación de archivo | `EFX-ING` | extensión no permitida, más de 25 MB, no es UTF-8, no coincide con el mapping, sinopsis marcador o corta (`EFX-ING-025`); un cero desconocido, un repetido en una lista, restos de un modelo, un ensayo de temas o una sinopsis repetida en el archivo son advertencias (`EFX-ING-023`, `024`, `026`, `027`, `028`) |
+| Validación de archivo | `EFX-ING` | extensión no permitida, más de 25 MB, no es UTF-8, no coincide con el mapping, sinopsis marcador, corta o que abre con una negativa del asistente (`EFX-ING-025`: «no match found», «I don't have information», «please provide», solo al inicio); un cero desconocido, un repetido en una lista, restos de un modelo (también «is a 2004 film, not 2005», «please provide more information» y «here's a summary»; una disculpa entre comillas no cuenta), un ensayo de temas («at its core», «explores the theme of», «delves into the complexities», «one of the primary themes»; no «the complexities of» ni «delves into the struggle») o una sinopsis repetida en el archivo son advertencias (`EFX-ING-023`, `024`, `026`, `027`, `028`) |
 | Importación | `EFX-IMP` | lote rechazado, conteo no cuadra, alias no cambiado |
 
 - **Formato del mensaje:** `<código> · <qué pasó>. Causa probable: <…>. Acción sugerida: <…>.`
