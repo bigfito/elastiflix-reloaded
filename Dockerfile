@@ -11,6 +11,8 @@ COPY config/ config/
 COPY elasticsearch/ elasticsearch/
 # Las pruebas unitarias validan los juicios y los mínimos del harness de relevancia; no pasan a la etapa 2.
 COPY eval/ eval/
+# Las pruebas unitarias aceptan las 14 partes del catálogo; no pasan a la etapa 2.
+COPY data/ data/
 COPY src/ src/
 RUN ./mvnw -B verify && cp target/elastiflix-reloaded-*.jar /workspace/app.jar
 
