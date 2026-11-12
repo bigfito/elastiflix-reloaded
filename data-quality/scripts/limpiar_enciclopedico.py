@@ -286,6 +286,19 @@ def proponer(
     return 0
 
 
+def _catalogo_en(etiqueta: str) -> dict[str, dict[str, Any]]:
+    """Catálogo tal como estaba en una etiqueta de git (solo lectura; no toca data/)."""
+    import subprocess
+    import tempfile
+
+    tmp = pathlib.Path(tempfile.mkdtemp(prefix="dq-catalogo-"))
+    for base in catalogo.PARTES:
+        contenido = subprocess.run(["git", "-C", str(catalogo.REPO), "show", f"{etiqueta}:data/{base}.json"],
+                                   capture_output=True, check=True).stdout
+        (tmp / f"{base}.json").write_bytes(contenido)
+    return catalogo.cargar(tmp)
+
+
 def comprobar() -> None:
     """Ejecuta pruebas unitarias de `limpiar()` y la prueba sobre 5 sinopsis reales en `work/` (WP-05 T-01)."""
     # 1. Pruebas unitarias de `limpiar(texto)`
@@ -318,7 +331,29 @@ def comprobar() -> None:
     for parrafo in dividir_parrafos(resultado):
         _exigir(parrafo in dividir_parrafos(texto_completo), "Nunca debe cortar dentro de un párrafo")
 
-    # 2. Prueba sobre 5 sinopsis reales del catálogo en work/prueba_limpiar/
+    # 2a. limpiar() sobre 5 sinopsis reales tal como estaban al empezar el plan (etiqueta dq-r00), que no cambian
+    #     aunque WP-02 o WP-05 ya hayan reemplazado esas películas en data/ (R-10).
+    originales = _catalogo_en("dq-r00")
+    for doc_id in IDS_PRUEBA_WORK:
+        original = originales[doc_id]["plot"]
+        nuevo = limpiar(original)
+        _exigir(nuevo is not None, f"{doc_id}: la sinopsis original de dq-r00 debía tener algo que limpiar")
+        _exigir(len(nuevo) >= MIN_CARACTERES, f"{doc_id}: el texto limpio debe tener >= 400 caracteres")
+        _exigir(not es_ficha_inicial(dividir_parrafos(nuevo)[0]), f"{doc_id}: no debe quedar ficha inicial")
+        _exigir(not any(es_taquilla_o_critica(p) for p in dividir_parrafos(nuevo)),
+                f"{doc_id}: no deben quedar párrafos de taquilla o crítica")
+        _exigir(all(p in dividir_parrafos(original) for p in dividir_parrafos(nuevo)),
+                f"{doc_id}: cada párrafo conservado debe ser un párrafo íntegro del original")
+
+    # 2b. Flujo completo en work/prueba_limpiar/ con 5 películas que hoy siguen en unverified y tienen algo que limpiar
+    actuales = catalogo.cargar()
+    candidatas = [i for i, d in actuales.items()
+                  if (d.get("enrichment") or {}).get("plot") == "unverified" and limpiar(d["plot"]) is not None]
+    if len(candidatas) < 5:
+        print(f"Prueba de flujo omitida: solo quedan {len(candidatas)} películas unverified con algo que limpiar.")
+        print("Prueba de limpiar_enciclopedico.py (unitaria + 5 sinopsis reales de dq-r00): OK.")
+        return
+    ids_flujo = tuple(sorted(candidatas, key=int)[:5])
     destino_prueba = WORK / "prueba_limpiar"
     destino_prueba.mkdir(parents=True, exist_ok=True)
     for previo in destino_prueba.glob("lote-*.jsonl"):
@@ -328,11 +363,11 @@ def comprobar() -> None:
         ruta_estado.unlink()
 
     ruta_cinco = destino_prueba / "cinco.tsv"
-    ruta_cinco.write_text("# id\n" + "\n".join(IDS_PRUEBA_WORK) + "\n", encoding="utf-8")
+    ruta_cinco.write_text("# id\n" + "\n".join(ids_flujo) + "\n", encoding="utf-8")
 
     # Simular que proponer_trama.py las dejó en omitido pendientes de limpiar_enciclopedico.py
     filas_iniciales = ["id\tlote\tresultado\tmotivo"]
-    for doc_id in IDS_PRUEBA_WORK:
+    for doc_id in ids_flujo:
         filas_iniciales.append(
             f"{doc_id}\tlote-001\tomitido\tsin trama de Wikipedia; pendiente de limpiar_enciclopedico.py"
         )
@@ -379,7 +414,7 @@ def comprobar() -> None:
         all(f["lote"] == "lote-002" and f["resultado"] == "propuesto" for f in filas_finales),
         "Las 5 filas de estado.tsv deben pasar a propuesto en lote-002",
     )
-    print("Prueba de limpiar_enciclopedico.py (unitaria + 5 sinopsis reales en work/prueba_limpiar): OK.")
+    print(f"Prueba de limpiar_enciclopedico.py (unitaria, 5 sinopsis de dq-r00 y flujo con {', '.join(ids_flujo)}): OK.")
 
 
 def main() -> None:
