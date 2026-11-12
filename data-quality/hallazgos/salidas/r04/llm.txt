@@ -1,0 +1,119 @@
+## firmas de texto de modelo (docs por firma):
+   delves into                                   958
+   thought-provoking                             699
+   complexities of                               931
+   explores the (themes|complexities|world)      919
+   revolves around                               451
+   poignant                                      385
+   heartwarming                                  566
+   Overall, the                                  301
+   In conclusion                                 3
+   serves as a                                   153
+   testament to                                  60
+   human nature                                  272
+   tapestry                                      32
+   navigate(s) the                               313
+   not YEAR / correction                         0
+   no match/please provide                       10
+   film is known for                             5
+
+## docs con >=1 firma: 2103  con >=2 (alta probabilidad de texto generado): 1302
+   por origen de plot (enrichment.plot): Counter({'wikipedia/sin etiqueta': 1302})
+
+## no match / please provide / negaciones: 10
+    ('887 «The Best Years of Our Lives» (1946)', 'unable to find', 'Three returning World War II veterans meet on a flight to their midwestern hometown of Boone City. USAAF bombardier captain Fred Derry had been a drugstore soda')
+    ('36736 «The Drawn Together Movie: The Movie!» (2010)', 'is not a real', 'The Drawn Together Movie: The Movie! is a 2010 American adult animated musical black comedy based on the Comedy Central sitcom Drawn Together. Written and execu')
+    ('111083 «The Body» (2012)', 'there is no record', 'The Body (Spanish: El cuerpo) is a 2012 Spanish psychological thriller directed by Oriol Paulo, from a screenplay he co-wrote with Lara Sendim. José Coronado st')
+    ('167073 «Brooklyn» (2015)', 'Unable to find', "Brooklyn is a 2015 romantic period drama directed by John Crowley and written by Nick Hornby, adapted from Colm Tóibín's 2009 novel. Saoirse Ronan stars as a yo")
+    ('212778 «Chef» (2014)', 'unable to find', 'Chef is a 2014 road comedy-drama film written, produced and directed by Jon Favreau, who stars as Carl Casper, a celebrity chef who starts a food truck business')
+    ('317925 «A la mala» (2015)', 'unable to find', 'A la mala (Spanish for "by foul means") is a 2015 Mexican romantic comedy film directed by Pedro Pablo Ibarra and written by Issa López and Ari Rosen. Starring ')
+    ('577922 «Tenet» (2020)', 'may be confusing', 'Tenet is a 2020 spy thriller film directed by Christopher Nolan, produced by Emma Thomas and Cale Boyter, and written by Nolan.  The story follows a secret agen')
+    ('581726 «Infinite» (2021)', 'unable to find', 'Infinite is a 2021 American science fiction action film directed by Antoine Fuqua from a screenplay by Ian Shorr, based on a story by Todd Stein adapted from D.')
+    ('628914 «Queenpins» (2021)', 'unable to find', 'Queenpins is a 2021 American crime comedy film written and directed by Aron Gaudet and Gita Pullapilly. Kristen Bell and Kirby Howell-Baptiste star as two frien')
+    ('845140 «Kitchen Brigade» (2022)', 'Unable to find', 'Kitchen Brigade (French: La Brigade) is a 2022 French comedy-drama film directed by Louis-Julien Petit, who wrote the screenplay with Liza Benguigui, Sophie Ben')
+
+## correcciones «not YEAR»: 0
+
+## plot nombra protagonistas que no están en cast (posible alucinación): 191
+    ('619 «The Bodyguard» (1992)', ['Kevin Costner. The', "Whitney Houston's"], '2/3')
+    ('670 «Oldboy» (2003)', ['Kim Da-mi'], '1/2')
+    ('824 «Moulin Rouge!» (2001)', ['Ewan McGregor. The'], '1/2')
+    ('924 «Dawn of the Dead» (2004)', ['Mena Suvari'], '1/2')
+    ('1251 «Letters from Iwo Jima» (2006)', ['Kazunari Ninomiya. It'], '1/2')
+    ('1921 «Sweet November» (2001)', ['Anthony Newley', 'Sandy Dennis'], '2/2')
+    ('1992 «Planet Terror» (2007)', ['Freddy Rodr'], '1/2')
+    ('2123 «Me, Myself & Irene» (2000)', ['Jim Carrey. The'], '1/1')
+    ('4550 «Sympathy for Lady Vengeance» (2005)', ['Kim Sun-a'], '1/2')
+    ('7873 «Harsh Times» (2005)', ['Nick Stahl'], '1/2')
+    ('7978 «The Wolfman» (2010)', ['Lon Chaney Jr.'], '1/1')
+    ('8316 «The Countess» (2009)', ['Daniel Br'], '1/1')
+    ('8398 «The Hitcher» (2007)', ['Rutger Hauer', 'C. Thomas Howell', 'Jennifer Jason Leigh.'], '3/3')
+    ("8676 «Fool's Gold» (2008)", ['Kate Hudson.'], '1/2')
+    ('8982 «The Protector» (2005)', ['Jason Statham'], '1/1')
+    ('8999 «Derailed» (2005)', ['Jennifer Aniston.'], '1/2')
+    ('9007 «Just Like Heaven» (2005)', ['Mark Ruffalo.'], '1/2')
+    ('9053 «DOA: Dead or Alive» (2006)', ['Nina Dobrev', 'Daniel Henney'], '2/2')
+    ('9257 «S.W.A.T.» (2003)', ['Keanu Reeves'], '1/2')
+    ('9290 «Crocodile Dundee in Los Angeles» (2001)', ['Paul Hogan. It'], '1/1')
+    ('9470 «Kung Fu Hustle» (2004)', ['Zhang Manzi'], '1/2')
+    ('9757 «Norbit» (2007)', ['Eddie Murphy. The'], '1/1')
+    ('9884 «Collateral Damage» (2002)', ['Antonio Banderas', 'Tom Sizemore'], '2/2')
+    ('9889 «Shallow Hal» (2001)', ['Gwyneth Paltrow. The'], '1/2')
+    ('9893 «Sleepover» (2004)', ['Alexa Vega'], '1/1')
+    ('10214 «Son of the Mask» (2005)', ['Ben Affleck'], '1/2')
+    ('10320 «The Ring Two» (2005)', ['Naomi Watts.'], '1/1')
+    ('10358 «Zack and Miri Make a Porno» (2008)', ['James Franco', 'Katy Perry'], '2/3')
+    ('10628 «Kangaroo Jack» (2003)', ['Chris Farley', 'Simon Baker.'], '2/2')
+    ('10956 «Joe Dirt» (2001)', ['David Spade. The'], '1/1')
+    ('11026 «Exorcist: The Beginning» (2004)', ['Stellan Skarsg'], '1/1')
+    ('11358 «Walking Tall» (2004)', ['The Rock'], '1/1')
+    ('11451 «Herbie Fully Loaded» (2005)', ['Steve Coogan'], '1/2')
+    ('11835 «Death Sentence» (2007)', ['Kevin Costner', 'Lynn Collins'], '2/2')
+    ('12207 «The Legend of Drunken Master» (1994)', ['Jet Li', 'Rosamund Kwan. The'], '2/2')
+    ('13051 «Max Payne» (2008)', ['Jack Lupino'], '1/1')
+    ('13460 «Doomsday» (2008)', ['Elijah Wood'], '1/2')
+    ('13523 «Sex Drive» (2008)', ['Josh Peck'], '1/2')
+    ('13788 «The Unborn» (2009)', ['Aaron Eckhart'], '1/2')
+    ('13811 «Knowing» (2009)', ['Aaron Eckhart'], '1/2')
+
+--- 507569 «The Seven Deadly Sins: Prisoners of the Sky» (2018) 7.5
+The Seven Deadly Sins: Prisoners of the Sky is an anime film that delves into the complexities of human nature, morality, and the consequences of one's actions. The story revolves around Meliodas, a powerful warrior who finds himself trapped in a mysterious realm known as the "Sky," where he must confront his own darkness and the true nature of his existence.
+
+At its core, the film explores the theme of redemption and personal growth. Meliodas, once a hero, is now forced to confront the depths of his own depravity and the harm caused by his actions. This introspection serves as a catalyst for his transformation, as he grapples with the consequences of his past mistakes and seeks a path towards forgiveness and redemption.
+
+The film also touches on the idea of free will versus destiny, raising questions about whether individuals can truly change their fate or if it is predetermined by exte
+
+--- 763568 «Arlo the Alligator Boy» (2021) 7.5
+Arlo the Alligator Boy is an animated film that explores the complexities of identity, community, and acceptance. The story revolves around Arlo, a young alligator boy who struggles to find his place in a world where he doesn't quite fit in with either humans or other alligators.
+
+At its core, the movie delves into themes of self-discovery and belonging. Arlo's journey is a powerful metaphor for navigating the challenges of growing up and finding one's own unique identity. As he navigates the complexities of his mixed heritage, Arlo must confront the expectations of those around him and learn to embrace his individuality.
+
+The film also touches on the importance of community and acceptance. Through Arlo's relationships with the people and creatures in his life, the movie highlights the value of finding a supportive network that celebrates diversity and promotes inclusivity. By exploring 
+
+--- 348892 «Bajrangi Bhaijaan» (2015) 7.0
+Bajrangi Bhaijaan is a heartwarming and thought-provoking film that explores several profound themes. At its core, the movie delves into the complexities of human relationships, love, and acceptance.
+
+One of the primary themes of Bajrangi Bhaijaan is the power of love and compassion. The titular character, Bajrangi, is a kind-hearted and gentle soul who selflessly seeks to reunite his friend with his mother, despite facing numerous obstacles and challenges along the way. His unwavering dedication to this cause serves as a testament to the transformative impact that love can have on individuals and communities.
+
+The film also explores the theme of faith and spirituality, highlighting the importance of understanding and respecting different cultures and beliefs. Bajrangi's journey is marked by his encounters with various characters who embody distinct spiritual traditions, forcing him to c
+
+--- 124157 «The Thieves» (2012) 7
+The Thieves is a 2012 South Korean heist film directed by Suk Kyung-chae. The movie revolves around a group of professional thieves who plan to steal a priceless artifact from a museum in Macau.
+
+At its core, The Thieves explores the themes of loyalty, betrayal, and redemption. The characters are complex and multi-dimensional, with each one having their own motivations and backstories that drive their actions throughout the story. As the heist unfolds, alliances are tested, and old wounds are reopened, leading to a web of deceit and mistrust.
+
+The film also delves into the idea of identity and how it is shaped by our experiences and relationships. The characters are not one-dimensional figures, but rather nuanced individuals with their own strengths and weaknesses. As they navigate the complexities of their heist, they are forced to confront their own demons and question who they truly a
+
+--- 380124 «Boo! A Madea Halloween» (2016) 6.5
+Boo! A Madea Halloween is a comedy horror film that explores the theme of family and the complexities of relationships within it. The movie delves into the idea of how family can both support and suffocate each other, often at the same time.
+
+At its core, Boo! A Madea Halloween is a story about the power of love and acceptance, particularly in the face of adversity. Madea, the protagonist, is a fiercely protective and loving matriarch who will stop at nothing to ensure her family's safety and well-being. Her unwavering dedication to those she cares about serves as a catalyst for the events that unfold.
+
+The film also touches on the theme of identity and how it can be shaped by our relationships with others. Madea, in particular, is a master of reinvention, using her wit and cunning to navigate the complexities of life. Her ability to adapt and evolve serves as a testament to the resilien
+
+--- 420245 «Don't Knock Twice» (2017) 6.5
+Don't Knock Twice is a 2017 supernatural horror film that delves into the darker aspects of human nature and the consequences of meddling with forces beyond one's control. The movie revolves around a young mother, Katie, who embarks on a perilous journey to rescue her son from an evil presence that has taken him.
+
+At its core, Don't Knock Twice explores the theme of desperation and the lengths people will go to for their loved ones. Katie's actions are driven by her unrelenting desire to save her child, which ultimately leads her down a path of self-destruction. The film also touches on the idea of grief and loss, as Katie grapples with the trauma of losing her son and the guilt that comes with it.
+
+The movie also delves into the concept of temptation and the dangers of succumbing to one's darker impulses. As Katie navigates the treacherous world she has entered, she is forced to confron
