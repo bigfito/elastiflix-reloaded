@@ -20,6 +20,10 @@ import tools.jackson.databind.JsonNode;
  * o un ensayo de temas se avisan: rechazarlos tiraría el archivo entero. La aclaración «, not Nombre»
  * solo cuenta justo después de «directed by» o «produced by»; «unable to find work» y un «, not» de la
  * historia no. El ensayo es «main themes», «the main theme of» o una lista de temas cerrada con dos puntos.</p>
+ *
+ * <p>Una disculpa («I'm sorry», «I apologize») entre comillas es diálogo de la película, no un resto de
+ * asistente: se busca en el texto sin las citas. Así pasan las tramas de Wikipedia que la citan, como el globo
+ * de «Two Night Stand» (id 286554).</p>
  */
 final class PlotChecks {
 
@@ -32,9 +36,11 @@ final class PlotChecks {
             "(?i)\\bI (?:couldn't|could not|was unable to) find\\b"
                     + "|find any information"
                     + "|knowledge cutoff"
-                    + "|as of my (?:last )?(?:knowledge|update|training)"
-                    + "|\\bi'?m sorry\\b"
-                    + "|\\bi apologi[sz]e\\b");
+                    + "|as of my (?:last )?(?:knowledge|update|training)");
+    /** Disculpa de asistente. Se busca fuera de las citas: entre comillas es diálogo. */
+    private static final Pattern APOLOGY = Pattern.compile("(?i)\\bi'?m sorry\\b|\\bi apologi[sz]e\\b");
+    /** Una cita entre comillas rectas o tipográficas, dentro de una misma línea. */
+    private static final Pattern QUOTED = Pattern.compile("\"[^\"\\n]*\"|\u201c[^\u201d\\n]*\u201d");
     private static final Pattern MARKDOWN_BOLD = Pattern.compile("\\*\\*");
     private static final Pattern MARKDOWN_HEADING = Pattern.compile("(?m)^#+ ");
     private static final Pattern CREDIT = Pattern.compile("(?i)\\b(?:directed|produced) by\\b");
@@ -116,6 +122,9 @@ final class PlotChecks {
 
     private static String artifact(String plot) {
         String found = first(ASSISTANT, plot);
+        if (found == null) {
+            found = first(APOLOGY, QUOTED.matcher(plot).replaceAll("\"\""));
+        }
         if (found == null) {
             found = markdown(plot);
         }
