@@ -75,6 +75,6 @@ class ScoreJoinerTest {
     private static Movie movie(String id) {
         return new Movie(id, null, id, null, null, null, null, null, null, null,
                 null, null, null, List.of(), null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

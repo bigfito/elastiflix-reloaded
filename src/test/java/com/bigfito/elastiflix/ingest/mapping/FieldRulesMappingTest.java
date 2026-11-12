@@ -28,7 +28,8 @@ class FieldRulesMappingTest {
             "float", Set.of(FieldKind.DECIMAL),
             "date", Set.of(FieldKind.DATE),
             "dense_vector", Set.of(FieldKind.VECTOR),
-            "nested", Set.of(FieldKind.COLLECTION, FieldKind.KEYWORDS));
+            "nested", Set.of(FieldKind.COLLECTION, FieldKind.KEYWORDS),
+            "object", Set.of(FieldKind.TAGS));
 
     private final List<FieldMapping> fields = new IndexMapping().fields();
 
@@ -40,7 +41,7 @@ class FieldRulesMappingTest {
             mapped.add(field.name());
         }
 
-        assertThat(FieldRules.names()).hasSize(33).containsExactlyInAnyOrderElementsOf(mapped);
+        assertThat(FieldRules.names()).hasSize(34).containsExactlyInAnyOrderElementsOf(mapped);
     }
 
     @Test
@@ -52,15 +53,23 @@ class FieldRulesMappingTest {
     }
 
     @Test
-    @DisplayName("los subcampos de la colección y de las palabras clave son los del mapping")
+    @DisplayName("los subcampos de la colección, las palabras clave y la procedencia son los del mapping")
     void shouldAllowTheNestedFieldsOfTheMapping() {
-        assertThat(fields).filteredOn(field -> "nested".equals(field.type())).allSatisfy(field -> {
-            Set<String> allowed = FieldRules.kind(field.name()) == FieldKind.COLLECTION
-                    ? FieldRules.COLLECTION
-                    : FieldRules.KEYWORD;
-            assertThat(allowed).as(field.name()).containsExactlyInAnyOrderElementsOf(field.nestedFields());
-        });
+        assertThat(fields).filteredOn(field -> "nested".equals(field.type()) || "object".equals(field.type()))
+                .allSatisfy(field -> assertThat(allowed(field.name()))
+                        .as(field.name())
+                        .containsExactlyInAnyOrderElementsOf(field.nestedFields()));
         assertThat(FieldRules.kind("belongs_to_collection")).isEqualTo(FieldKind.COLLECTION);
         assertThat(FieldRules.kind("keywords")).isEqualTo(FieldKind.KEYWORDS);
+        assertThat(FieldRules.kind("enrichment")).isEqualTo(FieldKind.TAGS);
+    }
+
+    private static Set<String> allowed(String name) {
+        return switch (FieldRules.kind(name)) {
+            case COLLECTION -> FieldRules.COLLECTION;
+            case KEYWORDS -> FieldRules.KEYWORD;
+            case TAGS -> FieldRules.ENRICHMENT;
+            default -> Set.of();
+        };
     }
 }

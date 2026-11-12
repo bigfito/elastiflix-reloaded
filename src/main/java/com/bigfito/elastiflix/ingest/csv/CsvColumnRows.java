@@ -113,7 +113,8 @@ public final class CsvColumnRows {
         if (CsvValues.isTextList(field.name())) {
             return IngestPhrase.KIND_TEXT_LIST.text();
         }
-        return "nested".equals(field.type()) ? nested(field) : KINDS.getOrDefault(field.type(), field.type());
+        boolean object = "nested".equals(field.type()) || "object".equals(field.type());
+        return object ? nested(field) : KINDS.getOrDefault(field.type(), field.type());
     }
 
     private static String nested(FieldMapping field) {

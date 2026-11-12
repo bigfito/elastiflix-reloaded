@@ -14,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 class IndexMappingTest {
 
-    private static final int FIELD_COUNT = 33;
+    private static final int FIELD_COUNT = 34;
     private static final int PLOT_512_DIMENSIONS = 512;
 
     @Test
-    @DisplayName("expone 33 campos, la fecha yyyy-MM-dd y plot_512 de 512 dimensiones")
+    @DisplayName("expone 34 campos, la fecha yyyy-MM-dd y plot_512 de 512 dimensiones")
     void shouldDescribeTheCatalogWhenMappingIsPackaged() {
         IndexMapping mapping = new IndexMapping();
 
@@ -30,6 +30,12 @@ class IndexMappingTest {
         assertThat(field(mapping, "belongs_to_collection").nestedFields())
                 .containsExactly("backdrop_path", "id", "name", "poster_path");
         assertThat(field(mapping, "keywords").nestedFields()).containsExactly("id", "name");
+        assertThat(field(mapping, "enrichment").type()).isEqualTo("object");
+        assertThat(field(mapping, "enrichment").nestedFields()).containsExactly(
+                "backdrop_path", "belongs_to_collection", "budget", "cast", "genres", "homepage", "imdb_id",
+                "keywords", "overview", "plot", "poster_path", "production_companies", "production_countries",
+                "rating", "revenue", "runtime", "spoken_languages", "tagline", "user_score", "vote_average",
+                "vote_count");
         assertThat(mapping.mappings()).contains("\"plot_512\"");
         assertThat(IndexMapping.class.getResource("/META-INF/spring.factories")).isNotNull();
     }

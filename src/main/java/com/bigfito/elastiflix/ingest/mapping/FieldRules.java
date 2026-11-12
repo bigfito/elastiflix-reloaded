@@ -5,13 +5,40 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Dice la forma de cada uno de los 33 campos del catálogo.
+ * Dice la forma de cada uno de los 34 campos del catálogo.
  */
 final class FieldRules {
 
     static final Set<String> COLLECTION = Set.of(
             "id", "name", "backdrop_path", "poster_path");
     static final Set<String> KEYWORD = Set.of("id", "name");
+
+    /**
+     * Claves de {@code enrichment}: una etiqueta keyword por campo con procedencia.
+     * El orden no importa; la prueba las compara con el mapping.
+     */
+    static final Set<String> ENRICHMENT = Set.of(
+            "backdrop_path",
+            "belongs_to_collection",
+            "budget",
+            "cast",
+            "genres",
+            "homepage",
+            "imdb_id",
+            "keywords",
+            "overview",
+            "plot",
+            "poster_path",
+            "production_companies",
+            "production_countries",
+            "rating",
+            "revenue",
+            "runtime",
+            "spoken_languages",
+            "tagline",
+            "user_score",
+            "vote_average",
+            "vote_count");
 
     private static final Map<String, FieldKind> KINDS = kinds();
 
@@ -30,7 +57,7 @@ final class FieldRules {
         return KINDS.get(name);
     }
 
-    /** Los 33 nombres; una prueba los compara con el mapping empaquetado. */
+    /** Los 34 nombres; una prueba los compara con el mapping empaquetado. */
     static Set<String> names() {
         return KINDS.keySet();
     }
@@ -80,6 +107,7 @@ final class FieldRules {
         map.put("spoken_languages", FieldKind.TEXT_LIST);
         map.put("belongs_to_collection", FieldKind.COLLECTION);
         map.put("keywords", FieldKind.KEYWORDS);
+        map.put("enrichment", FieldKind.TAGS);
         for (String vector : VectorFields.NAMES) {
             map.put(vector, FieldKind.VECTOR);
         }

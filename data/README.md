@@ -7,13 +7,13 @@ Exportación completa del catálogo `elastiflix-reloaded`: **6 899 películas** 
 
 | Parte | Películas | `id` desde – hasta | `.json` | `.csv` |
 |---|---|---|---|---|
-| `elastiflix-reloaded_01` | 986 | 11 – 9965 | 4,6 MB | 3,7 MB |
-| `elastiflix-reloaded_02` | 986 | 9966 – 24238 | 4,1 MB | 3,3 MB |
+| `elastiflix-reloaded_01` | 986 | 11 – 9965 | 4,7 MB | 3,8 MB |
+| `elastiflix-reloaded_02` | 986 | 9966 – 24238 | 4,2 MB | 3,4 MB |
 | `elastiflix-reloaded_03` | 986 | 24271 – 103332 | 4,2 MB | 3,4 MB |
-| `elastiflix-reloaded_04` | 986 | 103370 – 324849 | 4,2 MB | 3,4 MB |
-| `elastiflix-reloaded_05` | 985 | 324852 – 470035 | 4,2 MB | 3,4 MB |
-| `elastiflix-reloaded_06` | 985 | 470044 – 649520 | 4,1 MB | 3,4 MB |
-| `elastiflix-reloaded_07` | 985 | 649918 – 1059999 | 3,8 MB | 3,1 MB |
+| `elastiflix-reloaded_04` | 986 | 103370 – 324849 | 4,3 MB | 3,5 MB |
+| `elastiflix-reloaded_05` | 985 | 324852 – 470035 | 4,3 MB | 3,5 MB |
+| `elastiflix-reloaded_06` | 985 | 470044 – 649520 | 4,2 MB | 3,4 MB |
+| `elastiflix-reloaded_07` | 985 | 649918 – 1059999 | 3,9 MB | 3,2 MB |
 
 ## Cómo usarlos
 
@@ -36,6 +36,10 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
 - **`.csv`:** UTF-8 con BOM, separador coma, encabezado en la primera fila y `\r\n` entre filas. Las listas y los
   objetos anidados van como JSON dentro de la celda; un valor vacío es una celda vacía. Al cargarlo, deja el separador
   en «Coma» y marca «La primera fila contiene los nombres de columna».
+- **Procedencia:** `enrichment` es un objeto opcional al final de cada película. En `.json`, `null` significa que no
+  hay etiquetas (solo la 751432, *Merlin's Apprentice*). En `.csv` es la última columna: JSON compacto, sin espacios,
+  con las claves en el orden del mapping (`{"plot":"tmdb_overview"}`); una celda vacía es null. Es la misma convención
+  que `belongs_to_collection` y `keywords`.
 - Los campos son los del mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «Acerca de» › «El catálogo»
   describe cada uno.
 
@@ -74,6 +78,9 @@ you prefer.
 - **`.csv`:** UTF-8 with BOM, comma separator, a header in the first row, and `\r\n` between rows. Lists and nested
   objects are JSON inside the cell; an empty value is an empty cell. When loading it, keep the separator on «Comma»
   and check «The first row contains the column names».
+- **Provenance:** `enrichment` is an optional object at the end of each movie. In `.json`, `null` means there are no
+  tags (only 751432, *Merlin's Apprentice*). In `.csv` it is the last column: compact JSON, no spaces, keys in mapping
+  order (`{"plot":"tmdb_overview"}`); an empty cell is null. Same convention as `belongs_to_collection` and `keywords`.
 - The fields are those of the mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «About the demo» › «The
   catalog» describes each one.
 
