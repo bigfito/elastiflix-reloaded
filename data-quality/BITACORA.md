@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 19:35 UTC · Claude Code (Claude Opus 5.5) · revisor (R-05)
+**Última actualización:** 2026-11-12 19:27 UTC · GitHub Copilot (Kimi K3) · ejecutor (turno 06)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -23,7 +23,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | REVISADO | 2026-11-12 | `dq-t03` | [R-03](bitacora/R-03.md) |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | REVISADO | 2026-11-12 | `dq-t04` | [R-04](bitacora/R-04.md) |
 | 05 | Cursor | WP-02 lotes `002`–`006` | REVISADO | 2026-11-12 | `dq-t05` | [R-05](bitacora/R-05.md) |
-| 06 | GitHub Copilot | WP-02 lotes `009`–`013` (500 desde `68727`; P-07) | PENDIENTE | — | — | — |
+| 06 | GitHub Copilot | WP-02 lotes `009`–`013` (500 desde `68727`; P-07) | EN CURSO | 2026-11-12 | — | — |
 | 07 | Google Antigravity | WP-02 lotes `014`–`017` (302 restantes; P-07), T-04 a T-06 (M1) · hito A | PENDIENTE | — | — | — |
 | 08 | Cursor | WP-03 T-01, T-02 y T-04 | PENDIENTE | — | — | — |
 | 09 | GitHub Copilot | WP-04 | PENDIENTE | — | — | — |
@@ -46,7 +46,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 |---|---|---|---|---|
 | WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | HECHA | 4 | 2026-11-12 |
-| WP-02 | Reescribir los ensayos generados | EN CURSO · 600/1 402 aplicadas y revisadas (2 corregidas en R-05) | 4, 5, 6, 7 | 2026-11-12 |
+| WP-02 | Reescribir los ensayos generados | EN CURSO · turno 06 (lotes `009`–`013`; 600/1 402 aplicadas) | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
 | WP-04 | Etiquetar el origen de todas las sinopsis | PENDIENTE | 9 | — |
 | WP-05 | Limpiar el plot enciclopédico | PENDIENTE | 10, 11, 12 | — |
