@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 19:44 UTC · GitHub Copilot (Kimi K3) · ejecutor (turno 06)
+**Última actualización:** 2026-11-12 20:05 UTC · Claude Code (Claude Opus 5.5) · revisor (R-06)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -23,8 +23,8 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | REVISADO | 2026-11-12 | `dq-t03` | [R-03](bitacora/R-03.md) |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | REVISADO | 2026-11-12 | `dq-t04` | [R-04](bitacora/R-04.md) |
 | 05 | Cursor | WP-02 lotes `002`–`006` | REVISADO | 2026-11-12 | `dq-t05` | [R-05](bitacora/R-05.md) |
-| 06 | GitHub Copilot | WP-02 lotes `009`–`013` (500 desde `68727`; P-07) | INCOMPLETO (B-01) | 2026-11-12 | `dq-t06` | — |
-| 07 | Google Antigravity | WP-02 lotes `014`–`017` (302 restantes; P-07), T-04 a T-06 (M1) · hito A | PENDIENTE | — | — | — |
+| 06 | GitHub Copilot | WP-02 lotes `009`–`013` (500 desde `68727`; P-07) | REVISADO | 2026-11-12 | `dq-t06` | [R-06](bitacora/R-06.md) |
+| 07 | Google Antigravity | WP-02, las 302 restantes (lotes desde `015`; P-07), T-04 a T-06 (M1) · hito A | PENDIENTE | — | — | — |
 | 08 | Cursor | WP-03 T-01, T-02 y T-04 | PENDIENTE | — | — | — |
 | 09 | GitHub Copilot | WP-04 | PENDIENTE | — | — | — |
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`010` | PENDIENTE | — | — | — |
@@ -46,7 +46,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 |---|---|---|---|---|
 | WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | HECHA | 4 | 2026-11-12 |
-| WP-02 | Reescribir los ensayos generados | EN CURSO · 1 100/1 402 aplicadas (lotes `009`–`013` pendientes de R-06; B-01 abierto) | 4, 5, 6, 7 | 2026-11-12 |
+| WP-02 | Reescribir los ensayos generados | EN CURSO · 1 100/1 402 aplicadas y revisadas (6 corregidas en R-05 y R-06) | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
 | WP-04 | Etiquetar el origen de todas las sinopsis | PENDIENTE | 9 | — |
 | WP-05 | Limpiar el plot enciclopédico | PENDIENTE | 10, 11, 12 | — |
@@ -67,14 +67,14 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-03 | 03 · GitHub Copilot | APROBADO CON CORRECCIONES | Guardas de borrado de `publicar.py` (alias y comodines); comando del harness sobre staging | `0ab67e4` | [R-03](bitacora/R-03.md) |
 | R-04 | 04 · Google Antigravity | APROBADO | Ninguno que corregir: 113 tramas correctas; T-02 de WP-01 cerrada | — | [R-04](bitacora/R-04.md) |
 | R-05 | 05 · Cursor | APROBADO CON CORRECCIONES | 2 tramas de otra obra (*Gundam I* → serie de TV; *Jackass 3.5* → *Jackass 3D*), guarda nueva en `wiki_plot.py` | `4ea1d8d` `9c0f2ff` `70c638b` | [R-05](bitacora/R-05.md) |
+| R-06 | 06 · GitHub Copilot | APROBADO CON CORRECCIONES | B-01 (regla `EFX-ING-026` sobre citas), segundo aviso oculto, 4 tramas recuperadas con encabezados «Summary» y con paréntesis | `73cd5d0` `a6369d2` `e9dac1a` | [R-06](bitacora/R-06.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-06** del turno 06 de GitHub Copilot (WP-02 lotes `009` a `013`, 500 películas desde
-> `68727` *Trance*; rango `dq-r05..dq-t06`). El turno quedó INCOMPLETO por el bloqueo **B-01** (§5): un aviso
-> `EFX-ING-026` falso positivo sobre una cita de *Two Night Stand* (`286554`) deja `ShippedCatalogValidationTest`
-> en rojo desde `lote-011`; es una corrección de regla, no de datos. Al cerrar, sigue el **turno 07 · Google
-> Antigravity**: WP-02 lotes `014`–`017` (302 restantes), T-04 a T-06 (M1) · hito A.
+> **Turno 07 · Google Antigravity:** cierra WP-02. Las **302 películas restantes** (lotes desde `015`), y después T-04,
+> T-05 y **T-06 (M1**, recarga completa de staging y harness). Es el turno del **hito A**. Empieza con el protocolo de
+> `AGENTS.md` §5: lee primero [R-06](bitacora/R-06.md), revisa sus commits `73cd5d0`, `a6369d2` y `e9dac1a`, y anota
+> en tu diario que los leíste. El punto de partida es la etiqueta `dq-r06`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -108,16 +108,14 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | D-04 | El filtro `adult` se queda; se documenta que el catálogo de `data/` no tiene contenido adulto (WP-10) | Dueña del proyecto |
 | 2026-11-12 | D-05 | Contacto del `User-Agent` para Wikimedia: la URL pública del repo. Va en `.env` como `DQ_WIKI_CONTACTO` (no se commitea); `wiki_plot.py` pasa a 1 petición por segundo | Dueña del proyecto |
 | 2026-11-12 | P-07 | Los lotes de corrección de R-05 tomaron los números `007` y `008`. Los números de lote los asigna `proponer_trama.py`; las películas de cada turno no cambian (turno 06: 500 desde `68727`, lotes `009`–`013`; turno 07: las 302 restantes, `014`–`017`) | Claude Code (R-05) |
+| 2026-11-12 | P-08 | NS-1 acepta `Summary` como sección de trama y compara los encabezados sin paréntesis («Synopsis (extended version)»). Con la prueba en rojo no se aplican más lotes (`AGENTS.md` §5) | Claude Code (R-06) |
 
 ## 5. Bloqueos abiertos
 
-- **B-01 (turno 06):** `ShippedCatalogValidationTest` quedó en rojo tras `lote-011` por **un** aviso
-  `EFX-ING-026`: la trama de `286554` (*Two Night Stand*, artículo `enwiki:Two Night Stand#revid=1374292408`) cita el
-  globo «I'm sorry, I'm an asshole» y la expresión `\bi'?m sorry\b` de `PlotChecks.ASSISTANT` dispara en cualquier
-  posición del texto. Es un falso positivo sobre una cita de la película: la trama es la correcta de Wikipedia
-  (NS-1a). R-05 ya anticipó que la regla nueva de WP-03 va anclada al inicio del texto. Lo resuelve Claude Code en
-  R-06 (corrección de la regla o decisión); mientras tanto, los lotes del turno 06 se commitean con la prueba en
-  rojo por este único aviso, y cada corrida se revisa para confirmar que no aparecen avisos nuevos.
+Ninguno.
+
+Resueltos: **B-01** (turno 06, `ShippedCatalogValidationTest` en rojo por `EFX-ING-026` sobre una cita de Wikipedia),
+cerrado en R-06 con `73cd5d0`.
 
 ## 6. Métricas de relevancia
 
@@ -243,3 +241,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: `data/` cambió solo en las 500 películas de los lotes y en las 2 corregidas; `./mvnw -q verify` en
   verde; `hallazgos/salidas/r05/`.
 - Para el siguiente: turno 06, GitHub Copilot.
+
+### 2026-11-12 20:05 UTC · Claude Code (Claude Opus 5.5) · revisor (R-06)
+- Hice: revisión del turno 06 de GitHub Copilot. APROBADO CON CORRECCIONES: B-01 cerrado ajustando `EFX-ING-026`
+  para que no avise una disculpa entre comillas (`73cd5d0`); `wiki_plot.py` reconoce «Summary» y encabezados con
+  paréntesis (`a6369d2`) y 4 películas recuperan su trama de Wikipedia (`lote-014`, `e9dac1a`); regla nueva en
+  `AGENTS.md` §5. Detalle en `bitacora/R-06.md`.
+- Evidencia: `./mvnw -q verify` con 801 pruebas y 0 fallos; `hallazgos/salidas/r06/`.
+- Para el siguiente: turno 07, Google Antigravity (cierre de WP-02, M1 y hito A).

@@ -99,6 +99,10 @@ Si hubiera que recrear el worktree principal, desde el checkout principal:
 - Un commit por lote o por tarea, con el formato del §7.
 - En un WP de datos, ejecuta el flujo completo de cada lote: proponer, aplicar, validar y registrar. La revisión del
   lote la hace Claude Code en su turno.
+- **Si `ShippedCatalogValidationTest` falla, no apliques más lotes.** Registra el lote que la dejó en rojo, abre un
+  bloqueo con el aviso exacto y cierra el turno como `INCOMPLETO`. La prueba se detiene en la primera parte de `data/`
+  que tiene avisos, así que con la prueba en rojo no se ve si un lote nuevo agrega otros (R-06). Nunca cambies el
+  texto de una trama para que la prueba pase (NS-2).
 - Si algo del plan no funciona como dice, anótalo como desviación en el diario; si cambia el alcance, ábrelo como
   decisión en el tablero.
 
