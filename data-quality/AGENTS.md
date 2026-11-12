@@ -174,12 +174,19 @@ Comandos con variables de entorno, según el shell:
 
 | Shell | Harness sobre staging |
 |---|---|
-| PowerShell | `$env:ELASTIFLIX_INDEX_ALIAS='elastiflix-dq-staging'; ./mvnw verify -Pit "-Dit.test=RelevanceIT"` |
-| Git Bash | `ELASTIFLIX_INDEX_ALIAS=elastiflix-dq-staging ./mvnw verify -Pit -Dit.test=RelevanceIT` |
+| PowerShell | `$env:ELASTIFLIX_INDEX_ALIAS='elastiflix-dq-staging'; ./mvnw verify -Pit "-Dit.test=RelevanceIT" "-Dtest=NingunaUnitaria" "-Dsurefire.failIfNoSpecifiedTests=false"; Remove-Item Env:ELASTIFLIX_INDEX_ALIAS` |
+| Git Bash | `ELASTIFLIX_INDEX_ALIAS=elastiflix-dq-staging ./mvnw verify -Pit -Dit.test=RelevanceIT -Dtest=NingunaUnitaria -Dsurefire.failIfNoSpecifiedTests=false` |
+| Producción (M0 y medición final, solo lectura) | `./mvnw verify -Pit "-Dit.test=RelevanceIT"`, sin la variable: el alias sale del `.env` |
+
+Sobre staging se omiten las pruebas unitarias a propósito (`-Dtest=NingunaUnitaria`, que no existe, más
+`-Dsurefire.failIfNoSpecifiedTests=false`): con `ELASTIFLIX_INDEX_ALIAS` en el entorno, 5 de ellas fallan porque
+esperan el alias por defecto (`ElastiflixPropertiesTest` e `IngestPageTest`). Las unitarias se comprueban en otra
+corrida, sin la variable. En PowerShell la variable dura toda la sesión: por eso el comando la quita al final
+(`-DfailIfNoTests=false` no sirve; R-03).
 
 En Git Bash, antepón `MSYS_NO_PATHCONV=1` cuando pases rutas de API como `/_count` a `es.py`. Después de cada
-harness, comprueba que `target/eval/report.md` tenga la hora de esa corrida: si el alias no tenía 6 899 películas, la
-prueba se omitió y no hubo medición.
+harness, comprueba que `target/eval/report.md` tenga la hora de esa corrida y el índice esperado en su primera línea:
+si el alias no tenía 6 899 películas, la prueba se omitió y no hubo medición.
 
 ## 10. Plantillas
 

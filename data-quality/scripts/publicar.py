@@ -185,9 +185,15 @@ def revertir(alias_origen, alias_destino, indice_anterior, ensayo):
 
 
 def borrar_anterior(indice, ensayo):
+    # Un nombre con comodín o coma resolvería a varios índices; un alias resolvería al índice que tiene detrás.
+    if any(c in indice for c in "*?,") or indice.startswith(("_", "-")):
+        sys.exit(f"«{indice}» no es el nombre de un índice concreto. No se borra nada.")
     aliases = es.es("GET", f"/{indice}/_alias")
     if isinstance(aliases, dict) and aliases.get("__error__"):
         sys.exit(f"El índice «{indice}» no existe ({aliases['__error__']}).")
+    if list(aliases.keys()) != [indice]:
+        sys.exit(f"«{indice}» es un alias o no es un índice concreto (resuelve a {list(aliases.keys())}). "
+                 "No se borra nada.")
     activos = list(aliases.get(indice, {}).get("aliases", {}).keys())
     if activos:
         sys.exit(f"No se borra «{indice}»: los alias {activos} apuntan a él.")
@@ -227,6 +233,11 @@ def ensayo_limpiar():
     borrados = []
     if isinstance(r, dict) and not r.get("__error__"):
         for indice in r.keys():
+            # El comodín también resuelve alias: si un alias de ensayo quedara sobre el índice real de staging,
+            # aparecería aquí. Solo se borran índices cuyo propio nombre es de ensayo.
+            if not indice.startswith(PREFIJO_PRUEBA):
+                print(f"No se borra {indice}: no es un índice de ensayo (lo trajo un alias).")
+                continue
             llamar("DELETE", f"/{indice}")
             borrados.append(indice)
     print(f"Ensayo limpio: alias de ensayo quitados; índices borrados: {borrados or 'ninguno'}.")
