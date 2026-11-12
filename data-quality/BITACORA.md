@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 18:20 UTC · Google Antigravity (Gemini 4 Argon) · ejecutor (turno 04)
+**Última actualización:** 2026-11-12 18:29 UTC · Google Antigravity (Gemini 4 Argon) · ejecutor (turno 04)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -21,7 +21,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 01 | Google Antigravity | WP-00 T-01 a T-04 | REVISADO | 2026-11-12 | `dq-t01` | [R-01](bitacora/R-01.md) |
 | 02 | Cursor | WP-00 T-05 y T-09 | REVISADO | 2026-11-12 | `dq-t02` | [R-02](bitacora/R-02.md) |
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | REVISADO | 2026-11-12 | `dq-t03` | [R-03](bitacora/R-03.md) |
-| 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | EN CURSO | 2026-11-12 | — | — |
+| 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | EN REVISIÓN | 2026-11-12 | `dq-t04` | — |
 | 05 | Cursor | WP-02 lotes `002`–`006` | PENDIENTE | — | — | — |
 | 06 | GitHub Copilot | WP-02 lotes `007`–`011` | PENDIENTE | — | — | — |
 | 07 | Google Antigravity | WP-02 lotes `012`–`015`, T-04 a T-06 (M1) · hito A | PENDIENTE | — | — | — |
@@ -45,8 +45,8 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP | Título | Estado | Turnos | Actualizado |
 |---|---|---|---|---|
 | WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
-| WP-01 | Respuestas de asistente y datos inventados | EN CURSO | 4 | 2026-11-12 |
-| WP-02 | Reescribir los ensayos generados | EN CURSO · lote-001 | 4, 5, 6, 7 | 2026-11-12 |
+| WP-01 | Respuestas de asistente y datos inventados | EN CURSO · T-01 y T-03 hechas (13/13 en `aplicado`); pendiente T-02 en R-04 | 4 | 2026-11-12 |
+| WP-02 | Reescribir los ensayos generados | EN CURSO · `lote-001` aplicado (100/1 402) | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
 | WP-04 | Etiquetar el origen de todas las sinopsis | PENDIENTE | 9 | — |
 | WP-05 | Limpiar el plot enciclopédico | PENDIENTE | 10, 11, 12 | — |
@@ -68,10 +68,10 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 04 · Google Antigravity:** **WP-01 completo** (13 películas) y **WP-02 `lote-001`** (las 13 de
-> `wp02-prioridad.tsv` y 87 más). Es el primer turno que cambia `data/`: sigue el flujo de datos de `PLAN.md` paso a
-> paso. Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-03](bitacora/R-03.md) y revisa su commit `0ab67e4`.
-> El punto de partida es la etiqueta `dq-r03`. WP-00 está HECHA.
+> **Claude Code: revisión R-04** del turno 04 de Google Antigravity (`dq-r03..dq-t04`): revisar WP-01 (`lote-001`,
+> 13 películas; incluye T-02 con lectura completa de las 13 contra Wikipedia y `cast`) y WP-02 `lote-001` (100
+> películas: las 13 de `wp02-prioridad.tsv` y 87 más; muestreo de 10 líneas según T-02). Al cerrar R-04, pasar al
+> turno 05 de Cursor (WP-02 lotes `002` a `006`).
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
