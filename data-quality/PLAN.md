@@ -1,10 +1,11 @@
 # 🧭 Plan de calidad del catálogo · ronda 4
 
 Plan de ejecución de las 10 recomendaciones del [informe de calidad](informe/informe-calidad.html) del índice
-`elastiflix-reloaded`, en el mismo orden del informe. Lo ejecuta un equipo de agentes (Claude Code, Cursor, Google
-Antigravity, Qwen 2.5 Coder u otro) bajo la supervisión de una persona, la **dueña del proyecto**.
+`elastiflix-reloaded`, en el mismo orden del informe. Lo ejecuta un equipo de agentes bajo la supervisión de una
+persona, la **dueña del proyecto**: **Google Antigravity, Cursor y GitHub Copilot ejecutan** por turnos, repartidos
+por igual, y **Claude Code revisa y corrige** después de cada turno.
 
-- **Antes de tocar nada**, lee [`AGENTS.md`](AGENTS.md): roles, reglas de seguridad, worktree y protocolo de sesión.
+- **Antes de tocar nada**, lee [`AGENTS.md`](AGENTS.md): equipo, reglas de seguridad, worktree y protocolo de turno.
 - **El estado vive en [`BITACORA.md`](BITACORA.md)**, en la rama de integración `dq/ronda-4`. Este plan es la
   especificación y no se marca: si cambia, el cambio se anota como decisión en la bitácora.
 - Cada paquete de trabajo (**WP**) es una tarjeta autocontenida. Un agente con poco contexto puede leer solo
@@ -12,24 +13,82 @@ Antigravity, Qwen 2.5 Coder u otro) bajo la supervisión de una persona, la **du
 
 ## Índice
 
-| WP | Recomendación del informe | Rol principal | Depende de | Perfil de agente |
+| WP | Recomendación del informe | Roles | Depende de | Turnos |
 |---|---|---|---|---|
-| [WP-00](#wp-00--preparación-del-equipo) | (preparación: herramientas, línea base y staging) | COORD · DATOS · EVAL | Precondición P-0 | **Modelo fuerte** |
-| [WP-01](#wp-01--reemplazar-respuestas-de-asistente-y-datos-inventados) | 1 · Las 2 respuestas de asistente y los 11 casos verificados de datos inventados (13 películas, entre ellas `1450`) | DATOS | WP-00 | Cualquiera |
-| [WP-02](#wp-02--reescribir-los-ensayos-generados) | 2 · Reescribir los ensayos: 1 402 películas (las 1 408 del informe, más las 6 correcciones de año, menos las que ya están en WP-01) | DATOS · EVAL | WP-01 | Cualquiera |
-| [WP-03](#wp-03--ampliar-las-reglas-de-advertencia) | 3 · Ampliar las reglas `EFX-ING-025`, `026` y `028` | JAVA | Empieza tras WP-00 · se integra tras WP-05 | **Modelo fuerte** |
-| [WP-04](#wp-04--etiquetar-el-origen-de-todas-las-sinopsis) | 4 · Etiquetar el origen de todas las sinopsis | DATOS · JAVA · DOCS | WP-02 | Cualquiera |
-| [WP-05](#wp-05--limpiar-el-plot-enciclopédico) | 5 · Limpiar el plot enciclopédico | DATOS | WP-04 | Cualquiera |
-| [WP-06](#wp-06--completar-las-sinopsis-cortas) | 6 · Completar las sinopsis cortas | DATOS · EVAL | WP-05 | Cualquiera |
-| [WP-07](#wp-07--normalizar-al-cargar) | 7 · Normalizar al cargar (texto y vocabularios) | DATOS · JAVA | WP-06 | **Modelo fuerte** (parte Java) |
-| [WP-08](#wp-08--corregir-palabras-clave-y-colecciones) | 8 · Corregir palabras clave y colecciones | DATOS | WP-07 | Cualquiera |
-| [WP-09](#wp-09--una-sola-puntuación-y-montos-imposibles) | 9 · Una sola puntuación y montos imposibles | COORD · DATOS | WP-08 · decisión D-02 | **Modelo fuerte** (memo) |
-| [WP-10](#wp-10--opcional-dynamic-strict-y-filtro-adult) | 10 · Opcional: `dynamic: strict` y filtro `adult` | JAVA · DOCS | Decisiones D-03 y D-04 contestadas | Cualquiera |
-| [C-01](#c-01--cierre-medición-publicación-y-documentación) | (cierre: medición, publicación y documentación) | EVAL · DOCS · COORD | WP-01…WP-10 | **Modelo fuerte** |
+| [WP-00](#wp-00--preparación-del-equipo) | (preparación: herramientas, línea base y staging) | DATOS · EVAL | Precondición P-0 | 1, 2, 3 |
+| [WP-01](#wp-01--reemplazar-respuestas-de-asistente-y-datos-inventados) | 1 · Las 2 respuestas de asistente y los 11 casos verificados de datos inventados (13 películas, entre ellas `1450`) | DATOS | WP-00 | 4 |
+| [WP-02](#wp-02--reescribir-los-ensayos-generados) | 2 · Reescribir los ensayos: 1 402 películas (las 1 408 del informe, más las 6 correcciones de año, menos las que ya están en WP-01) | DATOS · EVAL | WP-01 | 4, 5, 6, 7 |
+| [WP-03](#wp-03--ampliar-las-reglas-de-advertencia) | 3 · Ampliar las reglas `EFX-ING-025`, `026` y `028` | JAVA | Se escribe tras WP-00 · se integra tras WP-05 | 8, 13 |
+| [WP-04](#wp-04--etiquetar-el-origen-de-todas-las-sinopsis) | 4 · Etiquetar el origen de todas las sinopsis | DATOS · JAVA · DOCS | WP-02 | 9 |
+| [WP-05](#wp-05--limpiar-el-plot-enciclopédico) | 5 · Limpiar el plot enciclopédico | DATOS | WP-04 | 10, 11, 12 |
+| [WP-06](#wp-06--completar-las-sinopsis-cortas) | 6 · Completar las sinopsis cortas | DATOS · EVAL | WP-05 | 13, 14 |
+| [WP-07](#wp-07--normalizar-al-cargar) | 7 · Normalizar al cargar (texto y vocabularios) | DATOS · JAVA | WP-06 | 14, 15 |
+| [WP-08](#wp-08--corregir-palabras-clave-y-colecciones) | 8 · Corregir palabras clave y colecciones | DATOS | WP-07 | 16 |
+| [WP-09](#wp-09--una-sola-puntuación-y-montos-imposibles) | 9 · Una sola puntuación y montos imposibles | DATOS · DOCS | WP-08 · decisión D-02 | 17 |
+| [WP-10](#wp-10--opcional-dynamic-strict-y-filtro-adult) | 10 · Opcional: `dynamic: strict` y filtro `adult` | JAVA · DOCS | Decisiones D-03 y D-04 | 18 |
+| [C-01](#c-01--cierre-medición-publicación-y-documentación) | (cierre: medición, publicación y documentación) | EVAL · DOCS | WP-01…WP-10 | 19, 20, 21 |
 
-Los WP que cambian `data/` (01, 02, 04, 05, 06, 07, 08, 09) van **en serie**, con la
-[llave de `data/`](AGENTS.md#5-trabajo-en-paralelo). WP-03 y WP-10 cambian código y avanzan en paralelo en su propia
-rama, que se integra en `dq/ronda-4` cuando su dependencia lo permite.
+Los turnos van **en serie**, en el orden fijo del equipo, así que nunca hay dos agentes cambiando `data/` a la vez.
+WP-03 es el único que vive en su propia rama (`dq/wp-03-reglas-plot`): se escribe en el turno 8 y se integra en
+`dq/ronda-4` en el turno 13, cuando `data/` ya no tiene los textos que sus reglas nuevas avisarían.
+
+## Reparto y turnos
+
+Cada fila es un **turno de ejecución**, seguido siempre de su **revisión** por Claude Code (R-NN). El orden es fijo:
+Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code, y vuelta a empezar. Las tareas se
+cortaron para que cada ejecutor tenga **7 turnos, 2 de ellos grandes**, y una mezcla parecida de datos, código,
+medición y documentación.
+
+| Turno | Ejecutor | Tareas | Peso | Necesita de la dueña |
+|---|---|---|---|---|
+| 1 | Google Antigravity | WP-00 T-01 a T-04: entorno, `catalogo.py` con round-trip exacto, formato de lote, `aplicar_cambios.py` | Grande | — |
+| 2 | Cursor | WP-00 T-05 y T-09: `wiki_plot.py` y `proponer_trama.py` | Grande | — |
+| 3 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10: `cargar.py`, M0, staging y `publicar.py` (probado con alias de ensayo) | Grande | **H-1** antes de T-08 |
+| 4 | Google Antigravity | WP-01 completo y WP-02 `lote-001` (las 13 de prioridad y 87 más) | Mediano | — |
+| 5 | Cursor | WP-02 lotes `002` a `006` | Mediano | — |
+| 6 | GitHub Copilot | WP-02 lotes `007` a `011` | Mediano | — |
+| 7 | Google Antigravity | WP-02 lotes `012` a `015`, T-04, T-05 y T-06 (**M1**) | Mediano | — · **hito A** en su revisión |
+| 8 | Cursor | WP-03 T-01, T-02 y T-04, en `dq/wp-03-reglas-plot` | Grande | — |
+| 9 | GitHub Copilot | WP-04 completo | Mediano | — |
+| 10 | Google Antigravity | WP-05 T-01 (`limpiar_enciclopedico.py`) y lotes `001` a `010` | Mediano | — |
+| 11 | Cursor | WP-05 lotes `011` a `025` | Mediano | — |
+| 12 | GitHub Copilot | WP-05 lotes `026` a `039`, T-03 y T-05 | Mediano | — |
+| 13 | Google Antigravity | WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
+| 14 | Cursor | WP-06 T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
+| 15 | GitHub Copilot | WP-07 parte B (`EFX-ING-029` en Java) | Grande | — |
+| 16 | Google Antigravity | WP-08 completo | Mediano | — |
+| 17 | Cursor | WP-09 completo | Mediano | **D-02** |
+| 18 | GitHub Copilot | WP-10 completo | Mediano | **D-03** y **D-04** |
+| 19 | Google Antigravity | C-01 T-01 a T-03: M3, informe v2, pruebas de integración y umbrales | Grande | — |
+| 20 | Cursor | C-01 T-04 y T-05: documentación y hito C | Mediano | — · **hito C** en su revisión |
+| 21 | GitHub Copilot | C-01 T-06 a T-08: H-2, publicación, medición en producción y limpieza a los 7 días | Mediano | **H-2** |
+
+| Ejecutor | Turnos | Grandes | Qué le toca, en resumen |
+|---|---|---|---|
+| Google Antigravity | 1, 4, 7, 10, 13, 16, 19 | 1, 19 | Base de datos del plan, cierre de WP-02 y M1, arranque de WP-05, integración de WP-03, palabras clave, M3 |
+| Cursor | 2, 5, 8, 11, 14, 17, 20 | 2, 8 | Wikipedia, reglas Java de WP-03, M2, puntuación, documentación final |
+| GitHub Copilot | 3, 6, 9, 12, 15, 18, 21 | 3, 15 | Staging y publicación, procedencia, cierre de WP-05, normalización Java, mapping, publicación final |
+
+Los turnos de Copilot 3 y 21 son los que dependen de aprobaciones (H-1 y H-2) y tocan staging y producción; los de
+Antigravity 1 y 19 abren y cierran la base técnica; los de Cursor 2 y 8 llevan la parte de Wikipedia y de Java.
+
+**Reglas del reparto.**
+
+- Un turno no se adelanta ni se salta. Si un turno se cierra `INCOMPLETO`, Claude Code termina lo que sea corrección
+  en su revisión; el resto pasa como primera tarea del siguiente turno del **mismo** ejecutor, anotado como decisión.
+- Si un ejecutor termina un WP de varios turnos antes de lo previsto (por ejemplo, porque `proponer_trama.py` deja
+  muchas películas «sin fuente» y sobran lotes), el turno siguiente empieza con la tarea siguiente del plan, sin
+  cambiar de ejecutor.
+- El turno 21 hace T-06 y T-07 y queda `EN ESPERA` hasta cumplir los 7 días de T-08. R-21 revisa la publicación;
+  cuando Copilot cierra T-08, Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
+- Las decisiones D-02, D-03 y D-04 conviene contestarlas al principio: el memo de WP-09 se puede leer en el plan, y
+  así los turnos 17 y 18 no esperan.
+
+```mermaid
+flowchart LR
+  A1["T1 Antigravity"] --> R1["R1 Claude Code"] --> C2["T2 Cursor"] --> R2["R2 Claude Code"] --> G3["T3 Copilot"] --> R3["R3 Claude Code"]
+  R3 --> A4["T4 Antigravity"] --> R4["R4 · …"] --> F["… T21 Copilot"] --> R21["R21 Claude Code<br/>cierre"]
+```
 
 ```mermaid
 flowchart LR
@@ -75,24 +134,24 @@ modelo, así que ningún agente escribe sinopsis.**
 
 ## Flujo de un cambio de datos
 
-Todos los WP de datos siguen el mismo ciclo, para repartir, revisar y reanudar el trabajo por lotes.
+Todos los WP de datos siguen el mismo ciclo. El ejecutor hace los pasos 1 a 4 en su turno; Claude Code hace el 5 en
+la revisión.
 
 1. **Proponer.** Un script escribe `data-quality/cambios/WP-XX/lote-NNN.jsonl` y agrega una fila por película a
    `cambios/WP-XX/estado.tsv` (`id`, `lote`, `resultado`: `propuesto`, `sin fuente` u `omitido`, y `motivo`).
    No toca `data/`. Lotes de **100 películas** como máximo, salvo los **lotes mecánicos** de WP-04 T-01 y WP-07
    parte A, que pueden ser de cualquier tamaño.
-2. **Revisar.** REV compara con la fuente al menos 10 líneas al azar (20 en un lote mecánico) y anota el veredicto
-   en `bitacora/WP-XX.md`. Un lote **rechazado** no se edita: se marca `rechazado` en `estado.tsv` y sus películas
-   van a un lote nuevo con el número siguiente.
-3. **Aplicar.** `python data-quality/scripts/aplicar_cambios.py data-quality/cambios/WP-XX/lote-NNN.jsonl`
+2. **Aplicar.** `python data-quality/scripts/aplicar_cambios.py data-quality/cambios/WP-XX/lote-NNN.jsonl`
    escribe `data/` (JSON y CSV). Es idempotente y rechaza el lote entero si un valor «antes» ya no coincide.
    `estado.tsv` pasa a `aplicado`.
-4. **Validar.** `./mvnw -q test "-Dtest=ShippedCatalogValidationTest"` en verde, y el indicador del WP con
+3. **Validar.** `./mvnw -q test "-Dtest=ShippedCatalogValidationTest"` en verde, y el indicador del WP con
    `python data-quality/scripts/analizar.py --etiqueta wp-XX --desde-data`.
-5. **Registrar.** Commit del lote, de `estado.tsv`, de `data/` y de la bitácora juntos en `dq/ronda-4`.
+4. **Registrar.** Commit del lote, de `estado.tsv`, de `data/` y del diario juntos en `dq/ronda-4`.
+5. **Revisar (Claude Code, en R-NN).** Muestra de 10 líneas al azar por lote (20 en un lote mecánico) contra la
+   fuente. Una línea mal no se edita en su lote: se corrige con un **lote de corrección** nuevo (número siguiente,
+   `motivo: "corrección R-NN"`), y su película queda marcada `corregido` en `estado.tsv`.
 
-**Reanudar** es leer `cambios/WP-XX/estado.tsv`: se sigue con las películas del alcance que todavía no tienen fila
-y con los lotes en `propuesto` que esperan revisión.
+**Reanudar** es leer `cambios/WP-XX/estado.tsv`: se sigue con las películas del alcance que todavía no tienen fila.
 
 ---
 
@@ -100,7 +159,7 @@ y con los lotes en `propuesto` que esperan revisión.
 
 **Objetivo.** Herramientas comunes, línea base y staging, para que cada WP siguiente sea mecánico y verificable.
 
-**Rol:** COORD, DATOS y EVAL · **Perfil:** modelo fuerte · **Aprobación humana:** H-1 antes de T-08
+**Turnos:** 1 (Antigravity: T-01 a T-04), 2 (Cursor: T-05 y T-09) y 3 (Copilot: T-06, T-07, T-08 y T-10) · **Aprobación humana:** H-1 antes de T-08
 
 **Lee primero:** `data/README.md`, `src/test/java/com/bigfito/elastiflix/ingest/job/ShippedCatalogValidationTest.java`,
 `src/main/java/com/bigfito/elastiflix/web/ingest/IngestJobController.java`, `eval/README.md`.
@@ -158,12 +217,12 @@ Si el round-trip de T-02 no sale igual, **no se avanza**.
 **Recomendación 1.** Reemplazar las 2 respuestas de asistente (`671`, `799546`) y corregir los 11 casos verificados
 de datos inventados, entre ellos `1450`.
 
-**Rol:** DATOS (autor) y REV · **Alcance:** [`hallazgos/listas/wp01-plots-criticos.tsv`](hallazgos/listas/wp01-plots-criticos.tsv) (13 películas, un lote)
+**Rol:** DATOS · **Turno:** 4 (Antigravity) · **Alcance:** [`hallazgos/listas/wp01-plots-criticos.tsv`](hallazgos/listas/wp01-plots-criticos.tsv) (13 películas, un lote)
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|
 | T-01 | `python data-quality/scripts/proponer_trama.py --wp WP-01 --lista data-quality/hallazgos/listas/wp01-plots-criticos.tsv` | Lote `lote-001` con las 13 o con las faltantes en «sin fuente» |
-| T-02 | REV lee las 13 completas contra Wikipedia y contra `cast`: el reparto que nombra la trama tiene que estar en `cast` | Las 13 con veredicto en `bitacora/WP-01.md` |
+| T-02 | Claude Code, en R-04, lee las 13 completas contra Wikipedia y contra `cast`: el reparto que nombra la trama tiene que estar en `cast` | Las 13 con veredicto en `bitacora/WP-01.md` |
 | T-03 | Aplicar, validar y registrar (flujo, pasos 3 a 5) | `ShippedCatalogValidationTest` en verde |
 
 **Atención.** `1450` (*Blood: The Last Vampire*, 2009) es la versión live-action: su artículo es distinto al del
@@ -176,13 +235,13 @@ leer la trama nueva completa.
 
 **Recomendación 2.** Reemplazar los ensayos temáticos con la trama real y etiquetar su origen.
 
-**Rol:** DATOS, REV y EVAL · **Alcance:** [`wp02-ensayos.tsv`](hallazgos/listas/wp02-ensayos.tsv) (1 402) ·
+**Rol:** DATOS y EVAL · **Turnos:** 4 a 7 (lote `001` en el 4, `002`–`006` en el 5, `007`–`011` en el 6, `012`–`015`, T-04, T-05 y T-06 en el 7) · **Alcance:** [`wp02-ensayos.tsv`](hallazgos/listas/wp02-ensayos.tsv) (1 402) ·
 **Primero:** [`wp02-prioridad.tsv`](hallazgos/listas/wp02-prioridad.tsv) (13: correcciones de año y objetivos del harness)
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|
 | T-01 | `python data-quality/scripts/proponer_trama.py --wp WP-02 --lista data-quality/hallazgos/listas/wp02-ensayos.tsv --prioridad data-quality/hallazgos/listas/wp02-prioridad.tsv --tam 100`, un lote por vez. Con poco contexto, un lote por sesión | `estado.tsv` con fila para las 1 402 |
-| T-02 | REV muestrea 10 por lote: artículo correcto (NS-4), trama y no ensayo, sin `[n]`, largo NS-3 | Veredicto por lote |
+| T-02 | Claude Code, en cada revisión, muestrea 10 por lote: artículo correcto (NS-4), trama y no ensayo, sin `[n]`, largo NS-3 | Veredicto por lote |
 | T-03 | Aplicar y validar cada lote revisado | `ShippedCatalogValidationTest` en verde tras cada lote |
 | T-04 | Las películas de [`wp02-revisar-reparto.tsv`](hallazgos/listas/wp02-revisar-reparto.tsv) que estén en este alcance: tras el reemplazo, ¿la trama nombra a alguien que no está en `cast`? | Cada una resuelta o anotada como falso positivo |
 | T-05 · indicador | `python data-quality/scripts/analizar.py --etiqueta wp-02 --desde-data`. En `llm.txt`, «con >=2» | 50 o menos; las que queden son «sin fuente» y están listadas |
@@ -197,7 +256,7 @@ se detiene el plan y se abre un bloqueo para la dueña del proyecto. Una subida 
 
 **Recomendación 3.** Que una carga detecte lo que encontró el informe.
 
-**Rol:** JAVA (autor) y REV · **Rama:** `dq/wp-03-reglas-plot`, desde `dq/ronda-4`, en su propio worktree · **Empieza:** tras WP-00 ·
+**Rol:** JAVA · **Turnos:** 8 (Cursor: T-01, T-02 y T-04) y 13 (Antigravity: T-03) · **Rama:** `dq/wp-03-reglas-plot`, en su propio worktree (`AGENTS.md` §4) ·
 **Se integra en `dq/ronda-4`:** después de WP-05, porque las reglas nuevas también avisan sobre plots del alcance de
 WP-05 («At its core» en 60, «explores the theme(s) of» en 25, «Here's a…» en 3)
 
@@ -228,7 +287,7 @@ EFX-ING-028 · advertencia · en cualquier parte:
 |---|---|---|
 | T-01 | Patrones en `PlotChecks`, con su Javadoc. Los de 025 van anclados: un personaje puede decir «I don't have information» dentro de una trama | Compila |
 | T-02 | Pruebas positivas con los textos reales (`671`, `799546`, `12703`, `621707`) y **negativas** con los falsos positivos encontrados: «unable to find work» (`212778`), «is not a real princess» (`36736`), «there is no record of a woman» (`111083`), «Unable to find steady work» (`167073`) | Pruebas en verde; ningún negativo dispara |
-| T-03 | Al terminar WP-05: `git merge dq/ronda-4` en la rama y `./mvnw -q test "-Dtest=ShippedCatalogValidationTest"`. Cada advertencia se lleva a DATOS como lote nuevo de WP-05 (WP-05 se reabre si ya cerró), o se ajusta el patrón si es un falso positivo | Prueba en verde sin bajar la exigencia de cero advertencias; merge a `dq/ronda-4` |
+| T-03 | Turno 13, ya terminado WP-05: `git merge dq/ronda-4` en la rama y `./mvnw -q test "-Dtest=ShippedCatalogValidationTest"`. Cada advertencia se lleva a DATOS como lote nuevo de WP-05 (WP-05 se reabre si ya cerró), o se ajusta el patrón si es un falso positivo | Prueba en verde sin bajar la exigencia de cero advertencias; `git merge --no-ff dq/wp-03-reglas-plot` en `dq/ronda-4` |
 | T-04 | Documentación en español e inglés: viñeta «Sinopsis» de «Carga de datos» en `README.md` y `README.en.md`; tabla de códigos de `docs/convenciones-java.md`; y `messages_es/en.properties` si sus textos nombran ejemplos | `./mvnw verify` en verde |
 
 ---
@@ -237,7 +296,7 @@ EFX-ING-028 · advertencia · en cualquier parte:
 
 **Recomendación 4.** Que el crédito «textos de Wikipedia» sea verificable y que se pueda filtrar por calidad.
 
-**Rol:** DATOS (T-01), JAVA (T-02) y DOCS (T-03)
+**Rol:** DATOS (T-01), JAVA (T-02) y DOCS (T-03) · **Turno:** 9 (Copilot)
 
 **Vocabulario de `enrichment.plot`** (se documenta tal cual):
 
@@ -252,7 +311,7 @@ EFX-ING-028 · advertencia · en cualquier parte:
 |---|---|---|
 | T-01 | Un lote mecánico con `enrichment.plot = "unverified"` para toda película sin etiqueta de `plot`, incluida `751432` (hoy sin `enrichment`) | 0 películas sin `enrichment.plot` (`analizar.py --desde-data`) |
 | T-02 | **En el mismo commit que aplica T-01:** `ShippedCatalogValidationTest` con `WITH_TAGS = 6_899`, sin el caso especial de `751432` y con su Javadoc al día | Prueba en verde en ese commit |
-| T-03 | Vocabulario en `data/README.md` (es/en); `about.catalog.f.enrichment.plot` y `about.credits.wikipedia` en `messages_es/en.properties`: el crédito dice que las sinopsis vienen de Wikipedia o de TMDB, según `enrichment.plot` | `./mvnw verify` en verde; REV revisa los textos |
+| T-03 | Vocabulario en `data/README.md` (es/en); `about.catalog.f.enrichment.plot` y `about.credits.wikipedia` en `messages_es/en.properties`: el crédito dice que las sinopsis vienen de Wikipedia o de TMDB, según `enrichment.plot` | `./mvnw verify` en verde; Claude Code revisa los textos |
 
 ---
 
@@ -260,7 +319,7 @@ EFX-ING-028 · advertencia · en cualquier parte:
 
 **Recomendación 5.** Que el vector represente la trama, no la ficha, la taquilla ni la crítica.
 
-**Rol:** DATOS y REV · **Alcance:** [`wp05-enciclopedicos.tsv`](hallazgos/listas/wp05-enciclopedicos.tsv) (3 862) ·
+**Rol:** DATOS · **Turnos:** 10 (Antigravity: T-01 y lotes `001`–`010`), 11 (Cursor: lotes `011`–`025`) y 12 (Copilot: lotes `026`–`039`, T-03 y T-05) · **Alcance:** [`wp05-enciclopedicos.tsv`](hallazgos/listas/wp05-enciclopedicos.tsv) (3 862) ·
 **Con más cuidado:** [`wp05-una-firma.tsv`](hallazgos/listas/wp05-una-firma.tsv) (799)
 
 **Orden por película:** (1) trama de Wikipedia según NS, si existe; (2) si no, `limpiar_enciclopedico.py`; (3) si
@@ -268,13 +327,13 @@ la limpieza deja menos de 400 caracteres, no se cambia nada y queda «sin fuente
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|
-| T-01 | `limpiar_enciclopedico.py`: función `limpiar(texto) -> texto \| None` y CLI `--wp WP-05 --ids <tsv>` que escribe lotes como `proponer_trama.py`. Quita el **primer párrafo** si es la ficha (`^…\bis an? (\d{4} )?…(film\|movie\|documentary\|anime)\b`) y quita **párrafos completos** que contengan `box office`, `grossed`, `Rotten Tomatoes`, `received (mixed\|positive\|negative) reviews` o `premiered at`. Nunca corta dentro de un párrafo. La etiqueta sigue en `unverified` | Prueba con 5 plots reales en `work/`, revisada por REV |
+| T-01 | `limpiar_enciclopedico.py`: función `limpiar(texto) -> texto \| None` y CLI `--wp WP-05 --ids <tsv>` que escribe lotes como `proponer_trama.py`. Quita el **primer párrafo** si es la ficha (`^…\bis an? (\d{4} )?…(film\|movie\|documentary\|anime)\b`) y quita **párrafos completos** que contengan `box office`, `grossed`, `Rotten Tomatoes`, `received (mixed\|positive\|negative) reviews` o `premiered at`. Nunca corta dentro de un párrafo. La etiqueta sigue en `unverified` | Prueba con 5 plots reales en `work/`; Claude Code la repite en R-10 |
 | T-02 | Lotes de 100 con el orden de arriba (`proponer_trama.py --wp WP-05 …` y, para los «sin trama», `limpiar_enciclopedico.py`) | `estado.tsv` con fila para las 3 862 |
 | T-03 | Cerrar lo que quede de `wp02-revisar-reparto.tsv` | Lista cerrada en la bitácora |
 | T-04 | Revisión, aplicación y validación por lote, como en WP-02 | `ShippedCatalogValidationTest` en verde |
 | T-05 · indicador | `analizar.py --etiqueta wp-05 --desde-data`, en `plots.txt` | «producción/recepción» < 300 (hoy 1 549) y «ficha inicial» < 500 (hoy 3 734) |
 
-Al cerrar WP-05, COORD avisa a JAVA en «Próximo paso» que WP-03 ya puede integrarse (WP-03 T-03).
+Al revisar el turno 12, Claude Code deja en «Próximo paso» la integración de WP-03 (WP-03 T-03) como primera tarea del turno 13.
 
 ---
 
@@ -282,7 +341,7 @@ Al cerrar WP-05, COORD avisa a JAVA en «Próximo paso» que WP-03 ya puede inte
 
 **Recomendación 6.** Más contexto para los vectores, empezando por las de menos de 100 caracteres.
 
-**Rol:** DATOS y EVAL · **Alcance:** [`wp06-cortos.tsv`](hallazgos/listas/wp06-cortos.tsv) (686, de la más corta a la más larga)
+**Rol:** DATOS y EVAL · **Turnos:** 13 (Antigravity: T-01 y T-02) y 14 (Cursor: T-03) · **Alcance:** [`wp06-cortos.tsv`](hallazgos/listas/wp06-cortos.tsv) (686, de la más corta a la más larga)
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|
@@ -296,7 +355,7 @@ Al cerrar WP-05, COORD avisa a JAVA en «Próximo paso» que WP-03 ya puede inte
 
 **Recomendación 7.** Limpiar los datos y que la carga normalice el texto de aquí en adelante.
 
-**Rol:** DATOS (parte A), JAVA (parte B) y REV · **Alcance:** [`wp07-higiene.tsv`](hallazgos/listas/wp07-higiene.tsv) (91) y [`wp07-ruso-p-latina.tsv`](hallazgos/listas/wp07-ruso-p-latina.tsv) (214)
+**Rol:** DATOS (parte A) y JAVA (parte B) · **Turnos:** 14 (Cursor: parte A) y 15 (Copilot: parte B) · **Alcance:** [`wp07-higiene.tsv`](hallazgos/listas/wp07-higiene.tsv) (91) y [`wp07-ruso-p-latina.tsv`](hallazgos/listas/wp07-ruso-p-latina.tsv) (214)
 
 **Parte A · datos** (primero, para que la parte B no avise sobre `data/`), como lote mecánico:
 
@@ -327,7 +386,7 @@ pruebas, la viñeta correspondiente de «Carga de datos» en `README.md` y `READ
 
 **Recomendación 8.** Ids de palabras clave que pertenecen a otra palabra, y colecciones partidas.
 
-**Rol:** DATOS y REV · **Alcance:** [`wp08-palabras-clave.tsv`](hallazgos/listas/wp08-palabras-clave.tsv) (17) y [`wp08-colecciones.tsv`](hallazgos/listas/wp08-colecciones.tsv) (2)
+**Rol:** DATOS · **Turno:** 16 (Antigravity) · **Alcance:** [`wp08-palabras-clave.tsv`](hallazgos/listas/wp08-palabras-clave.tsv) (17) y [`wp08-colecciones.tsv`](hallazgos/listas/wp08-colecciones.tsv) (2)
 
 **Política para cada palabra clave en conflicto**, en este orden:
 
@@ -348,7 +407,7 @@ pruebas, la viñeta correspondiente de «Carga de datos» en `README.md` y `READ
 
 **Recomendación 9.** Decidir qué puntuación muestra la demo y corregir 2 montos.
 
-**Rol:** COORD (memo), dueña del proyecto (D-02), DATOS y DOCS
+**Rol:** DATOS y DOCS · **Turno:** 17 (Cursor) · **Decide:** la dueña del proyecto (D-02)
 
 **Hechos para el memo.** La tarjeta de resultados muestra `vote_average`; el detalle muestra `vote_average` y
 `user_score` (`MovieDetailTables`). `user_score` viene de TMDB del 22-oct-2026 en 6 886 películas;
@@ -363,7 +422,7 @@ pruebas, la viñeta correspondiente de «Carga de datos» en `README.md` y `READ
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|
-| T-01 | Memo de una página en `bitacora/WP-09.md` con estos hechos y opciones; poner D-02 en ABIERTA con enlace al memo | D-02 contestada en la bitácora |
+| T-01 | Si D-02 no está contestada: memo de una página en `bitacora/WP-09.md` con estos hechos y opciones, enlazado desde D-02, y se pasa a T-03 mientras tanto | D-02 contestada en la bitácora |
 | T-02 | Implementar la opción elegida | `./mvnw verify` en verde |
 | T-03 | Montos de [`wp09-montos.tsv`](hallazgos/listas/wp09-montos.tsv): `694919` `revenue` 618 y `42360` `budget` 10 540. Si la ficha de Wikipedia da el monto, se usa con `enrichment.<campo> = wikipedia_infobox`; si no, `null` y se quita la etiqueta | Lote aplicado |
 
@@ -374,7 +433,7 @@ pruebas, la viñeta correspondiente de «Carga de datos» en `README.md` y `READ
 **Recomendación 10.** Cambios menores. **No empieza hasta que D-03 y D-04 estén contestadas** en la bitácora; los
 valores «por defecto» de la tabla son solo la recomendación para la dueña del proyecto.
 
-**Rol:** JAVA y DOCS · **Rama:** `dq/wp-10-mapping`, desde `dq/ronda-4`
+**Rol:** JAVA y DOCS · **Turno:** 18 (Copilot), en `dq/ronda-4`
 
 | Decisión | Pregunta | Recomendación |
 |---|---|---|
@@ -392,15 +451,15 @@ valores «por defecto» de la tabla son solo la recomendación para la dueña de
 
 **Objetivo.** Medir, dejar el repo coherente con el catálogo nuevo y publicarlo con aprobación y vuelta atrás.
 
-**Rol:** EVAL, DOCS y COORD · **Aprobación humana:** H-2
+**Rol:** EVAL y DOCS · **Turnos:** 19 (Antigravity: T-01 a T-03), 20 (Cursor: T-04 y T-05) y 21 (Copilot: T-06 a T-08) · **Aprobación humana:** H-2
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|
 | T-01 · M3 | Integrar WP-03 y WP-10 en `dq/ronda-4`. Levantar staging **compilado desde `dq/ronda-4`** (para que la normalización de WP-07 y el mapping de WP-10 apliquen) y hacer una recarga completa: bulk `_01`, append `_02`…`_07`. Harness | Tabla M3; línea «Staging» con el commit de la app y de `data/` |
 | T-02 · Informe v2 | `ELASTIFLIX_INDEX_ALIAS=elastiflix-dq-staging python data-quality/scripts/analizar.py --etiqueta m3` e `informe/informe-calidad-v2.html` con antes (`salidas/m0/`) y después (`salidas/m3/`) por hallazgo | Informe v2 en el repo; indicadores de la bitácora completos |
 | T-03 · Pruebas | `./mvnw verify -Pit` contra staging; actualizar conteos y posiciones medidas (`FullTextSearchIT`, `VectorSearchIT`, `HomePageTest`, sugerencias de Inicio) y `eval/thresholds.json`: **mínimo = medición − 0.05, redondeado hacia abajo a 2 decimales**, como hoy (0.742 → 0.69) | `./mvnw verify -Pit` en verde contra staging |
-| T-04 · Documentación | Tablas de precisión de `README.md` y `README.en.md`, «Acerca de» (`messages_es/en.properties`), `eval/README.md` y tamaños de `data/README.md` | REV confirma que toda cifra citada coincide con M3 |
-| T-05 · Hito C | Resumen del hito C. La dueña del proyecto integra `dq/ronda-4` en `main` y decide cuándo hace push. El cambio de alias de T-07 no depende del despliegue, pero los cambios visibles (por ejemplo, el rótulo de WP-09) solo llegan a la demo cuando ella despliega | `dq/ronda-4` integrada en `main` |
+| T-04 · Documentación | Tablas de precisión de `README.md` y `README.en.md`, «Acerca de» (`messages_es/en.properties`), `eval/README.md` y tamaños de `data/README.md` | Claude Code confirma que toda cifra citada coincide con M3 |
+| T-05 · Hito C | Borrador del resumen del hito C en el diario del plan; Claude Code lo cierra en R-20. La dueña del proyecto integra `dq/ronda-4` en `main` y decide cuándo hace push. El cambio de alias de T-07 no depende del despliegue, pero los cambios visibles (por ejemplo, el rótulo de WP-09) solo llegan a la demo cuando ella despliega | `dq/ronda-4` integrada en `main` |
 | T-06 · **H-2** | Pedir a la dueña del proyecto la aprobación con: resumen M0 → M3; el método (cambio atómico de alias, sin ventana con el catálogo a medias); la vuelta atrás (`publicar.py --revertir`); y que el índice anterior se guarda 7 días | Fila H-2 en APROBADA con fecha y el texto literal de la respuesta |
 | T-07 · Publicar | `python data-quality/scripts/publicar.py`; luego harness sobre producción (alias por defecto) | Producción = M3 (±0.02). Si no, `publicar.py --revertir` y bloqueo |
 | T-08 · Limpieza | A los 7 días sin incidentes, borrar el índice anterior de producción (incluido en H-2). Anotar en `data/README.md` que el índice vigente se llama `elastiflix-dq-staging-<fecha>` y que la siguiente carga bulk de producción no lo borrará sola (`OrphanCleaner` solo borra `elastiflix-reloaded-<fecha>`) | Bitácora cerrada, todos los WP en HECHA y retrospectiva escrita |

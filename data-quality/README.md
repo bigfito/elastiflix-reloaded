@@ -9,13 +9,14 @@ Calidad del catálogo `elastiflix-reloaded`: el análisis del índice vivo, sus 
 | La dueña del proyecto | [`informe/informe-calidad.html`](informe/informe-calidad.html) (ábrelo en el navegador) y las aprobaciones de [`BITACORA.md` §3](BITACORA.md#3-aprobaciones-y-decisiones-de-la-dueña-del-proyecto). La precondición P-0 es tuya |
 | Un agente que va a trabajar | [`AGENTS.md`](AGENTS.md) completo, después [`BITACORA.md`](BITACORA.md) y la tarjeta de tu WP en [`PLAN.md`](PLAN.md) |
 
-Mensaje para arrancar a cualquier agente (Claude Code, Cursor, Antigravity, Qwen Code…), abierto en el worktree
-`E:\02 - programming\03 - elastiflix-reloaded-dq` (ver `AGENTS.md` §4):
+El equipo trabaja por turnos (`AGENTS.md` §1): **Google Antigravity → Claude Code → Cursor → Claude Code → GitHub
+Copilot → Claude Code**, y vuelta a empezar. Abre la herramienta que indica «Próximo paso» de la bitácora con el
+worktree `E:\02 - programming\03 - elastiflix-reloaded-dq` como carpeta, y envíale su mensaje:
 
-```text
-Lee data-quality/AGENTS.md y sigue su protocolo de sesión. Continúa el plan desde
-data-quality/BITACORA.md: toma el trabajo que indica «Próximo paso».
-```
+| Herramienta | Mensaje |
+|---|---|
+| Google Antigravity · Cursor · GitHub Copilot | `Eres <herramienta>, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
+| Claude Code | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
 
 ## Qué hay aquí
 
