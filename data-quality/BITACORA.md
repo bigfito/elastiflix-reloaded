@@ -70,7 +70,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 > **Turno 03 · GitHub Copilot:** WP-00 T-06 (`cargar.py`), T-07 (M0), T-08 (staging, H-1 aprobada) y T-10
 > (`publicar.py`). Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-02](bitacora/R-02.md) y revisa su commit
 > `83af348`. El punto de partida es la etiqueta `dq-r02`. Este turno no usa Wikipedia.
-> **Dueña del proyecto:** contestar **D-05** (contacto del `User-Agent`) antes del turno 04.
+> D-05 está aprobada: `wiki_plot.py` ya se identifica con la URL del repo y descarga a 1 petición por segundo.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -85,7 +85,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-02 | ¿Qué puntuación muestra la demo? (WP-09) | A · B · C del plan | A: mantener las dos y rotularlas | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · opción A; WP-09 T-01 no necesita memo |
 | D-03 | ¿`"dynamic": "strict"` en el mapping? (WP-10) | Sí · No | Sí | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · sí, `dynamic: strict` |
 | D-04 | ¿Quitar el filtro `adult`? (WP-10) | Sí · No | No; documentar | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · no se quita; se documenta |
-| D-05 | ¿Qué contacto va en el `User-Agent` para Wikipedia y Wikidata (NS-7)? Sin contacto, Wikimedia limita a 10 peticiones por minuto y las unas 5 950 descargas de los turnos 4 a 13 tardan 11 h o más en total; con contacto, menos de 2 h. El valor va en `.env` como `DQ_WIKI_CONTACTO=` y no se commitea | URL pública del repo · un correo · sin contacto | Lo que prefiera la dueña del proyecto: es un dato suyo que se envía a Wikimedia | ABIERTA · se necesita antes del turno 04 |
+| D-05 | ¿Qué contacto va en el `User-Agent` para Wikipedia y Wikidata (NS-7)? Sin contacto, Wikimedia limita a 10 peticiones por minuto y las unas 5 950 descargas de los turnos 4 a 13 tardan 11 h o más en total; con contacto, menos de 2 h. El valor va en `.env` como `DQ_WIKI_CONTACTO=` y no se commitea | URL pública del repo · un correo · sin contacto | Lo que prefiera la dueña del proyecto: es un dato suyo que se envía a Wikimedia | APROBADA 2026-11-12 · «La URL del repo» · `DQ_WIKI_CONTACTO=https://github.com/bigfito/elastiflix-reloaded` en el `.env` del worktree |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
 
 ## 4. Decisiones tomadas
@@ -102,6 +102,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | D-02 | Opción A: se mantienen `vote_average` y `user_score` y se rotulan; WP-09 implementa sin memo | Dueña del proyecto |
 | 2026-11-12 | D-03 | `"dynamic": "strict"` en `elasticsearch/elastiflix-reloaded-mapping.json` (WP-10) | Dueña del proyecto |
 | 2026-11-12 | D-04 | El filtro `adult` se queda; se documenta que el catálogo de `data/` no tiene contenido adulto (WP-10) | Dueña del proyecto |
+| 2026-11-12 | D-05 | Contacto del `User-Agent` para Wikimedia: la URL pública del repo. Va en `.env` como `DQ_WIKI_CONTACTO` (no se commitea); `wiki_plot.py` pasa a 1 petición por segundo | Dueña del proyecto |
 
 ## 5. Bloqueos abiertos
 
@@ -196,4 +197,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   D-05 y se ajusta NS-7. Detalle en `bitacora/R-02.md`.
 - Evidencia: `wiki_plot.py --verificar` y `proponer_trama.py --comprobar` en verde; lote real de las 13 de WP-01
   propuesto en `work/r02-wp01/` (13 de 13 con trama) y simulado sin escribir `data/`.
+- Para el siguiente: turno 03, GitHub Copilot.
+
+### 2026-11-12 18:00 UTC · Claude Code (Claude Opus 5.5) · revisor (R-02)
+- Hice: D-05 aprobada por la dueña del proyecto («La URL del repo»). Agregué
+  `DQ_WIKI_CONTACTO=https://github.com/bigfito/elastiflix-reloaded` al `.env` del worktree, que no se commitea.
+- Evidencia: el `User-Agent` es `elastiflix-data-quality/1.0 (https://github.com/bigfito/elastiflix-reloaded)
+  python-urllib`, con pausa de 1 s; 8 de 8 tramas de `wp02-prioridad.tsv` descargadas sin ningún 429.
 - Para el siguiente: turno 03, GitHub Copilot.
