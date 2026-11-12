@@ -1,0 +1,84 @@
+# WP-05 · sinopsis que avisan las reglas nuevas de WP-03 (EFX-ING-026 y 028) sobre data/ en dq-r07. Hay que
+# reemplazarlas o limpiarlas antes del turno 13 (WP-03 T-03), porque ShippedCatalogValidationTest no admite avisos. R-08, P-09.
+# id	título (año)	regla	frase
+824	Moulin Rouge! (2001)	EFX-ING-028	explores the themes of
+1833	Rent (2005)	EFX-ING-028	At its core
+2067	Mission to Mars (2000)	EFX-ING-028	At its core
+2294	Jay and Silent Bob Strike Back (2001)	EFX-ING-028	At its core
+3542	Lady Chatterley (2006)	EFX-ING-028	At its core
+4958	The Legend of Bagger Vance (2000)	EFX-ING-028	At its core
+6589	Underdog (2007)	EFX-ING-028	At its core
+9358	Final Destination 2 (2003)	EFX-ING-028	explores the theme of
+9697	Lady in the Water (2006)	EFX-ING-028	At its core
+9787	Lords of Dogtown (2005)	EFX-ING-028	At its core
+9973	Air Buddies (2006)	EFX-ING-028	At its core
+10090	Reno 911!: Miami (2007)	EFX-ING-028	At its core
+10488	Nim's Island (2008)	EFX-ING-028	One of the primary themes
+10567	Dinosaur (2000)	EFX-ING-028	explores the themes of
+10647	Pay It Forward (2000)	EFX-ING-028	At its core
+10748	St. Trinian's (2007)	EFX-ING-028	At its core
+10956	Joe Dirt (2001)	EFX-ING-028	At its core
+11052	Yu-Gi-Oh! The Movie (2004)	EFX-ING-028	explores the themes of
+11647	Infernal Affairs II (2003)	EFX-ING-028	At its core
+11884	The Last Starfighter (1984)	EFX-ING-028	At its core
+11887	High School Musical 3: Senior Year (2008)	EFX-ING-028	One of the primary themes
+11888	Snow Dogs (2002)	EFX-ING-028	At its core
+12444	Harry Potter and the Deathly Hallows: Part 1 (2010)	EFX-ING-026	Here's a summary
+12767	Cold Creek Manor (2003)	EFX-ING-028	At its core
+13260	Semi-Pro (2008)	EFX-ING-028	At its core
+13358	A Dennis the Menace Christmas (2007)	EFX-ING-028	At its core
+14177	Beauty Shop (2005)	EFX-ING-028	At its core
+16394	Winnie the Pooh: Springtime with Roo (2004)	EFX-ING-028	At its core
+24803	Julie & Julia (2009)	EFX-ING-028	At its core
+34433	Dragon Ball Z: Broly – The Legendary Super Saiyan (1993)	EFX-ING-028	explores the themes of
+36691	Solitary Man (2009)	EFX-ING-028	At its core
+37565	St Trinian's 2: The Legend of Fritton's Gold (2009)	EFX-ING-028	At its core
+41439	Saw 3D (2010)	EFX-ING-028	explores the themes of
+44728	One Piece: Curse of the Sacred Sword (2004)	EFX-ING-028	explores the themes of
+46919	Daisies (1966)	EFX-ING-028	At its core
+54540	Beverly Hills Chihuahua 2 (2011)	EFX-ING-028	At its core
+58232	Chalet Girl (2011)	EFX-ING-028	explores the theme of
+67675	Glee: The Concert Movie (2011)	EFX-ING-028	At its core
+70587	Spooky Buddies (2011)	EFX-ING-028	At its core
+70667	Kon-Tiki (2012)	EFX-ING-028	At its core
+75174	The Grey (2012)	EFX-ING-026	Here's a detailed
+142308	Santa Paws 2: The Santa Pups (2012)	EFX-ING-028	At its core
+146381	Justin and the Knights of Valour (2013)	EFX-ING-028	At its core
+150015	Love at the Christmas Table (2012)	EFX-ING-028	At its core
+175528	Baggage Claim (2013)	EFX-ING-028	explores the theme of
+198436	Antboy (2013)	EFX-ING-028	At its core
+199753	Tom and Jerry's Giant Adventure (2013)	EFX-ING-028	At its core
+211067	The Sacrament (2013)	EFX-ING-028	At its core
+232679	When the Game Stands Tall (2014)	EFX-ING-028	At its core
+239566	Get on Up (2014)	EFX-ING-028	explores the theme of
+250546	Annabelle (2014)	EFX-ING-028	explores the theme of
+277834	Moana (2016)	EFX-ING-028	explores the theme of
+286192	Lava (2014)	EFX-ING-028	explores the theme of
+290999	Wyrmwood: Road of the Dead (2014)	EFX-ING-028	At its core
+294016	Trumbo (2015)	EFX-ING-028	At its core
+306964	Tales of Halloween (2015)	EFX-ING-028	At its core
+312791	GirlHouse (2014)	EFX-ING-028	explores the theme of
+326359	Frozen Fever (2015)	EFX-ING-028	explores the themes of
+331446	Sharknado 3: Oh Hell No! (2015)	EFX-ING-028	At its core
+335970	Joe Dirt 2: Beautiful Loser (2015)	EFX-ING-028	At its core
+335983	Venom (2018)	EFX-ING-026	Here's a plot
+353326	The Man Who Knew Infinity (2016)	EFX-ING-028	At its core
+361159	Navy Seals vs. Zombies (2015)	EFX-ING-028	At its core
+364708	All American Bikini Car Wash (2015)	EFX-ING-028	At its core
+374052	The Love Witch (2016)	EFX-ING-028	At its core
+381237	Office Uprising (2018)	EFX-ING-028	explores the theme of
+392536	Lego Scooby-Doo!: Haunted Hollywood (2016)	EFX-ING-028	At its core
+409122	Scooby-Doo! and WWE: Curse of the Speed Demon (2016)	EFX-ING-028	At its core
+438970	Sharknado 5: Global Swarming (2017)	EFX-ING-028	At its core
+456750	Game Over, Man! (2018)	EFX-ING-028	At its core
+460218	5 Headed Shark Attack (2017)	EFX-ING-028	At its core
+460885	Mandy (2018)	EFX-ING-028	at its core
+502406	St. Agatha (2018)	EFX-ING-028	At its core
+531454	Eurovision Song Contest: The Story of Fire Saga (2020)	EFX-ING-028	At its core
+539885	Ava (2020)	EFX-ING-028	At its core
+543580	They Shall Not Grow Old (2018)	EFX-ING-028	At its core
+563710	Angela's Christmas (2017)	EFX-ING-028	At its core
+566076	The United States vs. Billie Holiday (2021)	EFX-ING-028	At its core
+663712	Terrifier 2 (2022)	EFX-ING-028	at its core
+680593	The Dark and the Wicked (2020)	EFX-ING-028	At its core
+1043581	Santa Camp (2022)	EFX-ING-028	At its core

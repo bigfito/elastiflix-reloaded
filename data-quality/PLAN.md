@@ -288,7 +288,7 @@ EFX-ING-028 · advertencia · en cualquier parte:
 | T-01 | Patrones en `PlotChecks`, con su Javadoc. Los de 025 van anclados: un personaje puede decir «I don't have information» dentro de una trama | Compila |
 | T-02 | Pruebas positivas con los textos reales (`671`, `799546`, `12703`, `621707`) y **negativas** con los falsos positivos encontrados: «unable to find work» (`212778`), «is not a real princess» (`36736`), «there is no record of a woman» (`111083`), «Unable to find steady work» (`167073`) | Pruebas en verde; ningún negativo dispara |
 | T-03 | Turno 13, ya terminado WP-05: `git merge dq/ronda-4` en la rama y `./mvnw -q test "-Dtest=ShippedCatalogValidationTest"`. Cada advertencia se lleva a DATOS como lote nuevo de WP-05 (WP-05 se reabre si ya cerró), o se ajusta el patrón si es un falso positivo | Prueba en verde sin bajar la exigencia de cero advertencias; `git merge --no-ff dq/wp-03-reglas-plot` en `dq/ronda-4` |
-| T-04 | Documentación en español e inglés: viñeta «Sinopsis» de «Carga de datos» en `README.md` y `README.en.md`; tabla de códigos de `docs/convenciones-java.md`; y `messages_es/en.properties` si sus textos nombran ejemplos | `./mvnw verify` en verde |
+| T-04 | Documentación en español e inglés: viñeta «Sinopsis» de «Carga de datos» en `README.md` y `README.en.md`; tabla de códigos de `docs/convenciones-java.md`; y `messages_es/en.properties` si sus textos nombran ejemplos | En la rama: `./mvnw verify "-Dtest=!ShippedCatalogValidationTest" "-Dsurefire.failIfNoSpecifiedTests=false"` en verde, y `ShippedCatalogValidationTest` solo avisa sobre películas de `wp05-avisos-wp03.tsv` (P-09). Todo en verde, en T-03 |
 
 ---
 
@@ -330,6 +330,7 @@ la limpieza deja menos de 400 caracteres, no se cambia nada y queda «sin fuente
 | T-01 | `limpiar_enciclopedico.py`: función `limpiar(texto) -> texto \| None` y CLI `--wp WP-05 --ids <tsv>` que escribe lotes como `proponer_trama.py`. Quita el **primer párrafo** si es la ficha (`^…\bis an? (\d{4} )?…(film\|movie\|documentary\|anime)\b`) y quita **párrafos completos** que contengan `box office`, `grossed`, `Rotten Tomatoes`, `received (mixed\|positive\|negative) reviews` o `premiered at`. Nunca corta dentro de un párrafo. La etiqueta sigue en `unverified` | Prueba con 5 plots reales en `work/`; Claude Code la repite en R-10 |
 | T-02 | Lotes de 100 con el orden de arriba (`proponer_trama.py --wp WP-05 …` y, para los «sin trama», `limpiar_enciclopedico.py`) | `estado.tsv` con fila para las 3 862 |
 | T-03 | Cerrar lo que quede de `wp02-revisar-reparto.tsv` | Lista cerrada en la bitácora |
+| T-03b | Las 81 de [`wp05-avisos-wp03.tsv`](hallazgos/listas/wp05-avisos-wp03.tsv) (R-08, P-09): cada una debe quedar con trama de Wikipedia o limpia de la frase que avisa WP-03, porque el turno 13 integra esas reglas y `ShippedCatalogValidationTest` no admite avisos. Si la limpieza de párrafos no la quita, se anota para el turno 13 | Ninguna de las 81 conserva la frase |
 | T-04 | Revisión, aplicación y validación por lote, como en WP-02 | `ShippedCatalogValidationTest` en verde |
 | T-05 · indicador | `analizar.py --etiqueta wp-05 --desde-data`, en `plots.txt` | «producción/recepción» < 300 (hoy 1 549) y «ficha inicial» < 500 (hoy 3 734) |
 

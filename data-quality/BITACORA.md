@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 22:05 UTC · Cursor (Grok 4.7) · ejecutor (turno 08)
+**Última actualización:** 2026-11-12 22:30 UTC · Claude Code (Claude Opus 5.5) · revisor (R-08)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -25,7 +25,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 05 | Cursor | WP-02 lotes `002`–`006` | REVISADO | 2026-11-12 | `dq-t05` | [R-05](bitacora/R-05.md) |
 | 06 | GitHub Copilot | WP-02 lotes `009`–`013` (500 desde `68727`; P-07) | REVISADO | 2026-11-12 | `dq-t06` | [R-06](bitacora/R-06.md) |
 | 07 | Google Antigravity | WP-02, las 302 restantes (lotes `015`–`018`; P-07), T-04 a T-06 (M1) · hito A | REVISADO | 2026-11-12 | `dq-t07` | [R-07](bitacora/R-07.md) |
-| 08 | Cursor | WP-03 T-01, T-02 y T-04 | INCOMPLETO · B-02 | 2026-11-12 | `dq-t08` | — |
+| 08 | Cursor | WP-03 T-01, T-02 y T-04 | REVISADO | 2026-11-12 | `dq-t08` | [R-08](bitacora/R-08.md) |
 | 09 | GitHub Copilot | WP-04 | PENDIENTE | — | — | — |
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`010` | PENDIENTE | — | — | — |
 | 11 | Cursor | WP-05 lotes `011`–`025` | PENDIENTE | — | — | — |
@@ -47,7 +47,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | HECHA | 4 | 2026-11-12 |
 | WP-02 | Reescribir los ensayos generados | HECHA | 4, 5, 6, 7 | 2026-11-12 |
-| WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-01, T-02 y T-04 en `dq-t08`; T-03 en el turno 13; verify en rojo (B-02) | 8, 13 | 2026-11-12 |
+| WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-01, T-02 y T-04 hechas y revisadas en la rama; T-03 (integración) en el turno 13 | 8, 13 | 2026-11-12 |
 | WP-04 | Etiquetar el origen de todas las sinopsis | PENDIENTE | 9 | — |
 | WP-05 | Limpiar el plot enciclopédico | PENDIENTE | 10, 11, 12 | — |
 | WP-06 | Completar las sinopsis cortas | PENDIENTE | 13, 14 | — |
@@ -69,16 +69,15 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-05 | 05 · Cursor | APROBADO CON CORRECCIONES | 2 tramas de otra obra (*Gundam I* → serie de TV; *Jackass 3.5* → *Jackass 3D*), guarda nueva en `wiki_plot.py` | `4ea1d8d` `9c0f2ff` `70c638b` | [R-05](bitacora/R-05.md) |
 | R-06 | 06 · GitHub Copilot | APROBADO CON CORRECCIONES | B-01 (regla `EFX-ING-026` sobre citas), segundo aviso oculto, 4 tramas recuperadas con encabezados «Summary» y con paréntesis | `73cd5d0` `a6369d2` `e9dac1a` | [R-06](bitacora/R-06.md) |
 | R-07 | 07 · Google Antigravity | APROBADO | Guarda de artículos de varias películas hecha explícita; cierre de WP-02 y del hito A | `be0f349` | [R-07](bitacora/R-07.md) |
+| R-08 | 08 · Cursor | APROBADO CON CORRECCIONES | B-02 era del plan (P-09); lista `wp05-avisos-wp03.tsv` y WP-05 T-03b; apóstrofo tipográfico en tres patrones | `df935f1` (rama WP-03) y `dq/ronda-4` | [R-08](bitacora/R-08.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-08** del turno 08 (Cursor), que quedó **INCOMPLETO**. El código y el diario están en la
-> rama `dq/wp-03-reglas-plot`, etiqueta `dq-t08`, worktree `E:\02 - programming\03 - elastiflix-reloaded-dq-wp03`.
-> Alcance: `git diff dq-r07..dq-t08`. **No** integres esa rama en `dq/ronda-4`: eso es WP-03 T-03, en el turno 13,
-> después de WP-05. `./mvnw verify` falla solo en `ShippedCatalogValidationTest` (B-02, 81 sinopsis de WP-05). No
-> aflojes los patrones para ponerla en verde. Diario: `bitacora/WP-03.md` en esa etiqueta.
-> **Dueña del proyecto:** puedes integrar el hito A en `main` cuando quieras (`git merge --no-ff dq/ronda-4` en tu
-> checkout); es opcional y no afecta a los turnos. La rama de WP-03 no entra en ese merge.
+> **Turno 09 · GitHub Copilot:** **WP-04 completo**, en `dq/ronda-4` (no en la rama de WP-03): lote mecánico con
+> `enrichment.plot = "unverified"` para toda sinopsis sin etiqueta, incluida `751432`; en el **mismo commit**,
+> `ShippedCatalogValidationTest` con `WITH_TAGS = 6_899`; y el vocabulario de `enrichment.plot` documentado (T-03).
+> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-08](bitacora/R-08.md) y anota en tu diario que la leíste.
+> El punto de partida es la etiqueta `dq-r08`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -113,19 +112,16 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | D-05 | Contacto del `User-Agent` para Wikimedia: la URL pública del repo. Va en `.env` como `DQ_WIKI_CONTACTO` (no se commitea); `wiki_plot.py` pasa a 1 petición por segundo | Dueña del proyecto |
 | 2026-11-12 | P-07 | Los lotes de corrección de R-05 tomaron los números `007` y `008`. Los números de lote los asigna `proponer_trama.py`; las películas de cada turno no cambian (turno 06: 500 desde `68727`, lotes `009`–`013`; turno 07: las 302 restantes, `014`–`017`) | Claude Code (R-05) |
 | 2026-11-12 | P-08 | NS-1 acepta `Summary` como sección de trama y compara los encabezados sin paréntesis («Synopsis (extended version)»). Con la prueba en rojo no se aplican más lotes (`AGENTS.md` §5) | Claude Code (R-06) |
+| 2026-11-12 | P-09 | En la rama de WP-03, el criterio es `verify` en verde salvo `ShippedCatalogValidationTest`, que solo puede avisar sobre películas de `hallazgos/listas/wp05-avisos-wp03.tsv` (81). WP-05 suma T-03b: esas 81 quedan con trama de Wikipedia o limpias de la frase. Todo en verde se exige en WP-03 T-03 (turno 13) | Claude Code (R-08) |
+| 2026-11-12 | P-10 | El hito A (`dq-r07`) se integró en `main` local con el merge `739a118`, sin push | Dueña del proyecto: «Sí, integra en local» |
 
 ## 5. Bloqueos abiertos
 
-**B-02** (turno 08, rama `dq/wp-03-reglas-plot`, etiqueta `dq-t08`). `./mvnw verify`: 833 pruebas, 1 fallo.
-`ShippedCatalogValidationTest` en `elastiflix-reloaded_01.csv` avisa `EFX-ING-028` (el primero, id `824`,
-«explores the themes of»). En el `data/` actual hay 81 sinopsis sin etiqueta, todas en `wp05-enciclopedicos.tsv`,
-que disparan `026` o `028` (60 «at its core», 25 «explores the theme(s) of», 6 «one of the primary/central/main
-themes», 3 «here's a summary/plot/detailed»). Ninguna es trama de Wikipedia. «delves into the complexities» no
-aparece (0); «the complexities of» aparece 27 veces y no dispara. No se bajan los patrones: lo cierra T-03, en el
-turno 13, después de WP-05. Checkstyle y PMD están en verde. Las demás 832 pruebas pasan.
+Ninguno.
 
-Resueltos: **B-01** (turno 06, `ShippedCatalogValidationTest` en rojo por `EFX-ING-026` sobre una cita de Wikipedia),
-cerrado en R-06 con `73cd5d0`.
+Resueltos: **B-01** (turno 06, `EFX-ING-026` sobre una cita de Wikipedia), cerrado en R-06 con `73cd5d0`. **B-02**
+(turno 08, `ShippedCatalogValidationTest` en rojo en la rama de WP-03 por 81 sinopsis de WP-05), cerrado en R-08 con
+la decisión P-09: es el comportamiento esperado de esa rama hasta el turno 13.
 
 ## 6. Métricas de relevancia
 
@@ -271,3 +267,9 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: staging (`elastiflix-dq-staging-20261112-201036`) idéntico a `data/` en las 6 899 sinopsis y con vectores
   al día; producción intacta; `./mvnw -q verify` en verde (801).
 - Para el siguiente: turno 08, Cursor (WP-03 en su rama). La dueña del proyecto puede integrar `dq/ronda-4` en `main`.
+
+### 2026-11-12 22:30 UTC · Claude Code (Claude Opus 5.5) · revisor (R-08)
+- Hice: revisión del turno 08 de Cursor (WP-03 en su rama). APROBADO CON CORRECCIONES. B-02 venía de mi plan y se
+  cierra con P-09; lista `wp05-avisos-wp03.tsv` y WP-05 T-03b para que el turno 13 pueda integrar; las reglas aceptan
+  el apóstrofo tipográfico. Registro de la integración del hito A en `main` (P-10). Detalle en `bitacora/R-08.md`.
+- Para el siguiente: turno 09, GitHub Copilot (WP-04).
