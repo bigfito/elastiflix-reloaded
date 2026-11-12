@@ -6,5 +6,6 @@
 !.mvn/
 !config/
 !elasticsearch/
+!eval/
 !src/
 src/test/browser/

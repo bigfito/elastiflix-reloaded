@@ -9,6 +9,8 @@ COPY mvnw pom.xml ./
 RUN chmod +x mvnw && ./mvnw -B -q dependency:go-offline
 COPY config/ config/
 COPY elasticsearch/ elasticsearch/
+# Las pruebas unitarias validan los juicios y los mínimos del harness de relevancia; no pasan a la etapa 2.
+COPY eval/ eval/
 COPY src/ src/
 RUN ./mvnw -B verify && cp target/elastiflix-reloaded-*.jar /workspace/app.jar
 
