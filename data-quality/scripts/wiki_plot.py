@@ -515,6 +515,8 @@ def texto_de_extracto(extracto: str) -> str | None:
 _NO_PELICULA = re.compile(
     r"(?i)\b(?:television series|TV series|web series|video game|manga series|anime series|light novel series|miniseries)\b"
 )
+# Solo el singular: un artículo que se presenta como «trilogy of anime films» o «group of films and television series»
+# trata de varias películas y su trama no es la de una sola (R-07: Psycho-Pass: Sinners of the System, Case.2).
 _PELICULA = re.compile(r"(?i)\b(?:film|movie)\b")
 
 
@@ -585,6 +587,9 @@ def comprobar_texto() -> None:
     _exigir(es_articulo_de_obra_no_filmica(serie), "El artículo de una serie de TV no es el de la película")
     pelicula = "Titanic is a 1997 American epic romantic disaster film directed by James Cameron.\n\n== Plot =="
     _exigir(not es_articulo_de_obra_no_filmica(pelicula), "El artículo de una película debe aceptarse")
+    trilogia = ("Psycho-Pass: Sinners of the System is a trilogy of Japanese anime films based on characters who "
+                "appear in the Psycho-Pass television series.\n\n== Plot ==")
+    _exigir(es_articulo_de_obra_no_filmica(trilogia), "El artículo de una trilogía no es el de una de sus películas")
     adaptacion = "Kamikaze Girls is a 2002 Japanese novel written by Novala Takemoto.\n\n== Plot =="
     _exigir(not es_articulo_de_obra_no_filmica(adaptacion), "Una novela adaptada se acepta")
     cita = ('She tells him "Go home." ' * 2) + ("X" * 3100)
