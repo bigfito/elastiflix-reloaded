@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 22:25 UTC · Google Antigravity (Gemini 4 Argon) · ejecutor (turno 10)
+**Última actualización:** 2026-11-12 22:57 UTC · Google Antigravity (Gemini 4 Argon) · ejecutor (turno 10)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -27,7 +27,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 07 | Google Antigravity | WP-02, las 302 restantes (lotes `015`–`018`; P-07), T-04 a T-06 (M1) · hito A | REVISADO | 2026-11-12 | `dq-t07` | [R-07](bitacora/R-07.md) |
 | 08 | Cursor | WP-03 T-01, T-02 y T-04 | REVISADO | 2026-11-12 | `dq-t08` | [R-08](bitacora/R-08.md) |
 | 09 | GitHub Copilot | WP-04 | REVISADO | 2026-11-12 | `dq-t09` | [R-09](bitacora/R-09.md) |
-| 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`010` | EN CURSO | 2026-11-12 | — | — |
+| 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`010` | INCOMPLETO | 2026-11-12 | `dq-t10` | — |
 | 11 | Cursor | WP-05 lotes `011`–`025` | PENDIENTE | — | — | — |
 | 12 | GitHub Copilot | WP-05 lotes `026`–`039`, T-03 y T-05 | PENDIENTE | — | — | — |
 | 13 | Google Antigravity | WP-03 T-03 y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
@@ -49,7 +49,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-02 | Reescribir los ensayos generados | HECHA | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-01, T-02 y T-04 hechas y revisadas en la rama; T-03 (integración) en el turno 13 | 8, 13 | 2026-11-12 |
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
-| WP-05 | Limpiar el plot enciclopédico | EN CURSO · turno 10 (T-01 y lotes `001`–`010`) | 10, 11, 12 | 2026-11-12 |
+| WP-05 | Limpiar el plot enciclopédico | EN CURSO · turno 10 en revisión: T-01 hecha y lotes `001`–`009` aplicados; detenido en `lote-009` por B-03 | 10, 11, 12 | 2026-11-12 |
 | WP-06 | Completar las sinopsis cortas | PENDIENTE | 13, 14 | — |
 | WP-07 | Normalizar al cargar | PENDIENTE | 14, 15 | — |
 | WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
@@ -74,10 +74,15 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 10 · Google Antigravity:** WP-05 T-01 (`limpiar_enciclopedico.py`) y lotes `001` a `010` (trama de
-> Wikipedia; las que no tengan trama, a la limpieza). Ten en cuenta T-03b (las 81 de `wp05-avisos-wp03.tsv`). Empieza
-> con el protocolo de `AGENTS.md` §5: lee primero [R-09](bitacora/R-09.md) y anota en tu diario que la leíste. El
-> punto de partida es la etiqueta `dq-r09`. WP-00 a WP-02 y WP-04 están HECHAS.
+> **Claude Code: revisión R-10** del turno 10 de Google Antigravity (`dq-t10`, cerrado como `INCOMPLETO` según la regla
+> de parada en rojo de `AGENTS.md` §5). Tareas del turno: WP-05 T-01 (`data-quality/scripts/limpiar_enciclopedico.py` y
+> su comprobación con 5 sinopsis reales en `work/prueba_limpiar/`, commit `3b45efb`) y lotes `001` a `009` de WP-05
+> (`c963454`..`97d24d0`, 900 películas evaluadas: 892 con trama de Wikipedia y 8 omitidas; 28 de las 81 de T-03b
+> reemplazadas con trama de Wikipedia sin aviso de WP-03). El `lote-009` dejó `ShippedCatalogValidationTest` en rojo por
+> `EFX-ING-027` (`15384` *Red Cliff Part II* duplica la trama de `12289` *Red Cliff* del `lote-007`, bloqueo **B-03**),
+> por lo que se detuvo la aplicación antes de `lote-010` y del lote de `limpiar_enciclopedico.py`. Detalle en
+> [`bitacora/WP-05.md`](bitacora/WP-05.md) y en §5 (**B-03**). Después de R-10, el turno 11 es de Cursor (WP-05 lotes
+> `011`–`025`).
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -117,7 +122,10 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 
 ## 5. Bloqueos abiertos
 
-Ninguno.
+- **B-03** (turno 10 · WP-05 `lote-009` · `ShippedCatalogValidationTest` en rojo por `EFX-ING-027`):
+  - **Aviso exacto:** `[elastiflix-reloaded_02.csv] Expecting empty but was: [ValidationIssue[code=EFX-ING-027, recordLabel=690, id=15384, field=plot, received=12289, expected=una sinopsis distinta, warning=true]]`
+  - **Causa:** `12289` (*Red Cliff*, 2008, `tt0425637`, aplicada en `lote-007`) y `15384` (*Red Cliff Part II*, 2009, `tt1326972`, aplicada en `lote-009`) resuelven ambas por Wikidata P345 al mismo artículo de Wikipedia en inglés, `Red Cliff (film)` (`revid=1383796212`), que reúne las dos partes en una sola sección `== Plot ==`. `proponer_trama.py` asignó el mismo texto a las dos películas y `ShippedCatalogValidationTest` detecta el duplicado con `EFX-ING-027`.
+  - **Nota conexa y propuesta para R-10:** En `data/` original (`dq-r09`), tanto `12289` como `15384` tienen sinopsis enciclopédicas propias de cada parte que `limpiar_enciclopedico.py` limpia dejando 1 991 y 1 814 caracteres respectivamente. Además, en `lote-004`, `8880` (*Che: Part Two*, 2008, `tt0374569`) resolvió al artículo conjunto `Che (2008 film)#revid=1381669278` y recibió los 5 primeros párrafos de `== Plot ==` (*Part One: The Argentine*), mientras que su sinopsis original limpia con `limpiar_enciclopedico.py` conserva 1 226 caracteres específicos de la segunda parte en Bolivia. En el resto de `wp05-enciclopedicos.tsv` hay otros pares en dos partes con artículo único en Wikipedia (`123025`/`142061` *Batman: The Dark Knight Returns, Part 1 & 2*, `282069`/`282070` *Parasyte: Part 1 & 2*, `736073`/`736074` *Batman: The Long Halloween, Part One & Two*), por lo que en R-10 se puede evitar que `proponer_trama.py` reutilice un `revid` ya registrado en `plot-fuentes.tsv` (o artículos con subsecciones `Part One` / `Part Two`) y corregir `15384` y `8880` con `limpiar_enciclopedico.py`, además de completar `lote-010` y el lote de omitidas del turno 10.
 
 Resueltos: **B-01** (turno 06, `EFX-ING-026` sobre una cita de Wikipedia), cerrado en R-06 con `73cd5d0`. **B-02**
 (turno 08, `ShippedCatalogValidationTest` en rojo en la rama de WP-03 por 81 sinopsis de WP-05), cerrado en R-08 con
