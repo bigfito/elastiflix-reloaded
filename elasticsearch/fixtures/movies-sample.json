@@ -136,7 +136,7 @@
     "type": "float"
    },
    "poster_path": {
-    "type": "text"
+    "type": "keyword"
    },
    "production_companies": {
     "type": "keyword"

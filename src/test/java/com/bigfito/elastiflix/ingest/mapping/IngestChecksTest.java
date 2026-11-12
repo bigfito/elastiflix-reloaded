@@ -224,17 +224,19 @@ class IngestChecksTest {
     }
 
     @Test
-    @DisplayName("el markdown y la aclaración «, not» también se avisan")
+    @DisplayName("el markdown se avisa y «, not» solo si sigue a directed by o produced by")
     void shouldWarnAboutMarkdownAndNotClarifications() {
         String markdown = "a".repeat(PlotChecks.MIN_PLOT_LENGTH) + " **nota**";
-        String clarification = "a".repeat(PlotChecks.MIN_PLOT_LENGTH) + ", not Disney";
+        String credit = "a".repeat(20) + " directed by Wes Anderson, not Disney";
+        String prose = "a".repeat(PlotChecks.MIN_PLOT_LENGTH) + ", not Disney";
 
         assertThat(validate(movie("1", markdown)).report().warnings())
                 .extracting(ValidationIssue::code)
                 .containsExactly(ErrorCode.SUSPECT_PLOT.code());
-        assertThat(validate(movie("1", clarification)).report().warnings())
+        assertThat(validate(movie("1", credit)).report().warnings())
                 .extracting(ValidationIssue::received)
                 .containsExactly(", not Disney");
+        assertThat(validate(movie("1", prose)).report().warnings()).isEmpty();
     }
 
     @Test

@@ -77,7 +77,7 @@ public final class CatalogFields {
                     field("production_companies", KEYWORD, DETAIL),
                     field("production_countries", KEYWORD, DETAIL),
                     field("spoken_languages", KEYWORD, FILTER),
-                    field("poster_path", TEXT, CARD),
+                    field("poster_path", KEYWORD, CARD),
                     field("backdrop_path", KEYWORD, DETAIL),
                     field("homepage", KEYWORD, DETAIL),
                     field("belongs_to_collection", NESTED, DETAIL),
