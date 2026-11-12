@@ -6,14 +6,17 @@ Normas que implementa:
 - NS-4: `imdb_id` → Wikidata (P345) → artículo de `en.wikipedia.org`. Sin id o sin
   resultado, busca por título y solo acepta si el año coincide ±1 y el artículo
   nombra al menos 2 integrantes de `cast`.
-- NS-7: `User-Agent` fijo, como máximo una petición por segundo y respuestas en
-  `data-quality/work/cache/`.
+- NS-7: `User-Agent` con el contacto de `DQ_WIKI_CONTACTO` (variable de entorno o `.env`, nunca en git) y
+  respuestas en `data-quality/work/cache/`. Wikimedia limita a 10 peticiones por minuto a quien no se identifica
+  y a 200 a quien da un contacto; sin contacto, el ritmo baja solo a una petición cada 6,5 s. Un 429 o un 503
+  respeta `Retry-After` (revisión R-02).
 
 `buscar(ids)` y `trama(artículo)` no escriben sinopsis: copian el texto de la
 fuente y solo quitan referencias, notas y espacios de más. No tocan `data/`.
 """
 import hashlib
 import json
+import os
 import pathlib
 import re
 import sys
@@ -29,10 +32,28 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import catalogo
 from paths import WORK
 
-USER_AGENT = "elastiflix-data-quality/1.0 (academic demo)"
+def _contacto() -> str:
+    """Contacto para el `User-Agent` (correo o URL completa), de la variable `DQ_WIKI_CONTACTO` o del `.env`."""
+    valor = os.environ.get("DQ_WIKI_CONTACTO", "").strip()
+    env = catalogo.REPO / ".env"
+    if not valor and env.is_file():
+        for linea in env.read_text(encoding="utf-8").splitlines():
+            if linea.strip().startswith("DQ_WIKI_CONTACTO="):
+                valor = linea.split("=", 1)[1].strip().strip('"').strip("'")
+    return valor
+
+
+CONTACTO = _contacto()
+USER_AGENT = (
+    f"elastiflix-data-quality/1.0 ({CONTACTO}) python-urllib"
+    if CONTACTO
+    else "elastiflix-data-quality/1.0 (academic demo) python-urllib"
+)
 WIKIDATA = "https://query.wikidata.org/sparql"
 WIKIPEDIA = "https://en.wikipedia.org/w/api.php"
-PAUSA_SEGUNDOS = 1.0
+# Con contacto: 1 petición por segundo (60/min, por debajo de 200/min). Sin contacto: 6,5 s (por debajo de 10/min).
+PAUSA_SEGUNDOS = 1.0 if CONTACTO else 6.5
+ESPERA_429_MINIMA = 60
 LOTE_SPARQL = 200
 LARGO_MIN = 40
 LARGO_MAX = 3000
@@ -131,7 +152,8 @@ def _leer_url(url: str, datos: bytes | None = None, cabeceras: dict[str, str] | 
     req = urllib.request.Request(url, data=datos, headers=headers)
     print(f"Red: {urllib.parse.urlparse(url).netloc}", file=sys.stderr)
     ultimo: Exception | None = None
-    for intento in range(4):
+    intentos = 6
+    for intento in range(intentos):
         _esperar()
         try:
             with urllib.request.urlopen(req, timeout=90) as resp:
@@ -139,15 +161,25 @@ def _leer_url(url: str, datos: bytes | None = None, cabeceras: dict[str, str] | 
         except urllib.error.HTTPError as exc:
             detalle = exc.read().decode("utf-8", "replace")[:300]
             ultimo = RuntimeError(f"HTTP {exc.code} al consultar Wikipedia o Wikidata: {detalle}")
-            if exc.code not in {429, 500, 502, 503, 504} or intento == 3:
+            if exc.code not in {429, 500, 502, 503, 504} or intento == intentos - 1:
                 raise ultimo from exc
-            time.sleep(5 * (intento + 1))
+            time.sleep(_espera_reintento(exc, intento))
         except urllib.error.URLError as exc:
             ultimo = RuntimeError(f"No se pudo conectar con Wikipedia o Wikidata: {exc.reason}")
-            if intento == 3:
+            if intento == intentos - 1:
                 raise ultimo from exc
-            time.sleep(5 * (intento + 1))
+            time.sleep(5 * 2**intento)
     raise ultimo or RuntimeError("No se pudo completar la petición")
+
+
+def _espera_reintento(exc: urllib.error.HTTPError, intento: int) -> float:
+    """Segundos antes de reintentar: `Retry-After` si viene; si no, espera exponencial. Un 429 espera al menos 60 s."""
+    cabecera = (exc.headers or {}).get("Retry-After", "") if hasattr(exc, "headers") else ""
+    espera = float(cabecera) if str(cabecera).strip().isdigit() else 5.0 * 2**intento
+    if exc.code == 429:
+        espera = max(espera, ESPERA_429_MINIMA)
+    print(f"HTTP {exc.code}: espero {espera:.0f} s antes de reintentar ({intento + 1})", file=sys.stderr)
+    return espera
 
 
 def _json_en_cache(grupo: str, clave: str, url: str, datos: bytes | None = None, cabeceras: dict[str, str] | None = None) -> Any:
@@ -426,7 +458,11 @@ def _recortar(texto: str) -> str | None:
             ultimo = indice
     if ultimo is None or ultimo + 1 < LARGO_MIN:
         return None
-    return texto[: ultimo + 1].rstrip()
+    fin = ultimo + 1
+    # Una oración que termina con cita cierra la comilla: «…said "Go home."»
+    while fin < len(texto) and fin < LARGO_MAX and texto[fin] in "\"'”’":
+        fin += 1
+    return texto[:fin].rstrip()
 
 
 def preparar_texto(texto: str | None) -> str | None:
@@ -455,7 +491,8 @@ def secciones_de_trama(extracto: str) -> list[str]:
             if len(siguiente.group(1)) == 2:
                 fin = siguiente.start()
                 break
-        secciones.append(extracto[marca.end() : fin])
+        # Los subtítulos de nivel 3 o más («=== Setting ===») se quitan; su texto sigue siendo parte de la trama.
+        secciones.append(_ENCABEZADO.sub("", extracto[marca.end() : fin]))
     return secciones
 
 
@@ -511,6 +548,11 @@ def comprobar_texto() -> None:
     _exigir(texto_de_extracto(desarrollo) is None, "Story development no es sinónimo de Story")
     sub = "=== Plot ===\n" + ("A level-three heading is not the plot section. " * 4)
     _exigir(texto_de_extracto(sub) is None, "Solo valen los encabezados de nivel 2")
+    anidada = "== Plot ==\n=== Setting ===\n" + ("The region is full of creatures. " * 3) + "\n=== Story ===\n" + ("The hero sets out on a long journey. " * 3)
+    limpia = texto_de_extracto(anidada)
+    _exigir(limpia is not None and "===" not in limpia and "The hero sets out" in limpia, f"Los subtítulos de nivel 3 no deben quedar en la trama: {limpia!r}")
+    cita = ('She tells him "Go home." ' * 2) + ("X" * 3100)
+    _exigir(preparar_texto(cita) == 'She tells him "Go home." She tells him "Go home."', f"El corte debe cerrar la comilla: {preparar_texto(cita)!r}")
 
 
 def verificar() -> int:

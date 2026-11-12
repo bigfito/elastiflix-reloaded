@@ -14,8 +14,11 @@ Ejemplo de prueba (no toca `data/`):
         --agente "Cursor (Grok 4.7)"
 
 En un turno de datos, sin `--destino`, el lote queda en `data-quality/cambios/<WP>/`.
-Quien ejecute ese turno debe pasar `--agente` con su nombre: si no, se usa la
-variable `DQ_AGENTE` y, en último caso, el autor de este script.
+Quien ejecute ese turno pasa `--agente` con su nombre o define `DQ_AGENTE`; sin
+ninguno de los dos, el script no escribe nada (revisión R-02).
+
+En WP-05, una película sin trama de Wikipedia queda `omitido` con el motivo
+«pendiente de limpiar_enciclopedico.py»: ese script (turno 10) toma esas filas.
 """
 import argparse
 import csv
@@ -365,7 +368,7 @@ def main() -> None:
     parser.add_argument("--tam", type=int, default=100, help="Máximo de películas de este lote (por defecto 100).")
     parser.add_argument("--solo-si-mas-largo", action="store_true", help="WP-06: solo NS-1(a), y solo si la trama nueva es más larga.")
     parser.add_argument("--destino", type=pathlib.Path, help="Carpeta del lote y de estado.tsv. Por defecto data-quality/cambios/<WP>.")
-    parser.add_argument("--agente", default=os.environ.get("DQ_AGENTE", "Cursor (Grok 4.7)"), help="Valor del campo agente del lote.")
+    parser.add_argument("--agente", default=os.environ.get("DQ_AGENTE"), help="Quién propone el lote, por ejemplo «Cursor (Grok 4.7)». Obligatorio, o la variable DQ_AGENTE.")
     parser.add_argument("--comprobar", action="store_true", help="Prueba las reglas NS sin red y sin escribir data/.")
     args = parser.parse_args()
 
@@ -375,6 +378,8 @@ def main() -> None:
             return
         if not args.wp or not args.lista:
             parser.error("hacen falta --wp y --lista (o --comprobar)")
+        if not args.agente or not args.agente.strip():
+            parser.error("hace falta --agente (o la variable DQ_AGENTE): el lote registra quién lo propuso")
         destino = args.destino or (DQ / "cambios" / args.wp)
         sys.exit(
             proponer(
