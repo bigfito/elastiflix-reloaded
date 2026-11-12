@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 18:45 UTC · Cursor (Grok 4.7) · ejecutor (turno 05)
+**Última actualización:** 2026-11-12 19:14 UTC · Cursor (Grok 4.7) · ejecutor (turno 05)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -22,7 +22,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 02 | Cursor | WP-00 T-05 y T-09 | REVISADO | 2026-11-12 | `dq-t02` | [R-02](bitacora/R-02.md) |
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | REVISADO | 2026-11-12 | `dq-t03` | [R-03](bitacora/R-03.md) |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | REVISADO | 2026-11-12 | `dq-t04` | [R-04](bitacora/R-04.md) |
-| 05 | Cursor | WP-02 lotes `002`–`006` | EN CURSO | 2026-11-12 | — | — |
+| 05 | Cursor | WP-02 lotes `002`–`006` | EN REVISIÓN | 2026-11-12 | `dq-t05` | — |
 | 06 | GitHub Copilot | WP-02 lotes `007`–`011` | PENDIENTE | — | — | — |
 | 07 | Google Antigravity | WP-02 lotes `012`–`015`, T-04 a T-06 (M1) · hito A | PENDIENTE | — | — | — |
 | 08 | Cursor | WP-03 T-01, T-02 y T-04 | PENDIENTE | — | — | — |
@@ -46,7 +46,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 |---|---|---|---|---|
 | WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | HECHA | 4 | 2026-11-12 |
-| WP-02 | Reescribir los ensayos generados | EN CURSO · lotes `002`–`006` (100/1 402 aplicados) | 4, 5, 6, 7 | 2026-11-12 |
+| WP-02 | Reescribir los ensayos generados | EN CURSO · lotes `002`–`006` aplicados (600/1 402) | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
 | WP-04 | Etiquetar el origen de todas las sinopsis | PENDIENTE | 9 | — |
 | WP-05 | Limpiar el plot enciclopédico | PENDIENTE | 10, 11, 12 | — |
@@ -69,9 +69,9 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 05 · Cursor:** WP-02 lotes `002` a `006` (500 películas, desde `2163` *Breakdown*). Empieza con el
-> protocolo de `AGENTS.md` §5: lee primero [R-04](bitacora/R-04.md) y anota en tu diario que la leíste. El punto de
-> partida es la etiqueta `dq-r04`. WP-00 y WP-01 están HECHAS.
+> **Claude Code: revisión R-05** del turno 05 de Cursor (`dq-r04..dq-t05`): WP-02 lotes `002` a `006` (500 películas,
+> de `2176` *The Glass House* a `68721` *Iron Man 3*; 497 Wikipedia y 3 overview de TMDB). Muestreo de 10 por lote
+> (T-02). Al cerrar R-05, el turno 06 es de GitHub Copilot: lotes `007` a `011`, desde `68727` (*Trance*).
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
