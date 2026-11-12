@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 18:40 UTC · Claude Code (Claude Opus 5.5) · revisor
+**Última actualización:** 2026-11-12 16:43 UTC · Google Antigravity (Gemini 4 Argon) · ejecutor (turno 01)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -18,7 +18,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 | Turno | Ejecutor | Tareas (detalle en el plan) | Estado | Inicio | Etiqueta `dq-t` | Revisión |
 |---|---|---|---|---|---|---|
-| 01 | Google Antigravity | WP-00 T-01 a T-04 | EN CURSO | 2026-11-12 | — | — |
+| 01 | Google Antigravity | WP-00 T-01 a T-04 | EN REVISIÓN | 2026-11-12 | `dq-t01` | — |
 | 02 | Cursor | WP-00 T-05 y T-09 | PENDIENTE | — | — | — |
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | PENDIENTE | — | — | — |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | PENDIENTE | — | — | — |
@@ -65,9 +65,8 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 01 · Google Antigravity:** WP-00 T-01 a T-04 (entorno, `catalogo.py`, formato de lote y
-> `aplicar_cambios.py`). Empieza con el protocolo de `AGENTS.md` §5; el punto de partida es la etiqueta `dq-r00`.
-> H-1 y D-01 a D-04 ya están aprobadas; la única aprobación pendiente es **H-2**, en el turno 21.
+> **Claude Code: revisión R-01** del turno 01 de Google Antigravity (`dq-r00..dq-t01`: WP-00 T-01 a T-04).
+> Al aprobarse R-01, sigue el **turno 02 · Cursor** (WP-00 T-05 `wiki_plot.py` y T-09 `proponer_trama.py`).
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
