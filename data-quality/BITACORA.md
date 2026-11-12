@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 17:00 UTC · Cursor (Grok 4.7) · ejecutor (turno 02)
+**Última actualización:** 2026-11-12 17:24 UTC · Cursor (Grok 4.7) · ejecutor (turno 02)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -19,7 +19,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | Turno | Ejecutor | Tareas (detalle en el plan) | Estado | Inicio | Etiqueta `dq-t` | Revisión |
 |---|---|---|---|---|---|---|
 | 01 | Google Antigravity | WP-00 T-01 a T-04 | REVISADO | 2026-11-12 | `dq-t01` | [R-01](bitacora/R-01.md) |
-| 02 | Cursor | WP-00 T-05 y T-09 | EN CURSO | 2026-11-12 | — | — |
+| 02 | Cursor | WP-00 T-05 y T-09 | EN REVISIÓN | 2026-11-12 | `dq-t02` | — |
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | PENDIENTE | — | — | — |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | PENDIENTE | — | — | — |
 | 05 | Cursor | WP-02 lotes `002`–`006` | PENDIENTE | — | — | — |
@@ -44,7 +44,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 | WP | Título | Estado | Turnos | Actualizado |
 |---|---|---|---|---|
-| WP-00 | Preparación del equipo | EN CURSO · turno 02 (T-05 y T-09) | 1, 2, 3 | 2026-11-12 |
+| WP-00 | Preparación del equipo | EN CURSO · T-01 a T-05 y T-09 hechas | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | PENDIENTE | 4 | — |
 | WP-02 | Reescribir los ensayos generados | PENDIENTE | 4, 5, 6, 7 | — |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
@@ -66,9 +66,9 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 02 · Cursor:** WP-00 T-05 (`wiki_plot.py`) y T-09 (`proponer_trama.py`). Empieza con el protocolo de
-> `AGENTS.md` §5: lee primero [R-01](bitacora/R-01.md), que corrigió `catalogo.py` y `aplicar_cambios.py`, y revisa su
-> commit `fb06ad8`. El punto de partida es la etiqueta `dq-r01`.
+> **Claude Code: revisión R-02** del turno 02 de Cursor (`dq-r01..dq-t02`: WP-00 T-05 `wiki_plot.py` y T-09
+> `proponer_trama.py`). No se aplicó ningún lote a `data/`. Al aprobarse R-02, sigue el **turno 03 · GitHub Copilot**
+> (WP-00 T-06, T-07, T-08 y T-10).
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
