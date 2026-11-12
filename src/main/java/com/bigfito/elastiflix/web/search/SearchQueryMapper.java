@@ -71,8 +71,10 @@ public class SearchQueryMapper {
         if (type == MatchType.MULTI_MATCH) {
             return null;
         }
-        if ("original_title".equals(name)) {
-            return TextField.ORIGINAL_TITLE;
+        for (TextField field : TextField.values()) {
+            if (field.fieldName().equals(name)) {
+                return field;
+            }
         }
         return TextField.TITLE;
     }

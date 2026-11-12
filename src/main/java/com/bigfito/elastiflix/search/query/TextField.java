@@ -1,7 +1,7 @@
 package com.bigfito.elastiflix.search.query;
 
 /**
- * Campo de título que usa {@code match}. {@code multi_match} no elige campo.
+ * Campo de texto que usa {@code match}. {@code multi_match} no elige campo: busca en los dos títulos.
  */
 public enum TextField {
 
@@ -9,7 +9,10 @@ public enum TextField {
     TITLE("title"),
 
     /** Título en el idioma original. */
-    ORIGINAL_TITLE("original_title");
+    ORIGINAL_TITLE("original_title"),
+
+    /** Sinopsis en inglés, la misma de la que salen los vectores. */
+    PLOT("plot");
 
     private final String fieldName;
 
@@ -20,7 +23,7 @@ public enum TextField {
     /**
      * Nombre del campo en el índice.
      *
-     * @return {@code title} u {@code original_title}
+     * @return {@code title}, {@code original_title} o {@code plot}
      */
     public String fieldName() {
         return fieldName;

@@ -3,8 +3,9 @@ package com.bigfito.elastiflix.web.home;
 import java.util.List;
 
 /**
- * Sugerencias de full-text. Los conteos OR y AND se midieron el 2026-10-21 sobre 6 899 películas; son los
- * mismos en los dos idiomas, igual que las consultas. Las etiquetas salen del catálogo de mensajes.
+ * Sugerencias de full-text. Los conteos OR y AND se midieron sobre 6 899 películas: los de los títulos el
+ * 2026-10-21 y los de {@code plot} el 2026-11-12. Son los mismos en los dos idiomas, igual que las consultas: las
+ * sinopsis están en inglés. Las etiquetas salen del catálogo de mensajes.
  */
 final class LexicalSuggestions {
 
@@ -15,7 +16,7 @@ final class LexicalSuggestions {
     }
 
     /**
-     * Los seis conjuntos: match sobre cada campo y multi-match, en OR y en AND.
+     * Los ocho conjuntos: match sobre cada campo y multi-match, en OR y en AND.
      *
      * @param tags etiquetas en el idioma de la persona
      * @return conjuntos, el primero visible
@@ -26,6 +27,8 @@ final class LexicalSuggestions {
                 title(AND, false, tags),
                 original(OR, tags),
                 original(AND, tags),
+                plot(OR, tags),
+                plot(AND, tags),
                 multi(OR, tags),
                 multi(AND, tags));
     }
@@ -45,6 +48,13 @@ final class LexicalSuggestions {
                 matchOriginal("le fabuleux destin", tags.count(operator, "26", "1"), "🥐", operator)));
     }
 
+    private static SuggestionSet plot(String operator, SuggestionTags tags) {
+        return new SuggestionSet("fulltext-match-plot-" + operator, false, List.of(
+                matchPlot("ogre donkey princess", tags.count(operator, "164", "3"), "🧅", operator),
+                matchPlot("bathhouse spirits", tags.count(operator, "92", "1"), "♨️", operator),
+                matchPlot("clownfish ocean son", tags.count(operator, "876", "1"), "🐠", operator)));
+    }
+
     private static SuggestionSet multi(String operator, SuggestionTags tags) {
         return new SuggestionSet("fulltext-multi_match-" + operator, false, List.of(
                 multiMatch("heaven cielo", tags.multi(operator, "10"), "☁️", operator),
@@ -58,6 +68,10 @@ final class LexicalSuggestions {
 
     private static SuggestionLink matchOriginal(String text, String tag, String emoji, String operator) {
         return new SuggestionLink(text, tag, emoji, SearchHref.fullText(text, "match", "original_title", operator));
+    }
+
+    private static SuggestionLink matchPlot(String text, String tag, String emoji, String operator) {
+        return new SuggestionLink(text, tag, emoji, SearchHref.fullText(text, "match", "plot", operator));
     }
 
     private static SuggestionLink multiMatch(String text, String tag, String emoji, String operator) {
