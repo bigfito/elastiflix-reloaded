@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 22:30 UTC · GitHub Copilot (Kimi K3) · ejecutor (turno 09)
+**Última actualización:** 2026-11-12 22:50 UTC · Claude Code (Claude Opus 5.5) · revisor (R-09)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -26,7 +26,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 06 | GitHub Copilot | WP-02 lotes `009`–`013` (500 desde `68727`; P-07) | REVISADO | 2026-11-12 | `dq-t06` | [R-06](bitacora/R-06.md) |
 | 07 | Google Antigravity | WP-02, las 302 restantes (lotes `015`–`018`; P-07), T-04 a T-06 (M1) · hito A | REVISADO | 2026-11-12 | `dq-t07` | [R-07](bitacora/R-07.md) |
 | 08 | Cursor | WP-03 T-01, T-02 y T-04 | REVISADO | 2026-11-12 | `dq-t08` | [R-08](bitacora/R-08.md) |
-| 09 | GitHub Copilot | WP-04 | EN REVISIÓN | 2026-11-12 | `dq-t09` | — |
+| 09 | GitHub Copilot | WP-04 | REVISADO | 2026-11-12 | `dq-t09` | [R-09](bitacora/R-09.md) |
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`010` | PENDIENTE | — | — | — |
 | 11 | Cursor | WP-05 lotes `011`–`025` | PENDIENTE | — | — | — |
 | 12 | GitHub Copilot | WP-05 lotes `026`–`039`, T-03 y T-05 | PENDIENTE | — | — | — |
@@ -48,7 +48,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-01 | Respuestas de asistente y datos inventados | HECHA | 4 | 2026-11-12 |
 | WP-02 | Reescribir los ensayos generados | HECHA | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-01, T-02 y T-04 hechas y revisadas en la rama; T-03 (integración) en el turno 13 | 8, 13 | 2026-11-12 |
-| WP-04 | Etiquetar el origen de todas las sinopsis | EN CURSO · T-01 a T-03 hechas (pendiente R-09) | 9 | 2026-11-12 |
+| WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
 | WP-05 | Limpiar el plot enciclopédico | PENDIENTE | 10, 11, 12 | — |
 | WP-06 | Completar las sinopsis cortas | PENDIENTE | 13, 14 | — |
 | WP-07 | Normalizar al cargar | PENDIENTE | 14, 15 | — |
@@ -70,13 +70,14 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-06 | 06 · GitHub Copilot | APROBADO CON CORRECCIONES | B-01 (regla `EFX-ING-026` sobre citas), segundo aviso oculto, 4 tramas recuperadas con encabezados «Summary» y con paréntesis | `73cd5d0` `a6369d2` `e9dac1a` | [R-06](bitacora/R-06.md) |
 | R-07 | 07 · Google Antigravity | APROBADO | Guarda de artículos de varias películas hecha explícita; cierre de WP-02 y del hito A | `be0f349` | [R-07](bitacora/R-07.md) |
 | R-08 | 08 · Cursor | APROBADO CON CORRECCIONES | B-02 era del plan (P-09); lista `wp05-avisos-wp03.tsv` y WP-05 T-03b; apóstrofo tipográfico en tres patrones | `df935f1` (rama WP-03) y `dq/ronda-4` | [R-08](bitacora/R-08.md) |
+| R-09 | 09 · GitHub Copilot | APROBADO CON CORRECCIONES | Créditos de Wikipedia coherentes en los README; la prueba vigila `enrichment.plot` | `738511a` | [R-09](bitacora/R-09.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-09** del turno 09 de GitHub Copilot (WP-04 completo: lote mecánico `lote-001` con
-> `enrichment.plot = "unverified"` en las 3 860 sinopsis sin etiqueta; `ShippedCatalogValidationTest` con
-> `WITH_TAGS = 6_899` en el mismo commit; vocabulario documentado; rango `dq-r08..dq-t09`). Al cerrar, sigue el
-> **turno 10 · Google Antigravity**: WP-05 T-01 (`limpiar_enciclopedico.py`) y lotes `001`–`010`.
+> **Turno 10 · Google Antigravity:** WP-05 T-01 (`limpiar_enciclopedico.py`) y lotes `001` a `010` (trama de
+> Wikipedia; las que no tengan trama, a la limpieza). Ten en cuenta T-03b (las 81 de `wp05-avisos-wp03.tsv`). Empieza
+> con el protocolo de `AGENTS.md` §5: lee primero [R-09](bitacora/R-09.md) y anota en tu diario que la leíste. El
+> punto de partida es la etiqueta `dq-r09`. WP-00 a WP-02 y WP-04 están HECHAS.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -272,3 +273,10 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   cierra con P-09; lista `wp05-avisos-wp03.tsv` y WP-05 T-03b para que el turno 13 pueda integrar; las reglas aceptan
   el apóstrofo tipográfico. Registro de la integración del hito A en `main` (P-10). Detalle en `bitacora/R-08.md`.
 - Para el siguiente: turno 09, GitHub Copilot (WP-04).
+
+### 2026-11-12 22:50 UTC · Claude Code (Claude Opus 5.5) · revisor (R-09)
+- Hice: revisión del turno 09 de GitHub Copilot. APROBADO CON CORRECCIONES (`738511a`): créditos de Wikipedia coherentes
+  en `README.md`, `README.en.md` y `data/README.md`, y `ShippedCatalogValidationTest` exige `enrichment.plot` en las
+  6 899. WP-04 queda HECHA. Detalle en `bitacora/R-09.md`.
+- Evidencia: `data/` cambió solo en las 3 860 películas del lote; 0 sinopsis sin etiqueta; `./mvnw -q verify` en verde.
+- Para el siguiente: turno 10, Google Antigravity (WP-05).
