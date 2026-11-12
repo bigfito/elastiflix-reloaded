@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 16:43 UTC · Google Antigravity (Gemini 4 Argon) · ejecutor (turno 01)
+**Última actualización:** 2026-11-12 16:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-01)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -18,7 +18,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 | Turno | Ejecutor | Tareas (detalle en el plan) | Estado | Inicio | Etiqueta `dq-t` | Revisión |
 |---|---|---|---|---|---|---|
-| 01 | Google Antigravity | WP-00 T-01 a T-04 | EN REVISIÓN | 2026-11-12 | `dq-t01` | — |
+| 01 | Google Antigravity | WP-00 T-01 a T-04 | REVISADO | 2026-11-12 | `dq-t01` | [R-01](bitacora/R-01.md) |
 | 02 | Cursor | WP-00 T-05 y T-09 | PENDIENTE | — | — | — |
 | 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | PENDIENTE | — | — | — |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | PENDIENTE | — | — | — |
@@ -44,7 +44,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 | WP | Título | Estado | Turnos | Actualizado |
 |---|---|---|---|---|
-| WP-00 | Preparación del equipo | EN CURSO | 1, 2, 3 | 2026-11-12 |
+| WP-00 | Preparación del equipo | EN CURSO · T-01 a T-04 hechas | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | PENDIENTE | 4 | — |
 | WP-02 | Reescribir los ensayos generados | PENDIENTE | 4, 5, 6, 7 | — |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
@@ -62,11 +62,13 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | Revisión | Turno revisado | Veredicto | Hallazgos corregidos | Commits de corrección | Informe |
 |---|---|---|---|---|---|
 | R-00 | (plan inicial) | APROBADO | 23 de la revisión independiente del plan | `ebab666` y siguiente | Diario del plan, §8 |
+| R-01 | 01 · Google Antigravity | APROBADO CON CORRECCIONES | 3 defectos de validación en `catalogo.py` y `aplicar_cambios.py`; trazabilidad de correcciones en `estado.tsv` | `fb06ad8` | [R-01](bitacora/R-01.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-01** del turno 01 de Google Antigravity (`dq-r00..dq-t01`: WP-00 T-01 a T-04).
-> Al aprobarse R-01, sigue el **turno 02 · Cursor** (WP-00 T-05 `wiki_plot.py` y T-09 `proponer_trama.py`).
+> **Turno 02 · Cursor:** WP-00 T-05 (`wiki_plot.py`) y T-09 (`proponer_trama.py`). Empieza con el protocolo de
+> `AGENTS.md` §5: lee primero [R-01](bitacora/R-01.md), que corrigió `catalogo.py` y `aplicar_cambios.py`, y revisa su
+> commit `fb06ad8`. El punto de partida es la etiqueta `dq-r01`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -139,14 +141,14 @@ La columna «Inicial» sale de `hallazgos/salidas/m0/`.
 
 Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan completo.
 
-### 2026-11-12 16:30 UTC · Claude Code (Claude Opus 5.5) · COORD
+### 2026-11-12 15:55 UTC · Claude Code (Claude Opus 5.5) · COORD
 - Hice: análisis completo del índice vivo en solo lectura; informe en `informe/informe-calidad.html`; detalle por
   película en `hallazgos/hallazgos.csv`; alcance congelado en `hallazgos/listas/`; plan, protocolo y bitácora.
 - Evidencia: `hallazgos/salidas/m0/*.txt`. `analizar.py --desde-data` reproduce `hallazgos.csv` byte a byte, así que
   `data/` y el índice coinciden.
 - Quedó pendiente: todo el plan.
 
-### 2026-11-12 17:30 UTC · Claude Code (Claude Opus 5.5) · COORD
+### 2026-11-12 16:10 UTC · Claude Code (Claude Opus 5.5) · COORD
 - Hice: revisión independiente del plan contra el código (23 observaciones) y correcciones. Publicación por cambio
   atómico de alias con vuelta atrás; bitácora única en `dq/ronda-4` con worktree; `es.py` solo escribe en staging;
   mediciones por etiqueta con `m0` congelada; `--desde-data`; `estado.tsv` por WP; WP-03 se integra tras WP-05;
@@ -154,7 +156,7 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Quedó pendiente: P-0 y H-1 de la dueña del proyecto.
 - Para el siguiente: ver «Próximo paso».
 
-### 2026-11-12 17:50 UTC · Claude Code (Claude Opus 5.5) · COORD
+### 2026-11-12 16:16 UTC · Claude Code (Claude Opus 5.5) · COORD
 - Hice: P-0 según la respuesta de la dueña (P-04). Worktree `E:\02 - programming\03 - elastiflix-reloaded-dq` en la
   rama local `dq/ronda-4` desde `main` (`9a1b864`); `data-quality/` movido ahí y commiteado; `.env` copiado sin
   mostrarlo. `AGENTS.md`, `PLAN.md` y `README.md` adaptados al modo local (sin push ni PR; hitos por merge local).
@@ -162,16 +164,24 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Quedó pendiente: H-1.
 - Para el siguiente: ver «Próximo paso».
 
-### 2026-11-12 18:20 UTC · Claude Code (Claude Opus 5.5) · revisor
+### 2026-11-12 16:27 UTC · Claude Code (Claude Opus 5.5) · revisor
 - Hice: P-05 a pedido de la dueña del proyecto. Reparto del plan en 21 turnos (7 por ejecutor, 2 grandes cada uno);
   protocolo de turno del ejecutor y de revisión de Claude Code (`AGENTS.md` §5 y §6, plantilla `R-NN.md`);
   tablero de turnos y de revisiones; etiqueta de partida `dq-r00`. GitHub Copilot entra en lugar de Qwen.
 - Quedó pendiente: H-1 y D-01 a D-04.
 - Para el siguiente: turno 01, Google Antigravity.
 
-### 2026-11-12 18:40 UTC · Claude Code (Claude Opus 5.5) · revisor
+### 2026-11-12 16:30 UTC · Claude Code (Claude Opus 5.5) · revisor
 - Hice: anoté la respuesta de la dueña del proyecto, «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04»: H-1, D-01, D-02 (opción A), D-03 (sí) y D-04 (no se
   quita) en APROBADA, con su fila en «Decisiones tomadas».
 - Evidencia: `es.aprobada("H-1")` devuelve `True`; `es.aprobada("H-2")`, `False`.
 - Quedó pendiente: H-2, que se pide en el turno 21.
 - Para el siguiente: turno 01, Google Antigravity.
+
+### 2026-11-12 16:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-01)
+- Hice: revisión del turno 01 de Google Antigravity. APROBADO CON CORRECCIONES: tres defectos de validación
+  corregidos (`fb06ad8`), dos líneas sin commitear descartadas, y las horas de mis entradas anteriores corregidas
+  según los commits. Detalle en `bitacora/R-01.md`.
+- Evidencia: `./mvnw -q verify` (798 pruebas, 0 fallos); `catalogo.py --verificar` 14/14; `aplicar_cambios.py
+  --verificar` con los tres rechazos nuevos.
+- Para el siguiente: turno 02, Cursor.
