@@ -3,11 +3,11 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 20:06 UTC · Google Antigravity (Gemini 4 Argon) · ejecutor (turno 07)
+**Última actualización:** 2026-11-12 20:24 UTC · Google Antigravity (Gemini 4 Argon) · ejecutor (turno 07)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
-**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261112-174954` (6 899 películas) · `data/` cargado en el commit `5c4b78e` · app compilada en el commit `5c4b78e` · instancia apagada (puerto 8081)
+**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261112-201036` (6 899 películas) · `data/` cargado en el commit `220a8ea` · app compilada en el commit `220a8ea` · instancia apagada (puerto 8081)
 
 ## 1. Tablero
 
@@ -24,7 +24,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | REVISADO | 2026-11-12 | `dq-t04` | [R-04](bitacora/R-04.md) |
 | 05 | Cursor | WP-02 lotes `002`–`006` | REVISADO | 2026-11-12 | `dq-t05` | [R-05](bitacora/R-05.md) |
 | 06 | GitHub Copilot | WP-02 lotes `009`–`013` (500 desde `68727`; P-07) | REVISADO | 2026-11-12 | `dq-t06` | [R-06](bitacora/R-06.md) |
-| 07 | Google Antigravity | WP-02, las 302 restantes (lotes desde `015`; P-07), T-04 a T-06 (M1) · hito A | EN CURSO | 2026-11-12 | — | — |
+| 07 | Google Antigravity | WP-02, las 302 restantes (lotes desde `015`; P-07), T-04 a T-06 (M1) · hito A | EN REVISIÓN | 2026-11-12 | `dq-t07` | — |
 | 08 | Cursor | WP-03 T-01, T-02 y T-04 | PENDIENTE | — | — | — |
 | 09 | GitHub Copilot | WP-04 | PENDIENTE | — | — | — |
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`010` | PENDIENTE | — | — | — |
@@ -46,7 +46,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 |---|---|---|---|---|
 | WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | HECHA | 4 | 2026-11-12 |
-| WP-02 | Reescribir los ensayos generados | EN CURSO · turno 07 (302 restantes, T-04 a T-06 · M1) | 4, 5, 6, 7 | 2026-11-12 |
+| WP-02 | Reescribir los ensayos generados | EN CURSO · turno 07 en revisión (1 402/1 402 aplicadas, T-04 a T-06 · M1 listas; falta T-02 de R-07) | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
 | WP-04 | Etiquetar el origen de todas las sinopsis | PENDIENTE | 9 | — |
 | WP-05 | Limpiar el plot enciclopédico | PENDIENTE | 10, 11, 12 | — |
@@ -71,10 +71,12 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 07 · Google Antigravity:** cierra WP-02. Las **302 películas restantes** (lotes desde `015`), y después T-04,
-> T-05 y **T-06 (M1**, recarga completa de staging y harness). Es el turno del **hito A**. Empieza con el protocolo de
-> `AGENTS.md` §5: lee primero [R-06](bitacora/R-06.md), revisa sus commits `73cd5d0`, `a6369d2` y `e9dac1a`, y anota
-> en tu diario que los leíste. El punto de partida es la etiqueta `dq-r06`.
+> **Claude Code: revisión R-07** del turno 07 de Google Antigravity (`dq-r06..dq-t07`), según [`AGENTS.md` §6](AGENTS.md#6-turno-de-revisión-de-claude-code):
+> muestreo T-02 de los lotes `015` a `018` de WP-02 (302 películas: 282 Wikipedia y 20 TMDB), verificación de T-04
+> (`wp02-revisar-reparto.tsv`), T-05 (`hallazgos/salidas/wp-02/`) y T-06 (**M1** sobre
+> `elastiflix-dq-staging-20261112-201036`, `target/eval/report.md` y `hallazgos/salidas/m1/`), cierre de WP-02 a `HECHA`
+> y cierre del **hito A**. Tras R-07, el turno 08 corresponde a **Cursor** (WP-03 T-01, T-02 y T-04 en la rama
+> `dq/wp-03-reglas-plot`).
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -124,19 +126,20 @@ staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-gener
 
 | Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | Producción final |
 |---|---|---|---|---|---|---|
-| `bm25_title` | 0.06 | 0.113 · 0.125 | | | | |
-| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | | | | |
-| `bm25_plot` | 0.37 | 0.423 · 0.444 | | | | |
-| `knn_plot_256` | 0.49 | 0.549 · 0.536 | | | | |
-| `knn_plot_512` | 0.60 | 0.651 · 0.653 | | | | |
-| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | | | | |
-| `rrf_title_knn256` | 0.29 | 0.348 · 0.316 | | | | |
-| `rrf_title_knn1024` | 0.41 | 0.464 · 0.422 | | | | |
-| `rrf_plot_knn256` | 0.53 | 0.581 · 0.612 | | | | |
-| `rrf_plot_knn1024` | 0.61 | 0.662 · 0.677 | | | | |
+| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | | | |
+| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | | | |
+| `bm25_plot` | 0.37 | 0.423 · 0.444 | 0.408 · 0.443 | | | |
+| `knn_plot_256` | 0.49 | 0.549 · 0.536 | 0.573 · 0.580 | | | |
+| `knn_plot_512` | 0.60 | 0.651 · 0.653 | 0.626 · 0.636 | | | |
+| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | | | |
+| `rrf_title_knn256` | 0.29 | 0.348 · 0.316 | 0.407 · 0.385 | | | |
+| `rrf_title_knn1024` | 0.41 | 0.464 · 0.422 | 0.475 · 0.439 | | | |
+| `rrf_plot_knn256` | 0.53 | 0.581 · 0.612 | 0.574 · 0.589 | | | |
+| `rrf_plot_knn1024` | 0.61 | 0.662 · 0.677 | 0.675 · 0.691 | | | |
 
 M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
-`target/eval/report.md` lleva la hora de esa corrida (`RelevanceIT`, 1 prueba, 0 fallos, 0 omitidas).
+M1 medida el 2026-11-12 20:20 UTC (turno 07) sobre el índice de staging `elastiflix-dq-staging-20261112-201036` (6 899 películas, commit `220a8ea`);
+`target/eval/report.md` lleva la hora de la última corrida (`RelevanceIT`, 1 prueba, 0 fallos, 0 omitidas).
 
 ## 7. Indicadores de calidad del catálogo
 

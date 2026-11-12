@@ -1,0 +1,87 @@
+## firmas de texto de modelo (docs por firma):
+   delves into                                   30
+   thought-provoking                             121
+   complexities of                               32
+   explores the (themes|complexities|world)      51
+   revolves around                               87
+   poignant                                      67
+   heartwarming                                  319
+   Overall, the                                  135
+   In conclusion                                 1
+   serves as a                                   6
+   testament to                                  22
+   human nature                                  33
+   tapestry                                      2
+   navigate(s) the                               62
+   not YEAR / correction                         0
+   no match/please provide                       20
+   film is known for                             3
+
+## docs con >=1 firma: 825  con >=2 (alta probabilidad de texto generado): 0
+   por origen de plot (enrichment.plot): Counter()
+
+## no match / please provide / negaciones: 20
+    ('887 «The Best Years of Our Lives» (1946)', 'unable to find', 'Three returning World War II veterans meet on a flight to their midwestern hometown of Boone City. USAAF bombardier captain Fred Derry had been a drugstore soda')
+    ('7980 «The Lovely Bones» (2009)', 'unable to find', 'In 1973, 14-year-old Susie Salmon dreams of becoming a photographer. One day, Ray, a boy she has a crush on, asks her out. As Susie walks home through a cornfie')
+    ('9270 «Brick» (2006)', 'Unable to locate', 'High school student Brendan Frye discovers a note directing him to a pay phone, where he receives a call from his ex-girlfriend Emily Kostich, begging him for h')
+    ('20504 «The Book of Eli» (2010)', 'unable to find', 'Thirty years after a nuclear holocaust, Eli travels on foot across the wasteland of the continental land of the former U.S. nation in search of water. He arrive')
+    ('24001 «The Hills Run Red» (2009)', 'no known film', 'Film student Tyler is obsessed with the horror film The Hills Run Red, considered the scariest movie ever made, with the deranged serial killer Babyface in the ')
+    ('25376 «The Secret in Their Eyes» (2009)', 'unable to find', 'In June 1974, judiciary agent Benjamín Espósito investigates the rape and murder of Liliana Colotto. Espósito promises her husband, Ricardo Morales, that he wil')
+    ('36736 «The Drawn Together Movie: The Movie!» (2010)', 'is not a real', 'The Drawn Together Movie: The Movie! is a 2010 American adult animated musical black comedy based on the Comedy Central sitcom Drawn Together. Written and execu')
+    ('38073 «Going the Distance» (2010)', 'Unable to find', 'Erin Langford is a graduate journalism student recently hired as a summer intern at a New York City newspaper. Out with a friend at a bar, she meets Garrett, wh')
+    ('72207 «The Five-Year Engagement» (2012)', 'Unable to find', "In San Francisco, sous-chef Tom, and PhD graduate Violet, are happily engaged. Their wedding plans are interrupted when Tom's best friend Alex gets Violet's sis")
+    ('79694 «The Apparition» (2012)', 'Unable to find', 'On May 21, 1973, six people conduct The Charles Experiment, a parapsychological experiment, in which they stare at a drawing of a deceased man, Charles Reamer, ')
+    ('84329 «Robot & Frank» (2012)', 'is not a real', "Set in the near future, aging ex-convict and thief Frank Weld lives alone and suffers from increasingly severe mental deterioration and dementia. Frank's son Hu")
+    ('111083 «The Body» (2012)', 'there is no record', 'The Body (Spanish: El cuerpo) is a 2012 Spanish psychological thriller directed by Oriol Paulo, from a screenplay he co-wrote with Lara Sendim. José Coronado st')
+    ('126277 «American Mary» (2012)', 'unable to find', "Desperate for funds, surgical student Mary Mason applies for work at a strip club. Billy Barker, the club's owner, is in need of a medical professional to patch")
+    ('167073 «Brooklyn» (2015)', 'Unable to find', "Brooklyn is a 2015 romantic period drama directed by John Crowley and written by Nick Hornby, adapted from Colm Tóibín's 2009 novel. Saoirse Ronan stars as a yo")
+    ('212778 «Chef» (2014)', 'unable to find', 'Chef is a 2014 road comedy-drama film written, produced and directed by Jon Favreau, who stars as Carl Casper, a celebrity chef who starts a food truck business')
+    ('317925 «A la mala» (2015)', 'unable to find', 'A la mala (Spanish for "by foul means") is a 2015 Mexican romantic comedy film directed by Pedro Pablo Ibarra and written by Issa López and Ari Rosen. Starring ')
+    ('581726 «Infinite» (2021)', 'unable to find', 'Infinite is a 2021 American science fiction action film directed by Antoine Fuqua from a screenplay by Ian Shorr, based on a story by Todd Stein adapted from D.')
+    ('628914 «Queenpins» (2021)', 'unable to find', 'Queenpins is a 2021 American crime comedy film written and directed by Aron Gaudet and Gita Pullapilly. Kristen Bell and Kirby Howell-Baptiste star as two frien')
+    ('820067 «The Quintessential Quintuplets Movie» (2022)', 'unable to find', 'Following their summer vacation, Futaro Uesugi and the Nakano quintuplets Ichika, Nino, Miku, Yotsuba, and Itsuki, now third-year high school students, prepare ')
+    ('845140 «Kitchen Brigade» (2022)', 'Unable to find', 'Kitchen Brigade (French: La Brigade) is a 2022 French comedy-drama film directed by Louis-Julien Petit, who wrote the screenplay with Liza Benguigui, Sophie Ben')
+
+## correcciones «not YEAR»: 0
+
+## plot nombra protagonistas que no están en cast (posible alucinación): 151
+    ('619 «The Bodyguard» (1992)', ['Kevin Costner. The', "Whitney Houston's"], '2/3')
+    ('670 «Oldboy» (2003)', ['Kim Da-mi'], '1/2')
+    ('824 «Moulin Rouge!» (2001)', ['Ewan McGregor. The'], '1/2')
+    ('924 «Dawn of the Dead» (2004)', ['Mena Suvari'], '1/2')
+    ('1251 «Letters from Iwo Jima» (2006)', ['Kazunari Ninomiya. It'], '1/2')
+    ('1921 «Sweet November» (2001)', ['Anthony Newley', 'Sandy Dennis'], '2/2')
+    ('1992 «Planet Terror» (2007)', ['Freddy Rodr'], '1/2')
+    ('2123 «Me, Myself & Irene» (2000)', ['Jim Carrey. The'], '1/1')
+    ('7978 «The Wolfman» (2010)', ['Lon Chaney Jr.'], '1/1')
+    ('8316 «The Countess» (2009)', ['Daniel Br'], '1/1')
+    ('8398 «The Hitcher» (2007)', ['Rutger Hauer', 'C. Thomas Howell', 'Jennifer Jason Leigh.'], '3/3')
+    ("8676 «Fool's Gold» (2008)", ['Kate Hudson.'], '1/2')
+    ('8982 «The Protector» (2005)', ['Jason Statham'], '1/1')
+    ('9053 «DOA: Dead or Alive» (2006)', ['Nina Dobrev', 'Daniel Henney'], '2/2')
+    ('9257 «S.W.A.T.» (2003)', ['Keanu Reeves'], '1/2')
+    ('9290 «Crocodile Dundee in Los Angeles» (2001)', ['Paul Hogan. It'], '1/1')
+    ('9470 «Kung Fu Hustle» (2004)', ['Zhang Manzi'], '1/2')
+    ('9757 «Norbit» (2007)', ['Eddie Murphy. The'], '1/1')
+    ('9889 «Shallow Hal» (2001)', ['Gwyneth Paltrow. The'], '1/2')
+    ('9893 «Sleepover» (2004)', ['Alexa Vega'], '1/1')
+    ('10214 «Son of the Mask» (2005)', ['Ben Affleck'], '1/2')
+    ('10320 «The Ring Two» (2005)', ['Naomi Watts.'], '1/1')
+    ('10628 «Kangaroo Jack» (2003)', ['Chris Farley', 'Simon Baker.'], '2/2')
+    ('10956 «Joe Dirt» (2001)', ['David Spade. The'], '1/1')
+    ('11026 «Exorcist: The Beginning» (2004)', ['Stellan Skarsg'], '1/1')
+    ('11358 «Walking Tall» (2004)', ['The Rock'], '1/1')
+    ('11451 «Herbie Fully Loaded» (2005)', ['Steve Coogan'], '1/2')
+    ("11467 «America's Sweethearts» (2001)", ['Gwen Harrison', 'Eddie Thomas. Eddie'], '2/2')
+    ('11835 «Death Sentence» (2007)', ['Kevin Costner', 'Lynn Collins'], '2/2')
+    ('13051 «Max Payne» (2008)', ['Jack Lupino'], '1/1')
+    ('13460 «Doomsday» (2008)', ['Elijah Wood'], '1/2')
+    ('13523 «Sex Drive» (2008)', ['Josh Peck'], '1/2')
+    ('13788 «The Unborn» (2009)', ['Aaron Eckhart'], '1/2')
+    ('13811 «Knowing» (2009)', ['Aaron Eckhart'], '1/2')
+    ('13944 «Passengers» (2008)', ['Patrick Wilson. TriStar Pictures'], '1/2')
+    ('14771 «The Onion Movie» (2008)', ["The Onion's"], '1/1')
+    ('16907 «Naruto: Ninja Clash in the Land of Snow» (2004)', ['Yukie Fujikaze'], '1/1')
+    ('18925 «Facing the Giants» (2006)', ['Shannen Doherty', 'Kenan Thompson'], '2/2')
+    ('19840 «I Love You, Beth Cooper» (2009)', ['Nathan Lee Graham', 'Lizzy Caplan'], '2/2')
+    ('20943 «The Ugly Truth» (2009)', ['Gerard Butler.'], '1/2')

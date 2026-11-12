@@ -1,0 +1,1077 @@
+﻿id,title,year,severidad,categoria,campo,detalle
+671,Harry Potter and the Philosopher's Stone,2001,crítica,plot_respuesta_de_asistente,plot,"Orphaned as a baby in 1981, Harry Potter is entrusted to his only living relatives, the Dursley family that is not related to the wizarding world, by Professor "
+799546,Luckiest Girl Alive,2022,crítica,plot_respuesta_de_asistente,plot,"In 2015, TifAni ""Ani"" FaNelli, a respected New York women's magazine columnist, appears to have a picture-perfect life. As she prepares to marry her fiancé Luke"
+1450,Blood: The Last Vampire,2009,alta,plot_dato_inventado_verificado,plot,La versión live-action de 2009 tiene el ensayo del anime de 2000
+9381,Babylon A.D.,2008,alta,plot_dato_inventado_verificado,plot,Gerard Butler y Moon Bloodgood; es Vin Diesel
+9896,Rat Race,2001,alta,plot_dato_inventado_verificado,plot,"Will Ferrell, Jon Heder, Steve Carell; no actúan"
+10066,House of Wax,2005,alta,plot_dato_inventado_verificado,plot,Ewan McGregor y Hayden Christensen; no actúan
+11208,Wicker Park,2004,alta,plot_dato_inventado_verificado,plot,Director Phedon Papamichael (fue el fotógrafo); dir. Paul McGuigan
+13971,Wild Child,2008,alta,plot_dato_inventado_verificado,plot,Atribuye el reparto a Emma Watson; es Emma Roberts
+38408,Life As We Know It,2010,alta,plot_dato_inventado_verificado,plot,"Jennifer Aniston y Paul Rudd, directores Ficarra/Requa; es Heigl/Duhamel, dir. Greg Berlanti"
+48340,Sanctum,2011,alta,plot_dato_inventado_verificado,plot,Rhys Ifans y Forest Whitaker; no actúan
+242828,When Marnie Was There,2014,alta,plot_dato_inventado_verificado,plot,Marnie «not a real person… alter ego»: interpretación errónea
+245698,Pawn Sacrifice,2015,alta,plot_dato_inventado_verificado,plot,«directed by Gambit»; dir. Edward Zwick
+621707,The Vigil,2020,alta,plot_dato_inventado_verificado,plot,Trama inventada (policía retirado); es horror sobre un shomer en Brooklyn
+564147,K.G.F: Chapter 1,2018,media,idioma_corrupto,spoken_languages,"['हिन्दी', '?????']"
+587412,K.G.F: Chapter 2,2022,media,idioma_corrupto,spoken_languages,['?????']
+105,Back to the Future,1985,media,keyword_id_con_otro_nombre,keywords,id 208349 «kids»; el id es «child» en 13 películas
+165,Back to the Future Part II,1989,media,keyword_id_con_otro_nombre,keywords,id 208349 «kids»; el id es «child» en 13 películas
+196,Back to the Future Part III,1990,media,keyword_id_con_otro_nombre,keywords,id 12377 «wild west»; el id es «zombie» en 84 películas
+196,Back to the Future Part III,1990,media,keyword_id_con_otro_nombre,keywords,id 303361 «delorean»; el id es «terminator» en 6 películas
+603,The Matrix,1999,media,keyword_id_con_otro_nombre,keywords,id 12377 «virtual reality»; el id es «zombie» en 84 películas
+603,The Matrix,1999,media,keyword_id_con_otro_nombre,keywords,id 303361 «matrix»; el id es «terminator» en 6 películas
+26662,Detective Conan: The Phantom of Baker Street,2002,media,keyword_id_con_otro_nombre,keywords,id 310 «artificial intelligence (a.i.)»; el id es «artificial intelligence» en 51 películas
+37964,Brown Sugar,2002,media,keyword_id_con_otro_nombre,keywords,id 9799 «romcom»; el id es «romantic comedy» en 59 películas
+51170,Open Season 3,2010,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+315064,Animal Crackers,2017,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+487297,What Men Want,2019,media,keyword_id_con_otro_nombre,keywords,id 169055 «national basketball association (nba)»; el id es «nba» en 3 películas
+529862,Brittany Runs a Marathon,2019,media,keyword_id_con_otro_nombre,keywords,id 1253 «roommates»; el id es «roommate» en 11 películas
+551271,Medieval,2022,media,keyword_id_con_otro_nombre,keywords,id 41406 «middle ages (476-1453)»; el id es «middle ages» en 13 películas
+604822,Vanguard,2020,media,keyword_id_con_otro_nombre,keywords,id 5265 «espionage»; el id es «spying» en 6 películas
+678287,Marmaduke,2022,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+780382,The Wolf and the Lion,2021,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+878962,Sharkdog’s Fintastic Halloween,2021,media,keyword_id_con_otro_nombre,keywords,id 208349 «kids»; el id es «child» en 13 películas
+904039,Madagascar: A Little Wild Holiday Goose Chase,2021,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+1019446,Wildcat,2022,media,keyword_id_con_otro_nombre,keywords,id 5968 «amazon rainforest»; el id es «amazon» en 6 películas
+42360,Inuyasha the Movie: Affections Touching Across Time,2001,media,numero_sospechoso,budget,budget 10540 con revenue 10539779 (×1000)
+694919,Money Plane,2020,media,numero_sospechoso,revenue,revenue 618 con budget 568443
+20,My Life Without Me,2003,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+83,Open Water,2004,media,plot_corto,plot,129 caracteres; origen tmdb_overview
+143,All Quiet on the Western Front,1930,media,plot_corto,plot,189 caracteres; origen tmdb_overview
+237,Young Adam,2003,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+243,High Fidelity,2000,media,plot_corto,plot,178 caracteres; origen tmdb_overview
+343,Harold and Maude,1971,media,plot_corto,plot,118 caracteres; origen tmdb_overview
+437,Cube 2: Hypercube,2002,media,plot_corto,plot,116 caracteres; origen tmdb_overview
+438,Cube Zero,2004,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+503,Poseidon,2006,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+512,Scoop,2006,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+530,A Grand Day Out,1990,media,plot_corto,plot,176 caracteres; origen tmdb_overview
+531,The Wrong Trousers,1993,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+532,A Close Shave,1995,media,plot_corto,plot,164 caracteres; origen tmdb_overview
+540,D.E.B.S.,2004,media,plot_corto,plot,105 caracteres; origen tmdb_overview
+553,Dogville,2003,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+653,Nosferatu,1922,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+773,Little Miss Sunshine,2006,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+805,Rosemary's Baby,1968,media,plot_corto,plot,176 caracteres; origen tmdb_overview
+844,2046,2004,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+883,Coffee and Cigarettes,2003,media,plot_corto,plot,189 caracteres; origen tmdb_overview
+921,Cinderella Man,2005,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+984,Dirty Harry,1971,media,plot_corto,plot,196 caracteres; origen tmdb_overview
+1255,The Host,2006,media,plot_corto,plot,189 caracteres; origen tmdb_overview
+1360,Frida,2002,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+1365,Monster's Ball,2001,media,plot_corto,plot,112 caracteres; origen tmdb_overview
+1381,The Fountain,2006,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+1443,The Virgin Suicides,1999,media,plot_corto,plot,122 caracteres; origen tmdb_overview
+1534,Pathfinder,2007,media,plot_corto,plot,168 caracteres; origen tmdb_overview
+1574,Chicago,2002,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+1580,Rope,1948,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+1613,The 51st State,2001,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+1647,The Recruit,2003,media,plot_corto,plot,147 caracteres; origen tmdb_overview
+1730,Inland Empire,2006,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+1777,Fahrenheit 9/11,2004,media,plot_corto,plot,160 caracteres; origen tmdb_overview
+1807,Elephant,2003,media,plot_corto,plot,121 caracteres; origen tmdb_overview
+1969,Bandidas,2006,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+2055,Open Range,2003,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+2103,Solaris,2002,media,plot_corto,plot,114 caracteres; origen tmdb_overview
+2155,Reindeer Games,2000,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+2295,Clerks II,2006,media,plot_corto,plot,170 caracteres; origen tmdb_overview
+2309,Inkheart,2008,media,plot_corto,plot,137 caracteres; origen tmdb_overview
+2312,In the Name of the King: A Dungeon Siege Tale,2007,media,plot_corto,plot,189 caracteres; origen tmdb_overview
+2332,Taxi 2,2000,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+2655,What Lies Beneath,2000,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+2786,Pierrot le Fou,1965,media,plot_corto,plot,185 caracteres; origen tmdb_overview
+2800,Rumor Has It...,2005,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+3132,Bad Company,2002,media,plot_corto,plot,109 caracteres; origen tmdb_overview
+3509,A Scanner Darkly,2006,media,plot_corto,plot,137 caracteres; origen tmdb_overview
+3604,Flash Gordon,1980,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+4141,Shoot 'Em Up,2007,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+4517,Elizabeth: The Golden Age,2007,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+4551,Be Cool,2005,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+4836,Layer Cake,2004,media,plot_corto,plot,196 caracteres; origen tmdb_overview
+4960,"Synecdoche, New York",2008,media,plot_corto,plot,171 caracteres; origen tmdb_overview
+5528,The Chorus,2004,media,plot_corto,plot,90 caracteres; origen tmdb_overview
+5653,Luther,2003,media,plot_corto,plot,178 caracteres; origen tmdb_overview
+6023,P.S. I Love You,2007,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+6538,Charlie Wilson's War,2007,media,plot_corto,plot,146 caracteres; origen tmdb_overview
+6557,27 Dresses,2008,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+7183,Perfect Stranger,2007,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+7288,Duplex,2003,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+7326,Juno,2007,media,plot_corto,plot,134 caracteres; origen tmdb_overview
+7501,Knockaround Guys,2001,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+7549,Fearless,2006,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+8051,Punch-Drunk Love,2002,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+8054,The Imaginarium of Doctor Parnassus,2009,media,plot_corto,plot,129 caracteres; origen tmdb_overview
+8079,Om Shanti Om,2007,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+8088,Broken Embraces,2009,media,plot_corto,plot,193 caracteres; origen tmdb_overview
+8390,"Definitely, Maybe",2008,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+8665,K-19: The Widowmaker,2002,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+8698,The League of Extraordinary Gentlemen,2003,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+8699,Anchorman: The Legend of Ron Burgundy,2004,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+8834,Conspiracy Theory,1997,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+8836,The X Files: I Want to Believe,2008,media,plot_corto,plot,145 caracteres; origen tmdb_overview
+8841,The Class,2008,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+8843,The Cell,2000,media,plot_corto,plot,112 caracteres; origen tmdb_overview
+8859,"Dude, Where's My Car?",2000,media,plot_corto,plot,94 caracteres; origen tmdb_overview
+8870,Red Planet,2000,media,plot_corto,plot,118 caracteres; origen tmdb_overview
+8881,Che: Part One,2008,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+8926,Afterschool,2008,media,plot_corto,plot,131 caracteres; origen tmdb_overview
+8942,Wendy and Lucy,2008,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+8953,Steamboy,2004,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+8975,The Marine,2006,media,plot_corto,plot,162 caracteres; origen tmdb_overview
+9562,Timeline,2003,media,plot_corto,plot,182 caracteres; origen tmdb_overview
+9676,The Black Dahlia,2006,media,plot_corto,plot,179 caracteres; origen tmdb_overview
+9703,The Last Legion,2007,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+9722,Bewitched,2005,media,plot_corto,plot,174 caracteres; origen tmdb_overview
+9729,Where the Truth Lies,2005,media,plot_corto,plot,88 caracteres; origen tmdb_overview
+9753,Survival Island,2006,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+9759,Cellular,2004,media,plot_corto,plot,180 caracteres; origen tmdb_overview
+9885,Wolf Creek,2005,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+9890,The Stepford Wives,2004,media,plot_corto,plot,157 caracteres; origen tmdb_overview
+9913,The Skeleton Key,2005,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+9952,Rescue Dawn,2006,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+9975,Curious George,2006,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+9989,Antitrust,2001,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+10052,Dragonfly,2002,media,plot_corto,plot,99 caracteres; origen tmdb_overview
+10069,Stay Alive,2006,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+10073,Date Movie,2006,media,plot_corto,plot,90 caracteres; origen tmdb_overview
+10185,The Midnight Meat Train,2008,media,plot_corto,plot,187 caracteres; origen tmdb_overview
+10304,Starship Troopers 2: Hero of the Federation,2004,media,plot_corto,plot,132 caracteres; origen tmdb_overview
+10486,My Father the Hero,1994,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+10491,Enigma,2001,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+10569,Small Time Crooks,2000,media,plot_corto,plot,118 caracteres; origen tmdb_overview
+10577,Dracula 2000,2000,media,plot_corto,plot,157 caracteres; origen tmdb_overview
+10585,Child's Play,1988,media,plot_corto,plot,180 caracteres; origen tmdb_overview
+10589,After the Sunset,2004,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+10610,The Medallion,2003,media,plot_corto,plot,147 caracteres; origen tmdb_overview
+10664,[REC]²,2009,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+10708,Daddy Day Care,2003,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+10757,Kabhi Khushi Kabhie Gham,2001,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+10796,The One,2001,media,plot_corto,plot,120 caracteres; origen tmdb_overview
+10829,Tremors 3: Back to Perfection,2001,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+11045,Taxi,2004,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+11132,Confessions of a Teenage Drama Queen,2004,media,plot_corto,plot,181 caracteres; origen tmdb_overview
+11171,Mysterious Skin,2005,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+11194,Touching the Void,2003,media,plot_corto,plot,171 caracteres; origen tmdb_overview
+11205,Wheels on Meals,1984,media,plot_corto,plot,162 caracteres; origen tmdb_overview
+11227,Angel-A,2005,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+11319,The Rescuers,1977,media,plot_corto,plot,132 caracteres; origen tmdb_overview
+11469,Black Knight,2001,media,plot_corto,plot,120 caracteres; origen tmdb_overview
+11531,Book of Shadows: Blair Witch 2,2000,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+11547,Cabin Fever,2003,media,plot_corto,plot,183 caracteres; origen tmdb_overview
+11615,The Life of David Gale,2003,media,plot_corto,plot,100 caracteres; origen tmdb_overview
+11645,Ran,1985,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+11661,Joyeux Noel,2005,media,plot_corto,plot,170 caracteres; origen tmdb_overview
+11683,Land of the Dead,2005,media,plot_corto,plot,144 caracteres; origen tmdb_overview
+11802,Space Chimps,2008,media,plot_corto,plot,147 caracteres; origen tmdb_overview
+11870,Big Fat Liar,2002,media,plot_corto,plot,185 caracteres; origen tmdb_overview
+11880,Dog Soldiers,2002,media,plot_corto,plot,155 caracteres; origen tmdb_overview
+11918,Superhero Movie,2008,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+11973,Thirteen Days,2000,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+12149,Frailty,2001,media,plot_corto,plot,187 caracteres; origen tmdb_overview
+12180,Star Wars: The Clone Wars,2008,media,plot_corto,plot,190 caracteres; origen tmdb_overview
+12205,Dark Water,2002,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+12610,Osmosis Jones,2001,media,plot_corto,plot,131 caracteres; origen tmdb_overview
+12699,Hellraiser: Hellworld,2005,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+12700,Dominion: Prequel to The Exorcist,2005,media,plot_corto,plot,135 caracteres; origen tmdb_overview
+12783,The Duchess,2008,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+12902,Scooby-Doo! and the Loch Ness Monster,2004,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+12903,Scooby-Doo! and the Goblin King,2008,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+13012,Felon,2008,media,plot_corto,plot,104 caracteres; origen tmdb_overview
+13156,Secondhand Lions,2003,media,plot_corto,plot,192 caracteres; origen tmdb_overview
+13243,Meet Bill,2007,media,plot_corto,plot,117 caracteres; origen tmdb_overview
+13258,Son of Rambow,2007,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+13398,Tokyo Godfathers,2003,media,plot_corto,plot,143 caracteres; origen tmdb_overview
+13489,Lost Boys: The Tribe,2008,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+13491,Arn: The Knight Templar,2007,media,plot_corto,plot,156 caracteres; origen tmdb_overview
+13515,Mirrors,2008,media,plot_corto,plot,108 caracteres; origen tmdb_overview
+13532,Fanboys,2009,media,plot_corto,plot,170 caracteres; origen tmdb_overview
+13741,2 Alone in Paris,2008,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+13812,Quarantine,2008,media,plot_corto,plot,179 caracteres; origen tmdb_overview
+13932,Jack-Jack Attack,2005,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+14092,Ghost in the Shell 2.0,2008,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+14435,My Bloody Valentine,2009,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+14613,Next Avengers: Heroes of Tomorrow,2008,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+14979,Thick as Thieves,2009,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+15019,I Could Never Be Your Woman,2007,media,plot_corto,plot,85 caracteres; origen tmdb_overview
+15213,Everyone's Hero,2006,media,plot_corto,plot,131 caracteres; origen tmdb_overview
+15485,Disney Princess Enchanted Tales: Follow Your Dreams,2007,media,plot_corto,plot,86 caracteres; origen tmdb_overview
+15487,The Greatest Game Ever Played,2005,media,plot_corto,plot,109 caracteres; origen tmdb_overview
+15657,Tarzan II,2005,media,plot_corto,plot,106 caracteres; origen tmdb_overview
+15999,Vampire Hunter D: Bloodlust,2000,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+16187,Buzz Lightyear of Star Command: The Adventure Begins,2000,media,plot_corto,plot,105 caracteres; origen tmdb_overview
+16237,Teen Titans: Trouble in Tokyo,2006,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+16340,Rugrats in Paris: The Movie,2000,media,plot_corto,plot,163 caracteres; origen tmdb_overview
+17814,Assault on Precinct 13,1976,media,plot_corto,plot,178 caracteres; origen tmdb_overview
+18238,Lesbian Vampire Killers,2009,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+18392,Embrace of the Vampire,1995,media,plot_corto,plot,124 caracteres; origen tmdb_overview
+18442,Decoys,2004,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+18736,The Lizzie McGuire Movie,2003,media,plot_corto,plot,181 caracteres; origen tmdb_overview
+18767,Island of Fire,1990,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+19486,Cyborg She,2008,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+19543,Anacondas: Trail of Blood,2009,media,plot_corto,plot,126 caracteres; origen tmdb_overview
+20312,Interstate 60,2002,media,plot_corto,plot,104 caracteres; origen tmdb_overview
+20558,Scooby-Doo! in Where's My Mummy?,2005,media,plot_corto,plot,88 caracteres; origen tmdb_overview
+20722,La Maison en Petits Cubes,2008,media,plot_corto,plot,134 caracteres; origen tmdb_overview
+20941,Innocent Voices,2005,media,plot_corto,plot,192 caracteres; origen tmdb_overview
+21705,The Barbie Diaries,2006,media,plot_corto,plot,172 caracteres; origen tmdb_overview
+21724,Dance Flick,2009,media,plot_corto,plot,199 caracteres; origen tmdb_overview
+21791,Drop Dead Sexy,2005,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+21956,Scooby-Doo! and the Monster of Mexico,2003,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+23082,The Invention of Lying,2009,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+23478,Mozart and the Whale,2005,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+24238,Mary and Max,2009,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+24528,Killer Bean Forever,2008,media,plot_corto,plot,180 caracteres; origen tmdb_overview
+24615,Aloha Scooby-Doo!,2005,media,plot_corto,plot,185 caracteres; origen tmdb_overview
+24929,Return of the Living Dead Part II,1988,media,plot_corto,plot,189 caracteres; origen tmdb_overview
+26264,George of the Jungle 2,2003,media,plot_corto,plot,120 caracteres; origen tmdb_overview
+26405,Wake in Fright,1971,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+26505,Arthur and the Revenge of Maltazard,2009,media,plot_corto,plot,96 caracteres; origen tmdb_overview
+26736,Wizards of Waverly Place: The Movie,2009,media,plot_corto,plot,199 caracteres; origen tmdb_overview
+29426,Survival of the Dead,2010,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+29512,Bruiser,2000,media,plot_corto,plot,158 caracteres; origen tmdb_overview
+29723,The Concorde... Airport '79,1979,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+30074,Scooby-Doo! and the Legend of the Vampire,2003,media,plot_corto,plot,116 caracteres; origen tmdb_overview
+34065,Pokémon: Destiny Deoxys,2004,media,plot_corto,plot,107 caracteres; origen tmdb_overview
+34672,Chestnut: Hero of Central Park,2004,media,plot_corto,plot,176 caracteres; origen tmdb_overview
+35026,Lucky Luke,2009,media,plot_corto,plot,90 caracteres; origen tmdb_overview
+35552,The Extraordinary Adventures of Adèle Blanc-Sec,2010,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+35583,The Lost Battalion,2001,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+37903,The White Ribbon,2009,media,plot_corto,plot,168 caracteres; origen tmdb_overview
+38541,The Divide,2012,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+38579,Marmaduke,2010,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+40807,50/50,2011,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+41382,Lottery Ticket,2010,media,plot_corto,plot,190 caracteres; origen tmdb_overview
+41402,Let Me In,2010,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+41515,Yogi Bear,2010,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+43956,Tom and Jerry Meet Sherlock Holmes,2010,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+44108,Nang Nak,1999,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+44603,Hereafter,2010,media,plot_corto,plot,124 caracteres; origen tmdb_overview
+44835,Hesher,2010,media,plot_corto,plot,162 caracteres; origen tmdb_overview
+45132,Super,2010,media,plot_corto,plot,185 caracteres; origen tmdb_overview
+45156,A Little Bit of Heaven,2011,media,plot_corto,plot,131 caracteres; origen tmdb_overview
+45649,Rubber,2010,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+48266,Ma mère,2004,media,plot_corto,plot,110 caracteres; origen tmdb_overview
+49009,The Way Back,2010,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+49526,Premium Rush,2012,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+49948,Fantasia 2000,1999,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+50087,Pokémon: Zoroark - Master of Illusions,2010,media,plot_corto,plot,127 caracteres; origen tmdb_overview
+50204,Burke & Hare,2010,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+50359,Hop,2011,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+50647,Wanderlust,2012,media,plot_corto,plot,174 caracteres; origen tmdb_overview
+51999,Perfect Sense,2011,media,plot_corto,plot,164 caracteres; origen tmdb_overview
+53172,Henry's Crime,2010,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+54555,She's on Duty,2005,media,plot_corto,plot,122 caracteres; origen tmdb_overview
+55420,Another Earth,2011,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+56906,Husk,2011,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+57157,Young Adult,2011,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+58151,Fright Night,2011,media,plot_corto,plot,156 caracteres; origen tmdb_overview
+59115,Quarantine 2: Terminal,2011,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+59860,Monte Carlo,2011,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+59963,Dark Tide,2012,media,plot_corto,plot,157 caracteres; origen tmdb_overview
+60599,Arbitrage,2012,media,plot_corto,plot,155 caracteres; origen tmdb_overview
+61952,A Good Lawyer's Wife,2003,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+62046,Flypaper,2011,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+62215,Melancholia,2011,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+62838,New Year's Eve,2011,media,plot_corto,plot,98 caracteres; origen tmdb_overview
+63404,American Pie: Revealed,2004,media,plot_corto,plot,103 caracteres; origen tmdb_overview
+64689,Killing Them Softly,2012,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+64807,Grudge Match,2013,media,plot_corto,plot,118 caracteres; origen tmdb_overview
+68812,The Iceman,2012,media,plot_corto,plot,82 caracteres; origen tmdb_overview
+70074,Bullet to the Head,2013,media,plot_corto,plot,124 caracteres; origen tmdb_overview
+70435,Haywire,2011,media,plot_corto,plot,74 caracteres; origen tmdb_overview
+70608,LEGO Star Wars: The Padawan Menace,2011,media,plot_corto,plot,143 caracteres; origen tmdb_overview
+71469,The Darkest Hour,2011,media,plot_corto,plot,113 caracteres; origen tmdb_overview
+71859,We Need to Talk About Kevin,2011,media,plot_corto,plot,170 caracteres; origen tmdb_overview
+73358,Page Eight,2011,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+76180,Empire of Dreams: The Story of the Star Wars Trilogy,2004,media,plot_corto,plot,114 caracteres; origen tmdb_overview
+76535,Marvel One-Shot: A Funny Thing Happened on the Way to Thor's Hammer,2011,media,plot_corto,plot,98 caracteres; origen tmdb_overview
+76544,Man of Tai Chi,2013,media,plot_corto,plot,109 caracteres; origen tmdb_overview
+77016,End of Watch,2012,media,plot_corto,plot,164 caracteres; origen tmdb_overview
+77495,Sleep Tight,2011,media,plot_corto,plot,163 caracteres; origen tmdb_overview
+77499,Barbie: A Perfect Christmas,2011,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+77875,Playing for Keeps,2012,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+77887,Hawaiian Vacation,2011,media,plot_corto,plot,67 caracteres; origen tmdb_overview
+77949,The Awakening,2011,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+78698,Big Miracle,2012,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+80389,Get the Gringo,2012,media,plot_corto,plot,137 caracteres; origen tmdb_overview
+82654,Warm Bodies,2013,media,plot_corto,plot,172 caracteres; origen tmdb_overview
+82696,Hope Springs,2012,media,plot_corto,plot,132 caracteres; origen tmdb_overview
+83899,You're Next,2011,media,plot_corto,plot,196 caracteres; origen tmdb_overview
+84332,Safety Not Guaranteed,2012,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+84334,Searching for Sugar Man,2012,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+84348,V/H/S,2012,media,plot_corto,plot,182 caracteres; origen tmdb_overview
+84354,Young and Wild,2012,media,plot_corto,plot,174 caracteres; origen tmdb_overview
+85446,Step Up Revolution,2012,media,plot_corto,plot,193 caracteres; origen tmdb_overview
+85545,Elles,2011,media,plot_corto,plot,156 caracteres; origen tmdb_overview
+86838,Seven Psychopaths,2012,media,plot_corto,plot,160 caracteres; origen tmdb_overview
+87826,Here Comes the Boom,2012,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+89501,Nameless Gangster,2012,media,plot_corto,plot,199 caracteres; origen tmdb_overview
+91186,A Simple Life,2011,media,plot_corto,plot,121 caracteres; origen tmdb_overview
+102362,Dead Man Down,2013,media,plot_corto,plot,90 caracteres; origen tmdb_overview
+103731,Mud,2013,media,plot_corto,plot,170 caracteres; origen tmdb_overview
+104859,Mac & Devin Go to High School,2012,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+107985,The World's End,2013,media,plot_corto,plot,143 caracteres; origen tmdb_overview
+109091,The Counselor,2013,media,plot_corto,plot,97 caracteres; origen tmdb_overview
+109410,42,2013,media,plot_corto,plot,155 caracteres; origen tmdb_overview
+109421,Side Effects,2013,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+109431,Identity Thief,2013,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+109443,Anchorman 2: The Legend Continues,2013,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+110552,The Protector 2,2013,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+112454,Clown,2014,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+112949,Safe Haven,2013,media,plot_corto,plot,157 caracteres; origen tmdb_overview
+118957,Bait,2012,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+123103,Aftershock,2012,media,plot_corto,plot,87 caracteres; origen tmdb_overview
+130150,Labor Day,2013,media,plot_corto,plot,172 caracteres; origen tmdb_overview
+132137,Werewolf: The Beast Among Us,2012,media,plot_corto,plot,134 caracteres; origen tmdb_overview
+146301,Paranormal Activity: The Ghost Dimension,2015,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+149509,Horns,2013,media,plot_corto,plot,119 caracteres; origen tmdb_overview
+150213,Pokémon the Movie: Kyurem vs. the Sword of Justice,2012,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+151512,Jan Dara: The Beginning,2012,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+152603,Only Lovers Left Alive,2013,media,plot_corto,plot,174 caracteres; origen tmdb_overview
+157825,White Bird in a Blizzard,2014,media,plot_corto,plot,79 caracteres; origen tmdb_overview
+164457,Out of the Furnace,2013,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+170522,Asterix: The Mansions of the Gods,2014,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+171274,Inherent Vice,2014,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+175574,Free Birds,2013,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+178809,The Colony,2013,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+180863,T2 Trainspotting,2017,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+182560,Dark Places,2015,media,plot_corto,plot,110 caracteres; origen tmdb_overview
+184341,Hands of Stone,2016,media,plot_corto,plot,98 caracteres; origen tmdb_overview
+190955,Blood Ties,2013,media,plot_corto,plot,100 caracteres; origen tmdb_overview
+192134,Dom Hemingway,2013,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+193613,Metallica: Through the Never,2013,media,plot_corto,plot,160 caracteres; origen tmdb_overview
+195589,Neighbors,2014,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+198277,Begin Again,2013,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+199153,The Book of Esther,2013,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+199373,The Frozen Ground,2013,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+205601,Belle,2013,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+209189,Life of Crime,2013,media,plot_corto,plot,196 caracteres; origen tmdb_overview
+213681,Masterminds,2016,media,plot_corto,plot,122 caracteres; origen tmdb_overview
+214553,"Love, Chunibyo & Other Delusions! Rikka Version",2013,media,plot_corto,plot,92 caracteres; origen tmdb_overview
+215830,Open Grave,2013,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+224141,Into the Woods,2014,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+226857,Endless Love,2014,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+227156,The Giver,2014,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+228203,"McFarland, USA",2015,media,plot_corto,plot,100 caracteres; origen tmdb_overview
+228970,Wild,2014,media,plot_corto,plot,117 caracteres; origen tmdb_overview
+228973,Backcountry,2014,media,plot_corto,plot,102 caracteres; origen tmdb_overview
+231001,All Hallows' Eve,2013,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+232572,A Walk in the Woods,2015,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+235271,Addicted,2014,media,plot_corto,plot,144 caracteres; origen tmdb_overview
+236399,Flowers in the Attic,2014,media,plot_corto,plot,107 caracteres; origen tmdb_overview
+239459,No Half Measures: Creating the Final Season of Breaking Bad,2013,media,plot_corto,plot,87 caracteres; origen tmdb_overview
+239529,Lupin the Third vs. Detective Conan: The Movie,2013,media,plot_corto,plot,108 caracteres; origen tmdb_overview
+239563,St. Vincent,2014,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+240483,Robot Overlords,2015,media,plot_corto,plot,126 caracteres; origen tmdb_overview
+241251,The Boy Next Door,2015,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+242095,The Signal,2014,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+244267,I Origins,2014,media,plot_corto,plot,127 caracteres; origen tmdb_overview
+244566,Life After Beth,2014,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+245703,Midnight Special,2016,media,plot_corto,plot,87 caracteres; origen tmdb_overview
+245775,Yves Saint Laurent,2014,media,plot_corto,plot,106 caracteres; origen wikipedia_plot_2026-11-12
+245842,The King's Daughter,2022,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+246355,Saw,2003,media,plot_corto,plot,120 caracteres; origen tmdb_overview
+246741,What We Do in the Shadows,2014,media,plot_corto,plot,134 caracteres; origen tmdb_overview
+248504,Sharknado 2: The Second One,2014,media,plot_corto,plot,189 caracteres; origen tmdb_overview
+249070,Hitman: Agent 47,2015,media,plot_corto,plot,104 caracteres; origen tmdb_overview
+252680,Moms' Night Out,2014,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+253310,Premature,2014,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+254172,Fathers and Daughters,2015,media,plot_corto,plot,177 caracteres; origen tmdb_overview
+257785,Tulip Fever,2017,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+260535,The Little Rascals Save the Day,2014,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+262391,Serial (Bad) Weddings,2014,media,plot_corto,plot,132 caracteres; origen tmdb_overview
+263341,"Crouching Tiger, Hidden Dragon: Sword of Destiny",2016,media,plot_corto,plot,91 caracteres; origen tmdb_overview
+265177,Mommy,2014,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+269494,A Hard Day,2014,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+270487,"Hail, Caesar!",2016,media,plot_corto,plot,117 caracteres; origen tmdb_overview
+272878,Max,2015,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+277355,Everly,2015,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+277597,Mercenaries,2014,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+278427,Family Guy Presents: It's a Trap!,2011,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+282813,The Pyramid,2014,media,plot_corto,plot,127 caracteres; origen tmdb_overview
+284276,Cake,2014,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+285783,The Walk,2015,media,plot_corto,plot,121 caracteres; origen tmdb_overview
+287003,Avatar: Scene Deconstruction,2009,media,plot_corto,plot,48 caracteres; origen tmdb_overview
+289728,Jingle All the Way 2,2014,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+290825,Yoga Hosers,2016,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+295151,Let It Snow,2019,media,plot_corto,plot,199 caracteres; origen tmdb_overview
+297961,Big Driver,2014,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+298312,The Visit,2015,media,plot_corto,plot,177 caracteres; origen tmdb_overview
+299576,The Nine Lives of Christmas,2014,media,plot_corto,plot,187 caracteres; origen tmdb_overview
+300671,13 Hours: The Secret Soldiers of Benghazi,2016,media,plot_corto,plot,138 caracteres; origen tmdb_overview
+300673,The Finest Hours,2016,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+301337,Downsizing,2017,media,plot_corto,plot,187 caracteres; origen tmdb_overview
+301372,Voice from the Stone,2017,media,plot_corto,plot,138 caracteres; origen tmdb_overview
+301875,Equals,2015,media,plot_corto,plot,75 caracteres; origen tmdb_overview
+302429,Strange Magic,2015,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+303858,Money Monster,2016,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+310119,Last Days in the Desert,2016,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+311539,A Christmas Horror Story,2015,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+313922,Green Room,2015,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+318781,Colonia,2015,media,plot_corto,plot,138 caracteres; origen tmdb_overview
+320007,Victoria,2015,media,plot_corto,plot,177 caracteres; origen tmdb_overview
+322240,Nine Lives,2016,media,plot_corto,plot,79 caracteres; origen tmdb_overview
+324560,Brimstone,2016,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+328111,The Secret Life of Pets,2016,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+328425,The Gift,2015,media,plot_corto,plot,168 caracteres; origen tmdb_overview
+332356,Killing Jesus,2015,media,plot_corto,plot,146 caracteres; origen tmdb_overview
+332411,I Am Wrath,2016,media,plot_corto,plot,104 caracteres; origen tmdb_overview
+334298,Monster Hunt,2015,media,plot_corto,plot,95 caracteres; origen tmdb_overview
+334521,Free Fire,2017,media,plot_corto,plot,121 caracteres; origen tmdb_overview
+339404,The Layover,2017,media,plot_corto,plot,171 caracteres; origen tmdb_overview
+339877,Loving Vincent,2017,media,plot_corto,plot,162 caracteres; origen tmdb_overview
+339967,Colossal,2017,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+340022,Gringo,2018,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+340357,April and the Extraordinary World,2015,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+340442,Pilgrimage,2017,media,plot_corto,plot,106 caracteres; origen tmdb_overview
+341006,The Belko Experiment,2016,media,plot_corto,plot,127 caracteres; origen tmdb_overview
+343795,90 Minutes in Heaven,2015,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+345922,Fist Fight,2017,media,plot_corto,plot,88 caracteres; origen tmdb_overview
+345934,Air Strike,2018,media,plot_corto,plot,146 caracteres; origen tmdb_overview
+348089,Grease Live,2016,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+348811,War Pigs,2015,media,plot_corto,plot,119 caracteres; origen tmdb_overview
+353070,Going in Style,2017,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+353491,The Dark Tower,2017,media,plot_corto,plot,157 caracteres; origen tmdb_overview
+354279,Charming,2018,media,plot_corto,plot,85 caracteres; origen tmdb_overview
+354287,War Machine,2017,media,plot_corto,plot,182 caracteres; origen tmdb_overview
+354857,Regular Show: The Movie,2015,media,plot_corto,plot,184 caracteres; origen tmdb_overview
+355338,Riley's First Date?,2015,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+359784,Maudie,2016,media,plot_corto,plot,111 caracteres; origen tmdb_overview
+362826,Wildling,2018,media,plot_corto,plot,95 caracteres; origen tmdb_overview
+365222,Ip Man 3,2015,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+365942,The Space Between Us,2017,media,plot_corto,plot,77 caracteres; origen tmdb_overview
+366924,Batman: Bad Blood,2016,media,plot_corto,plot,185 caracteres; origen tmdb_overview
+369894,Wakefield,2017,media,plot_corto,plot,96 caracteres; origen tmdb_overview
+375355,Don't Hang Up,2016,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+376570,Hush,2016,media,plot_corto,plot,67 caracteres; origen tmdb_overview
+376659,Bad Moms,2016,media,plot_corto,plot,197 caracteres; origen tmdb_overview
+377263,Frantz,2016,media,plot_corto,plot,161 caracteres; origen tmdb_overview
+377447,Railroad Tigers,2016,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+381719,Peter Rabbit,2018,media,plot_corto,plot,170 caracteres; origen tmdb_overview
+382322,Batman: The Killing Joke,2016,media,plot_corto,plot,155 caracteres; origen tmdb_overview
+382748,Stargirl,2020,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+383709,Wonderstruck,2017,media,plot_corto,plot,176 caracteres; origen tmdb_overview
+384521,The Cloverfield Paradox,2018,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+385360,Billionaire Boys Club,2018,media,plot_corto,plot,114 caracteres; origen tmdb_overview
+389015,"I, Tonya",2017,media,plot_corto,plot,183 caracteres; origen tmdb_overview
+390497,Tunnel,2016,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+394374,At the End of the Tunnel,2016,media,plot_corto,plot,132 caracteres; origen tmdb_overview
+395841,Hold the Dark,2018,media,plot_corto,plot,146 caracteres; origen tmdb_overview
+396292,Ali Wong: Baby Cobra,2016,media,plot_corto,plot,177 caracteres; origen tmdb_overview
+401104,To the Bone,2017,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+401371,Mute,2018,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+401905,Fahrenheit 451,2018,media,plot_corto,plot,100 caracteres; origen tmdb_overview
+403300,A Hidden Life,2019,media,plot_corto,plot,121 caracteres; origen tmdb_overview
+404733,Overdrive,2017,media,plot_corto,plot,122 caracteres; origen tmdb_overview
+405177,"Where'd You Go, Bernadette",2019,media,plot_corto,plot,181 caracteres; origen tmdb_overview
+405774,Bird Box,2018,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+407445,Breathe,2017,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+407451,A Wrinkle in Time,2018,media,plot_corto,plot,139 caracteres; origen tmdb_overview
+407887,Operation Chromite,2016,media,plot_corto,plot,72 caracteres; origen tmdb_overview
+408648,Batman and Harley Quinn,2017,media,plot_corto,plot,179 caracteres; origen tmdb_overview
+409617,Killing Ground,2017,media,plot_corto,plot,111 caracteres; origen tmdb_overview
+410554,First Kill,2017,media,plot_corto,plot,99 caracteres; origen tmdb_overview
+415214,Operation Mekong,2016,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+416494,Status Update,2018,media,plot_corto,plot,178 caracteres; origen tmdb_overview
+417320,Descendants 2,2017,media,plot_corto,plot,180 caracteres; origen tmdb_overview
+417466,Monos,2019,media,plot_corto,plot,95 caracteres; origen tmdb_overview
+417644,CHiPS,2017,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+417678,"Everything, Everything",2017,media,plot_corto,plot,119 caracteres; origen tmdb_overview
+417870,Girls Trip,2017,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+419700,Sandy Wexler,2017,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+420622,Professor Marston and the Wonder Women,2017,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+422803,A Shaun the Sheep Movie: Farmageddon,2019,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+423612,Never Look Away,2018,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+423949,Unicorn Store,2017,media,plot_corto,plot,135 caracteres; origen tmdb_overview
+425134,How to Be a Latin Lover,2017,media,plot_corto,plot,94 caracteres; origen tmdb_overview
+425336,Loving Pablo,2017,media,plot_corto,plot,152 caracteres; origen wikipedia_plot_2026-11-12
+425972,Cargo,2017,media,plot_corto,plot,147 caracteres; origen tmdb_overview
+427900,Home Again,2017,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+428399,Cold Skin,2017,media,plot_corto,plot,90 caracteres; origen tmdb_overview
+428446,Walking Out,2017,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+429200,Good Time,2017,media,plot_corto,plot,179 caracteres; origen tmdb_overview
+429422,Capone,2020,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+429733,Mayhem,2017,media,plot_corto,plot,104 caracteres; origen tmdb_overview
+430040,The Hurricane Heist,2018,media,plot_corto,plot,122 caracteres; origen tmdb_overview
+430354,Bushwick,2017,media,plot_corto,plot,161 caracteres; origen tmdb_overview
+432836,Memoir of a Murderer,2017,media,plot_corto,plot,132 caracteres; origen tmdb_overview
+433249,IO,2019,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+433502,The Aftermath,2019,media,plot_corto,plot,196 caracteres; origen tmdb_overview
+435129,The Breadwinner,2017,media,plot_corto,plot,124 caracteres; origen tmdb_overview
+436120,Lu Over the Wall,2017,media,plot_corto,plot,94 caracteres; origen tmdb_overview
+436391,The Battleship Island,2017,media,plot_corto,plot,189 caracteres; origen wikipedia_plot_2026-11-12
+437081,The Fortress,2017,media,plot_corto,plot,149 caracteres; origen wikipedia_plot_2026-11-12
+437557,Blockers,2018,media,plot_corto,plot,183 caracteres; origen tmdb_overview
+437586,mid90s,2018,media,plot_corto,plot,145 caracteres; origen tmdb_overview
+438259,Journey's End,2017,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+439058,Hey Arnold! The Jungle Movie,2017,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+441384,The Beach Bum,2019,media,plot_corto,plot,111 caracteres; origen tmdb_overview
+441663,40 y 20,2016,media,plot_corto,plot,96 caracteres; origen tmdb_overview
+443700,Altitude,2017,media,plot_corto,plot,87 caracteres; origen tmdb_overview
+445993,The Marine 5: Battleground,2017,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+446791,All the Money in the World,2017,media,plot_corto,plot,185 caracteres; origen tmdb_overview
+448432,The Convent,2018,media,plot_corto,plot,143 caracteres; origen tmdb_overview
+449924,Ip Man 4: The Finale,2019,media,plot_corto,plot,197 caracteres; origen tmdb_overview
+449992,The Night Comes for Us,2018,media,plot_corto,plot,122 caracteres; origen tmdb_overview
+451915,Beautiful Boy,2018,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+453362,Los perros,2017,media,plot_corto,plot,129 caracteres; origen tmdb_overview
+454227,Outlaw King,2018,media,plot_corto,plot,135 caracteres; origen tmdb_overview
+454467,Noelle,2019,media,plot_corto,plot,156 caracteres; origen tmdb_overview
+454699,Monster Family,2017,media,plot_corto,plot,185 caracteres; origen tmdb_overview
+455236,Accident Man,2018,media,plot_corto,plot,180 caracteres; origen tmdb_overview
+456154,White Fang,2018,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+458342,Private Life,2018,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+458737,First Reformed,2018,media,plot_corto,plot,172 caracteres; origen tmdb_overview
+459202,Boo 2! A Madea Halloween,2017,media,plot_corto,plot,85 caracteres; origen tmdb_overview
+461054,LEGO Scooby-Doo! Blowout Beach Bash,2017,media,plot_corto,plot,125 caracteres; origen tmdb_overview
+461955,Rakka,2017,media,plot_corto,plot,184 caracteres; origen tmdb_overview
+461992,Hostile,2018,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+462919,Sierra Burgess Is a Loser,2018,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+466411,Speed Kills,2018,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+467433,A Question of Faith,2017,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+467632,Bad Samaritan,2018,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+467824,Illang: The Wolf Brigade,2018,media,plot_corto,plot,110 caracteres; origen tmdb_overview
+468225,The Starling,2021,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+470035,Spider-Man 2: Making the Amazing,2004,media,plot_corto,plot,121 caracteres; origen tmdb_overview
+470114,24 Hours to Live,2017,media,plot_corto,plot,71 caracteres; origen tmdb_overview
+470401,Abducted in Plain Sight,2018,media,plot_corto,plot,107 caracteres; origen tmdb_overview
+471498,Oxygen,2021,media,plot_corto,plot,130 caracteres; origen tmdb_overview
+471506,Greta,2018,media,plot_corto,plot,179 caracteres; origen tmdb_overview
+473019,The Souvenir,2019,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+474335,Uncle Drew,2018,media,plot_corto,plot,106 caracteres; origen tmdb_overview
+479240,The Robot Chicken Walking Dead Special: Look Who's Walking,2017,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+480572,Bullet Head,2017,media,plot_corto,plot,121 caracteres; origen tmdb_overview
+480881,Let There Be Light,2017,media,plot_corto,plot,102 caracteres; origen tmdb_overview
+481375,Malevolent,2018,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+484862,Scooby-Doo! & Batman: The Brave and the Bold,2018,media,plot_corto,plot,116 caracteres; origen tmdb_overview
+485774,The Open House,2018,media,plot_corto,plot,105 caracteres; origen tmdb_overview
+485942,Batman Ninja,2018,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+487083,Paradise Hills,2019,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+487297,What Men Want,2019,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+491472,At Eternity's Gate,2018,media,plot_corto,plot,146 caracteres; origen tmdb_overview
+491599,Coffee House Chronicles: The Movie,2016,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+494031,The Second Coming of Christ,2018,media,plot_corto,plot,104 caracteres; origen tmdb_overview
+495925,Doraemon: Nobita's Treasure Island,2018,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+497727,Beyond the Edge,2018,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+498248,Mia and the White Lion,2018,media,plot_corto,plot,89 caracteres; origen tmdb_overview
+499319,Duck Butter,2018,media,plot_corto,plot,177 caracteres; origen tmdb_overview
+499566,A Million Little Pieces,2019,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+500475,SuperFly,2018,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+500840,I'm Thinking of Ending Things,2020,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+500852,Miss Bala,2019,media,plot_corto,plot,179 caracteres; origen tmdb_overview
+500922,A Score to Settle,2019,media,plot_corto,plot,168 caracteres; origen tmdb_overview
+504608,Rocketman,2019,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+504949,The King,2019,media,plot_corto,plot,172 caracteres; origen tmdb_overview
+506281,The World to Come,2021,media,plot_corto,plot,93 caracteres; origen tmdb_overview
+506574,Descendants 3,2019,media,plot_corto,plot,156 caracteres; origen tmdb_overview
+507143,Candy Jar,2018,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+507441,Sea Fever,2020,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+508422,Penguin Highway,2018,media,plot_corto,plot,190 caracteres; origen tmdb_overview
+509967,6 Underground,2019,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+511243,The Wizard Hunter: The Hunt for Evangelion Crowley,2022,media,plot_corto,plot,181 caracteres; origen tmdb_overview
+512412,Backtrace,2018,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+513421,Discarnate,2019,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+513576,Always Be My Maybe,2019,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+513736,LEGO DC Super Heroes - Aquaman: Rage Of Atlantis,2018,media,plot_corto,plot,144 caracteres; origen tmdb_overview
+515454,Come True,2020,media,plot_corto,plot,182 caracteres; origen tmdb_overview
+515789,StarDog and TurboCat,2019,media,plot_corto,plot,178 caracteres; origen tmdb_overview
+516632,The Empty Man,2020,media,plot_corto,plot,127 caracteres; origen tmdb_overview
+517839,Border,2018,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+519035,Nappily Ever After,2018,media,plot_corto,plot,147 caracteres; origen tmdb_overview
+520663,The Woman in the Window,2021,media,plot_corto,plot,126 caracteres; origen tmdb_overview
+523077,Running with the Devil,2019,media,plot_corto,plot,100 caracteres; origen tmdb_overview
+523773,Little Italy,2018,media,plot_corto,plot,160 caracteres; origen tmdb_overview
+526019,Like a Boss,2020,media,plot_corto,plot,182 caracteres; origen tmdb_overview
+526051,Look Away,2018,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+526429,Made in Abyss: Wandering Twilight,2019,media,plot_corto,plot,170 caracteres; origen tmdb_overview
+530723,Bad Education,2019,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+531438,Holiday in the Wild,2019,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+531509,Otherhood,2019,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+535581,The Dead Don't Die,2019,media,plot_corto,plot,114 caracteres; origen tmdb_overview
+536396,Blackbird,2019,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+536743,Queen & Slim,2019,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+536869,Cats,2019,media,plot_corto,plot,138 caracteres; origen tmdb_overview
+537116,"tick, tick... BOOM!",2021,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+539181,Relic,2020,media,plot_corto,plot,182 caracteres; origen tmdb_overview
+539537,Fantasy Island,2020,media,plot_corto,plot,134 caracteres; origen tmdb_overview
+542224,Gretel & Hansel,2020,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+543540,The Perfect Date,2019,media,plot_corto,plot,127 caracteres; origen tmdb_overview
+546121,Run,2020,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+547012,Buffaloed,2020,media,plot_corto,plot,108 caracteres; origen tmdb_overview
+549559,Apollo 11,2019,media,plot_corto,plot,106 caracteres; origen tmdb_overview
+550524,Monday,2020,media,plot_corto,plot,113 caracteres; origen tmdb_overview
+554230,The Lost Daughter,2021,media,plot_corto,plot,129 caracteres; origen tmdb_overview
+554241,Playing with Fire,2019,media,plot_corto,plot,97 caracteres; origen tmdb_overview
+556984,The Trial of the Chicago 7,2020,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+560008,Minamata,2020,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+561362,Rust Creek,2019,media,plot_corto,plot,132 caracteres; origen tmdb_overview
+565743,The Vast of Night,2019,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+567733,Crypto,2019,media,plot_corto,plot,93 caracteres; origen tmdb_overview
+567797,The Dry,2020,media,plot_corto,plot,160 caracteres; origen tmdb_overview
+569547,Black Mirror: Bandersnatch,2018,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+571627,The Divine Fury,2019,media,plot_corto,plot,168 caracteres; origen tmdb_overview
+572400,Don't Tell a Soul,2020,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+575604,The Call,2020,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+575813,Better Days,2019,media,plot_corto,plot,179 caracteres; origen tmdb_overview
+579051,Silk Road,2021,media,plot_corto,plot,163 caracteres; origen tmdb_overview
+579496,Call Jane,2022,media,plot_corto,plot,161 caracteres; origen tmdb_overview
+580175,Another Round,2020,media,plot_corto,plot,146 caracteres; origen tmdb_overview
+581032,News of the World,2020,media,plot_corto,plot,145 caracteres; origen tmdb_overview
+581600,Spenser Confidential,2020,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+582596,The Wrong Missy,2020,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+582883,Deerskin,2019,media,plot_corto,plot,186 caracteres; origen tmdb_overview
+586347,The Hard Way,2019,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+587693,A Christmas Prince: The Royal Baby,2019,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+587808,Backdraft 2,2019,media,plot_corto,plot,174 caracteres; origen tmdb_overview
+592863,Respect,2021,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+596161,Let Him Go,2020,media,plot_corto,plot,196 caracteres; origen tmdb_overview
+599399,After We Leave,2019,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+601434,Mayday Life,2019,media,plot_corto,plot,109 caracteres; origen tmdb_overview
+604578,Spontaneous,2020,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+611651,Sator,2019,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+614560,Mank,2020,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+614911,The Midnight Sky,2020,media,plot_corto,plot,119 caracteres; origen tmdb_overview
+615667,Ma Rainey's Black Bottom,2020,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+617762,The Electrical Life of Louis Wain,2021,media,plot_corto,plot,180 caracteres; origen tmdb_overview
+619592,Force of Nature,2020,media,plot_corto,plot,145 caracteres; origen tmdb_overview
+619594,My Salinger Year,2021,media,plot_corto,plot,115 caracteres; origen tmdb_overview
+623856,Let Them All Talk,2020,media,plot_corto,plot,196 caracteres; origen tmdb_overview
+624479,Superman II: The Richard Donner Cut,2006,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+625169,12 Mighty Orphans,2021,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+627290,Antebellum,2020,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+627661,Cranston Academy: Monster Zone,2020,media,plot_corto,plot,155 caracteres; origen tmdb_overview
+627725,The Banker,2020,media,plot_corto,plot,137 caracteres; origen tmdb_overview
+630894,Nostalgic Christmas,2019,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+631060,Things Heard & Seen,2021,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+631947,The Legend of La Llorona,2022,media,plot_corto,plot,106 caracteres; origen tmdb_overview
+632617,C'mon C'mon,2021,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+633515,The Forgotten Battle,2021,media,plot_corto,plot,145 caracteres; origen tmdb_overview
+634210,The Monkey King: The Legend Begins,2022,media,plot_corto,plot,180 caracteres; origen tmdb_overview
+635731,Pig,2021,media,plot_corto,plot,143 caracteres; origen tmdb_overview
+638449,The Last Letter from Your Lover,2021,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+641960,Four Good Days,2021,media,plot_corto,plot,92 caracteres; origen tmdb_overview
+643612,I'm Your Woman,2020,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+649087,Red Dot,2021,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+653598,Spree,2020,media,plot_corto,plot,156 caracteres; origen tmdb_overview
+653601,Horse Girl,2020,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+656561,Alien Xmas,2020,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+662712,Flag Day,2021,media,plot_corto,plot,174 caracteres; origen wikipedia_plot_2026-11-12
+664300,Shiva Baby,2021,media,plot_corto,plot,178 caracteres; origen tmdb_overview
+664574,Silent Night,2021,media,plot_corto,plot,181 caracteres; origen tmdb_overview
+666243,The Witcher: Nightmare of the Wolf,2021,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+668297,The Last Avatar,2014,media,plot_corto,plot,94 caracteres; origen tmdb_overview
+673309,American Underdog,2021,media,plot_corto,plot,148 caracteres; origen tmdb_overview
+673595,Maggie Simpson in Playdate with Destiny,2020,media,plot_corto,plot,136 caracteres; origen tmdb_overview
+682254,Scooby-Doo! The Sword and the Scoob,2021,media,plot_corto,plot,127 caracteres; origen tmdb_overview
+704264,Primal: Tales of Savagery,2019,media,plot_corto,plot,187 caracteres; origen tmdb_overview
+706972,Narco Sub,2021,media,plot_corto,plot,164 caracteres; origen tmdb_overview
+707886,Feel the Beat,2020,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+710356,2 Hearts,2020,media,plot_corto,plot,111 caracteres; origen tmdb_overview
+710871,Ghost Lab,2021,media,plot_corto,plot,137 caracteres; origen tmdb_overview
+715123,Books of Blood,2020,media,plot_corto,plot,95 caracteres; origen tmdb_overview
+716258,Black Box,2020,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+716612,Spencer,2021,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+717192,Ferry,2021,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+722913,Malcolm & Marie,2021,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+724989,Hard Kill,2020,media,plot_corto,plot,164 caracteres; origen tmdb_overview
+726208,Don't Listen,2020,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+732713,Evil Eye,2020,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+735364,The Boss Baby: Get That Baby!,2020,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+740017,Avatar: Agni Kai,2020,media,plot_corto,plot,174 caracteres; origen tmdb_metadata_summary
+740996,BLACKPINK: Light Up the Sky,2020,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+741635,Stuck,2020,media,plot_corto,plot,97 caracteres; origen tmdb_overview
+741998,The Binding,2020,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+746051,"A Godwink Christmas: Second Chance, First Love",2020,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+749274,Cry Macho,2021,media,plot_corto,plot,124 caracteres; origen tmdb_overview
+765119,The Bubble,2022,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+776821,Outlaws,2021,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+779029,The Battle at Lake Changjin,2021,media,plot_corto,plot,162 caracteres; origen tmdb_overview
+781453,Anaïs in Love,2021,media,plot_corto,plot,122 caracteres; origen tmdb_overview
+783753,Wish You,2021,media,plot_corto,plot,131 caracteres; origen tmdb_overview
+785457,Afterlife of the Party,2021,media,plot_corto,plot,107 caracteres; origen tmdb_overview
+790867,The Eternal Daughter,2022,media,plot_corto,plot,147 caracteres; origen tmdb_overview
+793002,Dreamcatcher,2021,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+793967,Phobias,2021,media,plot_corto,plot,192 caracteres; origen tmdb_overview
+799883,Hollywood Stargirl,2022,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+805411,Descendants: The Royal Wedding,2021,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+807196,Boiling Point,2021,media,plot_corto,plot,97 caracteres; origen tmdb_overview
+817758,TÁR,2022,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+828613,About Fate,2022,media,plot_corto,plot,173 caracteres; origen tmdb_overview
+843932,Nanny,2022,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+864873,Hypnotic,2021,media,plot_corto,plot,167 caracteres; origen tmdb_overview
+865686,Good Mourning,2022,media,plot_corto,plot,181 caracteres; origen tmdb_overview
+872585,Oppenheimer,2023,media,plot_corto,plot,100 caracteres; origen tmdb_overview
+876576,Go! Go! Cory Carson: Chrissy Takes the Wheel,2021,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+878962,Sharkdog’s Fintastic Halloween,2021,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+879957,Wyrmwood: Apocalypse,2022,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+882096,A California Christmas: City Lights,2021,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+883987,Megan,2020,media,plot_corto,plot,73 caracteres; origen tmdb_overview
+889227,Railway Heroes,2021,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+899405,Anonymously Yours,2021,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+921655,Rescued by Ruby,2022,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+923632,The Tinder Swindler,2022,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+926980,The Privilege,2022,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+927070,Polar Bear,2022,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+929472,Erax,2022,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+934756,Love in the Villa,2022,media,plot_corto,plot,196 caracteres; origen tmdb_overview
+949270,40 Years Young,2022,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+957457,Moonage Daydream,2022,media,plot_corto,plot,109 caracteres; origen tmdb_overview
+968580,Gabriel's Inferno: Part IV,2022,media,plot_corto,plot,196 caracteres; origen tmdb_overview_translated:zh-CN
+970308,F*ck Love Too,2022,media,plot_corto,plot,147 caracteres; origen tmdb_overview
+992187,Chip and Potato: Chip's Holiday,2022,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+992536,My Daughter's Killer,2022,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+1000194,Bank Robbers: The Last Great Heist,2022,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+1000365,Cloudbusting,2022,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+1005342,Running with the Devil: The Wild World of John McAfee,2022,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+1006851,Office Invasion,2022,media,plot_corto,plot,111 caracteres; origen tmdb_overview
+1012906,An Inconvenient Love,2022,media,plot_corto,plot,143 caracteres; origen tmdb_overview
+1013609,The Anthrax Attacks: In the Shadow of 9/11,2022,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+1014550,Skandal! Bringing Down Wirecard,2022,media,plot_corto,plot,146 caracteres; origen tmdb_overview
+1017100,Saguaro,2022,media,plot_corto,plot,112 caracteres; origen tmdb_overview
+1023994,Aníkúlápó,2022,media,plot_corto,plot,135 caracteres; origen tmdb_overview
+1025169,The Trapped 13: How We Survived The Thai Cave,2022,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+1028864,Fugitive: The Curious Case of Carlos Ghosn,2022,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+1031353,Why We Vote,2022,media,plot_corto,plot,131 caracteres; origen tmdb_overview
+1032578,Aisle Be Home for Christmas,2022,media,plot_corto,plot,135 caracteres; origen tmdb_overview
+1039026,Franco Escamilla: Eavesdropping,2022,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+1049702,Making 1899,2022,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+1050540,Tom Papa: What a Day!,2022,media,plot_corto,plot,134 caracteres; origen tmdb_overview
+1053419,A Not So Merry Christmas,2022,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+1054513,Private Lesson,2022,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+1056295,Dangerous Play,2022,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+1059301,Guillermo del Toro's Pinocchio: Handcarved Cinema,2022,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+619,The Bodyguard,1992,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+670,Oldboy,2003,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+824,Moulin Rouge!,2001,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+924,Dawn of the Dead,2004,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+1251,Letters from Iwo Jima,2006,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+1921,Sweet November,2001,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+1992,Planet Terror,2007,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+2123,"Me, Myself & Irene",2000,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+7978,The Wolfman,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+8316,The Countess,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+8676,Fool's Gold,2008,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+8982,The Protector,2005,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+9053,DOA: Dead or Alive,2006,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+9257,S.W.A.T.,2003,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+9290,Crocodile Dundee in Los Angeles,2001,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+9470,Kung Fu Hustle,2004,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+9757,Norbit,2007,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+9889,Shallow Hal,2001,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+9893,Sleepover,2004,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+10214,Son of the Mask,2005,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+10320,The Ring Two,2005,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+10628,Kangaroo Jack,2003,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+10956,Joe Dirt,2001,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+11026,Exorcist: The Beginning,2004,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+11358,Walking Tall,2004,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+11451,Herbie Fully Loaded,2005,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+11467,America's Sweethearts,2001,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+11835,Death Sentence,2007,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+13051,Max Payne,2008,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+13460,Doomsday,2008,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+13523,Sex Drive,2008,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+13788,The Unborn,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+13811,Knowing,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+13944,Passengers,2008,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+14771,The Onion Movie,2008,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+16907,Naruto: Ninja Clash in the Land of Snow,2004,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+18925,Facing the Giants,2006,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+19840,"I Love You, Beth Cooper",2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+20943,The Ugly Truth,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+21191,Sin Nombre,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+23988,Stan Helsing,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+25769,Carriers,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+27581,The Other Guys,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+32823,Get Him to the Greek,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+33273,Cell 211,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+36218,Pokémon: Jirachi - Wish Maker,2003,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+36691,Solitary Man,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+37834,Knight and Day,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+41233,Step Up 3D,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+41733,Due Date,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+44048,Unstoppable,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+45162,Superman/Batman: Apocalypse,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+46528,The Warrior's Way,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+64328,The Muppets,2011,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+75624,Naruto Shippuden the Movie: Blood Prison,2011,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+75900,My Week with Marilyn,2011,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+79548,Gone,2012,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+97434,Gambit,2012,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+132344,Before Midnight,2013,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+136795,The Heat,2013,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+158011,The Call,2013,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+171581,The Marine 3: Homefront,2013,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+201088,Blackhat,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+205126,Independence Daysaster,2013,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+227719,Project Almanac,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+254473,Brick Mansions,2014,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+256591,Focus,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+256961,Paul Blart: Mall Cop 2,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+257088,Point Break,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+258489,The Legend of Tarzan,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+259943,Coming Home,2014,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+265208,Wild Card,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+274854,The Last Witch Hunter,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+274870,Passengers,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+277547,Playing It Cool,2014,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+280002,The Remaining,2014,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+297725,The Man Who Killed Don Quixote,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+323272,War Room,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+324670,Spectral,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+338762,Bloodshot,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+353610,The Condemned 2,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+359245,Even Lambs Have Teeth,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+360606,Adventures in Babysitting,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+360784,Hidden,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+368304,LEGO Marvel Super Heroes: Avengers Reassembled!,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+369885,Allied,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+375794,No Manches Frida,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+378674,DC Films Presents Dawn of the Justice League,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+379686,Space Jam: A New Legacy,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+390043,The Hitman's Bodyguard,2017,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+391757,Never Back Down: No Surrender,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+397243,The Autopsy of Jane Doe,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+429415,Extinction,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+433498,Papillon,2017,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+434555,The Possession of Hannah Grace,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+438463,Mother,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+438590,A-X-L,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+440471,Escape Plan 2: Hades,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+440597,Wish Upon,2017,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+446807,The Girl in the Spider's Web,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+457332,Project X-Traction,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+475888,Tell It to the Bees,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+483906,Polar,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+492188,Marriage Story,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+499701,Dora and the Lost City of Gold,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+503752,What Keeps You Alive,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+513691,The Debt Collector,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+527776,Overcomer,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+529216,Mirage,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+531306,Rim of the World,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+553604,Honest Thief,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+554596,No Manches Frida 2,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+559974,Shock Wave 2,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+581734,Nomadland,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+587272,Father There Is Only One,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+589761,Chernobyl: Abyss,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+590706,Jiu Jitsu,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+595743,SAS: Red Notice,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+615666,A Boy Called Christmas,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+616803,Breaking Surface,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+621876,Flora & Ulysses,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+625814,Morgue,2019,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+631843,Old,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+641501,How I Became a Superhero,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+643586,Willy's Wonderland,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+645788,The Protégé,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+648990,La Casa,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+664168,Fat Ass Zombies,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+669671,Night Teeth,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+694256,Caught by a Wave,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+698320,The Mad Hatter,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+698948,Thirteen Lives,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+714888,"Argentina, 1985",2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+732459,Blade of the 47 Ronin,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+736526,Troll,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+746419,Father of the Bride,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+753601,Around the World in 80 Days,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+758724,The Cellar,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+758902,The Yin Yang Master,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+760883,Blood Red Sky,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+791155,Secret Headquarters,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+802217,8-Bit Christmas,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+818809,A Cinderella Story: Starstruck,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+833339,Speak No Evil,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+848791,The Stranger,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+875104,Ip Man: The Awakening,2021,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+944664,Without Saying Goodbye,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+1016446,The Perfumier,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+1029528,Tomorrow is Today,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+1037858,The Soccer Football Movie,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+68555,Death Note Relight 2: L's Successors,2009,baja,coleccion_id_partido,belongs_to_collection,"Death Note Collection con id 1034193, distinto al resto de la saga"
+543583,Cinderella and the Secret Prince,2018,baja,coleccion_id_partido,belongs_to_collection,"Cinderella Collection con id 1308589, distinto al resto de la saga"
+9779,The Sisterhood of the Traveling Pants,2005,baja,entidad_html,plot,&amp;
+9779,The Sisterhood of the Traveling Pants,2005,baja,entidad_html,overview,&amp;
+72391,Marley & Me: The Puppy Years,2011,baja,entidad_html,overview,&amp;
+46247,No Time for Nuts,2006,baja,idioma_contradictorio,spoken_languages,"['No Language', 'Español']"
+785545,Shaun the Sheep: The Flight Before Christmas,2021,baja,idioma_contradictorio,spoken_languages,"['English', 'No Language']"
+218,The Terminator,1984,baja,pais_no_canonico,production_countries,United States (vs United States of America)
+22411,Shaolin Girl,2008,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.1 · user_score 5.6 · vote_count 13
+247849,Odnoklassniki.ru: The Magic Laptop,2013,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.474 · user_score 5.1 · vote_count 19
+287003,Avatar: Scene Deconstruction,2009,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.3 · user_score 6.5 · vote_count 10
+536628,Megan,2018,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.0 · user_score 2.0 · vote_count 4
+615777,Babylon,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.0 · user_score 7.3 · vote_count 1
+693853,Kinmoza the Movie: Thank You!!,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.5 · user_score 5.8 · vote_count 6
+696157,Whitney Houston: I Wanna Dance with Somebody,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 7.0 · vote_count 1
+737043,Swingers,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.5 · user_score 5.5 · vote_count 2
+740017,Avatar: Agni Kai,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.0 · user_score 5.8 · vote_count 1
+740952,Savage Salvation,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.4 · user_score 6.1 · vote_count 9
+744594,White Noise,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.75 · user_score 5.6 · vote_count 6
+747803,One Way,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.917 · user_score 5.7 · vote_count 42
+754452,The Last Manhunt,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.0 · user_score 5.8 · vote_count 12
+755433,The Monster at the End of This Story,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.0 · user_score 5.4 · vote_count 3
+796765,Bantú Mama,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 5.0 · vote_count 1
+798359,The Ravine,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.333 · user_score 5.2 · vote_count 3
+812025,The Silent Twins,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.327 · user_score 6.3 · vote_count 26
+813881,The Real Black Panther,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.0 · user_score 7.6 · vote_count 5
+814757,Empire of Light,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.3 · user_score 6.6 · vote_count 3
+822213,8 Years,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.0 · user_score 4.5 · vote_count 2
+843906,Straight Outta Nowhere: Scooby-Doo! Meets Courage the Cowardly Dog,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.004 · user_score 5.8 · vote_count 334
+844547,Taurus,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.0 · user_score 5.8 · vote_count 2
+845885,Dark Blood,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.5 · user_score 4.4 · vote_count 10
+848331,Honk for Jesus. Save Your Soul.,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.964 · user_score 4.6 · vote_count 14
+852485,She Will,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.821 · user_score 4.8 · vote_count 28
+852663,LEGO Monkie Kid: A Hero Is Born,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.8 · user_score 7.0 · vote_count 10
+861057,Swim,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.3 · user_score 5.0 · vote_count 41
+862553,Bar Fight,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.3 · user_score 6.2 · vote_count 18
+865686,Good Mourning,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.0 · user_score 4.5 · vote_count 20
+870518,Sanctuary,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 1.0 · user_score 6.1 · vote_count 1
+874705,Ash & Dust,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.0 · user_score 5.2 · vote_count 8
+877819,A Lot Like Christmas,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.25 · user_score 6.1 · vote_count 8
+878962,Sharkdog’s Fintastic Halloween,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.4 · user_score 5.2 · vote_count 5
+881487,The Visitor,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.3 · user_score 5.1 · vote_count 28
+883987,Megan,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.5 · user_score 5.6 · vote_count 2
+888097,Slayers,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.031 · user_score 3.9 · vote_count 16
+888838,The Long Dark Trail,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.1 · user_score 3.8 · vote_count 7
+893712,Sword Art Online the Movie -Progressive- Scherzo of Deep Night,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.3 · user_score 7.7 · vote_count 11
+904039,Madagascar: A Little Wild Holiday Goose Chase,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.3 · user_score 6.5 · vote_count 6
+913740,Guardians of Time,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.85 · user_score 5.7 · vote_count 10
+918832,Curious George: Cape Ahoy,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.3 · user_score 4.7 · vote_count 7
+926762,Living with Chucky,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.5 · user_score 6.6 · vote_count 4
+928358,Grand Jeté,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.5 · user_score 4.9 · vote_count 2
+933045,Russia's Wild Tiger,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.8 · user_score 7.0 · vote_count 5
+934957,The Darker the Lake,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.2 · user_score 5.6 · vote_count 5
+939336,The Wonderful Winter of Mickey Mouse,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.389 · user_score 6.7 · vote_count 9
+943533,Stalked by a Prince,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.0 · user_score 5.5 · vote_count 4
+961427,Spirit Halloween: The Movie,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.855 · user_score 5.6 · vote_count 31
+961707,Hawa,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.219 · user_score 6.1 · vote_count 16
+971511,Must Love Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.5 · user_score 5.8 · vote_count 2
+985932,Virgin Forest,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.0 · user_score 5.1 · vote_count 2
+987337,The Wonderful Summer of Mickey Mouse,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.1 · user_score 7.1 · vote_count 8
+989937,The Seven Deadly Sins: Grudge of Edinburgh Part 1,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 10.0 · user_score 7.7 · vote_count 1
+1003485,The Christmas Retreat,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.7 · user_score 6.3 · vote_count 3
+1003487,Single and Ready to Jingle,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.5 · user_score 6.2 · vote_count 2
+1008366,Six Degrees of Santa,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.071 · user_score 6.1 · vote_count 7
+1009921,Reclaim,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 7.0 · vote_count 1
+1014530,Ivy + Bean: Doomed to Dance,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.5 · user_score 6.5 · vote_count 4
+1018403,Tom and Jerry Snowman's Land,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.95 · user_score 6.8 · vote_count 20
+1023803,The Hip Hop Nutcracker,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.2 · user_score 5.2 · vote_count 10
+1025805,Burning Patience,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.2 · user_score 6.7 · vote_count 3
+1026624,It's a Wonderful Binge,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.8 · user_score 4.9 · vote_count 19
+1028248,As Good as Dead,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.214 · user_score 6.1 · vote_count 7
+1028544,Undercover Holiday,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.5 · user_score 6.2 · vote_count 5
+1028547,'Twas the Night Before Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 6.2 · vote_count 1
+1028851,Beauty and the Beast: A 30th Celebration,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.4 · user_score 6.9 · vote_count 10
+1029578,B&B Merry,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.5 · user_score 6.0 · vote_count 2
+1034337,The Lost Lotteries,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.5 · user_score 6.7 · vote_count 8
+1034470,Barbie Epic Road Trip,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.4 · user_score 6.4 · vote_count 7
+1035654,The Apology,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.889 · user_score 5.8 · vote_count 9
+1039571,I Heard the Bells,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 6.8 · vote_count 1
+1041580,The Elephant Whisperers,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.2 · user_score 7.3 · vote_count 5
+1043565,Mindcage,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.4 · user_score 5.9 · vote_count 19
+1047431,Prancer: A Christmas Tale,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.3 · user_score 6.5 · vote_count 3
+1049702,Making 1899,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.5 · user_score 6.9 · vote_count 9
+1050540,Tom Papa: What a Day!,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 7.0 · vote_count 1
+1051909,Reno 911!: It's a Wonderful Heist,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.25 · user_score 5.8 · vote_count 4
+1053419,A Not So Merry Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 6.7 · vote_count 1
+1054638,Pelosi in the House,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.8 · user_score 5.0 · vote_count 4
+1055206,The 12 Slays of Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.0 · user_score 4.8 · vote_count 1
+1057095,An Eclectic Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 4.7 · vote_count 1
+81,Nausicaä of the Valley of the Wind,1984,baja,texto_espacios,keywords.name,'fungus spores   '
+97,Tron,1982,baja,texto_espacios,keywords.name,'simulated reality '
+306,Beverly Hills Cop III,1994,baja,texto_espacios,keywords.name,'carousel '
+640,Catch Me If You Can,2002,baja,texto_espacios,cast,'Patrice Dussault '
+686,Contact,1997,baja,texto_espacios,cast,'Thomas Garner '
+818,Austin Powers in Goldmember,2002,baja,texto_espacios,cast,'Sonny Sison '
+916,Bullitt,1968,baja,texto_espacios,keywords.name,'principal witness '
+1372,Blood Diamond,2006,baja,texto_espacios,cast,'Ntare Guma Mbaho Mwine '
+1646,Freedom Writers,2007,baja,texto_espacios,keywords.name,'principal witness '
+1913,The Sea Inside,2004,baja,texto_espacios,cast,'Xosé Manuel Olveira '
+4551,Be Cool,2005,baja,texto_espacios,cast,'Apl.de.Ap '
+8271,Disturbia,2007,baja,texto_espacios,cast,'Kevin Quinn '
+8952,I Love You Phillip Morris,2009,baja,texto_espacios,cast,'Beth\xa0Burvant'
+9766,Gridiron Gang,2006,baja,texto_espacios,keywords.name,'probation assistant '
+9788,Accepted,2006,baja,texto_espacios,keywords.name,'straitjacket '
+10024,My Sister's Keeper,2009,baja,texto_espacios,keywords.name,'kidney transplant '
+10316,The Ides of March,2011,baja,texto_espacios,cast,'Danny Mooney '
+11025,New York Minute,2004,baja,texto_espacios,cast,'Pierre Bouvier '
+11025,New York Minute,2004,baja,texto_espacios,cast,'Chuck Comeau '
+11322,Public Enemies,2009,baja,texto_espacios,cast,'Randy Ryan '
+11322,Public Enemies,2009,baja,texto_espacios,keywords.name,'cops and robbers\xa0'
+11866,Flight of the Phoenix,2004,baja,texto_espacios,keywords.name,'oil rig\xa0'
+13474,P2,2007,baja,texto_espacios,cast,'Bathsheba Garnett '
+14372,Leviathan,1989,baja,texto_espacios,keywords.name,'trapped underwater\xa0'
+15742,Taxidermia,2006,baja,texto_espacios,cast,'Sándor Hamar '
+15742,Taxidermia,2006,baja,texto_espacios,cast,'János Gyuriska '
+17814,Assault on Precinct 13,1976,baja,texto_espacios,keywords.name,'ice cream man \xa0'
+18585,The Ramen Girl,2008,baja,texto_espacios,keywords.name,'family business '
+19366,Josie and the Pussycats,2001,baja,texto_espacios,keywords.name,'subliminal\xa0'
+22907,Takers,2010,baja,texto_espacios,keywords.name,'cops and robbers\xa0'
+22972,Green Zone,2010,baja,texto_espacios,keywords.name,'iraqi\xa0'
+33273,Cell 211,2009,baja,texto_espacios,cast,'Roberto Sanchez '
+36419,After.Life,2009,baja,texto_espacios,cast,'Sam Kressner '
+39254,Real Steel,2011,baja,texto_espacios,cast,'Ron Causey '
+39254,Real Steel,2011,baja,texto_espacios,cast,'Bill Lumbert '
+39254,Real Steel,2011,baja,texto_espacios,cast,'Ralph A. Recchia '
+44564,The Dilemma,2011,baja,texto_espacios,cast,'Mimi Sagadin '
+44945,Trust,2010,baja,texto_espacios,cast,'Milica Govich '
+49530,In Time,2011,baja,texto_espacios,keywords.name,'cops and robbers\xa0'
+54445,S.W.A.T.: Firefight,2011,baja,texto_espacios,cast,'Corlandos Scott '
+60243,A Separation,2011,baja,texto_espacios,cast,'Armine Zeytounchian '
+62320,Home,2009,baja,texto_espacios,keywords.name,'oil rig\xa0'
+68728,Oz the Great and Powerful,2013,baja,texto_espacios,cast,'Ron Causey '
+68812,The Iceman,2012,baja,texto_espacios,keywords.name,'ice cream man \xa0'
+77495,Sleep Tight,2011,baja,texto_espacios,cast,'Marta Etura '
+77883,The Possession,2012,baja,texto_espacios,cast,'Nana Gbewonyo '
+77883,The Possession,2012,baja,texto_espacios,cast,'Jim Thorburn '
+77883,The Possession,2012,baja,texto_espacios,cast,'Matisyahu '
+77883,The Possession,2012,baja,texto_espacios,cast,'Erin Simms '
+77949,The Awakening,2011,baja,texto_espacios,cast,'Nick Murphy '
+80278,The Impossible,2012,baja,texto_espacios,cast,'Marta Etura '
+81005,Jack the Giant Slayer,2013,baja,texto_espacios,cast,"""Christian Wolf-La'Moy """
+81005,Jack the Giant Slayer,2013,baja,texto_espacios,cast,'Duncan JC Mais '
+81005,Jack the Giant Slayer,2013,baja,texto_espacios,cast,'Santi Scinelli '
+102382,The Amazing Spider-Man 2,2014,baja,texto_espacios,cast,'Greg Connolly '
+102651,Maleficent,2014,baja,texto_espacios,cast,"""Christian Wolf-La'Moy """
+110416,Song of the Sea,2014,baja,texto_espacios,keywords.name,'lighthouse keeper   '
+183662,Crush,2013,baja,texto_espacios,cast,'Mariah Buzolin '
+200085,The Flu,2013,baja,texto_espacios,cast,'Choi Byung-mo '
+216282,Into the Storm,2014,baja,texto_espacios,cast,'Ron Causey '
+216282,Into the Storm,2014,baja,texto_espacios,cast,'Ralph A. Recchia '
+222935,The Fault in Our Stars,2014,baja,texto_espacios,cast,'Milica Govich '
+241258,Incarnate,2016,baja,texto_espacios,keywords.name,'wheelchair user   '
+241259,Alice Through the Looking Glass,2016,baja,texto_espacios,cast,"""Christian Wolf-La'Moy """
+252680,Moms' Night Out,2014,baja,texto_espacios,cast,'Robert Amaya '
+283552,The Light Between Oceans,2016,baja,texto_espacios,keywords.name,'lighthouse keeper   '
+290542,You're Not You,2014,baja,texto_espacios,keywords.name,"""amyotrophic lateral sclerosis\xa0(als) aka lou gehrig's disease"""
+296524,Deepwater Horizon,2016,baja,texto_espacios,keywords.name,'oil rig\xa0'
+303991,Demolition,2015,baja,texto_espacios,keywords.name,'carousel '
+310131,The Witch,2015,baja,texto_espacios,cast,'Bathsheba Garnett '
+339964,Valerian and the City of a Thousand Planets,2017,baja,texto_espacios,keywords.name,'political intrigue\xa0'
+388399,Patriots Day,2016,baja,texto_espacios,cast,"""Cara Leroy O'Connell\t"""
+400160,The SpongeBob Movie: Sponge on the Run,2020,baja,texto_espacios,cast,'Robert Ambrose '
+403119,47 Meters Down,2017,baja,texto_espacios,keywords.name,'trapped underwater\xa0'
+428399,Cold Skin,2017,baja,texto_espacios,keywords.name,'lighthouse keeper   '
+443791,Underwater,2020,baja,texto_espacios,keywords.name,'trapped underwater\xa0'
+449459,The Vanishing,2019,baja,texto_espacios,keywords.name,'lighthouse keeper   '
+483983,Balloon,2018,baja,texto_espacios,keywords.name,'escape from german democratic republic '
+500682,The Highwaymen,2019,baja,texto_espacios,keywords.name,'cops and robbers\xa0'
+503919,The Lighthouse,2019,baja,texto_espacios,keywords.name,'lighthouse keeper   '
+517991,The Spy Gone North,2018,baja,texto_espacios,cast,'Choi Byung-mo '
+546121,Run,2020,baja,texto_espacios,keywords.name,'wheelchair user   '
+579828,The Superdeep,2020,baja,texto_espacios,keywords.name,'fungus spores   '
+689700,Clean,2022,baja,texto_espacios,keywords.name,'garbageman '
+714888,"Argentina, 1985",2022,baja,texto_espacios,cast,'Guillermo Jacubowicz '
+774021,Demonic,2021,baja,texto_espacios,keywords.name,'simulated reality '
+818647,Through My Window,2022,baja,texto_espacios,keywords.name,'family business '
+1024546,Detective Knight: Rogue,2022,baja,texto_espacios,keywords.name,'cops and robbers\xa0'
+20941,Innocent Voices,2005,baja,texto_no_NFC,cast,Paulina Gaitán
+21191,Sin Nombre,2009,baja,texto_no_NFC,cast,Paulina Gaitán
+37645,22 Bullets,2010,baja,texto_no_NFC,overview,Charly Matteï has turned his back on his life as an outlaw.
+716703,What Lies Below,2020,baja,texto_no_NFC,overview,"Liberty, a socially awkward 16-year-old, returns from two mo"
+820722,The Good Boss,2021,baja,texto_no_NFC,plot,"Julio Blanco is the proprietor of Básculas Blanco, a Spanis"
+820722,The Good Boss,2021,baja,texto_no_NFC,overview,"Academy Award Winner Javier Bardem stars as Blanco, propriet"
+877957,Drifting Home,2022,baja,texto_no_NFC,original_title,雨を告げる漂流団地
+1054513,Private Lesson,2022,baja,texto_no_NFC,cast,Esengül Yılmaz

@@ -1,0 +1,37 @@
+{'plot_256': 6899, 'plot_512': 6899, 'plot_1024': 6899}
+plot_256 dims incorrectas/faltantes: 0 []
+   norma: min 0.9988 max 1.0017  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_512 dims incorrectas/faltantes: 0 []
+   norma: min 0.9980 max 1.0019  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_1024 dims incorrectas/faltantes: 0 []
+   norma: min 0.9981 max 1.0019  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_256 vs prefijo normalizado de plot_1024: cos min 0.99999 p1 1.00000 med 1.00000  <0.999: 0 ['588228', '838330', '20544', '888492', '33602']
+plot_512 vs prefijo normalizado de plot_1024: cos min 0.99999 p1 1.00000 med 1.00000  <0.999: 0 ['3489', '10681', '595149', '59437', '588228']
+
+## pares plot_1024 con coseno > 0.95: 0
+   distribución del vecino más cercano: p50 0.573 p90 0.742 p99 0.868 max 0.914
+
+## hubs (veces que son el vecino más cercano de otra película):
+     10  362826 «Wildling» plot_len=95
+     10  47964 «A Good Day to Die Hard» plot_len=2876
+     10  631060 «Things Heard & Seen» plot_len=136
+      9  130150 «Labor Day» plot_len=172
+      9  4964 «Knocked Up» plot_len=230
+      9  14295 «You Can Count on Me» plot_len=2846
+      9  470114 «24 Hours to Live» plot_len=71
+      8  381283 «mother!» plot_len=2417
+      8  396330 «LEGO DC Comics Super Heroes: Justice League - Gotham City Breakout» plot_len=2994
+      8  451925 «Time Freak» plot_len=2203
+      8  22897 «It's Complicated» plot_len=2978
+      8  11171 «Mysterious Skin» plot_len=128
+
+## re-embedding de 52 sinopsis actuales vs plot_1024 guardado: min 1.0000 med 1.0000
+   1.0000 928270 «Heatwave»
+   1.0000 13194 «Highlander: The Search for Vengeance»
+   1.0000 334527 «Criminal Activities»
+   1.0000 796256 «Offseason»
+   1.0000 793002 «Dreamcatcher»
+   1.0000 144288 «Berserk: The Golden Age Arc III - The Advent»
+   1.0000 41283 «Faster»
+   1.0000 741434 «Homunculus»
+   < 0.99: 0
