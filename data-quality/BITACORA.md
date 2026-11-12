@@ -20,7 +20,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 |---|---|---|---|---|---|---|
 | 01 | Google Antigravity | WP-00 T-01 a T-04 | REVISADO | 2026-11-12 | `dq-t01` | [R-01](bitacora/R-01.md) |
 | 02 | Cursor | WP-00 T-05 y T-09 | REVISADO | 2026-11-12 | `dq-t02` | [R-02](bitacora/R-02.md) |
-| 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | EN CURSO | 2026-11-12 | — | — |
+| 03 | GitHub Copilot | WP-00 T-06, T-07, T-08 y T-10 | EN REVISIÓN | 2026-11-12 | `dq-t03` | — |
 | 04 | Google Antigravity | WP-01 y WP-02 `lote-001` | PENDIENTE | — | — | — |
 | 05 | Cursor | WP-02 lotes `002`–`006` | PENDIENTE | — | — | — |
 | 06 | GitHub Copilot | WP-02 lotes `007`–`011` | PENDIENTE | — | — | — |
@@ -44,7 +44,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 | WP | Título | Estado | Turnos | Actualizado |
 |---|---|---|---|---|
-| WP-00 | Preparación del equipo | EN CURSO · turno 03 (T-06 a T-08 y T-10) | 1, 2, 3 | 2026-11-12 |
+| WP-00 | Preparación del equipo | EN CURSO · T-01 a T-10 hechas (pendiente R-03) | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | PENDIENTE | 4 | — |
 | WP-02 | Reescribir los ensayos generados | PENDIENTE | 4, 5, 6, 7 | — |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | PENDIENTE | 8, 13 | — |
@@ -67,10 +67,11 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 03 · GitHub Copilot:** WP-00 T-06 (`cargar.py`), T-07 (M0), T-08 (staging, H-1 aprobada) y T-10
-> (`publicar.py`). Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-02](bitacora/R-02.md) y revisa su commit
-> `83af348`. El punto de partida es la etiqueta `dq-r02`. Este turno no usa Wikipedia.
-> D-05 está aprobada: `wiki_plot.py` ya se identifica con la URL del repo y descarga a 1 petición por segundo.
+> **Claude Code: revisión R-03** del turno 03 de GitHub Copilot (WP-00 T-06 `cargar.py`, T-07 M0, T-08 staging y T-10
+> `publicar.py`; rango `dq-r02..dq-t03`). Al cerrar, WP-00 pasa a HECHA y sigue el **turno 04 · Google Antigravity**:
+> WP-01 completo y WP-02 `lote-001`. Ojo con la desviación del harness anotada en `bitacora/WP-00.md`: con
+> `ELASTIFLIX_INDEX_ALIAS` en el entorno fallan 5 pruebas unitarias que suponen el alias por defecto; conviene
+> ajustar `AGENTS.md` §9 o fijar el alias en esas pruebas.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
