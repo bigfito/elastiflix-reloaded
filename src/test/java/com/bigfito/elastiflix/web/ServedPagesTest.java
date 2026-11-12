@@ -179,7 +179,7 @@ class ServedPagesTest {
                 id, null, title, title, "fr", LocalDate.of(1990, 1, 1), 100, "Released",
                 false, false, null, null, "Una sinopsis", List.of("Drama"), List.of(), List.of(), null,
                 null, null, null, 7.0, 10, "PG", null, null, null,
-                List.of(), List.of(), List.of(), null, null, null, null);
+                List.of(), List.of(), List.of(), null, null, null, null, null);
     }
 
     private HttpResponse<String> get(String path) throws IOException, InterruptedException {

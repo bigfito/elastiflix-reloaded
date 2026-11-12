@@ -310,7 +310,7 @@ class SearchServiceTest {
     private static Movie movie(String id, String genre) {
         return new Movie(id, null, id, null, null, LocalDate.parse("1997-12-19"), null, null, false, null,
                 null, null, "sinopsis", List.of(genre), null, null, null, null, null, null,
-                null, null, "PG-13", null, "/p.jpg", null, null, null, List.of("en"), null, null, null, null);
+                null, null, "PG-13", null, "/p.jpg", null, null, null, List.of("en"), null, null, null, null, null);
     }
 
     private static Aggregate terms(String label, long count) {

@@ -38,4 +38,13 @@ class CsvColumnRowsTest {
                 new CsvColumnRow("genres", "genres", "Lista JSON de textos", "Asignada"),
                 new CsvColumnRow("rating", "rating", "Texto · vacía en 417 filas", "Asignada"));
     }
+
+    @Test
+    @DisplayName("enrichment es un objeto JSON en la celda, como la colección")
+    void shouldDescribeEnrichmentAsAJsonObject() {
+        List<CsvColumnRow> table = rows.of(List.of(new CsvColumn("enrichment", 6898)), 6899);
+
+        assertThat(table).containsExactly(new CsvColumnRow(
+                "enrichment", "enrichment", "Objeto JSON anidado · vacía en 1 fila", "Asignada"));
+    }
 }

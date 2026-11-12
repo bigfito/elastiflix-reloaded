@@ -74,7 +74,8 @@ public final class CsvValues {
     }
 
     private static boolean structured(FieldKind kind) {
-        return kind == FieldKind.TEXT_LIST || kind == FieldKind.COLLECTION || kind == FieldKind.KEYWORDS;
+        return kind == FieldKind.TEXT_LIST || kind == FieldKind.COLLECTION
+                || kind == FieldKind.KEYWORDS || kind == FieldKind.TAGS;
     }
 
     private static JsonNode bool(String text) {

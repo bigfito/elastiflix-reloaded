@@ -6,7 +6,8 @@ import java.util.Set;
 /**
  * Todos los campos del mapping {@code elastiflix-reloaded}, como los describe «Acerca de» › «El catálogo».
  *
- * <p>Los grupos son los del formulario de «Cargar datos»; los vectores van con la sinopsis, de donde salen. Cada
+ * <p>Los grupos son los del formulario de «Cargar datos», más la procedencia; los vectores van con la sinopsis,
+ * de donde salen. Cada
  * subcampo de un objeto anidado tiene su fila. {@code CatalogFieldsTest} compara esta lista con
  * {@code elasticsearch/elastiflix-reloaded-mapping.json}: si el mapping cambia, la prueba lo dice.</p>
  *
@@ -24,6 +25,7 @@ public final class CatalogFields {
     private static final String LONG = "long";
     private static final String BOOLEAN = "boolean";
     private static final String NESTED = "nested";
+    private static final String OBJECT = "object";
     private static final String VECTOR = "dense_vector";
 
     private static final String DETAIL = "detail";
@@ -32,11 +34,12 @@ public final class CatalogFields {
     private static final String FILTER_CARD = "filterCard";
     private static final String LEXICAL = "lexical";
     private static final String VECTORS = "vector";
+    private static final String PROVENANCE = "provenance";
 
     private static final Set<String> REQUIRED = Set.of("id", "title", "plot");
     private static final String REQ = "about.catalog.req.";
 
-    /** Los cinco grupos, en el orden de la página. */
+    /** Los seis grupos, en el orden de la página. */
     public static final List<CatalogGroup> GROUPS = List.of(
             group("ingest.single.section.id",
                     field("id", KEYWORD, DETAIL),
@@ -81,7 +84,30 @@ public final class CatalogFields {
                     field("belongs_to_collection.id", LONG, DETAIL),
                     field("belongs_to_collection.name", TEXT, DETAIL),
                     field("belongs_to_collection.poster_path", TEXT, DETAIL),
-                    field("belongs_to_collection.backdrop_path", TEXT, DETAIL)));
+                    field("belongs_to_collection.backdrop_path", TEXT, DETAIL)),
+            group("about.catalog.group.enrichment",
+                    field("enrichment", OBJECT, PROVENANCE),
+                    field("enrichment.backdrop_path", KEYWORD, PROVENANCE),
+                    field("enrichment.belongs_to_collection", KEYWORD, PROVENANCE),
+                    field("enrichment.budget", KEYWORD, PROVENANCE),
+                    field("enrichment.cast", KEYWORD, PROVENANCE),
+                    field("enrichment.genres", KEYWORD, PROVENANCE),
+                    field("enrichment.homepage", KEYWORD, PROVENANCE),
+                    field("enrichment.imdb_id", KEYWORD, PROVENANCE),
+                    field("enrichment.keywords", KEYWORD, PROVENANCE),
+                    field("enrichment.overview", KEYWORD, PROVENANCE),
+                    field("enrichment.plot", KEYWORD, PROVENANCE),
+                    field("enrichment.poster_path", KEYWORD, PROVENANCE),
+                    field("enrichment.production_companies", KEYWORD, PROVENANCE),
+                    field("enrichment.production_countries", KEYWORD, PROVENANCE),
+                    field("enrichment.rating", KEYWORD, PROVENANCE),
+                    field("enrichment.revenue", KEYWORD, PROVENANCE),
+                    field("enrichment.runtime", KEYWORD, PROVENANCE),
+                    field("enrichment.spoken_languages", KEYWORD, PROVENANCE),
+                    field("enrichment.tagline", KEYWORD, PROVENANCE),
+                    field("enrichment.user_score", KEYWORD, PROVENANCE),
+                    field("enrichment.vote_average", KEYWORD, PROVENANCE),
+                    field("enrichment.vote_count", KEYWORD, PROVENANCE)));
 
     private CatalogFields() {
     }

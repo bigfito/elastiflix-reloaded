@@ -379,7 +379,7 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
 |---|---|
 | ✍️ Single record | A form with the mapping's fields (`id`, `title`, and `plot` required); written **directly to the catalog** |
 | 🧾 `.json` | An index export (an object with `documents` and, optionally, `mapping` and `document_count`), an array of movies, or NDJSON |
-| 📊 `.csv` | UTF-8 with or without BOM, comma, semicolon, or tab separator, **header required**; lists and nested objects as JSON in the cell |
+| 📊 `.csv` | UTF-8 with or without BOM, comma, semicolon, or tab separator, **header required**; lists, nested objects, and `enrichment` as JSON in the cell |
 
 - **Required fields:** in both formats and both modes, `id`, `title`, and `plot` with a value (in `.csv`, as header
   columns); everything else is optional. «About» › «The catalog» covers it field by field, and the full mapping is in
@@ -399,6 +399,11 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   model phrasing.
 - **Vectors:** `plot_256`, `plot_512`, and `plot_1024` are **always** generated from `plot` with the inference
   service. If the file includes them, they are ignored with a warning; the form doesn't ask for them.
+- **Provenance:** `enrichment` is optional (`null` or absent is fine too). When present, it is an object whose keys
+  are mapping fields and whose values are keyword texts with the source of that field. An unknown key rejects the
+  file (`EFX-ING-007`); a value that is not text does too (`EFX-ING-012`); a blank text is dropped with warning
+  `EFX-ING-022`. In CSV it is compact JSON in the `enrichment` column, the same as the other objects; an empty cell
+  is null. The single-record form does not ask for it.
 - **Single user:** the demo is meant for one person at a time; it has no concurrency controls.
 
 ## ⚙️ Configuration
@@ -599,7 +604,7 @@ Full pages with the app connected to a 6,899-movie catalog, in Spanish and Engli
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Architecture and the numbered search, detail, and load flows (in Spanish) |
 | ☁️ [`docs/despliegue.mermaid`](docs/despliegue.mermaid) | Cloud Build pipeline, the two Cloud Run regions, and the load balancer (in Spanish) |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | How the code is written and what the build checks (in Spanish) |
-| 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Index mapping (33 fields) |
+| 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Index mapping (34 fields) |
 | 🎯 [`eval/README.md`](eval/README.md#-relevance-harness) | Relevance harness: queries, rating scale, metrics, and how to run it |
 | 🎞️ [`data/README.md`](data/README.md#english) | The full catalog in 7 parts: how to load it and its format |
 | 🎬 [`elasticsearch/fixtures/`](elasticsearch/fixtures/) | Four sample movies in `.json` and `.csv`, and a query vector |
