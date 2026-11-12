@@ -7,7 +7,7 @@ Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión est�
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
-**Staging:** no existe todavía · alias `elastiflix-dq-staging` · índice — · `data/` cargado en el commit — · app compilada en el commit — · instancia — (puerto 8081, apagada)
+**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261112-174954` (6 899 películas) · `data/` cargado en el commit `5c4b78e` · app compilada en el commit `5c4b78e` · instancia apagada (puerto 8081)
 
 ## 1. Tablero
 
