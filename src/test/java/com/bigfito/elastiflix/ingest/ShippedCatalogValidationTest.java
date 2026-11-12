@@ -60,7 +60,7 @@ class ShippedCatalogValidationTest {
                 .isNull();
         assertThat(csvWarnings).isEqualTo(jsonWarnings);
         assertThat(jsonWarnings)
-                .as("EFX-ING-023, 024, 025, 026 y 027")
+                .as("EFX-ING-023, 024, 025, 026, 027 y 028")
                 .isEmpty();
     }
 

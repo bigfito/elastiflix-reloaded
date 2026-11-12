@@ -402,8 +402,10 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   caracteres rechaza el archivo (`EFX-ING-025`). Restos de un modelo de lenguaje (por ejemplo «I couldn't find»,
   «find any information» o «knowledge cutoff»), markdown y una aclaración «, not Nombre» justo después de
   «directed by» o «produced by» se avisan y no detienen la carga (`EFX-ING-026`). Una sinopsis repetida dentro
-  del mismo archivo también se avisa (`EFX-ING-027`). Son advertencias porque un error rechazaría el archivo
-  entero. El catálogo de [`data/`](data/README.md) ya no las trae: no comparte sinopsis y no conserva esas fórmulas.
+  del mismo archivo también se avisa (`EFX-ING-027`). Un ensayo de temas (por ejemplo «main themes», «the main
+  theme of» o un encabezado «Themes:») también se avisa (`EFX-ING-028`). Son advertencias porque un error
+  rechazaría el archivo entero. El catálogo de [`data/`](data/README.md) ya no las trae: no comparte sinopsis
+  y no conserva esas fórmulas ni esos ensayos.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan desde `plot` con el servicio de
   inferencia. Si el archivo los trae, se ignoran con una advertencia; el formulario no los pide.
 - **Procedencia:** `enrichment` es opcional (`null` o ausente también vale). Si viene, es un objeto cuyas claves

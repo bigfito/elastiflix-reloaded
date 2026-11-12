@@ -141,7 +141,9 @@ public enum IngestPhrase {
     /** Advertencia: la sinopsis parece de un modelo. */
     CLEAN_PLOT("una sinopsis sin restos de un modelo"),
     /** Advertencia: la sinopsis ya está en otra película del archivo. */
-    DISTINCT_PLOT("una sinopsis distinta");
+    DISTINCT_PLOT("una sinopsis distinta"),
+    /** Advertencia: la sinopsis parece un ensayo de temas. */
+    NARRATIVE_PLOT("una sinopsis sin un ensayo de temas");
 
     private final String spanish;
     private final Pattern pattern;
