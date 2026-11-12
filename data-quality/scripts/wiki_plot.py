@@ -57,7 +57,8 @@ ESPERA_429_MINIMA = 60
 LOTE_SPARQL = 200
 LARGO_MIN = 40
 LARGO_MAX = 3000
-SECCIONES = frozenset({"plot", "synopsis", "plot summary", "story", "premise"})
+# «Summary» es el encabezado de la trama en documentales y en algunas películas (R-06, decisión P-08).
+SECCIONES = frozenset({"plot", "synopsis", "plot summary", "story", "premise", "summary"})
 NAMESPACES = ("Wikipedia:", "Category:", "Template:", "File:", "Help:", "Portal:", "Draft:", "Talk:")
 ID_TITANIC = "597"
 ID_SIN_ARTICULO = "1031353"  # Why We Vote (2022): sin imdb_id y sin artículo que cumpla NS-4
@@ -477,6 +478,12 @@ def cita_visible(texto: str) -> bool:
     return _CITA_VISIBLE.search(texto) is not None
 
 
+def nombre_de_seccion(encabezado: str) -> str:
+    """Encabezado sin paréntesis ni puntuación final: «Synopsis (extended version)» → «synopsis» (R-06)."""
+    sin_parentesis = re.sub(r"\s*\([^)]*\)", "", encabezado)
+    return sin_parentesis.strip().rstrip(":.").strip().casefold()
+
+
 def secciones_de_trama(extracto: str) -> list[str]:
     """Textos de las secciones de trama de nivel 2, en el orden del artículo."""
     marcas = list(_ENCABEZADO.finditer(extracto))
@@ -484,7 +491,7 @@ def secciones_de_trama(extracto: str) -> list[str]:
     for indice, marca in enumerate(marcas):
         if len(marca.group(1)) != 2:
             continue
-        if marca.group(2).strip().casefold() not in SECCIONES:
+        if nombre_de_seccion(marca.group(2)) not in SECCIONES:
             continue
         fin = len(extracto)
         for siguiente in marcas[indice + 1 :]:
@@ -565,6 +572,10 @@ def comprobar_texto() -> None:
     _exigir(texto_de_extracto(premise).startswith("In 1996, the treasure hunter sails west."), "Si Premise no llega a 40, se usa Plot")
     desarrollo = "== Story development ==\n" + ("This heading is not a plot section at all. " * 5)
     _exigir(texto_de_extracto(desarrollo) is None, "Story development no es sinónimo de Story")
+    extendida = "== Synopsis (extended version) ==\n" + ("The crew of the Pegasus fights the Cylons. " * 3)
+    _exigir(texto_de_extracto(extendida) is not None, "«Synopsis (extended version)» es una sección de trama")
+    resumen = "== Summary ==\n" + ("The documentary follows the impostor across Spain. " * 3)
+    _exigir(texto_de_extracto(resumen) is not None, "«Summary» es una sección de trama")
     sub = "=== Plot ===\n" + ("A level-three heading is not the plot section. " * 4)
     _exigir(texto_de_extracto(sub) is None, "Solo valen los encabezados de nivel 2")
     anidada = "== Plot ==\n=== Setting ===\n" + ("The region is full of creatures. " * 3) + "\n=== Story ===\n" + ("The hero sets out on a long journey. " * 3)
