@@ -229,25 +229,21 @@ public enum ErrorCode {
             "Faltan id, title o plot",
             "Uno de los tres no viene, viene null o viene en blanco",
             "Completa id, title y plot"),
-
     /** El valor no encaja con el tipo del campo. */
     TYPE_MISMATCH("EFX-ING-012",
             "El valor no tiene el tipo del mapping",
             "La fecha, el booleano, el número, la lista o el objeto no encajan",
             "Corrige el valor para que coincida con el tipo del campo"),
-
     /** El archivo trae vectores y se ignoran. */
     VECTORS_IGNORED("EFX-ING-020",
             "Los vectores del archivo se ignoran: se generarán con el servicio de inferencia",
             "El archivo trae plot_256, plot_512 o plot_1024",
             "No hace falta traer esos campos; la demo los calcula"),
-
     /** Un hueco dentro de una lista se omitió. */
     EMPTY_LIST_VALUE("EFX-ING-021",
             "Un valor vacío dentro de una lista se omitió",
             "Había un texto vacío o un hueco en una lista",
             "Quita el hueco o escribe el texto"),
-
     /** Un texto opcional quedó en blanco y se guardó sin valor. */
     EMPTY_TEXT("EFX-ING-022",
             "Un texto vacío se guardó sin valor",
@@ -273,6 +269,10 @@ public enum ErrorCode {
     DUPLICATE_PLOT("EFX-ING-027", "La sinopsis coincide con la de otra película del archivo",
             "Otro id del mismo archivo tiene la misma sinopsis, ya sin espacios ni mayúsculas de más",
             "Si es un error, escribe una sinopsis propia; si no hay otra fuente, se puede cargar igual"),
+    /** La sinopsis parece un ensayo de temas. No rechaza el archivo. */
+    ESSAY_PLOT("EFX-ING-028", "La sinopsis parece un ensayo de temas de un modelo",
+            "Habla de «main themes», de «the main theme of» o encabeza una lista de temas",
+            "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
     /** {@code document_count} no coincide con la lista {@code documents}. */
     DOCUMENT_COUNT_MISMATCH("EFX-ING-008",
             "document_count no coincide con los documentos",

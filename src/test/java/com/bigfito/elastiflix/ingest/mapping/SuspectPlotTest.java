@@ -77,7 +77,7 @@ class SuspectPlotTest {
                                 + "the same name. The movie stars Hugh Jackman as Adam Jensen, a cyborg assassin, "
                                 + "not Agent 47 (the main character in the game series)."),
                 Arguments.of("**",
-                        "The main themes of this drama include: 1. **Grief and Loss**: the story follows a family."),
+                        "The turning points of this drama include: 1. **Grief and Loss**: the story follows a family."),
                 Arguments.of("# ",
                         "Notes about the film follow.\n# Cast\nThe names below belong in the synopsis itself."));
     }

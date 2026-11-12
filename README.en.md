@@ -396,8 +396,10 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   rejects the file (`EFX-ING-025`). Language-model leftovers (for example "I couldn't find", "find any information",
   or "knowledge cutoff"), markdown, and a ", not Name" clarification right after "directed by" or "produced by"
   are warnings and do not stop the load (`EFX-ING-026`). A plot repeated inside the same file is also a warning
-  (`EFX-ING-027`). They are warnings because an error would reject the whole file. The catalog in
-  [`data/`](data/README.md#english) no longer has them: it does not share plots and it does not keep that phrasing.
+  (`EFX-ING-027`). A themes essay (for example "main themes", "the main theme of", or a "Themes:" heading) is
+  also a warning (`EFX-ING-028`). They are warnings because an error would reject the whole file. The catalog in
+  [`data/`](data/README.md#english) no longer has them: it does not share plots and it does not keep that phrasing
+  or those essays.
 - **Vectors:** `plot_256`, `plot_512`, and `plot_1024` are **always** generated from `plot` with the inference
   service. If the file includes them, they are ignored with a warning; the form doesn't ask for them.
 - **Provenance:** `enrichment` is optional (`null` or absent is fine too). When present, it is an object whose keys

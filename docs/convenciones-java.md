@@ -199,7 +199,7 @@ public class ElastiflixApplication {
 | Conexión e índice | `EFX-ES` | sin conexión, alias inexistente |
 | Embeddings | `EFX-EMB` | endpoint de inferencia no disponible, dimensión inesperada |
 | Búsqueda | `EFX-SRCH` | `num_candidates < k`, full-text con `from ≥ 10 000`, consulta vacía |
-| Validación de archivo | `EFX-ING` | extensión no permitida, más de 25 MB, no es UTF-8, no coincide con el mapping, sinopsis marcador o corta (`EFX-ING-025`); un cero desconocido, un repetido en una lista, restos de un modelo o una sinopsis repetida en el archivo son advertencias (`EFX-ING-023`, `024`, `026`, `027`) |
+| Validación de archivo | `EFX-ING` | extensión no permitida, más de 25 MB, no es UTF-8, no coincide con el mapping, sinopsis marcador o corta (`EFX-ING-025`); un cero desconocido, un repetido en una lista, restos de un modelo, un ensayo de temas o una sinopsis repetida en el archivo son advertencias (`EFX-ING-023`, `024`, `026`, `027`, `028`) |
 | Importación | `EFX-IMP` | lote rechazado, conteo no cuadra, alias no cambiado |
 
 - **Formato del mensaje:** `<código> · <qué pasó>. Causa probable: <…>. Acción sugerida: <…>.`

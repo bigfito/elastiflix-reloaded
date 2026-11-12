@@ -14,11 +14,12 @@ import tools.jackson.databind.JsonNode;
 
 /**
  * Revisa {@code plot}: rechaza un marcador o un texto de menos de {@value #MIN_PLOT_LENGTH} caracteres,
- * y avisa (sin rechazar) de restos de un modelo o de una sinopsis repetida en el archivo.
+ * y avisa (sin rechazar) de restos de un modelo, de un ensayo de temas o de una sinopsis repetida.
  *
- * <p>Un error rechaza el archivo completo. Una frase de asistente, markdown o una aclaración de ficha
- * se avisan: rechazarlas tiraría el archivo entero. La aclaración «, not Nombre» solo cuenta justo
- * después de «directed by» o «produced by»; «unable to find work» y un «, not» de la historia no.</p>
+ * <p>Un error rechaza el archivo completo. Una frase de asistente, markdown, una aclaración de ficha
+ * o un ensayo de temas se avisan: rechazarlos tiraría el archivo entero. La aclaración «, not Nombre»
+ * solo cuenta justo después de «directed by» o «produced by»; «unable to find work» y un «, not» de la
+ * historia no. El ensayo es «main themes», «the main theme of» o una lista de temas cerrada con dos puntos.</p>
  */
 final class PlotChecks {
 
@@ -38,6 +39,16 @@ final class PlotChecks {
     private static final Pattern MARKDOWN_HEADING = Pattern.compile("(?m)^#+ ");
     private static final Pattern CREDIT = Pattern.compile("(?i)\\b(?:directed|produced) by\\b");
     private static final Pattern NOT_NAME = Pattern.compile(", not [A-Z][A-Za-z0-9.'&-]{0,40}");
+    /** «main themes» en cualquier parte. */
+    private static final Pattern MAIN_THEMES = Pattern.compile("(?i)\\bmain themes\\b");
+    /** Una línea con theme o themes que termina en dos puntos. */
+    private static final Pattern THEME_LIST = Pattern.compile("(?im)\\bthemes?\\b[^.\\n:]{0,80}:[ \\t]*$");
+    /** «the main/central/primary/core/overarching/key theme of». */
+    private static final Pattern SINGLE_THEME = Pattern.compile(
+            "(?i)\\bthe (?:main|central|primary|core|overarching|key) theme of\\b");
+    /** Encabezado «Themes:», «Key themes:» o «Major themes:». */
+    private static final Pattern THEMES_HEADING = Pattern.compile(
+            "(?im)^\\s*(?:themes|key themes|major themes)\\s*:");
 
     /**
      * Caracteres entre «directed by» o «produced by» y «, not Nombre».
@@ -64,6 +75,10 @@ final class PlotChecks {
         String mark = artifact(plot);
         if (mark != null) {
             scope.warning(ErrorCode.SUSPECT_PLOT, FieldNames.PLOT, mark, IngestPhrase.CLEAN_PLOT.text());
+        }
+        String essay = essay(plot);
+        if (essay != null) {
+            scope.warning(ErrorCode.ESSAY_PLOT, FieldNames.PLOT, essay, IngestPhrase.NARRATIVE_PLOT.text());
         }
         return true;
     }
@@ -106,6 +121,24 @@ final class PlotChecks {
         }
         if (found == null) {
             found = notClarification(plot);
+        }
+        return found;
+    }
+
+    /**
+     * Devuelve el primer fragmento que delata un ensayo de temas.
+     * No rechaza: la carga sigue.
+     */
+    private static String essay(String plot) {
+        String found = first(MAIN_THEMES, plot);
+        if (found == null) {
+            found = first(THEME_LIST, plot);
+        }
+        if (found == null) {
+            found = first(SINGLE_THEME, plot);
+        }
+        if (found == null) {
+            found = first(THEMES_HEADING, plot);
         }
         return found;
     }
