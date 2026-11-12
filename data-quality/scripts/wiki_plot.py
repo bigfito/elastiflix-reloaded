@@ -505,10 +505,29 @@ def texto_de_extracto(extracto: str) -> str | None:
     return None
 
 
+_NO_PELICULA = re.compile(
+    r"(?i)\b(?:television series|TV series|web series|video game|manga series|anime series|light novel series|miniseries)\b"
+)
+_PELICULA = re.compile(r"(?i)\b(?:film|movie)\b")
+
+
+def es_articulo_de_obra_no_filmica(extracto: str) -> bool:
+    """True si la primera línea presenta el artículo como serie, videojuego o manga y no habla de una película.
+
+    Revisión R-05: el `imdb_id` de *Mobile Suit Gundam I* (1981) llevó al artículo de la serie de televisión de
+    1979, cuya trama abarca las tres películas. Una novela no cuenta: su adaptación suele contar la misma historia.
+    """
+    primera = extracto.split("\n", 1)[0][:400]
+    return bool(_NO_PELICULA.search(primera)) and not _PELICULA.search(primera)
+
+
 def trama(articulo: str) -> Trama | None:
     """`(texto, revid, titulo)` de la sección de trama, o `None` si no hay una usable."""
     pag = pagina(articulo)
     if pag is None:
+        return None
+    if es_articulo_de_obra_no_filmica(pag.extracto):
+        print(f"{pag.titulo}: el artículo es de una serie, un videojuego o un manga, no de la película", file=sys.stderr)
         return None
     texto = texto_de_extracto(pag.extracto)
     if texto is None:
@@ -551,6 +570,12 @@ def comprobar_texto() -> None:
     anidada = "== Plot ==\n=== Setting ===\n" + ("The region is full of creatures. " * 3) + "\n=== Story ===\n" + ("The hero sets out on a long journey. " * 3)
     limpia = texto_de_extracto(anidada)
     _exigir(limpia is not None and "===" not in limpia and "The hero sets out" in limpia, f"Los subtítulos de nivel 3 no deben quedar en la trama: {limpia!r}")
+    serie = "Mobile Suit Gundam (Japanese: ...) is a Japanese anime television series produced by Nippon Sunrise.\n\n== Plot =="
+    _exigir(es_articulo_de_obra_no_filmica(serie), "El artículo de una serie de TV no es el de la película")
+    pelicula = "Titanic is a 1997 American epic romantic disaster film directed by James Cameron.\n\n== Plot =="
+    _exigir(not es_articulo_de_obra_no_filmica(pelicula), "El artículo de una película debe aceptarse")
+    adaptacion = "Kamikaze Girls is a 2002 Japanese novel written by Novala Takemoto.\n\n== Plot =="
+    _exigir(not es_articulo_de_obra_no_filmica(adaptacion), "Una novela adaptada se acepta")
     cita = ('She tells him "Go home." ' * 2) + ("X" * 3100)
     _exigir(preparar_texto(cita) == 'She tells him "Go home." She tells him "Go home."', f"El corte debe cerrar la comilla: {preparar_texto(cita)!r}")
 
