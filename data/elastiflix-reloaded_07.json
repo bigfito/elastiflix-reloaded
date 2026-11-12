@@ -79588,7 +79588,7 @@
    "video": false,
    "tagline": null,
    "overview": "Join the likes of Tatiana Maslany, Mark Ruffalo, Tim Roth, and Benedict Wong as they reveal how Marvel Studios’ She-Hulk: Attorney at Law was conceived and shaped. Discover what it took for She-Hulk’s creators to pull off the show’s tricky tone and deliver Marvel Studios’ first truly comedic series – one that boldly breaks the fourth wall to acknowledge its own audience, no less!",
-   "plot": "Marvel Studios Assembled: The Making of She-Hulk: Attorney at Law (2022) is a documentary series that delves into the creation and production of the popular Disney+ show She-Hulk: Attorney at Law. At its core, the series explores the themes of identity, empowerment, and self-discovery.\n\nThe documentary sheds light on how the show's protagonist, Jennifer Walters, navigates her journey from being a lawyer to becoming the superhero known as She-Hulk. The series highlights how the character's transformation is not just physical but also emotional, as she grapples with her newfound powers and the responsibilities that come with them.\n\nThroughout the documentary, it becomes clear that the show's creators aimed to explore themes of female empowerment and self-acceptance. Jennifer Walters' journey serves as a metaphor for the struggles women face in patriarchal societies, where they are often expected to conform to societal norms and expectations. The series shows how She-Hulk's character defies these expectations, embracing her uniqueness and using her powers to challenge the status quo.\n\nThe documentary also touches on the theme of identity, particularly in the context of Jennifer Walters' complicated relationship with her father, Bruce Banner. Their dynamic serves as a microcosm for the complexities of family relationships and the struggles that come with navigating one's own identity.\n\nUltimately, Marvel Studios Assembled: The Making of She-Hulk: Attorney at Law presents a powerful exploration of what it means to be a strong, empowered woman in a world that often seeks to constrain her. Through Jennifer Walters' journey, the series shows how embracing one's true self can lead to transformation and growth, both personally and professionally.",
+   "plot": "Join the likes of Tatiana Maslany, Mark Ruffalo, Tim Roth, and Benedict Wong as they reveal how Marvel Studios’ She-Hulk: Attorney at Law was conceived and shaped. Discover what it took for She-Hulk’s creators to pull off the show’s tricky tone and deliver Marvel Studios’ first truly comedic series – one that boldly breaks the fourth wall to acknowledge its own audience, no less!",
    "genres": [
     "Documentary"
    ],
@@ -79637,6 +79637,7 @@
     "English"
    ],
    "enrichment": {
+    "plot": "tmdb_overview",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -82469,7 +82470,7 @@
    "video": false,
    "tagline": null,
    "overview": "The Elephant Whisperers follows an indigenous couple as they fall in love with Raghu, an orphaned elephant given into their care, and tirelessly work to ensure his recovery & survival. The film highlights the beauty of the wild spaces in South India and the people and animals who share this space.",
-   "plot": "The Elephant Whisperers is a heartwarming documentary film directed by Paayal Devi Saraf, which premiered at the Sundance Film Festival in 2022. The movie tells the story of a young elephant named Raghu and his unlikely friendship with a stray dog named Manju.\n\nThe film begins with the introduction of Raghu, an orphaned elephant calf who is rescued by a kind-hearted couple, Bindu and Sivaraman, from a local temple in India. As Raghu grows up, he becomes increasingly aggressive due to the trauma he experienced as a young calf. The family decides to send Raghu to a sanctuary for elephants, where he meets Manju, a stray dog who has been living on the streets.\n\nInitially, Raghu and Manju do not get along, but over time, they develop an unlikely bond. Manju becomes Raghu's protector and companion, and Raghu learns to trust her. The film showcases their unique friendship, which is both heartwarming and humorous at times.\n\nAs Raghu grows older, he begins to exhibit signs of PTSD, including anxiety and aggression. However, with the help of Manju, he slowly starts to overcome his trauma. The film highlights the special bond between Raghu and Manju, who have become inseparable.\n\nThe movie also explores the challenges faced by Raghu and Manju at the sanctuary, where they face threats from other animals and humans. Despite these challenges, Raghu and Manju continue to thrive under the care of their human caregivers.\n\nThroughout the film, there are several poignant moments that showcase the deep bond between Raghu and Manju. One such moment is when Raghu's mother returns to the sanctuary after years of separation, and Raghu is initially hesitant to reunite with her. However, with Manju by his side, he slowly begins to trust his mother again.\n\nThe Elephant Whisperers ends on a hopeful note, as Raghu and Manju continue to live happily at the sanctuary. The film concludes with a heartwarming scene of Raghu and Manju playing together in the sun, symbolizing their unbreakable bond.\n\nOverall, The Elephant Whisperers is a beautifully crafted documentary that showcases the power of friendship and trust between two unlikely companions. The film is a testament to the human-animal bond and highlights the importance of compassion, empathy, and understanding towards all living beings.",
+   "plot": "Set in the Mudumalai National Park in the border of Karnataka and Tamil Nadu states of India, The Elephant Whisperers tells the story of Bomman and Bellie, an indigenous couple belonging to the Kattunayakan tribe who are entrusted with an orphaned baby Indian elephant named Raghu. They invest much effort to ensure that the fragile, injured infant survives and grows to be a healthy juvenile. A strong bond develops between the couple and the elephant. They adopt another elephant, Ammu, and eventually have to give up Raghu.",
    "genres": [
     "Documentary"
    ],
@@ -82499,6 +82500,7 @@
     "தமிழ்"
    ],
    "enrichment": {
+    "plot": "wikipedia_plot_2026-11-12",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
