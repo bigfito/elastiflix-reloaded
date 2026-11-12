@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 23:40 UTC · Claude Code (Claude Opus 5.5) · revisor (R-10)
+**Última actualización:** 2026-11-12 23:15 UTC · Cursor (Grok 4.7) · ejecutor (turno 11)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -28,7 +28,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 08 | Cursor | WP-03 T-01, T-02 y T-04 | REVISADO | 2026-11-12 | `dq-t08` | [R-08](bitacora/R-08.md) |
 | 09 | GitHub Copilot | WP-04 | REVISADO | 2026-11-12 | `dq-t09` | [R-09](bitacora/R-09.md) |
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`009` (se detuvo por B-03) | REVISADO | 2026-11-12 | `dq-t10` | [R-10](bitacora/R-10.md) |
-| 11 | Cursor | WP-05: 15 lotes de 100 desde el `011` y limpieza de todas las omitidas (P-11) | PENDIENTE | — | — | — |
+| 11 | Cursor | WP-05: 15 lotes de 100 desde el `011` y limpieza de todas las omitidas (P-11) | EN CURSO | 2026-11-12 | — | — |
 | 12 | GitHub Copilot | WP-05: 14 lotes de 100, limpieza de sus omitidas y T-03 (P-11) | PENDIENTE | — | — | — |
 | 13 | Google Antigravity | Cierre de WP-05 (lo que quede, T-03b y T-05; P-11), WP-03 T-03 y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
 | 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
@@ -49,7 +49,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-02 | Reescribir los ensayos generados | HECHA | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-01, T-02 y T-04 hechas y revisadas en la rama; T-03 (integración) en el turno 13 | 8, 13 | 2026-11-12 |
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
-| WP-05 | Limpiar el plot enciclopédico | EN CURSO · 900/3 862 evaluadas (889 Wikipedia, 3 corregidas, 8 pendientes de limpieza) | 10, 11, 12, 13 | 2026-11-12 |
+| WP-05 | Limpiar el plot enciclopédico | EN CURSO · turno 11 (15 lotes desde `011` y limpieza de las omitidas; P-11) | 10, 11, 12, 13 | 2026-11-12 |
 | WP-06 | Completar las sinopsis cortas | PENDIENTE | 13, 14 | — |
 | WP-07 | Normalizar al cargar | PENDIENTE | 14, 15 | — |
 | WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
