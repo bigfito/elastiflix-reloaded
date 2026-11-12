@@ -115,16 +115,19 @@ staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-gener
 
 | Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | Producción final |
 |---|---|---|---|---|---|---|
-| `bm25_title` | 0.06 | | | | | |
-| `bm25_multi_match` | 0.06 | | | | | |
-| `bm25_plot` | 0.37 | | | | | |
-| `knn_plot_256` | 0.49 | | | | | |
-| `knn_plot_512` | 0.60 | | | | | |
-| `knn_plot_1024` | 0.69 | | | | | |
-| `rrf_title_knn256` | 0.29 | | | | | |
-| `rrf_title_knn1024` | 0.41 | | | | | |
-| `rrf_plot_knn256` | 0.53 | | | | | |
-| `rrf_plot_knn1024` | 0.61 | | | | | |
+| `bm25_title` | 0.06 | 0.113 · 0.125 | | | | |
+| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | | | | |
+| `bm25_plot` | 0.37 | 0.423 · 0.444 | | | | |
+| `knn_plot_256` | 0.49 | 0.549 · 0.536 | | | | |
+| `knn_plot_512` | 0.60 | 0.651 · 0.653 | | | | |
+| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | | | | |
+| `rrf_title_knn256` | 0.29 | 0.348 · 0.316 | | | | |
+| `rrf_title_knn1024` | 0.41 | 0.464 · 0.422 | | | | |
+| `rrf_plot_knn256` | 0.53 | 0.581 · 0.612 | | | | |
+| `rrf_plot_knn1024` | 0.61 | 0.662 · 0.677 | | | | |
+
+M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
+`target/eval/report.md` lleva la hora de esa corrida (`RelevanceIT`, 1 prueba, 0 fallos, 0 omitidas).
 
 ## 7. Indicadores de calidad del catálogo
 
