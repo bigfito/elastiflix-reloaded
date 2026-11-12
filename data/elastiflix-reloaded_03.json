@@ -29768,7 +29768,7 @@
    "video": false,
    "tagline": "Thrust into the thick of battle, a young boy and a secret weapon are earth's last hope!",
    "overview": "In the year Universal Century 0079, humans have colonized the area of space lying in between the Earth and the moon. However the ambitious Zabi family, rulers of the Duchy of Zeon (the grouping of colonies furthest from the earth) has sparked a war.",
-   "plot": "In the year Universal Century 0079, a cluster of Space Colonies calling itself the Principality of Zeon declares independence from the Earth Federation, and subsequently launches a war of independence known as the One Year War. Zeon, though smaller, has the tactical upper hand through their use of a new type of humanoid weapons called Mobile Suits. After half of all humanity perishes within the first week of the conflict, the war settles into a bitter eight-month stalemate.\nThe series begins with a newly deployed Federation warship, the White Base, arriving at the colony Side 7 to pick up a Federation prototype Mobile Suit. Unbeknownst to the Federation, a Zeon reconnaissance team was sent to gather information on this prototype. Disobeying orders, a Zeon soldier attacks the colony, killing most of the Federation crew and civilians in the process. Teenaged Amuro Ray discovers the Federation's prototype—the RX-78 Gundam. Despite his lack of experience, he is able to destroy the attacking Zaku II Mobile suits, but not without further damaging the colony. With their home colony damaged, the survivors have little choice but to join up with the White Base.\nOn their journey, the White Base members often encounter the Zeon Lieutenant Commander Char Aznable. Although not shy to fight the Federation, Char has a personal grudge towards Zeon's ruling Zabi family, and he takes advantage of his position to seek revenge. In one such case, he feeds Garma Zabi false information that gets him killed. Throughout the series, Char Aznable's backstory is slowly revealed. The name Char Aznable is merely an alias, his father was Zeon Zum Deikun, one of the original leaders of Zeon before the Zabi dynasty took over.\nChar Aznable eventually meets up with a psychic named Lalah Sune. A love triangle between her, Char, and Amuro eventually forms. In a battle between Amuro and Char, Lalah is caught in Amuro's crossfire. When the Federation Forces invade the Fortress of A Baoa Qu to decisively defeat Zeon, Amuro engages on a final one-on-one duel against Char, with both blaming the other for Lalah's death. Having realized he forgot his true enemy, Char stops fighting to kill the last surviving Zabi member, Kycilia Zabi. Amuro then reunites with his comrades as the war reaches its end, leaving behind the Gundam as it was rendered inoperable after his battle.",
+   "plot": "In the year Universal Century 0079, humans have colonized the area of space lying in between the Earth and the moon. However the ambitious Zabi family, rulers of the Duchy of Zeon (the grouping of colonies furthest from the earth) has sparked a war.",
    "genres": [
     "Animation",
     "Science Fiction",
@@ -29877,7 +29877,7 @@
     "日本語"
    ],
    "enrichment": {
-    "plot": "wikipedia_plot_2026-11-12",
+    "plot": "tmdb_overview",
     "revenue": "tmdb_api_2026-10-22",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
