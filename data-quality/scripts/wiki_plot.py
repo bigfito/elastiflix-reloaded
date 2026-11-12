@@ -520,6 +520,15 @@ _NO_PELICULA = re.compile(
 _PELICULA = re.compile(r"(?i)\b(?:film|movie)\b")
 
 
+# El artículo se presenta como obra en dos partes: «Che is a two-part 2008…» o «Red Cliff … is a 2008–09 … film» (R-10).
+_VARIAS_PARTES = re.compile(r"(?i)\bis an? (?:two-part\b|(?:19|20)\d{2}\s*[–-]\s*\d{2,4}\b)")
+
+
+def es_articulo_de_varias_partes(extracto: str) -> bool:
+    """True si la primera línea presenta el artículo como una obra en dos partes, cuya trama abarca ambas."""
+    return bool(_VARIAS_PARTES.search(extracto.split("\n", 1)[0][:400]))
+
+
 def es_articulo_de_obra_no_filmica(extracto: str) -> bool:
     """True si la primera línea presenta el artículo como serie, videojuego o manga y no habla de una película.
 
@@ -537,6 +546,9 @@ def trama(articulo: str) -> Trama | None:
         return None
     if es_articulo_de_obra_no_filmica(pag.extracto):
         print(f"{pag.titulo}: el artículo es de una serie, un videojuego o un manga, no de la película", file=sys.stderr)
+        return None
+    if es_articulo_de_varias_partes(pag.extracto):
+        print(f"{pag.titulo}: el artículo es de una obra en dos partes; su trama abarca las dos", file=sys.stderr)
         return None
     texto = texto_de_extracto(pag.extracto)
     if texto is None:
@@ -590,6 +602,12 @@ def comprobar_texto() -> None:
     trilogia = ("Psycho-Pass: Sinners of the System is a trilogy of Japanese anime films based on characters who "
                 "appear in the Psycho-Pass television series.\n\n== Plot ==")
     _exigir(es_articulo_de_obra_no_filmica(trilogia), "El artículo de una trilogía no es el de una de sus películas")
+    for dos_partes in ("Che is a two-part 2008 epic biographical film about Ernesto Guevara.",
+                       "Red Cliff, also known as Chibi, is a 2008–09 internationally co-produced epic war film."):
+        _exigir(es_articulo_de_varias_partes(dos_partes), f"Obra en dos partes no detectada: {dos_partes}")
+    for una in ("The Wind That Shakes the Barley is a 2006 war drama film set during the Irish War (1919–1921).",
+                "Dragonball Evolution is a 2009 superhero film based on the 1984–95 manga series Dragon Ball."):
+        _exigir(not es_articulo_de_varias_partes(una), f"Un período histórico no es una obra en dos partes: {una}")
     adaptacion = "Kamikaze Girls is a 2002 Japanese novel written by Novala Takemoto.\n\n== Plot =="
     _exigir(not es_articulo_de_obra_no_filmica(adaptacion), "Una novela adaptada se acepta")
     cita = ('She tells him "Go home." ' * 2) + ("X" * 3100)

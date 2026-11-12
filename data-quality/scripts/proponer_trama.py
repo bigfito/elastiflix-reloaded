@@ -203,6 +203,17 @@ def _ruta_fuentes(destino: pathlib.Path) -> pathlib.Path:
     return DQ / "fuentes" / "plot-fuentes.tsv"
 
 
+def articulos_usados(ruta: pathlib.Path) -> dict[str, str]:
+    """`{título del artículo: id}` de las sinopsis de Wikipedia ya registradas en `plot-fuentes.tsv`."""
+    usados: dict[str, str] = {}
+    if ruta.is_file():
+        for linea in ruta.read_text(encoding="utf-8-sig").splitlines()[1:]:
+            partes = linea.split("\t")
+            if len(partes) >= 2 and partes[0]:
+                usados.setdefault(partes[1], partes[0])
+    return usados
+
+
 def _agregar_fuentes(ruta: pathlib.Path, filas_nuevas: list[tuple[str, str, str, str]]) -> None:
     if not filas_nuevas:
         return
@@ -264,11 +275,19 @@ def proponer(
     nuevas_filas: list[dict[str, str]] = []
     fuentes: list[tuple[str, str, str, str]] = []
     cuentas = {"propuesto": 0, "sin fuente": 0, "omitido": 0}
+    # Un artículo de Wikipedia es de una sola película: si ya lo usa otra, no se repite (R-10, Red Cliff).
+    usados = articulos_usados(_ruta_fuentes(destino))
 
     for doc_id in elegidos:
         doc = docs[doc_id]
         titulo = articulos.get(doc_id)
         resultado = wiki_plot.trama(titulo) if titulo else None
+        if resultado is not None and usados.get(resultado.titulo, doc_id) != doc_id:
+            detalles[doc_id] = f"el artículo {resultado.titulo} ya es la fuente de {usados[resultado.titulo]}"
+            print(f"{doc_id}: {detalles[doc_id]}; no se repite", file=sys.stderr)
+            resultado = None
+        if resultado is not None:
+            usados[resultado.titulo] = doc_id
         if resultado is not None and wiki_plot.cita_visible(resultado.texto):
             raise RuntimeError(f"{doc_id}: la trama todavía tiene referencias y no se escribe el lote.")
         fuente_wiki = f"enwiki:{resultado.titulo}#revid={resultado.revid}" if resultado else None
@@ -357,6 +376,10 @@ def comprobar() -> None:
     _exigir(decision.resultado == "omitido" and "limpiar_enciclopedico" in decision.motivo, "WP-05 sin trama queda para la limpieza")
     decision = decidir("actual", wiki, fuente, None, wp="WP-05", solo_si_mas_largo=False, fecha=fecha)
     _exigir(decision.resultado == "propuesto" and decision.plot == wiki, "WP-05 usa Wikipedia cuando existe")
+    tsv = WORK / "prueba_usados.tsv"
+    tsv.write_text("id\ttitulo\trevid\tfecha\n12289\tRed Cliff (film)\t1\t2026-11-12\n", encoding="utf-8")
+    _exigir(articulos_usados(tsv) == {"Red Cliff (film)": "12289"}, "articulos_usados lee plot-fuentes.tsv")
+    tsv.unlink()
     print("Reglas de proponer_trama y de catalogo.sha/obtener_campo/validar_cambio: OK.")
 
 
