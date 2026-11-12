@@ -86371,7 +86371,7 @@
    "video": false,
    "tagline": "There's No Time To Bleed",
    "overview": "A band of Vikings cross enemy lines and a panicked race begins. The losers will pay with their lives.",
-   "plot": "A band of Vikings cross enemy lines and a panicked race begins. The losers will pay with their lives.",
+   "plot": "A group of exiled Vikings, under the leadership of Asbjörn, are stranded on the coast of Scotland after their ship sinks in a storm. There, they are attacked by soldiers who are escorting the princess Inghean, who is on her way to be married. The Vikings defeat the soldiers and take Inghean with them as a hostage with the intent of ransoming her for money to buy entry into a friendly land. Along the way, they meet a Christian monk who grants them aid and shelter. Meanwhile, Inghean's father, King Dunchaid, tasks a mercenary force to pursue the Vikings; knowing of Inghean's distaste for their group, the mercenary leaders plan to kill both her and the Vikings, an order not out of character for the tyrant king. The group, including the princess, learn of their plan from a captured soldier.\nAs the mercenaries attack the tower where the monk and the Vikings are sheltered, the group manages to escape and stay ahead of their pursuers. The monk offers to show the Vikings the way to the Viking settlements of the Danelaw, where they would be safe. Along the way, they are repeatedly attacked by the mercenaries, but the Vikings eventually defeat them, suffering some casualties. After reaching a cliffside with transport to Danelaw, the survivors find themselves trapped by King Dunchaid and his troops. Asbjörn jumps into the water, seemingly to his death, but manages to retrieve a boat from an underwater cave. The surviving Vikings jump after him, joined by the monk and Inghean, who elects to stay with the group. Together, the group rows towards the Danelaw.",
    "genres": [
     "Adventure",
     "Action",
@@ -86432,7 +86432,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-12",
     "user_score": "tmdb_api_2026-10-22"
    }
   },

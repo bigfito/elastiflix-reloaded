@@ -490,7 +490,7 @@ id	lote	resultado	motivo
 31011	lote-005	aplicado	ensayo generado
 31203	lote-005	aplicado	ensayo generado
 31216	lote-005	aplicado	ensayo generado
-31512	lote-005	aplicado	overview de TMDB (NS-1b); sin trama de Wikipedia
+31512	lote-005	corregido	corrección R-06: trama de Wikipedia con encabezado «Summary» o con paréntesis, que wiki_plot.py no reconocía (lote-014)
 32579	lote-005	aplicado	ensayo generado
 32593	lote-005	aplicado	ensayo generado
 32916	lote-005	aplicado	ensayo generado
@@ -602,7 +602,7 @@ id	lote	resultado	motivo
 68727	lote-009	aplicado	ensayo generado
 68730	lote-009	aplicado	ensayo generado
 68737	lote-009	aplicado	ensayo generado
-69315	lote-009	aplicado	overview de TMDB (NS-1b); sin trama de Wikipedia
+69315	lote-009	corregido	corrección R-06: trama de Wikipedia con encabezado «Summary» o con paréntesis, que wiki_plot.py no reconocía (lote-014)
 70338	lote-009	aplicado	ensayo generado
 70436	lote-009	aplicado	ensayo generado
 70608	lote-009	aplicado	overview de TMDB (NS-1b); sin trama de Wikipedia
@@ -660,7 +660,7 @@ id	lote	resultado	motivo
 83896	lote-009	aplicado	ensayo generado
 84174	lote-009	aplicado	ensayo generado
 84199	lote-009	aplicado	ensayo generado
-84287	lote-009	aplicado	overview de TMDB (NS-1b); sin trama de Wikipedia
+84287	lote-009	corregido	corrección R-06: trama de Wikipedia con encabezado «Summary» o con paréntesis, que wiki_plot.py no reconocía (lote-014)
 84329	lote-009	aplicado	ensayo generado
 84334	lote-009	aplicado	overview de TMDB (NS-1b); sin trama de Wikipedia
 84575	lote-009	aplicado	ensayo generado
@@ -864,7 +864,7 @@ id	lote	resultado	motivo
 284689	lote-011	aplicado	ensayo generado
 284995	lote-011	aplicado	ensayo generado
 286554	lote-011	aplicado	ensayo generado
-286873	lote-011	aplicado	overview de TMDB (NS-1b); sin trama de Wikipedia
+286873	lote-011	corregido	corrección R-06: trama de Wikipedia con encabezado «Summary» o con paréntesis, que wiki_plot.py no reconocía (lote-014)
 288036	lote-011	aplicado	ensayo generado
 290637	lote-011	aplicado	ensayo generado
 290762	lote-011	aplicado	ensayo generado
