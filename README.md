@@ -286,9 +286,9 @@ sin cuantización): la única diferencia es el número de dimensiones. **Precisi
 
 | Campo | 🥇 Correcta en 1.er lugar | Top 5 | Top 10 | MRR@10 | nDCG@10 |
 |---|---|---|---|---|---|
-| `plot_256` | 12 de 40 (30 %) | 23 | 27 | 0.506 | 0.524 |
-| `plot_512` | 17 de 40 (43 %) | 29 | 32 | 0.657 | 0.652 |
-| `plot_1024` | 23 de 40 (58 %) | 33 | 37 | 0.755 | 0.743 |
+| `plot_256` | 13 de 40 (33 %) | 24 | 28 | 0.536 | 0.549 |
+| `plot_512` | 17 de 40 (43 %) | 29 | 32 | 0.653 | 0.651 |
+| `plot_1024` | 23 de 40 (58 %) | 33 | 37 | 0.755 | 0.742 |
 
 > 1024 dimensiones pone la película correcta entre las 5 primeras en 33 de 40 consultas; 512 queda en medio con la
 > mitad del tamaño y 256 pierde precisión de forma clara. La medición es del catálogo actual de `data/`: al pasar 1 641
@@ -319,19 +319,19 @@ mejores películas quedaron arriba.
 
 | Configuración | Total | es · trama | en · trama | es · título | en · título |
 |---|---|---|---|---|---|
-| `bm25_title` | 0.114 | 0.000 | 0.000 | 0.000 | **0.911** |
-| `bm25_plot` | 0.422 | 0.077 | 0.802 | 0.000 | 0.737 |
-| `knn_plot_1024` | **0.743** | **0.764** | 0.615 | **0.975** | 0.830 |
-| `rrf_title_knn1024` | 0.461 | 0.465 | 0.231 | 0.731 | 0.870 |
-| `rrf_plot_knn1024` | 0.651 | 0.477 | **0.834** | 0.495 | 0.781 |
+| `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
+| `bm25_plot` | 0.423 | 0.077 | 0.805 | 0.000 | 0.737 |
+| `knn_plot_1024` | **0.742** | **0.762** | 0.615 | **0.975** | 0.830 |
+| `rrf_title_knn1024` | 0.464 | 0.485 | 0.228 | 0.745 | 0.823 |
+| `rrf_plot_knn1024` | 0.662 | 0.480 | **0.834** | 0.573 | 0.781 |
 
-- **Las sinopsis están en inglés.** BM25 sobre `plot` es muy bueno con descripciones en inglés (0.802, más que la
+- **Las sinopsis están en inglés.** BM25 sobre `plot` es muy bueno con descripciones en inglés (0.805, más que la
   vectorial) y casi no encuentra nada en español (0.077). La vectorial es multilingüe: encuentra la película en los
-  dos idiomas (0.764 en español y 0.615 en inglés).
+  dos idiomas (0.762 en español y 0.615 en inglés).
 - **BM25 sobre el título sirve para buscar por título en inglés**, y para nada más: con descripciones de la trama no
   encuentra la película, y en la híbrida su lista desplaza a la vectorial.
 - **La híbrida con `plot`** es la mejor con descripciones en inglés (0.834) y supera con claridad a la híbrida con
-  `title` (0.651 contra 0.461), pero con consultas en español queda por debajo de la vectorial sola.
+  `title` (0.662 contra 0.464), pero con consultas en español queda por debajo de la vectorial sola.
 - En conjunto, la vectorial con `plot_1024` es la opción más pareja.
 
 ## 🎛️ Resultados, filtros y paginación

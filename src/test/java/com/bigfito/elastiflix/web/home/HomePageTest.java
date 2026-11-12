@@ -76,7 +76,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("Titanic: 10.º lugar")))
                 .andExpect(content().string(containsString("Titanic: 60.º lugar")))
                 .andExpect(content().string(containsString("Life of Pi: 52.º lugar")))
-                .andExpect(content().string(containsString("Inception: 36.º lugar")))
+                .andExpect(content().string(containsString("Inception: 35.º lugar")))
                 .andExpect(content().string(containsString("modo=hibrida")))
                 .andExpect(content().string(containsString("Titanic: 1.º vectorial, 1.º léxico")))
                 .andExpect(content().string(containsString("href=\"/buscar?q=un%20barco%20de%20lujo%20choca%20con%20un"
@@ -99,7 +99,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString("Type the movie you&#39;re looking for before you press Search.")))
                 .andExpect(content().string(containsString("Try these queries")))
                 .andExpect(content().string(containsString("OR: 57 results")))
-                .andExpect(content().string(containsString("Titanic: 87th place")))
+                .andExpect(content().string(containsString("Titanic: 90th place")))
                 .andExpect(content().string(containsString("Titanic: 14th place")))
                 .andExpect(content().string(containsString("Titanic: 11th place")))
                 .andExpect(content().string(containsString("Inception: outside the top 100")))

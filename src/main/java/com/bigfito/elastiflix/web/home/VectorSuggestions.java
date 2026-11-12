@@ -25,7 +25,7 @@ final class VectorSuggestions {
             new Example("Titanic", "🚢", "un barco de lujo choca con un iceberg en su viaje inaugural",
                     "60 19 10", false),
             new Example("Inception", "🌀", "un ladrón roba secretos entrando en los sueños de las personas",
-                    "0 36 23", false),
+                    "0 35 23", false),
             new Example(WALL_E, ROBOT, ROBOT_ES, ROBOT_RANKS, false),
             new Example(WALL_E, ROBOT, ROBOT_EN, ROBOT_RANKS, true),
             new Example("Life of Pi", "🐅",
@@ -38,7 +38,7 @@ final class VectorSuggestions {
                     "5 1 1", false));
 
     private static final List<Example> ENGLISH = List.of(
-            new Example("Titanic", "🚢", "a luxury liner hits an iceberg on its maiden voyage", "87 14 11", false),
+            new Example("Titanic", "🚢", "a luxury liner hits an iceberg on its maiden voyage", "90 14 11", false),
             new Example("Inception", "🌀", "a thief steals secrets by entering people's dreams", "0 48 24", false),
             new Example(WALL_E, ROBOT, ROBOT_EN, ROBOT_RANKS, false),
             new Example(WALL_E, ROBOT, ROBOT_ES, ROBOT_RANKS, true),
