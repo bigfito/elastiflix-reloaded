@@ -67,6 +67,7 @@ class ShippedCatalogValidationTest {
     }
 
     private List<Movie> readJson(Path file, Map<String, Integer> warnings) {
+        assertThat(file).as("parte JSON del catálogo").isRegularFile();
         JsonRead read = json.read(file);
         assertThat(read.warnings()).as(file::toString).isEmpty();
         return accepted(file, validator.validate(read.documents(), Set.of()), warnings);

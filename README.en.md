@@ -465,7 +465,7 @@ The detail of each piece (pipeline steps, NEGs, certificate, host rules) is in
 | Piece | Detail |
 |---|---|
 | [`Dockerfile`](Dockerfile) | Two stages: builds with JDK 25 and runs `./mvnw verify` (if it fails, there is no image); the final image holds only the Java 25 JRE and the jar, with an unprivileged user |
-| [`.dockerignore`](.dockerignore) | An allowlist: `.env`, `target/`, and `data/` never get into the image |
+| [`.dockerignore`](.dockerignore) | Allowlist: `.env` and `target/` stay out. `data/` is in the build stage for the catalog tests and is not copied into the final image |
 | [`cloudbuild.yaml`](cloudbuild.yaml) | Builds once, tags with the short commit, pushes to `prod-elastiflix-us-east1` and `prod-elastiflix-us-west1`, and deploys both services in parallel |
 | Cloud Run | `prod-elastiflix-east1` and `prod-elastiflix-west1`: 1 vCPU, 1 GiB, 0 to 3 instances, CPU allocated outside requests (imports run in the background), session affinity, and traffic only from the load balancer |
 | Credentials | `ELASTICSEARCH_URL` and `ELASTICSEARCH_API_KEY` come from Secret Manager (`elastiflix-elasticsearch-url`, `elastiflix-elasticsearch-api-key`) |
