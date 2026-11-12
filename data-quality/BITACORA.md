@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 18:20 UTC · Claude Code (Claude Opus 5.5) · revisor
+**Última actualización:** 2026-11-12 18:40 UTC · Claude Code (Claude Opus 5.5) · revisor
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -67,7 +67,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 > **Turno 01 · Google Antigravity:** WP-00 T-01 a T-04 (entorno, `catalogo.py`, formato de lote y
 > `aplicar_cambios.py`). Empieza con el protocolo de `AGENTS.md` §5; el punto de partida es la etiqueta `dq-r00`.
-> **Dueña del proyecto:** conviene contestar ya **H-1** (la necesita el turno 3) y **D-01** a **D-04**.
+> H-1 y D-01 a D-04 ya están aprobadas; la única aprobación pendiente es **H-2**, en el turno 21.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -77,11 +77,11 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | ID | Pregunta | Opciones | Recomendación | Estado |
 |---|---|---|---|---|
 | P-0 | Precondición: dónde vive el trabajo. Se planteó commitear `data-quality/` en `main` y publicar `dq/ronda-4` | En `main` y remoto · Solo en local | Lo que decida la dueña | APROBADA 2026-11-12 · «Vamos a trabajar con la copia de nuestro repositorio local.» · se aplicó como P-04 |
-| H-1 | ¿Se puede crear y recargar el alias `elastiflix-dq-staging` en el proyecto Serverless (índices nuevos con vectores generados por inferencia; unas 4 recargas completas en todo el plan)? | Sí · No | Sí: permite medir sin tocar producción | ABIERTA |
-| D-01 | Largo máximo de `plot` tomado de Wikipedia | 3 000 caracteres · otro valor | 3 000, con corte en fin de oración (hoy p95 = 2 670) | ABIERTA · mientras no se conteste rige 3 000 |
-| D-02 | ¿Qué puntuación muestra la demo? (WP-09) | A · B · C del plan | A: mantener las dos y rotularlas | ABIERTA · se pregunta con el memo de WP-09 |
-| D-03 | ¿`"dynamic": "strict"` en el mapping? (WP-10) | Sí · No | Sí | ABIERTA · WP-10 espera esta respuesta |
-| D-04 | ¿Quitar el filtro `adult`? (WP-10) | Sí · No | No; documentar | ABIERTA · WP-10 espera esta respuesta |
+| H-1 | ¿Se puede crear y recargar el alias `elastiflix-dq-staging` en el proyecto Serverless (índices nuevos con vectores generados por inferencia; unas 4 recargas completas en todo el plan)? | Sí · No | Sí: permite medir sin tocar producción | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» |
+| D-01 | Largo máximo de `plot` tomado de Wikipedia | 3 000 caracteres · otro valor | 3 000, con corte en fin de oración (hoy p95 = 2 670) | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · rige 3 000 |
+| D-02 | ¿Qué puntuación muestra la demo? (WP-09) | A · B · C del plan | A: mantener las dos y rotularlas | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · opción A; WP-09 T-01 no necesita memo |
+| D-03 | ¿`"dynamic": "strict"` en el mapping? (WP-10) | Sí · No | Sí | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · sí, `dynamic: strict` |
+| D-04 | ¿Quitar el filtro `adult`? (WP-10) | Sí · No | No; documentar | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · no se quita; se documenta |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
 
 ## 4. Decisiones tomadas
@@ -93,6 +93,10 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-03 | Todo el trabajo y esta bitácora viven en `dq/ronda-4`, trabajada desde un worktree; a `main` solo llegan los hitos A, B y C | COORD, tras la revisión independiente del plan |
 | 2026-11-12 | P-04 | Solo en local: worktree `E:\02 - programming\03 - elastiflix-reloaded-dq` en `dq/ronda-4`, creado desde `main` (`9a1b864`). Sin `push` ni `pull`; `main` y `origin` no se tocan. La dueña integra los hitos con `git merge --no-ff` y decide si publica | Dueña del proyecto (P-0) |
 | 2026-11-12 | P-05 | Equipo: ejecutan Google Antigravity, Cursor y GitHub Copilot, 7 turnos cada uno en orden fijo; Claude Code revisa y corrige después de cada turno y no toma tareas del plan. Reparto en `PLAN.md` · Reparto y turnos | Dueña del proyecto |
+| 2026-11-12 | D-01 | Largo máximo de `plot` de Wikipedia: 3 000 caracteres, con corte en fin de oración | Dueña del proyecto |
+| 2026-11-12 | D-02 | Opción A: se mantienen `vote_average` y `user_score` y se rotulan; WP-09 implementa sin memo | Dueña del proyecto |
+| 2026-11-12 | D-03 | `"dynamic": "strict"` en `elasticsearch/elastiflix-reloaded-mapping.json` (WP-10) | Dueña del proyecto |
+| 2026-11-12 | D-04 | El filtro `adult` se queda; se documenta que el catálogo de `data/` no tiene contenido adulto (WP-10) | Dueña del proyecto |
 
 ## 5. Bloqueos abiertos
 
@@ -164,4 +168,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   protocolo de turno del ejecutor y de revisión de Claude Code (`AGENTS.md` §5 y §6, plantilla `R-NN.md`);
   tablero de turnos y de revisiones; etiqueta de partida `dq-r00`. GitHub Copilot entra en lugar de Qwen.
 - Quedó pendiente: H-1 y D-01 a D-04.
+- Para el siguiente: turno 01, Google Antigravity.
+
+### 2026-11-12 18:40 UTC · Claude Code (Claude Opus 5.5) · revisor
+- Hice: anoté la respuesta de la dueña del proyecto, «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04»: H-1, D-01, D-02 (opción A), D-03 (sí) y D-04 (no se
+  quita) en APROBADA, con su fila en «Decisiones tomadas».
+- Evidencia: `es.aprobada("H-1")` devuelve `True`; `es.aprobada("H-2")`, `False`.
+- Quedó pendiente: H-2, que se pide en el turno 21.
 - Para el siguiente: turno 01, Google Antigravity.
