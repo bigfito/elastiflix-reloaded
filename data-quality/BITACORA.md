@@ -257,8 +257,8 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 ### 2026-11-12 20:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-07) · cierre del hito A
 - Hice: revisión del turno 07 de Google Antigravity. APROBADO. WP-02 queda HECHA y se cierra el **hito A** (WP-00,
   WP-01 y WP-02). Detalle y resumen del hito en `bitacora/R-07.md`.
-- Hito A: las 1 415 sinopsis de WP-01 y WP-02 son la trama de Wikipedia de su película (1 359) o el overview de TMDB
-  (56), con fuente y lote. Sinopsis con dos o más firmas de texto generado: 1 408 → 0; respuestas de asistente y
+- Hito A: las 1 415 sinopsis de WP-01 y WP-02 son la trama de Wikipedia de su película (1 363) o el overview de TMDB
+  (52), con fuente y lote. Sinopsis con dos o más firmas de texto generado: 1 408 → 0; respuestas de asistente y
   correcciones de año: 8 → 0. Relevancia M0 → M1 dentro de ±0.03 en nDCG@10 (`knn_plot_1024` 0.742 → 0.726); ninguna
   baja llega al criterio de parada.
 - Evidencia: staging (`elastiflix-dq-staging-20261112-201036`) idéntico a `data/` en las 6 899 sinopsis y con vectores
