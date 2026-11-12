@@ -385,7 +385,7 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
 |---|---|
 | ✍️ Registro individual | Formulario con los campos del mapping (`id`, `title` y `plot` obligatorios); se escribe **directamente en el catálogo** |
 | 🧾 `.json` | Exportación del índice (objeto con `documents` y, opcionalmente, `mapping` y `document_count`), arreglo de películas o NDJSON |
-| 📊 `.csv` | UTF-8 con o sin BOM, separador coma, punto y coma o tabulador, **encabezado obligatorio**; listas y anidados como JSON en la celda |
+| 📊 `.csv` | UTF-8 con o sin BOM, separador coma, punto y coma o tabulador, **encabezado obligatorio**; listas, objetos anidados y `enrichment` como JSON en la celda |
 
 - **Campos obligatorios:** en los dos formatos y en los dos modos, `id`, `title` y `plot` con valor (en `.csv`, como
   columnas del encabezado); el resto es opcional. «Acerca de» › «El catálogo» lo dice campo por campo, y el mapping
@@ -405,6 +405,11 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   tres sinopsis y conserva frases de un modelo.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan desde `plot` con el servicio de
   inferencia. Si el archivo los trae, se ignoran con una advertencia; el formulario no los pide.
+- **Procedencia:** `enrichment` es opcional (`null` o ausente también vale). Si viene, es un objeto cuyas claves
+  son campos del mapping y cuyos valores son textos keyword con la fuente de ese dato. Una clave desconocida
+  rechaza el archivo (`EFX-ING-007`); un valor que no es texto, también (`EFX-ING-012`); un texto en blanco se
+  omite con la advertencia `EFX-ING-022`. En CSV va como JSON compacto en la columna `enrichment`, igual que los
+  demás objetos; una celda vacía es null. El formulario de registro individual no lo pide.
 - **Un solo usuario:** la demo está pensada para una persona a la vez; no tiene controles de concurrencia.
 
 ## ⚙️ Configuración
@@ -604,7 +609,7 @@ Páginas completas con la aplicación conectada a un catálogo de 6 899 películ
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos numerados de búsqueda, detalle y carga |
 | ☁️ [`docs/despliegue.mermaid`](docs/despliegue.mermaid) | Pipeline de Cloud Build, las dos regiones de Cloud Run y el balanceador |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo está escrito el código y qué verifica el build |
-| 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice (33 campos) |
+| 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice (34 campos) |
 | 🎯 [`eval/README.md`](eval/README.md) | Harness de relevancia: consultas, escala de juicios, métricas y cómo correrlo |
 | 🎞️ [`data/README.md`](data/README.md) | Catálogo completo en 7 partes: cómo cargarlo y su formato |
 | 🎬 [`elasticsearch/fixtures/`](elasticsearch/fixtures/) | Cuatro películas de ejemplo en `.json` y `.csv`, y un vector de consulta |

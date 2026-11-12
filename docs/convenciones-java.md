@@ -606,7 +606,7 @@ Decisiones deliberadas que pueden parecer poco habituales.
 | Desviación | Motivo |
 |---|---|
 | Sin Spring Data Elasticsearch | El proyecto usa directamente el cliente Java de Elasticsearch 9.x para controlar retrievers (`knn`, `rrf`), alias e inferencia |
-| `record` de hasta 35 componentes | El documento de película refleja los 33 campos del mapping |
+| `record` de hasta 35 componentes | El documento de película refleja los 34 campos del mapping |
 | Identificadores en inglés, textos en español | Coinciden con los nombres de campo del índice; Javadoc y logs en español. La interfaz, en español e inglés, toma sus textos de `messages_es`/`messages_en` |
 | Validación de ingesta sin excepciones por registro | Se deben reportar **todos** los errores del archivo de una vez |
 | JavaScript mínimo en las páginas Thymeleaf | La interactividad de los mockups (selectores, progreso de importación) no justifica un framework de frontend |

@@ -119,6 +119,6 @@ class FacetCalculatorTest {
             List<String> languages) {
         return new Movie(id, null, id, null, null, date, null, null, adult, null,
                 null, null, null, genres, null, null, null, null, null, null,
-                null, null, rating, null, null, null, null, null, languages, null, null, null, null);
+                null, null, rating, null, null, null, null, null, languages, null, null, null, null, null);
     }
 }

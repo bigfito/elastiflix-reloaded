@@ -327,6 +327,6 @@ class MovieDetailControllerTest {
                 160_000_000.0, 825_532_764.0, 82.5, 8.36, 35000, "PG-13",
                 "https://inception.test", "/poster.jpg", "/backdrop.jpg",
                 List.of("Warner Bros. Pictures"), List.of("United States"), List.of("en", "ja"),
-                null, null, null, 8.4);
+                null, null, null, 8.4, null);
     }
 }

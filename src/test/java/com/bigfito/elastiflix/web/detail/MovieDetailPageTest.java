@@ -60,7 +60,7 @@ class MovieDetailPageTest {
     void shouldDisplayNotAvailableForMissingFields() {
         Movie emptyMovie = new Movie("999", null, "Untitled", null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
         MovieDetailView view = page.build(emptyMovie, searchForm());
 
@@ -130,7 +130,7 @@ class MovieDetailPageTest {
         // given
         Movie blank = new Movie("1", " ", " ", " ", " ", null, null, " ", null, null,
                 " ", " ", " ", List.of(), List.of(), List.of(), null, null, null, null, null, null, " ",
-                " ", null, null, List.of(), List.of(), List.of(), null, null, null, null);
+                " ", null, null, List.of(), List.of(), List.of(), null, null, null, null, null);
 
         // when
         MovieDetailView view = page.build(blank, searchForm());
@@ -392,7 +392,7 @@ class MovieDetailPageTest {
                     budget, revenue, 75.2, 8.4, 32000, "PG-13",
                     homepage, posterPath, backdropPath,
                     List.of("Warner Bros."), List.of("US"), List.of("en"),
-                    null, null, null, null);
+                    null, null, null, null, null);
         }
     }
 }

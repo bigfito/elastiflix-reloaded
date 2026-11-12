@@ -121,7 +121,7 @@ class AboutPageTest {
     }
 
     @Test
-    @DisplayName("el catálogo trae los cinco grupos y todas las propiedades, con los subcampos con sangría")
+    @DisplayName("el catálogo trae los seis grupos y todas las propiedades, con los subcampos con sangría")
     void shouldDescribeTheWholeCatalog() throws Exception {
         mvc.perform(get("/acerca"))
                 .andExpect(status().isOk())
@@ -130,6 +130,9 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("<h3>Clasificación, fecha y estado</h3>")))
                 .andExpect(content().string(containsString("<h3>Métricas</h3>")))
                 .andExpect(content().string(containsString("<h3>Reparto, producción y medios</h3>")))
+                .andExpect(content().string(containsString("<h3>Procedencia</h3>")))
+                .andExpect(content().string(containsString("<td>enrichment</td><td>object</td>")))
+                .andExpect(content().string(containsString("<td>enrichment.<wbr>plot</td><td>keyword</td>")))
                 .andExpect(content().string(containsString("<td>imdb_id</td><td>keyword</td><td>Identificador en IMDb, "
                         + "por ejemplo tt0120338; el detalle enlaza a su ficha</td><td>Detalle</td>")))
                 .andExpect(content().string(containsString("<td>title</td><td>text</td><td>Título de la película</td>"
@@ -150,6 +153,8 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("en modo append o bulk (las reglas son las mismas)")));
         mvc.perform(get("/acerca").param("lang", "en"))
                 .andExpect(content().string(containsString("<h3>Cast, production and media</h3>")))
+                .andExpect(content().string(containsString("<h3>Provenance</h3>")))
+                .andExpect(content().string(containsString("Index only")))
                 .andExpect(content().string(containsString("<td>runtime</td><td>integer</td><td>Runtime in minutes</td>"
                         + "<td>Card and detail</td>")))
                 .andExpect(content().string(containsString("grouped as in the «Load data» form")))

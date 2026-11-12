@@ -2,11 +2,12 @@ package com.bigfito.elastiflix.core.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * Una película del catálogo, con los 33 campos del mapping.
+ * Una película del catálogo, con los 34 campos del mapping.
  *
  * <p>El metadato {@code _id} no es un campo: si el JSON lo trae, se ignora. {@code id} puede llegar
  * como número y se guarda como texto. Los vectores participan en {@code equals} y {@code hashCode}
@@ -45,6 +46,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @param plot512               vector de 512
  * @param plot1024              vector de 1024
  * @param userScore             puntuación de usuario, si viene
+ * @param enrichment            procedencia por campo (etiqueta keyword), o {@code null}
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record Movie(
@@ -80,7 +82,8 @@ public record Movie(
         float[] plot256,
         float[] plot512,
         float[] plot1024,
-        Double userScore) {
+        Double userScore,
+        Map<String, String> enrichment) {
 
     /**
      * Película que solo lleva el id. Sirve para un hit sin {@code _source}.
@@ -93,7 +96,7 @@ public record Movie(
                 id, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -110,6 +113,6 @@ public record Movie(
                 adult, video, tagline, overview, plot, genres, keywords, cast, belongsToCollection,
                 budget, revenue, popularity, voteAverage, voteCount, rating, homepage, posterPath,
                 backdropPath, productionCompanies, productionCountries, spokenLanguages,
-                plot256, plot512, plot1024, userScore);
+                plot256, plot512, plot1024, userScore, enrichment);
     }
 }

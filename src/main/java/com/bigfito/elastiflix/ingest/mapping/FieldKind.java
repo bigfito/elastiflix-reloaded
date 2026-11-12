@@ -16,5 +16,7 @@ enum FieldKind {
     DATE,
     COLLECTION,
     KEYWORDS,
+    /** Objeto plano de etiquetas keyword, como {@code enrichment}. */
+    TAGS,
     VECTOR
 }
