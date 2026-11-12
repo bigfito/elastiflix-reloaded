@@ -2196,20 +2196,20 @@ id	lote	resultado	motivo
 366668	lote-023	aplicado	plot enciclopédico
 367206	lote-023	aplicado	plot enciclopédico
 367544	lote-026	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
-368304	lote-023	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt5371572 → Lego Marvel Super Heroes: Avengers Reassembled
+368304	lote-027	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 369192	lote-023	aplicado	plot enciclopédico
 369552	lote-023	aplicado	plot enciclopédico
 369885	lote-024	aplicado	plot enciclopédico
 369972	lote-024	aplicado	plot enciclopédico
 370172	lote-024	aplicado	plot enciclopédico
 370964	lote-024	aplicado	plot enciclopédico
-371603	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt5252134 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Nickelodeon's Ho Ho Holiday Special 2015 film» sin artículo válido (Maya Le Clark: el año no coincide ±1; Nickelodeon: el año no coincide ±1; Kira Kosarin: el año no coincide ±1; Cree Cicchino: el año no coincide ±1; Jace Norman: el año no coincide ±1)
+371603	lote-027	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 371638	lote-024	aplicado	plot enciclopédico
 372058	lote-024	aplicado	plot enciclopédico
 372343	lote-024	aplicado	plot enciclopédico
 373226	lote-024	aplicado	plot enciclopédico
-373558	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt5297750 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Taylor Swift: The 1989 World Tour - Live 2015 film» sin artículo válido (The 1989 World Tour: el año no coincide ±1; Taylor Swift: The Eras Tour: el año no coincide ±1; Taylor Swift videography: el año no coincide ±1; Long Live (Taylor Swift song): el año no coincide ±
-373879	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt6609162 no tiene artículo en en.wikipedia.org vía P345; búsqueda «One Piece: Adventure of Nebulandia 2015 film» sin artículo válido (World Government (One Piece): el año no coincide ±1; List of One Piece television specials: el año no coincide ±1; One Piece (1999 TV series): el año no coincide ±1; One Piece season 16: el año no coinc
+373558	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
+373879	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 374052	lote-024	aplicado	plot enciclopédico
 374205	lote-024	aplicado	plot enciclopédico
 374671	lote-024	aplicado	plot enciclopédico
@@ -2218,15 +2218,15 @@ id	lote	resultado	motivo
 375262	lote-024	aplicado	plot enciclopédico
 375588	lote-024	aplicado	plot enciclopédico
 375785	lote-024	aplicado	plot enciclopédico
-375794	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt5259966 → No Manches Frida
-375846	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt5304688 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Bad Sister 2015 film» sin artículo válido (Bad Sister (1931 film): el año no coincide ±1; My Bad Sister: el año no coincide ±1; Bad Moms: no nombra 2 integrantes del reparto; List of characters in the Breaking Bad franchise: el año no coincide ±1; List of Breaking Bad 
+375794	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
+375846	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 376581	lote-024	aplicado	plot enciclopédico
 376660	lote-024	aplicado	plot enciclopédico
-377897	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt5042436 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Barbie: Spy Squad 2016 film» sin artículo válido (Barbie (film): el año no coincide ±1; List of Barbie films: el año no coincide ±1; Barbie Dreamhouse Adventures: el año no coincide ±1; Barbie (media franchise): el año no coincide ±1; List of Barbie's friends and famil
+377897	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 378064	lote-024	aplicado	plot enciclopédico
 378236	lote-024	aplicado	plot enciclopédico
 378373	lote-024	aplicado	plot enciclopédico
-378674	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt5355872 no tiene artículo en en.wikipedia.org vía P345; búsqueda «DC Films Presents Dawn of the Justice League 2016 film» sin artículo válido (Superman in film: el año no coincide ±1; DC Extended Universe: el año no coincide ±1; Characters of the DC Extended Universe: el año no coincide ±1; Justice League in other media: el año no co
+378674	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 379149	lote-024	aplicado	plot enciclopédico
 379686	lote-024	aplicado	plot enciclopédico
 380111	lote-024	aplicado	plot enciclopédico
@@ -2235,9 +2235,9 @@ id	lote	resultado	motivo
 381341	lote-024	aplicado	plot enciclopédico
 382190	lote-024	aplicado	plot enciclopédico
 382272	lote-024	aplicado	plot enciclopédico
-382581	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt5475710 → Monster High: Great Scarrier Reef
+382581	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 383121	lote-024	aplicado	plot enciclopédico
-383140	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt4776564 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Weaponized 2016 film» sin artículo válido (The Perfect Weapon (2016 film): no nombra 2 integrantes del reparto; Inferno (2016 film): no nombra 2 integrantes del reparto; Lethal Weapon (franchise): el año no coincide ±1; Lethal Weapon 2: el año no coincide ±1; Lethal We
+383140	lote-027	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 383498	lote-024	aplicado	plot enciclopédico
 383538	lote-024	aplicado	plot enciclopédico
 384018	lote-024	aplicado	plot enciclopédico
@@ -2250,13 +2250,13 @@ id	lote	resultado	motivo
 385687	lote-024	aplicado	plot enciclopédico
 387426	lote-024	aplicado	plot enciclopédico
 387893	lote-024	aplicado	plot enciclopédico
-388284	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt3296156 no tiene artículo en en.wikipedia.org vía P345; búsqueda «While the Wolf's Away 2017 film» sin artículo válido (Wolf Man (2025 film): el año no coincide ±1; The Wolf Man (1941 film): el año no coincide ±1; It (2017 film): no nombra 2 integrantes del reparto; Wolf Creek (film): el año no coincide ±1; Cast Away: el año no coinc
+388284	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 388440	lote-024	aplicado	plot enciclopédico
 390043	lote-024	aplicado	plot enciclopédico
 390053	lote-024	aplicado	plot enciclopédico
 390054	lote-024	aplicado	plot enciclopédico
 390582	lote-024	aplicado	plot enciclopédico
-391711	lote-024	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt5635974 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Imagining Zootopia 2016 film» sin artículo válido (Byron Howard: el año no coincide ±1; Idris Elba filmography: el año no coincide ±1; Jennifer Lee (filmmaker): el año no coincide ±1; Idris Elba: el año no coincide ±1; Moana 2: el año no coincide ±1)
+391711	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 391757	lote-024	aplicado	plot enciclopédico
 392216	lote-024	aplicado	plot enciclopédico
 392536	lote-024	aplicado	plot enciclopédico
@@ -2322,11 +2322,11 @@ id	lote	resultado	motivo
 409582	lote-025	aplicado	plot enciclopédico
 410113	lote-025	aplicado	plot enciclopédico
 410199	lote-025	aplicado	plot enciclopédico
-410718	lote-025	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt5929776 → Before the Flood (film)
+410718	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 411135	lote-025	aplicado	plot enciclopédico
 411143	lote-025	aplicado	plot enciclopédico
 411221	lote-025	aplicado	plot enciclopédico
-411805	lote-025	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt2888068 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Walking Dead In The West 2016 film» sin artículo válido (The Walking Dead: Daryl Dixon: el año no coincide ±1; The Walking Dead (franchise): el año no coincide ±1; The Walking Dead (TV series): el año no coincide ±1; List of The Walking Dead (TV series) characters: el 
+411805	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 411840	lote-025	aplicado	plot enciclopédico
 412117	lote-025	aplicado	plot enciclopédico
 412157	lote-025	aplicado	plot enciclopédico
@@ -2337,12 +2337,12 @@ id	lote	resultado	motivo
 413518	lote-025	aplicado	plot enciclopédico
 413644	lote-025	aplicado	plot enciclopédico
 413658	lote-025	aplicado	plot enciclopédico
-413736	lote-025	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt5898034 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Monster High: Welcome to Monster High 2016 film» sin artículo válido (List of Monster High films: el año no coincide ±1; Monster High: The Movie: el año no coincide ±1; Monster High: el año no coincide ±1; Monster High (web series): el año no coincide ±1; Monster High 
+413736	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 413992	lote-025	aplicado	plot enciclopédico
 414191	lote-025	aplicado	plot enciclopédico
 415010	lote-025	aplicado	plot enciclopédico
 415749	lote-025	aplicado	plot enciclopédico
-416186	lote-025	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt5687334 → Redoubtable (film)
+416186	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 416194	lote-025	aplicado	plot enciclopédico
 417047	lote-025	aplicado	plot enciclopédico
 417384	lote-025	aplicado	plot enciclopédico
@@ -2352,7 +2352,7 @@ id	lote	resultado	motivo
 419430	lote-025	aplicado	plot enciclopédico
 419478	lote-025	aplicado	plot enciclopédico
 419479	lote-025	aplicado	plot enciclopédico
-419566	lote-025	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt6101862 → Lego Jurassic World: The Indominus Escape
+419566	lote-027	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 419680	lote-025	aplicado	plot enciclopédico
 420634	lote-025	aplicado	plot enciclopédico
 420707	lote-025	aplicado	plot enciclopédico
@@ -2392,7 +2392,7 @@ id	lote	resultado	motivo
 430474	lote-025	aplicado	plot enciclopédico
 430682	lote-025	aplicado	plot enciclopédico
 431112	lote-025	aplicado	plot enciclopédico
-431562	lote-025	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt6110430 no tiene artículo en en.wikipedia.org vía P345; búsqueda «LEGO Frozen Northern Lights 2017 film» sin artículo válido (Frozen (franchise): el año no coincide ±1; List of Frozen characters: el año no coincide ±1; List of Lego films and TV series: el año no coincide ±1; Lego Disney: el año no coincide ±1; Sven (Frozen): el año n
+431562	lote-027	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 431580	lote-025	aplicado	plot enciclopédico
 431693	lote-025	aplicado	plot enciclopédico
 431819	lote-025	aplicado	plot enciclopédico
