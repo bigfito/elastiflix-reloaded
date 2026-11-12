@@ -108,6 +108,8 @@ class PlotPhraseTest {
                         "I do not have any information about this title in the sources checked today."),
                 Arguments.of("dont",
                         "I dont have information about this title in the sources checked for the note today."),
+                Arguments.of("apóstrofo tipográfico",
+                        "I don’t have information on a movie titled like this one in the sources checked."),
                 Arguments.of("no match found",
                         "[ no match found ]\n\nThe rest of this note still asks for a title and a studio."));
     }
@@ -128,7 +130,9 @@ class PlotPhraseTest {
                                 + "superhero science fiction film directed by Ruben Fleischer and written by Jeff "
                                 + "Pinkner, Scott Rosenberg, and Kelly Marcel."),
                 Arguments.of("75174", "Here's a detailed",
-                        "Here's a detailed plot summary: The film follows Ottway (Liam Neeson), a former U."));
+                        "Here's a detailed plot summary: The film follows Ottway (Liam Neeson), a former U."),
+                Arguments.of("apóstrofo tipográfico", "Here’s a summary",
+                        "Here’s a summary of the picture: a ferry crew is stranded off the coast for a week."));
     }
 
     private static Stream<Arguments> themeEssays() throws IOException {

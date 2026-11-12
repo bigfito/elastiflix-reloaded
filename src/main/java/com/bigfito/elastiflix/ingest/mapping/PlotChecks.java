@@ -41,9 +41,9 @@ final class PlotChecks {
             "(?i)^\\[?\\s*no information found\\s*\\]?$");
     /** «no match found» al inicio, con corchetes opcionales. El resto del texto no lo salva. */
     private static final Pattern NO_MATCH = Pattern.compile("(?i)^\\[?\\s*no match found\\s*\\]?");
-    /** Negativa del asistente. Solo al inicio: más adelante puede ser diálogo. */
+    /** Negativa del asistente. Solo al inicio: más adelante puede ser diálogo. Apóstrofo recto o tipográfico. */
     private static final Pattern LACKS_INFORMATION = Pattern.compile(
-            "(?i)^(?:i don'?t|i do not) have (?:any )?information\\b");
+            "(?i)^(?:i don['’]?t|i do not) have (?:any )?information\\b");
     /** El asistente pide datos. Solo al inicio; «please provide more information» en medio se avisa. */
     private static final Pattern PLEASE_PROVIDE = Pattern.compile("(?i)^please provide\\b");
     private static final Pattern ASSISTANT = Pattern.compile(
@@ -52,7 +52,7 @@ final class PlotChecks {
                     + "|knowledge cutoff"
                     + "|as of my (?:last )?(?:knowledge|update|training)");
     /** Disculpa de asistente. Se busca fuera de las citas: entre comillas es diálogo. */
-    private static final Pattern APOLOGY = Pattern.compile("(?i)\\bi'?m sorry\\b|\\bi apologi[sz]e\\b");
+    private static final Pattern APOLOGY = Pattern.compile("(?i)\\bi['’]?m sorry\\b|\\bi apologi[sz]e\\b");
     /** «is a 2003 film, not 2004». Un «, not» de la historia no trae los dos años. */
     private static final Pattern YEAR_CORRECTION = Pattern.compile(
             "(?i)\\b(?:is|was) an? \\d{4} film, not \\d{4}\\b");
@@ -60,7 +60,7 @@ final class PlotChecks {
     private static final Pattern PLEASE_MORE = Pattern.compile("(?i)\\bplease provide more information\\b");
     /** Encabezado generado: «here's a summary», «here's a plot» o «here's a detailed». */
     private static final Pattern GENERATED_HEADING = Pattern.compile(
-            "(?i)\\bhere'?s a (?:summary|plot|detailed)\\b");
+            "(?i)\\bhere['’]?s a (?:summary|plot|detailed)\\b");
     /** Una cita entre comillas rectas o tipográficas, dentro de una misma línea. */
     private static final Pattern QUOTED = Pattern.compile("\"[^\"\\n]*\"|\u201c[^\u201d\\n]*\u201d");
     private static final Pattern MARKDOWN_BOLD = Pattern.compile("\\*\\*");
