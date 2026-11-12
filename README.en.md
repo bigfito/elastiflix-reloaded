@@ -393,10 +393,11 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
   and the first occurrence is kept (`EFX-ING-024`).
 - **Plot:** a `plot` that is a placeholder (for example `[No information found]`) or shorter than 40 characters
-  rejects the file (`EFX-ING-025`). Language-model leftovers (for example "couldn't find" or "knowledge cutoff"),
-  markdown, and a plot repeated inside the same file are warnings and do not stop the load (`EFX-ING-026` and
-  `EFX-ING-027`): an error would reject the whole file, and the published catalog still shares three plots and keeps
-  model phrasing.
+  rejects the file (`EFX-ING-025`). Language-model leftovers (for example "I couldn't find", "find any information",
+  or "knowledge cutoff"), markdown, and a ", not Name" clarification right after "directed by" or "produced by"
+  are warnings and do not stop the load (`EFX-ING-026`). A plot repeated inside the same file is also a warning
+  (`EFX-ING-027`). They are warnings because an error would reject the whole file. The catalog in
+  [`data/`](data/README.md#english) no longer has them: it does not share plots and it does not keep that phrasing.
 - **Vectors:** `plot_256`, `plot_512`, and `plot_1024` are **always** generated from `plot` with the inference
   service. If the file includes them, they are ignored with a warning; the form doesn't ask for them.
 - **Provenance:** `enrichment` is optional (`null` or absent is fine too). When present, it is an object whose keys

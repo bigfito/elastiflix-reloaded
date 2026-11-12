@@ -30,6 +30,7 @@ class IndexMappingTest {
         assertThat(field(mapping, "belongs_to_collection").nestedFields())
                 .containsExactly("backdrop_path", "id", "name", "poster_path");
         assertThat(field(mapping, "keywords").nestedFields()).containsExactly("id", "name");
+        assertThat(field(mapping, "poster_path").type()).isEqualTo("keyword");
         assertThat(field(mapping, "enrichment").type()).isEqualTo("object");
         assertThat(field(mapping, "enrichment").nestedFields()).containsExactly(
                 "backdrop_path", "belongs_to_collection", "budget", "cast", "genres", "homepage", "imdb_id",

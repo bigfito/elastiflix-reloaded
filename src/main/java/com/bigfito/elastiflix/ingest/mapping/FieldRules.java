@@ -83,7 +83,6 @@ final class FieldRules {
         map.put("original_title", FieldKind.TEXT);
         map.put("overview", FieldKind.TEXT);
         map.put("plot", FieldKind.TEXT);
-        map.put("poster_path", FieldKind.TEXT);
         map.put(FieldNames.ID, FieldKind.KEYWORD);
         map.put("imdb_id", FieldKind.KEYWORD);
         map.put("original_language", FieldKind.KEYWORD);
@@ -91,6 +90,7 @@ final class FieldRules {
         map.put("tagline", FieldKind.KEYWORD);
         map.put("homepage", FieldKind.KEYWORD);
         map.put("backdrop_path", FieldKind.KEYWORD);
+        map.put("poster_path", FieldKind.KEYWORD);
         map.put("rating", FieldKind.KEYWORD);
     }
 

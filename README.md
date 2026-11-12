@@ -399,10 +399,11 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   `production_companies`, `production_countries` o `spoken_languages`, o una palabra clave con el mismo `id`, se
   omite y se conserva la primera aparición (`EFX-ING-024`).
 - **Sinopsis:** un `plot` que es un marcador (por ejemplo `[No information found]`) o que tiene menos de 40
-  caracteres rechaza el archivo (`EFX-ING-025`). Restos de un modelo de lenguaje (por ejemplo «couldn't find» o
-  «knowledge cutoff»), markdown y una sinopsis repetida dentro del mismo archivo se avisan y no detienen la carga
-  (`EFX-ING-026` y `EFX-ING-027`): un error rechazaría el archivo entero, y el catálogo publicado todavía comparte
-  tres sinopsis y conserva frases de un modelo.
+  caracteres rechaza el archivo (`EFX-ING-025`). Restos de un modelo de lenguaje (por ejemplo «I couldn't find»,
+  «find any information» o «knowledge cutoff»), markdown y una aclaración «, not Nombre» justo después de
+  «directed by» o «produced by» se avisan y no detienen la carga (`EFX-ING-026`). Una sinopsis repetida dentro
+  del mismo archivo también se avisa (`EFX-ING-027`). Son advertencias porque un error rechazaría el archivo
+  entero. El catálogo de [`data/`](data/README.md) ya no las trae: no comparte sinopsis y no conserva esas fórmulas.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan desde `plot` con el servicio de
   inferencia. Si el archivo los trae, se ignoran con una advertencia; el formulario no los pide.
 - **Procedencia:** `enrichment` es opcional (`null` o ausente también vale). Si viene, es un objeto cuyas claves

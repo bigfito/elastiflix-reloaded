@@ -267,7 +267,7 @@ public enum ErrorCode {
             "Escribe una sinopsis real de al menos 40 caracteres"),
     /** La sinopsis parece traer restos de un modelo. No rechaza el archivo. */
     SUSPECT_PLOT("EFX-ING-026", "La sinopsis parece traer restos de un modelo de lenguaje",
-            "El texto incluye fórmulas de un asistente, markdown o una aclaración del tipo «, not»",
+            "El texto incluye una fórmula de asistente, markdown o «, not» tras «directed by» o «produced by»",
             "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
     /** La misma sinopsis está en otra película del archivo. No rechaza el archivo. */
     DUPLICATE_PLOT("EFX-ING-027", "La sinopsis coincide con la de otra película del archivo",
