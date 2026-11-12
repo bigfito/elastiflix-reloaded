@@ -410,12 +410,17 @@ flowchart LR
   cb --> arw["Artifact Registry<br/>us-west1"]
   are --> cre["Cloud Run<br/>prod-elastiflix-east1"]
   arw --> crw["Cloud Run<br/>prod-elastiflix-west1"]
-  user(["👤 Visitor"]) --> lb["Global HTTPS load balancer<br/>nearest region"]
+  user(["👤 Visitor"]) --> lb["Global HTTPS load balancer<br/>HTTP → HTTPS · nearest region"]
   lb --> cre
   lb --> crw
+  sm["Secret Manager<br/>URL and API key"] -.-> cre
+  sm -.-> crw
   cre --> es[("Elasticsearch Serverless")]
   crw --> es
 ```
+
+The detail of each piece (pipeline steps, NEGs, certificate, host rules) is in
+[`docs/despliegue.mermaid`](docs/despliegue.mermaid) (in Spanish).
 
 | Piece | Detail |
 |---|---|
@@ -494,7 +499,7 @@ elastiflix-reloaded/
 ├── 🎞️  data/                               full 6,899-movie catalog in 7 parts (.json and .csv)
 ├── 🗄️  elasticsearch/                       index mapping and sample movies (.json and .csv)
 ├── 🧹 config/                              Checkstyle and PMD rules
-├── 📚 docs/                                code conventions · architecture · screenshots
+├── 📚 docs/                                code conventions · architecture · deployment · screenshots
 └── 🎨 design/                              mockups and design tokens
 ```
 
@@ -530,8 +535,8 @@ The style and design rules (Java 25 used with restraint, SOLID, short methods, e
 logging, Javadoc) are in [`docs/convenciones-java.md`](docs/convenciones-java.md) (in Spanish).
 
 **Security.** The demo has no authentication and no CSRF protection: this is intentional, since there is no session
-to protect and one person uses it at a time. Secrets only go in `.env`; never in the code, the YAML, the tests, or
-the logs.
+to protect and one person uses it at a time. Secrets go in `.env` on your machine and in Secret Manager on Cloud
+Run; never in the code, the YAML, the tests, the image, or the logs.
 
 ## 📸 Screenshots
 
@@ -556,6 +561,7 @@ Full pages with the app connected to a 6,899-movie catalog, in Spanish and Engli
 | Document | Purpose |
 |---|---|
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Architecture and the numbered search, detail, and load flows (in Spanish) |
+| ☁️ [`docs/despliegue.mermaid`](docs/despliegue.mermaid) | Cloud Build pipeline, the two Cloud Run regions, and the load balancer (in Spanish) |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | How the code is written and what the build checks (in Spanish) |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Index mapping (33 fields) |
 | 🎞️ [`data/README.md`](data/README.md#english) | The full catalog in 7 parts: how to load it and its format |

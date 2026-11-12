@@ -415,12 +415,17 @@ flowchart LR
   cb --> arw["Artifact Registry<br/>us-west1"]
   are --> cre["Cloud Run<br/>prod-elastiflix-east1"]
   arw --> crw["Cloud Run<br/>prod-elastiflix-west1"]
-  user(["👤 Visitante"]) --> lb["Balanceador HTTPS global<br/>región más cercana"]
+  user(["👤 Visitante"]) --> lb["Balanceador HTTPS global<br/>HTTP → HTTPS · región más cercana"]
   lb --> cre
   lb --> crw
+  sm["Secret Manager<br/>URL y API key"] -.-> cre
+  sm -.-> crw
   cre --> es[("Elasticsearch Serverless")]
   crw --> es
 ```
+
+El detalle de cada pieza (pasos del pipeline, NEG, certificado, reglas de host) está en
+[`docs/despliegue.mermaid`](docs/despliegue.mermaid).
 
 | Pieza | Detalle |
 |---|---|
@@ -499,7 +504,7 @@ elastiflix-reloaded/
 ├── 🎞️  data/                               catálogo completo de 6 899 películas en 7 partes (.json y .csv)
 ├── 🗄️  elasticsearch/                       mapping del índice y películas de ejemplo (.json y .csv)
 ├── 🧹 config/                              reglas de Checkstyle y PMD
-├── 📚 docs/                                convenciones de código · arquitectura · capturas
+├── 📚 docs/                                convenciones de código · arquitectura · despliegue · capturas
 └── 🎨 design/                              mockups y tokens de diseño
 ```
 
@@ -533,7 +538,8 @@ Las reglas de estilo y diseño (Java 25 con mesura, SOLID, métodos cortos, erro
 SLF4J, Javadoc) están en [`docs/convenciones-java.md`](docs/convenciones-java.md).
 
 **Seguridad.** La demo no tiene autenticación ni protección CSRF: es intencional, porque no hay sesión que proteger y
-la usa una persona a la vez. Los secretos solo van en `.env`; nunca en el código, el YAML, las pruebas ni los logs.
+la usa una persona a la vez. Los secretos van en `.env` en tu máquina y en Secret Manager en Cloud Run; nunca en el
+código, el YAML, las pruebas, la imagen ni los logs.
 
 ## 📸 Capturas
 
@@ -559,6 +565,7 @@ Páginas completas con la aplicación conectada a un catálogo de 6 899 películ
 | Documento | Para qué |
 |---|---|
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos numerados de búsqueda, detalle y carga |
+| ☁️ [`docs/despliegue.mermaid`](docs/despliegue.mermaid) | Pipeline de Cloud Build, las dos regiones de Cloud Run y el balanceador |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo está escrito el código y qué verifica el build |
 | 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice (33 campos) |
 | 🎞️ [`data/README.md`](data/README.md) | Catálogo completo en 7 partes: cómo cargarlo y su formato |

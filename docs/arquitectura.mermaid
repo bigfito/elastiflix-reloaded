@@ -21,7 +21,7 @@ flowchart LR
       readers["Validación de archivo<br/>lectores JSON / CSV"]
       validator["Validación contra<br/>el mapping"]
       phrase["IngestPhrase<br/>frases fijas de la carga"]
-      job["Trabajo de importación<br/>lotes de 100 · índice temporal · swap de alias<br/>vectores siempre por inferencia · vuelta atrás"]
+      job["Trabajo de importación en segundo plano<br/>append: lotes de 100 por el alias, lo escrito se queda<br/>bulk: índice temporal solo con el archivo · swap de alias · vuelta atrás<br/>vectores siempre por inferencia"]
     end
     subgraph core["core · com.bigfito.elastiflix.core"]
       client["Cliente Java de Elasticsearch 9.x<br/>Jackson3JsonpMapper"]
@@ -61,9 +61,10 @@ flowchart LR
   facade_i --> readers --> validator
   validator --> mapping
   validator -->|"C si todo coincide"| job
-  job -->|"D copia + lotes"| tmp
-  job -->|"E vectores de todos los registros"| emb
-  job -->|"F swap atómico y borrado del anterior"| catalog
+  job -->|"D append: lotes por el alias<br/>al índice vigente"| catalog
+  job -->|"D bulk: lotes en un temporal<br/>sin copiar el catálogo"| tmp
+  job -->|"E vectores de cada lote"| emb
+  job -->|"F bulk: swap atómico y borrado del anterior"| catalog
   catalog --> alias
   health -.-> catalog
   facade_i -->|"G registro individual directo"| catalog

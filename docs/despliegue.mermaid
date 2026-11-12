@@ -1,0 +1,64 @@
+flowchart LR
+  dev(["Push a main<br/>github.com/bigfito/elastiflix-reloaded"])
+  visitor(["Visitante"])
+
+  subgraph gcp["Google Cloud"]
+    direction LR
+
+    subgraph ci["Pipeline · cloudbuild.yaml"]
+      direction TB
+      trigger["Trigger de Cloud Build<br/>prod-elastiflix · rama ^main$"]
+      build["1 build<br/>Dockerfile: JDK 25 + ./mvnw verify<br/>si falla, no hay imagen"]
+      pushe["2 push-east1"]
+      pushw["2 push-west1"]
+      depe["3 deploy-east1<br/>gcloud run deploy"]
+      depw["3 deploy-west1<br/>gcloud run deploy"]
+      trigger --> build
+      build --> pushe --> depe
+      build --> pushw --> depw
+    end
+
+    subgraph registry["Artifact Registry"]
+      are[("prod-elastiflix-us-east1<br/>elastiflix:commit-corto<br/>solo la última imagen")]
+      arw[("prod-elastiflix-us-west1<br/>elastiflix:commit-corto<br/>solo la última imagen")]
+    end
+
+    subgraph lb["Balanceador HTTPS global · una IP anycast"]
+      direction TB
+      http["Puerto 80<br/>301 a HTTPS"]
+      https["Puerto 443<br/>certificado administrado elastiflix-cert-2026"]
+      urlmap["URL map<br/>host elastiflix.bigfito.cloud · elastiflix.bigfito.dev"]
+      backend["Backend backend-cloudrun-prod-elastiflix<br/>la región con menor latencia"]
+      http --> https --> urlmap --> backend
+    end
+
+    subgraph east["us-east1"]
+      nege["NEG serverless<br/>neg-prod-elastiflix-east1"]
+      cre["Cloud Run · prod-elastiflix-east1<br/>JRE 25 · 1 vCPU · 1 GiB · 0 a 3 instancias<br/>solo tráfico del balanceador"]
+    end
+
+    subgraph west["us-west1"]
+      negw["NEG serverless<br/>neg-prod-elastiflix-west1"]
+      crw["Cloud Run · prod-elastiflix-west1<br/>JRE 25 · 1 vCPU · 1 GiB · 0 a 3 instancias<br/>solo tráfico del balanceador"]
+    end
+
+    secrets["Secret Manager<br/>elastiflix-elasticsearch-url<br/>elastiflix-elasticsearch-api-key"]
+  end
+
+  es[("Elasticsearch Serverless<br/>alias elastiflix-reloaded<br/>inferencia .jina-embeddings-v5-omni-small")]
+
+  dev --> trigger
+  pushe --> are
+  pushw --> arw
+  depe -.->|"nueva revisión"| cre
+  depw -.->|"nueva revisión"| crw
+  are -.->|"imagen"| cre
+  arw -.->|"imagen"| crw
+
+  visitor --> http
+  backend --> nege --> cre
+  backend --> negw --> crw
+  secrets -.->|"ELASTICSEARCH_URL<br/>ELASTICSEARCH_API_KEY"| cre
+  secrets -.-> crw
+  cre --> es
+  crw --> es
