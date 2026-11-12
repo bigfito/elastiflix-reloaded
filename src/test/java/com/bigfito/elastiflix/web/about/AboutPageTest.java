@@ -220,7 +220,7 @@ class AboutPageTest {
                 .andExpect(content().string(containsString(
                         "<p>Los créditos de la información de las películas corresponden a TMDB y a Wikipedia.</p>")))
                 .andExpect(content().string(containsString(
-                        "Los textos de las películas vienen de <a href=\"https://www.wikipedia.org/\">Wikipedia</a>")))
+                        "Las sinopsis vienen de <a href=\"https://www.wikipedia.org/\">Wikipedia</a> o de <a href=\"https://www.themoviedb.org/\">TMDB</a>, según la etiqueta <code>enrichment.plot</code>")))
                 .andExpect(content().string(containsString("https://creativecommons.org/licenses/by-sa/4.0/deed.es")));
 
         mvc.perform(get("/acerca").param("lang", "en"))
@@ -230,6 +230,6 @@ class AboutPageTest {
                 .andExpect(content().string(containsString(
                         "<p>Credit for the movie information goes to TMDB and Wikipedia.</p>")))
                 .andExpect(content().string(containsString(
-                        "Movie texts come from <a href=\"https://www.wikipedia.org/\">Wikipedia</a>")));
+                        "The synopses come from <a href=\"https://www.wikipedia.org/\">Wikipedia</a> or <a href=\"https://www.themoviedb.org/\">TMDB</a>, according to each movie's <code>enrichment.plot</code> tag")));
     }
 }

@@ -36,10 +36,18 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
 - **`.csv`:** UTF-8 con BOM, separador coma, encabezado en la primera fila y `\r\n` entre filas. Las listas y los
   objetos anidados van como JSON dentro de la celda; un valor vacío es una celda vacía. Al cargarlo, deja el separador
   en «Coma» y marca «La primera fila contiene los nombres de columna».
-- **Procedencia:** `enrichment` es un objeto opcional al final de cada película. En `.json`, `null` significa que no
-  hay etiquetas (solo la 751432, *Merlin's Apprentice*). En `.csv` es la última columna: JSON compacto, sin espacios,
-  con las claves en el orden del mapping (`{"plot":"tmdb_overview"}`); una celda vacía es null. Es la misma convención
-  que `belongs_to_collection` y `keywords`.
+- **Procedencia:** `enrichment` es un objeto al final de cada película con la fuente de cada campo; toda película
+  lo trae. En `.csv` es la última columna: JSON compacto, sin espacios, con las claves en el orden del mapping
+  (`{"plot":"tmdb_overview"}`). Es la misma convención que `belongs_to_collection` y `keywords`.
+  La etiqueta `enrichment.plot` dice de dónde salió la sinopsis:
+
+  | Valor | Significa |
+  |---|---|
+  | `wikipedia_plot_AAAA-MM-DD` | Sección de trama del artículo de Wikipedia, descargada esa fecha |
+  | `tmdb_overview` | Overview de TMDB |
+  | `tmdb_overview_translated:<idioma>` | Overview de TMDB traducido (una película, `zh-CN`) |
+  | `tmdb_metadata_summary` | Resumen armado con metadatos de TMDB (una película) |
+  | `unverified` | Origen desconocido; el texto se mantiene mientras no haya fuente verificable |
 - Los campos son los del mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «Acerca de» › «El catálogo»
   describe cada uno.
 
@@ -78,9 +86,18 @@ you prefer.
 - **`.csv`:** UTF-8 with BOM, comma separator, a header in the first row, and `\r\n` between rows. Lists and nested
   objects are JSON inside the cell; an empty value is an empty cell. When loading it, keep the separator on «Comma»
   and check «The first row contains the column names».
-- **Provenance:** `enrichment` is an optional object at the end of each movie. In `.json`, `null` means there are no
-  tags (only 751432, *Merlin's Apprentice*). In `.csv` it is the last column: compact JSON, no spaces, keys in mapping
-  order (`{"plot":"tmdb_overview"}`); an empty cell is null. Same convention as `belongs_to_collection` and `keywords`.
+- **Provenance:** `enrichment` is an object at the end of each movie with the source of each field; every movie
+  carries one. In `.csv` it is the last column: compact JSON, no spaces, keys in mapping order
+  (`{"plot":"tmdb_overview"}`). Same convention as `belongs_to_collection` and `keywords`.
+  The `enrichment.plot` tag says where the synopsis came from:
+
+  | Value | Meaning |
+  |---|---|
+  | `wikipedia_plot_AAAA-MM-DD` | Plot section of the Wikipedia article, downloaded on that date |
+  | `tmdb_overview` | TMDB overview |
+  | `tmdb_overview_translated:<lang>` | Translated TMDB overview (one movie, `zh-CN`) |
+  | `tmdb_metadata_summary` | Summary built from TMDB metadata (one movie) |
+  | `unverified` | Unknown origin; the text stays until a verifiable source exists |
 - The fields are those of the mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «About the demo» › «The
   catalog» describes each one.
 
