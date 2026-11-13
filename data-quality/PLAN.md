@@ -51,7 +51,7 @@ El turno 19 vuelve a ser uno solo: se había partido en 19a y 19b solo para un m
 | 14 | Cursor | WP-06 T-02b y T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
 | 15 | Cursor | WP-07 parte A (no llegó a hacerse en el 14; D-08) y parte B (`EFX-ING-029` en Java) | Grande | — |
 | 16 | Cursor | WP-08 completo | Mediano | — |
-| 17 | Cursor | WP-09 completo | Mediano | **D-02** (aprobada) |
+| 17 | Google Antigravity (P-20) | WP-09 completo | Mediano | **D-02** (aprobada) |
 | 18 | Cursor | WP-10 completo | Mediano | **D-03** y **D-04** (aprobadas) |
 | 19 | Cursor | C-01 T-01 a T-03: M3, informe v2, pruebas de integración y umbrales | Grande | — |
 | 20 | Cursor | C-01 T-04 y T-05: documentación y hito C | Mediano | — · **hito C** en su revisión |
@@ -399,7 +399,7 @@ pruebas, la viñeta correspondiente de «Carga de datos» en `README.md` y `READ
 
 **Recomendación 9.** Decidir qué puntuación muestra la demo y corregir 2 montos.
 
-**Rol:** DATOS y DOCS · **Turno:** 17 (Cursor) · **Decide:** la dueña del proyecto (D-02)
+**Rol:** DATOS y DOCS · **Turno:** 17 (Google Antigravity, P-20) · **Decide:** la dueña del proyecto (D-02)
 
 **Hechos para el memo.** La tarjeta de resultados muestra `vote_average`; el detalle muestra `vote_average` y
 `user_score` (`MovieDetailTables`). `user_score` viene de TMDB del 22-oct-2026 en 6 886 películas;

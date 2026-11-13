@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 19:05 UTC · Claude Code (Claude Opus 5.5) · revisor (R-16)
+**Última actualización:** 2026-11-13 19:15 UTC · Claude Code (Claude Opus 5.5) · COORD (P-20)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -35,7 +35,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | REVISADO · INCOMPLETO por B-06 (criterio de parada); WP-07 parte A sin empezar | 2026-11-13 | `dq-t14` | [R-14](bitacora/R-14.md) |
 | 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | REVISADO | 2026-11-13 | `dq-t15` | [R-15](bitacora/R-15.md) |
 | 16 | Cursor | WP-08 (D-07) | REVISADO | 2026-11-13 | `dq-t16` | [R-16](bitacora/R-16.md) |
-| 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
+| 17 | Google Antigravity | WP-09 (P-20) | PENDIENTE | — | — | — |
 | 18 | Cursor | WP-10 (P-14) | PENDIENTE | — | — | — |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | PENDIENTE | — | — | — |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
@@ -83,7 +83,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 17 · Cursor.** WP-09 con D-02 ya aprobada (opción A: se mantienen las dos puntuaciones y se rotulan; T-01
+> **Turno 17 · Google Antigravity (Gemini 4 Argon)**, por decisión de la dueña del proyecto (P-20). WP-09 con D-02 ya aprobada (opción A: se mantienen las dos puntuaciones y se rotulan; T-01
 > no hace falta):
 > - **T-02:** el rótulo de `user_score` en el detalle.
 > - **T-03:** los dos montos de `wp09-montos.tsv`.
@@ -132,6 +132,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | P-20 | El turno 17 (WP-09) lo hace Google Antigravity con Gemini 4 Argon, en lugar de Cursor. Los turnos 18 a 21 siguen con Cursor | Dueña del proyecto: «Este turno se lo podemos dar a un agente de Google Antigravity que ejecuta el modelo Gemini 4 Argon.» |
 | 2026-11-13 | P-19 | El hito B (`dq-r14`) se integró en `main` local con el merge `617042f`, sin push | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | D-08 | El plan sigue después de M2 y B-06 se cierra. Desde M2, el criterio de parada aplica a `knn_*` y `rrf_title_knn*`; `bm25_plot` y `rrf_plot_*` se miden y se informan. Sus umbrales se recalculan con M3 en C-01 T-03, y C-01 T-04 documenta la caída. WP-07 parte A pasa al turno 15 | Dueña del proyecto: «Sí, opción A» |
 | 2026-11-13 | P-18 | La lista de WP-06 se congeló con 686 y dejó fuera 17 sinopsis de menos de 200 caracteres con overview de TMDB (de WP-01/02 y D-06): WP-06 T-02b las intenta en el turno 14 (`hallazgos/listas/wp06-cortos-r13b.tsv`). La meta de «Plot de menos de 200 caracteres» pasa a «solo las sin fuente y las secciones de Wikipedia que ya son cortas» | Claude Code (R-13b) |
