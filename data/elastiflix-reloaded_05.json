@@ -32817,7 +32817,7 @@
    "video": false,
    "tagline": "What happens in Vegas...",
    "overview": "An enterprising college student agrees to run his professor's Las Vegas car wash to avoid flunking out of school. But it's Vegas gone wild when he decides to staff it with gorgeous bikini-clad girls.",
-   "plot": "At its core, All American Bikini Car Wash is a celebration of female camaraderie and the power of women supporting one another. The film showcases the strong bonds between the characters, particularly as they navigate the challenges of adulthood, love, and identity. Through their experiences, the movie highlights the importance of friendship and community in helping individuals find their place in the world.\n\nThe film also touches on themes of self-discovery and empowerment, as the characters learn to take control of their lives, pursue their passions, and assert themselves in a society that often seeks to hold them back. The movie's lighthearted tone and comedic moments belie its deeper exploration of these themes, making it a fun and engaging watch.\n\nOverall, All American Bikini Car Wash is a heartwarming and entertaining film that celebrates the strength and resilience of women, while also offering a humorous and relatable take on the challenges of growing up.",
+   "plot": "An enterprising college student agrees to run his professor's Las Vegas car wash to avoid flunking out of school. But it's Vegas gone wild when he decides to staff it with gorgeous bikini-clad girls.",
    "genres": [
     "Comedy"
    ],
@@ -32870,7 +32870,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "unverified",
+    "plot": "tmdb_overview",
     "user_score": "tmdb_api_2026-10-22"
    }
   },

@@ -1610,7 +1610,6 @@ id	lote	resultado	motivo
 147441	lote-018	aplicado	plot enciclopédico
 148605	lote-026	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 149870	lote-018	aplicado	plot enciclopédico
-150015	lote-026	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 150202	lote-018	aplicado	plot enciclopédico
 150689	lote-018	aplicado	plot enciclopédico
 151960	lote-018	aplicado	plot enciclopédico
@@ -1696,7 +1695,6 @@ id	lote	resultado	motivo
 197796	lote-018	aplicado	plot enciclopédico
 198184	lote-018	aplicado	plot enciclopédico
 198287	lote-018	aplicado	plot enciclopédico
-198436	lote-026	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 198663	lote-018	aplicado	plot enciclopédico
 199753	lote-018	aplicado	plot enciclopédico
 199928	lote-019	aplicado	plot enciclopédico
@@ -1726,7 +1724,6 @@ id	lote	resultado	motivo
 212470	lote-026	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 212716	lote-019	aplicado	plot enciclopédico
 212778	lote-019	aplicado	plot enciclopédico
-213927	lote-026	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 214756	lote-019	aplicado	plot enciclopédico
 214758	lote-026	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 215743	lote-019	aplicado	plot enciclopédico
@@ -1961,7 +1958,6 @@ id	lote	resultado	motivo
 297761	lote-021	aplicado	plot enciclopédico
 297762	lote-021	aplicado	plot enciclopédico
 297802	lote-021	aplicado	plot enciclopédico
-298016	lote-026	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 298115	lote-021	aplicado	plot enciclopédico
 298250	lote-021	aplicado	plot enciclopédico
 298583	lote-021	aplicado	plot enciclopédico
@@ -2190,7 +2186,6 @@ id	lote	resultado	motivo
 363992	lote-023	aplicado	plot enciclopédico
 364220	lote-023	aplicado	plot enciclopédico
 364689	lote-023	aplicado	plot enciclopédico
-364708	lote-026	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 365045	lote-026	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 366170	lote-023	aplicado	plot enciclopédico
 366668	lote-023	aplicado	plot enciclopédico
@@ -2791,7 +2786,6 @@ id	lote	resultado	motivo
 541305	lote-032	aplicado	plot enciclopédico
 542417	lote-032	aplicado	plot enciclopédico
 542602	lote-038	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
-543580	lote-038	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 543583	lote-032	aplicado	plot enciclopédico
 544401	lote-032	aplicado	plot enciclopédico
 545609	lote-032	aplicado	plot enciclopédico
@@ -3266,7 +3260,6 @@ id	lote	resultado	motivo
 734858	lote-037	aplicado	plot enciclopédico
 735595	lote-040	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 736069	lote-037	aplicado	plot enciclopédico
-736073	lote-037	corregido	corrección R-12: el artículo de Wikipedia es de la obra en dos partes (Batman: The Long Halloween) y su trama abarca las dos; vuelve a su sinopsis propia, limpiada (lote-041)
 736074	lote-040	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 736509	lote-037	aplicado	plot enciclopédico
 736526	lote-037	aplicado	plot enciclopédico
@@ -3861,3 +3854,10 @@ id	lote	resultado	motivo
 1055854	lote-049	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 1057095	lote-049	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 1058732	lote-046	aplicado	plot enciclopédico
+213927	lote-050	aplicado	D-06: texto generado sin trama de Wikipedia que la limpieza no arregla; overview de TMDB (NS-1b)
+298016	lote-050	aplicado	D-06: texto generado sin trama de Wikipedia que la limpieza no arregla; overview de TMDB (NS-1b)
+150015	lote-050	aplicado	D-06: texto generado sin trama de Wikipedia que la limpieza no arregla; overview de TMDB (NS-1b)
+198436	lote-050	aplicado	D-06: texto generado sin trama de Wikipedia que la limpieza no arregla; overview de TMDB (NS-1b)
+364708	lote-050	aplicado	D-06: texto generado sin trama de Wikipedia que la limpieza no arregla; overview de TMDB (NS-1b)
+736073	lote-050	aplicado	D-06: texto generado sin trama de Wikipedia que la limpieza no arregla; overview de TMDB (NS-1b)
+543580	lote-050	aplicado	D-06: texto generado sin trama de Wikipedia que la limpieza no arregla; overview de TMDB (NS-1b)

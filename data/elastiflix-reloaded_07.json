@@ -21800,7 +21800,7 @@
    "video": false,
    "tagline": "Naughty or nice. Trick or treat. Hero or villain.",
    "overview": "Following a brutal series of murders taking place on Halloween, Thanksgiving, and Christmas, Gotham City's young vigilante known as the Batman sets out to pursue the mysterious serial killer alongside police officer James Gordon and district attorney Harvey Dent.",
-   "plot": "The story begins with James Gordon Jr., the son of Commissioner James Gordon, being kidnapped by a group of thugs. Young James Jr. is taken to an abandoned warehouse where he witnesses a murder committed by a mysterious figure known as Holiday Killer. The film then jumps forward in time to show James Gordon Sr. becoming the new commissioner of Gotham City.\n\nAs Commissioner Gordon, he faces various challenges and villains, including the Riddler (Edward Nigma), who has returned to Gotham after a long absence. The Riddler is determined to prove his intellectual superiority over Batman by committing a series of murders and leaving clues for him to solve.\n\nMeanwhile, Bruce Wayne is struggling with his own demons as he tries to balance his life as a billionaire philanthropist with his nocturnal activities as the Dark Knight. He is haunted by nightmares and struggles to connect with his parents' memory.\n\nThe story takes a dark turn when the Holiday Killer strikes again, targeting Commissioner Gordon's family. The killer is revealed to be none other than Harvey Dent, who has been driven mad by his own guilt and sense of justice.\n\nAs Batman delves deeper into the mystery, he discovers that the Holiday Killer is using an antique calendar as a symbol of their crimes. He also encounters the Riddler, who is determined to outsmart him at every turn.\n\nThe film ends with Batman and Harvey Dent forming an uneasy alliance to take down the Holiday Killer, but not before the killer reveals that they have one final target in mind: Commissioner Gordon's family.\n\nOverall, Batman: The Long Halloween, Part One sets the stage for a thrilling and complex story that explores the darker side of Gotham City. With its intricate plot, memorable characters, and stunning animation, this film is sure to delight fans of the Batman franchise.",
+   "plot": "Following a brutal series of murders taking place on Halloween, Thanksgiving, and Christmas, Gotham City's young vigilante known as the Batman sets out to pursue the mysterious serial killer alongside police officer James Gordon and district attorney Harvey Dent.",
    "genres": [
     "Animation",
     "Mystery",
@@ -21870,7 +21870,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "unverified",
+    "plot": "tmdb_overview",
     "user_score": "tmdb_api_2026-10-22"
    }
   },

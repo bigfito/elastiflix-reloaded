@@ -51765,7 +51765,7 @@
    "video": false,
    "tagline": null,
    "overview": "A documentary about World War I with never-before-seen footage to commemorate the centennial of Armistice Day, and the end of the war.",
-   "plot": "At its core, the film is a poignant exploration of the human cost of conflict, shedding light on the experiences of ordinary men who were thrust into extraordinary circumstances. It highlights the camaraderie and bonds that formed among soldiers in the trenches, as well as the trauma and PTSD that many struggled with upon their return home.\n\nThe film also touches on themes of nostalgia, memory, and the passage of time, as the veterans' recollections serve as a window into a bygone era. The archival footage, which has been meticulously restored and presented in a cinematic format, adds to the sense of immediacy and intimacy, drawing the viewer into the world of the soldiers.\n\nUltimately, They Shall Not Grow Old is a powerful tribute to the men who served during World War I, and a reminder of the enduring impact that their experiences have had on our collective understanding of war and its effects on individuals.",
+   "plot": "A documentary about World War I with never-before-seen footage to commemorate the centennial of Armistice Day, and the end of the war.",
    "genres": [
     "Documentary",
     "History",
@@ -51823,7 +51823,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "unverified",
+    "plot": "tmdb_overview",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
