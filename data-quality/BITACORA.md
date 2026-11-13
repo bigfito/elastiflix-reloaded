@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 20:56 UTC · Cursor (Grok 4.7) · ejecutor (turno 21)
+**Última actualización:** 2026-11-13 21:15 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 21, P-23)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -39,7 +39,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
-| 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | EN CURSO · esperando la respuesta de H-2 | 2026-11-13 | — | — |
+| 21 | Cursor → Claude Code (P-23) | C-01 T-06 a T-08 (H-2) | EN CURSO · T-06 hecho (H-2 aprobada); T-07 por Claude Code | 2026-11-13 | — | — |
 
 ### 1.2 Paquetes de trabajo
 
@@ -132,6 +132,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | P-23 | Claude Code termina el turno 21: T-07 (publicar y medir producción) y lo que se pueda de T-08. Cursor hizo T-06 (pedir H-2) | Dueña del proyecto: «Toma el siguiente turno y termina las actividades restantes.» |
 | 2026-11-13 | P-22 | El hito C (`dq-r20`) se integró en `main` local con el merge `9bcd565`, sin push. Conviene desplegar después de C-01 T-07 (R-19) | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | P-21 | El turno 18 (WP-10) lo ejecuta Claude Code, el revisor. Para mantener los cuatro ojos, R-18 se apoya en una revisión independiente: un agente nuevo, sin el contexto del turno, lee el diff contra la tarjeta | Dueña del proyecto: «Toma tu este turno.» |
 | 2026-11-13 | P-20 | El turno 17 (WP-09) lo hace Google Antigravity con Gemini 4 Argon, en lugar de Cursor. Los turnos 18 a 21 siguen con Cursor | Dueña del proyecto: «Este turno se lo podemos dar a un agente de Google Antigravity que ejecuta el modelo Gemini 4 Argon.» |
