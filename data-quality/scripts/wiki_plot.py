@@ -350,14 +350,16 @@ def _palabras_de_titulo(titulo: str) -> set[str]:
 
 
 def titulo_compatible(articulo: str, pelicula: str) -> bool:
-    """True si las palabras de un título contienen a las del otro (sin artículos ni paréntesis).
+    """True si el título del artículo contiene todas las palabras del de la película (sin artículos ni paréntesis).
 
     Revisión R-11: la búsqueda aceptó «Barbie Dolphin Magic» (2017) para *Barbie & Her Sisters in a Puppy Chase*
     (2016), porque el año cabe en ±1 y el reparto de voces es el mismo, y «Joker (The Dark Knight)», un artículo de
-    personaje, para *Batman Unmasked*. Solo se exige en la búsqueda por título: P345 ya identifica la película.
+    personaje, para *Batman Unmasked*. Revisión R-12: tampoco vale al revés, un artículo cuyo título es solo una parte
+    del de la película, como «X-Men (film)» (2000) para *X-Men: The Mutant Watch* (2001), que es otra obra de la saga.
+    Solo se exige en la búsqueda por título: P345 ya identifica la película.
     """
     a, p = _palabras_de_titulo(articulo), _palabras_de_titulo(pelicula)
-    return bool(a) and bool(p) and (a <= p or p <= a)
+    return bool(a) and bool(p) and p <= a
 
 
 def _buscar_por_titulo(doc: dict[str, Any], detalle: list[str]) -> str | None:
@@ -554,7 +556,7 @@ _PELICULA = re.compile(r"(?i)\b(?:film|movie)\b")
 # o como trilogía o saga: «Berserk: The Golden Age Arc … is a Japanese anime film trilogy» (R-11). Los adjetivos entre
 # «is a» y «trilogy» no pueden ser «of», «to», «in»…: «is a reboot of the Spider-Man film series» es una sola película.
 _VARIAS_PARTES = re.compile(
-    r"(?i)\bis an? (?:two-part\b|(?:19|20)\d{2}\s*[–-]\s*\d{2,4}\b"
+    r"(?i)\bis an? (?:(?:[\w'’-]+\s){0,4}?two-part\b|(?:19|20)\d{2}\s*[–-]\s*\d{2,4}\b"
     r"|(?:(?!(?:of|to|in|from|the|and|for|with)\b)[\w'’-]+\s){0,5}(?:trilogy|duology|tetralogy|film series)\b)"
 )
 
@@ -645,7 +647,9 @@ def comprobar_texto() -> None:
         _exigir(es_articulo_de_varias_partes(dos_partes), f"Obra en dos partes no detectada: {dos_partes}")
     for saga in ("Berserk: The Golden Age Arc (Japanese: ...) is a Japanese anime film trilogy, which adapts the manga.",
                  "Kizumonogatari is a Japanese anime film trilogy based on the novel by Nisio Isin.",
-                 "Digimon Adventure tri. is a Japanese adventure anime film series."):
+                 "Digimon Adventure tri. is a Japanese adventure anime film series.",
+                 "Batman: The Long Halloween is a 2021 American two-part animated direct-to-video superhero film.",
+                 "Sailor Moon Eternal is a 2021 Japanese two-part animated action fantasy film."):
         _exigir(es_articulo_de_varias_partes(saga), f"Trilogía o saga no detectada: {saga}")
     for una in ("The Amazing Spider-Man is a 2012 superhero film. It is a reboot of the Spider-Man film series.",
                 "Deadpool is a 2016 superhero film. It is a spin-off of the X-Men film series.",
@@ -666,6 +670,8 @@ def comprobar_texto() -> None:
         ("Malibu Rescue", "Malibu Rescue", True),
         ("Why We Vote (2022 film)", "Why We Vote", True),
         ("Hit and Run (2012 film)", "Hit & Run", True),
+        ("X-Men (film)", "X-Men: The Mutant Watch", False),
+        ("Monsters vs. Aliens: Mutant Pumpkins from Outer Space", "Mutant Pumpkins from Outer Space", True),
     ):
         _exigir(titulo_compatible(articulo, pelicula) is esperado, f"titulo_compatible({articulo!r}, {pelicula!r}) debe ser {esperado}")
     adaptacion = "Kamikaze Girls is a 2002 Japanese novel written by Novala Takemoto.\n\n== Plot =="
