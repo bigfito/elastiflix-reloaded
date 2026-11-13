@@ -108,6 +108,9 @@ class Pagina(NamedTuple):
     titulo: str
     extracto: str
     revid: int
+    # Si el título pedido es una redirección a una sección de otro artículo («Jarhead 2: Field of Fire» →
+    # «Jarhead (film)#Sequels»), el nombre de esa sección: la película no tiene artículo propio (R-11).
+    seccion: str | None = None
 
 
 def _exigir(condicion: bool, mensaje: str) -> None:
@@ -292,7 +295,9 @@ def _pagina_desde_respuesta(cuerpo: dict[str, Any]) -> Pagina | None:
     revisiones = pagina.get("revisions") or []
     if not revisiones or "revid" not in revisiones[0]:
         raise RuntimeError(f"El artículo {pagina.get('title')!r} no trajo revid; no se puede atribuir (NS-5).")
-    return Pagina(str(pagina["title"]), str(pagina.get("extract") or ""), int(revisiones[0]["revid"]))
+    redirecciones = cuerpo.get("query", {}).get("redirects") or []
+    seccion = next((str(r["tofragment"]) for r in redirecciones if r.get("tofragment")), None)
+    return Pagina(str(pagina["title"]), str(pagina.get("extract") or ""), int(revisiones[0]["revid"]), seccion)
 
 
 def pagina(titulo: str) -> Pagina | None:
@@ -336,6 +341,25 @@ def _nombres_presentes(nombres: list[str], extracto: str) -> int:
     return vistos
 
 
+_VACIAS = frozenset({"the", "and", "a", "an", "of", "in", "on", "to", "for", "with", "her", "his", "film", "movie"})
+
+
+def _palabras_de_titulo(titulo: str) -> set[str]:
+    sin_parentesis = re.sub(r"\s*\([^)]*\)\s*$", "", titulo).casefold().replace("&", " and ")
+    return {p for p in re.findall(r"\w+", sin_parentesis) if p not in _VACIAS}
+
+
+def titulo_compatible(articulo: str, pelicula: str) -> bool:
+    """True si las palabras de un título contienen a las del otro (sin artículos ni paréntesis).
+
+    Revisión R-11: la búsqueda aceptó «Barbie Dolphin Magic» (2017) para *Barbie & Her Sisters in a Puppy Chase*
+    (2016), porque el año cabe en ±1 y el reparto de voces es el mismo, y «Joker (The Dark Knight)», un artículo de
+    personaje, para *Batman Unmasked*. Solo se exige en la búsqueda por título: P345 ya identifica la película.
+    """
+    a, p = _palabras_de_titulo(articulo), _palabras_de_titulo(pelicula)
+    return bool(a) and bool(p) and (a <= p or p <= a)
+
+
 def _buscar_por_titulo(doc: dict[str, Any], detalle: list[str]) -> str | None:
     nombres = _nombres(doc.get("cast"))
     if len(nombres) < 2:
@@ -365,6 +389,12 @@ def _buscar_por_titulo(doc: dict[str, Any], detalle: list[str]) -> str | None:
             continue
         if _nombres_presentes(nombres, pag.extracto) < 2:
             motivos.append(f"{pag.titulo}: no nombra 2 integrantes del reparto")
+            continue
+        if pag.seccion:
+            motivos.append(f"{pag.titulo}: redirige a la sección «{pag.seccion}» de otro artículo")
+            continue
+        if not titulo_compatible(pag.titulo, str(doc.get("title") or "")):
+            motivos.append(f"{pag.titulo}: el título no es el de la película")
             continue
         detalle.append(f"búsqueda por título aceptada: {pag.titulo}")
         return pag.titulo
@@ -549,6 +579,9 @@ def trama(articulo: str) -> Trama | None:
     pag = pagina(articulo)
     if pag is None:
         return None
+    if pag.seccion:
+        print(f"{articulo}: redirige a la sección «{pag.seccion}» de {pag.titulo}; la película no tiene artículo propio", file=sys.stderr)
+        return None
     if es_articulo_de_obra_no_filmica(pag.extracto):
         print(f"{pag.titulo}: el artículo es de una serie, un videojuego o un manga, no de la película", file=sys.stderr)
         return None
@@ -621,6 +654,20 @@ def comprobar_texto() -> None:
     for una in ("The Wind That Shakes the Barley is a 2006 war drama film set during the Irish War (1919–1921).",
                 "Dragonball Evolution is a 2009 superhero film based on the 1984–95 manga series Dragon Ball."):
         _exigir(not es_articulo_de_varias_partes(una), f"Un período histórico no es una obra en dos partes: {una}")
+    redireccion = {"query": {"redirects": [{"from": "Jarhead 2: Field of Fire", "to": "Jarhead (film)", "tofragment": "Sequels"}],
+                             "pages": {"1": {"pageid": 1, "title": "Jarhead (film)", "extract": "Jarhead is a 2005 film.",
+                                             "revisions": [{"revid": 7}]}}}}
+    _exigir(_pagina_desde_respuesta(redireccion).seccion == "Sequels", "Una redirección a una sección debe notarse")
+    directa = {"query": {"pages": {"1": {"pageid": 1, "title": "Jarhead (film)", "extract": "", "revisions": [{"revid": 7}]}}}}
+    _exigir(_pagina_desde_respuesta(directa).seccion is None, "Un artículo pedido por su nombre no es una redirección")
+    for articulo, pelicula, esperado in (
+        ("Barbie Dolphin Magic", "Barbie & Her Sisters in a Puppy Chase", False),
+        ("Joker (The Dark Knight)", "Batman Unmasked: The Psychology of the Dark Knight", False),
+        ("Malibu Rescue", "Malibu Rescue", True),
+        ("Why We Vote (2022 film)", "Why We Vote", True),
+        ("Hit and Run (2012 film)", "Hit & Run", True),
+    ):
+        _exigir(titulo_compatible(articulo, pelicula) is esperado, f"titulo_compatible({articulo!r}, {pelicula!r}) debe ser {esperado}")
     adaptacion = "Kamikaze Girls is a 2002 Japanese novel written by Novala Takemoto.\n\n== Plot =="
     _exigir(not es_articulo_de_obra_no_filmica(adaptacion), "Una novela adaptada se acepta")
     cita = ('She tells him "Go home." ' * 2) + ("X" * 3100)
