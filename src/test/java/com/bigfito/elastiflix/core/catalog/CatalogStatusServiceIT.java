@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CatalogStatusServiceIT {
 
     private static final long CATALOG_COUNT = 6_899L;
+    private static final Pattern INDEX_NAME = Pattern.compile("[a-z0-9][a-z0-9-]*-\\d{8}-\\d{6}");
 
     private final CatalogStatusService service;
     private final CatalogIndex catalog;
@@ -59,6 +60,8 @@ class CatalogStatusServiceIT {
         assertThat(status.name()).isEqualTo(alias);
         assertThat(status.documentCount()).isEqualTo(CATALOG_COUNT);
         assertThat(status.errorCode()).isNull();
-        assertThat(status.concreteIndex()).matches(Pattern.quote(alias) + "-\\d{8}-\\d{6}");
+        // La app crea el índice con el sufijo -AAAAMMDD-HHMMSS. El prefijo puede ser otro alias: la ronda 4 de
+        // calidad publicó moviendo el alias a un índice de staging (data-quality/APRENDIZAJES.md, §6).
+        assertThat(status.concreteIndex()).isNotEqualTo(alias).matches(INDEX_NAME);
     }
 }

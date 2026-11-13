@@ -52,14 +52,15 @@ final class TextListValues {
     /** Las listas de textos son {@code keyword} sin {@code ignore_above}: cada texto tiene tope de bytes. */
     private static void keepText(String name, JsonNode item, ArrayNode clean, Set<String> seen, CheckScope scope) {
         String text = TextNormalizer.keep(name, item.asString(), scope);
-        if (KeywordBytes.exceeds(name, text)) {
+        if (text.isBlank()) {
+            // Solo traía espacios que isBlank no reconoce, como NBSP: es un hueco de la lista.
+            scope.warning(ErrorCode.EMPTY_LIST_VALUE, name, FieldNames.BLANK, IngestPhrase.SKIPPED.text());
+        } else if (KeywordBytes.exceeds(name, text)) {
             KeywordBytes.reject(name, item, scope);
-            return;
-        }
-        if (!seen.add(text)) {
+        } else if (!seen.add(text)) {
             scope.warning(ErrorCode.DUPLICATE_LIST_VALUE, name, IssueTexts.clip(text), IngestPhrase.SKIPPED.text());
-            return;
+        } else {
+            clean.add(text);
         }
-        clean.add(text);
     }
 }

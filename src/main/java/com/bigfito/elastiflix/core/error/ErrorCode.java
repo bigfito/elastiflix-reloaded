@@ -175,55 +175,46 @@ public enum ErrorCode {
             "La extensión no es .json ni .csv",
             "El nombre no tiene punto, o el sufijo es otro",
             "Elige un archivo .json o .csv"),
-
     /** El nombre tiene más de un punto. */
     DOUBLE_EXTENSION("EFX-ING-002",
             "El archivo tiene más de una extensión",
             "El nombre tiene más de un punto",
             "Renombra el archivo para que solo termine en .json o .csv"),
-
     /** El archivo pesa más que el límite de la carga (25 MB). */
     FILE_TOO_LARGE("EFX-ING-003",
             "El archivo supera el tamaño máximo",
             "Pesa más que el límite de la carga",
             "Parte el archivo o súbelo por debajo del límite"),
-
     /** Hay bytes que no son UTF-8. */
     INVALID_UTF8("EFX-ING-004",
             "El archivo no es texto UTF-8",
             "Hay bytes que no decodifican como UTF-8",
             "Guarda el archivo como UTF-8 y vuelve a subirlo"),
-
     /** La casilla de encabezado del CSV llegó desmarcada. */
     HEADER_NOT_CONFIRMED("EFX-ING-005",
             "El CSV no confirma que la primera fila sea el encabezado",
             "La casilla de encabezado llegó desmarcada",
             "Marca que la primera fila trae los nombres de columna"),
-
     /** La primera fila no sirve como encabezado. */
     INVALID_HEADER("EFX-ING-006",
             "La primera fila no tiene nombres de columna válidos",
             "Faltan id, title o plot, o hay un nombre vacío o repetido",
             "Pon en la primera fila los nombres del mapping, con id, title y plot"),
-
     /** Una columna o un campo no está en el mapping. */
     UNKNOWN_FIELD("EFX-ING-007",
             "Hay un campo que no existe en el mapping",
             "La columna o el campo no está en el índice",
             "Quita el campo o renómbralo a uno del mapping"),
-
     /** El mismo {@code id} aparece dos veces. */
     DUPLICATE_ID("EFX-ING-009",
             "Hay un id repetido",
             "El mismo id aparece dos veces",
             "Deja una sola fila por id"),
-
     /** El metadato {@code _id} no coincide con {@code id}. */
     ID_MISMATCH("EFX-ING-010",
             "_id no es igual a id",
             "Vino el metadato y, ya como texto, no coincide",
             "Haz que _id y id sean el mismo texto"),
-
     /** Falta {@code id}, {@code title} o {@code plot}. */
     REQUIRED_FIELD("EFX-ING-011",
             "Faltan id, title o plot",
@@ -259,11 +250,13 @@ public enum ErrorCode {
             "Deja cada valor una sola vez; se conserva el primero"),
     /** La sinopsis es un marcador, abre con una negativa del asistente o no llega a 40 caracteres. Rechaza. */
     PLACEHOLDER_PLOT("EFX-ING-025", "La sinopsis no sirve: es un marcador, abre con una negativa o es demasiado corta",
-            "Empieza con «no match found», «I don't have information» o «please provide», o tiene menos de 40",
+            "Es solo «no information found», empieza con «no match found», «I don't have information»"
+                    + " o «please provide», o tiene menos de 40 caracteres",
             "Escribe una sinopsis real de al menos 40 caracteres"),
     /** La sinopsis parece traer restos de un modelo. No rechaza el archivo. */
     SUSPECT_PLOT("EFX-ING-026", "La sinopsis parece traer restos de un modelo de lenguaje",
-            "Asistente, «is a 2004 film, not 2005», «here's a summary», markdown o «, not» tras un crédito",
+            "Incluye una fórmula de asistente, «is a 2004 film, not 2005», «please provide more information»,"
+                    + " «here's a summary», markdown o «, not» tras «directed by» o «produced by»",
             "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
     /** La misma sinopsis está en otra película del archivo. No rechaza el archivo. */
     DUPLICATE_PLOT("EFX-ING-027", "La sinopsis coincide con la de otra película del archivo",
@@ -271,7 +264,8 @@ public enum ErrorCode {
             "Si es un error, escribe una sinopsis propia; si no hay otra fuente, se puede cargar igual"),
     /** La sinopsis parece un ensayo de temas. No rechaza el archivo. */
     ESSAY_PLOT("EFX-ING-028", "La sinopsis parece un ensayo de temas de un modelo",
-            "«main themes», «at its core», «explores the theme of», «delves into the complexities» o una lista",
+            "Habla de «main themes», «the main theme of», «at its core», «explores the theme of», «delves into"
+                    + " the complexities» o «one of the primary themes», o encabeza una lista de temas",
             "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
     /** El texto traía espacios en los extremos o repetidos, un espacio duro o no era NFC. No rechaza el archivo. */
     TEXT_NORMALIZED("EFX-ING-029", "El texto se normalizó al validar",

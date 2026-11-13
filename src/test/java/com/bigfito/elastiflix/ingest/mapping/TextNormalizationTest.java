@@ -117,6 +117,17 @@ class TextNormalizationTest {
     }
 
     @Test
+    @DisplayName("un elemento de lista que solo es espacio duro se omite como hueco, sin guardar un texto vacío")
+    void shouldSkipAListItemThatIsOnlyAHardSpace() {
+        ValidatedMovies result = validate(movie("cast", "[\"Ana\"," + json(HARD + HARD) + "]"));
+
+        assertThat(result.report().warnings())
+                .extracting(ValidationIssue::code, ValidationIssue::field)
+                .containsExactly(tuple(ErrorCode.EMPTY_LIST_VALUE.code(), "cast"));
+        assertThat(result.movies().getFirst().cast()).containsExactly("Ana");
+    }
+
+    @Test
     @DisplayName("la sinopsis se revisa ya normalizada y una forma que no es NFC se compone")
     void shouldCheckThePlotAfterNormalizationAndComposeNfc() {
         String plot = " " + PLOT + HARD;

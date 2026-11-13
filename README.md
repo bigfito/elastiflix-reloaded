@@ -46,7 +46,7 @@ modo y más abajo en otro. La aplicación también deja **cargar y validar** pel
 > [!NOTE]
 > **Proyecto con fines exclusivamente académicos y demostrativos.** No persigue ni pretende obtener ningún lucro
 > comercial. La información de las películas pertenece a sus fuentes, [TMDB](https://www.themoviedb.org/) y
-> [Wikipedia](https://www.wikipedia.org/); ver [Créditos y aviso de uso](#-créditos-y-aviso-de-uso).
+> [Wikipedia](https://en.wikipedia.org/); ver [Créditos y aviso de uso](#-créditos-y-aviso-de-uso).
 
 ## 📚 Contenido
 
@@ -56,6 +56,7 @@ modo y más abajo en otro. La aplicación también deja **cargar y validar** pel
 - [🔎 Los tres modos de búsqueda](#-los-tres-modos-de-búsqueda)
 - [🎛️ Resultados, filtros y paginación](#️-resultados-filtros-y-paginación)
 - [📥 Carga de datos](#-carga-de-datos)
+- [🧼 Procedencia del catálogo](#-procedencia-del-catálogo)
 - [⚙️ Configuración](#️-configuración)
 - [🧪 Pruebas](#-pruebas)
 - [☁️ Despliegue en Google Cloud](#️-despliegue-en-google-cloud)
@@ -255,7 +256,8 @@ Si el nombre no existe, se detiene sin crear nada: en ese caso, el catálogo lo 
 ### 🔤 Full-text (léxica) · BM25
 
 Busca coincidencias de términos en los títulos (`title`, `original_title`) o en la sinopsis (`plot`), todos `text`.
-Las sinopsis están en inglés: con `plot`, una consulta en español casi no encuentra coincidencias.
+Las sinopsis están en inglés: con `plot`, una consulta en español casi no encuentra coincidencias. `plot` y `overview`
+usan el analizador `english` (raíces y palabras vacías en inglés: «dreams» encuentra «dream»); los títulos, el estándar.
 
 | Ajuste | Opciones |
 |---|---|
@@ -294,7 +296,7 @@ sin cuantización): la única diferencia es el número de dimensiones. **Precisi
 | `plot_512` | 23 de 40 (58 %) | 35 | 39 | 0.744 | 0.708 |
 | `plot_1024` | 25 de 40 (63 %) | 37 | 39 | 0.784 | 0.745 |
 
-> Medición M3 (13 nov 2026) sobre el catálogo actual de `data/`. 1024 dimensiones pone la película correcta entre las
+> Medición M4 (13 nov 2026) sobre el catálogo actual de `data/`. 1024 dimensiones pone la película correcta entre las
 > 5 primeras en 37 de 40 consultas; 512 lo hace en 35 y 256 en 32.
 
 Las consultas se vectorizan con `input_type: search` y el prefijo `Query: `; las sinopsis, con `input_type: ingest`
@@ -331,7 +333,8 @@ Medición M4 (13 nov 2026), sobre el catálogo actual de `data/`.
 
 - **Las sinopsis están en inglés, pero ya no son un resumen.** Las consultas de trama describen la película en
   abstracto y las tramas de Wikipedia narran con los nombres de los personajes. Por eso `bm25_plot` bajó de 0.423
-  (sinopsis anteriores, en buena parte generadas) a 0.296. `plot` y `overview` usan ahora el analizador `english`, con
+  a 0.296: unas 1 400 sinopsis anteriores eran ensayos generados por un modelo, y las consultas de evaluación se
+  escribieron con ese vocabulario (ver [eval/README.md](eval/README.md)). `plot` y `overview` usan ahora el analizador `english`, con
   raíces («dreams» encuentra «dream»), y `bm25_plot` sube a 0.305: 0.601 con consultas en inglés.
 - **La vectorial es la más pareja.** `knn_plot_1024` encuentra la película en los dos idiomas (0.734 en español y 0.784
   en inglés). `rrf_plot_knn1024` arrastra la lista de BM25 sobre la sinopsis (0.564). La híbrida por defecto, que
@@ -367,7 +370,7 @@ flowchart LR
   C -->|"un solo error"| X["⛔ Se detiene<br/>no se importa nada"]
   C -->|"append (por defecto)"| W["4 · Escritura en el catálogo<br/>por el alias · lotes de 100"]
   W -->|"falla o se cancela"| V["⏸️ Lo escrito se queda<br/>la página dice cuántas"]
-  C -->|"bulk"| D["4 · Importación<br/>índice temporal solo con el archivo"]
+  C -->|"bulk"| D["4 · Importación<br/>borra huérfanos · índice temporal<br/>solo con el archivo"]
   D --> E["5 · Publicación<br/>swap atómico del alias<br/>y borrado del índice anterior"]
   D -->|"falla"| Y["↩️ Se borra el temporal<br/>catálogo intacto"]
   E -->|"no se confirma y el alias<br/>no se puede leer"| Z["⚠️ EFX-IMP-006<br/>el temporal se deja"]
@@ -380,7 +383,9 @@ Un archivo se carga en uno de dos modos, que se elige en la tarjeta «Modo de ca
   Si un lote se rechaza (`EFX-IMP-008`) o la carga se cancela (`EFX-IMP-009`), lo ya escrito se queda y la página
   dice cuántas se agregaron.
 - **Bulk** (reemplaza el catálogo): las películas se escriben en un índice temporal nuevo que tiene **solo** las del
-  archivo; al publicar, el alias pasa a ese índice en una sola operación y el índice anterior se borra. La página
+  archivo; al publicar, el alias pasa a ese índice en una sola operación y el índice anterior se borra. Antes de importar,
+  la carga también borra los índices `<alias>-<AAAAMMDD-HHMMSS>` que no son el vigente (restos de cargas anteriores);
+  un índice que tiene otro alias nunca se borra. La página
   avisa cuántas películas tiene el catálogo que se borra. Si algo falla antes de publicar, el catálogo queda como
   estaba.
 - **Sin catálogo:** bulk y el registro individual crean el índice con el mapping y el alias; append queda bloqueado
@@ -434,6 +439,34 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   demás objetos; una celda vacía es null. El formulario de registro individual no lo pide.
 - **Un solo usuario:** la demo está pensada para una persona a la vez; no tiene controles de concurrencia.
 
+## 🧼 Procedencia del catálogo
+
+El catálogo de [`data/`](data/README.md) pasó por una ronda de calidad en noviembre de 2026. Unas 1 400 sinopsis eran
+texto generado por un modelo y unas 3 700 abrían con la ficha enciclopédica de la película en lugar de la trama.
+Ninguna se reescribió: cada cambio copió, con código, el texto de una fuente verificable.
+
+| Origen de `plot` | Etiqueta `enrichment.plot` | Películas |
+|---|---|---|
+| Sección de trama de Wikipedia en inglés (artículo hallado por `imdb_id` → Wikidata → enwiki) | `wikipedia_plot_2026-11-12` · `wikipedia_plot_2026-11-13` | 5 403 |
+| Overview de TMDB | `tmdb_overview` | 1 065 |
+| Sin fuente verificable: queda el texto anterior | `unverified` | 429 |
+| Otros | `tmdb_metadata_summary` · `tmdb_overview_translated:zh-CN` | 2 |
+
+- El artículo y la revisión de cada sinopsis de Wikipedia están en
+  [`data-quality/fuentes/plot-fuentes.tsv`](data-quality/fuentes/plot-fuentes.tsv) (ver
+  [Créditos](#-créditos-y-aviso-de-uso)).
+- La ronda amplió las reglas de carga sobre la sinopsis (`EFX-ING-025`, `026` y `028`) y agregó la normalización de
+  textos (`EFX-ING-029`). El catálogo de `data/` carga sin advertencias, y `ShippedCatalogValidationTest` lo comprueba
+  en cada `./mvnw verify`.
+- Qué se corrigió, cómo se midió (M0 a M4) y qué quedó abierto está en
+  [`data-quality/APRENDIZAJES.md`](data-quality/APRENDIZAJES.md). El diagrama
+  [`docs/operacion-catalogo.mermaid`](docs/operacion-catalogo.mermaid) muestra el ciclo: cambios en `data/`, staging,
+  medición, publicación por alias, vuelta atrás y limpieza.
+- **Índice vigente.** El alias `elastiflix-reloaded` apunta a `elastiflix-dq-staging-20261113-220031`: se publicó
+  moviendo el alias al índice de staging donde se midió, sin recargar. Hasta el 2026-11-20 se conservan dos índices
+  anteriores para volver atrás, y una carga bulk en producción los borraría (ver
+  [`data/README.md`](data/README.md#índice-vigente-en-producción)).
+
 ## ⚙️ Configuración
 
 Todo se configura en `.env` (o con variables de entorno, que tienen prioridad). `.env.example` trae la lista
@@ -460,6 +493,8 @@ El estado del catálogo (alias, índice vigente y conteo) también está en `GET
 | `./mvnw verify -Pit -Dit.test=RelevanceIT` | Solo el [harness de relevancia](eval/README.md): `_rank_eval` de las 10 configuraciones contra `eval/judgments.jsonl`, con los mínimos de `eval/thresholds.json` como gate | `.env` y el catálogo de referencia |
 | `npm test` en `src/test/browser` | Pruebas del JavaScript de las páginas con Playwright | La aplicación en marcha y Node.js; ver [su README](src/test/browser/README.md) |
 
+- `./mvnw verify` también carga las 14 partes de `data/` con el validador (`ShippedCatalogValidationTest`): deben pasar
+  sin errores ni advertencias, así que una regla de carga nueva que avise sobre `data/` rompe el build.
 - Las pruebas de integración que **escriben** usan alias propios `elastiflix-it-<aleatorio>` y los borran al
   terminar; nunca tocan el catálogo.
 - Las que **leen** el catálogo están pensadas para el catálogo de referencia de 6 899 películas con el que se midió la
@@ -566,6 +601,7 @@ elastiflix-reloaded/
 ├── 🧪 src/test/                            java/ (mismos paquetes) · resources/ · browser/ (Playwright)
 ├── 🎯 eval/                                consultas, juicios y mínimos del harness de relevancia
 ├── 🎞️  data/                               catálogo completo de 6 899 películas en 7 partes (.json y .csv)
+├── 🧼 data-quality/                       ronda 4 de calidad del catálogo: fuente de cada sinopsis, cambios, informes
 ├── 🗄️  elasticsearch/                       mapping del índice y películas de ejemplo (.json y .csv)
 ├── 🧹 config/                              reglas de Checkstyle y PMD
 ├── 📚 docs/                                convenciones de código · arquitectura · despliegue · capturas
@@ -630,10 +666,13 @@ Páginas completas con la aplicación conectada a un catálogo de 6 899 películ
 |---|---|
 | 🏗️ [`docs/arquitectura.mermaid`](docs/arquitectura.mermaid) | Arquitectura y flujos numerados de búsqueda, detalle y carga |
 | ☁️ [`docs/despliegue.mermaid`](docs/despliegue.mermaid) | Pipeline de Cloud Build, las dos regiones de Cloud Run y el balanceador |
+| 🔁 [`docs/operacion-catalogo.mermaid`](docs/operacion-catalogo.mermaid) | Operación del catálogo: ronda de calidad, staging, medición, publicación por alias y vuelta atrás |
 | 📐 [`docs/convenciones-java.md`](docs/convenciones-java.md) | Cómo está escrito el código y qué verifica el build |
-| 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice (34 campos) |
+| 🗄️ [`elasticsearch/elastiflix-reloaded-mapping.json`](elasticsearch/elastiflix-reloaded-mapping.json) | Mapping del índice: 34 campos, estricto (`dynamic: strict`), analizador `english` en `plot` y `overview` |
 | 🎯 [`eval/README.md`](eval/README.md) | Harness de relevancia: consultas, escala de juicios, métricas y cómo correrlo |
 | 🎞️ [`data/README.md`](data/README.md) | Catálogo completo en 7 partes: cómo cargarlo y su formato |
+| 🧼 [`data-quality/APRENDIZAJES.md`](data-quality/APRENDIZAJES.md) | Ronda 4 de calidad del catálogo (noviembre de 2026): qué se corrigió, con qué fuentes y qué quedó abierto |
+| 📜 [`data-quality/fuentes/plot-fuentes.tsv`](data-quality/fuentes/plot-fuentes.tsv) | Artículo y revisión de Wikipedia de cada sinopsis |
 | 🎬 [`elasticsearch/fixtures/`](elasticsearch/fixtures/) | Cuatro películas de ejemplo en `.json` y `.csv`, y un vector de consulta |
 | 🎨 [`design/README.md`](design/README.md) | Mockups de las páginas y tokens de diseño |
 | 🧪 [`src/test/browser/README.md`](src/test/browser/README.md) | Pruebas de navegador |
@@ -655,16 +694,19 @@ búsqueda full-text, vectorial e híbrida. No es un producto comercial: no se ve
 manera pretende obtener un lucro comercial con él ni con la información que usa.
 
 **Licencia.** El código se publica bajo licencia [MIT](LICENSE); esa licencia cubre solo el código, no los datos de
-películas, que conservan la licencia de sus fuentes (TMDB y Wikipedia, CC BY-SA 4.0).
+películas, que conservan la licencia de sus fuentes (TMDB, con sus términos de uso; Wikipedia, CC BY-SA 4.0).
 
 **Créditos de la información.** Los créditos de la información de las películas corresponden a:
 
 - **[TMDB](https://www.themoviedb.org/)** (The Movie Database): datos de las películas y pósters.
   *This product uses the TMDB API but is not endorsed or certified by TMDB.* La atribución también aparece en el pie de
   cada página y en «Acerca de» › «Créditos y aviso de uso», que también trae el aviso de fines académicos.
-- **[Wikipedia](https://www.wikipedia.org/)**: sinopsis de las películas cuya etiqueta `enrichment.plot` es
-  `wikipedia_plot_AAAA-MM-DD`; el artículo y la revisión de cada una están en `data-quality/fuentes/plot-fuentes.tsv`. Las
-  demás sinopsis son el overview de TMDB (`tmdb_overview`) o de origen sin verificar (`unverified`). El contenido de
+- **[Wikipedia en inglés](https://en.wikipedia.org/)**: sinopsis de las películas cuya etiqueta `enrichment.plot` es
+  `wikipedia_plot_AAAA-MM-DD`. Son extractos de la sección de trama, de 3 000 caracteres como máximo y con los
+  espacios normalizados; el artículo y la revisión de cada una están en
+  [`data-quality/fuentes/plot-fuentes.tsv`](data-quality/fuentes/plot-fuentes.tsv) (cada revisión se abre en
+  `https://en.wikipedia.org/w/index.php?oldid=<revid>`). Las demás sinopsis son el overview de TMDB
+  (`tmdb_overview`) o de origen sin verificar (`unverified`); ver [Procedencia del catálogo](#-procedencia-del-catálogo). El contenido de
   Wikipedia se publica bajo la licencia
   [Creative Commons Atribución-CompartirIgual 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es).
 

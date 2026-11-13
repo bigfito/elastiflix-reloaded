@@ -51,7 +51,10 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
   | `tmdb_metadata_summary` | Resumen armado con metadatos de TMDB (una película) |
   | `unverified` | Origen desconocido; el texto se mantiene mientras no haya fuente verificable |
   En los demás campos la etiqueta suele ser `tmdb_api_AAAA-MM-DD` (la fecha de la descarga de TMDB).
-  `wikipedia_infobox` marca un monto (`budget` o `revenue`) tomado de la ficha del artículo de Wikipedia (WP-09).
+  `wikipedia_infobox` marca un monto (`budget` o `revenue`) tomado de la ficha del artículo de Wikipedia (WP-09);
+  `wikipedia_infobox_fx:<moneda>:<año>`, uno convertido desde otra moneda, y `wikipedia_infobox_range_midpoint`, el
+  punto medio de un rango. `wikidata` marca un dato de Wikidata (sobre todo `homepage`), y
+  `tmdb_api_fallback_doc_vote_average`, un `user_score` tomado del `vote_average` del documento.
   `revenue` 618 de *Money Plane* no es un error: la ficha y Box Office Mojo dan $618.
 - **Contenido para adultos:** ninguna de las 6 899 películas tiene `adult = true`. La búsqueda mantiene el filtro
   `adult` para los catálogos que cargue un usuario (D-04).
@@ -61,7 +64,8 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
 ## Palabras clave con dos ids
 
 «horror», «thriller» y «comedy» tienen dos ids en el catálogo. No es un id que pertenezca a otra palabra: los dos
-ids nombraban la misma palabra en TMDB, así que se dejan los dos.
+ids nombraban la misma palabra en TMDB, así que se dejan los dos. La tabla tiene solo los tres casos que se
+confirmaron contra TMDB (WP-08); TMDB tiene más palabras con dos ids, y se dejaron como vienen.
 
 | Nombre | Ids en el catálogo | Ficha pública el 2026-11-13 |
 |---|---|---|
@@ -72,9 +76,11 @@ ids nombraban la misma palabra en TMDB, así que se dejan los dos.
 ## Índice vigente en producción
 
 Desde el 2026-11-13, el alias `elastiflix-reloaded` apunta a `elastiflix-dq-staging-20261113-220031`, el índice de
-staging donde se midió este catálogo (`publicar.py`, H-3). Ese nombre no sigue el patrón `elastiflix-reloaded-<fecha>`:
-la limpieza de huérfanos de la aplicación no lo borra sola después de la siguiente carga bulk, así que hay que borrarlo
-a mano cuando deje de estar en uso. La limpieza de huérfanos nunca borra un índice que tenga un alias.
+staging donde se midió este catálogo (`publicar.py`, H-3). Ese nombre no sigue el patrón `elastiflix-reloaded-<fecha>`,
+así que la limpieza de huérfanos nunca lo toca. La siguiente carga bulk en producción sí lo borra: al publicar, la
+aplicación quita el índice anterior (`remove_index`) en la misma llamada a `_aliases`, se llame como se llame. Solo
+hay que borrarlo a mano si deja de estar en uso por un cambio de alias con `publicar.py`. La limpieza de huérfanos
+nunca borra un índice que tenga otro alias.
 
 Los dos índices anteriores, `elastiflix-dq-staging-20261113-195801` y `elastiflix-reloaded-20261112-144129`, se
 conservan para volver atrás hasta el 2026-11-20. Hasta esa fecha no hagas una carga bulk en producción ni en staging:
@@ -84,7 +90,7 @@ la limpieza de huérfanos borraría el índice anterior de ese alias y, con él,
 
 Estos datos se publican con fines exclusivamente académicos y demostrativos, sin ningún lucro comercial. Los créditos
 de la información corresponden a [TMDB](https://www.themoviedb.org/) (datos de las películas y pósters) y a
-[Wikipedia](https://www.wikipedia.org/) (las sinopsis con `enrichment.plot = wikipedia_plot_…`, bajo la licencia
+[Wikipedia](https://en.wikipedia.org/) (las sinopsis con `enrichment.plot = wikipedia_plot_…`, bajo la licencia
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es)). *This product uses the TMDB API but is not endorsed or certified by TMDB.*
 
 ---
@@ -130,7 +136,10 @@ you prefer.
   | `tmdb_metadata_summary` | Summary built from TMDB metadata (one movie) |
   | `unverified` | Unknown origin; the text stays until a verifiable source exists |
   In the other fields the tag is usually `tmdb_api_YYYY-MM-DD` (the date of the TMDB download).
-  `wikipedia_infobox` marks an amount (`budget` or `revenue`) taken from the Wikipedia article's infobox (WP-09).
+  `wikipedia_infobox` marks an amount (`budget` or `revenue`) taken from the Wikipedia article's infobox (WP-09);
+  `wikipedia_infobox_fx:<currency>:<year>`, one converted from another currency, and
+  `wikipedia_infobox_range_midpoint`, the midpoint of a range. `wikidata` marks a value from Wikidata (mostly
+  `homepage`), and `tmdb_api_fallback_doc_vote_average`, a `user_score` taken from the document's `vote_average`.
   The `revenue` of 618 for *Money Plane* is not an error: the infobox and Box Office Mojo give $618.
 - **Adult content:** none of the 6,899 movies has `adult = true`. The search keeps the `adult` filter for catalogs a
   user loads (D-04).
@@ -140,7 +149,8 @@ you prefer.
 ### Keywords with two ids
 
 `horror`, `thriller`, and `comedy` each have two ids in the catalog. This is not an id that belongs to a different
-word: both ids named the same word on TMDB, so both stay.
+word: both ids named the same word on TMDB, so both stay. The table lists only the three cases confirmed against
+TMDB (WP-08); TMDB has more words with two ids, and they were left as they come.
 
 | Name | Ids in the catalog | Public page on 2026-11-13 |
 |---|---|---|
@@ -152,8 +162,10 @@ word: both ids named the same word on TMDB, so both stay.
 
 Since 2026-11-13, the `elastiflix-reloaded` alias points to `elastiflix-dq-staging-20261113-220031`, the staging index
 where this catalog was measured (`publicar.py`, H-3). That name does not follow the `elastiflix-reloaded-<date>`
-pattern: the app's orphan cleanup won't delete it on its own after the next bulk load, so it has to be deleted by hand
-once it is no longer in use. The orphan cleanup never deletes an index that has an alias.
+pattern, so the orphan cleanup never touches it. The next bulk load in production does delete it: on publishing, the
+app removes the previous index (`remove_index`) in the same `_aliases` call, whatever its name. It only has to be
+deleted by hand if it stops being used through an alias change with `publicar.py`. The orphan cleanup never deletes
+an index that has another alias.
 
 The two previous indices, `elastiflix-dq-staging-20261113-195801` and `elastiflix-reloaded-20261112-144129`, are kept
 for rollback until 2026-11-20. Until that date, do not run a bulk load in production or in staging: the orphan cleanup
@@ -163,5 +175,5 @@ would delete that alias's previous index and the rollback with it.
 
 This data is published for academic and demonstration purposes only, with no commercial profit. Credit for the
 information goes to [TMDB](https://www.themoviedb.org/) (movie data and posters) and to
-[Wikipedia](https://www.wikipedia.org/) (the synopses tagged `enrichment.plot = wikipedia_plot_…`, under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license). *This product uses
+[Wikipedia](https://en.wikipedia.org/) (the synopses tagged `enrichment.plot = wikipedia_plot_…`, under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license). *This product uses
 the TMDB API but is not endorsed or certified by TMDB.*

@@ -50,6 +50,7 @@ class SmokeIT {
     private static final String HIT = "class=\"hit\"";
     private static final int READY_STEP = 4;
     private static final long CATALOG_COUNT = 6_899L;
+    private static final Pattern INDEX_NAME = Pattern.compile("[a-z0-9][a-z0-9-]*-\\d{8}-\\d{6}");
     private static final int SAMPLE_MOVIES = 4;
     private static final int DEFAULT_K = 100;
     private static final int DEFAULT_CANDIDATES = 200;
@@ -102,7 +103,9 @@ class SmokeIT {
 
         // then
         assertThat(seen.alias()).isEqualTo(alias);
-        assertThat(seen.index()).matches(Pattern.quote(alias) + "-\\d{8}-\\d{6}");
+        // La app crea el índice con el sufijo -AAAAMMDD-HHMMSS. El prefijo puede ser otro alias: la ronda 4 de
+        // calidad publicó moviendo el alias a un índice de staging (data-quality/APRENDIZAJES.md, §6).
+        assertThat(seen.index()).isNotEqualTo(alias).matches(INDEX_NAME);
         assertThat(seen.documents()).isEqualTo(CATALOG_COUNT);
     }
 

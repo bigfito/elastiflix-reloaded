@@ -135,6 +135,7 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("<h3>Procedencia</h3>")))
                 .andExpect(content().string(containsString("<td>enrichment</td><td>object</td>")))
                 .andExpect(content().string(containsString("<td>enrichment.<wbr>plot</td><td>keyword</td>")))
+                .andExpect(content().string(containsString("tmdb_overview_translated:&lt;idioma&gt;")))
                 .andExpect(content().string(containsString("<td>imdb_id</td><td>keyword</td><td>Identificador en IMDb, "
                         + "por ejemplo tt0120338; el detalle enlaza a su ficha</td><td>Detalle</td>")))
                 .andExpect(content().string(containsString("<td>title</td><td>text</td><td>Título de la película</td>"
@@ -225,7 +226,9 @@ class AboutPageTest {
                 .andExpect(content().string(containsString(
                         "<p>Los créditos de la información de las películas corresponden a TMDB y a Wikipedia.</p>")))
                 .andExpect(content().string(containsString(
-                        "Las sinopsis vienen de <a href=\"https://www.wikipedia.org/\">Wikipedia</a> o de <a href=\"https://www.themoviedb.org/\">TMDB</a>, según la etiqueta <code>enrichment.plot</code>")))
+                        "Las sinopsis vienen de la sección de trama de <a href=\"https://en.wikipedia.org/\">Wikipedia en inglés</a>")))
+                .andExpect(content().string(containsString("de origen sin verificar (<code>unverified</code>)")))
+                .andExpect(content().string(containsString("data-quality/fuentes/plot-fuentes.tsv")))
                 .andExpect(content().string(containsString("https://creativecommons.org/licenses/by-sa/4.0/deed.es")));
 
         mvc.perform(get("/acerca").param("lang", "en"))
@@ -235,6 +238,7 @@ class AboutPageTest {
                 .andExpect(content().string(containsString(
                         "<p>Credit for the movie information goes to TMDB and Wikipedia.</p>")))
                 .andExpect(content().string(containsString(
-                        "The synopses come from <a href=\"https://www.wikipedia.org/\">Wikipedia</a> or <a href=\"https://www.themoviedb.org/\">TMDB</a>, according to each movie's <code>enrichment.plot</code> tag")));
+                        "The synopses come from the plot section of <a href=\"https://en.wikipedia.org/\">English Wikipedia</a>")))
+                .andExpect(content().string(containsString("of unverified origin (<code>unverified</code>)")));
     }
 }

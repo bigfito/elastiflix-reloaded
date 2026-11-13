@@ -45,7 +45,10 @@ abajo a 2 decimales.
 Sobre el índice de staging `elastiflix-dq-staging-20261113-195801` (6 899 películas, 13 nov 2026). `bm25_plot` baja de
 0.423 en M0 a 0.296, y `rrf_plot_knn256` / `rrf_plot_knn1024` de 0.581 / 0.662 a 0.511 / 0.557. Las consultas de trama
 están escritas como un resumen y las sinopsis de Wikipedia narran con los nombres de los personajes; `plot` todavía no
-aplicaba raíces (D-08, R-14). Los vectores suben (`knn_plot_1024` 0.742 → 0.745). Los mínimos de esa medición
+aplicaba raíces. Además, las consultas se escribieron con el vocabulario de las sinopsis generadas que la ronda quitó,
+así que BM25 sobre `plot` premiaba ese texto (D-08, R-14 en [`data-quality/BITACORA.md`](../data-quality/BITACORA.md)).
+Por eso, desde M3, el criterio para aceptar un cambio son las configuraciones `knn_*` y `rrf_title_knn*`; `bm25_plot`
+y `rrf_plot_*` solo se informan. M0 es la medición del catálogo anterior a la ronda. Los vectores suben (`knn_plot_1024` 0.742 → 0.745). Los mínimos de esa medición
 se reemplazaron con M4.
 
 ## Archivos
@@ -77,7 +80,8 @@ alias en cada corrida.
 ## Cómo correrlo
 
 Necesita `.env` y el catálogo de referencia de 6 899 películas ([`data/`](../data/README.md)); con otro catálogo, la
-prueba se omite. Solo lee: no crea ni borra índices.
+prueba se omite y el build sale en verde igual: una medición vale solo si `target/eval/report.md` se
+reescribió en esa corrida y su tercera línea nombra el índice esperado. Solo lee: no crea ni borra índices.
 
 ```bash
 ./mvnw verify -Pit -Dit.test=RelevanceIT
@@ -90,7 +94,8 @@ También corre con el resto de las pruebas de integración en `./mvnw verify -Pi
 - `pending.jsonl`: películas que aparecen en algún top 10 sin juicio, con su título, año y resumen. Para calificarlas,
   agrega cada `movie` con su calificación a `ratings` de su consulta en `judgments.jsonl` y vuelve a correr.
 
-Si cambias el modelo, el mapping o una configuración y las métricas mejoran, sube los mínimos de `thresholds.json`.
+Si cambias el modelo, el mapping o una configuración y las métricas mejoran, sube los mínimos de `thresholds.json`:
+cada mínimo es la medición menos 0.05, redondeado hacia abajo a 2 decimales.
 Si bajan a propósito, explica el cambio en el commit. Los mínimos dejan margen porque el k-NN es aproximado: al
 reconstruir el índice, una película al borde puede moverse un lugar.
 
@@ -142,8 +147,11 @@ down to 2 decimals.
 
 On the staging index `elastiflix-dq-staging-20261113-195801` (6,899 movies, 13 Nov 2026). `bm25_plot` drops from 0.423
 in M0 to 0.296, and `rrf_plot_knn256` / `rrf_plot_knn1024` from 0.581 / 0.662 to 0.511 / 0.557. The plot queries are
-written as a summary and the Wikipedia plots narrate with the characters' names; `plot` did not stem then (D-08,
-R-14). The vectors go up (`knn_plot_1024` 0.742 to 0.745). Its minimums were replaced with M4.
+written as a summary and the Wikipedia plots narrate with the characters' names; `plot` did not stem then. Also, the
+queries were written with the vocabulary of the generated plots the round removed, so BM25 on `plot` rewarded that
+text (D-08, R-14 in [`data-quality/BITACORA.md`](../data-quality/BITACORA.md), in Spanish). That is why, since M3, the
+criterion for accepting a change is the `knn_*` and `rrf_title_knn*` configurations; `bm25_plot` and `rrf_plot_*` are
+only reported. M0 is the measurement of the catalog before the round. The vectors go up (`knn_plot_1024` 0.742 to 0.745). Its minimums were replaced with M4.
 
 ## Files
 
@@ -160,7 +168,8 @@ shares one central element (or is a sequel when the query names a specific film)
 ## How to run it
 
 It needs `.env` and the 6,899-movie reference catalog ([`data/`](../data/README.md)); with any other catalog the test
-is skipped. It only reads: it never creates or deletes indices.
+is skipped and the build still ends green: a measurement only counts if `target/eval/report.md` was rewritten
+in that run and its third line names the expected index. It only reads: it never creates or deletes indices.
 
 ```bash
 ./mvnw verify -Pit -Dit.test=RelevanceIT
@@ -174,5 +183,5 @@ It also runs with the rest of the integration tests in `./mvnw verify -Pit`. It 
   them, add each `movie` with its rating to its query's `ratings` in `judgments.jsonl` and run it again.
 
 If you change the model, the mapping, or a configuration and the metrics improve, raise the minimums in
-`thresholds.json`. If they drop on purpose, explain the change in the commit. The minimums leave a margin because k-NN
+`thresholds.json`: each minimum is the measurement minus 0.05, rounded down to 2 decimals. If they drop on purpose, explain the change in the commit. The minimums leave a margin because k-NN
 is approximate: when the index is rebuilt, a movie at the edge can move one place.

@@ -184,6 +184,7 @@ input::placeholder{color:#6B6578}
 <footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">
 <span>Elastiflix-Movies Java · search demo</span>
 <span>Index: elastiflix-reloaded · 6,899 movies</span>
+<span>This product uses the TMDB API but is not endorsed or certified by TMDB.</span>
 </footer>
 
 <div aria-hidden="true" style="height: 10px; margin: 0 0 14px; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
@@ -242,49 +243,52 @@ class Component extends DCLogic {
       if (s.queryType === 'match' && s.field === 'title') {
         sug = [
           { text: 'Spirited Away', tag: 'translated title' },
-          { text: 'dark knight', tag: byOp('OR: 40 results', 'AND: 3 results') },
-          { text: 'love story', tag: byOp('OR: 65 results', 'AND: 1 result') }
+          { text: 'dark knight', tag: byOp('OR: 57 results', 'AND: 5 results') },
+          { text: 'love story', tag: byOp('OR: 107 results', 'AND: 3 results') }
         ];
       } else if (s.queryType === 'match' && s.field === 'plot') {
         sug = [
-          { text: 'ogre donkey princess', tag: byOp('OR: 162 results', 'AND: 3 results') },
-          { text: 'bathhouse spirits', tag: byOp('OR: 87 results', 'AND: 1 result') },
-          { text: 'clownfish ocean son', tag: byOp('OR: 864 results', 'AND: 1 result') }
+          { text: 'ogre donkey princess', tag: byOp('OR: 197 results', 'AND: 4 results') },
+          { text: 'bathhouse spirits', tag: byOp('OR: 363 results', 'AND: 1 result') },
+          { text: 'clownfish ocean son', tag: byOp('OR: 1528 results', 'AND: 1 result') }
         ];
       } else if (s.queryType === 'match') {
         sug = [
-          { text: 'Kolejne 365 dni', tag: 'original title · in title: 0' },
-          { text: 'el secreto', tag: byOp('OR: 16 results', 'AND: 1 result') },
-          { text: 'le fabuleux destin', tag: byOp('OR: 14 results', 'AND: 1 result') }
+          { text: 'Kolejne 365 dni', tag: byOp('original title · in title: 3', 'original title · in title: 0') },
+          { text: 'el secreto', tag: byOp('OR: 35 results', 'AND: 2 results') },
+          { text: 'le fabuleux destin', tag: byOp('OR: 26 results', 'AND: 1 result') }
         ];
       } else {
         sug = [
-          { text: 'heaven cielo', tag: byOp('OR: 6 results', 'AND: 0 · words in different fields') },
-          { text: 'next kolejne', tag: byOp('OR: 11 results', 'AND: 0 · words in different fields') },
+          { text: 'heaven cielo', tag: byOp('OR: 10 results', 'AND: 0 · words in different fields') },
+          { text: 'next kolejne', tag: byOp('OR: 15 results', 'AND: 0 · words in different fields') },
           { text: 'parasite 기생충', tag: byOp('OR: 1 result', 'AND: 0 · words in different fields') }
         ];
       }
     } else if (s.mode === 'vector') {
-      // English example queries: the positions marked [position] are verified against the index during implementation.
-      // The two WALL·E queries were already verified: 1st place in both languages.
+      const titanicPos = { plot_256: '5th place', plot_512: '2nd place', plot_1024: '3rd place' }[s.vector];
+      const inceptionPos = { plot_256: '4th place', plot_512: '3rd place', plot_1024: '1st place' }[s.vector];
+      const lifeOfPiPos = { plot_256: '38th place', plot_512: '4th place', plot_1024: '2nd place' }[s.vector];
+      const spiritedPos = { plot_256: '1st place', plot_512: '1st place', plot_1024: '1st place' }[s.vector];
+      const etPos = { plot_256: '3rd place', plot_512: '3rd place', plot_1024: '2nd place' }[s.vector];
       sug = [
-        { text: 'a luxury liner hits an iceberg on its maiden voyage', tag: 'Titanic: [position]' },
-        { text: 'a thief steals secrets by entering people\'s dreams', tag: 'Inception: [position]' },
+        { text: 'a luxury liner hits an iceberg on its maiden voyage', tag: 'Titanic: ' + titanicPos },
+        { text: 'a thief steals secrets by entering people\'s dreams', tag: 'Inception: ' + inceptionPos },
         { text: 'a lonely robot cleaning up Earth', tag: 'WALL·E: 1st place' },
         { text: 'un robot solitario que limpia la Tierra', tag: 'in Spanish · WALL·E: 1st place' },
-        { text: 'a shipwrecked boy shares a lifeboat with a Bengal tiger in the middle of the ocean', tag: 'Life of Pi: [position]' },
-        { text: 'a girl is trapped in a spirit world and works in a bathhouse to save her parents, who were turned into pigs', tag: 'Spirited Away: [position]' },
-        { text: 'a boy hides a small lost alien and helps him get back to his planet', tag: 'E.T.: [position]' }
+        { text: 'a shipwrecked boy shares a lifeboat with a Bengal tiger in the middle of the ocean', tag: 'Life of Pi: ' + lifeOfPiPos },
+        { text: 'a girl is trapped in a spirit world and works in a bathhouse to save her parents, who were turned into pigs', tag: 'Spirited Away: ' + spiritedPos },
+        { text: 'a boy hides a small lost alien and helps him get back to his planet', tag: 'E.T.: ' + etPos }
       ];
     } else if (isAnd) {
       sug = [
-        { text: 'toy story toys that come to life', tag: 'AND: [lexical results] · [to verify]' },
-        { text: 'pan\'s labyrinth faun girl in the war', tag: 'AND: [lexical results] · [to verify]' }
+        { text: 'toy story toys that come to life', tag: 'AND: lexical 0 · vector decides' },
+        { text: 'pan\'s labyrinth faun girl in the war', tag: 'AND: lexical 0 · vector decides' }
       ];
     } else {
       sug = [
         { text: 'dark knight joker chaos in the city', tag: 'title + plot' },
-        { text: 'titanic love story on a sinking ship', tag: 'Titanic: [position in each list]' },
+        { text: 'titanic love story on a sinking ship', tag: 'Titanic: 1st vector, 4th lexical' },
         { text: "ocean's eleven casino heist", tag: 'title + plot' }
       ];
     }
@@ -298,6 +302,9 @@ class Component extends DCLogic {
       'heaven cielo': '☁️',
       'next kolejne': '⏭️',
       'parasite 기생충': '🏠',
+      'ogre donkey princess': '🧅',
+      'bathhouse spirits': '♨️',
+      'clownfish ocean son': '🐠',
       'a luxury liner hits an iceberg on its maiden voyage': '🚢',
       "a thief steals secrets by entering people's dreams": '🌀',
       'a lonely robot cleaning up Earth': '🤖',

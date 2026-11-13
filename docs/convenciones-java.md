@@ -279,7 +279,8 @@ SLF4J con un `private static final Logger LOG` por clase.
 - **Puntuaciones:** BM25 tal cual; k-NN `(1 + coseno) / 2`; RRF `Σ 1 / (60 + posición)`.
 - **Alias e índices:** el nombre `elastiflix-reloaded` es configurable (`elastiflix.index.alias`); el
   código nunca lo escribe como literal fuera de la configuración por defecto. Los índices se nombran
-  `<alias>-<AAAAMMDD-HHMMSS>` (UTC) y la limpieza de huérfanos solo toca los de su propio alias.
+  `<alias>-<AAAAMMDD-HHMMSS>` (UTC) y la limpieza de huérfanos solo toca los de su propio alias que no son el vigente
+  ni tienen otro alias (por ejemplo, un índice de staging publicado en producción).
 - **Un solo usuario:** la demo la usa una persona a la vez (fines académicos y demostrativos); no se
   agregan bloqueos ni controles de concurrencia entre búsquedas, registros e importaciones. El estado
   del trabajo de importación es inmutable (`record`) y se publica por el listener de progreso.

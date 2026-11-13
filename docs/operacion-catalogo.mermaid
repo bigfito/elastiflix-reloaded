@@ -1,0 +1,91 @@
+flowchart LR
+  owner(["Dueña del proyecto<br/>aprobación con texto literal<br/>BITACORA.md §3"])
+  wiki(["Wikipedia en inglés<br/>imdb_id → Wikidata P345 → enwiki"])
+
+  subgraph ronda["1 Ronda de calidad · data-quality/scripts · nadie escribe una sinopsis"]
+    direction TB
+    proponer["proponer_trama.py + wiki_plot.py<br/>trama de Wikipedia · si no hay, overview de TMDB<br/>si no hay ninguna: sin fuente"]
+    lote["cambios/WP-XX/lote-NNN.jsonl<br/>100 películas como máximo<br/>estado.tsv: propuesto · sin fuente · omitido"]
+    atrib["fuentes/plot-fuentes.tsv<br/>id · artículo · revid · fecha"]
+    aplicar["aplicar_cambios.py<br/>todo o nada por lote · idempotente<br/>escribe con catalogo.py"]
+    datos[("data/elastiflix-reloaded_01…07<br/>.json y .csv · 6 899 películas<br/>enrichment.plot: wikipedia_plot_fecha · tmdb_overview · unverified")]
+    validar["ShippedCatalogValidationTest<br/>14 partes sin errores ni advertencias<br/>analizar.py --desde-data"]
+    revisar["Revisión R-NN<br/>10 líneas al azar por lote<br/>un error: lote de corrección nuevo"]
+  end
+
+  subgraph stg["2 Staging · alias elastiflix-dq-staging · H-1"]
+    direction TB
+    cargar["cargar.py<br/>bulk _01 · append _02…_07<br/>se niega a cargar elastiflix-reloaded"]
+    app["App local · puerto 8081<br/>ELASTIFLIX_INDEX_ALIAS=elastiflix-dq-staging"]
+    jobs["Trabajo de importación<br/>bulk: ImportJob · temporal · swap de alias<br/>append: AppendJob · lotes por el alias"]
+    idxstg[("elastiflix-dq-staging-AAAAMMDD-HHMMSS<br/>plot_256/512/1024 por inferencia")]
+    espy["es.py<br/>escribe solo en elastiflix-dq-staging*<br/>con DQ_PERMITIR_ESCRITURA=1"]
+  end
+
+  subgraph medicion["3 Medición · M0 a M4"]
+    direction TB
+    harness["RelevanceIT sobre staging<br/>./mvnw verify -Pit<br/>se omite si el alias no tiene 6 899"]
+    report["target/eval/report.md<br/>reescrito en esa corrida<br/>índice esperado en la línea 2"]
+    umbrales["eval/thresholds.json<br/>mínimo = medición − 0.05"]
+  end
+
+  gate{"H-2 · H-3<br/>¿se publica?"}
+
+  subgraph publicacion["4 Publicación por alias · publicar.py"]
+    direction TB
+    checks["Comprobaciones<br/>6 899 películas · mapping fiel<br/>tres vectores en todas · es.aprobada H-2"]
+    swap["POST /_aliases atómico<br/>elastiflix-reloaded → índice de staging<br/>le quita elastiflix-dq-staging"]
+    prod[("Alias elastiflix-reloaded<br/>producción · demo y .env")]
+    medirprod["RelevanceIT sobre producción<br/>igual a staging ±0.02"]
+  end
+
+  anterior[("Índice anterior<br/>sin alias · se conserva 7 días<br/>anotado en BITACORA.md §8")]
+
+  subgraph vuelta["5 Vuelta atrás"]
+    direction TB
+    revertir["publicar.py --revertir índice<br/>el mismo cambio atómico al revés<br/>el índice actual vuelve a staging"]
+    nobulk["7 días sin cargas bulk<br/>ni en producción ni en staging"]
+  end
+
+  subgraph limpieza["6 Limpieza · C-01 T-08 desde el 2026-11-20"]
+    direction TB
+    borrar["publicar.py --borrar-anterior índice<br/>exige H-2 y ningún alias en el índice<br/>con la confirmación de la dueña"]
+    cleaner["OrphanCleaner en cada carga bulk<br/>borra alias-AAAAMMDD-HHMMSS<br/>salvo el vigente o con otro alias"]
+  end
+
+  wiki -->|"1 sección de trama"| proponer
+  proponer -->|"2"| lote
+  proponer -.->|"atribución CC BY-SA"| atrib
+  lote -->|"3"| aplicar
+  aplicar -->|"4 JSON y CSV juntos"| datos
+  datos -->|"5"| validar
+  validar -->|"6 un commit por lote"| revisar
+  revisar -.->|"corrección R-NN"| lote
+
+  datos -->|"7 recarga completa"| cargar
+  cargar -->|"8 POST /cargar/archivo"| app
+  app --> jobs
+  jobs -->|"9 índice nuevo"| idxstg
+  espy -.->|"análisis"| idxstg
+
+  idxstg -->|"10"| harness
+  harness --> report
+  report -.->|"medición aceptada"| umbrales
+  report -->|"11 M3 · M4"| gate
+  owner -->|"«Apruebo H-2» · «Apruebo H-3»"| gate
+
+  gate -->|"12 sí"| checks
+  checks -->|"13"| swap
+  swap -->|"14"| prod
+  swap -.->|"queda sin alias"| anterior
+  prod -->|"15"| medirprod
+
+  medirprod -->|"R1 difiere o hay incidente"| revertir
+  revertir -->|"R2 elastiflix-reloaded vuelve"| anterior
+  nobulk -.->|"protege"| anterior
+
+  medirprod -->|"16 7 días sin incidentes"| borrar
+  owner -.->|"confirma"| borrar
+  borrar -->|"17 DELETE"| anterior
+  jobs -.->|"antes del temporal"| cleaner
+  cleaner -.->|"lo borraría con una carga bulk"| anterior

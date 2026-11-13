@@ -10,176 +10,249 @@
   "csv": "Arrays, nested objects and vectors are JSON-encoded inside each cell. The file is UTF-8 with BOM."
  },
  "mapping": {
-  "properties": {
-   "adult": {
-    "type": "boolean"
-   },
-   "backdrop_path": {
-    "type": "keyword"
-   },
-   "belongs_to_collection": {
-    "type": "nested",
-    "properties": {
-     "backdrop_path": {
-      "type": "text",
-      "fields": {
-       "keyword": {
-        "type": "keyword",
-        "ignore_above": 256
+  "mappings": {
+   "dynamic": "strict",
+   "properties": {
+    "adult": {
+     "type": "boolean"
+    },
+    "backdrop_path": {
+     "type": "keyword"
+    },
+    "belongs_to_collection": {
+     "type": "nested",
+     "properties": {
+      "backdrop_path": {
+       "type": "text",
+       "fields": {
+        "keyword": {
+         "type": "keyword",
+         "ignore_above": 256
+        }
        }
-      }
-     },
-     "id": {
-      "type": "long"
-     },
-     "name": {
-      "type": "text",
-      "fields": {
-       "keyword": {
-        "type": "keyword",
-        "ignore_above": 256
+      },
+      "id": {
+       "type": "long"
+      },
+      "name": {
+       "type": "text",
+       "fields": {
+        "keyword": {
+         "type": "keyword",
+         "ignore_above": 256
+        }
        }
-      }
-     },
-     "poster_path": {
-      "type": "text",
-      "fields": {
-       "keyword": {
-        "type": "keyword",
-        "ignore_above": 256
-       }
-      }
-     }
-    }
-   },
-   "budget": {
-    "type": "float"
-   },
-   "cast": {
-    "type": "keyword"
-   },
-   "genres": {
-    "type": "keyword"
-   },
-   "homepage": {
-    "type": "keyword"
-   },
-   "id": {
-    "type": "keyword"
-   },
-   "imdb_id": {
-    "type": "keyword"
-   },
-   "keywords": {
-    "type": "nested",
-    "properties": {
-     "id": {
-      "type": "long"
-     },
-     "name": {
-      "type": "text",
-      "fields": {
-       "keyword": {
-        "type": "keyword",
-        "ignore_above": 256
+      },
+      "poster_path": {
+       "type": "text",
+       "fields": {
+        "keyword": {
+         "type": "keyword",
+         "ignore_above": 256
+        }
        }
       }
      }
+    },
+    "budget": {
+     "type": "float"
+    },
+    "cast": {
+     "type": "keyword"
+    },
+    "enrichment": {
+     "type": "object",
+     "properties": {
+      "backdrop_path": {
+       "type": "keyword"
+      },
+      "belongs_to_collection": {
+       "type": "keyword"
+      },
+      "budget": {
+       "type": "keyword"
+      },
+      "cast": {
+       "type": "keyword"
+      },
+      "genres": {
+       "type": "keyword"
+      },
+      "homepage": {
+       "type": "keyword"
+      },
+      "imdb_id": {
+       "type": "keyword"
+      },
+      "keywords": {
+       "type": "keyword"
+      },
+      "overview": {
+       "type": "keyword"
+      },
+      "plot": {
+       "type": "keyword"
+      },
+      "poster_path": {
+       "type": "keyword"
+      },
+      "production_companies": {
+       "type": "keyword"
+      },
+      "production_countries": {
+       "type": "keyword"
+      },
+      "rating": {
+       "type": "keyword"
+      },
+      "revenue": {
+       "type": "keyword"
+      },
+      "runtime": {
+       "type": "keyword"
+      },
+      "spoken_languages": {
+       "type": "keyword"
+      },
+      "tagline": {
+       "type": "keyword"
+      },
+      "user_score": {
+       "type": "keyword"
+      },
+      "vote_average": {
+       "type": "keyword"
+      },
+      "vote_count": {
+       "type": "keyword"
+      }
+     }
+    },
+    "genres": {
+     "type": "keyword"
+    },
+    "homepage": {
+     "type": "keyword"
+    },
+    "id": {
+     "type": "keyword"
+    },
+    "imdb_id": {
+     "type": "keyword"
+    },
+    "keywords": {
+     "type": "nested",
+     "properties": {
+      "id": {
+       "type": "long"
+      },
+      "name": {
+       "type": "text",
+       "fields": {
+        "keyword": {
+         "type": "keyword",
+         "ignore_above": 256
+        }
+       }
+      }
+     }
+    },
+    "original_language": {
+     "type": "keyword"
+    },
+    "original_title": {
+     "type": "text"
+    },
+    "overview": {
+     "type": "text",
+     "analyzer": "english"
+    },
+    "plot": {
+     "type": "text",
+     "analyzer": "english"
+    },
+    "plot_1024": {
+     "type": "dense_vector",
+     "dims": 1024,
+     "index": true,
+     "similarity": "cosine",
+     "index_options": {
+      "type": "hnsw",
+      "m": 16,
+      "ef_construction": 100
+     }
+    },
+    "plot_256": {
+     "type": "dense_vector",
+     "dims": 256,
+     "index": true,
+     "similarity": "cosine",
+     "index_options": {
+      "type": "hnsw",
+      "m": 16,
+      "ef_construction": 100
+     }
+    },
+    "plot_512": {
+     "type": "dense_vector",
+     "dims": 512,
+     "index": true,
+     "similarity": "cosine",
+     "index_options": {
+      "type": "hnsw",
+      "m": 16,
+      "ef_construction": 100
+     }
+    },
+    "popularity": {
+     "type": "float"
+    },
+    "poster_path": {
+     "type": "keyword"
+    },
+    "production_companies": {
+     "type": "keyword"
+    },
+    "production_countries": {
+     "type": "keyword"
+    },
+    "rating": {
+     "type": "keyword"
+    },
+    "release_date": {
+     "type": "date",
+     "format": "yyyy-MM-dd"
+    },
+    "revenue": {
+     "type": "float"
+    },
+    "runtime": {
+     "type": "integer"
+    },
+    "spoken_languages": {
+     "type": "keyword"
+    },
+    "status": {
+     "type": "keyword"
+    },
+    "tagline": {
+     "type": "keyword"
+    },
+    "title": {
+     "type": "text"
+    },
+    "user_score": {
+     "type": "float"
+    },
+    "video": {
+     "type": "boolean"
+    },
+    "vote_average": {
+     "type": "float"
+    },
+    "vote_count": {
+     "type": "integer"
     }
-   },
-   "original_language": {
-    "type": "keyword"
-   },
-   "original_title": {
-    "type": "text"
-   },
-   "overview": {
-    "type": "text"
-   },
-   "plot": {
-    "type": "text"
-   },
-   "plot_1024": {
-    "type": "dense_vector",
-    "dims": 1024,
-    "index": true,
-    "similarity": "cosine",
-    "index_options": {
-     "type": "hnsw",
-     "m": 16,
-     "ef_construction": 100
-    }
-   },
-   "plot_256": {
-    "type": "dense_vector",
-    "dims": 256,
-    "index": true,
-    "similarity": "cosine",
-    "index_options": {
-     "type": "hnsw",
-     "m": 16,
-     "ef_construction": 100
-    }
-   },
-   "plot_512": {
-    "type": "dense_vector",
-    "dims": 512,
-    "index": true,
-    "similarity": "cosine",
-    "index_options": {
-     "type": "hnsw",
-     "m": 16,
-     "ef_construction": 100
-    }
-   },
-   "popularity": {
-    "type": "float"
-   },
-   "poster_path": {
-    "type": "keyword"
-   },
-   "production_companies": {
-    "type": "keyword"
-   },
-   "production_countries": {
-    "type": "keyword"
-   },
-   "rating": {
-    "type": "keyword"
-   },
-   "release_date": {
-    "type": "date",
-    "format": "yyyy-MM-dd"
-   },
-   "revenue": {
-    "type": "float"
-   },
-   "runtime": {
-    "type": "integer"
-   },
-   "spoken_languages": {
-    "type": "keyword"
-   },
-   "status": {
-    "type": "keyword"
-   },
-   "tagline": {
-    "type": "keyword"
-   },
-   "title": {
-    "type": "text"
-   },
-   "user_score": {
-    "type": "float"
-   },
-   "video": {
-    "type": "boolean"
-   },
-   "vote_average": {
-    "type": "float"
-   },
-   "vote_count": {
-    "type": "integer"
    }
   }
  },

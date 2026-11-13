@@ -7,8 +7,8 @@ import com.bigfito.elastiflix.web.locale.SupportedLocale;
 /**
  * Sugerencias híbridas en español e inglés. Con AND el léxico no alcanza y decide el vectorial.
  *
- * <p>Las consultas son datos de cada idioma y la fila de Titanic lleva sus puestos medidos el 2026-10-21; las
- * etiquetas salen del catálogo de mensajes.</p>
+ * <p>Las consultas son datos de cada idioma y la fila de Titanic lleva sus puestos medidos el 2026-10-21 y
+ * confirmados el 2026-11-13 sobre el catálogo de la ronda 4; las etiquetas salen del catálogo de mensajes.</p>
  */
 final class HybridSuggestions {
 

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Borra índices {@code <alias>-<AAAAMMDD-HHMMSS>} que no son el catálogo vigente.
+ * Borra índices {@code <alias>-<AAAAMMDD-HHMMSS>} que no son el catálogo vigente ni tienen otro alias.
  *
  * <p>La limpieza es una ayuda, no un paso de la importación: si un borrado falla, queda un {@code WARN} y la
  * importación sigue. El huérfano se vuelve a intentar en la siguiente.</p>
@@ -31,8 +31,8 @@ public final class OrphanCleaner {
     }
 
     /**
-     * Borra huérfanos de ese alias. No toca el índice vigente ni otro prefijo. Un borrado que falla no
-     * detiene a los demás ni a la importación.
+     * Borra huérfanos de ese alias. No toca el índice vigente, otro prefijo ni un índice con otro alias. Un borrado
+     * que falla no detiene a los demás ni a la importación.
      *
      * @param catalog   operaciones del catálogo
      * @param alias     alias de esta importación

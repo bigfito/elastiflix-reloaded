@@ -184,6 +184,7 @@ input::placeholder{color:#6B6578}
 <footer style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6B6578">
 <span>Elastiflix-Movies Java · demo de búsqueda</span>
 <span>Índice: elastiflix-reloaded · 6 899 películas</span>
+<span>This product uses the TMDB API but is not endorsed or certified by TMDB.</span>
 </footer>
 
 <div aria-hidden="true" style="height: 10px; margin: 0 0 14px; background: repeating-linear-gradient(90deg, #FFCDB2 0 18px, transparent 18px 34px, #FBE7A1 34px 52px, transparent 52px 68px, #BDE8D7 68px 86px, transparent 86px 102px, #BFE0F6 102px 120px, transparent 120px 136px, #CDBDF6 136px 154px, transparent 154px 170px, #F7C1D9 170px 188px, transparent 188px 204px)"></div>
@@ -242,34 +243,34 @@ class Component extends DCLogic {
       if (s.queryType === 'match' && s.field === 'title') {
         sug = [
           { text: 'Spirited Away', tag: 'título traducido' },
-          { text: 'dark knight', tag: byOp('OR: 40 resultados', 'AND: 3 resultados') },
-          { text: 'love story', tag: byOp('OR: 65 resultados', 'AND: 1 resultado') }
+          { text: 'dark knight', tag: byOp('OR: 57 resultados', 'AND: 5 resultados') },
+          { text: 'love story', tag: byOp('OR: 107 resultados', 'AND: 3 resultados') }
         ];
       } else if (s.queryType === 'match' && s.field === 'plot') {
         sug = [
-          { text: 'ogre donkey princess', tag: byOp('OR: 162 resultados', 'AND: 3 resultados') },
-          { text: 'bathhouse spirits', tag: byOp('OR: 87 resultados', 'AND: 1 resultado') },
-          { text: 'clownfish ocean son', tag: byOp('OR: 864 resultados', 'AND: 1 resultado') }
+          { text: 'ogre donkey princess', tag: byOp('OR: 197 resultados', 'AND: 4 resultados') },
+          { text: 'bathhouse spirits', tag: byOp('OR: 363 resultados', 'AND: 1 resultado') },
+          { text: 'clownfish ocean son', tag: byOp('OR: 1528 resultados', 'AND: 1 resultado') }
         ];
       } else if (s.queryType === 'match') {
         sug = [
-          { text: 'Kolejne 365 dni', tag: 'título original · en title: 0' },
-          { text: 'el secreto', tag: byOp('OR: 16 resultados', 'AND: 1 resultado') },
-          { text: 'le fabuleux destin', tag: byOp('OR: 14 resultados', 'AND: 1 resultado') }
+          { text: 'Kolejne 365 dni', tag: byOp('título original · en title: 3', 'título original · en title: 0') },
+          { text: 'el secreto', tag: byOp('OR: 35 resultados', 'AND: 2 resultados') },
+          { text: 'le fabuleux destin', tag: byOp('OR: 26 resultados', 'AND: 1 resultado') }
         ];
       } else {
         sug = [
-          { text: 'heaven cielo', tag: byOp('OR: 6 resultados', 'AND: 0 · palabras en campos distintos') },
-          { text: 'next kolejne', tag: byOp('OR: 11 resultados', 'AND: 0 · palabras en campos distintos') },
+          { text: 'heaven cielo', tag: byOp('OR: 10 resultados', 'AND: 0 · palabras en campos distintos') },
+          { text: 'next kolejne', tag: byOp('OR: 15 resultados', 'AND: 0 · palabras en campos distintos') },
           { text: 'parasite 기생충', tag: byOp('OR: 1 resultado', 'AND: 0 · palabras en campos distintos') }
         ];
       }
     } else if (s.mode === 'vector') {
-      const titanicPos = { plot_256: '4.º lugar', plot_512: '3.º lugar', plot_1024: '1.º lugar' }[s.vector];
-      const inceptionPos = { plot_256: 'fuera del top 10', plot_512: '4.º lugar', plot_1024: '3.º lugar' }[s.vector];
-      const lifeOfPiPos = { plot_256: '10.º lugar', plot_512: '3.º lugar', plot_1024: '2.º lugar' }[s.vector];
-      const spiritedPos = { plot_256: '4.º lugar', plot_512: '1.º lugar', plot_1024: '1.º lugar' }[s.vector];
-      const etPos = { plot_256: '3.º lugar', plot_512: '1.º lugar', plot_1024: '1.º lugar' }[s.vector];
+      const titanicPos = { plot_256: '4.º lugar', plot_512: '4.º lugar', plot_1024: '3.º lugar' }[s.vector];
+      const inceptionPos = { plot_256: '10.º lugar', plot_512: '3.º lugar', plot_1024: '6.º lugar' }[s.vector];
+      const lifeOfPiPos = { plot_256: 'fuera del top 100', plot_512: '10.º lugar', plot_1024: '4.º lugar' }[s.vector];
+      const spiritedPos = { plot_256: '12.º lugar', plot_512: '8.º lugar', plot_1024: '2.º lugar' }[s.vector];
+      const etPos = { plot_256: '2.º lugar', plot_512: '1.º lugar', plot_1024: '1.º lugar' }[s.vector];
       sug = [
         { text: 'un barco de lujo choca con un iceberg en su viaje inaugural', tag: 'Titanic: ' + titanicPos },
         { text: 'un ladrón roba secretos entrando en los sueños de las personas', tag: 'Inception: ' + inceptionPos },
@@ -287,7 +288,7 @@ class Component extends DCLogic {
     } else {
       sug = [
         { text: 'dark knight joker caos en la ciudad', tag: 'título + trama' },
-        { text: 'titanic historia de amor en un barco que se hunde', tag: 'Titanic: 1.º vectorial, 2.º léxico' },
+        { text: 'titanic historia de amor en un barco que se hunde', tag: 'Titanic: 1.º vectorial, 1.º léxico' },
         { text: "ocean's eleven robo a casinos", tag: 'título + trama' }
       ];
     }
@@ -301,6 +302,9 @@ class Component extends DCLogic {
       'heaven cielo': '☁️',
       'next kolejne': '⏭️',
       'parasite 기생충': '🏠',
+      'ogre donkey princess': '🧅',
+      'bathhouse spirits': '♨️',
+      'clownfish ocean son': '🐠',
       'un barco de lujo choca con un iceberg en su viaje inaugural': '🚢',
       'un ladrón roba secretos entrando en los sueños de las personas': '🌀',
       'un robot solitario que limpia la Tierra': '🤖',

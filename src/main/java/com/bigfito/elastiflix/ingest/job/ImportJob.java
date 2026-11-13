@@ -20,6 +20,9 @@ import org.springframework.stereotype.Component;
 /**
  * Modo bulk: escribe las películas del archivo en un índice temporal y publica.
  *
+ * <p>Antes de crear el temporal borra los huérfanos del alias ({@link OrphanCleaner}). Al publicar, el índice
+ * anterior se borra en la misma llamada a {@code _aliases} ({@code remove_index}).</p>
+ *
  * <p>El temporal tiene solo las películas del archivo: el catálogo actual no se copia, así que
  * al publicar el catálogo queda con ellas. Si el alias todavía no existe, es la primera carga:
  * {@code _aliases} solo agrega el alias y «no publicado» significa que el alias sigue sin existir. Si algo falla
