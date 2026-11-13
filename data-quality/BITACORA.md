@@ -33,10 +33,10 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 13a | Qwen 3.5 9B | Cierre de WP-05: lo que quede, T-03b, T-06 (D-06) y T-05 | PENDIENTE | — | — | — |
 | 13b | Qwen 3.5 9B | WP-03 T-03 (integración) y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
 | 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
-| 15 | Qwen 3.5 9B | WP-07 parte B | PENDIENTE | — | — | — |
+| 15 | Cursor | WP-07 parte B (P-14) | PENDIENTE | — | — | — |
 | 16 | Qwen 3.5 9B | WP-08 | PENDIENTE | — | — | — |
 | 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
-| 18 | Qwen 3.5 9B | WP-10 | PENDIENTE | — | — | — |
+| 18 | Cursor | WP-10 (P-14) | PENDIENTE | — | — | — |
 | 19a | Qwen 3.5 9B | C-01 T-01 (M3) | PENDIENTE | — | — | — |
 | 19b | Qwen 3.5 9B | C-01 T-02 y T-03 (informe v2, pruebas y umbrales) | PENDIENTE | — | — | — |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
@@ -161,6 +161,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-10 | El hito A (`dq-r07`) se integró en `main` local con el merge `739a118`, sin push | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
+| 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Qwen 3.5 9B a Cursor. Qwen queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
 | 2026-11-13 | P-13 | Google Antigravity y GitHub Copilot salen del equipo; sus turnos (12, 13, 15, 16, 18, 19 y 21) los toma Qwen 3.5 9B. Para un modelo pequeño, el 13 y el 19 se parten en dos (13a/13b, 19a/19b), «Próximo paso» trae los comandos literales, `AGENTS.md` §5.1 suma reglas extra, WP-05 T-03 pasa a ser mecánico (`revisar_reparto.py`) y la revisión cuenta T-03b y decide D-06. Si un turno de Qwen queda `INCOMPLETO` dos veces por la misma tarea, Claude Code la propone para el siguiente turno de Cursor | Dueña del proyecto: «A partir de este punto salen del equipo el agente de Google Antigravity y el agente de Github Copilot. El trabajo de estos agentes lo tomará un agente de Qwen 3.5 9B.» · ajuste del reparto: Claude Code |
 | 2026-11-13 | P-12 | `wiki_plot.py` rechaza tres fuentes más: artículos de trilogías o sagas, redirecciones a una sección de otro artículo y, en la búsqueda por título, un artículo cuyo título no contiene el de la película ni al revés. La corrección `lote-028` ocupa ese número: el turno 12 empieza en el `029` | Claude Code (R-11) |
 
@@ -355,3 +356,8 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: decisión P-13; `python data-quality/scripts/revisar_reparto.py --etiqueta r11` probado (193 películas,
   129 cerradas y 64 pendientes de juicio, sobre los datos de `dq-r11`).
 - Para el siguiente: turno 12, Qwen 3.5 9B.
+
+### 2026-11-13 00:25 UTC · Claude Code (Claude Opus 5.5) · COORD (P-14)
+- Hice: pasé a Cursor los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), por decisión de la dueña del proyecto.
+  Actualicé el reparto en `PLAN.md`, el orden en `AGENTS.md` y §1.1 de este tablero.
+- Para el siguiente: turno 12, Qwen 3.5 9B, sin cambios.

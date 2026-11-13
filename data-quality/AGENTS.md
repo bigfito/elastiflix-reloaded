@@ -20,7 +20,7 @@ Google Antigravity y GitHub Copilot (con Kimi K3) ejecutaron turnos del 1 al 10 
 pendientes los toma Qwen 3.5 9B (P-13). Desde el turno 12, cada turno de ejecución va seguido de su revisión:
 
 ```text
-Qwen 12 → Claude Code → Qwen 13a → Claude Code → Qwen 13b → Claude Code → Cursor 14 → Claude Code → Qwen 15 → …
+Qwen 12 → Claude Code → Qwen 13a → Claude Code → Qwen 13b → Claude Code → Cursor 14 → Claude Code → Cursor 15 → Claude Code → Qwen 16 → …
 ```
 
 El reparto exacto está en [`PLAN.md` · Reparto y turnos](PLAN.md#reparto-y-turnos). Los turnos 13 y 19 se parten en

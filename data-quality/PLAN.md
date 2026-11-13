@@ -39,7 +39,7 @@ Cada fila es un **turno de ejecución**, seguido siempre de su **revisión** por
 salta ni se adelanta.
 
 **Equipo desde el turno 12 (P-13).** Google Antigravity y GitHub Copilot salieron del equipo, y sus turnos los toma
-**Qwen 3.5 9B**. Cursor conserva los suyos (14, 17 y 20). Como Qwen es un modelo pequeño, con menos contexto y menos
+**Qwen 3.5 9B**. Cursor conserva los suyos (14, 17 y 20) y suma los dos de Java, 15 y 18 (P-14). Como Qwen es un modelo pequeño, con menos contexto y menos
 margen en tareas largas, el reparto se ajustó así:
 - **Turnos más cortos:** los dos turnos más cargados se parten en dos, cada uno con su revisión. El 13 pasa a 13a
   (cierre de WP-05) y 13b (integración de WP-03 y WP-06 T-01/T-02). El 19 pasa a 19a (M3) y 19b (informe v2 y
@@ -56,10 +56,10 @@ margen en tareas largas, el reparto se ajustó así:
 | 13a | Qwen 3.5 9B | Cierre de WP-05: lo que quede, T-03b, T-06 (D-06) y T-05 | Mediano | — |
 | 13b | Qwen 3.5 9B | WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
 | 14 | Cursor | WP-06 T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
-| 15 | Qwen 3.5 9B | WP-07 parte B (`EFX-ING-029` en Java) | Grande | — |
+| 15 | Cursor | WP-07 parte B (`EFX-ING-029` en Java; P-14) | Grande | — |
 | 16 | Qwen 3.5 9B | WP-08 completo | Mediano | — |
 | 17 | Cursor | WP-09 completo | Mediano | **D-02** (aprobada) |
-| 18 | Qwen 3.5 9B | WP-10 completo | Mediano | **D-03** y **D-04** (aprobadas) |
+| 18 | Cursor | WP-10 completo (P-14) | Mediano | **D-03** y **D-04** (aprobadas) |
 | 19a | Qwen 3.5 9B | C-01 T-01: M3 (recarga completa de staging y harness) | Mediano | — |
 | 19b | Qwen 3.5 9B | C-01 T-02 y T-03: informe v2, pruebas de integración y umbrales | Mediano | — |
 | 20 | Cursor | C-01 T-04 y T-05: documentación y hito C | Mediano | — · **hito C** en su revisión |
@@ -67,8 +67,8 @@ margen en tareas largas, el reparto se ajustó así:
 
 | Ejecutor | Turnos desde el 12 | Qué le toca, en resumen |
 |---|---|---|
-| Qwen 3.5 9B | 12, 13a, 13b, 15, 16, 18, 19a, 19b, 21 | Cierre de WP-05, integración de WP-03, WP-06 sin M2, normalización Java, palabras clave, mapping, M3 y publicación |
-| Cursor | 14, 17, 20 | M2 e hito B, normalización de datos, puntuación, documentación final e hito C |
+| Qwen 3.5 9B | 12, 13a, 13b, 16, 19a, 19b, 21 | Cierre de WP-05, integración de WP-03, WP-06 sin M2, palabras clave, M3 y publicación |
+| Cursor | 14, 15, 17, 18, 20 | M2 e hito B, normalización de datos y en Java, puntuación, mapping, documentación final e hito C |
 
 **Reglas del reparto.**
 
@@ -85,7 +85,7 @@ margen en tareas largas, el reparto se ajustó así:
 ```mermaid
 flowchart LR
   Q12["T12 Qwen"] --> R12["R12 Claude Code"] --> Q13a["T13a Qwen"] --> R13a["R13a"] --> Q13b["T13b Qwen"] --> R13b["R13b"] --> C14["T14 Cursor"] --> R14["R14 · hito B"]
-  R14 --> Q15["T15 Qwen"] --> R15["R15 · …"] --> F["… T21 Qwen"] --> R21["R21 Claude Code<br/>cierre"]
+  R14 --> C15["T15 Cursor"] --> R15["R15"] --> Q16["T16 Qwen"] --> R16["R16 · …"] --> F["… T21 Qwen"] --> R21["R21 Claude Code<br/>cierre"]
 ```
 
 ```mermaid
@@ -355,7 +355,7 @@ Al revisar el turno 13a, Claude Code deja en «Próximo paso» la integración d
 
 **Recomendación 7.** Limpiar los datos y que la carga normalice el texto de aquí en adelante.
 
-**Rol:** DATOS (parte A) y JAVA (parte B) · **Turnos:** 14 (Cursor: parte A) y 15 (Qwen 3.5 9B: parte B) · **Alcance:** [`wp07-higiene.tsv`](hallazgos/listas/wp07-higiene.tsv) (91) y [`wp07-ruso-p-latina.tsv`](hallazgos/listas/wp07-ruso-p-latina.tsv) (214)
+**Rol:** DATOS (parte A) y JAVA (parte B) · **Turnos:** 14 (Cursor: parte A) y 15 (Cursor: parte B; P-14) · **Alcance:** [`wp07-higiene.tsv`](hallazgos/listas/wp07-higiene.tsv) (91) y [`wp07-ruso-p-latina.tsv`](hallazgos/listas/wp07-ruso-p-latina.tsv) (214)
 
 **Parte A · datos** (primero, para que la parte B no avise sobre `data/`), como lote mecánico:
 
@@ -433,7 +433,7 @@ pruebas, la viñeta correspondiente de «Carga de datos» en `README.md` y `READ
 **Recomendación 10.** Cambios menores. **No empieza hasta que D-03 y D-04 estén contestadas** en la bitácora; los
 valores «por defecto» de la tabla son solo la recomendación para la dueña del proyecto.
 
-**Rol:** JAVA y DOCS · **Turno:** 18 (Qwen 3.5 9B), en `dq/ronda-4`
+**Rol:** JAVA y DOCS · **Turno:** 18 (Cursor; P-14), en `dq/ronda-4`
 
 | Decisión | Pregunta | Recomendación |
 |---|---|---|
