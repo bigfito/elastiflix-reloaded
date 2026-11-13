@@ -8,7 +8,7 @@ Uso (después de `analizar.py --etiqueta t12 --desde-data`):
     python data-quality/scripts/revisar_reparto.py --etiqueta t12
 
 Las películas que siguen en `cast_miss` se anotan en el diario de WP-05 para que la revisión decida si son un falso
-positivo (P-13). Preparado por Claude Code al ajustar el plan para Qwen 3.5 9B.
+positivo (P-13). Preparado por Claude Code al ajustar el plan para Gemma 4 E4B.
 """
 
 from __future__ import annotations

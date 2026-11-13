@@ -3,9 +3,9 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 00:15 UTC · Claude Code (Claude Opus 5.5) · COORD (P-13, cambio de equipo)
-**Equipo (desde el turno 12, P-13):** ejecutan Cursor y Qwen 3.5 9B; revisa y corrige Claude Code; decide la dueña del proyecto. Hasta el turno 11 ejecutaron también Google Antigravity y GitHub Copilot
-**Orden de turnos:** Qwen 12 → Claude Code → Qwen 13a → Claude Code → Qwen 13b → Claude Code → Cursor 14 → … (`PLAN.md` · Reparto y turnos)
+**Última actualización:** 2026-11-13 00:40 UTC · Claude Code (Claude Opus 5.5) · COORD (P-15, corrección del ejecutor)
+**Equipo (desde el turno 12, P-13):** ejecutan Cursor y Gemma 4 E4B; revisa y corrige Claude Code; decide la dueña del proyecto. Hasta el turno 11 ejecutaron también Google Antigravity y GitHub Copilot
+**Orden de turnos:** Gemma 12 → Claude Code → Gemma 13a → Claude Code → Gemma 13b → Claude Code → Cursor 14 → … (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
 **Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261112-201036` (6 899 películas) · `data/` cargado en el commit `220a8ea` · app compilada en el commit `220a8ea` · instancia apagada (puerto 8081)
 
@@ -29,18 +29,18 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 09 | GitHub Copilot | WP-04 | REVISADO | 2026-11-12 | `dq-t09` | [R-09](bitacora/R-09.md) |
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`009` (se detuvo por B-03) | REVISADO | 2026-11-12 | `dq-t10` | [R-10](bitacora/R-10.md) |
 | 11 | Cursor | WP-05: lotes `011`–`025` y limpieza de todas las omitidas (`026`–`027`; P-11) | REVISADO | 2026-11-12 | `dq-t11` | [R-11](bitacora/R-11.md) |
-| 12 | Qwen 3.5 9B | WP-05: 14 lotes de 100 desde el `029`, limpieza de sus omitidas y T-03 (P-11, P-13) | PENDIENTE | — | — | — |
-| 13a | Qwen 3.5 9B | Cierre de WP-05: lo que quede, T-03b, T-06 (D-06) y T-05 | PENDIENTE | — | — | — |
-| 13b | Qwen 3.5 9B | WP-03 T-03 (integración) y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
+| 12 | Gemma 4 E4B | WP-05: 14 lotes de 100 desde el `029`, limpieza de sus omitidas y T-03 (P-11, P-13) | PENDIENTE | — | — | — |
+| 13a | Gemma 4 E4B | Cierre de WP-05: lo que quede, T-03b, T-06 (D-06) y T-05 | PENDIENTE | — | — | — |
+| 13b | Gemma 4 E4B | WP-03 T-03 (integración) y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
 | 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
 | 15 | Cursor | WP-07 parte B (P-14) | PENDIENTE | — | — | — |
-| 16 | Qwen 3.5 9B | WP-08 | PENDIENTE | — | — | — |
+| 16 | Gemma 4 E4B | WP-08 | PENDIENTE | — | — | — |
 | 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
 | 18 | Cursor | WP-10 (P-14) | PENDIENTE | — | — | — |
-| 19a | Qwen 3.5 9B | C-01 T-01 (M3) | PENDIENTE | — | — | — |
-| 19b | Qwen 3.5 9B | C-01 T-02 y T-03 (informe v2, pruebas y umbrales) | PENDIENTE | — | — | — |
+| 19a | Gemma 4 E4B | C-01 T-01 (M3) | PENDIENTE | — | — | — |
+| 19b | Gemma 4 E4B | C-01 T-02 y T-03 (informe v2, pruebas y umbrales) | PENDIENTE | — | — | — |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
-| 21 | Qwen 3.5 9B | C-01 T-06 a T-08 (H-2) | PENDIENTE | — | — | — |
+| 21 | Gemma 4 E4B | C-01 T-06 a T-08 (H-2) | PENDIENTE | — | — | — |
 
 ### 1.2 Paquetes de trabajo
 
@@ -78,30 +78,30 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 12 · Qwen 3.5 9B en OpenCode** (WP-05, P-11 y P-13). Los comandos funcionan igual en PowerShell y en Git
+> **Turno 12 · Gemma 4 E4B en OpenCode** (WP-05, P-11 y P-13). Los comandos funcionan igual en PowerShell y en Git
 > Bash; corre cada uno desde la raíz del worktree y cópialo tal cual (`AGENTS.md` §5.1). A los `./mvnw` dales un
-> timeout de 600000 ms. Firma: `--agente "Qwen (Qwen 3.5 9B)"` y `Agente: Qwen (Qwen 3.5 9B)`.
+> timeout de 600000 ms. Firma: `--agente "Gemma (Gemma 4 E4B)"` y `Agente: Gemma (Gemma 4 E4B)`.
 >
 > **A. Al empezar.**
 > 1. `git status` (debe estar limpio), `git log --oneline -5` y `git tag --list "dq-r11"`.
 > 2. Lee la sección «Para el siguiente ejecutor» de [R-11](bitacora/R-11.md). Luego
 >    `git show --stat 9a28321 be73b85 fdae033 3a9b3dc` y el último commit de `git log` (el ajuste del plan, P-13).
 > 3. En §1.1, fila 12: `EN CURSO` y la fecha. `git add data-quality/BITACORA.md`, y luego
->    `git commit -m "Bitácora: toma el turno 12" -m "Plan: turno 12 · WP-05" -m "Rol: DATOS" -m "Agente: Qwen (Qwen 3.5 9B)"`.
+>    `git commit -m "Bitácora: toma el turno 12" -m "Plan: turno 12 · WP-05" -m "Rol: DATOS" -m "Agente: Gemma (Gemma 4 E4B)"`.
 >
 > **B. 14 lotes, uno a la vez** (T-02). Para cada lote:
-> 1. `python data-quality/scripts/proponer_trama.py --wp WP-05 --lista data-quality/hallazgos/listas/wp05-enciclopedicos.tsv --tam 100 --agente "Qwen (Qwen 3.5 9B)"`.
+> 1. `python data-quality/scripts/proponer_trama.py --wp WP-05 --lista data-quality/hallazgos/listas/wp05-enciclopedicos.tsv --tam 100 --agente "Gemma (Gemma 4 E4B)"`.
 >    Al final imprime una línea que empieza con el nombre del lote (`lote-029`, `lote-030`…) y sus cuentas.
 > 2. `python data-quality/scripts/aplicar_cambios.py data-quality/cambios/WP-05/lote-NNN.jsonl`, con el número de ese lote.
 > 3. `./mvnw -q test "-Dtest=ShippedCatalogValidationTest"`. Si falla, **detente**: abre un bloqueo en §5 con el
 >    aviso exacto, cierra el turno como `INCOMPLETO` (paso E) y no apliques más lotes.
 > 4. `git status`: solo deben cambiar `data/`, `data-quality/cambios/WP-05/` y `data-quality/fuentes/plot-fuentes.tsv`.
 >    Después `git add data data-quality/cambios/WP-05 data-quality/fuentes` y
->    `git commit -m "Reemplaza <propuestas> plots enciclopédicos (WP-05 lote-NNN) con la trama de Wikipedia" -m "Plan: turno 12 · WP-05 · T-02 · lote-NNN" -m "Rol: DATOS" -m "Agente: Qwen (Qwen 3.5 9B)"`.
+>    `git commit -m "Reemplaza <propuestas> plots enciclopédicos (WP-05 lote-NNN) con la trama de Wikipedia" -m "Plan: turno 12 · WP-05 · T-02 · lote-NNN" -m "Rol: DATOS" -m "Agente: Gemma (Gemma 4 E4B)"`.
 >
 > **C. Limpieza de las omitidas.** Repite hasta que el script imprima «No quedan películas pendientes de
 > limpiar_enciclopedico.py.»:
-> 1. `python data-quality/scripts/limpiar_enciclopedico.py --wp WP-05 --agente "Qwen (Qwen 3.5 9B)"`.
+> 1. `python data-quality/scripts/limpiar_enciclopedico.py --wp WP-05 --agente "Gemma (Gemma 4 E4B)"`.
 > 2. Los mismos pasos 2, 3 y 4 de B, con el commit `"Limpia <propuestas> plots enciclopédicos (WP-05 lote-NNN)"` y `T-02` en la línea `Plan:`.
 >    Si imprimió «sin líneas de cambio; no se escribe un jsonl vacío», no hay lote que aplicar ni prueba que correr:
 >    `git add data-quality/cambios/WP-05` y commit `"Registra sin fuente en WP-05 (lote-NNN)"`.
@@ -121,7 +121,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 >    - Avance de WP-05 en §1.2.
 >    - «Próximo paso»: «Claude Code: revisión R-12».
 > 4. Para el commit de cierre:
->    - `git add data-quality` y `git commit -m "Turno 12: <resumen>" -m "Plan: turno 12 · WP-05" -m "Rol: DATOS" -m "Agente: Qwen (Qwen 3.5 9B)"`.
+>    - `git add data-quality` y `git commit -m "Turno 12: <resumen>" -m "Plan: turno 12 · WP-05" -m "Rol: DATOS" -m "Agente: Gemma (Gemma 4 E4B)"`.
 >    - Luego `git tag dq-t12`.
 >
 > Las películas de T-03b que caigan en tus lotes las cuenta la revisión R-12; no hace falta que las busques.
@@ -164,8 +164,9 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-10 | El hito A (`dq-r07`) se integró en `main` local con el merge `739a118`, sin push | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
-| 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Qwen 3.5 9B a Cursor. Qwen queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
-| 2026-11-13 | P-13 | Google Antigravity y GitHub Copilot salen del equipo; sus turnos (12, 13, 15, 16, 18, 19 y 21) los toma Qwen 3.5 9B. Para un modelo pequeño, el 13 y el 19 se parten en dos (13a/13b, 19a/19b), «Próximo paso» trae los comandos literales, `AGENTS.md` §5.1 suma reglas extra, WP-05 T-03 pasa a ser mecánico (`revisar_reparto.py`) y la revisión cuenta T-03b y decide D-06. Si un turno de Qwen queda `INCOMPLETO` dos veces por la misma tarea, Claude Code la propone para el siguiente turno de Cursor | Dueña del proyecto: «A partir de este punto salen del equipo el agente de Google Antigravity y el agente de Github Copilot. El trabajo de estos agentes lo tomará un agente de Qwen 3.5 9B.» · ajuste del reparto: Claude Code |
+| 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | P-15 | Corrección de P-13 y P-14: el ejecutor que toma los turnos de Google Antigravity y GitHub Copilot es **Gemma 4 E4B** en OpenCode (versión de escritorio), no Qwen 3.5 9B. Todo lo de P-13 y P-14 vale igual para Gemma; firma `Gemma (Gemma 4 E4B)`. Como es aún más pequeño, `AGENTS.md` §5.1 le permite cerrar el turno después de cualquier lote commiteado | Dueña del proyecto: «Cometí un error, te dije que era un agente de Qwen 3.5 9B corriendo desde el harness de OpenCode quien iba a realizar algunas tareas cuando en realidad es un agente de Gemma-4-e4b también corriendo desde OpenCode.» |
+| 2026-11-13 | P-13 | Google Antigravity y GitHub Copilot salen del equipo; sus turnos (12, 13, 15, 16, 18, 19 y 21) los toma Gemma 4 E4B. Para un modelo pequeño, el 13 y el 19 se parten en dos (13a/13b, 19a/19b), «Próximo paso» trae los comandos literales, `AGENTS.md` §5.1 suma reglas extra, WP-05 T-03 pasa a ser mecánico (`revisar_reparto.py`) y la revisión cuenta T-03b y decide D-06. Si un turno de Gemma queda `INCOMPLETO` dos veces por la misma tarea, Claude Code la propone para el siguiente turno de Cursor | Dueña del proyecto: «A partir de este punto salen del equipo el agente de Google Antigravity y el agente de Github Copilot. El trabajo de estos agentes lo tomará un agente de Qwen 3.5 9B.» · ajuste del reparto: Claude Code · el modelo lo corrige P-15 |
 | 2026-11-13 | P-12 | `wiki_plot.py` rechaza tres fuentes más: artículos de trilogías o sagas, redirecciones a una sección de otro artículo y, en la búsqueda por título, un artículo cuyo título no contiene el de la película ni al revés. La corrección `lote-028` ocupa ese número: el turno 12 empieza en el `029` | Claude Code (R-11) |
 
 ## 5. Bloqueos abiertos
@@ -245,7 +246,7 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 ### 2026-11-12 16:27 UTC · Claude Code (Claude Opus 5.5) · revisor
 - Hice: P-05 a pedido de la dueña del proyecto. Reparto del plan en 21 turnos (7 por ejecutor, 2 grandes cada uno);
   protocolo de turno del ejecutor y de revisión de Claude Code (`AGENTS.md` §5 y §6, plantilla `R-NN.md`);
-  tablero de turnos y de revisiones; etiqueta de partida `dq-r00`. GitHub Copilot entra en lugar de Qwen.
+  tablero de turnos y de revisiones; etiqueta de partida `dq-r00`. GitHub Copilot entra en lugar de Gemma.
 - Quedó pendiente: H-1 y D-01 a D-04.
 - Para el siguiente: turno 01, Google Antigravity.
 
@@ -352,15 +353,21 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Para el siguiente: turno 12, GitHub Copilot (empieza en el `lote-029`). D-06 aprobada por la dueña del proyecto («Apruebo D-06»), la aplica el turno 13a (WP-05 T-06).
 
 ### 2026-11-13 00:15 UTC · Claude Code (Claude Opus 5.5) · COORD (P-13)
-- Hice: ajusté el plan al equipo nuevo. Salen Google Antigravity y GitHub Copilot, y Qwen 3.5 9B toma sus turnos.
+- Hice: ajusté el plan al equipo nuevo. Salen Google Antigravity y GitHub Copilot, y Gemma 4 E4B toma sus turnos.
   Partí los turnos 13 y 19 en dos y escribí «Próximo paso» del turno 12 con comandos literales. Sumé `AGENTS.md`
   §5.1 (reglas para un modelo pequeño) y `scripts/revisar_reparto.py` (WP-05 T-03, solo lectura). Actualicé
   `PLAN.md`, `AGENTS.md`, `README.md` y este tablero.
 - Evidencia: decisión P-13; `python data-quality/scripts/revisar_reparto.py --etiqueta r11` probado (193 películas,
   129 cerradas y 64 pendientes de juicio, sobre los datos de `dq-r11`).
-- Para el siguiente: turno 12, Qwen 3.5 9B.
+- Para el siguiente: turno 12, Gemma 4 E4B.
 
 ### 2026-11-13 00:25 UTC · Claude Code (Claude Opus 5.5) · COORD (P-14)
 - Hice: pasé a Cursor los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), por decisión de la dueña del proyecto.
   Actualicé el reparto en `PLAN.md`, el orden en `AGENTS.md` y §1.1 de este tablero.
-- Para el siguiente: turno 12, Qwen 3.5 9B, sin cambios.
+- Para el siguiente: turno 12, Gemma 4 E4B, sin cambios.
+
+### 2026-11-13 00:40 UTC · Claude Code (Claude Opus 5.5) · COORD (P-15)
+- Hice: corregí el ejecutor de P-13 y P-14: es Gemma 4 E4B en OpenCode, no Qwen 3.5 9B. Cambié el nombre y la firma
+  en `PLAN.md`, `AGENTS.md`, `README.md`, este tablero, R-11, el diario de WP-05 y `revisar_reparto.py`. El reparto
+  no cambia. `AGENTS.md` §5.1 permite cerrar el turno después de cualquier lote commiteado.
+- Para el siguiente: turno 12, Gemma 4 E4B.

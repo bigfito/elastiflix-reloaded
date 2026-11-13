@@ -4,23 +4,23 @@ Instrucciones para los agentes que ejecutan [`PLAN.md`](PLAN.md). Son obligatori
 archivo sola, léelo completo antes de la primera acción.
 
 El trabajo es de un **equipo de tres agentes y una persona**. Desde el turno 12 (P-13), dos agentes ejecutan
-(Cursor y Qwen 3.5 9B), uno revisa, y avanzan por **turnos** en un orden fijo. Nadie depende de la memoria de otro: lo que el siguiente necesita saber queda escrito en
+(Cursor y Gemma 4 E4B), uno revisa, y avanzan por **turnos** en un orden fijo. Nadie depende de la memoria de otro: lo que el siguiente necesita saber queda escrito en
 la bitácora y en git, en la rama local `dq/ronda-4`.
 
 ## 1. El equipo
 
 | Integrante | Papel | Qué hace en su turno |
 |---|---|---|
-| **Qwen 3.5 9B** | Ejecutor (desde el turno 12) | Ejecuta las tareas de su turno (roles DATOS, JAVA, EVAL o DOCS, según la tarea), con las reglas extra del §5.1 |
-| **Cursor** | Ejecutor | Igual que Qwen, sin el §5.1 |
+| **Gemma 4 E4B** | Ejecutor (desde el turno 12) | Ejecuta las tareas de su turno (roles DATOS, JAVA, EVAL o DOCS, según la tarea), con las reglas extra del §5.1 |
+| **Cursor** | Ejecutor | Igual que Gemma, sin el §5.1 |
 | **Claude Code** | Revisor y coordinador | Después de **cada** turno de ejecución: revisa todo lo que hizo el ejecutor, **corrige** lo que quedó mal, deja el tablero listo y da paso al siguiente. No toma tareas del plan |
 | **Dueña del proyecto** (humana) | Decide y aprueba | Contesta P-0, H-1, H-2 y D-xx; integra los hitos en `main`; da la orden de arrancar cada turno |
 
 Google Antigravity y GitHub Copilot (con Kimi K3) ejecutaron turnos del 1 al 10 y salieron del equipo; sus turnos
-pendientes los toma Qwen 3.5 9B (P-13). Desde el turno 12, cada turno de ejecución va seguido de su revisión:
+pendientes los toma Gemma 4 E4B (P-13). Desde el turno 12, cada turno de ejecución va seguido de su revisión:
 
 ```text
-Qwen 12 → Claude Code → Qwen 13a → Claude Code → Qwen 13b → Claude Code → Cursor 14 → Claude Code → Cursor 15 → Claude Code → Qwen 16 → …
+Gemma 12 → Claude Code → Gemma 13a → Claude Code → Gemma 13b → Claude Code → Cursor 14 → Claude Code → Cursor 15 → Claude Code → Gemma 16 → …
 ```
 
 El reparto exacto está en [`PLAN.md` · Reparto y turnos](PLAN.md#reparto-y-turnos). Los turnos 13 y 19 se parten en
@@ -106,9 +106,10 @@ Si hubiera que recrear el worktree principal, desde el checkout principal:
 - Si algo del plan no funciona como dice, anótalo como desviación en el diario; si cambia el alcance, ábrelo como
   decisión en el tablero.
 
-### 5.1 Reglas extra para Qwen 3.5 9B
+### 5.1 Reglas extra para Gemma 4 E4B
 
-Qwen es un modelo pequeño: estas reglas le ahorran contexto y le evitan improvisar. Valen además de todo lo anterior.
+Gemma 4 E4B es un modelo pequeño (unos 4 000 millones de parámetros efectivos): estas reglas le ahorran contexto y le
+evitan improvisar. Valen además de todo lo anterior.
 
 1. **Lee poco y en este orden:** este archivo (§3, §5 y §5.1); «Próximo paso» de `BITACORA.md` (§2); la sección
    «Para el siguiente ejecutor» de la revisión anterior (`bitacora/R-NN.md`); la tarjeta de tu WP en `PLAN.md`; y el
@@ -125,8 +126,9 @@ Qwen es un modelo pequeño: estas reglas le ahorran contexto y le evitan improvi
    a ciegas ni de borrar archivos.
 7. **Números copiados, no calculados:** en la bitácora y los diarios escribe las cifras que imprimen los scripts.
 8. **Si el contexto se te llena**, cierra el turno limpio (`INCOMPLETO`, todo commiteado, punto de reanudación al día)
-   en vez de seguir a medias. El turno siguiente retoma desde ahí.
-9. Firma tus commits con `Agente: Qwen (Qwen 3.5 9B)` y pasa `--agente "Qwen (Qwen 3.5 9B)"` a los scripts.
+   en vez de seguir a medias. Puedes cerrar después de cualquier lote ya commiteado: lo que falte lo reparte la
+   revisión y nada se pierde, porque `proponer_trama.py` sigue donde quedó.
+9. Firma tus commits con `Agente: Gemma (Gemma 4 E4B)` y pasa `--agente "Gemma (Gemma 4 E4B)"` a los scripts.
 10. **En OpenCode:**
     - Trabaja con el agente **Build**: el agente Plan no puede editar archivos.
     - A cada `./mvnw` dale un timeout de 600000 ms en la herramienta de shell, porque una prueba tarda de 1 a 3
@@ -197,7 +199,7 @@ como carpeta, y envía el mensaje de la tabla.
 
 | Herramienta | Notas | Mensaje |
 |---|---|---|
-| **Qwen 3.5 9B** | OpenCode (versión de escritorio), con el worktree como proyecto, el agente **Build** y Qwen 3.5 9B como modelo. OpenCode carga `data-quality/AGENTS.md` cuando el agente lee archivos de esa carpeta; el mensaje pide leerlo igual. Firma sus commits como `Agente: Qwen (Qwen 3.5 9B)`. Lee el §5.1 | `Eres Qwen, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md (§3, §5 y §5.1) y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
+| **Gemma 4 E4B** | OpenCode (versión de escritorio), con el worktree como proyecto, el agente **Build** y Gemma 4 E4B como modelo. OpenCode carga `data-quality/AGENTS.md` cuando el agente lee archivos de esa carpeta; el mensaje pide leerlo igual. Firma sus commits como `Agente: Gemma (Gemma 4 E4B)`. Lee el §5.1 | `Eres Gemma, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md (§3, §5 y §5.1) y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Cursor** | Chat en modo Agent. Agrega `data-quality/` al contexto | `Eres Cursor, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Claude Code** | `data-quality/CLAUDE.md` importa este archivo | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
 
