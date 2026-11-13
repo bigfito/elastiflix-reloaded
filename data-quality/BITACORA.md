@@ -40,7 +40,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
 | 21 | Cursor → Claude Code (P-23) | C-01 T-06 a T-08 (H-2) | EN ESPERA · T-06 y T-07 hechos; T-08 desde el 2026-11-20 | 2026-11-13 | `dq-t21` | [R-21](bitacora/R-21.md) |
-| 22 | Claude Code | WP-11 (P-25) | EN CURSO | 2026-11-13 | — | — |
+| 22 | Claude Code | WP-11 (P-25) | REVISADO · T-00 a T-05 hechos y publicados (H-3); falta el push (T-06) | 2026-11-13 | `dq-t22` | [R-22](bitacora/R-22.md) |
 
 ### 1.2 Paquetes de trabajo
 
@@ -57,7 +57,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
-| WP-11 | Pendientes después de la publicación | EN CURSO · turno 22 | 22 | 2026-11-13 |
+| WP-11 | Pendientes después de la publicación | EN CURSO · T-00 a T-05 hechos; producción = M4 (H-3); T-06 (push y recompilar) | 22 | 2026-11-13 |
 | C-01 | Cierre: medición, publicación y documentación | EN ESPERA · T-01 a T-07 hechos; publicado el 2026-11-13; T-08 (borrar el índice anterior) desde el 2026-11-20 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
@@ -90,15 +90,16 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **C-01 T-08, desde el 2026-11-20** (7 días sin incidentes después de la publicación):
-> 1. Comprueba que `elastiflix-reloaded` siga en `elastiflix-dq-staging-20261113-195801` y que no haya incidentes
+> **C-01 T-08, desde el 2026-11-20** (7 días sin incidentes después de las publicaciones de H-2 y H-3):
+> 1. Comprueba que `elastiflix-reloaded` siga en `elastiflix-dq-staging-20261113-220031` y que no haya incidentes
 >    anotados.
-> 2. `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
-> 3. Turno 21 y C-01 a `HECHA`, y Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
+> 2. `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-dq-staging-20261113-195801` y
+>    `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
+> 3. Turno 21, C-01 y WP-11 a `HECHA`, y Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
 >
-> Hasta esa fecha: no hagas una carga bulk en producción (la limpieza de huérfanos borraría el índice anterior y la
-> vuelta atrás). Si algo falla, la vuelta atrás es
-> `python data-quality/scripts/publicar.py --revertir elastiflix-reloaded-20261112-144129`.
+> Hasta esa fecha no hagas una carga bulk en producción ni en staging: la limpieza de huérfanos borraría el índice
+> anterior de ese alias y, con él, la vuelta atrás. Si algo falla, la vuelta atrás es
+> `python data-quality/scripts/publicar.py --revertir elastiflix-dq-staging-20261113-195801`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -179,20 +180,20 @@ staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-gener
 |---|---|---|---|---|---|---|---|
 | `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 |
 | `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 |
-| `bm25_plot` | 0.25 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | 0.305 · 0.333 | 0.296 · 0.328 |
+| `bm25_plot` | 0.25 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | 0.305 · 0.333 | 0.305 · 0.333 |
 | `knn_plot_256` | 0.57 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | 0.622 · 0.671 | 0.622 · 0.671 |
 | `knn_plot_512` | 0.65 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | 0.708 · 0.744 | 0.708 · 0.744 |
 | `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | 0.745 · 0.784 | 0.745 · 0.784 |
 | `rrf_title_knn256` | 0.37 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | 0.425 · 0.390 | 0.425 · 0.390 |
-| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | 0.486 · 0.435 | 0.488 · 0.439 |
-| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | 0.512 · 0.520 | 0.511 · 0.548 |
-| `rrf_plot_knn1024` | 0.51 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | 0.564 · 0.571 | 0.557 · 0.591 |
+| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | 0.486 · 0.435 | 0.486 · 0.435 |
+| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | 0.512 · 0.520 | 0.512 · 0.520 |
+| `rrf_plot_knn1024` | 0.51 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | 0.564 · 0.571 | 0.564 · 0.571 |
 
 M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
 M1 medida el 2026-11-12 20:20 UTC (turno 07) sobre el índice de staging `elastiflix-dq-staging-20261112-201036` (6 899 películas, commit `220a8ea`);
 M2 medida el 2026-11-13 18:02 UTC (turno 14) sobre el índice de staging `elastiflix-dq-staging-20261113-174106` (6 899 películas, commit `03b0b2e`);
 M4 medida el 2026-11-13 22:31 UTC (turno 22, WP-11) sobre el índice de staging `elastiflix-dq-staging-20261113-220031` (6 899 películas, commit `99fba55`, `plot` y `overview` con analizador `english`); 42 pruebas de integración en verde con los umbrales nuevos. «Mínimo nDCG actual» es M4 − 0.05.
-Producción final medida el 2026-11-13 21:04 UTC con el alias `elastiflix-reloaded` (índice `elastiflix-dq-staging-20261113-195801`, ya publicado): igual a M3 en las 10 configuraciones; `RelevanceIT` en verde con los umbrales nuevos.
+Producción final medida el 2026-11-13 con el alias `elastiflix-reloaded`. Primero sobre `elastiflix-dq-staging-20261113-195801` (21:04 UTC, igual a M3). Después de H-3, sobre `elastiflix-dq-staging-20261113-220031` (igual a M4 en las 10 configuraciones; la columna muestra esta medición). `RelevanceIT` en verde.
 M3 medida el 2026-11-13 20:09 UTC (turno 19) sobre el índice de staging `elastiflix-dq-staging-20261113-195801` (6 899 películas, commit `bf5e446`, mapping `dynamic: strict`);
 `target/eval/report.md` lleva el índice de esta corrida en su segunda línea (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas: `bm25_plot` y `rrf_plot_*` siguen bajo los umbrales viejos, como prevé D-08). El log de la prueba es 2026-11-13T14:09:06-06:00.
 
@@ -539,3 +540,13 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: `./mvnw verify -Pit` sobre staging (42 pruebas en verde) y `./mvnw -q verify` sin alias;
   `hallazgos/salidas/m4/`.
 - Para el siguiente: H-3 a la dueña del proyecto; con H-3, `publicar.py` y el harness sobre producción.
+
+### 2026-11-13 22:25 UTC · publicar.py · publicación
+- `elastiflix-reloaded` apuntaba a `elastiflix-dq-staging-20261113-195801` y ahora apunta a `elastiflix-dq-staging-20261113-220031`. El índice anterior no se borra: se conserva 7 días y después se elimina con `publicar.py --borrar-anterior elastiflix-dq-staging-20261113-195801`.
+
+### 2026-11-13 22:50 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 22, WP-11)
+- Hice: con H-3 aprobada («Apruebo H-3»), `publicar.py` cambió `elastiflix-reloaded` a
+  `elastiflix-dq-staging-20261113-220031`. El harness sobre producción da exactamente M4. `data/README.md` y «Próximo
+  paso» dicen qué índices se guardan hasta el 2026-11-20 y cuáles se borran entonces.
+- Evidencia: `es.py GET /_alias/elastiflix-reloaded`; `target/eval/report.md` sobre producción.
+- Para el siguiente: integrar en `main`, el push (D-12) y recompilar la app local.
