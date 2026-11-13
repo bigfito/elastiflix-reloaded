@@ -1,0 +1,215 @@
+603 «The Matrix» (1999) [(4565, 'dystopia'), (4379, 'time travel'), (12377, 'virtual reality'), (14946, 'fictional war'), (303361, 'matrix')]
+105 «Back to the Future» (1985) [(391, 'flying car'), (4776, 'race against time'), (389, 'clock tower'), (830, 'car race'), (952, 'lightning'), (953, 'guitar'), (1436, 'inventor'), (1743, 'journey in the past'), (3338, 'invention'), (4379, 'time travel'), (6733, 'bullying'), (5455, 'time machine'), (10125, 'mad scientist'), (9673, 'love'), (11860, 'fish out of water'), (13015, 'terrorism'), (18425, 'teenage love'), (40850, 'destiny'), (163070, 'burlesque'), (186189, 'hidden identity'), (206720, 'teenage life'), (206736, 'changing the past or future'), (208349, 'kids'), (208611, '1950s'), (288816, 'lighthearted'), (325811, 'excited'), (325840, 'optimistic')]
+196 «Back to the Future Part III» (1990) [(4379, 'time travel'), (12377, 'wild west'), (303361, 'delorean'), (14946, 'fictional war'), (4565, 'dystopia')]
+165 «Back to the Future Part II» (1989) [(391, 'flying car'), (390, 'skateboarding'), (830, 'car race'), (952, 'lightning'), (953, 'guitar'), (1436, 'inventor'), (4379, 'time travel'), (10738, 'diner'), (9844, 'car crash'), (9663, 'sequel'), (12026, 'alternate history'), (18171, 'thunderstorm'), (189102, 'tunnel'), (196664, 'high school dance'), (200918, 'angry'), (208349, 'kids'), (226370, 'hoverboard'), (257783, '2010s'), (288816, 'lighthearted'), (325809, 'enthusiastic')]
+
+## plot largo: min 44 p5 146 p25 464 med 2839 p75 2946 p95 2990 max 3000
+   palabras: min 8 med 465 max 573
+   < 200 chars: 758  < 100: 61  > 8000: 0
+
+## más cortos: 20
+    (44, '680058 «The Rescue» (2021)', 'The film follows the Tham Luang cave rescue.', 'wikipedia_plot_2026-11-13')
+    (48, '287003 «Avatar: Scene Deconstruction» (2009)', 'The deconstruction of the Avatar scenes and sets', 'tmdb_overview')
+    (64, '15302 «The Pixar Story» (2007)', 'The success story of Pixar Animation Studios from the ground up.', 'wikipedia_plot_2026-11-12')
+    (67, '376570 «Hush» (2016)', 'A deaf woman is stalked by a psychotic killer in her secluded home.', 'tmdb_overview')
+    (67, '77887 «Hawaiian Vacation» (2011)', "The toys throw Ken and Barbie a Hawaiian vacation in Bonnie's room.", 'tmdb_overview')
+    (68, '844547 «Taurus» (2022)', 'The film follows the last days of a rising but problematic musician.', 'wikipedia_plot_2026-11-13')
+    (71, '470114 «24 Hours to Live» (2017)', 'An assassin seeks redemption after being given a second chance at life.', 'tmdb_overview')
+    (72, '407887 «Operation Chromite» (2016)', "A squad of soldiers fight in the Korean War's crucial Battle of Incheon.", 'tmdb_overview')
+    (72, '732472 «The Amityville Harvest» (2020)', 'A documentary crew follows Vincent Miller, a strange figure with powers.', 'wikipedia_plot_2026-11-13')
+    (73, '883987 «Megan» (2020)', 'A hiker finds shelter in a mountain lodge inhabited by two strange women.', 'tmdb_overview')
+    (74, '70435 «Haywire» (2011)', 'A black ops soldier seeks payback after she is betrayed and left for dead.', 'tmdb_overview')
+    (75, '301875 «Equals» (2015)', 'A futuristic love story set in a world where emotions have been eradicated.', 'tmdb_overview')
+    (77, '365942 «The Space Between Us» (2017)', 'A young man raised by scientists on Mars returns to Earth to find his father.', 'tmdb_overview')
+    (78, '1013577 «"Sr."» (2022)', 'Robert Downey Jr. recounts the life and career of his father Robert Downey Sr.', 'wikipedia_plot_2026-11-13')
+    (79, '157825 «White Bird in a Blizzard» (2014)', "In 1988, a teenage girl's life is thrown into chaos when her mother disappears.", 'tmdb_overview')
+    (79, '322240 «Nine Lives» (2016)', "A stuffy businessman finds himself trapped inside the body of his family's cat.", 'tmdb_overview')
+    (82, '68812 «The Iceman» (2012)', 'The true story of Richard Kuklinski, the notorious contract killer and family man.', 'tmdb_overview')
+    (84, '219247 «Zombie Night» (2013)', 'In a small California town, two families must survive a zombie attack until sunrise.', 'wikipedia_plot_2026-11-12')
+    (85, '15019 «I Could Never Be Your Woman» (2007)', 'A mother falls for a younger man while her daughter falls in love for the first time.', 'tmdb_overview')
+    (85, '354279 «Charming» (2018)', 'Three fairy tale princesses find themselves engaged to the same guy, Prince Charming.', 'tmdb_overview')
+
+## más largos: 8
+    (3000, '97430 «The Man with the Iron Fists» (2012)')
+    (3000, '9621 «Elizabethtown» (2005)')
+    (3000, '9503 «Pope Joan» (2009)')
+    (3000, '88751 «Journey to the Center of the Earth» (2008)')
+    (3000, '841755 «Mortal Kombat Legends: Battle of the Realms» (2021)')
+    (3000, '816977 «They/Them» (2022)')
+    (3000, '8090 «Untraceable» (2008)')
+    (3000, '69798 «The Inbetweeners Movie» (2011)')
+
+## plot idéntico a overview: 1318  etiquetados tmdb_overview: 1311
+
+## etiquetado tmdb_overview pero plot != overview: 370
+    ('17 «The Dark» (2005)', 'In an attempt to pull her family together, Adèlle travels with her young daughte', '|', 'Adèlle goes to Wales with her daughter Sarah to try and patch things up with Sar')
+    ('143 «All Quiet on the Western Front» (1930)', 'When a group of idealistic young men join the German Army during the Great War, ', '|', 'A young soldier faces profound disillusionment in the soul-destroying horror of ')
+    ('243 «High Fidelity» (2000)', 'After his long-time girlfriend dumps him, a thirty-year-old record store owner s', '|', 'When record store owner and compulsive list-compiler Rob Gordon gets dumped by h')
+    ('326 «Snakes on a Plane» (2006)', 'FBI agent Neville Flynn boards a flight from Honolulu, Hawaii to Los Angeles, es', '|', 'America is on the search for the murderer Eddie Kim. Sean Jones must fly to L.A.')
+    ('343 «Harold and Maude» (1971)', 'A deadpan young man obsessed with death meets an eccentric septuagenarian who te', '|', 'The young Harold lives in his own world of suicide-attempts and funeral visits t')
+    ('437 «Cube 2: Hypercube» (2002)', 'Eight strangers awaken with no memory, in a puzzling cube-shaped room where the ', '|', 'The sequel to the low budget first film Cube. This time the prisoners find them ')
+    ('438 «Cube Zero» (2004)', 'A young programmer whose job is to watch over the reality-warping Cube defies or', '|', 'Cube Zero is the third film in the trilogy yet this time instead of a film about')
+    ('439 «La Dolce Vita» (1960)', 'Episodic journey of journalist Marcello who struggles to find his place in the w', '|', 'Journalist and man-about-town Marcello struggles to find his place in the world,')
+    ('531 «The Wrong Trousers» (1993)', "Wallace rents out Gromit's former bedroom to a penguin, who takes up an interest", '|', "Wallace rents out Gromit's former bedroom to a penguin, who takes up an interest")
+    ('553 «Dogville» (2003)', 'A woman on the run from the mob is reluctantly accepted in a small Colorado comm', '|', 'A barren soundstage is stylishly utilized to create a minimalist small-town sett')
+
+## plot == overview sin etiqueta: 7
+    33473 «Stomp the Yard 2: Homecoming» (2010)
+    390053 «Crash Pad» (2017)
+    521647 «Darc» (2018)
+    571655 «Valhalla» (2019)
+    586791 «Little Fish» (2021)
+    811592 «One Shot» (2021)
+    847981 «Black Island» (2021)
+   plot desde overview (largo mediano): 227
+
+## plot duplicado exacto: 0
+
+## overview duplicado: 2
+    ['88557 «Pokémon the Movie: White - Victini and Zekrom» (2011)', '115223 «Pokémon the Movie: Black - Victini and Reshiram» (2011)']
+    ['282069 «Parasyte: Part 1» (2014)', '282070 «Parasyte: Part 2» (2015)']
+
+## mismo inicio (150 chars): 0
+
+## plot · ASSISTANT: 2
+    ('286554 «Two Night Stand» (2014)', "I'm sorry")
+    ("420245 «Don't Knock Twice» (2017)", "I'm sorry")
+
+## plot · MARKDOWN: 0
+
+## plot · THEMES: 0
+
+## plot · wiki cita [n]: 0
+
+## plot · wiki encabezado: 0
+
+## plot · ficha inicial («X is a 2004 ... film»): 8
+    ('13476 «Win a Date with Tad Hamilton!» (2004)', 'A soldier and nurse emerge from two 1940s-style cars in the ')
+    ('492188 «Marriage Story» (2019)', 'Charlie Barber, a successful theater director in New York Ci')
+    ('512263 «Honey Boy» (2019)', 'In 2005, Otis Lort is a movie')
+    ('535389 «The Great Battle» (2018)', 'The Great Battle is a historical film')
+    ('685691 «BARDO, False Chronicle of a Handful of Truths» (2022)', 'Silverio Gama is a Mexican journalist turned documentary')
+    ('740017 «Avatar: Agni Kai» (2020)', 'Avatar: Agni Kai is a 2020 film')
+    ('763873 «Under Wraps» (2021)', 'Twelve-year-old Marshall is a horror movie')
+    ('811061 «So Cold the River» (2022)', 'Erica is a documentary')
+
+## plot · meta (the film/movie ...): 68
+    ('14756 «Ip Man» (2008)', 'the film stars')
+    ('40172 «Man, Woman & the Wall» (2006)', 'The film was released')
+    ('55914 «Termination Point» (2007)', 'The film premiered')
+    ('58496 «Senna» (2010)', 'the film was released')
+    ('59722 «2012: Ice Age» (2011)', 'the film premiered')
+    ('65364 «Sexual Predator» (2001)', 'The film was released')
+    ('79582 «Aliens vs Avatars» (2011)', 'The film received')
+    ('94562 «Turkish for Beginners» (2012)', 'the film premiered')
+    ('113082 «Berserk: The Golden Age Arc I - The Egg of the King» (2012)', 'The film was released')
+    ('142061 «Batman: The Dark Knight Returns, Part 2» (2013)', 'The film was released')
+    ('196254 «Barbie Mariposa & the Fairy Princess» (2013)', 'The film was released')
+    ('234284 «Time of EVE: The Movie» (2010)', 'The movie premiered')
+
+## plot · producción/recepción: 5
+    ('188222 «Entourage» (2015)', 'box office')
+    ('650783 «The Comeback Trail» (2020)', 'box office')
+    ('726916 «JJ+E» (2021)', 'Critical reception')
+    ('818502 «Fenced In» (2022)', 'Critical reception')
+    ('948333 «Into the Deep» (2022)', 'Critical reception')
+
+## plot · dirección (directed by): 55
+    ("1268 «Mr. Bean's Holiday» (2007)", 'directed by')
+    ('9552 «The Exorcist» (1973)', 'directed by')
+    ('11442 «Halloween: Resurrection» (2002)', 'directed by')
+    ('14756 «Ip Man» (2008)', 'Directed by')
+    ('15898 «Unstable Fables: 3 Pigs & a Baby» (2008)', 'Directed by')
+    ("25353 «The True Story of Puss 'n Boots» (2009)", 'directed by')
+    ('29572 «The Man Who Cried» (2000)', 'directed by')
+    ('32219 «Blade: House of Chthon» (2006)', 'Directed by')
+    ('34469 «Julius Caesar» (2002)', 'directed by')
+    ('54553 «Minions: Home Makeover» (2010)', 'Directed by')
+    ('65364 «Sexual Predator» (2001)', 'directed by')
+    ('67203 «Arctic Predator» (2010)', 'directed by')
+
+## plot · en español/otro idioma: 30
+    ('1428 «Once Upon a Time in Mexico» (2003)', 'El Mariachi is recruited by CIA officer Sheldon Jeffrey Sand')
+    ('1635 «The Island» (2005)', 'Los Angeles and helps them to the Yucca maglev station, wher')
+    ('1735 «The Mummy: Tomb of the Dragon Emperor» (2008)', 'La. With help from yetis summoned by Lin, the group holds of')
+    ('1833 «Rent» (2005)', 'La Vie Bohème" or "La Vie Bohème A"). Roger and Mimi reveal ')
+    ('1992 «Planet Terror» (2007)', 'El Wray is detained by Sheriff Hague based on past encounter')
+    ('2048 «I, Robot» (2004)', 'Del Spooner is a homicide detective in the Chicago Police De')
+    ('9342 «The Mask of Zorro» (1998)', 'la Vega is Zorro and attempts to arrest him at his home. A s')
+    ('9884 «Collateral Damage» (2002)', 'Los Angeles, killing nine people, including Colombian offici')
+    ('10452 «Queen Margot» (1994)', 'La Môle, also a Protestant from a well-to-do family. Murders')
+    ('15092 «Crank: High Voltage» (2009)', 'El Hurón is the brother of Ricky and Alex Verona, both of wh')
+    ('16456 «The Crow: Wicked Prayer» (2005)', "El Niño, the head of their Order, at a place called 'Iniquit")
+    ('21972 «Like Mike» (2002)', 'Los Angeles. At night, they all have to sell chocolate for t')
+
+## plot · termina sin puntuación: 7
+    ('51880 «Oscar and the Lady in Pink» (2009)', 't')
+    ('287003 «Avatar: Scene Deconstruction» (2009)', 's')
+    ('394741 «Stan & Ollie» (2018)', 'c')
+    ('433694 «Sgt. Stubby: An American Hero» (2018)', 'y')
+    ('457837 «Brotherhood of Blades II: The Infernal Battlefield» (2017)', 't')
+    ('467433 «A Question of Faith» (2017)', 's')
+    ('1042984 «Christmas Full of Grace» (2022)', 's')
+
+## plot · URL: 0
+
+## plot · spoiler/notice: 3
+    ('828947 «Beavis and Butt-Head Do the Universe» (2022)', 'Spoiler')
+    ('838330 «Not Okay» (2022)', 'This article')
+    ('979163 «Beyond Infinity: Buzz and the Journey to Lightyear» (2022)', 'spoiler')
+
+## plot · segunda persona IA: 2
+    ('621707 «The Vigil» (2020)', 'let me')
+    ('833339 «Speak No Evil» (2022)', 'let me')
+
+## plot · lista viñetas: 0
+
+## plot con >10% no-ASCII: 0
+
+## plot que parece es: 0
+
+## plot que parece fr: 0
+
+## plot que parece de: 0
+
+## overview con nombres propios que el plot no menciona (¿plot de otra película?): 89
+    ('55 «Amores Perros» (2000)', ['Alejandro', 'Amores', 'Mexican', 'Mexico', 'Sending'], 'The film is constructed from three distinct stories linked by a car crash that brings the characters')
+    ('575 «The Experiment» (2001)', ['Das', 'Even', 'Experiment', 'Stanford', 'University'], 'Former journalist and now taxi driver Tarek Fahd spots a newspaper ad seeking to recruit test subjec')
+    ('1562 «28 Weeks Later» (2007)', ['Americans', 'British', 'Isles', 'Six'], 'During the initial Rage Virus outbreak in Britain, Don, his wife Alice, and four other survivors she')
+    ('1579 «Apocalypto» (2006)', ['Mayan', 'Set', 'Through'], 'While hunting in the Mesoamerican rainforest, Jaguar Paw, his father Flint Sky, and their fellow tri')
+    ('1581 «The Holiday» (2006)', ['Each', 'Kingdom', 'States', 'United'], 'Iris Simpkins, a society columnist for The Daily Telegraph in London, is obsessively in love with he')
+    ('1667 «March of the Penguins» (2005)', ['Antarctica', 'Breathtaking', 'Every', 'Predators'], 'The film opens at the close of the Antarctic summer, when every penguin of breeding age leaves the o')
+    ("1717 «All the King's Men» (2006)", ['Based', 'Huey', 'Long', 'Louisiana', 'Penn', 'Prize'], 'Jack Burden, a Louisianan news reporter, takes a personal interest in Willie Stark, an idealistic sm')
+    ('4942 «Leatherheads» (2008)', ['Everyone', 'Football', 'Professional'], 'In 1925, Jimmy "Dodge" Connelly is captain of the Duluth Bulldogs, a struggling professional America')
+    ('7191 «Cloverfield» (2008)', ['Five', 'Told', 'Yorkers'], 'The footage from a personal camcorder is recovered by the U.S. Department of Defense in the area "fo')
+    ('9397 «Evolution» (2001)', ['David', 'Duchovny', 'Jones', 'Julianne', 'Moore', 'Orlando'], 'Late one night, a large meteor crashes in the Arizona desert, witnessed by aspiring firefighter Wayn')
+    ('9836 «Happy Feet» (2006)', ['Emperor', 'Into', 'Penguins'], 'Every emperor penguin attracts a mate by singing a unique "heartsong". If the male penguin\'s heartso')
+    ('10188 «The Sisterhood of the Traveling Pants 2» (2008)', ['Four', 'Pants', 'Sisterhood', 'Traveling'], 'Childhood friends Bridget Vreeland, Lena Kaligaris, Tibby Rollins, and Carmen Lowell have completed ')
+    ('10317 «Our Brand Is Crisis» (2015)', ['America', 'Based', 'Brand', 'Crisis', 'Our', 'South'], 'In 2002, Bolivian politician Pedro Castillo hires an American political consulting firm (based on Ja')
+    ('10800 «Dragon Hunters» (2008)', ['Dragon', 'Eat', 'Hunters'], 'The world has become a vast arrangement of floating islands of varying sizes and shapes. This dizzy ')
+    ('11804 «White Noise» (2005)', ['Electronic', 'Phenomenon', 'Voice'], 'Jonathan Rivers is an architect, married to his wife Anna, a best-selling author. The couple have a ')
+    ('11817 «Bulletproof Monk» (2003)', ['Scroll', 'Tibetan', 'Ultimate'], 'In 1943 Tibet, a young monk is told that he has fulfilled a series of prophecies that mark him as hi')
+    ('12405 «Slumdog Millionaire» (2008)', ['Indian', 'Millionaire', 'Wants', 'Who'], 'In 1992, five-year-old Muslim boy Jamal Malik, a resident of the Juhu slum in Mumbai, obtains Bollyw')
+    ('13505 «The Perfect Score» (2004)', ['Center', 'Princeton', 'Six', 'Testing'], "Everyman high school student Kyle needs a high score on the SAT to get into Cornell University's arc")
+    ('13805 «Disaster Movie» (2008)', ['Date', 'Epic', 'Meet', 'Movie', 'Scary', 'Spartans'], 'In the year 10,001 B.C., a caveman runs away from a predator through a plain and immediately gets in')
+    ('14337 «Primer» (2004)', ['Dealing', 'Friends', 'Taking'], 'Two engineers, Aaron and Abe, supplement their day jobs with entrepreneurial tech projects, working ')
+    ('14869 «G.I. Joe: The Rise of Cobra» (2009)', ['Cobra', 'Destro', 'Egyptian'], 'Weapons master James McCullen has created a nanotech-based weapon—nanobots that can rapidly devour a')
+    ('15577 «Crossing Over» (2009)', ['Angeles', 'Crossing', 'Immigrants', 'Kramer', 'Los', 'Over'], 'After immigrant Mireya Sanchez is deported, ICE / HSI Special Agent Max Brogan takes care of her son')
+    ('17202 «Why Did I Get Married?» (2007)', ['Colorado', 'Eight', 'Secrets'], 'Four couples, who are also best friends since college, converge in a house in the mountains for a we')
+    ('19899 «Couples Retreat» (2009)', ['Four', 'Participation', 'Though'], 'Dave, a dealer for Guitar Hero, and Ronnie, a stay-at-home mom, are a typical couple raising two you')
+    ("21542 «Love Don't Co$t a Thing» (2003)", ['Buy', 'Can', 'Cannon', 'Dempsey', 'High', 'Love'], 'Alvin Johnson is an extremely intelligent nerd who is skilled in designing car engines. He has also ')
+    ('22494 «Frequently Asked Questions About Time Travel» (2009)', ['British', 'Faris', 'Follows'], 'Ray, recently fired from his job as a theme park guide, spends the evening with his friends Pete and')
+    ('25137 «Beyond a Reasonable Doubt» (2009)', ['Fritz', 'Lang', 'Remake'], 'Reporter C.J. Nicholas built his career on an award-winning documentary about a pregnant teenage pro')
+    ('25769 «Carriers» (2009)', ['Contagion', 'Four', 'Gulf', 'Mexico', 'West'], 'A highly infectious virus, known as "The World Ender Virus", has spread worldwide, killing most of t')
+    ('28118 «The Gruffalo» (2009)', ['Encountering', 'Fox', 'Owl', 'Snake'], 'In an autumn forest, a red squirrel mother finds a nut. Her children are playing until they see an o')
+    ('28665 «Fame» (2009)', ['Academy', 'Arts', 'Performing', 'York'], 'Denise Dupree (Naughton), a classically trained pianist with strict parents, secretly longs to sing,')
+    ("35685 «Lady Chatterley's Lover» (1981)", ['Chatterly', 'Lady', 'Lawrence'], 'After a Great War injury leaves her Baronet husband Sir Clifford Chatterley impotent and crippled, h')
+    ('37034 «True Legend» (2010)', ['Beggars', 'Dynasty', 'Qing'], 'Su Can, a former general, has retired from military service to focus on wushu. He has a tense relati')
+    ('38810 «Dogtooth» (2009)', ['Any', 'Having', 'Hence', 'Three'], 'A couple and their adult son and two adult daughters live in a fenced compound. The children have no')
+    ('41275 «Python» (2000)', ['California', 'Growing', 'Haven', 'Sleepy'], 'An NSA plane crashes near the town of Ruby after its cargo, an abnormally large reticulated python, ')
+    ('42994 «Memories» (1995)', ['Bomb', 'Cannon', 'Fodder', 'Magnetic', 'Rose', 'Stink'], 'The Corona, a deep space salvage freighter, is out on a mission when it encounters a distress signal')
+    ('44639 «Inside Job» (2010)', ['Inside', 'Job', 'Through'], "The film begins by examining the effects of the government of Iceland's shift toward deregulation in")
+    ('46998 «Evil - In the Time of Heroes» (2009)', ['Greece', 'Greeks', 'Kako', 'Throughout'], 'The story plays three days later as the first movie, the ancient power transmuted the people in bloo')
+    ('50633 «Prison-A-Go-Go!» (2003)', ['Evil', 'Fights', 'Food', 'Kung', 'Mud', 'Multiple'], 'The evil and incompetent Dr. Hurtrider kidnaps an innocent young woman named Callista to conduct exp')
+    ('56831 «The Sunset Limited» (2011)', ['Limited', 'Locked', 'Sunset'], "Black and White converse about White's attempted suicide. White feels as though everything ends up i")
+    ('59118 «The Prey» (2011)', ['Enemy', 'Number', 'Public'], 'After a successful heist, Franck Adrien and his partner are convicted and sent to prison. Adrien is ')

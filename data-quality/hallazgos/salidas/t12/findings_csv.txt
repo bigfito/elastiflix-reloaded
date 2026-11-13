@@ -1,0 +1,16 @@
+2 ('crítica', 'plot_respuesta_de_asistente')
+11 ('alta', 'plot_dato_inventado_verificado')
+2 ('media', 'idioma_corrupto')
+19 ('media', 'keyword_id_con_otro_nombre')
+2 ('media', 'numero_sospechoso')
+722 ('media', 'plot_corto')
+53 ('media', 'plot_reparto_no_coincide_revisar')
+2 ('baja', 'coleccion_id_partido')
+3 ('baja', 'entidad_html')
+2 ('baja', 'idioma_contradictorio')
+1 ('baja', 'pais_no_canonico')
+81 ('baja', 'puntuaciones_divergentes')
+88 ('baja', 'texto_espacios')
+8 ('baja', 'texto_no_NFC')
+filas 996 películas 958
+películas con algún hallazgo alto/crítico: 13

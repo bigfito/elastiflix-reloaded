@@ -203,6 +203,17 @@ def _ruta_fuentes(destino: pathlib.Path) -> pathlib.Path:
     return DQ / "fuentes" / "plot-fuentes.tsv"
 
 
+def articulos_usados(ruta: pathlib.Path) -> dict[str, str]:
+    """`{título del artículo: id}` de las sinopsis de Wikipedia ya registradas en `plot-fuentes.tsv`."""
+    usados: dict[str, str] = {}
+    if ruta.is_file():
+        for linea in ruta.read_text(encoding="utf-8-sig").splitlines()[1:]:
+            partes = linea.split("\t")
+            if len(partes) >= 2 and partes[0]:
+                usados.setdefault(partes[1], partes[0])
+    return usados
+
+
 def _agregar_fuentes(ruta: pathlib.Path, filas_nuevas: list[tuple[str, str, str, str]]) -> None:
     if not filas_nuevas:
         return
@@ -264,11 +275,19 @@ def proponer(
     nuevas_filas: list[dict[str, str]] = []
     fuentes: list[tuple[str, str, str, str]] = []
     cuentas = {"propuesto": 0, "sin fuente": 0, "omitido": 0}
+    # Un artículo de Wikipedia es de una sola película: si ya lo usa otra, no se repite (R-10, Red Cliff).
+    usados = articulos_usados(_ruta_fuentes(destino))
 
     for doc_id in elegidos:
         doc = docs[doc_id]
         titulo = articulos.get(doc_id)
-        resultado = wiki_plot.trama(titulo) if titulo else None
+        resultado = wiki_plot.trama(titulo, wiki_plot._anio(doc)) if titulo else None
+        if resultado is not None and usados.get(resultado.titulo, doc_id) != doc_id:
+            detalles[doc_id] = f"el artículo {resultado.titulo} ya es la fuente de {usados[resultado.titulo]}"
+            print(f"{doc_id}: {detalles[doc_id]}; no se repite", file=sys.stderr)
+            resultado = None
+        if resultado is not None:
+            usados[resultado.titulo] = doc_id
         if resultado is not None and wiki_plot.cita_visible(resultado.texto):
             raise RuntimeError(f"{doc_id}: la trama todavía tiene referencias y no se escribe el lote.")
         fuente_wiki = f"enwiki:{resultado.titulo}#revid={resultado.revid}" if resultado else None
@@ -318,6 +337,76 @@ def proponer(
     return 0
 
 
+MOTIVO_D06 = "D-06: texto generado sin trama de Wikipedia que la limpieza no arregla; overview de TMDB (NS-1b)"
+
+
+def decidir_d06(plot_actual: Any, etiqueta_actual: Any, overview: Any) -> Decision:
+    """WP-05 T-06 (D-06): el overview de TMDB reemplaza un texto generado, salvo que ya haya trama de Wikipedia."""
+    if isinstance(etiqueta_actual, str) and etiqueta_actual.startswith("wikipedia_plot_"):
+        return Decision("omitido", "D-06: ya tiene trama de Wikipedia; no se toca", None, None, None)
+    texto = wiki_plot.preparar_texto(overview if isinstance(overview, str) else None)
+    if not texto:
+        return Decision("sin fuente", "D-06: sin overview de TMDB de 40 caracteres o más", None, None, None)
+    if texto == plot_actual:
+        return Decision("omitido", "D-06: el plot ya es el overview de TMDB", None, None, None)
+    return Decision("propuesto", MOTIVO_D06, texto, "tmdb_overview", "tmdb:overview")
+
+
+def proponer_d06(lista: pathlib.Path, destino: pathlib.Path, agente: str) -> int:
+    """Un lote de WP-05 con el overview de TMDB para cada película de `wp05-d06-generadas.tsv` (R-12, P-16).
+
+    A diferencia de `proponer()`, toma también películas que ya tienen fila en `estado.tsv` (las de la lista ya
+    pasaron por WP-05) y la reemplaza por la del lote nuevo. Una película que, cuando se corre, ya tiene trama de
+    Wikipedia queda igual.
+    """
+    if lista.name != "wp05-d06-generadas.tsv":
+        raise ValueError("--d06 solo acepta la lista data-quality/hallazgos/listas/wp05-d06-generadas.tsv")
+    docs = catalogo.cargar()
+    ruta_estado = destino / "estado.tsv"
+    filas = leer_estado(ruta_estado)
+    elegidos = list(dict.fromkeys(leer_ids(lista)))
+    faltan = [doc_id for doc_id in elegidos if doc_id not in docs]
+    if faltan:
+        raise KeyError(f"Estas películas están en la lista y no en el catálogo: {', '.join(faltan[:8])}")
+    fecha = datetime.now(timezone.utc).date().isoformat()
+    lote = siguiente_lote(destino, filas)
+    lineas: list[dict[str, Any]] = []
+    nuevas: dict[str, dict[str, str]] = {}
+    cuentas = {"propuesto": 0, "sin fuente": 0, "omitido": 0}
+    for doc_id in elegidos:
+        doc = docs[doc_id]
+        decision = decidir_d06(
+            catalogo.obtener_campo(doc, "plot"), catalogo.obtener_campo(doc, "enrichment.plot"), catalogo.obtener_campo(doc, "overview")
+        )
+        if decision.resultado == "propuesto":
+            assert decision.plot and decision.etiqueta and decision.fuente
+            for campo, nuevo in (("plot", decision.plot), ("enrichment.plot", decision.etiqueta)):
+                lineas.append(_linea("WP-05", lote, doc_id, campo, doc, nuevo, decision.fuente, decision.motivo, agente, fecha))
+        cuentas[decision.resultado] += 1
+        if decision.resultado != "omitido":
+            nuevas[doc_id] = {"id": doc_id, "lote": lote, "resultado": decision.resultado, "motivo": decision.motivo}
+        print(f"{doc_id} {doc.get('title')}: {decision.resultado} · {decision.motivo}")
+    if lineas:
+        contenido = "\n".join(json.dumps({clave: linea[clave] for clave in CAMPOS_LOTE}, ensure_ascii=False) for linea in lineas) + "\n"
+        _escribir(destino / f"{lote}.jsonl", contenido)
+    else:
+        print(f"{lote}: sin líneas de cambio; no se escribe un jsonl vacío.")
+    salida = ["\t".join(COLUMNAS_ESTADO)]
+    for fila in filas:
+        if fila["id"] not in nuevas:
+            salida.append("\t".join(fila[col] for col in COLUMNAS_ESTADO))
+    for fila in nuevas.values():
+        salida.append("\t".join(fila[col] for col in COLUMNAS_ESTADO))
+    _escribir(ruta_estado, "\n".join(salida) + "\n")
+    print(
+        f"{lote}: {cuentas['propuesto']} propuestas ({len(lineas)} líneas), "
+        f"{cuentas['sin fuente']} sin fuente, {cuentas['omitido']} omitidas."
+    )
+    print(f"Destino: {destino}")
+    print("data/ no se modificó.")
+    return 0
+
+
 def comprobar() -> None:
     """Reglas NS sin red y sin escribir `data/`."""
     wiki_plot.comprobar_texto()
@@ -357,6 +446,16 @@ def comprobar() -> None:
     _exigir(decision.resultado == "omitido" and "limpiar_enciclopedico" in decision.motivo, "WP-05 sin trama queda para la limpieza")
     decision = decidir("actual", wiki, fuente, None, wp="WP-05", solo_si_mas_largo=False, fecha=fecha)
     _exigir(decision.resultado == "propuesto" and decision.plot == wiki, "WP-05 usa Wikipedia cuando existe")
+    decision = decidir_d06("ensayo", "unverified", overview)
+    _exigir(decision.resultado == "propuesto" and decision.etiqueta == "tmdb_overview" and decision.plot == overview, "D-06 usa el overview")
+    decision = decidir_d06("trama", "wikipedia_plot_2026-11-13", overview)
+    _exigir(decision.resultado == "omitido", "D-06 no toca una trama de Wikipedia")
+    decision = decidir_d06("ensayo", "unverified", "corto")
+    _exigir(decision.resultado == "sin fuente", "D-06 sin overview de 40 caracteres queda sin fuente")
+    tsv = WORK / "prueba_usados.tsv"
+    tsv.write_text("id\ttitulo\trevid\tfecha\n12289\tRed Cliff (film)\t1\t2026-11-12\n", encoding="utf-8")
+    _exigir(articulos_usados(tsv) == {"Red Cliff (film)": "12289"}, "articulos_usados lee plot-fuentes.tsv")
+    tsv.unlink()
     print("Reglas de proponer_trama y de catalogo.sha/obtener_campo/validar_cambio: OK.")
 
 
@@ -370,12 +469,19 @@ def main() -> None:
     parser.add_argument("--destino", type=pathlib.Path, help="Carpeta del lote y de estado.tsv. Por defecto data-quality/cambios/<WP>.")
     parser.add_argument("--agente", default=os.environ.get("DQ_AGENTE"), help="Quién propone el lote, por ejemplo «Cursor (Grok 4.7)». Obligatorio, o la variable DQ_AGENTE.")
     parser.add_argument("--comprobar", action="store_true", help="Prueba las reglas NS sin red y sin escribir data/.")
+    parser.add_argument("--d06", action="store_true", help="WP-05 T-06: overview de TMDB para la lista wp05-d06-generadas.tsv (D-06).")
     args = parser.parse_args()
 
     try:
         if args.comprobar:
             comprobar()
             return
+        if args.d06:
+            if args.wp != "WP-05" or not args.lista:
+                parser.error("--d06 va con --wp WP-05 y --lista data-quality/hallazgos/listas/wp05-d06-generadas.tsv")
+            if not args.agente or not args.agente.strip():
+                parser.error("hace falta --agente (o la variable DQ_AGENTE)")
+            sys.exit(proponer_d06(resolver_ruta(args.lista), args.destino or (DQ / "cambios" / "WP-05"), args.agente))
         if not args.wp or not args.lista:
             parser.error("hacen falta --wp y --lista (o --comprobar)")
         if not args.agente or not args.agente.strip():

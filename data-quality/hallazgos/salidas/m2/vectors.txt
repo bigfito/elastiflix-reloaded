@@ -1,0 +1,40 @@
+{'plot_256': 6899, 'plot_512': 6899, 'plot_1024': 6899}
+plot_256 dims incorrectas/faltantes: 0 []
+   norma: min 0.9990 max 1.0013  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_512 dims incorrectas/faltantes: 0 []
+   norma: min 0.9982 max 1.0019  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_1024 dims incorrectas/faltantes: 0 []
+   norma: min 0.9981 max 1.0019  fuera de [0.99,1.01]: 0  NaN: 0  vectores cero: 0
+plot_256 vs prefijo normalizado de plot_1024: cos min 0.99999 p1 1.00000 med 1.00000  <0.999: 0 ['670981', '107985', '2116', '89501', '804435']
+plot_512 vs prefijo normalizado de plot_1024: cos min 1.00000 p1 1.00000 med 1.00000  <0.999: 0 ['291276', '37710', '406429', '50839', '107985']
+
+## pares plot_1024 con coseno > 0.95: 3
+   0.9876  420818 «The Lion King» (2019)  ~  8587 «The Lion King» (1994)
+   0.9668  420817 «Aladdin» (2019)  ~  812 «Aladdin» (1992)
+   0.9598  10020 «Beauty and the Beast» (1991)  ~  321612 «Beauty and the Beast» (2017)
+   distribución del vecino más cercano: p50 0.579 p90 0.730 p99 0.859 max 0.988
+
+## hubs (veces que son el vecino más cercano de otra película):
+     14  22907 «Takers» plot_len=3000
+     10  565 «The Ring» plot_len=2995
+     10  14123 «Bratz» plot_len=2983
+      9  413736 «Monster High: Welcome to Monster High» plot_len=1854
+      9  880841 «Abandoned» plot_len=2342
+      8  385103 «Scoob!» plot_len=2816
+      8  836225 «The Exorcism of God» plot_len=2941
+      8  70981 «Prometheus» plot_len=2900
+      8  4964 «Knocked Up» plot_len=230
+      8  39205 «Detective Conan: The Private Eyes' Requiem» plot_len=2870
+      8  595148 «Irresistible» plot_len=2690
+      8  520663 «The Woman in the Window» plot_len=2904
+
+## re-embedding de 52 sinopsis actuales vs plot_1024 guardado: min 1.0000 med 1.0000
+   1.0000 1059301 «Guillermo del Toro's Pinocchio: Handcarved Cinema»
+   1.0000 793002 «Dreamcatcher»
+   1.0000 41283 «Faster»
+   1.0000 144288 «Berserk: The Golden Age Arc III - The Advent»
+   1.0000 171424 «The Green Inferno»
+   1.0000 489 «Good Will Hunting»
+   1.0000 485504 «El Camino Christmas»
+   1.0000 4638 «Hot Fuzz»
+   < 0.99: 0

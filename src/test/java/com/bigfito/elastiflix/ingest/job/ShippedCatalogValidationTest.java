@@ -26,15 +26,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Las 14 partes de {@code data/} pasan por el mismo camino que una carga, sin rechazos ni advertencias.
  *
- * <p>Los 7 {@code .json} y los 7 {@code .csv} dan las mismas películas, y todas traen {@code enrichment}
- * salvo una.</p>
+ * <p>Los 7 {@code .json} y los 7 {@code .csv} dan las mismas películas, y todas traen {@code enrichment}:
+ * desde WP-04, toda sinopsis lleva su etiqueta de origen ({@code wikipedia_plot_AAAA-MM-DD},
+ * {@code tmdb_overview} u {@code unverified} cuando se desconoce).</p>
  */
 class ShippedCatalogValidationTest {
 
     private static final int PARTS = 14;
     private static final int MOVIES = 6_899;
-    private static final int WITH_TAGS = 6_898;
-    private static final String WITHOUT_TAGS = "751432";
+    private static final int WITH_TAGS = 6_899;
 
     private final MovieReaderFactory readers = new MovieReaderFactory(new IndexMapping());
     private final MappingValidator validator = new MappingValidator();
@@ -58,10 +58,9 @@ class ShippedCatalogValidationTest {
 
         assertThat(fromJson).hasSize(MOVIES).isEqualTo(fromCsv);
         assertThat(fromJson).filteredOn(movie -> movie.enrichment() != null).hasSize(WITH_TAGS);
-        assertThat(fromJson).filteredOn(movie -> WITHOUT_TAGS.equals(movie.id()))
-                .singleElement()
-                .extracting(Movie::enrichment)
-                .isNull();
+        assertThat(fromJson).allSatisfy(movie -> assertThat(movie.enrichment().get("plot"))
+                .as("enrichment.plot de %s", movie.id())
+                .isNotBlank());
     }
 
     private List<Movie> accept(Path part, FileKind kind) {

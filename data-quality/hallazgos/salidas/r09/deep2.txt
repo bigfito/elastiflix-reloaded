@@ -1,0 +1,142 @@
+## user_score - vote_average: buckets [(-4.0, 1), (-3.2, 1), (-3.1, 1), (-2.3, 1), (-2.2, 2), (-1.9, 1), (-1.8, 1), (-1.6, 1), (-1.5, 4), (-1.4, 2), (-1.3, 4), (-1.2, 4), (-1.1, 10), (-1.0, 10), (-0.9, 11), (-0.8, 15), (-0.7, 16), (-0.6, 33), (-0.5, 61), (-0.4, 113), (-0.3, 193), (-0.2, 445), (-0.1, 1266), (-0.0, 2768), (0.1, 1465), (0.2, 253), (0.3, 72), (0.4, 35), (0.5, 18), (0.6, 17), (0.7, 9), (0.8, 9), (0.9, 8), (1.0, 4), (1.1, 2), (1.2, 6), (1.3, 3), (1.4, 4), (1.5, 4), (1.6, 2), (1.7, 1), (1.8, 1), (2.1, 2), (2.2, 1), (2.3, 2), (2.4, 1), (2.6, 1), (2.7, 2), (3.0, 1), (4.2, 1), (4.7, 1), (4.8, 1), (5.0, 3), (5.1, 1)]
+
+## |user_score - vote_average| >= 0.5: 254
+    (5.1, '870518 «Sanctuary» (2022)', 1.0, 6.1, 1, 'tmdb_api_2026-10-22')
+    (5.0, '696157 «Whitney Houston: I Wanna Dance with Somebody» (2022)', 2.0, 7.0, 1, 'tmdb_api_2026-10-22')
+    (5.0, '1009921 «Reclaim» (2022)', 2.0, 7.0, 1, 'tmdb_api_2026-10-22')
+    (5.0, '1050540 «Tom Papa: What a Day!» (2022)', 2.0, 7.0, 1, 'tmdb_api_2026-10-22')
+    (4.8, '1039571 «I Heard the Bells» (2022)', 2.0, 6.8, 1, 'tmdb_api_2026-10-22')
+    (4.7, '1053419 «A Not So Merry Christmas» (2022)', 2.0, 6.7, 1, 'tmdb_api_2026-10-22')
+    (4.2, "1028547 «'Twas the Night Before Christmas» (2022)", 2.0, 6.2, 1, 'tmdb_api_2026-10-22')
+    (-4.0, '536628 «Megan» (2018)', 6.0, 2.0, 4, 'tmdb_api_2026-10-22')
+    (-3.2, '1055206 «The 12 Slays of Christmas» (2022)', 8.0, 4.8, 1, 'tmdb_api_2026-10-22')
+    (-3.133, '798359 «The Ravine» (2022)', 8.333, 5.2, 3, 'tmdb_api_2026-10-22')
+    (3.0, '796765 «Bantú Mama» (2022)', 2.0, 5.0, 1, 'tmdb_api_2026-10-22')
+    (2.7, '1003487 «Single and Ready to Jingle» (2022)', 3.5, 6.2, 2, 'tmdb_api_2026-10-22')
+    (2.7, '1057095 «An Eclectic Christmas» (2022)', 2.0, 4.7, 1, 'tmdb_api_2026-10-22')
+    (2.6, '813881 «The Real Black Panther» (2020)', 5.0, 7.6, 5, 'tmdb_api_2026-10-22')
+    (2.4, '755433 «The Monster at the End of This Story» (2020)', 3.0, 5.4, 3, 'tmdb_api_2026-10-22')
+    (2.3, '615777 «Babylon» (2022)', 5.0, 7.3, 1, 'tmdb_api_2026-10-22')
+    (2.3, '814757 «Empire of Light» (2022)', 4.3, 6.6, 3, 'tmdb_api_2026-10-22')
+    (-2.3, '989937 «The Seven Deadly Sins: Grudge of Edinburgh Part 1» (2022)', 10.0, 7.7, 1, 'tmdb_api_2026-10-22')
+    (-2.204, '843906 «Straight Outta Nowhere: Scooby-Doo! Meets Courage the Cowardly Dog» (2021)', 8.004, 5.8, 334, 'tmdb_api_2026-10-22')
+    (-2.2, '844547 «Taurus» (2022)', 8.0, 5.8, 2, 'tmdb_api_2026-10-22')
+    (2.2, "933045 «Russia's Wild Tiger» (2022)", 4.8, 7.0, 5, 'tmdb_api_2026-10-22')
+    (2.1, '883987 «Megan» (2020)', 3.5, 5.6, 2, 'tmdb_api_2026-10-22')
+    (2.1, '985932 «Virgin Forest» (2022)', 3.0, 5.1, 2, 'tmdb_api_2026-10-22')
+    (-1.9, "1026624 «It's a Wonderful Binge» (2022)", 6.8, 4.9, 19, 'tmdb_api_2026-10-22')
+    (-1.8, '287003 «Avatar: Scene Deconstruction» (2009)', 8.3, 6.5, 10, 'tmdb_api_2026-10-22')
+    (1.8, '878962 «Sharkdog’s Fintastic Halloween» (2021)', 3.4, 5.2, 5, 'tmdb_api_2026-10-22')
+    (1.7, '740952 «Savage Salvation» (2022)', 4.4, 6.1, 9, 'tmdb_api_2026-10-22')
+    (1.626, '247849 «Odnoklassniki.ru: The Magic Laptop» (2013)', 3.474, 5.1, 19, 'tmdb_api_2026-10-22')
+    (-1.6, '928358 «Grand Jeté» (2022)', 6.5, 4.9, 2, 'tmdb_api_2026-10-22')
+    (1.55, "1051909 «Reno 911!: It's a Wonderful Heist» (2022)", 4.25, 5.8, 4, 'tmdb_api_2026-10-22')
+    (1.5, '22411 «Shaolin Girl» (2008)', 4.1, 5.6, 13, 'tmdb_api_2026-10-22')
+    (-1.5, '822213 «8 Years» (2022)', 6.0, 4.5, 2, 'tmdb_api_2026-10-22')
+    (-1.5, '865686 «Good Mourning» (2022)', 6.0, 4.5, 20, 'tmdb_api_2026-10-22')
+    (1.5, '943533 «Stalked by a Prince» (2022)', 4.0, 5.5, 4, 'tmdb_api_2026-10-22')
+    (1.5, '1025805 «Burning Patience» (2022)', 5.2, 6.7, 3, 'tmdb_api_2026-10-22')
+    (-1.5, '1028851 «Beauty and the Beast: A 30th Celebration» (2022)', 8.4, 6.9, 10, 'tmdb_api_2026-10-22')
+    (1.5, '1029578 «B&B Merry» (2022)', 4.5, 6.0, 2, 'tmdb_api_2026-10-22')
+    (-1.5, '1043565 «Mindcage» (2022)', 7.4, 5.9, 19, 'tmdb_api_2026-10-22')
+    (1.4, '893712 «Sword Art Online the Movie -Progressive- Scherzo of Deep Night» (2022)', 6.3, 7.7, 11, 'tmdb_api_2026-10-22')
+    (1.4, '918832 «Curious George: Cape Ahoy» (2021)', 3.3, 4.7, 7, 'tmdb_api_2026-10-22')
+
+## user_score fallback: 8
+    ('34469 «Julius Caesar» (2002)', 6.6, 6.6)
+    ('40170 «Mortal Kombat: Rebirth» (2010)', 6.692, 6.7)
+    ('313893 «E N V O Y» (2014)', 6.395, 6.4)
+    ('327029 «Power Rangers» (2015)', 7.1, 7.1)
+    ('410113 «The Loud House Movie» (2021)', 7.511, 7.5)
+    ('441663 «40 y 20» (2016)', 9.333, 9.3)
+    ('511243 «The Wizard Hunter: The Hunt for Evangelion Crowley» (2022)', 2.0, 2.0)
+    ('899298 «Undying» (2022)', 2.0, 2.0)
+
+## keyword 12377: Counter({'zombie': 84, 'wild west': 1, 'virtual reality': 1}) [('196 «Back to the Future Part III» (1990)', 'wild west'), ('603 «The Matrix» (1999)', 'virtual reality')]
+    enrichment.keywords de esos: Counter({None: 83, 'tmdb_api_2026-10-22': 3})
+
+## keyword 303361: Counter({'terminator': 6, 'delorean': 1, 'matrix': 1}) [('196 «Back to the Future Part III» (1990)', 'delorean'), ('603 «The Matrix» (1999)', 'matrix')]
+    enrichment.keywords de esos: Counter({None: 8})
+
+## keyword 208349: Counter({'child': 13, 'kids': 3}) [('105 «Back to the Future» (1985)', 'kids'), ('165 «Back to the Future Part II» (1989)', 'kids'), ('878962 «Sharkdog’s Fintastic Halloween» (2021)', 'kids')]
+    enrichment.keywords de esos: Counter({None: 13, 'tmdb_api_2026-10-22': 3})
+
+## keyword 10789: Counter({'prehistoric egg': 1, 'prehistoric creature': 1}) [('839440 «Dinosaur Hotel» (2021)', 'prehistoric creature')]
+    enrichment.keywords de esos: Counter({None: 1, 'tmdb_api_2026-10-22': 1})
+
+## keyword 2299: Counter({'violent father': 1, 'abusive father': 1}) [('470878 «I Can Only Imagine» (2018)', 'abusive father')]
+    enrichment.keywords de esos: Counter({None: 1, 'tmdb_api_2026-10-22': 1})
+
+## keyword 5968: Counter({'amazon': 6, 'amazon rainforest': 1}) [('1019446 «Wildcat» (2022)', 'amazon rainforest')]
+    enrichment.keywords de esos: Counter({None: 6, 'tmdb_api_2026-10-22': 1})
+
+## keyword 12377: Counter({'zombie': 84, 'wild west': 1, 'virtual reality': 1}) [('196 «Back to the Future Part III» (1990)', 'wild west'), ('603 «The Matrix» (1999)', 'virtual reality')]
+    enrichment.keywords de esos: Counter({None: 83, 'tmdb_api_2026-10-22': 3})
+
+## keywords enriquecidos: ids > 300000 (recientes en TMDB): 459 / 2040
+
+## spoken_languages raro: 2
+    ('564147 «K.G.F: Chapter 1» (2018)', ['हिन्दी', '?????'])
+    ('587412 «K.G.F: Chapter 2» (2022)', ['?????'])
+
+## No Language junto a otros: 2
+    ('46247 «No Time for Nuts» (2006)', ['No Language', 'Español'])
+    ('785545 «Shaun the Sheep: The Flight Before Christmas» (2021)', ['English', 'No Language'])
+
+## "United States" (no "of America"): 1
+    ('218 «The Terminator» (1984)', ['United States'])
+
+## países históricos: 2
+    ('1398 «Stalker» (1979)', ['Soviet Union'])
+    ('46919 «Daisies» (1966)', ['Czechoslovakia'])
+
+## original_language 'cn': 27
+    843 «In the Mood for Love» (2000)
+    9462 «The Way of the Dragon» (1972)
+    9470 «Kung Fu Hustle» (2004)
+    10775 «Infernal Affairs» (2002)
+    11104 «Chungking Express» (1994)
+
+## rating TV-PG: 1
+    387893 «Ice Age: The Great Egg-Scapade» (2016)
+
+## original_language no está en spoken_languages: 49
+    ('19 «Metropolis» (1927)', 'de', ['No Language'])
+    ('335 «Once Upon a Time in the West» (1968)', 'it', ['English'])
+    ('615 «The Passion of the Christ» (2004)', 'en', ['עִבְרִית', 'Latin'])
+    ('653 «Nosferatu» (1922)', 'de', ['No Language'])
+    ('775 «A Trip to the Moon» (1902)', 'fr', ['No Language'])
+    ('9023 «Spirit: Stallion of the Cimarron» (2002)', 'en', ['Català'])
+    ('17295 «The Battle of Algiers» (1966)', 'it', ['English', 'العربية', 'Français'])
+    ('18767 «Island of Fire» (1990)', 'en', ['普通话'])
+    ('20722 «La Maison en Petits Cubes» (2008)', 'ja', ['No Language'])
+    ('21705 «The Barbie Diaries» (2006)', 'en', ['Français'])
+    ('26505 «Arthur and the Revenge of Maltazard» (2009)', 'fr', ['English'])
+    ('46247 «No Time for Nuts» (2006)', 'en', ['No Language', 'Español'])
+    ('70057 «Dragon» (2011)', 'cn', ['普通话'])
+    ('74643 «The Artist» (2011)', 'fr', ['No Language'])
+    ('89708 «Samsara» (2011)', 'en', ['No Language'])
+    ('98567 «Chinese Zodiac» (2012)', 'cn', ['普通话', 'English', 'Français', 'Español', 'Pусский'])
+    ('166666 «3096 Days» (2013)', 'de', ['English'])
+    ('252171 «A Girl Walks Home Alone at Night» (2014)', 'en', ['فارسی'])
+    ('310593 «Youth» (2015)', 'it', ['Deutsch', 'Español', 'English'])
+    ('314405 «Tale of Tales» (2015)', 'it', ['English', 'Pусский'])
+    ('315880 «Correspondence» (2016)', 'it', ['English'])
+    ('337703 «The Red Turtle» (2016)', 'fr', ['No Language'])
+    ('406759 «Moonfall» (2022)', 'en', ['Srpski', 'Hrvatski'])
+    ("438259 «Journey's End» (2017)", 'en', ['Español'])
+    ('455043 «God of War» (2017)', 'zh', ['广州话 / 廣州話'])
+
+## Death Note Collection: [('16140 «Death Note: The Last Name» (2006)', 102019), ('20329 «L: change the WorLd» (2008)', 102019), ("68555 «Death Note Relight 2: L's Successors» (2009)", 1034193), ('382272 «Death Note: Light Up the New World» (2016)', 102019)]
+
+## Cinderella Collection: [('14128 «Cinderella II: Dreams Come True» (2002)', 55419), ('16119 «Cinderella III: A Twist in Time» (2007)', 55419), ('543583 «Cinderella and the Secret Prince» (2018)', 1308589)]
+
+## 42360 «Inuyasha the Movie: Affections Touching Across Time» (2001) {'budget': 10540.0, 'revenue': 10539779.0, 'runtime': 99} {'plot': 'unverified', 'revenue': 'tmdb_api_2026-10-22', 'user_score': 'tmdb_api_2026-10-22'}
+
+## 694919 «Money Plane» (2020) {'budget': 568443.0, 'revenue': 618.0, 'runtime': 82} {'budget': 'tmdb_api_2026-10-22', 'keywords': 'tmdb_api_2026-10-22', 'plot': 'unverified', 'revenue': 'tmdb_api_2026-10-22', 'user_score': 'tmdb_api_2026-10-22'}
+
+## 222724 «Crystal Lake Memories: The Complete History of Friday the 13th» (2013) {'budget': None, 'revenue': None, 'runtime': 400} {'plot': 'tmdb_overview', 'tagline': 'tmdb_api_2026-10-22', 'user_score': 'tmdb_api_2026-10-22'}
+
+## 13648 «Resident Evil: Degeneration» (2008) {'budget': None, 'revenue': 403117.0, 'runtime': 97} {'plot': 'unverified', 'revenue': 'tmdb_api_2026-10-22', 'user_score': 'tmdb_api_2026-10-22'}
+
+## 01-01 dates all: ['322 «Mystic River» (2003)', '2269 «Day Watch» (2006)', '4032 «My Girl» (1991)', '11123 «Earthquake» (1974)', '13355 «Scooby-Doo! Pirates Ahoy!» (2006)', '13706 «Winnie the Pooh: A Very Merry Pooh Year» (2002)', '14202 «The Painted Veil» (2006)', '14784 «The Fall» (2006)', '14844 «Chasing Liberty» (2004)', '14863 «Anaconda 3: Offspring» (2008)', '15039 «Against the Dark» (2009)', '15898 «Unstable Fables: 3 Pigs & a Baby» (2008)', '18767 «Island of Fire» (1990)', '24615 «Aloha Scooby-Doo!» (2005)', '31002 «Ticker» (2001)', '36086 «Boa vs. Python» (2004)', '50633 «Prison-A-Go-Go!» (2003)', '87818 «Movie 43» (2013)', '91333 «Recoil» (2011)', '140818 «Ragnarok» (2013)', '152742 «The Best Offer» (2013)', '227348 «Paranormal Activity: The Marked Ones» (2014)', '246355 «Saw» (2003)', '379170 «Sherlock: The Abominable Bride» (2016)', '448119 «Dolittle» (2020)', '465086 «The Grudge» (2020)', '495193 «Benji» (2018)', '589754 «The Last Warrior: Root of Evil» (2021)', '629277 «What Happened to Mr Cha?» (2021)', '899082 «Harry Potter 20th Anniversary: Return to Hogwarts» (2022)']
