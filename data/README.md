@@ -69,6 +69,16 @@ ids nombraban la misma palabra en TMDB, así que se dejan los dos.
 | thriller | `9950` (26) y `316362` (2) | [`316362`](https://www.themoviedb.org/keyword/316362); `9950` ya no tiene página |
 | comedy | `289153` (1) y `322268` (3) | [`322268`](https://www.themoviedb.org/keyword/322268); `289153` ya no tiene página |
 
+## Índice vigente en producción
+
+Desde el 2026-11-13, el alias `elastiflix-reloaded` apunta a `elastiflix-dq-staging-20261113-195801`, el índice de
+staging donde se midió este catálogo (`publicar.py`, H-2). Ese nombre no sigue el patrón `elastiflix-reloaded-<fecha>`:
+la limpieza de huérfanos de la aplicación no lo borra sola después de la siguiente carga bulk, así que hay que borrarlo
+a mano cuando deje de estar en uso.
+
+El índice anterior, `elastiflix-reloaded-20261112-144129`, se conserva para volver atrás hasta el 2026-11-20. Hasta esa
+fecha no hagas una carga bulk en producción: la limpieza de huérfanos borraría ese índice y con él la vuelta atrás.
+
 ## Créditos y aviso de uso
 
 Estos datos se publican con fines exclusivamente académicos y demostrativos, sin ningún lucro comercial. Los créditos
@@ -136,6 +146,16 @@ word: both ids named the same word on TMDB, so both stay.
 | horror | `8087` (69 movies) and `315058` (1) | [`315058`](https://www.themoviedb.org/keyword/315058); `8087` no longer has a page |
 | thriller | `9950` (26) and `316362` (2) | [`316362`](https://www.themoviedb.org/keyword/316362); `9950` no longer has a page |
 | comedy | `289153` (1) and `322268` (3) | [`322268`](https://www.themoviedb.org/keyword/322268); `289153` no longer has a page |
+
+### Live production index
+
+Since 2026-11-13, the `elastiflix-reloaded` alias points to `elastiflix-dq-staging-20261113-195801`, the staging index
+where this catalog was measured (`publicar.py`, H-2). That name does not follow the `elastiflix-reloaded-<date>`
+pattern: the app's orphan cleanup won't delete it on its own after the next bulk load, so it has to be deleted by hand
+once it is no longer in use.
+
+The previous index, `elastiflix-reloaded-20261112-144129`, is kept for rollback until 2026-11-20. Until that date, do
+not run a bulk load in production: the orphan cleanup would delete that index and the rollback with it.
 
 ### Credits and terms of use
 

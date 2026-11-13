@@ -3,11 +3,11 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 20:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-20, hito C)
+**Última actualización:** 2026-11-13 21:10 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 21, P-23)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
-**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-195801` (6 899 películas) · `data/` cargado en el commit `bf5e446` · app compilada en el commit `bf5e446` · instancia apagada (puerto 8081)
+**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-195801` (6 899 películas) · **desde el 2026-11-13 es también el índice de producción**: no cargues en staging en modo append (escribiría en producción); una recarga bulk crea un índice nuevo y mueve solo el alias de staging · instancia apagada
 
 ## 1. Tablero
 
@@ -39,7 +39,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
-| 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
+| 21 | Cursor → Claude Code (P-23) | C-01 T-06 a T-08 (H-2) | EN ESPERA · T-06 y T-07 hechos; T-08 desde el 2026-11-20 | 2026-11-13 | `dq-t21` | [R-21](bitacora/R-21.md) |
 
 ### 1.2 Paquetes de trabajo
 
@@ -56,7 +56,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
-| C-01 | Cierre: medición, publicación y documentación | EN CURSO · T-01 a T-05 hechos (hito C); T-06 a T-08 (H-2 y publicación) en el turno 21 | 19, 20, 21 | 2026-11-13 |
+| C-01 | Cierre: medición, publicación y documentación | EN ESPERA · T-01 a T-07 hechos; publicado el 2026-11-13; T-08 (borrar el índice anterior) desde el 2026-11-20 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
 
@@ -84,16 +84,19 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-18 | 18 · Claude Code | APROBADO CON CORRECCIONES | Revisión independiente (P-21): migración del paso 9, prueba de nombres de `Movie`, precisión del README, texto en inglés; sobre de `data/*.json` a C-01 | `777cc1f` | [R-18](bitacora/R-18.md) |
 | R-19 | 19 · Cursor | APROBADO CON CORRECCIONES | 41 pruebas de integración en verde contra staging estricto (repetidas); informe v2 con origen de sinopsis y estado de las 10 recomendaciones | ver R-19 | [R-19](bitacora/R-19.md) |
 | R-20 | 20 · Cursor | APROBADO CON CORRECCIONES | Cifras de la documentación contra M3; sobre de `data/*.json` con el mapping del repo; frase del README; cierre del hito C | `b3ec13f` | [R-20](bitacora/R-20.md) |
+| R-21 | 21 · Cursor y Claude Code (P-23) | APROBADO · EN ESPERA de T-08 | Publicación comprobada: producción = M3; riesgos de los 7 días documentados (limpieza de huérfanos, staging = producción) | — | [R-21](bitacora/R-21.md) |
 
 ## 2. Próximo paso
 
-> **Turno 21 · Cursor.** C-01:
-> - **T-06:** pedir H-2 a la dueña del proyecto, con el resumen M0 → M3, el método, la vuelta atrás y los 7 días.
-> - **T-07:** solo con H-2 aprobada, `publicar.py` y el harness sobre producción.
-> - **T-08:** a los 7 días, borrar el índice anterior.
+> **C-01 T-08, desde el 2026-11-20** (7 días sin incidentes después de la publicación):
+> 1. Comprueba que `elastiflix-reloaded` siga en `elastiflix-dq-staging-20261113-195801` y que no haya incidentes
+>    anotados.
+> 2. `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
+> 3. Turno 21 y C-01 a `HECHA`, y Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
 >
-> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-20](bitacora/R-20.md). El punto de partida es la
-> etiqueta `dq-r20`.
+> Hasta esa fecha: no hagas una carga bulk en producción (la limpieza de huérfanos borraría el índice anterior y la
+> vuelta atrás) ni una carga append en staging (escribiría en producción). Si algo falla, la vuelta atrás es
+> `python data-quality/scripts/publicar.py --revertir elastiflix-reloaded-20261112-144129`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -112,7 +115,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-06 | En WP-05, una sinopsis sin trama de Wikipedia que es **texto generado**, y que la limpieza no arregla, ¿toma el overview de TMDB que ya trae el documento (NS-1 b, etiqueta `tmdb_overview`)? Hoy son 5: `213927` *Born to Race: Fast Track* (la respuesta de un asistente que no encontró la película), `298016` *It's a SpongeBob Christmas!* (corrige el año e inventa la trama) y las 3 de T-03b (`150015`, `198436`, `364708`, ensayos «At its core»). Sin esto, esas 3 bloquean la integración de WP-03 (turno 13) | Sí, en el turno 13 · No, quedan `unverified` | Sí: el overview es corto pero es de la película, y nadie redacta (NS-2) | APROBADA 2026-11-13 · «Apruebo D-06» · WP-05 T-06 en el turno 13a |
 | D-07 | Gemma 4 E4B dejó los turnos 12 y 13a sin commitear (lotes propuestos sin aplicar, sin diario ni cierre); los cerró la revisión. ¿Quién termina lo que falta de WP-05 (la limpieza de 70 omitidas, T-06, T-05 y T-03: comandos deterministas ya escritos) y quién toma los turnos 13b, 16, 19a, 19b y 21? | A · Claude Code termina WP-05 en R-13a y Cursor toma los turnos de Gemma · B · Gemma repite un turno 13a corto con lo que falta y conserva sus turnos · C · Claude Code termina WP-05 y Gemma conserva sus turnos | A: los turnos que quedan incluyen integrar Java (13b), recargar staging (19a) y publicar en producción (21), y Gemma no cerró ninguno de sus dos turnos | APROBADA 2026-11-13 · «WP-05 tú, resto a Cursor» · opción A |
 | D-08 | M2 cumplió el criterio de parada (B-06): `bm25_plot` bajó 0.112 y `rrf_plot_knn1024` 0.117 frente a M1. Los vectores (`knn_*`, +0.019 a +0.082) y la búsqueda por defecto (`rrf_title_knn256`, +0.019) mejoraron. La caída viene de que las consultas de evaluación usan el vocabulario de las sinopsis generadas que el plan quitó (R-14). ¿Sigue el plan? | A · Sigue: M2 aceptada, B-06 cerrado; el criterio de parada aplica en adelante a `knn_*` y `rrf_title_knn*`; `bm25_plot` y `rrf_plot_*` se informan; umbrales nuevos en C-01 T-03 · B · Se detiene el plan aquí · C · Sigue, pero antes se califican las 592 películas sin juicio del harness | A: lo que mide el criterio (los vectores) mejoró, y la caída no es un daño al catálogo | APROBADA 2026-11-13 · «Sí, opción A» · opción A |
-| H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
+| H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | APROBADA 2026-11-13 · «Apruebo H-2» · publicación con `publicar.py` (C-01 T-07); el índice anterior se borra a los 7 días sin incidentes (T-08) |
 
 ## 4. Decisiones tomadas
 
@@ -136,6 +139,8 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | P-23 | Claude Code termina el turno 21: T-07 (publicar y medir producción) y lo que se pueda de T-08. Cursor hizo T-06 (pedir H-2) | Dueña del proyecto: «Toma el siguiente turno y termina las actividades restantes.» |
+| 2026-11-13 | P-22 | El hito C (`dq-r20`) se integró en `main` local con el merge `9bcd565`, sin push. Conviene desplegar después de C-01 T-07 (R-19) | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | P-21 | El turno 18 (WP-10) lo ejecuta Claude Code, el revisor. Para mantener los cuatro ojos, R-18 se apoya en una revisión independiente: un agente nuevo, sin el contexto del turno, lee el diff contra la tarjeta | Dueña del proyecto: «Toma tu este turno.» |
 | 2026-11-13 | P-20 | El turno 17 (WP-09) lo hace Google Antigravity con Gemini 4 Argon, en lugar de Cursor. Los turnos 18 a 21 siguen con Cursor | Dueña del proyecto: «Este turno se lo podemos dar a un agente de Google Antigravity que ejecuta el modelo Gemini 4 Argon.» |
 | 2026-11-13 | P-19 | El hito B (`dq-r14`) se integró en `main` local con el merge `617042f`, sin push | Dueña del proyecto: «Sí, integra en local» |
@@ -163,20 +168,21 @@ staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-gener
 
 | Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | Producción final |
 |---|---|---|---|---|---|---|
-| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | |
-| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | |
-| `bm25_plot` | 0.24 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | |
-| `knn_plot_256` | 0.57 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | |
-| `knn_plot_512` | 0.65 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | |
-| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | |
-| `rrf_title_knn256` | 0.37 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | |
-| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | |
-| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | |
-| `rrf_plot_knn1024` | 0.50 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | |
+| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 |
+| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 |
+| `bm25_plot` | 0.24 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | 0.296 · 0.328 |
+| `knn_plot_256` | 0.57 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | 0.622 · 0.671 |
+| `knn_plot_512` | 0.65 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | 0.708 · 0.744 |
+| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | 0.745 · 0.784 |
+| `rrf_title_knn256` | 0.37 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | 0.425 · 0.390 |
+| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 |
+| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | 0.511 · 0.548 |
+| `rrf_plot_knn1024` | 0.50 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | 0.557 · 0.591 |
 
 M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
 M1 medida el 2026-11-12 20:20 UTC (turno 07) sobre el índice de staging `elastiflix-dq-staging-20261112-201036` (6 899 películas, commit `220a8ea`);
 M2 medida el 2026-11-13 18:02 UTC (turno 14) sobre el índice de staging `elastiflix-dq-staging-20261113-174106` (6 899 películas, commit `03b0b2e`);
+Producción final medida el 2026-11-13 21:04 UTC con el alias `elastiflix-reloaded` (índice `elastiflix-dq-staging-20261113-195801`, ya publicado): igual a M3 en las 10 configuraciones; `RelevanceIT` en verde con los umbrales nuevos.
 M3 medida el 2026-11-13 20:09 UTC (turno 19) sobre el índice de staging `elastiflix-dq-staging-20261113-195801` (6 899 películas, commit `bf5e446`, mapping `dynamic: strict`);
 `target/eval/report.md` lleva el índice de esta corrida en su segunda línea (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas: `bm25_plot` y `rrf_plot_*` siguen bajo los umbrales viejos, como prevé D-08). El log de la prueba es 2026-11-13T14:09:06-06:00.
 
@@ -485,3 +491,24 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   verde (R-19); `informe/informe-calidad-v2.html`.
 - Para el siguiente: turno 21, Cursor (H-2 y publicación). La dueña del proyecto puede integrar `dq/ronda-4` en
   `main` y conviene que despliegue después de C-01 T-07.
+
+### 2026-11-13 21:05 UTC · Claude Code (Claude Opus 5.5) · revisor (R-21, en espera)
+- Hice: miré el turno 21. Cursor tomó el turno, pidió H-2 en su chat y se detuvo sin publicar, como pide C-01 T-06.
+  En el clúster, `elastiflix-reloaded` sigue en `elastiflix-reloaded-20261112-144129` (producción intacta) y
+  `elastiflix-dq-staging` en `elastiflix-dq-staging-20261113-195801`. Las comprobaciones previas de `publicar.py`
+  (`comprobar_staging`, de solo lectura) están en verde: 6 899 películas, mapping fiel y los tres vectores.
+- Evidencia: `es.py GET /_alias/…`; `publicar.comprobar_staging("elastiflix-dq-staging")`.
+- Para el siguiente: H-2 sigue ABIERTA. R-21 se escribe cuando el turno 21 publique (T-07) o pase a EN ESPERA.
+
+### 2026-11-13 21:03 UTC · publicar.py · publicación
+- `elastiflix-reloaded` apuntaba a `elastiflix-reloaded-20261112-144129` y ahora apunta a `elastiflix-dq-staging-20261113-195801`. El índice anterior no se borra: se conserva 7 días y después se elimina con `publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
+
+### 2026-11-13 21:10 UTC · Claude Code (Claude Opus 5.5) · ejecutor y revisor (turno 21, P-23)
+- Hice: C-01 T-07. `publicar.py` pasó sus comprobaciones y cambió `elastiflix-reloaded` a
+  `elastiflix-dq-staging-20261113-195801` (el anterior, `elastiflix-reloaded-20261112-144129`, se conserva). El
+  harness sobre producción da exactamente M3 en las 10 configuraciones. Documenté en `data/README.md` el índice vigente
+  y los dos riesgos de los 7 días. El turno queda EN ESPERA de T-08 (desde el 2026-11-20). Detalle en
+  `bitacora/R-21.md`.
+- Evidencia: `es.py GET /_alias/elastiflix-reloaded`; `target/eval/report.md` (21:04 UTC, `RelevanceIT` en verde).
+- Para el siguiente: C-01 T-08 desde el 2026-11-20 y la revisión final R-21b. La dueña del proyecto ya puede
+  desplegar la demo (R-19).
