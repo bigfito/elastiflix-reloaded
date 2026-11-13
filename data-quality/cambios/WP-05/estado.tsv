@@ -2452,7 +2452,7 @@ id	lote	resultado	motivo
 447332	lote-029	aplicado	plot enciclopédico
 447362	lote-029	aplicado	plot enciclopédico
 447365	lote-029	aplicado	plot enciclopédico
-447399	lote-029	aplicado	plot enciclopédico
+447399	lote-029	corregido	corrección R-12: la búsqueda por título aceptó X-Men (film), la película de 2000, para este especial de 2001; vuelve a su sinopsis propia, limpiada (lote-041)
 447404	lote-029	aplicado	plot enciclopédico
 448119	lote-029	aplicado	plot enciclopédico
 448776	lote-029	aplicado	plot enciclopédico
@@ -3266,7 +3266,7 @@ id	lote	resultado	motivo
 734858	lote-037	aplicado	plot enciclopédico
 735595	lote-040	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 736069	lote-037	aplicado	plot enciclopédico
-736073	lote-037	aplicado	plot enciclopédico
+736073	lote-037	corregido	corrección R-12: el artículo de Wikipedia es de la obra en dos partes (Batman: The Long Halloween) y su trama abarca las dos; vuelve a su sinopsis propia, limpiada (lote-041)
 736074	lote-040	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 736509	lote-037	aplicado	plot enciclopédico
 736526	lote-037	aplicado	plot enciclopédico
@@ -3385,7 +3385,7 @@ id	lote	resultado	motivo
 779782	lote-039	aplicado	plot enciclopédico
 780382	lote-039	aplicado	plot enciclopédico
 780609	lote-039	aplicado	plot enciclopédico
-784500	lote-039	aplicado	plot enciclopédico
+784500	lote-039	corregido	corrección R-12: el artículo de Wikipedia es de la obra en dos partes (Sailor Moon Eternal) y su trama abarca las dos; vuelve a su sinopsis propia, limpiada (lote-041)
 785037	lote-039	aplicado	plot enciclopédico
 785527	lote-040	aplicado	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 785533	lote-039	aplicado	plot enciclopédico
