@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 20:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-19)
+**Última actualización:** 2026-11-13 20:33 UTC · Cursor (Grok 4.7) · ejecutor (turno 20)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -38,7 +38,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 17 | Google Antigravity | WP-09 (P-20) | REVISADO | 2026-11-13 | `dq-t17` | [R-17](bitacora/R-17.md) |
 | 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
-| 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
+| 20 | Cursor | C-01 T-04 y T-05 · hito C | EN CURSO | 2026-11-13 | — | — |
 | 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
 
 ### 1.2 Paquetes de trabajo
@@ -56,7 +56,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
-| C-01 | Cierre: medición, publicación y documentación | EN CURSO · T-01 a T-03 hechas y revisadas (M3); T-04 y T-05 en el turno 20; T-06 a T-08 en el 21 | 19, 20, 21 | 2026-11-13 |
+| C-01 | Cierre: medición, publicación y documentación | EN CURSO · turno 20, T-04 y T-05 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
 
