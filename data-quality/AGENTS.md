@@ -138,6 +138,10 @@ evitan improvisar. Valen además de todo lo anterior.
       (`>>`, `echo >`, `Add-Content`, `Out-File`): en PowerShell escriben UTF-16 y rompen el archivo, que es UTF-8.
     - No leas `.env`: OpenCode pide permiso para leerlo, y la respuesta es no (regla 4 del §3).
     - No delegues pasos del turno en subagentes (`general`, `explore`): cada lote lo haces tú, en orden.
+11. **Commit después de cada lote**, antes de proponer el siguiente (R-12): entre un lote y otro, `git status` limpio.
+12. **Cómo leer `./mvnw`** (R-12): pasó si el comando termina con código de salida 0. Las líneas `ERROR`,
+    `APPLICATION FAILED TO START`, `DecodeException` o «sin hilos» de la salida son pruebas que comprueban errores a
+    propósito. Falló solo si dice `BUILD FAILURE`, o `Tests run: … Failures:` o `Errors:` con un número mayor que 0.
 
 ### Al terminar (aunque no hayas acabado)
 
