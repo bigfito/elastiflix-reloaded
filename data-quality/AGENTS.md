@@ -3,28 +3,28 @@
 Instrucciones para los agentes que ejecutan [`PLAN.md`](PLAN.md). Son obligatorias. Si tu herramienta no carga este
 archivo sola, léelo completo antes de la primera acción.
 
-El trabajo es de un **equipo de cuatro agentes y una persona**. Tres agentes ejecutan, uno revisa, y avanzan por
-**turnos** en un orden fijo. Nadie depende de la memoria de otro: lo que el siguiente necesita saber queda escrito en
+El trabajo es de un **equipo de tres agentes y una persona**. Desde el turno 12 (P-13), dos agentes ejecutan
+(Cursor y Qwen 3.5 9B), uno revisa, y avanzan por **turnos** en un orden fijo. Nadie depende de la memoria de otro: lo que el siguiente necesita saber queda escrito en
 la bitácora y en git, en la rama local `dq/ronda-4`.
 
 ## 1. El equipo
 
 | Integrante | Papel | Qué hace en su turno |
 |---|---|---|
-| **Google Antigravity** | Ejecutor | Ejecuta las tareas de su turno (roles DATOS, JAVA, EVAL o DOCS, según la tarea) |
-| **Cursor** | Ejecutor | Igual que Antigravity |
-| **GitHub Copilot** (modo agente, con el modelo **Kimi K3**) | Ejecutor | Igual que Antigravity |
+| **Qwen 3.5 9B** | Ejecutor (desde el turno 12) | Ejecuta las tareas de su turno (roles DATOS, JAVA, EVAL o DOCS, según la tarea), con las reglas extra del §5.1 |
+| **Cursor** | Ejecutor | Igual que Qwen, sin el §5.1 |
 | **Claude Code** | Revisor y coordinador | Después de **cada** turno de ejecución: revisa todo lo que hizo el ejecutor, **corrige** lo que quedó mal, deja el tablero listo y da paso al siguiente. No toma tareas del plan |
 | **Dueña del proyecto** (humana) | Decide y aprueba | Contesta P-0, H-1, H-2 y D-xx; integra los hitos en `main`; da la orden de arrancar cada turno |
 
-El orden de los turnos es siempre el mismo y se repite hasta terminar:
+Google Antigravity y GitHub Copilot (con Kimi K3) ejecutaron turnos del 1 al 10 y salieron del equipo; sus turnos
+pendientes los toma Qwen 3.5 9B (P-13). Desde el turno 12, cada turno de ejecución va seguido de su revisión:
 
 ```text
-Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → Antigravity → …
+Qwen 12 → Claude Code → Qwen 13a → Claude Code → Qwen 13b → Claude Code → Cursor 14 → Claude Code → Qwen 15 → …
 ```
 
-El reparto exacto (21 turnos de ejecución, 7 por ejecutor y 2 grandes cada uno) está en
-[`PLAN.md` · Reparto y turnos](PLAN.md#reparto-y-turnos). Ningún ejecutor toma un turno que no es suyo, aunque esté
+El reparto exacto está en [`PLAN.md` · Reparto y turnos](PLAN.md#reparto-y-turnos). Los turnos 13 y 19 se parten en
+dos (13a/13b y 19a/19b); sus etiquetas son `dq-t13a`, `dq-r13a`, etc. Ningún ejecutor toma un turno que no es suyo, aunque esté
 libre: si el que sigue no está disponible, la dueña del proyecto decide quién lo cubre y se anota como decisión.
 
 ## 2. Archivos que mandan
@@ -106,6 +106,28 @@ Si hubiera que recrear el worktree principal, desde el checkout principal:
 - Si algo del plan no funciona como dice, anótalo como desviación en el diario; si cambia el alcance, ábrelo como
   decisión en el tablero.
 
+### 5.1 Reglas extra para Qwen 3.5 9B
+
+Qwen es un modelo pequeño: estas reglas le ahorran contexto y le evitan improvisar. Valen además de todo lo anterior.
+
+1. **Lee poco y en este orden:** este archivo (§3, §5 y §5.1); «Próximo paso» de `BITACORA.md` (§2); la sección
+   «Para el siguiente ejecutor» de la revisión anterior (`bitacora/R-NN.md`); la tarjeta de tu WP en `PLAN.md`; y el
+   «Punto de reanudación» de `bitacora/WP-XX.md`. No hace falta leer los diarios completos ni los informes viejos.
+2. **Copia los comandos tal cual** de «Próximo paso». No los reescribas, no cambies rutas ni opciones, no inventes
+   comandos nuevos. La terminal es PowerShell salvo que «Próximo paso» diga otra cosa.
+3. **Un lote a la vez y en este orden:** proponer, aplicar, probar, commit y una línea en el diario. No empieces el
+   lote siguiente hasta que el anterior esté commiteado.
+4. **Si te pierdes**, `git log --oneline -5`, `git status` y el «Punto de reanudación» te dicen dónde vas. Nunca
+   repitas un lote que ya tiene commit.
+5. **No arregles scripts ni código** que la tarea no te pide tocar. Si un script falla, copia el error exacto en un
+   bloqueo (BITACORA §5), cierra el turno como `INCOMPLETO` y no sigas.
+6. **Antes de cada commit**, `git status`: solo deben aparecer los archivos de tu lote o tarea. Nada de `git add -A`
+   a ciegas ni de borrar archivos.
+7. **Números copiados, no calculados:** en la bitácora y los diarios escribe las cifras que imprimen los scripts.
+8. **Si el contexto se te llena**, cierra el turno limpio (`INCOMPLETO`, todo commiteado, punto de reanudación al día)
+   en vez de seguir a medias. El turno siguiente retoma desde ahí.
+9. Firma tus commits con `Agente: Qwen (Qwen 3.5 9B)` y pasa `--agente "Qwen (Qwen 3.5 9B)"` a los scripts.
+
 ### Al terminar (aunque no hayas acabado)
 
 1. Corre las comprobaciones de tu turno (`./mvnw verify` si tocaste código o `data/`; las que diga la tarjeta).
@@ -141,7 +163,7 @@ conversación, solo en lo que dejó en git y en la bitácora.
    del siguiente turno del **mismo** ejecutor, anotado como decisión.
 7. **Cierre.** Commit `Revisión R-NN: <veredicto>` y `git tag dq-r<NN>`.
 
-En los hitos (después de los turnos 7, 14 y 21) Claude Code escribe además el resumen del hito en el diario del plan
+En los hitos (después de los turnos 7, 14 y 20; el 21 cierra la publicación) Claude Code escribe además el resumen del hito en el diario del plan
 y avisa a la dueña del proyecto que puede integrar `dq/ronda-4` en `main`.
 
 ## 7. Git
@@ -169,9 +191,8 @@ como carpeta, y envía el mensaje de la tabla.
 
 | Herramienta | Notas | Mensaje |
 |---|---|---|
-| **Google Antigravity** | Agent Manager, con el worktree como workspace. Si planea con sus propios artefactos, el plan oficial sigue siendo `PLAN.md` y el estado, `BITACORA.md` | `Eres Google Antigravity, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
+| **Qwen 3.5 9B** | La herramienta de agente con la que la dueña del proyecto corra el modelo (por ejemplo Qwen Code), con el worktree como carpeta y acceso a la terminal. Firma sus commits como `Agente: Qwen (Qwen 3.5 9B)`. Lee el §5.1 | `Eres Qwen, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md (§3, §5 y §5.1) y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Cursor** | Chat en modo Agent. Agrega `data-quality/` al contexto | `Eres Cursor, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
-| **GitHub Copilot** | Copilot Chat de VS Code en modo Agent, con **Kimi K3** como modelo. Firma sus commits como `Agente: GitHub Copilot (Kimi K3)`. Agrega `data-quality/AGENTS.md` y `data-quality/BITACORA.md` como contexto (`#file`) | `Eres GitHub Copilot, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Claude Code** | `data-quality/CLAUDE.md` importa este archivo | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
 
 Comandos con variables de entorno, según el shell:
