@@ -1,0 +1,2 @@
+fuente: índice elastiflix-dq-staging-20261113-195801 · alias elastiflix-dq-staging · 6899 películas
+claves: ['_id', 'adult', 'backdrop_path', 'belongs_to_collection', 'budget', 'cast', 'enrichment', 'genres', 'homepage', 'id', 'imdb_id', 'keywords', 'original_language', 'original_title', 'overview', 'plot', 'popularity', 'poster_path', 'production_companies', 'production_countries', 'rating', 'release_date', 'revenue', 'runtime', 'spoken_languages', 'status', 'tagline', 'title', 'user_score', 'video', 'vote_average', 'vote_count']

@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 20:09 UTC · Cursor (Grok 4.7) · ejecutor (turno 19)
+**Última actualización:** 2026-11-13 20:15 UTC · Cursor (Grok 4.7) · ejecutor (turno 19)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -185,14 +185,14 @@ La columna «Inicial» sale de `hallazgos/salidas/m0/`.
 
 | Indicador | Salida | Inicial | Meta | M3 |
 |---|---|---|---|---|
-| Plot con 2 o más firmas de texto generado | `llm.txt` («con >=2») | 1 408 | ≤ 50 | |
-| Respuestas de asistente y correcciones de año | `llm.txt` | 2 + 6 | 0 | |
-| Plot con taquilla o crítica | `plots.txt` («producción/recepción») | 1 549 | < 300 | |
-| Plot que abre con la ficha | `plots.txt` («ficha inicial») | 3 734 | < 500 | |
-| Plot de menos de 200 caracteres | `plots.txt` («< 200 chars») | 686 | solo las «sin fuente» y las secciones de Wikipedia que ya son cortas (P-18) | |
-| Plot sin `enrichment.plot` (6 899 menos la cuenta de `plot` en «enrichment: claves») | `deep.txt` | 5 275 | 0 | |
-| Textos con espacios, NBSP, sin NFC o con `&amp;` | `deep.txt` | 124 | 0 | |
-| Ids de palabra clave con varios nombres | `deep.txt` | 14 | solo los legítimos de TMDB | |
+| Plot con 2 o más firmas de texto generado | `llm.txt` («con >=2») | 1 408 | ≤ 50 | 0 |
+| Respuestas de asistente y correcciones de año | `llm.txt` | 2 + 6 | 0 | 0 + 0 |
+| Plot con taquilla o crítica | `plots.txt` («producción/recepción») | 1 549 | < 300 | 5 |
+| Plot que abre con la ficha | `plots.txt` («ficha inicial») | 3 734 | < 500 | 9 |
+| Plot de menos de 200 caracteres | `plots.txt` («< 200 chars») | 686 | solo las «sin fuente» y las secciones de Wikipedia que ya son cortas (P-18) | 146 |
+| Plot sin `enrichment.plot` (6 899 menos la cuenta de `plot` en «enrichment: claves») | `deep.txt` | 5 275 | 0 | 0 |
+| Textos con espacios, NBSP, sin NFC o con `&amp;` | `deep.txt` | 124 | 0 | 0 |
+| Ids de palabra clave con varios nombres | `deep.txt` | 14 | solo los legítimos de TMDB | 11 |
 
 ## 8. Diario del plan
 
