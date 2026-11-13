@@ -1,0 +1,226 @@
+603 «The Matrix» (1999) [(4565, 'dystopia'), (4379, 'time travel'), (12377, 'virtual reality'), (14946, 'fictional war'), (303361, 'matrix')]
+105 «Back to the Future» (1985) [(391, 'flying car'), (4776, 'race against time'), (389, 'clock tower'), (830, 'car race'), (952, 'lightning'), (953, 'guitar'), (1436, 'inventor'), (1743, 'journey in the past'), (3338, 'invention'), (4379, 'time travel'), (6733, 'bullying'), (5455, 'time machine'), (10125, 'mad scientist'), (9673, 'love'), (11860, 'fish out of water'), (13015, 'terrorism'), (18425, 'teenage love'), (40850, 'destiny'), (163070, 'burlesque'), (186189, 'hidden identity'), (206720, 'teenage life'), (206736, 'changing the past or future'), (208349, 'kids'), (208611, '1950s'), (288816, 'lighthearted'), (325811, 'excited'), (325840, 'optimistic')]
+196 «Back to the Future Part III» (1990) [(4379, 'time travel'), (12377, 'wild west'), (303361, 'delorean'), (14946, 'fictional war'), (4565, 'dystopia')]
+165 «Back to the Future Part II» (1989) [(391, 'flying car'), (390, 'skateboarding'), (830, 'car race'), (952, 'lightning'), (953, 'guitar'), (1436, 'inventor'), (4379, 'time travel'), (10738, 'diner'), (9844, 'car crash'), (9663, 'sequel'), (12026, 'alternate history'), (18171, 'thunderstorm'), (189102, 'tunnel'), (196664, 'high school dance'), (200918, 'angry'), (208349, 'kids'), (226370, 'hoverboard'), (257783, '2010s'), (288816, 'lighthearted'), (325809, 'enthusiastic')]
+
+## plot largo: min 48 p5 148 p25 812 med 2411 p75 2851 p95 2980 max 3325
+   palabras: min 8 med 401 max 569
+   < 200 chars: 706  < 100: 55  > 8000: 0
+
+## más cortos: 20
+    (48, '287003 «Avatar: Scene Deconstruction» (2009)', 'The deconstruction of the Avatar scenes and sets', 'tmdb_overview')
+    (64, '15302 «The Pixar Story» (2007)', 'The success story of Pixar Animation Studios from the ground up.', 'wikipedia_plot_2026-11-12')
+    (67, '376570 «Hush» (2016)', 'A deaf woman is stalked by a psychotic killer in her secluded home.', 'tmdb_overview')
+    (67, '77887 «Hawaiian Vacation» (2011)', "The toys throw Ken and Barbie a Hawaiian vacation in Bonnie's room.", 'tmdb_overview')
+    (71, '470114 «24 Hours to Live» (2017)', 'An assassin seeks redemption after being given a second chance at life.', 'tmdb_overview')
+    (72, '407887 «Operation Chromite» (2016)', "A squad of soldiers fight in the Korean War's crucial Battle of Incheon.", 'tmdb_overview')
+    (73, '883987 «Megan» (2020)', 'A hiker finds shelter in a mountain lodge inhabited by two strange women.', 'tmdb_overview')
+    (74, '70435 «Haywire» (2011)', 'A black ops soldier seeks payback after she is betrayed and left for dead.', 'tmdb_overview')
+    (75, '301875 «Equals» (2015)', 'A futuristic love story set in a world where emotions have been eradicated.', 'tmdb_overview')
+    (77, '365942 «The Space Between Us» (2017)', 'A young man raised by scientists on Mars returns to Earth to find his father.', 'tmdb_overview')
+    (79, '157825 «White Bird in a Blizzard» (2014)', "In 1988, a teenage girl's life is thrown into chaos when her mother disappears.", 'tmdb_overview')
+    (79, '322240 «Nine Lives» (2016)', "A stuffy businessman finds himself trapped inside the body of his family's cat.", 'tmdb_overview')
+    (82, '68812 «The Iceman» (2012)', 'The true story of Richard Kuklinski, the notorious contract killer and family man.', 'tmdb_overview')
+    (85, '15019 «I Could Never Be Your Woman» (2007)', 'A mother falls for a younger man while her daughter falls in love for the first time.', 'tmdb_overview')
+    (85, '354279 «Charming» (2018)', 'Three fairy tale princesses find themselves engaged to the same guy, Prince Charming.', 'tmdb_overview')
+    (85, '459202 «Boo 2! A Madea Halloween» (2017)', 'Madea and the gang encounter monsters, goblins and boogeymen at a haunted campground.', 'tmdb_overview')
+    (86, '15485 «Disney Princess Enchanted Tales: Follow Your Dreams» (2007)', 'Princess Aurora and Princess Jasmine learn valuable life lessons in two short stories.', 'tmdb_overview')
+    (87, '123103 «Aftershock» (2012)', 'Mayhem and death follow when an earthquake traps a group of tourists in a Chilean town.', 'tmdb_overview')
+    (87, '239459 «No Half Measures: Creating the Final Season of Breaking Bad» (2013)', 'A documentary about the making of season five of the acclaimed AMC series Breaking Bad.', 'tmdb_overview')
+    (87, '245703 «Midnight Special» (2016)', 'A father and son go on the run after the dad learns his child possesses special powers.', 'tmdb_overview')
+
+## más largos: 8
+    (3325, '271110 «Captain America: Civil War» (2016)')
+    (3197, '281338 «War for the Planet of the Apes» (2017)')
+    (3135, '449574 «Godzilla: Planet of the Monsters» (2017)')
+    (3123, '54138 «Star Trek Into Darkness» (2013)')
+    (3121, '274870 «Passengers» (2016)')
+    (3120, '284052 «Doctor Strange» (2016)')
+    (3099, '820446 «Downton Abbey: A New Era» (2022)')
+    (3096, '346364 «It» (2017)')
+
+## plot idéntico a overview: 1305  etiquetados tmdb_overview: 1305
+
+## etiquetado tmdb_overview pero plot != overview: 369
+    ('17 «The Dark» (2005)', 'In an attempt to pull her family together, Adèlle travels with her young daughte', '|', 'Adèlle goes to Wales with her daughter Sarah to try and patch things up with Sar')
+    ('143 «All Quiet on the Western Front» (1930)', 'When a group of idealistic young men join the German Army during the Great War, ', '|', 'A young soldier faces profound disillusionment in the soul-destroying horror of ')
+    ('243 «High Fidelity» (2000)', 'After his long-time girlfriend dumps him, a thirty-year-old record store owner s', '|', 'When record store owner and compulsive list-compiler Rob Gordon gets dumped by h')
+    ('326 «Snakes on a Plane» (2006)', 'FBI agent Neville Flynn boards a flight from Honolulu, Hawaii to Los Angeles, es', '|', 'America is on the search for the murderer Eddie Kim. Sean Jones must fly to L.A.')
+    ('343 «Harold and Maude» (1971)', 'A deadpan young man obsessed with death meets an eccentric septuagenarian who te', '|', 'The young Harold lives in his own world of suicide-attempts and funeral visits t')
+    ('437 «Cube 2: Hypercube» (2002)', 'Eight strangers awaken with no memory, in a puzzling cube-shaped room where the ', '|', 'The sequel to the low budget first film Cube. This time the prisoners find them ')
+    ('438 «Cube Zero» (2004)', 'A young programmer whose job is to watch over the reality-warping Cube defies or', '|', 'Cube Zero is the third film in the trilogy yet this time instead of a film about')
+    ('439 «La Dolce Vita» (1960)', 'Episodic journey of journalist Marcello who struggles to find his place in the w', '|', 'Journalist and man-about-town Marcello struggles to find his place in the world,')
+    ('531 «The Wrong Trousers» (1993)', "Wallace rents out Gromit's former bedroom to a penguin, who takes up an interest", '|', "Wallace rents out Gromit's former bedroom to a penguin, who takes up an interest")
+    ('553 «Dogville» (2003)', 'A woman on the run from the mob is reluctantly accepted in a small Colorado comm', '|', 'A barren soundstage is stylishly utilized to create a minimalist small-town sett')
+
+## plot == overview sin etiqueta: 0
+   plot desde overview (largo mediano): 227
+
+## plot duplicado exacto: 0
+
+## overview duplicado: 2
+    ['88557 «Pokémon the Movie: White - Victini and Zekrom» (2011)', '115223 «Pokémon the Movie: Black - Victini and Reshiram» (2011)']
+    ['282069 «Parasyte: Part 1» (2014)', '282070 «Parasyte: Part 2» (2015)']
+
+## mismo inicio (150 chars): 0
+
+## plot · ASSISTANT: 2
+    ('286554 «Two Night Stand» (2014)', "I'm sorry")
+    ("420245 «Don't Knock Twice» (2017)", "I'm sorry")
+
+## plot · MARKDOWN: 0
+
+## plot · THEMES: 0
+
+## plot · wiki cita [n]: 0
+
+## plot · wiki encabezado: 0
+
+## plot · ficha inicial («X is a 2004 ... film»): 1865
+    ('1667 «March of the Penguins» (2005)', "March of the Penguins (French: La Marche de l'empereur) is a")
+    ('7944 «Shine a Light» (2008)', 'Shine a Light is a 2008 concert documentary')
+    ('13476 «Win a Date with Tad Hamilton!» (2004)', 'A soldier and nurse emerge from two 1940s-style cars in the ')
+    ('14543 «The Matrix Revisited» (2001)', 'The Matrix Revisited is a 2001 American documentary')
+    ('14611 «Ultimate Avengers 2: Rise of the Panther» (2006)', 'Ultimate Avengers 2: Rise of the Panther is a 2006 American ')
+    ('14830 «Doctor Strange» (2007)', 'Doctor Strange, also known as Doctor Strange: The Sorcerer S')
+    ('17610 «Year One» (2009)', 'Year One is a 2009 American comedy film')
+    ('17654 «District 9» (2009)', 'District 9 is a thought-provoking science fiction film')
+    ('17710 «Hey Arnold! The Movie» (2002)', 'Hey Arnold!: The Movie is a 2002 American animated adventure')
+    ('17979 «A Christmas Carol» (2009)', 'A Christmas Carol (2009) is a musical fantasy film')
+    ('18240 «The Proposal» (2009)', 'The Proposal is a romantic comedy film')
+    ("18269 «Lady and the Tramp II: Scamp's Adventure» (2001)", "Lady and the Tramp II: Scamp's Adventure is a direct-to-vide")
+
+## plot · meta (the film/movie ...): 845
+    ('1667 «March of the Penguins» (2005)', 'the film grossed')
+    ('14756 «Ip Man» (2008)', 'the film stars')
+    ('17610 «Year One» (2009)', 'The movie stars')
+    ('17654 «District 9» (2009)', 'The movie was released')
+    ('17710 «Hey Arnold! The Movie» (2002)', 'The Movie is a 2002')
+    ('18131 «Baby on Board» (2009)', 'The film received')
+    ('18533 «Bronson» (2008)', 'The film grossed')
+    ('18858 «Irresistible» (2006)', 'The film received')
+    ('18882 «Man-Thing» (2005)', 'the film premiered')
+    ('18925 «Facing the Giants» (2006)', 'The movie stars')
+    ('18947 «The Boat That Rocked» (2009)', 'The film premiered')
+    ('19058 «Down» (2001)', 'The film was released')
+
+## plot · producción/recepción: 1196
+    ('7944 «Shine a Light» (2008)', 'Rotten Tomatoes')
+    ('17710 «Hey Arnold! The Movie» (2002)', 'Rotten Tomatoes')
+    ('17711 «The Adventures of Rocky & Bullwinkle» (2000)', 'box office')
+    ('18131 «Baby on Board» (2009)', 'Rotten Tomatoes')
+    ('18215 «Boxing Helena» (1993)', 'Rotten Tomatoes')
+    ('18405 «The Last House on the Left» (2009)', 'Rotten Tomatoes')
+    ('18437 «The Darwin Awards» (2006)', 'Rotten Tomatoes')
+    ('18476 «Horsemen» (2009)', 'Rotten Tomatoes')
+    ('18533 «Bronson» (2008)', 'Rotten Tomatoes')
+    ('18681 «Eye of the Beholder» (1999)', 'Rotten Tomatoes')
+    ('18858 «Irresistible» (2006)', 'received mixed reviews')
+    ('18882 «Man-Thing» (2005)', 'received negative reviews')
+
+## plot · dirección (directed by): 2604
+    ("1268 «Mr. Bean's Holiday» (2007)", 'directed by')
+    ('1667 «March of the Penguins» (2005)', 'directed by')
+    ('7944 «Shine a Light» (2008)', 'directed by')
+    ('9552 «The Exorcist» (1973)', 'directed by')
+    ('11442 «Halloween: Resurrection» (2002)', 'directed by')
+    ('13754 «Tekkonkinkreet» (2006)', 'directed by')
+    ('14543 «The Matrix Revisited» (2001)', 'directed by')
+    ('14756 «Ip Man» (2008)', 'Directed by')
+    ('14830 «Doctor Strange» (2007)', 'Directed by')
+    ('15257 «Hulk vs. Wolverine» (2009)', 'directed by')
+    ('15898 «Unstable Fables: 3 Pigs & a Baby» (2008)', 'Directed by')
+    ('17610 «Year One» (2009)', 'directed by')
+
+## plot · en español/otro idioma: 28
+    ('1428 «Once Upon a Time in Mexico» (2003)', 'El Mariachi is recruited by CIA officer Sheldon Jeffrey Sand')
+    ('1635 «The Island» (2005)', 'Los Angeles and helps them to the Yucca maglev station, wher')
+    ('1735 «The Mummy: Tomb of the Dragon Emperor» (2008)', 'La. With help from yetis summoned by Lin, the group holds of')
+    ('1833 «Rent» (2005)', 'La Vie Bohème" or "La Vie Bohème A"). Roger and Mimi reveal ')
+    ('1992 «Planet Terror» (2007)', 'El Wray is detained by Sheriff Hague based on past encounter')
+    ('2048 «I, Robot» (2004)', 'Del Spooner is a homicide detective in the Chicago Police De')
+    ('9342 «The Mask of Zorro» (1998)', 'la Vega is Zorro and attempts to arrest him at his home. A s')
+    ('9884 «Collateral Damage» (2002)', 'Los Angeles, killing nine people, including Colombian offici')
+    ('10452 «Queen Margot» (1994)', 'La Môle, also a Protestant from a well-to-do family. Murders')
+    ('15092 «Crank: High Voltage» (2009)', 'El Hurón is the brother of Ricky and Alex Verona, both of wh')
+    ('16456 «The Crow: Wicked Prayer» (2005)', "El Niño, the head of their Order, at a place called 'Iniquit")
+    ('21972 «Like Mike» (2002)', 'Los Angeles. At night, they all have to sell chocolate for t')
+
+## plot · termina sin puntuación: 8
+    ('51880 «Oscar and the Lady in Pink» (2009)', 't')
+    ('82675 «Taken 2» (2012)', 's')
+    ('287003 «Avatar: Scene Deconstruction» (2009)', 's')
+    ('394741 «Stan & Ollie» (2018)', 'c')
+    ('433694 «Sgt. Stubby: An American Hero» (2018)', 'y')
+    ('457837 «Brotherhood of Blades II: The Infernal Battlefield» (2017)', 't')
+    ('467433 «A Question of Faith» (2017)', 's')
+    ('475557 «Joker» (2019)', 's')
+
+## plot · URL: 0
+
+## plot · spoiler/notice: 6
+    ('23827 «Paranormal Activity» (2007)', 'spoiler')
+    ('507903 «Spoiler Alert» (2022)', 'Spoiler')
+    ('689249 «Money Heist: The Phenomenon» (2020)', 'spoiler')
+    ('828947 «Beavis and Butt-Head Do the Universe» (2022)', 'Spoiler')
+    ('843241 «The Seven Deadly Sins: Cursed by Light» (2021)', 'spoiler')
+    ('979163 «Beyond Infinity: Buzz and the Journey to Lightyear» (2022)', 'spoiler')
+
+## plot · segunda persona IA: 5
+    ('41446 «Scream 4» (2011)', 'In conclusion')
+    ('335983 «Venom» (2018)', "Here's a plot")
+    ('621707 «The Vigil» (2020)', 'let me')
+    ('741335 «Sing a Bit of Harmony» (2021)', 'Let Me')
+    ('833339 «Speak No Evil» (2022)', 'let me')
+
+## plot · lista viñetas: 0
+
+## plot con >10% no-ASCII: 0
+
+## plot que parece es: 0
+
+## plot que parece fr: 0
+
+## plot que parece de: 0
+
+## overview con nombres propios que el plot no menciona (¿plot de otra película?): 81
+    ('55 «Amores Perros» (2000)', ['Alejandro', 'Amores', 'Mexican', 'Mexico', 'Sending'], 'The film is constructed from three distinct stories linked by a car crash that brings the characters')
+    ('575 «The Experiment» (2001)', ['Das', 'Even', 'Experiment', 'Stanford', 'University'], 'Former journalist and now taxi driver Tarek Fahd spots a newspaper ad seeking to recruit test subjec')
+    ('1562 «28 Weeks Later» (2007)', ['Americans', 'British', 'Isles', 'Six'], 'During the initial Rage Virus outbreak in Britain, Don, his wife Alice, and four other survivors she')
+    ('1579 «Apocalypto» (2006)', ['Mayan', 'Set', 'Through'], 'While hunting in the Mesoamerican rainforest, Jaguar Paw, his father Flint Sky, and their fellow tri')
+    ('1581 «The Holiday» (2006)', ['Each', 'Kingdom', 'States', 'United'], 'Iris Simpkins, a society columnist for The Daily Telegraph in London, is obsessively in love with he')
+    ("1717 «All the King's Men» (2006)", ['Based', 'Huey', 'Long', 'Louisiana', 'Penn', 'Prize'], 'Jack Burden, a Louisianan news reporter, takes a personal interest in Willie Stark, an idealistic sm')
+    ('4942 «Leatherheads» (2008)', ['Everyone', 'Football', 'Professional'], 'In 1925, Jimmy "Dodge" Connelly is captain of the Duluth Bulldogs, a struggling professional America')
+    ('7191 «Cloverfield» (2008)', ['Five', 'Told', 'Yorkers'], 'The footage from a personal camcorder is recovered by the U.S. Department of Defense in the area "fo')
+    ('9397 «Evolution» (2001)', ['David', 'Duchovny', 'Jones', 'Julianne', 'Moore', 'Orlando'], 'Late one night, a large meteor crashes in the Arizona desert, witnessed by aspiring firefighter Wayn')
+    ('9836 «Happy Feet» (2006)', ['Emperor', 'Into', 'Penguins'], 'Every emperor penguin attracts a mate by singing a unique "heartsong". If the male penguin\'s heartso')
+    ('10188 «The Sisterhood of the Traveling Pants 2» (2008)', ['Four', 'Pants', 'Sisterhood', 'Traveling'], 'Childhood friends Bridget Vreeland, Lena Kaligaris, Tibby Rollins, and Carmen Lowell have completed ')
+    ('10317 «Our Brand Is Crisis» (2015)', ['America', 'Based', 'Brand', 'Crisis', 'Our', 'South'], 'In 2002, Bolivian politician Pedro Castillo hires an American political consulting firm (based on Ja')
+    ('10800 «Dragon Hunters» (2008)', ['Dragon', 'Eat', 'Hunters'], 'The world has become a vast arrangement of floating islands of varying sizes and shapes. This dizzy ')
+    ('11804 «White Noise» (2005)', ['Electronic', 'Phenomenon', 'Voice'], 'Jonathan Rivers is an architect, married to his wife Anna, a best-selling author. The couple have a ')
+    ('11817 «Bulletproof Monk» (2003)', ['Scroll', 'Tibetan', 'Ultimate'], 'In 1943 Tibet, a young monk is told that he has fulfilled a series of prophecies that mark him as hi')
+    ('12405 «Slumdog Millionaire» (2008)', ['Indian', 'Millionaire', 'Wants', 'Who'], 'In 1992, five-year-old Muslim boy Jamal Malik, a resident of the Juhu slum in Mumbai, obtains Bollyw')
+    ('13505 «The Perfect Score» (2004)', ['Center', 'Princeton', 'Six', 'Testing'], "Everyman high school student Kyle needs a high score on the SAT to get into Cornell University's arc")
+    ('13805 «Disaster Movie» (2008)', ['Date', 'Epic', 'Meet', 'Movie', 'Scary', 'Spartans'], 'In the year 10,001 B.C., a caveman runs away from a predator through a plain and immediately gets in')
+    ('14337 «Primer» (2004)', ['Dealing', 'Friends', 'Taking'], 'Two engineers, Aaron and Abe, supplement their day jobs with entrepreneurial tech projects, working ')
+    ('14869 «G.I. Joe: The Rise of Cobra» (2009)', ['Cobra', 'Destro', 'Egyptian'], 'Weapons master James McCullen has created a nanotech-based weapon—nanobots that can rapidly devour a')
+    ('15577 «Crossing Over» (2009)', ['Angeles', 'Crossing', 'Immigrants', 'Kramer', 'Los', 'Over'], 'After immigrant Mireya Sanchez is deported, ICE / HSI Special Agent Max Brogan takes care of her son')
+    ('17202 «Why Did I Get Married?» (2007)', ['Colorado', 'Eight', 'Secrets'], 'Four couples, who are also best friends since college, converge in a house in the mountains for a we')
+    ('19899 «Couples Retreat» (2009)', ['Four', 'Participation', 'Though'], 'Couples Retreat is a 2009 American romantic comedy film directed by Peter Billingsley and written by')
+    ('25769 «Carriers» (2009)', ['Contagion', 'Four', 'Gulf', 'Mexico', 'West'], 'Carriers is a 2009 American post-apocalyptic horror film directed by Chris Kentis and written by J. ')
+    ('28118 «The Gruffalo» (2009)', ['Encountering', 'Fox', 'Owl', 'Snake'], 'In an autumn forest, a red squirrel mother finds a nut. Her children are playing until they see an o')
+    ('31608 «Three Fugitives» (1989)', ['Dugan', 'Lucas', 'Meg', 'Perry'], 'Three Fugitives is a 1989 American action comedy film directed by Hal Needham. The movie follows the')
+    ('38810 «Dogtooth» (2009)', ['Any', 'Having', 'Hence', 'Three'], 'A couple and their adult son and two adult daughters live in a fenced compound. The children have no')
+    ('41275 «Python» (2000)', ['California', 'Growing', 'Haven', 'Sleepy'], 'Python, released theatrically in the Philippines as Anaconda 2000, is a 2000 American made-for-telev')
+    ('42994 «Memories» (1995)', ['Bomb', 'Cannon', 'Fodder', 'Magnetic', 'Rose', 'Stink'], 'The Corona, a deep space salvage freighter, is out on a mission when it encounters a distress signal')
+    ('49524 «R.I.P.D.» (2013)', ['Department', 'Peace', 'Rest'], 'R.I.P.D. is a supernatural action-comedy film directed by Robert Schwentke and written by Scott Waug')
+    ('50546 «Just Go with It» (2011)', ['Cactus', 'Flower', 'Hawaii'], 'Just Go with It is a 2011 American romantic comedy film directed by Dennis Dugan and starring Adam S')
+    ('50633 «Prison-A-Go-Go!» (2003)', ['Evil', 'Fights', 'Food', 'Kung', 'Mud', 'Multiple'], 'Prison-A-Go-Go! is a 2003 American low-budget action comedy directed by Barak Epstein, who wrote it ')
+    ('59118 «The Prey» (2011)', ['Enemy', 'Number', 'Public'], 'The Prey (French: La proie) is a 2011 French action thriller directed by Éric Valette and written by')
+    ('60747 «Red Dawn» (2012)', ['Determined', 'Quickly', 'Washington'], 'Red Dawn is a 2012 American action film directed by Marc Webb and written by Chris Kerouac. The movi')
+    ('61979 «Three Steps Above Heaven» (2010)', ['Babi', 'Hache', 'Story'], 'Three Steps Above Heaven is a Spanish drama film directed by Cora Zolfo, released in 2010. The movie')
+    ('71552 «American Reunion» (2012)', ['East', 'Falls', 'Great'], 'American Reunion is a 2012 American coming-of-age comedy film directed by Jon Hurwitz and Hayden Sch')
+    ('72784 «The Loft» (2014)', ['For', 'Friendships', 'Realizing'], 'Five married men share ownership of an upmarket loft, which they use for discreetly meeting their re')
+    ('207933 «Stonehearst Asylum» (2014)', ['Harvard', 'Medical', 'School'], 'Stonehearst Asylum, originally titled Eliza Graves, is a 2014 American gothic psychological thriller')
+    ('234200 «Pride» (2014)', ['Mineworkers', 'National', 'Union'], 'Pride is a 2014 historical comedy-drama written by Stephen Beresford and directed by Matthew Warchus')
+    ('256040 «Bāhubali: The Beginning» (2015)', ['Avanthika', 'Shividu', 'Shivudu'], 'Bāhubali: The Beginning is a 2015 Indian fantasy adventure film written and directed by S.S. Rajamou')

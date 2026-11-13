@@ -652,7 +652,10 @@ películas, que conservan la licencia de sus fuentes (TMDB y Wikipedia, CC BY-SA
 - **[TMDB](https://www.themoviedb.org/)** (The Movie Database): datos de las películas y pósters.
   *This product uses the TMDB API but is not endorsed or certified by TMDB.* La atribución también aparece en el pie de
   cada página y en «Acerca de» › «Créditos y aviso de uso», que también trae el aviso de fines académicos.
-- **[Wikipedia](https://www.wikipedia.org/)**: textos de las películas. El contenido de Wikipedia se publica bajo la licencia
+- **[Wikipedia](https://www.wikipedia.org/)**: sinopsis de las películas cuya etiqueta `enrichment.plot` es
+  `wikipedia_plot_AAAA-MM-DD`; el artículo y la revisión de cada una están en `data-quality/fuentes/plot-fuentes.tsv`. Las
+  demás sinopsis son el overview de TMDB (`tmdb_overview`) o de origen sin verificar (`unverified`). El contenido de
+  Wikipedia se publica bajo la licencia
   [Creative Commons Atribución-CompartirIgual 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es).
 
 Los nombres, marcas, pósters y textos pertenecen a sus respectivos titulares. Este proyecto no está afiliado ni

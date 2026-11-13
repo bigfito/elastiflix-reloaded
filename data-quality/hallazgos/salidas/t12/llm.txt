@@ -1,0 +1,110 @@
+## firmas de texto de modelo (docs por firma):
+   delves into                                   7
+   thought-provoking                             25
+   complexities of                               13
+   explores the (themes|complexities|world)      8
+   revolves around                               26
+   poignant                                      25
+   heartwarming                                  69
+   Overall, the                                  11
+   In conclusion                                 0
+   serves as a                                   1
+   testament to                                  5
+   human nature                                  9
+   tapestry                                      2
+   navigate(s) the                               11
+   not YEAR / correction                         0
+   no match/please provide                       43
+   film is known for                             2
+
+## docs con >=1 firma: 224  con >=2 (alta probabilidad de texto generado): 0
+   por origen de plot (enrichment.plot): Counter()
+
+## no match / please provide / negaciones: 43
+    ('641 «Requiem for a Dream» (2000)', 'unable to find', 'Sara Goldfarb, a widow living alone in Brighton Beach, New York City, watches television. Her son Harry and his friend Tyrone are heroin addicts. The two deal h')
+    ('887 «The Best Years of Our Lives» (1946)', 'unable to find', 'Three returning World War II veterans meet on a flight to their midwestern hometown of Boone City. USAAF bombardier captain Fred Derry had been a drugstore soda')
+    ("1268 «Mr. Bean's Holiday» (2007)", 'unable to locate', 'Mr. Bean wins a holiday trip to Cannes, a video camera and €200 in a raffle. Upon arriving in France, Bean causes chaos while trying French seafood cuisine at L')
+    ('6537 «The Orphanage» (2007)', 'unable to find', 'In Spain, a young girl named Laura García Rodríguez is adopted from an orphanage. Thirty years later, adult Laura returns to the closed orphanage, accompanied b')
+    ('7518 «Over the Hedge» (2006)', 'unable to find', 'A raccoon known as RJ, unable to find food for himself, attempts to steal a stockpile from a bear named Vincent. His attempt backfires when Vincent is woken up ')
+    ('7980 «The Lovely Bones» (2009)', 'unable to find', 'In 1973, 14-year-old Susie Salmon dreams of becoming a photographer. One day, Ray, a boy she has a crush on, asks her out. As Susie walks home through a cornfie')
+    ('9270 «Brick» (2006)', 'Unable to locate', 'High school student Brendan Frye discovers a note directing him to a pay phone, where he receives a call from his ex-girlfriend Emily Kostich, begging him for h')
+    ('9392 «The Descent» (2005)', 'unable to locate', 'Sarah is picked up by her husband Paul and daughter Jessica after a whitewater rafting trip with her thrill-seeking friends Juno and Beth. Paul is distracted on')
+    ('10138 «Iron Man 2» (2010)', 'unable to find', "In Russia, the media covers Tony Stark's disclosure of his identity as Iron Man. Ivan Vanko, mourning the death of his father Anton Vanko—a former Stark Industr")
+    ('10867 «Malena» (2000)', 'unable to find', 'On 10 June 1940, in the small Sicilian town of Castelcutò, a teenage boy named Renato experiences three major events: Italy enters World War II; he receives a n')
+    ('14211 «Prey» (2007)', 'unable to find', 'Tom Newman and his family arrive at a resort in South Africa. Tom is a hydro-electrical engineer who has been hired to help build a nearby dam. He hopes that th')
+    ('15268 «Street Fighter: The Legend of Chun-Li» (2009)', 'unable to find', 'Chun-Li moves from San Francisco to Hong Kong with her family and begins intensive training in wushu under the tutelage of her father, businessman Xiang. The cr')
+    ('16052 «Selena» (1997)', 'unable to find', 'The film opens backstage at the Astrodome in Houston, Texas, on February 26, 1995, right before Tejano superstar Selena plays to a sold-out crowd. In 1961, duri')
+    ('18785 «The Hangover» (2009)', 'Unable to find', 'Two days before his wedding, Doug Billings goes to Las Vegas with his best friends Phil Wenneck, a teacher, and Stu Price, a dentist. They are accompanied by Al')
+    ('20504 «The Book of Eli» (2010)', 'unable to find', 'Thirty years after a nuclear holocaust, Eli travels on foot across the wasteland of the continental land of the former U.S. nation in search of water. He arrive')
+    ('23437 «A Nightmare on Elm Street» (2010)', 'unable to find', "Dean Russell falls asleep at a diner and is attacked by Freddy Krueger, a burned man wearing a bladed gardener's glove on his right hand. In the dream, the burn")
+    ('24001 «The Hills Run Red» (2009)', 'no known film', 'Film student Tyler is obsessed with the horror film The Hills Run Red, considered the scariest movie ever made, with the deranged serial killer Babyface in the ')
+    ('24619 «Blind Horizon» (2003)', 'unable to find', 'In the outskirts of rural New Mexico, Frank Kavanaugh, an unconscious man, is discovered by two local ranch hands. Suffering from a gunshot wound to the head, h')
+    ('25376 «The Secret in Their Eyes» (2009)', 'unable to find', 'In June 1974, judiciary agent Benjamín Espósito investigates the rape and murder of Liliana Colotto. Espósito promises her husband, Ricardo Morales, that he wil')
+    ('35019 «Nanny McPhee and the Big Bang» (2010)', 'there is no record', "Isabel Green is driven to her wit's end by her hectic life while her husband, Rory, goes off to fight in the Second World War. Between trying to keep the family")
+    ('36736 «The Drawn Together Movie: The Movie!» (2010)', 'is not a real', 'Foxxy Love discovers she can swear without being censored, and calls the network to find out why the TV show Drawn Together has been canceled due to The Suck My')
+    ('38073 «Going the Distance» (2010)', 'Unable to find', 'Erin Langford is a graduate journalism student recently hired as a summer intern at a New York City newspaper. Out with a friend at a bar, she meets Garrett, wh')
+    ('59118 «The Prey» (2011)', 'Unable to find', 'After a successful heist, Franck Adrien and his partner are convicted and sent to prison. Adrien is the only one who knows the location of the stash, and he ref')
+    ('72207 «The Five-Year Engagement» (2012)', 'Unable to find', "In San Francisco, sous-chef Tom, and PhD graduate Violet, are happily engaged. Their wedding plans are interrupted when Tom's best friend Alex gets Violet's sis")
+    ('79694 «The Apparition» (2012)', 'Unable to find', 'On May 21, 1973, six people conduct The Charles Experiment, a parapsychological experiment, in which they stare at a drawing of a deceased man, Charles Reamer, ')
+    ('82990 «Paranormal Activity 4» (2012)', 'unable to find', "On October 9, 2006, Kristi Rey and her husband Daniel are killed by her demon-possessed sister Katie, who then abducts Kristi's one-year-old son, Hunter. The on")
+    ('84329 «Robot & Frank» (2012)', 'is not a real', "Set in the near future, aging ex-convict and thief Frank Weld lives alone and suffers from increasingly severe mental deterioration and dementia. Frank's son Hu")
+    ('85350 «Boyhood» (2014)', 'unable to locate', 'In 2002, 6-year-old Mason Evans lives with his divorced mother, Olivia, and 8-year-old sister, Samantha, in a small town in Texas. Mason overhears Olivia arguin')
+    ('86331 «Desire» (2011)', 'Unable to find', 'In Cherbourg, the lives of several people are turned upside down after they meet Cecile, a character who symbolizes desire. Cecile is a 20-year-old woman whose ')
+    ('126277 «American Mary» (2012)', 'unable to find', "Desperate for funds, surgical student Mary Mason applies for work at a strip club. Billy Barker, the club's owner, is in need of a medical professional to patch")
+    ('134375 «Home Alone: The Holiday Heist» (2012)', 'unable to locate', 'The Baxter family move from California to Rockland, Maine and settle into their new house during the Christmas season. Ten-year-old Finn Baxter and his older si')
+    ('137116 «Smurfs: The Lost Village» (2017)', 'is not a real', 'The Smurfs are small blue people who reside peacefully in Smurf Village. Their only female, Smurfette, was created by their archenemy Gargamel to destroy them, ')
+    ('167073 «Brooklyn» (2015)', 'Unable to find', 'In 1951, in Enniscorthy, a small town in south-east Ireland, Eilis Lacey lives with her mother and older sister, Rose. Unable to find full-time employment, she ')
+    ("193893 «Let's Be Cops» (2014)", 'is not a real', "In Los Angeles, longtime friends Justin Miller, a struggling video game designer, and Ryan O'Malley, an unemployed former college quarterback, recall a pact the")
+    ('317925 «A la mala» (2015)', 'unable to find', 'Derbez plays María Laura Medina, nicknamed "Mala", a talented but luckless actress who, disillusioned with men and unable to find acting work, earns a living by')
+    ('347969 «The Ridiculous 6» (2015)', 'unable to find', 'In the Old West, Tommy, known as "White Knife" by the Indigenous American tribe who raised him after his mother was murdered, is to marry a member of the tribe ')
+    ('355547 «The Star» (2017)', 'unable to find', 'In "9 months B.C.", Mary is visited by an angel telling her she will bear the Messiah. A pygmy jerboa named Abby overhears and tells the other animals as a star')
+    ('449755 «Christmas Inheritance» (2017)', 'unable to find', 'Manhattan business executive Jim Langford wants to retire but fears his daughter Ellen is ill-prepared to take over as CEO. He and his former business partner Z')
+    ('505600 «Booksmart» (2019)', 'Unable to find', 'High school seniors and longtime best friends Amy Antsler and Molly Davidson are accomplished Ivy League–bound students but unpopular with their peers despite M')
+    ('581726 «Infinite» (2021)', 'unable to find', 'Infinite is a 2021 American science fiction action film directed by Antoine Fuqua from a screenplay by Ian Shorr, based on a story by Todd Stein adapted from D.')
+    ('628914 «Queenpins» (2021)', 'unable to find', 'Queenpins is a 2021 American crime comedy film written and directed by Aron Gaudet and Gita Pullapilly. Kristen Bell and Kirby Howell-Baptiste star as two frien')
+    ('820067 «The Quintessential Quintuplets Movie» (2022)', 'unable to find', 'Following their summer vacation, Futaro Uesugi and the Nakano quintuplets Ichika, Nino, Miku, Yotsuba, and Itsuki, now third-year high school students, prepare ')
+    ('845140 «Kitchen Brigade» (2022)', 'Unable to find', 'Kitchen Brigade (French: La Brigade) is a 2022 French comedy-drama film directed by Louis-Julien Petit, who wrote the screenplay with Liza Benguigui, Sophie Ben')
+
+## correcciones «not YEAR»: 0
+
+## plot nombra protagonistas que no están en cast (posible alucinación): 53
+    ('69 «Walk the Line» (2005)', ['Elvis Presley', 'Carl Perkins', 'Roy Orbison', 'Jerry Lee Lewis.'], '4/4')
+    ("11467 «America's Sweethearts» (2001)", ['Gwen Harrison', 'Eddie Thomas. Eddie'], '2/2')
+    ('13051 «Max Payne» (2008)', ['Jack Lupino'], '1/1')
+    ('13576 «This Is It» (2009)', ['Rita Hayworth'], '1/1')
+    ('14771 «The Onion Movie» (2008)', ["The Onion's"], '1/1')
+    ('16907 «Naruto: Ninja Clash in the Land of Snow» (2004)', ['Yukie Fujikaze'], '1/1')
+    ('20943 «The Ugly Truth» (2009)', ['Mike Chadway'], '1/1')
+    ('32823 «Get Him to the Greek» (2010)', ['Aldous Snow'], '1/1')
+    ('75900 «My Week with Marilyn» (2011)', ['Marilyn Monroe. Young Colin'], '1/1')
+    ('284296 «Top Five» (2014)', ['Gabourey Sidibe. To'], '1/2')
+    ('297725 «The Man Who Killed Don Quixote» (2018)', ['Don Quixote', 'Sancho Panza. After'], '2/2')
+    ('368304 «LEGO Marvel Super Heroes: Avengers Reassembled!» (2015)', ["Marvel Comics' Avengers. Directed"], '1/1')
+    ('378674 «DC Films Presents Dawn of the Justice League» (2016)', ['Gal Gadot'], '1/1')
+    ("419680 «Daddy's Home 2» (2017)", ['Liam Neeson. When'], '1/1')
+    ('438463 «Mother» (2016)', ['Daniela Ram'], '1/1')
+    ('513691 «The Debt Collector» (2018)', ['Louis Mandylor. It'], '1/2')
+    ('527776 «Overcomer» (2019)', ['Shania Twain'], '1/2')
+    ('529216 «Mirage» (2018)', ['Chino Dar'], '1/2')
+    ('531306 «Rim of the World» (2019)', ['Jack Black', 'Marlon Wayans'], '2/2')
+    ('553604 «Honest Thief» (2020)', ['Will Poulter', 'Lily Collins'], '2/2')
+    ('554596 «No Manches Frida 2» (2019)', ['Karra Elejalde', 'Clara Lago'], '2/2')
+    ('559974 «Shock Wave 2» (2020)', ['Andy Lau.'], '1/1')
+    ('581734 «Nomadland» (2020)', ['Frances McDormand. The'], '1/1')
+    ('587272 «Father There Is Only One» (2019)', ['Father There Is Only'], '1/2')
+    ('589761 «Chernobyl: Abyss» (2021)', ['Danila Kozlovsky. It'], '1/1')
+    ('590706 «Jiu Jitsu» (2020)', ['Randy Couture', 'Scott Adkins', 'Alina Vasquez'], '3/3')
+    ('595743 «SAS: Red Notice» (2021)', ['Dwayne Johnson', 'Ryan Reynolds'], '2/2')
+    ('615666 «A Boy Called Christmas» (2021)', ['Lee Cormie', 'Debra Wilson'], '2/2')
+    ('616803 «Breaking Surface» (2020)', ['Sophie Lowe', 'Louisa Krause.'], '2/2')
+    ('621876 «Flora & Ulysses» (2021)', ['Anna Kendrick'], '1/1')
+    ('625814 «Morgue» (2019)', ['Pablo Mart'], '1/1')
+    ('631843 «Old» (2021)', ['Gael Garc'], '1/1')
+    ('641501 «How I Became a Superhero» (2020)', ['Pio Marma'], '1/1')
+    ("643586 «Willy's Wonderland» (2021)", ['Nicholas Hoult', 'Jay Baruchel'], '2/2')
+    ('645788 «The Protégé» (2021)', ['Michael Fassbender'], '1/1')
+    ('648990 «La Casa» (2020)', ['Gabriel Ca'], '1/1')
+    ('664168 «Fat Ass Zombies» (2020)', ['Dave Mussen'], '1/1')
+    ('669671 «Night Teeth» (2021)', ['Joey King'], '1/2')
+    ('698320 «The Mad Hatter» (2021)', ['Armando Guti'], '1/1')
+    ('753601 «Around the World in 80 Days» (2021)', ['Rob Tinkler', 'Cory Doran.'], '2/2')

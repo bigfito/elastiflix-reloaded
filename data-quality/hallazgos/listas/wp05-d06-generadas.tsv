@@ -1,0 +1,12 @@
+# WP-05 · D-06 (aprobada 2026-11-13): texto generado sin trama de Wikipedia que la limpieza no arregla.
+# WP-05 T-06 (turno 13a) les pone el overview de TMDB del documento (tmdb_overview) con proponer_trama.py --d06. Las agrega la revisión.
+# id	título (año)	qué es
+213927	Born to Race: Fast Track (2014)	respuesta de asistente que no encontró la película
+298016	It's a SpongeBob Christmas! (2012)	corrige el año («not 2012») e inventa la trama
+150015	Love at the Christmas Table (2012)	ensayo «At its core» (T-03b)
+198436	Antboy (2013)	ensayo «At its core» (T-03b)
+364708	All American Bikini Car Wash (2015)	ensayo «At its core» (T-03b)
+736073	Batman: The Long Halloween, Part One (2021)	sinopsis inventada que volvió con la corrección R-12 (lote-041)
+543580	They Shall Not Grow Old (2018)	ensayo «At its core» tras la limpieza (T-03b, lote-038)
+1043581	Santa Camp (2022)	ensayo «At its core» e inventado (T-03b); si el turno 13a le da trama de Wikipedia, --d06 no lo toca
+809140	Father Stu (2022)	corrige el año («not 2022») e inventa; si el turno 13a le da trama de Wikipedia, --d06 no lo toca

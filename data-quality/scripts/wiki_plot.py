@@ -108,6 +108,11 @@ class Pagina(NamedTuple):
     titulo: str
     extracto: str
     revid: int
+    # Si el título pedido es una redirección a una sección de otro artículo («Jarhead 2: Field of Fire» →
+    # «Jarhead (film)#Sequels»), el nombre de esa sección: la película no tiene artículo propio (R-11).
+    seccion: str | None = None
+    # True si el título pedido redirige a otro artículo (R-13a).
+    redirigida: bool = False
 
 
 def _exigir(condicion: bool, mensaje: str) -> None:
@@ -292,7 +297,9 @@ def _pagina_desde_respuesta(cuerpo: dict[str, Any]) -> Pagina | None:
     revisiones = pagina.get("revisions") or []
     if not revisiones or "revid" not in revisiones[0]:
         raise RuntimeError(f"El artículo {pagina.get('title')!r} no trajo revid; no se puede atribuir (NS-5).")
-    return Pagina(str(pagina["title"]), str(pagina.get("extract") or ""), int(revisiones[0]["revid"]))
+    redirecciones = cuerpo.get("query", {}).get("redirects") or []
+    seccion = next((str(r["tofragment"]) for r in redirecciones if r.get("tofragment")), None)
+    return Pagina(str(pagina["title"]), str(pagina.get("extract") or ""), int(revisiones[0]["revid"]), seccion, bool(redirecciones))
 
 
 def pagina(titulo: str) -> Pagina | None:
@@ -336,6 +343,27 @@ def _nombres_presentes(nombres: list[str], extracto: str) -> int:
     return vistos
 
 
+_VACIAS = frozenset({"the", "and", "a", "an", "of", "in", "on", "to", "for", "with", "her", "his", "film", "movie"})
+
+
+def _palabras_de_titulo(titulo: str) -> set[str]:
+    sin_parentesis = re.sub(r"\s*\([^)]*\)\s*$", "", titulo).casefold().replace("&", " and ")
+    return {p for p in re.findall(r"\w+", sin_parentesis) if p not in _VACIAS}
+
+
+def titulo_compatible(articulo: str, pelicula: str) -> bool:
+    """True si el título del artículo contiene todas las palabras del de la película (sin artículos ni paréntesis).
+
+    Revisión R-11: la búsqueda aceptó «Barbie Dolphin Magic» (2017) para *Barbie & Her Sisters in a Puppy Chase*
+    (2016), porque el año cabe en ±1 y el reparto de voces es el mismo, y «Joker (The Dark Knight)», un artículo de
+    personaje, para *Batman Unmasked*. Revisión R-12: tampoco vale al revés, un artículo cuyo título es solo una parte
+    del de la película, como «X-Men (film)» (2000) para *X-Men: The Mutant Watch* (2001), que es otra obra de la saga.
+    Solo se exige en la búsqueda por título: P345 ya identifica la película.
+    """
+    a, p = _palabras_de_titulo(articulo), _palabras_de_titulo(pelicula)
+    return bool(a) and bool(p) and p <= a
+
+
 def _buscar_por_titulo(doc: dict[str, Any], detalle: list[str]) -> str | None:
     nombres = _nombres(doc.get("cast"))
     if len(nombres) < 2:
@@ -365,6 +393,12 @@ def _buscar_por_titulo(doc: dict[str, Any], detalle: list[str]) -> str | None:
             continue
         if _nombres_presentes(nombres, pag.extracto) < 2:
             motivos.append(f"{pag.titulo}: no nombra 2 integrantes del reparto")
+            continue
+        if pag.seccion:
+            motivos.append(f"{pag.titulo}: redirige a la sección «{pag.seccion}» de otro artículo")
+            continue
+        if not titulo_compatible(pag.titulo, str(doc.get("title") or "")):
+            motivos.append(f"{pag.titulo}: el título no es el de la película")
             continue
         detalle.append(f"búsqueda por título aceptada: {pag.titulo}")
         return pag.titulo
@@ -520,6 +554,20 @@ _NO_PELICULA = re.compile(
 _PELICULA = re.compile(r"(?i)\b(?:film|movie)\b")
 
 
+# El artículo se presenta como obra en dos partes: «Che is a two-part 2008…» o «Red Cliff … is a 2008–09 … film» (R-10),
+# o como trilogía o saga: «Berserk: The Golden Age Arc … is a Japanese anime film trilogy» (R-11). Los adjetivos entre
+# «is a» y «trilogy» no pueden ser «of», «to», «in»…: «is a reboot of the Spider-Man film series» es una sola película.
+_VARIAS_PARTES = re.compile(
+    r"(?i)\bis an? (?:(?:[\w'’-]+\s){0,4}?two-part\b|(?:19|20)\d{2}\s*[–-]\s*\d{2,4}\b"
+    r"|(?:(?!(?:of|to|in|from|the|and|for|with)\b)[\w'’-]+\s){0,5}(?:trilogy|duology|tetralogy|film series)\b)"
+)
+
+
+def es_articulo_de_varias_partes(extracto: str) -> bool:
+    """True si la primera línea presenta el artículo como obra en dos partes, trilogía o saga, cuya trama abarca varias."""
+    return bool(_VARIAS_PARTES.search(extracto.split("\n", 1)[0][:400]))
+
+
 def es_articulo_de_obra_no_filmica(extracto: str) -> bool:
     """True si la primera línea presenta el artículo como serie, videojuego o manga y no habla de una película.
 
@@ -530,13 +578,26 @@ def es_articulo_de_obra_no_filmica(extracto: str) -> bool:
     return bool(_NO_PELICULA.search(primera)) and not _PELICULA.search(primera)
 
 
-def trama(articulo: str) -> Trama | None:
-    """`(texto, revid, titulo)` de la sección de trama, o `None` si no hay una usable."""
+def trama(articulo: str, anio: int | None = None) -> Trama | None:
+    """`(texto, revid, titulo)` de la sección de trama, o `None` si no hay una usable.
+
+    Con `anio`, una redirección a otro artículo solo se acepta si el año de ese artículo cabe en ±1 (R-13a: *Prancer: A
+    Christmas Tale*, de 2022, redirige a «Prancer (film)», la película de 1989).
+    """
     pag = pagina(articulo)
     if pag is None:
         return None
+    if pag.seccion:
+        print(f"{articulo}: redirige a la sección «{pag.seccion}» de {pag.titulo}; la película no tiene artículo propio", file=sys.stderr)
+        return None
+    if anio is not None and pag.redirigida and not _anio_compatible(pag.titulo, pag.extracto, anio):
+        print(f"{articulo}: redirige a {pag.titulo}, cuyo año no coincide ±1 con {anio}; es otra obra", file=sys.stderr)
+        return None
     if es_articulo_de_obra_no_filmica(pag.extracto):
         print(f"{pag.titulo}: el artículo es de una serie, un videojuego o un manga, no de la película", file=sys.stderr)
+        return None
+    if es_articulo_de_varias_partes(pag.extracto):
+        print(f"{pag.titulo}: el artículo es de una obra en varias partes; su trama abarca más de una", file=sys.stderr)
         return None
     texto = texto_de_extracto(pag.extracto)
     if texto is None:
@@ -590,6 +651,39 @@ def comprobar_texto() -> None:
     trilogia = ("Psycho-Pass: Sinners of the System is a trilogy of Japanese anime films based on characters who "
                 "appear in the Psycho-Pass television series.\n\n== Plot ==")
     _exigir(es_articulo_de_obra_no_filmica(trilogia), "El artículo de una trilogía no es el de una de sus películas")
+    for dos_partes in ("Che is a two-part 2008 epic biographical film about Ernesto Guevara.",
+                       "Red Cliff, also known as Chibi, is a 2008–09 internationally co-produced epic war film."):
+        _exigir(es_articulo_de_varias_partes(dos_partes), f"Obra en dos partes no detectada: {dos_partes}")
+    for saga in ("Berserk: The Golden Age Arc (Japanese: ...) is a Japanese anime film trilogy, which adapts the manga.",
+                 "Kizumonogatari is a Japanese anime film trilogy based on the novel by Nisio Isin.",
+                 "Digimon Adventure tri. is a Japanese adventure anime film series.",
+                 "Batman: The Long Halloween is a 2021 American two-part animated direct-to-video superhero film.",
+                 "Sailor Moon Eternal is a 2021 Japanese two-part animated action fantasy film."):
+        _exigir(es_articulo_de_varias_partes(saga), f"Trilogía o saga no detectada: {saga}")
+    for una in ("The Amazing Spider-Man is a 2012 superhero film. It is a reboot of the Spider-Man film series.",
+                "Deadpool is a 2016 superhero film. It is a spin-off of the X-Men film series.",
+                "Bionicle: The Legend Reborn is a 2009 animated film. It is a stand-alone sequel to the trilogy."):
+        _exigir(not es_articulo_de_varias_partes(una), f"Una película de una saga es una sola película: {una}")
+    for una in ("The Wind That Shakes the Barley is a 2006 war drama film set during the Irish War (1919–1921).",
+                "Dragonball Evolution is a 2009 superhero film based on the 1984–95 manga series Dragon Ball."):
+        _exigir(not es_articulo_de_varias_partes(una), f"Un período histórico no es una obra en dos partes: {una}")
+    redireccion = {"query": {"redirects": [{"from": "Jarhead 2: Field of Fire", "to": "Jarhead (film)", "tofragment": "Sequels"}],
+                             "pages": {"1": {"pageid": 1, "title": "Jarhead (film)", "extract": "Jarhead is a 2005 film.",
+                                             "revisions": [{"revid": 7}]}}}}
+    _exigir(_pagina_desde_respuesta(redireccion).seccion == "Sequels", "Una redirección a una sección debe notarse")
+    directa = {"query": {"pages": {"1": {"pageid": 1, "title": "Jarhead (film)", "extract": "", "revisions": [{"revid": 7}]}}}}
+    _exigir(_pagina_desde_respuesta(directa).seccion is None, "Un artículo pedido por su nombre no es una redirección")
+    _exigir(not _pagina_desde_respuesta(directa).redirigida and _pagina_desde_respuesta(redireccion).redirigida, "redirigida marca las redirecciones")
+    for articulo, pelicula, esperado in (
+        ("Barbie Dolphin Magic", "Barbie & Her Sisters in a Puppy Chase", False),
+        ("Joker (The Dark Knight)", "Batman Unmasked: The Psychology of the Dark Knight", False),
+        ("Malibu Rescue", "Malibu Rescue", True),
+        ("Why We Vote (2022 film)", "Why We Vote", True),
+        ("Hit and Run (2012 film)", "Hit & Run", True),
+        ("X-Men (film)", "X-Men: The Mutant Watch", False),
+        ("Monsters vs. Aliens: Mutant Pumpkins from Outer Space", "Mutant Pumpkins from Outer Space", True),
+    ):
+        _exigir(titulo_compatible(articulo, pelicula) is esperado, f"titulo_compatible({articulo!r}, {pelicula!r}) debe ser {esperado}")
     adaptacion = "Kamikaze Girls is a 2002 Japanese novel written by Novala Takemoto.\n\n== Plot =="
     _exigir(not es_articulo_de_obra_no_filmica(adaptacion), "Una novela adaptada se acepta")
     cita = ('She tells him "Go home." ' * 2) + ("X" * 3100)

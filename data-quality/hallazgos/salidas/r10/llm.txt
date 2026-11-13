@@ -1,0 +1,97 @@
+## firmas de texto de modelo (docs por firma):
+   delves into                                   23
+   thought-provoking                             88
+   complexities of                               25
+   explores the (themes|complexities|world)      39
+   revolves around                               64
+   poignant                                      42
+   heartwarming                                  217
+   Overall, the                                  90
+   In conclusion                                 1
+   serves as a                                   3
+   testament to                                  16
+   human nature                                  27
+   tapestry                                      2
+   navigate(s) the                               37
+   not YEAR / correction                         0
+   no match/please provide                       30
+   film is known for                             3
+
+## docs con >=1 firma: 590  con >=2 (alta probabilidad de texto generado): 0
+   por origen de plot (enrichment.plot): Counter()
+
+## no match / please provide / negaciones: 30
+    ('641 «Requiem for a Dream» (2000)', 'unable to find', 'Sara Goldfarb, a widow living alone in Brighton Beach, New York City, watches television. Her son Harry and his friend Tyrone are heroin addicts. The two deal h')
+    ('887 «The Best Years of Our Lives» (1946)', 'unable to find', 'Three returning World War II veterans meet on a flight to their midwestern hometown of Boone City. USAAF bombardier captain Fred Derry had been a drugstore soda')
+    ("1268 «Mr. Bean's Holiday» (2007)", 'unable to locate', 'Mr. Bean wins a holiday trip to Cannes, a video camera and €200 in a raffle. Upon arriving in France, Bean causes chaos while trying French seafood cuisine at L')
+    ('6537 «The Orphanage» (2007)', 'unable to find', 'In Spain, a young girl named Laura García Rodríguez is adopted from an orphanage. Thirty years later, adult Laura returns to the closed orphanage, accompanied b')
+    ('7518 «Over the Hedge» (2006)', 'unable to find', 'A raccoon known as RJ, unable to find food for himself, attempts to steal a stockpile from a bear named Vincent. His attempt backfires when Vincent is woken up ')
+    ('7980 «The Lovely Bones» (2009)', 'unable to find', 'In 1973, 14-year-old Susie Salmon dreams of becoming a photographer. One day, Ray, a boy she has a crush on, asks her out. As Susie walks home through a cornfie')
+    ('9270 «Brick» (2006)', 'Unable to locate', 'High school student Brendan Frye discovers a note directing him to a pay phone, where he receives a call from his ex-girlfriend Emily Kostich, begging him for h')
+    ('9392 «The Descent» (2005)', 'unable to locate', 'Sarah is picked up by her husband Paul and daughter Jessica after a whitewater rafting trip with her thrill-seeking friends Juno and Beth. Paul is distracted on')
+    ('10138 «Iron Man 2» (2010)', 'unable to find', "In Russia, the media covers Tony Stark's disclosure of his identity as Iron Man. Ivan Vanko, mourning the death of his father Anton Vanko—a former Stark Industr")
+    ('10867 «Malena» (2000)', 'unable to find', 'On 10 June 1940, in the small Sicilian town of Castelcutò, a teenage boy named Renato experiences three major events: Italy enters World War II; he receives a n')
+    ('14211 «Prey» (2007)', 'unable to find', 'Tom Newman and his family arrive at a resort in South Africa. Tom is a hydro-electrical engineer who has been hired to help build a nearby dam. He hopes that th')
+    ('15268 «Street Fighter: The Legend of Chun-Li» (2009)', 'unable to find', 'Chun-Li moves from San Francisco to Hong Kong with her family and begins intensive training in wushu under the tutelage of her father, businessman Xiang. The cr')
+    ('16052 «Selena» (1997)', 'unable to find', 'The film opens backstage at the Astrodome in Houston, Texas, on February 26, 1995, right before Tejano superstar Selena plays to a sold-out crowd. In 1961, duri')
+    ('20504 «The Book of Eli» (2010)', 'unable to find', 'Thirty years after a nuclear holocaust, Eli travels on foot across the wasteland of the continental land of the former U.S. nation in search of water. He arrive')
+    ('24001 «The Hills Run Red» (2009)', 'no known film', 'Film student Tyler is obsessed with the horror film The Hills Run Red, considered the scariest movie ever made, with the deranged serial killer Babyface in the ')
+    ('25376 «The Secret in Their Eyes» (2009)', 'unable to find', 'In June 1974, judiciary agent Benjamín Espósito investigates the rape and murder of Liliana Colotto. Espósito promises her husband, Ricardo Morales, that he wil')
+    ('36736 «The Drawn Together Movie: The Movie!» (2010)', 'is not a real', 'The Drawn Together Movie: The Movie! is a 2010 American adult animated musical black comedy based on the Comedy Central sitcom Drawn Together. Written and execu')
+    ('38073 «Going the Distance» (2010)', 'Unable to find', 'Erin Langford is a graduate journalism student recently hired as a summer intern at a New York City newspaper. Out with a friend at a bar, she meets Garrett, wh')
+    ('72207 «The Five-Year Engagement» (2012)', 'Unable to find', "In San Francisco, sous-chef Tom, and PhD graduate Violet, are happily engaged. Their wedding plans are interrupted when Tom's best friend Alex gets Violet's sis")
+    ('79694 «The Apparition» (2012)', 'Unable to find', 'On May 21, 1973, six people conduct The Charles Experiment, a parapsychological experiment, in which they stare at a drawing of a deceased man, Charles Reamer, ')
+    ('84329 «Robot & Frank» (2012)', 'is not a real', "Set in the near future, aging ex-convict and thief Frank Weld lives alone and suffers from increasingly severe mental deterioration and dementia. Frank's son Hu")
+    ('111083 «The Body» (2012)', 'there is no record', 'The Body (Spanish: El cuerpo) is a 2012 Spanish psychological thriller directed by Oriol Paulo, from a screenplay he co-wrote with Lara Sendim. José Coronado st')
+    ('126277 «American Mary» (2012)', 'unable to find', "Desperate for funds, surgical student Mary Mason applies for work at a strip club. Billy Barker, the club's owner, is in need of a medical professional to patch")
+    ('167073 «Brooklyn» (2015)', 'Unable to find', "Brooklyn is a 2015 romantic period drama directed by John Crowley and written by Nick Hornby, adapted from Colm Tóibín's 2009 novel. Saoirse Ronan stars as a yo")
+    ('212778 «Chef» (2014)', 'unable to find', 'Chef is a 2014 road comedy-drama film written, produced and directed by Jon Favreau, who stars as Carl Casper, a celebrity chef who starts a food truck business')
+    ('317925 «A la mala» (2015)', 'unable to find', 'A la mala (Spanish for "by foul means") is a 2015 Mexican romantic comedy film directed by Pedro Pablo Ibarra and written by Issa López and Ari Rosen. Starring ')
+    ('581726 «Infinite» (2021)', 'unable to find', 'Infinite is a 2021 American science fiction action film directed by Antoine Fuqua from a screenplay by Ian Shorr, based on a story by Todd Stein adapted from D.')
+    ('628914 «Queenpins» (2021)', 'unable to find', 'Queenpins is a 2021 American crime comedy film written and directed by Aron Gaudet and Gita Pullapilly. Kristen Bell and Kirby Howell-Baptiste star as two frien')
+    ('820067 «The Quintessential Quintuplets Movie» (2022)', 'unable to find', 'Following their summer vacation, Futaro Uesugi and the Nakano quintuplets Ichika, Nino, Miku, Yotsuba, and Itsuki, now third-year high school students, prepare ')
+    ('845140 «Kitchen Brigade» (2022)', 'Unable to find', 'Kitchen Brigade (French: La Brigade) is a 2022 French comedy-drama film directed by Louis-Julien Petit, who wrote the screenplay with Liza Benguigui, Sophie Ben')
+
+## correcciones «not YEAR»: 0
+
+## plot nombra protagonistas que no están en cast (posible alucinación): 120
+    ('69 «Walk the Line» (2005)', ['Elvis Presley', 'Carl Perkins', 'Roy Orbison', 'Jerry Lee Lewis.'], '4/4')
+    ("11467 «America's Sweethearts» (2001)", ['Gwen Harrison', 'Eddie Thomas. Eddie'], '2/2')
+    ('13051 «Max Payne» (2008)', ['Jack Lupino'], '1/1')
+    ('13576 «This Is It» (2009)', ['Rita Hayworth'], '1/1')
+    ('14771 «The Onion Movie» (2008)', ["The Onion's"], '1/1')
+    ('16907 «Naruto: Ninja Clash in the Land of Snow» (2004)', ['Yukie Fujikaze'], '1/1')
+    ('18925 «Facing the Giants» (2006)', ['Shannen Doherty', 'Kenan Thompson'], '2/2')
+    ('19840 «I Love You, Beth Cooper» (2009)', ['Nathan Lee Graham', 'Lizzy Caplan'], '2/2')
+    ('20943 «The Ugly Truth» (2009)', ['Gerard Butler.'], '1/2')
+    ('21191 «Sin Nombre» (2009)', ['Diego Luna', 'Jeremy Renner'], '2/2')
+    ('23988 «Stan Helsing» (2009)', ['Dana Delany'], '1/2')
+    ('25769 «Carriers» (2009)', ['Christian Bale', 'Emily Mortimer', 'Sam Reilly'], '3/3')
+    ('27581 «The Other Guys» (2010)', ['Mark Wahlberg.'], '1/2')
+    ('32823 «Get Him to the Greek» (2010)', ['Aldous Snow'], '1/1')
+    ('33273 «Cell 211» (2009)', ['Karra Elejalde'], '1/1')
+    ('36218 «Pokémon: Jirachi - Wish Maker» (2003)', ['Ash Ketchum'], '1/1')
+    ('36691 «Solitary Man» (2009)', ['Michael Douglas. The'], '1/1')
+    ('37834 «Knight and Day» (2010)', ['Cameron Diaz.'], '1/2')
+    ('41233 «Step Up 3D» (2010)', ['Kenny Wormald', 'Amanda Seyfried'], '2/3')
+    ('41733 «Due Date» (2010)', ['Zach Galifianakis.'], '1/2')
+    ('44048 «Unstoppable» (2010)', ['Chris Pine.'], '1/2')
+    ('45162 «Superman/Batman: Apocalypse» (2010)', ['Green Arrow. Reviews'], '1/1')
+    ("46528 «The Warrior's Way» (2010)", ["Tony O'Dell"], '1/2')
+    ('64328 «The Muppets» (2011)', ["Jim Henson's Muppets. It"], '1/1')
+    ('75624 «Naruto Shippuden the Movie: Blood Prison» (2011)', ['Maile Flanagan', 'Matthew Mercer', 'Carrie Keranen. Distributed'], '3/3')
+    ('75900 «My Week with Marilyn» (2011)', ['Marilyn Monroe. Young Colin'], '1/1')
+    ('79548 «Gone» (2012)', ['Amanda Seyfried. Her'], '1/1')
+    ('97434 «Gambit» (2012)', ['Shirley MacLaine', 'Michael Caine'], '2/3')
+    ('132344 «Before Midnight» (2013)', ['Julie Delpy. It'], '1/2')
+    ('136795 «The Heat» (2013)', ['Melissa McCarthy.'], '1/2')
+    ('158011 «The Call» (2013)', ['Abigail Breslin.'], '1/2')
+    ('171581 «The Marine 3: Homefront» (2013)', ['Taylor Kitsch', 'Wendy Malick'], '2/2')
+    ('201088 «Blackhat» (2015)', ['Donnie Yen', 'Edwin Hodge'], '2/2')
+    ('205126 «Independence Daysaster» (2013)', ['Ryan Merriman'], '1/1')
+    ('227719 «Project Almanac» (2015)', ['Allen Leinman'], '1/2')
+    ('254473 «Brick Mansions» (2014)', ['Freida Pinto'], '1/2')
+    ('256591 «Focus» (2015)', ['Margot Robbie.'], '1/2')
+    ('256961 «Paul Blart: Mall Cop 2» (2015)', ['Kevin James. The'], '1/1')
+    ('257088 «Point Break» (2015)', ['Patrick Swayze', 'Keanu Reeves. An American'], '2/3')
+    ('258489 «The Legend of Tarzan» (2016)', ['Alexander Skarsg'], '1/1')

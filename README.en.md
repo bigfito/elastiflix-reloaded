@@ -647,7 +647,10 @@ which keeps the license of its sources (TMDB and Wikipedia, CC BY-SA 4.0).
 - **[TMDB](https://www.themoviedb.org/)** (The Movie Database): movie data and posters.
   *This product uses the TMDB API but is not endorsed or certified by TMDB.* The attribution also appears in the footer of
   every page and in «About the demo» › «Credits and terms of use», which also carries the academic-purpose notice.
-- **[Wikipedia](https://www.wikipedia.org/)**: movie texts. Wikipedia content is published under the
+- **[Wikipedia](https://www.wikipedia.org/)**: synopses of the movies whose `enrichment.plot` tag is
+  `wikipedia_plot_YYYY-MM-DD`; the article and revision of each one are in `data-quality/fuentes/plot-fuentes.tsv`. The
+  other synopses are the TMDB overview (`tmdb_overview`) or of unverified origin (`unverified`). Wikipedia content is
+  published under the
   [Creative Commons Attribution-ShareAlike 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
 
 Names, trademarks, posters, and texts belong to their respective owners. This project is not affiliated with or
