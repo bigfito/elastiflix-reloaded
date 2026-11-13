@@ -3,11 +3,11 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 21:10 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 21, P-23)
+**Última actualización:** 2026-11-13 22:35 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 22, WP-11)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
-**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-195801` (6 899 películas) · **desde el 2026-11-13 es también el índice de producción**: no cargues en staging en modo append (escribiría en producción); una recarga bulk crea un índice nuevo y mueve solo el alias de staging · instancia apagada
+**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-220031` (6 899 películas, M4) · `data/` cargado en el commit `99fba55` · app compilada en el commit `99fba55` · instancia apagada (puerto 8081). `publicar.py` quita el alias de staging del índice que publica
 
 ## 1. Tablero
 
@@ -40,6 +40,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
 | 21 | Cursor → Claude Code (P-23) | C-01 T-06 a T-08 (H-2) | EN ESPERA · T-06 y T-07 hechos; T-08 desde el 2026-11-20 | 2026-11-13 | `dq-t21` | [R-21](bitacora/R-21.md) |
+| 22 | Claude Code | WP-11 (P-25) | REVISADO · T-00 a T-05 hechos y publicados (H-3); falta el push (T-06) | 2026-11-13 | `dq-t22` | [R-22](bitacora/R-22.md) |
 
 ### 1.2 Paquetes de trabajo
 
@@ -56,6 +57,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
+| WP-11 | Pendientes después de la publicación | EN CURSO · T-00 a T-05 hechos; producción = M4 (H-3); T-06 (push y recompilar) | 22 | 2026-11-13 |
 | C-01 | Cierre: medición, publicación y documentación | EN ESPERA · T-01 a T-07 hechos; publicado el 2026-11-13; T-08 (borrar el índice anterior) desde el 2026-11-20 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
@@ -88,15 +90,16 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **C-01 T-08, desde el 2026-11-20** (7 días sin incidentes después de la publicación):
-> 1. Comprueba que `elastiflix-reloaded` siga en `elastiflix-dq-staging-20261113-195801` y que no haya incidentes
+> **C-01 T-08, desde el 2026-11-20** (7 días sin incidentes después de las publicaciones de H-2 y H-3):
+> 1. Comprueba que `elastiflix-reloaded` siga en `elastiflix-dq-staging-20261113-220031` y que no haya incidentes
 >    anotados.
-> 2. `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
-> 3. Turno 21 y C-01 a `HECHA`, y Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
+> 2. `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-dq-staging-20261113-195801` y
+>    `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
+> 3. Turno 21, C-01 y WP-11 a `HECHA`, y Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
 >
-> Hasta esa fecha: no hagas una carga bulk en producción (la limpieza de huérfanos borraría el índice anterior y la
-> vuelta atrás) ni una carga append en staging (escribiría en producción). Si algo falla, la vuelta atrás es
-> `python data-quality/scripts/publicar.py --revertir elastiflix-reloaded-20261112-144129`.
+> Hasta esa fecha no hagas una carga bulk en producción ni en staging: la limpieza de huérfanos borraría el índice
+> anterior de ese alias y, con él, la vuelta atrás. Si algo falla, la vuelta atrás es
+> `python data-quality/scripts/publicar.py --revertir elastiflix-dq-staging-20261113-195801`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -116,6 +119,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-07 | Gemma 4 E4B dejó los turnos 12 y 13a sin commitear (lotes propuestos sin aplicar, sin diario ni cierre); los cerró la revisión. ¿Quién termina lo que falta de WP-05 (la limpieza de 70 omitidas, T-06, T-05 y T-03: comandos deterministas ya escritos) y quién toma los turnos 13b, 16, 19a, 19b y 21? | A · Claude Code termina WP-05 en R-13a y Cursor toma los turnos de Gemma · B · Gemma repite un turno 13a corto con lo que falta y conserva sus turnos · C · Claude Code termina WP-05 y Gemma conserva sus turnos | A: los turnos que quedan incluyen integrar Java (13b), recargar staging (19a) y publicar en producción (21), y Gemma no cerró ninguno de sus dos turnos | APROBADA 2026-11-13 · «WP-05 tú, resto a Cursor» · opción A |
 | D-08 | M2 cumplió el criterio de parada (B-06): `bm25_plot` bajó 0.112 y `rrf_plot_knn1024` 0.117 frente a M1. Los vectores (`knn_*`, +0.019 a +0.082) y la búsqueda por defecto (`rrf_title_knn256`, +0.019) mejoraron. La caída viene de que las consultas de evaluación usan el vocabulario de las sinopsis generadas que el plan quitó (R-14). ¿Sigue el plan? | A · Sigue: M2 aceptada, B-06 cerrado; el criterio de parada aplica en adelante a `knn_*` y `rrf_title_knn*`; `bm25_plot` y `rrf_plot_*` se informan; umbrales nuevos en C-01 T-03 · B · Se detiene el plan aquí · C · Sigue, pero antes se califican las 592 películas sin juicio del harness | A: lo que mide el criterio (los vectores) mejoró, y la caída no es un daño al catálogo | APROBADA 2026-11-13 · «Sí, opción A» · opción A |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | APROBADA 2026-11-13 · «Apruebo H-2» · publicación con `publicar.py` (C-01 T-07); el índice anterior se borra a los 7 días sin incidentes (T-08) |
+| H-3 | ¿Se republica el catálogo con WP-11 (M4), cambiando `elastiflix-reloaded` al índice nuevo de staging, con la misma vuelta atrás? | Sí · No | Se decide con M4 | APROBADA 2026-11-13 · «Apruebo H-3» · publicación de `elastiflix-dq-staging-20261113-220031`; el índice que hoy sirve producción se guarda 7 días |
 
 ## 4. Decisiones tomadas
 
@@ -139,6 +143,12 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | D-09 | Los cambios de WP-11 llegan a producción con una recarga completa de staging (índice nuevo), medición M4 y una nueva aprobación (H-3) | Dueña del proyecto: «Republicar completo (Recommended)» |
+| 2026-11-13 | D-10 | Las 429 `unverified` y las 146 cortas se vuelven a buscar en Wikipedia; solo cambian las que encuentren trama | Dueña del proyecto: «Reintentar Wikipedia (Recommended)» |
+| 2026-11-13 | D-11 | Analizador `english` (con raíces) en `plot` y `overview` | Dueña del proyecto: «Raíces en plot» |
+| 2026-11-13 | D-12 | Un solo push de `main` al final de WP-11 | Dueña del proyecto: «Uno solo al final (Recommended)» |
+| 2026-11-13 | P-25 | WP-11 (pendientes 8 a 11 de R-21) lo ejecuta Claude Code en el turno 22. Se quitó el worktree de WP-03 (pendiente 6), ya integrado | Dueña del proyecto: «Ejecuta los pendientes 3, 4, 6, 8, 9, 10 y 11.» |
+| 2026-11-13 | P-24 | La publicación (`dq-r21`) se integró en `main` local con el merge `91d4c9a`, sin push. La dueña del proyecto ya puede desplegar | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | P-23 | Claude Code termina el turno 21: T-07 (publicar y medir producción) y lo que se pueda de T-08. Cursor hizo T-06 (pedir H-2) | Dueña del proyecto: «Toma el siguiente turno y termina las actividades restantes.» |
 | 2026-11-13 | P-22 | El hito C (`dq-r20`) se integró en `main` local con el merge `9bcd565`, sin push. Conviene desplegar después de C-01 T-07 (R-19) | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | P-21 | El turno 18 (WP-10) lo ejecuta Claude Code, el revisor. Para mantener los cuatro ojos, R-18 se apoya en una revisión independiente: un agente nuevo, sin el contexto del turno, lee el diff contra la tarjeta | Dueña del proyecto: «Toma tu este turno.» |
@@ -166,23 +176,24 @@ Resueltos: **B-06** (turno 14: M2 cumplió el criterio de parada en `bm25_plot` 
 Valores de `target/eval/report.md` de `RelevanceIT`, en formato `nDCG@10 · MRR@10`. M0 es producción; M1, M2 y M3 son
 staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-generados).
 
-| Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | Producción final |
-|---|---|---|---|---|---|---|
-| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 |
-| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 |
-| `bm25_plot` | 0.24 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | 0.296 · 0.328 |
-| `knn_plot_256` | 0.57 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | 0.622 · 0.671 |
-| `knn_plot_512` | 0.65 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | 0.708 · 0.744 |
-| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | 0.745 · 0.784 |
-| `rrf_title_knn256` | 0.37 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | 0.425 · 0.390 |
-| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 |
-| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | 0.511 · 0.548 |
-| `rrf_plot_knn1024` | 0.50 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | 0.557 · 0.591 |
+| Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | M4 | Producción final |
+|---|---|---|---|---|---|---|---|
+| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 |
+| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 |
+| `bm25_plot` | 0.25 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | 0.305 · 0.333 | 0.305 · 0.333 |
+| `knn_plot_256` | 0.57 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | 0.622 · 0.671 | 0.622 · 0.671 |
+| `knn_plot_512` | 0.65 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | 0.708 · 0.744 | 0.708 · 0.744 |
+| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | 0.745 · 0.784 | 0.745 · 0.784 |
+| `rrf_title_knn256` | 0.37 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | 0.425 · 0.390 | 0.425 · 0.390 |
+| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | 0.486 · 0.435 | 0.486 · 0.435 |
+| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | 0.512 · 0.520 | 0.512 · 0.520 |
+| `rrf_plot_knn1024` | 0.51 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | 0.564 · 0.571 | 0.564 · 0.571 |
 
 M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
 M1 medida el 2026-11-12 20:20 UTC (turno 07) sobre el índice de staging `elastiflix-dq-staging-20261112-201036` (6 899 películas, commit `220a8ea`);
 M2 medida el 2026-11-13 18:02 UTC (turno 14) sobre el índice de staging `elastiflix-dq-staging-20261113-174106` (6 899 películas, commit `03b0b2e`);
-Producción final medida el 2026-11-13 21:04 UTC con el alias `elastiflix-reloaded` (índice `elastiflix-dq-staging-20261113-195801`, ya publicado): igual a M3 en las 10 configuraciones; `RelevanceIT` en verde con los umbrales nuevos.
+M4 medida el 2026-11-13 22:31 UTC (turno 22, WP-11) sobre el índice de staging `elastiflix-dq-staging-20261113-220031` (6 899 películas, commit `99fba55`, `plot` y `overview` con analizador `english`); 42 pruebas de integración en verde con los umbrales nuevos. «Mínimo nDCG actual» es M4 − 0.05.
+Producción final medida el 2026-11-13 con el alias `elastiflix-reloaded`. Primero sobre `elastiflix-dq-staging-20261113-195801` (21:04 UTC, igual a M3). Después de H-3, sobre `elastiflix-dq-staging-20261113-220031` (igual a M4 en las 10 configuraciones; la columna muestra esta medición). `RelevanceIT` en verde.
 M3 medida el 2026-11-13 20:09 UTC (turno 19) sobre el índice de staging `elastiflix-dq-staging-20261113-195801` (6 899 películas, commit `bf5e446`, mapping `dynamic: strict`);
 `target/eval/report.md` lleva el índice de esta corrida en su segunda línea (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas: `bm25_plot` y `rrf_plot_*` siguen bajo los umbrales viejos, como prevé D-08). El log de la prueba es 2026-11-13T14:09:06-06:00.
 
@@ -512,3 +523,30 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: `es.py GET /_alias/elastiflix-reloaded`; `target/eval/report.md` (21:04 UTC, `RelevanceIT` en verde).
 - Para el siguiente: C-01 T-08 desde el 2026-11-20 y la revisión final R-21b. La dueña del proyecto ya puede
   desplegar la demo (R-19).
+
+### 2026-11-13 22:35 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 22, WP-11)
+- Hice: WP-11 T-00 a T-04 y la medición M4.
+  - T-00: la limpieza de huérfanos ya no borra un índice con un alias ajeno. Sin esto, recargar staging habría borrado
+    el índice de producción.
+  - T-01 y T-02: *Money Plane* y los dobles espacios (datos y carga).
+  - T-03: raíces en `plot` y `overview`.
+  - T-04: la búsqueda fresca en Wikipedia no encontró fuentes nuevas.
+  - Staging recargado en `elastiflix-dq-staging-20261113-220031`. La parte 5 falló una vez por la inferencia
+    (`EFX-EMB-001`) y se reintentó. El índice de producción no se tocó.
+  - M4: `bm25_plot` 0.296 → 0.305, `rrf_plot_knn1024` 0.557 → 0.564, vectores iguales; umbrales, conteos y README al
+    día.
+- Corrección de R-21: decía que el alias de staging apuntaba al mismo índice que producción. No era así: `publicar.py`
+  lo quita al publicar. La advertencia sobre cargar en staging sobraba.
+- Evidencia: `./mvnw verify -Pit` sobre staging (42 pruebas en verde) y `./mvnw -q verify` sin alias;
+  `hallazgos/salidas/m4/`.
+- Para el siguiente: H-3 a la dueña del proyecto; con H-3, `publicar.py` y el harness sobre producción.
+
+### 2026-11-13 22:25 UTC · publicar.py · publicación
+- `elastiflix-reloaded` apuntaba a `elastiflix-dq-staging-20261113-195801` y ahora apunta a `elastiflix-dq-staging-20261113-220031`. El índice anterior no se borra: se conserva 7 días y después se elimina con `publicar.py --borrar-anterior elastiflix-dq-staging-20261113-195801`.
+
+### 2026-11-13 22:50 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 22, WP-11)
+- Hice: con H-3 aprobada («Apruebo H-3»), `publicar.py` cambió `elastiflix-reloaded` a
+  `elastiflix-dq-staging-20261113-220031`. El harness sobre producción da exactamente M4. `data/README.md` y «Próximo
+  paso» dicen qué índices se guardan hasta el 2026-11-20 y cuáles se borran entonces.
+- Evidencia: `es.py GET /_alias/elastiflix-reloaded`; `target/eval/report.md` sobre producción.
+- Para el siguiente: integrar en `main`, el push (D-12) y recompilar la app local.

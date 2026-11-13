@@ -50,9 +50,9 @@ final class LexicalSuggestions {
 
     private static SuggestionSet plot(String operator, SuggestionTags tags) {
         return new SuggestionSet("fulltext-match-plot-" + operator, false, List.of(
-                matchPlot("ogre donkey princess", tags.count(operator, "190", "4"), "🧅", operator),
-                matchPlot("bathhouse spirits", tags.count(operator, "102", "1"), "♨️", operator),
-                matchPlot("clownfish ocean son", tags.count(operator, "1422", "1"), "🐠", operator)));
+                matchPlot("ogre donkey princess", tags.count(operator, "197", "4"), "🧅", operator),
+                matchPlot("bathhouse spirits", tags.count(operator, "363", "1"), "♨️", operator),
+                matchPlot("clownfish ocean son", tags.count(operator, "1528", "1"), "🐠", operator)));
     }
 
     private static SuggestionSet multi(String operator, SuggestionTags tags) {

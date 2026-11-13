@@ -71,13 +71,14 @@ ids nombraban la misma palabra en TMDB, así que se dejan los dos.
 
 ## Índice vigente en producción
 
-Desde el 2026-11-13, el alias `elastiflix-reloaded` apunta a `elastiflix-dq-staging-20261113-195801`, el índice de
-staging donde se midió este catálogo (`publicar.py`, H-2). Ese nombre no sigue el patrón `elastiflix-reloaded-<fecha>`:
+Desde el 2026-11-13, el alias `elastiflix-reloaded` apunta a `elastiflix-dq-staging-20261113-220031`, el índice de
+staging donde se midió este catálogo (`publicar.py`, H-3). Ese nombre no sigue el patrón `elastiflix-reloaded-<fecha>`:
 la limpieza de huérfanos de la aplicación no lo borra sola después de la siguiente carga bulk, así que hay que borrarlo
-a mano cuando deje de estar en uso.
+a mano cuando deje de estar en uso. La limpieza de huérfanos nunca borra un índice que tenga un alias.
 
-El índice anterior, `elastiflix-reloaded-20261112-144129`, se conserva para volver atrás hasta el 2026-11-20. Hasta esa
-fecha no hagas una carga bulk en producción: la limpieza de huérfanos borraría ese índice y con él la vuelta atrás.
+Los dos índices anteriores, `elastiflix-dq-staging-20261113-195801` y `elastiflix-reloaded-20261112-144129`, se
+conservan para volver atrás hasta el 2026-11-20. Hasta esa fecha no hagas una carga bulk en producción ni en staging:
+la limpieza de huérfanos borraría el índice anterior de ese alias y, con él, la vuelta atrás.
 
 ## Créditos y aviso de uso
 
@@ -149,13 +150,14 @@ word: both ids named the same word on TMDB, so both stay.
 
 ### Live production index
 
-Since 2026-11-13, the `elastiflix-reloaded` alias points to `elastiflix-dq-staging-20261113-195801`, the staging index
-where this catalog was measured (`publicar.py`, H-2). That name does not follow the `elastiflix-reloaded-<date>`
+Since 2026-11-13, the `elastiflix-reloaded` alias points to `elastiflix-dq-staging-20261113-220031`, the staging index
+where this catalog was measured (`publicar.py`, H-3). That name does not follow the `elastiflix-reloaded-<date>`
 pattern: the app's orphan cleanup won't delete it on its own after the next bulk load, so it has to be deleted by hand
-once it is no longer in use.
+once it is no longer in use. The orphan cleanup never deletes an index that has an alias.
 
-The previous index, `elastiflix-reloaded-20261112-144129`, is kept for rollback until 2026-11-20. Until that date, do
-not run a bulk load in production: the orphan cleanup would delete that index and the rollback with it.
+The two previous indices, `elastiflix-dq-staging-20261113-195801` and `elastiflix-reloaded-20261112-144129`, are kept
+for rollback until 2026-11-20. Until that date, do not run a bulk load in production or in staging: the orphan cleanup
+would delete that alias's previous index and the rollback with it.
 
 ### Credits and terms of use
 

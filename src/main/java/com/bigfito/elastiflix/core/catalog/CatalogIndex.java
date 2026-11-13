@@ -76,7 +76,11 @@ public interface CatalogIndex {
     void deleteIndex(String indexName);
 
     /**
-     * Lista los índices {@code <alias>-<AAAAMMDD-HHMMSS>} de ese alias.
+     * Lista los índices {@code <alias>-<AAAAMMDD-HHMMSS>} de ese alias que ningún otro alias usa.
+     *
+     * <p>Un índice con un alias ajeno queda fuera aunque tenga el nombre: puede ser el catálogo de otro alias. Por
+     * ejemplo, el índice de staging que se publicó en producción, que la limpieza de huérfanos de staging no debe
+     * borrar.</p>
      *
      * @param alias alias del catálogo
      * @return nombres, ordenados; lista vacía si no hay

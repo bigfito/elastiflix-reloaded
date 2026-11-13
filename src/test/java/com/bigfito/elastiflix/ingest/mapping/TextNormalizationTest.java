@@ -93,6 +93,19 @@ class TextNormalizationTest {
     }
 
     @Test
+    @DisplayName("los espacios repetidos quedan en uno y los saltos de línea de la sinopsis se conservan")
+    void shouldCollapseRepeatedSpacesButKeepLineBreaks() {
+        String plot = "Primer párrafo de la sinopsis,  con  dos espacios.\n\nSegundo párrafo de la sinopsis de prueba.";
+        ValidatedMovies result = validate(movie("plot", json(plot)));
+
+        assertThat(result.report().warnings())
+                .extracting(ValidationIssue::code, ValidationIssue::field)
+                .containsExactly(tuple(ErrorCode.TEXT_NORMALIZED.code(), "plot"));
+        assertThat(result.movies().getFirst().plot()).isEqualTo(
+                "Primer párrafo de la sinopsis, con dos espacios.\n\nSegundo párrafo de la sinopsis de prueba.");
+    }
+
+    @Test
     @DisplayName("un texto que solo es espacio duro sigue la regla de vacío y no avisa de normalizar")
     void shouldUseTheEmptyWarningWhenOnlyAHardSpaceRemains() {
         ValidatedMovies result = validate(movie("tagline", json(HARD)));

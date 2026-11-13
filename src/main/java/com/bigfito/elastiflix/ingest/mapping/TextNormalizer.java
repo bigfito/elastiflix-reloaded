@@ -1,17 +1,22 @@
 package com.bigfito.elastiflix.ingest.mapping;
 
 import java.text.Normalizer;
+import java.util.regex.Pattern;
 
 import com.bigfito.elastiflix.core.error.ErrorCode;
 
 import tools.jackson.databind.JsonNode;
 
 /**
- * Deja un texto sin espacios en los extremos, sin espacio duro y en forma NFC.
+ * Deja un texto sin espacios en los extremos, sin espacio duro, sin espacios repetidos y en forma NFC.
+ *
+ * <p>Solo se juntan los espacios (U+0020): los saltos de l\u00ednea entre los p\u00e1rrafos de una sinopsis se
+ * conservan.</p>
  */
 final class TextNormalizer {
 
     private static final char HARD_SPACE = '\u00a0';
+    private static final Pattern REPEATED_SPACES = Pattern.compile(" {2,}");
 
     private TextNormalizer() {
     }
@@ -80,7 +85,7 @@ final class TextNormalizer {
     }
 
     private static String normalize(String text) {
-        String spaced = text.replace(HARD_SPACE, ' ');
+        String spaced = REPEATED_SPACES.matcher(text.replace(HARD_SPACE, ' ')).replaceAll(" ");
         return Normalizer.normalize(spaced.strip(), Normalizer.Form.NFC);
     }
 

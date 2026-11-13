@@ -29,6 +29,17 @@ class IndexMappingTest {
     }
 
     @Test
+    @DisplayName("plot y overview se analizan en inglés, con raíces: «dreams» encuentra «dream»")
+    void shouldAnalyzePlotAndOverviewInEnglish() {
+        IndexMapping mapping = new IndexMapping();
+
+        var properties = JsonMapper.builder().build().readTree(mapping.mappings()).path("properties");
+
+        assertThat(properties.path("plot").path("analyzer").asString()).isEqualTo("english");
+        assertThat(properties.path("overview").path("analyzer").asString()).isEqualTo("english");
+    }
+
+    @Test
     @DisplayName("expone 34 campos, la fecha yyyy-MM-dd y plot_512 de 512 dimensiones")
     void shouldDescribeTheCatalogWhenMappingIsPackaged() {
         IndexMapping mapping = new IndexMapping();

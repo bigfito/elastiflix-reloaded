@@ -153,10 +153,12 @@
         "type": "text"
       },
       "overview": {
-        "type": "text"
+        "type": "text",
+        "analyzer": "english"
       },
       "plot": {
-        "type": "text"
+        "type": "text",
+        "analyzer": "english"
       },
       "plot_1024": {
         "type": "dense_vector",

@@ -318,19 +318,20 @@ means the best movies ended up at the top.
 | Configuration | Total | es · plot | en · plot | es · title | en · title |
 |---|---|---|---|---|---|
 | `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
-| `bm25_plot` | 0.296 | 0.000 | 0.577 | 0.000 | 0.638 |
-| `knn_plot_1024` | **0.745** | **0.734** | **0.784** | 0.602 | 0.803 |
-| `rrf_title_knn1024` | 0.488 | 0.466 | 0.377 | 0.453 | **0.925** |
-| `rrf_plot_knn1024` | 0.557 | 0.414 | 0.699 | 0.373 | 0.751 |
+| `bm25_plot` | 0.305 | 0.002 | 0.601 | 0.000 | 0.630 |
+| `knn_plot_1024` | **0.745** | **0.734** | **0.784** | 0.602 | 0.804 |
+| `rrf_title_knn1024` | 0.486 | 0.459 | 0.377 | 0.453 | **0.925** |
+| `rrf_plot_knn1024` | 0.564 | 0.401 | 0.738 | 0.345 | 0.747 |
+
+M4 measurement (13 Nov 2026), on the current `data/` catalog.
 
 - **Plots are in English, and they are no longer a summary.** The plot queries describe the movie in the abstract, and
-  the Wikipedia plots narrate it with the characters' names. That is why `bm25_plot` drops from 0.423 in M0 to 0.296
-  in M3: English falls to 0.577 (it was 0.805) and Spanish to 0.000. `plot` uses the standard analyzer, without
-  stemming, so "dreams" does not find "dream" (D-08, R-14).
-- **Vector search goes up and is the most even option.** `knn_plot_1024` moves from 0.742 to 0.745 and finds the movie
-  in both languages (0.734 in Spanish and 0.784 in English). `rrf_plot_knn256` and `rrf_plot_knn1024` drop with the
-  plot BM25 list (0.581 → 0.511 and 0.662 → 0.557). The default hybrid, which mixes the title, goes up
-  (`rrf_title_knn256` from 0.348 to 0.425). Their minimums in `eval/thresholds.json` were recalculated with this measurement.
+  the Wikipedia plots narrate it with the characters' names. That is why `bm25_plot` dropped from 0.423 (the previous
+  synopses, largely generated) to 0.296. `plot` and `overview` now use the `english` analyzer, with stemming ("dreams"
+  finds "dream"), and `bm25_plot` goes up to 0.305: 0.601 with English queries.
+- **Vector search is the most even option.** `knn_plot_1024` finds the movie in both languages (0.734 in Spanish and
+  0.784 in English). `rrf_plot_knn1024` carries the plot BM25 list (0.564). The default hybrid, which mixes the title,
+  stays at 0.425 (`rrf_title_knn256`). The minimums in `eval/thresholds.json` are this measurement minus 0.05.
 - **BM25 on the title is useful for searching by title in English** (0.904), and for nothing else.
 
 ## 🎛️ Results, filters, and pagination
@@ -400,7 +401,8 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
   and the first occurrence is kept (`EFX-ING-024`).
 - **Text:** on validation, a text, an item of a text list, a keyword or collection name, and an `enrichment`
-  label are stripped, a hard space (U+00A0) becomes a normal space, and the result is stored in NFC. If the
+  label are stripped, a hard space (U+00A0) becomes a normal space, repeated spaces become one (line breaks
+  are kept), and the result is stored in NFC. If the
   value changes, the load warns (`EFX-ING-029`) and keeps the normalized text. If stripping leaves it empty,
   the empty-value rule applies and this warning is not added. `id` is left as it arrived: a space in it is part
   of the identifier.
