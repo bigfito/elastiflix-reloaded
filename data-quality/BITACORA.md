@@ -79,8 +79,8 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 ## 2. Próximo paso
 
 > **Turno 12 · Gemma 4 E4B en OpenCode** (WP-05, P-11 y P-13). Los comandos funcionan igual en PowerShell y en Git
-> Bash; corre cada uno desde la raíz del worktree y cópialo tal cual (`AGENTS.md` §5.1). A los `./mvnw` dales un
-> timeout de 600000 ms. Firma: `--agente "Gemma (Gemma 4 E4B)"` y `Agente: Gemma (Gemma 4 E4B)`.
+> Bash; corre cada uno desde la raíz del worktree y cópialo tal cual (`AGENTS.md` §5.1). **A todos (`python` y
+> `./mvnw`) dales un timeout de 600000 ms**: el de OpenCode por defecto es de 2 minutos y un lote tarda más (B-04). Firma: `--agente "Gemma (Gemma 4 E4B)"` y `Agente: Gemma (Gemma 4 E4B)`.
 >
 > **A. Al empezar.**
 > 1. `git status` (debe estar limpio), `git log --oneline -5` y `git tag --list "dq-r11"`.
@@ -91,7 +91,9 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 >
 > **B. 14 lotes, uno a la vez** (T-02). Para cada lote:
 > 1. `python data-quality/scripts/proponer_trama.py --wp WP-05 --lista data-quality/hallazgos/listas/wp05-enciclopedicos.tsv --tam 100 --agente "Gemma (Gemma 4 E4B)"`.
->    Al final imprime una línea que empieza con el nombre del lote (`lote-029`, `lote-030`…) y sus cuentas.
+>    Al final imprime una línea que empieza con el nombre del lote (`lote-029`, `lote-030`…) y sus cuentas, y después
+>    `data/ no se modificó.`. **Si no ves esa línea, el script no terminó:** no apliques nada y corre el mismo
+>    comando otra vez (la segunda vez va más rápido, porque usa la caché). Si tampoco termina, es un bloqueo.
 > 2. `python data-quality/scripts/aplicar_cambios.py data-quality/cambios/WP-05/lote-NNN.jsonl`, con el número de ese lote.
 > 3. `./mvnw -q test "-Dtest=ShippedCatalogValidationTest"`. Si falla, **detente**: abre un bloqueo en §5 con el
 >    aviso exacto, cierra el turno como `INCOMPLETO` (paso E) y no apliques más lotes.
@@ -173,7 +175,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 
 Ninguno.
 
-Resueltos: **B-01** (turno 06, `EFX-ING-026` sobre una cita de Wikipedia), cerrado en R-06 con `73cd5d0`. **B-02**
+Resueltos: **B-04** (turno 12: `lote-029` no existía porque OpenCode cortó `proponer_trama.py` a los 2 minutos, su timeout por defecto, antes de que escribiera el lote; `aplicar_cambios.py` falló después por eso). No se aplicó nada ni cambió `data/`. «Próximo paso» y `AGENTS.md` §5.1 piden ahora 600000 ms para todo comando del turno. **B-01** (turno 06, `EFX-ING-026` sobre una cita de Wikipedia), cerrado en R-06 con `73cd5d0`. **B-02**
 (turno 08, `ShippedCatalogValidationTest` en rojo en la rama de WP-03), cerrado en R-08 con la decisión P-09. **B-03**
 (turno 10, `EFX-ING-027`: *Red Cliff* y *Red Cliff Part II* con la misma trama), cerrado en R-10 con `7f0ff43` y
 `0a67893`.
@@ -371,3 +373,14 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   en `PLAN.md`, `AGENTS.md`, `README.md`, este tablero, R-11, el diario de WP-05 y `revisar_reparto.py`. El reparto
   no cambia. `AGENTS.md` §5.1 permite cerrar el turno después de cualquier lote commiteado.
 - Para el siguiente: turno 12, Gemma 4 E4B.
+
+### 2026-11-13 00:45 UTC · Claude Code (Claude Opus 5.5) · COORD (B-04)
+- Hice: diagnostiqué el bloqueo que Gemma reportó en el turno 12. `proponer_trama.py` funciona (lo probé fuera de
+  `data-quality/cambios/`), pero OpenCode lo cortó a los 2 minutos, su timeout por defecto: la corrida empezó a las
+  00:31:52 UTC y la última descarga de Wikipedia es de las 00:33:50. Sin `lote-029.jsonl`, `aplicar_cambios.py`
+  falló. Descarté el texto que Gemma había agregado sin commitear (una línea en UTF-16 al final de este archivo,
+  escrita por redirección de la terminal) y registré B-04 como resuelto. Ajusté «Próximo paso» y `AGENTS.md` §5.1:
+  timeout de 600000 ms para todo comando, comprobar la línea final del script antes de aplicar, y editar la bitácora
+  solo con la herramienta de edición.
+- Evidencia: `git status` sin cambios en `data/` ni en `cambios/`; `estado.tsv` termina en `lote-025` y `lote-028`.
+- Para el siguiente: Gemma retoma el turno 12 en el paso B (el paso A ya está hecho, commit `114de11`).

@@ -131,8 +131,11 @@ evitan improvisar. Valen además de todo lo anterior.
 9. Firma tus commits con `Agente: Gemma (Gemma 4 E4B)` y pasa `--agente "Gemma (Gemma 4 E4B)"` a los scripts.
 10. **En OpenCode:**
     - Trabaja con el agente **Build**: el agente Plan no puede editar archivos.
-    - A cada `./mvnw` dale un timeout de 600000 ms en la herramienta de shell, porque una prueba tarda de 1 a 3
-      minutos. Si un comando se corta por tiempo, córrelo otra vez una sola vez; si vuelve a cortarse, es un bloqueo.
+    - A **todo** comando del turno (`python …` y `./mvnw …`) dale un timeout de 600000 ms en la herramienta de
+      shell. El de OpenCode por defecto es de 2 minutos, y un lote de `proponer_trama.py` o una prueba tardan más
+      (B-04). Si un comando se corta por tiempo, córrelo otra vez una sola vez; si vuelve a cortarse, es un bloqueo.
+    - Para cambiar la bitácora o un diario usa la herramienta de edición de archivos de OpenCode, nunca la terminal
+      (`>>`, `echo >`, `Add-Content`, `Out-File`): en PowerShell escriben UTF-16 y rompen el archivo, que es UTF-8.
     - No leas `.env`: OpenCode pide permiso para leerlo, y la respuesta es no (regla 4 del §3).
     - No delegues pasos del turno en subagentes (`general`, `explore`): cada lote lo haces tú, en orden.
 
