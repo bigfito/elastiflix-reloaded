@@ -5709,7 +5709,7 @@
    "video": false,
    "tagline": "Have a drink, mate? Have a fight, mate? Have some dust and sweat, mate? There's nothing else out here.",
    "overview": "Wake in Fright is the story of John Grant, a bonded teacher who arrives in the rough outback mining town of Bundanyabba planning to stay overnight before catching the plane to Sydney, but as one night stretches into several he plunges headlong into his own destruction.",
-   "plot": "A young schoolteacher descends into personal moral degradation after finding himself stranded in a brutal, menacing town in outback Australia.",
+   "plot": "John Grant is a young, middle-class schoolteacher who feels disgruntled because of the onerous terms of an employment bond that he signed with the government in return for receiving a tertiary education. The bond has forced him to accept a two-year post at a tiny school at Tiboonda, a remote township in the arid outback. It is the start of the Christmas holidays, and John plans on going to Sydney to see his girlfriend Robyn, but first he must travel by train to the nearby mining town of Bundanyabba – affectionately nicknamed \"The Yabba\" by the locals – in order to catch a Sydney-bound flight.\nUpon arriving at The Yabba, John goes to a pub. There he meets the local policeman, Jock Crawford, who befriends him after both drink repeated glasses of beer, first at the pub and then at an RSL club, where they witness an unnerving ANZAC memorial service. Crawford then introduces him to the illegal game of two-up, and to Clarence \"Doc\" Tydon, a vagrant, alcoholic medical practitioner who questions John's contemptuous view of The Yabba and its populace.\nDeciding to try his luck at two-up, John has a winning streak but becomes reckless: in a desperate bid to win enough money to pay off his bond, he loses all of his cash in two rounds. This results in John becoming stranded in The Yabba with no money, leaving him at the mercy of its searing heat and eccentric but sinister townsfolk.\nWhile drinking, John becomes friends with a resident named Tim Hynes and goes to Tim's house, where he meets his adult daughter, Janette, and his two friends, miners Dick and Joe. Tim, Dick and Joe engage in an all-day drinking session, where they are eventually joined by Doc. John converses with Janette, who quietly desires a life outside of waiting on her father and his friends. She aggressively tries to seduce John, who vomits partly in disgust and due to the beer he has ingested.\nAfter engaging in more debauched rituals with the Hynes and their guests, John finds refuge in Doc's isolated shack. After providing him with medicine to cure his hangover and feeding him on kangaroo meat, Doc expounds his worldview onto John, revealing that his alcoholism and self-sufficient attitude to life prevented him from practicing in Sydney. He also reveals that he and Janette have had a long-standing open relationship punctuated by unorthodox sexual encounters.\nJohn and Doc are joined by Dick and Joe in a drunken, barbaric kangaroo hunt that lasts into the night, which culminates in Joe engaging in fisticuffs with one such kangaroo and John clumsily stabbing another to death. The four then vandalize a bush pub, where Dick and Joe engage in a playful fight that turns brutal, interrupting Doc as he lectures an unconscious John about the violent nature of civilization despite its philosophical and materialistic trappings. At dawn, John returns to Doc's shack, where Doc initiates an apparent homosexual encounter between the two.",
    "genres": [
     "Drama",
     "Thriller"
@@ -5825,7 +5825,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -41892,7 +41892,7 @@
    "video": false,
    "tagline": "Life starts now.",
    "overview": "A guarded woman who finds out she's dying of cancer but, when she meets her match, the threat of falling in love is scarier than death.",
-   "plot": "A guarded woman finds out she's dying of cancer but, when she meets her match, the threat of falling in love is scarier than death.",
+   "plot": "Marley Corbett is a quick-witted, carefree ad executive living in New Orleans, who embraces her easy going attitude, shuns any major responsibilities, and gains support and strength from a close circle of friends. She also enjoys casual dating, refusing to fall in love.\nMarley's close friend Sarah notices that she looks drained. After an appointment, Marley is told by Dr. Julian Goldstein that she has terminal cancer. He is deeply impressed by the way she accepts the news with humour and dignity. While under anesthetic, God appears to Marley in heaven and gives her three wishes. She chooses to fly, to win a million dollars (not tax free), and a third that is later revealed.\nMarley must now break the news to her friends and parents (who are divorced and haven't spoken in years). Her mother is persistent and overbearing, and instantly begins to smother Marley by visiting too often and making her meals to keep her strength up. Marley's father is the opposite; distant and reserved, and doesn't seem bothered with reconnecting with her in the time she has left.\nWhile driving through town one morning, Marley and Sarah take part in a radio call game where the 97th caller wins a prize. They get through and Marley is told she's won flying lessons—her first wish granted. It is revealed that her other friend Renee is pregnant with her second child. This makes Marley question her life of never settling down.\nAs the weeks go by, Marley's health deteriorates and she visits her doctor Julian more and more. One night, they see each other at a band night at their local bar and spend the rest of the night on a date. They start to develop feelings for one another.\nUpon Marley sharing news of her cancer diagnosis with her boss, he inquires about her life insurance plans. The company has a policy allowing individuals with life-threatening illnesses to cash out and receive an instant payment of one million dollars (or $500,000 after tax)—constituting her second wish.\nMarley's friend and neighbor Peter, noticing she is getting worse, hires a little person stripper, to meet with Marley at her apartment. Marley denies the stripper and explains her sickness to him, then decides to let him stay. As they hang out and talk about her cancer, he tells her that he has died before. He explains that dying was like floating and that he never wanted to leave. This helps Marley come to terms with her illness and death.\nAfter another date, Marley and Julian sleep together and begin a relationship. However, the realization they won't have a future together causes her to flee quickly one morning before he wakes. That afternoon, they argue and Marley breaks it off. Envious of her friends who are all going through positive life changes, she becomes distant.\nAfter a bike accident, Marley visits heaven again. God makes her realize that she needs to cherish what she has while she can and, for the first time, Marley admits to being in love.",
    "genres": [
     "Comedy",
     "Drama",
@@ -41967,7 +41967,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -49954,7 +49954,7 @@
    "video": false,
    "tagline": "Ride Like Hell",
    "overview": "In Manhattan, a bike messenger picks up an envelope that attracts the interest of a dirty cop, who pursues the cyclist throughout the city.",
-   "plot": "In Manhattan, a bike messenger picks up an envelope that attracts the interest of a dirty cop, who pursues the cyclist throughout the city.",
+   "plot": "Wilee is a disenchanted Columbia Law School graduate who has put off taking the bar exam, dreading the humdrum life of the legal profession. He enjoys working as a New York City bicycle messenger, despite arguments with his ex-girlfriend and fellow bike messenger, Vanessa, who insists that he should make something of himself.\nVanessa's roommate Nima exchanges her savings of $50,000 to Mr. Leung, a Chinese hawaladar, for a ticket. The ticket is to be given to Sister Chen as payment for Chen's gang smuggling her son and mother into the United States.\nRobert Monday, a gambling addict, learns of the ticket, which can be returned to Mr. Leung for the money. He approaches Nima, who already hired Wilee to deliver it to Sister Chen. He attempts to trick Wilee into giving him the ticket, but Wilee refuses.\nWilee rides off, with Monday in pursuit. Wilee heads to the police station only to find out Monday is a police detective. Thinking he is delivering something illegal, Wilee informs his dispatcher Raj that he cancels the delivery. Returning to Nima's college, Wilee leaves the envelope, which is picked up by his rival, Manny.\nWith the delivery receipt stolen from Nima, Monday calls the dispatch to redirect the delivery to a different address. Wilee runs into Nima and confronts her about the ticket, and she reveals the truth. Wilee catches up to Manny, who refuses to give Wilee his drop. They race each other and are chased by a bike cop who had earlier tried to arrest Wilee.\nNear Monday's address, the bike cop tackles Manny off his bike and arrests him. Vanessa, who had learned of Monday's trickery and raced over gives Manny's bag to Wilee. As they are about to escape, Wilee is hit by a taxi, and fractures several ribs. He is put in an ambulance with Monday, while his damaged bike is taken to an impound lot, with the envelope hidden in the handlebars.\nMonday tortures Wilee, who asks for his bike back. Wilee tells Monday that the envelope is in Manny's bag, and Monday leaves to search for it, while Wilee meets with Vanessa in the impound lot. She gives him the envelope, which she had retrieved, and he escapes on a stolen bike. Monday, realizing Wilee has tricked him, pursues Wilee to Sister Chen's place.\nMeanwhile, Nima calls Mr. Leung for help. He deploys his enforcer, the Sudoku Man, to help her. As Wilee reaches Chinatown, Monday confronts and threatens to kill him, but Vanessa arrives with a mob of messengers, dispatched by Raj, who distract Monday. Wilee delivers the ticket to Sister Chen, who tells the captain of her ship to allow Nima's family aboard. Monday is confronted by Chinese and Italian mobsters and doesn't notice Sudoku Man, who shoots Monday in the back of his head using a Sudoku book to silence the pistol. Monday tries to get in his car but dies before he can do so.\nNima's mother calls her and confirms that she and Nima's son have gotten on the ship. Nima meets with Wilee and Vanessa while they are finally reunited.",
    "genres": [
     "Crime",
     "Action",
@@ -50057,7 +50057,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -51633,7 +51633,7 @@
    "video": false,
    "tagline": "No Job Too Small. No Body Too Big. No Questions Asked.",
    "overview": "Two 19th-century opportunists become serial killers so that they can maintain their profitable business supplying cadavers to an anatomist.",
-   "plot": "Two 19th-century opportunists become serial killers so that they can maintain their profitable business supplying cadavers to an anatomist.",
+   "plot": "William Burke and William Hare, immigrants from Ulster, attempt to sell cheese mould as a patent medicine. When their fraud is discovered, they flee to an inn owned by Hare's wife, Lucky. One of her lodgers has died and she wants Burke and Hare to remove the body. On the way, they stop for a drink and Hare hears from Fergus, a local henchman of villain Danny McTavish, that Dr Robert Knox pays for cadavers, especially now demand has gone up. Burke and Hare decide to sell the corpse to Knox. They are forced to break the corpse's spine to fit it into a barrel in order to smuggle it through the city. Burke and Hare present the now-mangled corpse to Knox. After some negotiation, Knox agrees to pay them a good sum of money for each corpse they bring him for dissection.\nBurke and Hare try grave-digging to procure more cadavers. They accidentally dig up a long-dead body and are then caught by the militia, who chase them out of the cemetery, shooting Burke in the rear end in the pursuit. Back at the inn, they find Lucky drunk and barely conscious. Lucky says she is drinking because Joseph, another lodger at the inn, is near death. Not willing to wait for the outcome, Burke and Hare suffocate Joseph and take the body to Knox. Flush with money, Burke and Hare dress up for a night in a posher pub. There they meet a young former prostitute, Ginny Hawkins, who performs an excerpt from Macbeth to the indifferent patrons. Burke is instantly taken with Ginny.\nHare comes home to find Lucky in good spirits and waiting with a home-cooked meal. He is suspicious, then scared when Lucky tells him she knows what he and Burke have been up to. Surprisingly, she thinks it a good idea and makes Hare give her a pound per corpse as a tax between husband and wife.\nBurke is kidnapped and bundled into a carriage by McTavish and Fergus, who have already captured Hare. McTavish threatens to kill them unless they give him half the money from Knox. Forced to agree, they are then thrown from the carriage. As they trek back to the inn, they plan a string of murders to make up their losses to McTavish.\nThe people of Edinburgh become suspicious of all the deaths in the area, as does police captain Tom McLintock of the militia. Missing posters of the dead are put up and Burke begins to panic. Hare says they have finished the murders and will go into the funeral parlour business.\nMcTavish kidnaps Hare again and attempts to extort the remainder of the money. Shortly afterward, McTavish appears as Knox's next dissection cadaver, where McLintock recognises his body. He discovers Knox's collection of anatomical photographs, recognising many of the photos as people who were reported missing. Knox confesses his arrangement with Burke and Hare. McLintock arrests Burke and Ginny, and Hare and Lucky, while both couples are having sex.\nIn prison, Burke is repentant but Hare tells him not to confess or all of them, including the women, will be hanged.",
    "genres": [
     "Comedy",
     "Thriller",
@@ -51738,7 +51738,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -63606,7 +63606,7 @@
    "video": false,
    "tagline": "She's having the time of someone else's life.",
    "overview": "Three young women vacationing in Paris find themselves whisked away to Monte Carlo after one of the girls is mistaken for a British heiress.",
-   "plot": "Three young women vacationing in Paris find themselves whisked away to Monte Carlo after one of the girls is mistaken for a British heiress.",
+   "plot": "Grace Bennett is a NYU-bound, Texas high-school student who works as a waitress in a restaurant with her high school dropout, best friend Emma Perkins, to earn money for a post-graduation trip to Paris, France. Grace's stepfather pays for her uptight older stepsister Meg Kelly to join them, and Emma goes to Paris despite her boyfriend Owen's marriage proposal.\nThe trip quickly proves to be a disappointment as the girls discover they were ripped off, with a cramped hotel room and a tour that moves too fast for anyone to appreciate anything properly. After missing the bus and being left behind by their tour guide at the Eiffel Tower, the three girls seek refuge from the rain in a posh hotel.\nThe hotel staff and paparazzi mistake Grace for the spoiled celebutante British heiress Cordelia Winthrop-Scott, Grace's double, who leaves rather than stay to attend an auction for a Romanian charity to which she is to donate a Bulgari necklace. Despite Meg's protests, the three girls spend the night in Cordelia's suite and fly to Monte Carlo with Cordelia's luggage the next day.\nAt the Hotel de Paris in Monte Carlo, the girls meet Theo Marchand, the son of the philanthropist hosting the charity. Theo is cold towards the three because he loathes Cordelia's spoiled nature. He escorts them to a ball, where Grace successfully fools Cordelia's aunt Alicia and Emma dances with Prince Domenico. Meg reunites with Riley, an Australian backpacker she briefly met in Paris. They find they have things in common and spend time together before he leaves for Italy. Meanwhile, Owen travels to Paris in search of Emma.\nWhen Grace participates in a polo game, Alicia discovers the impersonation because of Grace's different riding style. After calling the real Cordelia confirming her suspicion, Alicia believes she is a lookalike that Cordelia hired to take her place while she parties.\nTheo grows attracted to \"Cordelia's\" frank personality, while Domenico invites Emma to a party on a yacht. Emma dresses up for the party in the Bulgari necklace but meets Meg on the way, who takes the necklace for safekeeping, but later forgets about it, accidentally leaving it in Riley's backpack. At the party, Emma becomes disillusioned by Domenico's obnoxiousness, snideness, and arrogance toward the waitresses.\nAfter seeing Emma in the newspaper account of Grace's appearance at the ball, Owen goes to Monte Carlo. Cordelia also arrives there and sees Grace in the newspaper. Finding the necklace is missing, she calls the police. The girls are in search of Riley after Meg tells Grace and Emma that he is leaving on a train to Italy, but later on, he shows up at the hotel to return the necklace to Meg.\nThe trio finds Cordelia in the suite, and when she threatens to withdraw the necklace from the auction, the girls panic and tackle her to the couch. When the police come to the door, they muffle her screams, and Grace covers for them.",
    "genres": [
     "Adventure",
     "Comedy",
@@ -63682,7 +63682,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -66475,7 +66475,7 @@
    "video": false,
    "tagline": "Two sets of bank robbers.  One very sticky heist.",
    "overview": "A man caught in the middle of two simultaneous robberies at a bank desperately tries to protect the teller with whom he's secretly in love.",
-   "plot": "A man caught in the middle of two simultaneous robberies at a bank desperately tries to protect the teller with whom he's secretly in love.",
+   "plot": "As Credit International bank teller Kaitlin Nest prepares to end her shift, a customer, Tripp Kennedy, approaches her and requests to have a $100 bill broken up into a specific configuration of coins. As he flirts with her, the bank is simultaneously stuck up by two groups of criminals; three high-tech professionals - Darrien, Weinstein and Gates - and two unmasked rednecks - \"Peanut Butter\" and \"Jelly.\" While the trio wants to rob the vault, the duo simply wants the ATMs. A bystander named Jack Hayes is fatally shot and a crossfire gunfight is initiated. Tripp throws himself in the middle of the commotion and convinces the criminals to rob the bank concurrently. The trio locks Tripp, Kaitlin and a group of hostages in an upstairs kitchen while Peanut Butter and Jelly attempt unsuccessfully to break open the ATMs with a series of weapons-grade plastic explosives. Tripp promptly escapes from the kitchen through the ceiling and ventures into the bank to deduce who killed Hayes.\nThe trio is repeatedly stymied in their efforts to break into the vault through a series of mishaps that exposes their identities to the hostages. When Tripp infiltrates the trio's workspace to inquire about Hayes' murder, Weinstein reveals that the bank's security system was deactivated and rebooted just prior to the criminals' arrival. Tripp is returned to the upstairs office where he pesters the bank's computer technician Mitchell Wolf into admitting that he sold intel about the security reboot to the criminals. During a bathroom break, Mitch has a panic attack and stress vomits, prompting Weinstein to retrieve medicine for him. Meanwhile, Gates fraternizes with Peanut Butter and Jelly as they compare the criminal groups' rankings among the FBI's most wanted bank robbers, including the #1 most wanted fugitive, Vicellous Drum.\nPeanut Butter and Jelly ask for the hostages' help with detonating their explosives. Tripp volunteers so that he can search Hayes for clues. Tripp discovers that Hayes was an undercover agent carrying an FBI-issue gun, brandishing the firearm and drawing the attention of the criminals. When Tripp deduces that Weinstein must have killed Hayes, he, Darrien and Gates go searching for Weinstein, only to find he and Mitch both armed and fatally wounded by gunshot. As Gates and Tripp ponder how both men could have drawn and killed each other at the same time, Darrien decides to flee the bank. When he can't find the key to the trio's escape mechanism, he uses a blowtorch, but the blowtorch is rigged and he is killed in an explosion. Tripp finds the clicker Darrien was looking for in Weinstein's mouth, further suggesting that Weinstein had turned on his co-conspirators.\nAn exasperated Gates teams up with Peanut Butter and Jelly and plots to use their unconventional explosives in a last ditch effort to break into the vault.",
    "genres": [
     "Mystery",
     "Comedy",
@@ -66544,7 +66544,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -91498,7 +91498,7 @@
    "video": false,
    "tagline": "The odds are against him. So is everyone else.",
    "overview": "A career criminal nabbed by Mexican authorities is placed in a tough prison where he learns to survive with the help of a 9-year-old boy.",
-   "plot": "A career criminal nabbed by Mexican authorities is placed in a tough prison where he learns to survive with the help of a 9-year-old boy.",
+   "plot": "The film opens with a getaway driver and his wounded accomplice dressed as clowns fleeing from American Border Patrol toward the Mexican border. The driver crashes through the border fence, whereupon he is arrested by corrupt Mexican police officers Vasquez and Romero. When they find over $2 million in the back seat of the car, they imprison him in El Pueblito prison under false charges, keep the cash for themselves, and cremate his dead accomplice. As one of the only Americans incarcerated there, the driver becomes known as \"the Gringo\".\nEl Pueblito proves surprising, operating more like a small ghetto than a prison. The Gringo quickly manages to work out the prison's criminal hierarchy and engages in petty thefts and robberies from some of the prison's less reputable businesses. One of these thefts is witnessed by an unnamed kid who is living with his incarcerated mother and is protected by the prison's criminals. Curious, the Gringo presses him to explain why the criminals protect him, but the Kid refuses.\nLater, the Gringo stops the Kid from an ill-fated assassination attempt on Javi, leader of the crime family that runs El Pueblito. After an argument, he learns why the Kid is protected: Javi has a failing liver, and the Kid is the only viable match; Javi has already killed the Kid's father and harvested his liver. The Gringo vows to stop the transplant from happening and to help kill Javi. Meanwhile, the Gringo attracts the attention of a United States Consulate employee, who easily identifies him as a career criminal. Unconcerned, the Gringo and the Kid work towards bringing down Javi, and the Gringo grows closer to the Kid's mother.\nThe Gringo ingratiates himself to Javi by saving Javi's brother, Caracas, and revealing the money stolen by Vasquez and Romero. Thugs working for criminal boss Frank Fowler, from whom the Gringo stole the money, have located Vasquez and Romero. The thugs are torturing the cops to find the location of an additional missing $2 million. Javi's men show up, kill everyone, and take the money, enraging Fowler, who knows Javi. With the aid of the consulate employee, Fowler sends assassins into El Pueblito to kill Javi and the Gringo.\nThe shootout that follows results in the Mexican authorities planning a raid on the prison. Knowing time is short, Javi hires the Gringo to kill Fowler and sets up an immediate transplant operation. In the US, the Gringo, now out of prison, lures Fowler out of hiding by arranging a meeting between him and shipping magnate Thomas Kaufmann. The Gringo pretends he is his ex-partner, Reginald T. Barnes, who had betrayed him, and sets up a meeting between Kaufmann and Fowler, during which he kills Fowler.\nWhen the Gringo locates the Consulate employee, he learns about the imminent transplant operation and rushes to save the Kid, who has unsuccessfully attempted to stab himself in the liver.",
    "genres": [
     "Action",
     "Thriller",
@@ -91574,7 +91574,7 @@
     "Español"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -94502,7 +94502,7 @@
    "video": false,
    "tagline": "Sometimes to keep the magic, you need to learn a few tricks.",
    "overview": "After thirty years of marriage, a middle-aged couple attends an intense, week-long counseling session to work on their relationship.",
-   "plot": "After thirty years of marriage, a middle-aged couple attends an intense, week-long counseling session to work on their relationship.",
+   "plot": "Although a devoted couple, empty nesters Kay and Arnold Soames are in need of help to reignite the spark in their marriage. Married for thirty-one years, they have slept in separate bedrooms for various pragmatic reasons since their youngest child went off to college, and forgo any physical affection.\nOne day Kay tells Arnold she has paid for them to undergo a week of intense marriage counseling with Dr. Bernie Feld in a coastal resort town in Maine. Arnold, a creature of plodding, unimaginative routine, denies their marriage is in trouble.\nDr. Feld challenges them to articulate their feelings and rediscover the spark that caused them to fall in love in the first place. In subsequent sessions the psychiatrist asks increasingly frank questions about their sex life and feelings. Both private and old-fashioned, Arnold is angry and defensive, unwilling to see the depth of his wife's disappointment. Upset, Kay goes alone to a bar, where she has several glasses of wine and confides in the bartender about her sexless marriage; the bartender reassures her that she is not alone. Arnold visits a nautical museum.\nBack together, they spend the night in the same bed for the first time in years, and Kay awakes to find Arnold's arm around her. At this sign of progress, Dr. Feld urges new measures. They make halting attempts at intimacy on the bed of their budget motel and again in a movie theater, but this time with disastrous results.\nIn a one-on-one session, Dr. Feld explains to Arnold that couples seeking marriage counseling are doing so for a reason, and asks him frankly, \"Is this the best you can do?\" Arnold finally takes the initiative to arrange a romantic dinner and a night at a luxury inn, where they attempt to have sex in front of a fireplace, but the grand gesture ultimately fails. At their final session, Dr. Feld tells them they've made much progress and should take up couples therapy back home.\nBack in Omaha, old habits resume. Kay offers to pet-sit for a fellow employee and packs a bag to stay there, as a first step in a permanent break with Arnold. That night, both are shown in bed trying to sleep. Arnold enters Kay's bedroom and they tenderly embrace. The sex that follows is warm, natural, and quietly passionate.\nThe next morning it's clear that the marriage has shifted into an improved direction. Later that year, as Kay said she fantasized, they renew their wedding vows on a beach with Dr. Feld and their grown children present, making promises to be more understanding and considerate of each other.",
    "genres": [
     "Drama",
     "Comedy",
@@ -94564,7 +94564,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -96652,7 +96652,7 @@
    "video": false,
    "tagline": "What would you go back for?",
    "overview": "Three magazine employees head out on an assignment to interview a guy who placed a classified ad seeking a companion for time travel.",
-   "plot": "Three magazine employees head out on an assignment to interview a guy who placed a classified ad seeking a companion for time travel.",
+   "plot": "Darius Britt is an intelligent but disillusioned graduate of the University of Washington who lives at home in Seattle with her widower father and works as an intern at Seattle Magazine. One of the magazine's writers, Jeff Schwensen, proposes to investigate a newspaper classified ad that reads:\n\nWANTED: Someone to go back in time with me. This is not a joke. You'll get paid after we get back. Must bring your own weapons. Safety not guaranteed. I have only done this once before.\nJeff's boss Bridget approves of his story idea and Jeff selects his team: Darius and Arnau, a studious UW student interning at the magazine to diversify his résumé for medical school applications. They travel to the seaside community of Ocean View to find and profile the person who wrote the ad. Jeff's ulterior motive for this out-of-town assignment is to track down his long-lost love interest who lives in town.\nDarius discovers the ad was placed by Kenneth Calloway, a stock clerk at a local grocery store. Jeff's attempt to approach Kenneth alienates him, so Jeff orders Darius to make contact. Darius's disaffected attitude serves her well, and she quickly endears herself to Kenneth as she poses as a candidate to accompany him on his mission. While Kenneth is paranoid and believes secret agents are tracking his every move, Darius gains his trust as she participates in a series of training exercises in the woods around his house and she begins to develop feelings for him. She tells Kenneth about losing her mother when she was young and says that her mission is to prevent her mother's death. Kenneth says that his mission is to go back to 2001 and prevent the death of his former girlfriend, Belinda, who was killed when someone drove a car into her house.\nMeanwhile, Jeff tracks down Liz, a fling from his teenage years. Although she is not as attractive as he had recalled, they reconnect and sleep together. He asks her to come back with him to Seattle, but she believes this is just another fling for him, so she refuses. Upset by her rejection, Jeff takes Arnau out on the town and they pick up some young women. Jeff tells Arnau to not waste his youth and convinces him to spend the night with one of the women.\nThe next morning, Jeff receives a phone call from Bridget, who has been following up the team's notes on the story. She informs Jeff that Belinda is still alive and lives an hour away from where they are. During an interview, Darius learns that Belinda was only friends with Kenneth, and that Kenneth was actually the one who had driven into her then-boyfriend's house, and that nevertheless no one had been injured. After the interview, Darius is questioned by two government agents who have been following Kenneth and believe that he may be a spy because of his communication with government scientists. They know Kenneth has been breaking into labs and stealing equipment.",
    "genres": [
     "Comedy",
     "Romance",
@@ -96712,7 +96712,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -100338,7 +100338,7 @@
    "video": false,
    "tagline": "No one will fight for his students like Mr. Voss.",
    "overview": "A high school biology teacher moonlights as a mixed-martial arts fighter in an effort to raise money to save the school's music program.",
-   "plot": "A high school biology teacher moonlights as a mixed-martial arts fighter in an effort to raise money to save the school's music program.",
+   "plot": "Former Division I collegiate wrestler Scott Voss is a 42-year-old bored and disillusioned biology teacher at the failing Wilkinson High School. Budget cutbacks at the school jeopardize the continuation of its music program, which would result in its teacher, Marty Streb, being laid off. Concerned for both his colleague and his students, Scott attempts to raise the $48,000 necessary to keep the music program. He moonlights as a night instructor for an adult citizenship class, where student Niko requests outside tutoring. When Scott arrives at Niko's apartment, he learns that Niko is a former MMA fighter. While watching the UFC at Niko's apartment, Scott learns that the loser of a fight receives $10,000, which gives him the idea of raising the money by fighting and losing in MMA.\nScott, helped by Niko and Marty, begins with small unsanctioned bouts paying only $750 to the loser. Niko begins training him in defense, later adding trainer Mark to teach offense, after Scott knocks out opponent \"Lucky\" Patrick Murray and realizes that wins give larger payouts, needing fewer fights to achieve his goal. While Marty trains with Scott, Malia De La Cruz, one of Scott's students and a band member, helps Niko study for his citizenship test by putting the information into songs. Scott then begins fighting in small MMA fights and gradually gains greater amounts of money for the school.\nScott has been pursuing the school nurse, Bella Flores, and they share moments flirting with each other while also rekindling Scott's passion for teaching. He begins to engage the class and earns the respect of his students. Scott is within $6,000 of his goal when Mark tells him that Niko turned down a sanctioned UFC fight offered by Joe Rogan, with the certainty of earning $10,000 for a loss. Scott confronts Niko, who apologizes and admits he turned it down because he was jealous as he was once asked to fight at the UFC but suffered a neck injury while training, ending his career. Scott and Niko accept the offer, and they travel to the MGM Grand Las Vegas for the fight. The night he arrives, Bella calls Scott to tell him that the school's vice principal Robert Elkins has been arrested for embezzling from the school, including Scott's winnings; all of Scott's efforts will be in vain unless he wins the fight and the $50,000.\nThe publicity of Scott's rise to fame has grown, and the school's band appears in the stands to play his theme song, \"Holly Holy\" by Neil Diamond, thanks to Bella contacting Rogan. During the fight, Marty reminds the losing Scott that even if he does not win, he has inspired the students, which is their real purpose as teachers. Scott has no answer to his dangerous opponent Ken Dietrich, who is angered that his original opponent canceled and that he is stuck with a man that \"does not deserve\" to be fighting at the UFC.",
    "genres": [
     "Comedy",
     "Action"
@@ -100407,7 +100407,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
