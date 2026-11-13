@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 04:28 UTC · Cursor (Grok 4.7) · ejecutor (turno 13b)
+**Última actualización:** 2026-11-13 04:55 UTC · Cursor (Grok 4.7) · ejecutor (turno 13b)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -31,7 +31,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 11 | Cursor | WP-05: lotes `011`–`025` y limpieza de todas las omitidas (`026`–`027`; P-11) | REVISADO | 2026-11-12 | `dq-t11` | [R-11](bitacora/R-11.md) |
 | 12 | Gemma 4 E4B | WP-05: lotes `029`–`040` (10 de Wikipedia y 2 de limpieza) y T-03; sin cerrar, lo cerró R-12 | REVISADO | 2026-11-13 | `dq-t12` | [R-12](bitacora/R-12.md) |
 | 13a | Gemma 4 E4B | Cierre de WP-05: evaluó las 462 restantes (lotes `042`–`047`) sin commits; R-13a terminó WP-05 (D-07) | REVISADO | 2026-11-13 | `dq-t13a` | [R-13a](bitacora/R-13a.md) |
-| 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | EN CURSO | 2026-11-13 | — | — |
+| 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | EN REVISIÓN | 2026-11-13 | `dq-t13b` | — |
 | 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
 | 15 | Cursor | WP-07 parte B (P-14) | PENDIENTE | — | — | — |
 | 16 | Cursor | WP-08 (D-07) | PENDIENTE | — | — | — |
@@ -48,10 +48,10 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | HECHA | 4 | 2026-11-12 |
 | WP-02 | Reescribir los ensayos generados | HECHA | 4, 5, 6, 7 | 2026-11-12 |
-| WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · turno 13b, T-03 (integración) | 8, 13b | 2026-11-13 |
+| WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-03 integrada en el turno 13b (`4f14c65`, `lote-051`); pendiente de R-13b | 8, 13b | 2026-11-13 |
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
 | WP-05 | Limpiar el plot enciclopédico | HECHA · 3 862/3 862: 3 425 Wikipedia, 7 overview de TMDB (D-06), 13 corregidas, 372 limpias, 45 sin fuente; ficha inicial 8 y taquilla o crítica 5 | 10, 11, 12, 13a | 2026-11-13 |
-| WP-06 | Completar las sinopsis cortas | EN CURSO · turno 13b, T-01 y T-02 | 13b, 14 | 2026-11-13 |
+| WP-06 | Completar las sinopsis cortas | EN CURSO · T-01 y T-02 hechas (616 Wikipedia, 65 sin fuente, 5 no más largas); T-03 en el turno 14 | 13b, 14 | 2026-11-13 |
 | WP-07 | Normalizar al cargar | PENDIENTE | 14, 15 | — |
 | WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
 | WP-09 | Una sola puntuación y montos imposibles | PENDIENTE | 17 | — |
@@ -79,11 +79,10 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 13b · Cursor** (D-07). Primera tarea: **WP-03 T-03**, la integración de la rama `dq/wp-03-reglas-plot` en
-> `dq/ronda-4`. WP-05 ya está HECHA y ninguna de las 81 de `wp05-avisos-wp03.tsv` conserva su frase, así que
-> `ShippedCatalogValidationTest` debería quedar en verde con las reglas nuevas. Después, WP-06 T-01 y T-02. Empieza
-> con el protocolo de `AGENTS.md` §5: lee primero [R-13a](bitacora/R-13a.md) y revisa sus commits. El punto de
-> partida es la etiqueta `dq-r13a`.
+> **Claude Code: revisión R-13b** del turno 13b (Cursor). Alcance: `git diff dq-r13a..dq-t13b`. WP-03 quedó integrada
+> (`4f14c65`); el único aviso fue `616803` *Breaking Surface*, corregido con `lote-051`, y
+> `ShippedCatalogValidationTest` quedó en verde. WP-06 T-01 y T-02: lotes `001`–`007` (616 tramas más largas, 65 sin
+> fuente, 5 que no se reemplazan porque la trama de Wikipedia no es más larga). T-03 (M2) es el turno 14.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
