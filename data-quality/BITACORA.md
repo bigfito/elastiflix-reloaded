@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 19:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-17)
+**Última actualización:** 2026-11-13 19:55 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 18, P-21)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -36,7 +36,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | REVISADO | 2026-11-13 | `dq-t15` | [R-15](bitacora/R-15.md) |
 | 16 | Cursor | WP-08 (D-07) | REVISADO | 2026-11-13 | `dq-t16` | [R-16](bitacora/R-16.md) |
 | 17 | Google Antigravity | WP-09 (P-20) | REVISADO | 2026-11-13 | `dq-t17` | [R-17](bitacora/R-17.md) |
-| 18 | Cursor | WP-10 (P-14) | PENDIENTE | — | — | — |
+| 18 | Claude Code | WP-10 (P-21) | EN CURSO | 2026-11-13 | — | — |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | PENDIENTE | — | — | — |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
 | 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
@@ -55,7 +55,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-07 | Normalizar al cargar | HECHA · `lote-001` (309 películas) y `EFX-ING-029`; kannada corregido en `lote-002` (R-15) | 14, 15 | 2026-11-13 |
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
-| WP-10 | Opcional: `dynamic: strict` y filtro `adult` | PENDIENTE | 18 | — |
+| WP-10 | Opcional: `dynamic: strict` y filtro `adult` | EN CURSO · turno 18, Claude Code (P-21) | 18 | 2026-11-13 |
 | C-01 | Cierre: medición, publicación y documentación | PENDIENTE | 19, 20, 21 | — |
 
 ### 1.3 Revisiones de Claude Code
@@ -132,6 +132,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | P-21 | El turno 18 (WP-10) lo ejecuta Claude Code, el revisor. Para mantener los cuatro ojos, R-18 se apoya en una revisión independiente: un agente nuevo, sin el contexto del turno, lee el diff contra la tarjeta | Dueña del proyecto: «Toma tu este turno.» |
 | 2026-11-13 | P-20 | El turno 17 (WP-09) lo hace Google Antigravity con Gemini 4 Argon, en lugar de Cursor. Los turnos 18 a 21 siguen con Cursor | Dueña del proyecto: «Este turno se lo podemos dar a un agente de Google Antigravity que ejecuta el modelo Gemini 4 Argon.» |
 | 2026-11-13 | P-19 | El hito B (`dq-r14`) se integró en `main` local con el merge `617042f`, sin push | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | D-08 | El plan sigue después de M2 y B-06 se cierra. Desde M2, el criterio de parada aplica a `knn_*` y `rrf_title_knn*`; `bm25_plot` y `rrf_plot_*` se miden y se informan. Sus umbrales se recalculan con M3 en C-01 T-03, y C-01 T-04 documenta la caída. WP-07 parte A pasa al turno 15 | Dueña del proyecto: «Sí, opción A» |
