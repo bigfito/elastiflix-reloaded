@@ -3,11 +3,11 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 21:15 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 21, P-23)
+**Última actualización:** 2026-11-13 21:10 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 21, P-23)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
-**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-195801` (6 899 películas) · `data/` cargado en el commit `bf5e446` · app compilada en el commit `bf5e446` · instancia apagada (puerto 8081)
+**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-195801` (6 899 películas) · **desde el 2026-11-13 es también el índice de producción**: no cargues en staging en modo append (escribiría en producción); una recarga bulk crea un índice nuevo y mueve solo el alias de staging · instancia apagada
 
 ## 1. Tablero
 
@@ -39,7 +39,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
-| 21 | Cursor → Claude Code (P-23) | C-01 T-06 a T-08 (H-2) | EN CURSO · T-06 hecho (H-2 aprobada); T-07 por Claude Code | 2026-11-13 | — | — |
+| 21 | Cursor → Claude Code (P-23) | C-01 T-06 a T-08 (H-2) | EN ESPERA · T-06 y T-07 hechos; T-08 desde el 2026-11-20 | 2026-11-13 | `dq-t21` | [R-21](bitacora/R-21.md) |
 
 ### 1.2 Paquetes de trabajo
 
@@ -56,7 +56,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
-| C-01 | Cierre: medición, publicación y documentación | EN CURSO · turno 21, T-06 pide H-2; sin publicar | 19, 20, 21 | 2026-11-13 |
+| C-01 | Cierre: medición, publicación y documentación | EN ESPERA · T-01 a T-07 hechos; publicado el 2026-11-13; T-08 (borrar el índice anterior) desde el 2026-11-20 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
 
@@ -84,12 +84,19 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-18 | 18 · Claude Code | APROBADO CON CORRECCIONES | Revisión independiente (P-21): migración del paso 9, prueba de nombres de `Movie`, precisión del README, texto en inglés; sobre de `data/*.json` a C-01 | `777cc1f` | [R-18](bitacora/R-18.md) |
 | R-19 | 19 · Cursor | APROBADO CON CORRECCIONES | 41 pruebas de integración en verde contra staging estricto (repetidas); informe v2 con origen de sinopsis y estado de las 10 recomendaciones | ver R-19 | [R-19](bitacora/R-19.md) |
 | R-20 | 20 · Cursor | APROBADO CON CORRECCIONES | Cifras de la documentación contra M3; sobre de `data/*.json` con el mapping del repo; frase del README; cierre del hito C | `b3ec13f` | [R-20](bitacora/R-20.md) |
+| R-21 | 21 · Cursor y Claude Code (P-23) | APROBADO · EN ESPERA de T-08 | Publicación comprobada: producción = M3; riesgos de los 7 días documentados (limpieza de huérfanos, staging = producción) | — | [R-21](bitacora/R-21.md) |
 
 ## 2. Próximo paso
 
-> **Turno 21 · Cursor, sigue con T-07.** H-2 está APROBADA (2026-11-13, «Apruebo H-2»). Corre
-> `python data-quality/scripts/publicar.py` y después el harness sobre producción, sin `ELASTIFLIX_INDEX_ALIAS`.
-> Producción debe quedar en M3 ±0.02; si no, `publicar.py --revertir <índice anterior>` y un bloqueo.
+> **C-01 T-08, desde el 2026-11-20** (7 días sin incidentes después de la publicación):
+> 1. Comprueba que `elastiflix-reloaded` siga en `elastiflix-dq-staging-20261113-195801` y que no haya incidentes
+>    anotados.
+> 2. `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
+> 3. Turno 21 y C-01 a `HECHA`, y Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
+>
+> Hasta esa fecha: no hagas una carga bulk en producción (la limpieza de huérfanos borraría el índice anterior y la
+> vuelta atrás) ni una carga append en staging (escribiría en producción). Si algo falla, la vuelta atrás es
+> `python data-quality/scripts/publicar.py --revertir elastiflix-reloaded-20261112-144129`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -161,20 +168,21 @@ staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-gener
 
 | Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | Producción final |
 |---|---|---|---|---|---|---|
-| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | |
-| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | |
-| `bm25_plot` | 0.24 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | |
-| `knn_plot_256` | 0.57 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | |
-| `knn_plot_512` | 0.65 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | |
-| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | |
-| `rrf_title_knn256` | 0.37 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | |
-| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | |
-| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | |
-| `rrf_plot_knn1024` | 0.50 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | |
+| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 |
+| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 |
+| `bm25_plot` | 0.24 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | 0.296 · 0.328 |
+| `knn_plot_256` | 0.57 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | 0.622 · 0.671 |
+| `knn_plot_512` | 0.65 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | 0.708 · 0.744 |
+| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | 0.745 · 0.784 |
+| `rrf_title_knn256` | 0.37 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | 0.425 · 0.390 |
+| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 |
+| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | 0.511 · 0.548 |
+| `rrf_plot_knn1024` | 0.50 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | 0.557 · 0.591 |
 
 M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
 M1 medida el 2026-11-12 20:20 UTC (turno 07) sobre el índice de staging `elastiflix-dq-staging-20261112-201036` (6 899 películas, commit `220a8ea`);
 M2 medida el 2026-11-13 18:02 UTC (turno 14) sobre el índice de staging `elastiflix-dq-staging-20261113-174106` (6 899 películas, commit `03b0b2e`);
+Producción final medida el 2026-11-13 21:04 UTC con el alias `elastiflix-reloaded` (índice `elastiflix-dq-staging-20261113-195801`, ya publicado): igual a M3 en las 10 configuraciones; `RelevanceIT` en verde con los umbrales nuevos.
 M3 medida el 2026-11-13 20:09 UTC (turno 19) sobre el índice de staging `elastiflix-dq-staging-20261113-195801` (6 899 películas, commit `bf5e446`, mapping `dynamic: strict`);
 `target/eval/report.md` lleva el índice de esta corrida en su segunda línea (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas: `bm25_plot` y `rrf_plot_*` siguen bajo los umbrales viejos, como prevé D-08). El log de la prueba es 2026-11-13T14:09:06-06:00.
 
@@ -491,3 +499,16 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   (`comprobar_staging`, de solo lectura) están en verde: 6 899 películas, mapping fiel y los tres vectores.
 - Evidencia: `es.py GET /_alias/…`; `publicar.comprobar_staging("elastiflix-dq-staging")`.
 - Para el siguiente: H-2 sigue ABIERTA. R-21 se escribe cuando el turno 21 publique (T-07) o pase a EN ESPERA.
+
+### 2026-11-13 21:03 UTC · publicar.py · publicación
+- `elastiflix-reloaded` apuntaba a `elastiflix-reloaded-20261112-144129` y ahora apunta a `elastiflix-dq-staging-20261113-195801`. El índice anterior no se borra: se conserva 7 días y después se elimina con `publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
+
+### 2026-11-13 21:10 UTC · Claude Code (Claude Opus 5.5) · ejecutor y revisor (turno 21, P-23)
+- Hice: C-01 T-07. `publicar.py` pasó sus comprobaciones y cambió `elastiflix-reloaded` a
+  `elastiflix-dq-staging-20261113-195801` (el anterior, `elastiflix-reloaded-20261112-144129`, se conserva). El
+  harness sobre producción da exactamente M3 en las 10 configuraciones. Documenté en `data/README.md` el índice vigente
+  y los dos riesgos de los 7 días. El turno queda EN ESPERA de T-08 (desde el 2026-11-20). Detalle en
+  `bitacora/R-21.md`.
+- Evidencia: `es.py GET /_alias/elastiflix-reloaded`; `target/eval/report.md` (21:04 UTC, `RelevanceIT` en verde).
+- Para el siguiente: C-01 T-08 desde el 2026-11-20 y la revisión final R-21b. La dueña del proyecto ya puede
+  desplegar la demo (R-19).
