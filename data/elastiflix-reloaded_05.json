@@ -1694,7 +1694,7 @@
    "video": false,
    "tagline": "Think this is what they do all day?",
    "overview": "The quiet life of a terrier named Max is upended when his owner takes in Duke, a stray whom Max instantly dislikes.",
-   "plot": "The quiet life of a terrier named Max is upended when his owner takes in Duke, a stray whom Max instantly dislikes.",
+   "plot": "A Jack Russell Terrier named Max lives with his owner Katie in a New York City apartment. While she is away, he socializes with other pets in the building: tabby cat Chloe, pug Mel, dachshund Buddy, and budgerigar Sweet Pea. One day, Katie adopts the Newfoundland Duke, making Max envious. Enraged by Max's attitude, Duke tries to abandon Max in an alley, but they are both attacked by cats led by the cockney accented Sphynx cat Ozone who removes their collars and leaves them to be caught by animal control. Duke fears that he will be killed if he goes back to the pound.\nMax and Duke are rescued by a rabbit named Snowball whom is the leader of \"the Flushed Pets\", a gang of drain-dwelling animals who hate humans because their owners abandoned them. After Max and Duke pretend to hate humans by saying they \"killed\" their owners, the Flushed Pets invite them to join. Before they can prove their loyalty through a viper bite, Snowball learns that Max and Duke are domesticated. With their cover blown, Max and Duke escape the drains and board a ferry to Brooklyn, inadvertently terminating the viper in the process. Snowball vows revenge and leads the Flushed Pets after them.\nMeanwhile, Gidget, a white Pomeranian who is in love with Max, discovers that he is missing and decides to find him, recruiting red-tailed hawk Tiberius to find Max. He returns with Ozone, whom Gidget coerces into telling what he knows about the dogs. They then enlist Mel, Buddy, Chloe, guinea pig Norman and Sweet Pea. On the way, they meet Pops, an old Basset Hound who helps Gidget and the pets find Max. Gidget and her team later encounter Snowball, who vows to kill them as well, and Norman is captured as the rest of Gidget's team escapes the drain.\nIn the meantime, Duke tells Max about his previous owner Fred, who adopted him as a puppy and loved spending time with him. One day, Duke got lost and was caught by animal control, but Fred never came to claim him. They visit Fred's house nearby, confident he will still love Duke and take him back, but they learn from the resident cat Reginald that Fred passed away. Heartbroken, Duke accuses Max of attempting to get rid of him and barks at the new homeowners who have just returned to the house and called Animal Control. The handlers catch Max, but Duke interferes long enough for Max to escape and ends up being recaptured instead.\nWhile trying to rescue Duke, Max is attacked by Snowball who tries to kill him. However, when his gang is captured, Snowball has to work together with Max to save them. They drive a bus into the animal control van on the Brooklyn Bridge, stopping traffic. The Flushed Pets encircle Max intending to harm him, unaware of Max's new partnership with Snowball, but they are saved by Gidget and her team. The van plummets into the East River as Max tries to free Duke, Snowball decides to jump into the river to give them the keys to Duke's cage and escape the van.",
    "genres": [
     "Adventure",
     "Comedy",
@@ -1810,7 +1810,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -7103,7 +7103,7 @@
    "video": false,
    "tagline": "All guns. No control.",
    "overview": "In 1970’s Boston, a meeting in a deserted warehouse between two gangs turns into a shoot-out and a game of survival.",
-   "plot": "Set in Boston in 1978, a meeting in a deserted warehouse between two gangs turns into a shoot-out and a game of survival.",
+   "plot": "On a cold night in 1978, while driving to meet IRA members Chris and Frank, Stevo tells Bernie that he was beaten up the previous day by the cousin of a woman he assaulted. The group meet outside a Boston warehouse with intermediary Justine, and a representative, Ord, leads them inside. The group is there to buy guns from arms dealer Vernon and his associates, Martin, Harry, and Gordon. Despite tensions between the two groups and the fact that Vernon supplied the wrong rifles, the weapons are unloaded from a van and Chris' group hands over the money in a briefcase.\nStevo realizes that Harry was the one who beat him up the day before, and refuses to go near him, irritating Frank. Harry eventually notices and lashes out at Stevo, furthering the tensions between the groups. Stevo seemingly apologises, but then brags about what he did to Harry's cousin. Infuriated, Harry shoots Stevo in the shoulder. Both groups split off and begin shooting at each other. Martin, who was holding the briefcase, is grazed by a bullet in the head and collapses. The briefcase now lies in the open, with Vernon attempting to coerce his men to get it.\nBernie is shot in the back by Vernon as he attempts to leave and dies shortly after. Soon, two hit-men with rifles begin shooting at both groups. One of them, Jimmy, is killed, and the other is recognised by Ord as Howie, who explains that he was hired to kill everyone and take the money. Before Howie can reveal who hired him, he is shot dead by Chris's group. Chris, defending Justine, requests that Vernon's group let her go. Gordon crawls after her, intent on killing her.\nAs the shooting continues, a telephone rings in one of the offices. Realising that they can call for backup, Chris sends the wounded Frank to the office, pursued by a wounded Vernon. Gordon chases Justine to the warehouse entrance, but she manages to kill him. As Chris, Ord, Stevo and Harry engage in another shootout, Vernon is severely burned by a fire set by Frank but manages to kill him as he reaches the phone.\nMartin suddenly regains consciousness and begins deliriously shooting at his own group. He reveals that he planned to double-cross Vernon and hired Howie and Jimmy to kill the others. Martin gets the briefcase, but soon dies from his injuries. After getting past Ord and Harry, Chris reaches the office and kills Vernon. Using the phone to call his associates, Chris is cut off by Ord while Harry distracts Stevo. Returning to the warehouse, Justine takes Jimmy's rifle but passes out.\nOne of Chris's associates, Leary, arrives at the warehouse in search of his IRA comrades, but is beaten to death by Harry. Taking the briefcase, Harry attempts to escape in the van while being fired at by Stevo and Ord. Harry runs over Stevo's head, killing him, but not before Stevo shoots Harry through the bottom of the van, killing him as well. The fire Frank caused spreads and the sprinklers come on.",
    "genres": [
     "Action",
     "Crime",
@@ -7175,7 +7175,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -15303,7 +15303,7 @@
    "video": false,
    "tagline": "There's a monster in all of us",
    "overview": "A woman discovers that severe catastrophic events are somehow connected to the mental breakdown from which she's suffering.",
-   "plot": "A woman discovers that severe catastrophic events are somehow connected to the mental breakdown from which she's suffering.",
+   "plot": "Gloria is an unemployed writer struggling with alcoholism. Her boyfriend Tim, frustrated with her behavior, breaks up with her and kicks her out of their New York City apartment. Moving back to her family home in Mainhead, New Hampshire, Gloria reunites with her childhood friend Oscar, who now runs his late father's bar. Oscar warmly welcomes Gloria and offers her a job at the bar, which she accepts.\nWorking at the bar aggravates Gloria's alcoholism; she often drinks with Oscar and his friends, Garth and Joel, until morning, then sleeps it off in her nearly empty childhood home. At the same time, a giant reptilian monster appears in Seoul, leaving death and destruction in its wake. Gloria realizes that when she walks through a local playground at exactly 8:05 am, she causes the monster to manifest and can remotely control it.\nGloria shares her discovery with Oscar and his friends by dancing in the playground while they watch a newsfeed of the monster mimicking her movements. A helicopter launches a missile at the monster, causing Gloria pain. Gloria lashes out, destroying the helicopter, and killing the pilots. Horrified at what she has done, she collapses, causing widespread destruction. She awakens to find that a delighted Oscar also manifested in Seoul, but as a giant robot. Gloria tries to make amends by having the monster spell out an apology in Korean, to the delight of the South Korean people and media, and begins avoiding both the playground and alcohol.\nAfter spending the night with Joel, Gloria discovers a drunken Oscar controlling the robot to taunt South Korea. After a tense confrontation, she makes him leave. Oscar thinks something happened between Gloria and Joel, becoming jealous. That night, he drunkenly insults his friends at the bar and demands Gloria have a beer, threatening to return to the playground if she refuses. The next morning, a sober Oscar apologizes to Gloria.\nTim pays a visit to Gloria but is irritated by her living situation before apologizing. Upon meeting Tim at the bar, Oscar provokes a confrontation by setting off a giant firework indoors. Tim tries to get Gloria to leave with him, but she stays to curb Oscar's destructive behavior. Oscar visits Gloria's house to prevent her from leaving, and Gloria recalls their childhood; as a child, Gloria made a paper diorama of Seoul as a school project, which was blown into what would later become the playground; a young Oscar retrieved it but destroyed it out of jealousy. Gloria's anger triggered lightning which strikes both of them, as well as their toys—Gloria's being a reptilian monster, and Oscar's being a robot.\nIn the present, Gloria recognizes that Oscar's manipulative behavior arises from his self-hatred at never having amounted to anything; the robot manifests as his way of making himself feel important. After deciding to leave town, Gloria races Oscar for the playground. Oscar incapacitates her and destroys a large portion of Seoul, killing hundreds of people.",
    "genres": [
     "Drama",
     "Fantasy",
@@ -15416,7 +15416,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -17686,7 +17686,7 @@
    "video": false,
    "tagline": "Office Space Meets Battle Royale.",
    "overview": "A group of eighty American workers are locked in their office and ordered by an unknown voice to participate in a twisted game.",
-   "plot": "A group of eighty American workers are locked in their office and ordered by an unknown voice to participate in a twisted game.",
+   "plot": "Mike Milch and Barry Norris, employees of Belko Industries, arrive at their office building in Bogotá, Colombia, to find unfamiliar security guards turning away local Colombian staff at the gate. New employee Dany Wilkins reports for her first day and is told that a tracking device is implanted in the base of every Belko employee's skull in case of kidnapping. Once all employees arrive, a voice on the intercom instructs them to kill two of their co-workers within 30 minutes, or else there will be consequences. Steel shutters seal off the building, locking them all inside. They ignore the announcement at first, believing it to be a sick prank, but after 30 minutes pass and two have not been killed, four employees die when explosives hidden in their trackers detonate and blow their heads apart. Mike attempts to remove his tracker with a box cutter, but he gives up when the voice threatens to detonate his explosive unless he stops.\nThe group is told that unless 30 of them are dead within two hours, 60 will be killed. They split into two factions, one led by Mike, who believes there should be no killing, and one led by Barry, who intends to follow the directions to save himself. Barry and his group, including executive Wendell and employees Terry, Antonio, and Bradley, attempt to burn off the lock of the armory to gain access to its weapons. Mike and his group, including his girlfriend, Leandra Florez, Evan, and employees Keith, Leota, Peggy, Vince, and Roberto, try to hang banners from the roof as a call for help, but soldiers outside shoot at them. Barry, Wendell, and Terry ambush the group in the stairway, kill Evan, and take his keys to the armory.\nWith their group now armed, Barry and Wendell select 30 people, including Mike and Peggy, forcing them to kneel in a line. Barry begins executing them. Dany, who has been hiding in the basement, sees what is happening and shuts off the building's lights before Mike and several others can be killed. The employees run for cover as Barry and his group start firing, killing several more. However, employees gang up on Bradley and Antonio and kill them. Meanwhile, Dany goes into the elevator shaft with Roberto.\nBarry and Wendell hunt down the fleeing employees as the voice informs them that only 29 have been killed. When the two-hour time limit runs out, 31 more people are killed by their trackers, including Terry, Leota, Peggy, and Keith, leaving only 16 survivors. They are then informed by the voice that, as a final task, the employee who has killed the most people within an hour will be spared. Barry finds Dany and Roberto in the elevator shaft. Dany escapes while Roberto is crushed and killed by the elevator. Leandra finds two employees, Marty and Chet, collecting unexploded trackers from the heads of people who have died by other methods. They tell her they plan to use them to blow up the wall. However, they are killed by Wendell.",
    "genres": [
     "Horror",
     "Thriller"
@@ -17807,7 +17807,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -24302,7 +24302,7 @@
    "video": false,
    "tagline": "Victory is the only option",
    "overview": "A rag tag unit of misfits known as the War Pigs must go behind enemy lines to exterminate Nazis by any means necessary.",
-   "plot": "A rag tag unit of misfits known as the War Pigs must go behind enemy lines to exterminate Nazis by any means necessary.",
+   "plot": "Disgraced World War II United States Army Captain Jack Wosick is given the opportunity for redemption when asked to lead a rag-tag unit of misfits known as the War Pigs on a secret mission to go behind enemy lines to gather intelligence on a Nazi developed Super Weapon the V-3, a massive artillery cannon which would give the Nazis an insurmountable advantage against the Allies. With the help of Captain Hans Picault, a German anti-Nazi serving with the French Foreign Legion and Colonel A.J. Redding, a battle hardened WW1 veteran, Jack must train, lead and earn the respect of his new squad to become a functioning reconnaissance unit.",
    "genres": [
     "War",
     "Action"
@@ -24354,7 +24354,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -40903,7 +40903,7 @@
    "video": false,
    "tagline": "Roaring soon",
    "overview": "A railroad worker in China in 1941 leads a team of freedom fighters against the Japanese in order to get food for the poor.",
-   "plot": "A railroad worker in China in 1941 leads a team of freedom fighters against the Japanese in order to get food for the poor.",
+   "plot": "In 2016, at a school field trip, a small child sneaks into an old train and notices a glowing rock inside a locomotive's coal compartment.\nIn December 1941, Japan expands the occupation of its neighbouring countries to Southeast Asia. The railway from Tianjin to Nanjing in East China became a key military transportation route, heavily guarded by Japanese Guizi. Railroad worker Ma Yuan (Jackie Chan) leads a team of freedom fighters. Using his deep knowledge of the train network, he and his men sabotage it, ambushing Guizi and knock them unconscious. After stripping them and drawing tigers with wings on their bodies, they escape from the trains, but not before stealing supplies to feed the starving Chinese. The local Chinese call the unlikely heroes the “Railroad Tigers”.\nAt night, Ma's house wall is broken by a Chinese soldier fleeing a mob of Guizi. They allow him to hide while the mob searches his house. He is on a mission to detonate a bridge to delay the Japanese advancement of the area. Despite a major leg injury, he asks them to put him on a train back to rejoin the army. The train is intercepted and he is shot. Ma decides to fulfill his mission and creates a plot with his friends to destroy the bridge.\nAlthough the freedom fighters have no weapons of their own, they employ whatever tools are at hand, including a hammer and shovels, loose railway track planks and diverted trains. At a railway depot, they improvise a pulley system which allows them to both pull out packages of ammunition and incapacitate the Guizi guarding the warehouse. When escaping on a nearby train, they are surrounded and outgunned by Guizi, but still manage to escape by throwing onboard packages of food at them and outsmarting them with guerilla tactics.\nThey are finally arrested but the Guizi's translator is more annoying than them and derails their questioning. With Ma and one of his accomplices locked in a cage and put on a train to be sent to punishment, the train is again intercepted by his band. Initially their efforts are not good enough until the guards watching over them are shot by a particularly sharp PLA shooter on horseback who joins them in the act.\nDonning uniforms from Guizi they incapacitated, they sneak onto another supply train which is set to travel on the bridge they want to blow up. Slowly, they are able to use the weapons travelling onboard the train to take control of it despite multiple fights with enemy generals who continue to survive and fight back against all odds. The team splits with some being thrown off the train.\nThe locomotive's water tank is ruptured and the train comes to a halt just before the bridge. One of the team members who fell behind hijacks a second locomotive right behind it, destroys the brake and jumps out. The locomotive pushes them onto the bridge.\nThey are surrounded by Guizi soldiers until PLA infantry catches up and engages them.",
    "genres": [
     "Action",
     "Adventure",
@@ -41012,7 +41012,7 @@
     "普通话"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -46211,7 +46211,7 @@
    "video": false,
    "tagline": "Young. Handsome. And cunning.",
    "overview": "A group of wealthy boys in Los Angeles during the early 1980s establishes a get rich quick scam that turns deadly.",
-   "plot": "A group of wealthy boys in Los Angeles during the early 1980s establishes a get rich quick scam that turns deadly.",
+   "plot": "Led by their fellow preppie friend Joe Hunt, a group of wealthy young men in 1980s Los Angeles come up with a plan to get rich quick with a Ponzi scheme. The plan ends badly for all involved when Hunt and friend Tim Pittman end up murdering investor and con man Ron Levin.",
    "genres": [
     "Drama",
     "Thriller"
@@ -46330,7 +46330,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "rating": "tmdb_api_2026-10-22",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
@@ -58236,7 +58236,7 @@
    "video": false,
    "tagline": "Don't fade away",
    "overview": "A young woman dealing with anorexia meets an unconventional doctor who challenges her to face her condition and embrace life.",
-   "plot": "A young woman dealing with anorexia meets an unconventional doctor who challenges her to face her condition and embrace life.",
+   "plot": "Ellen is a 20-year-old college dropout dealing with anorexia, who returns home to the house of her stepmother and father after struggling through an in-patient program and failing to make any progress. With her absentee father unwilling to deal with her, Ellen's stepmother, Susan, sets her up with a specialist, Dr. William Beckham, who insists that Ellen join his patient program. Ellen is reluctant to do so, but her mind is changed by her younger half sister, Kelly.\nEllen moves into the house with six other patients, who include five young women and Luke, an upbeat ballet dancer, who is near recovery from both his anorexia and a knee injury. Luke acts as a moral cheerleader for the others and takes a special interest in Ellen, eventually revealing that he is a fan of Ellen's art.\nAt a family-therapy session with Beckham, Ellen's father fails to show up. Until 18 months earlier, Ellen was living with her mother, who abandoned her to move to Phoenix, Arizona, with a lesbian partner. It is revealed that previous artwork she had posted on Tumblr was cited as an influence by a girl who later died by suicide. Ellen promises to try to do better, but instead continues to lose weight.\nEllen makes headway, changing her name to Eli and bonding with the other members of the house. She is surprised, however, when Luke kisses her and admits he is starting to fall in love with her. She panics and quickly rejects him.\nLater on, she learns that Megan, another woman in the house, miscarried her baby, having resumed her purging after reaching 12 weeks gestation and believing it was safe. The event sends Eli into a tailspin, and she decides to leave.\nOn Eli's way out, Luke begs her to stay, telling her that he needs her, as he realizes that his knee condition is permanent and he will never be able to properly dance again and needs something new on which to focus. Eli leaves anyway.\nNear death, Eli goes to her mother's home. That night, her mother expresses guilt for the postpartum depression she had after giving birth to Ellen and suggests that she might try feeding Eli with a bottle while rocking her to help solve both their issues. Eli finds the idea strange, but after her mother tells her that she accepts if she chooses death, she decides to go along with the idea and allows herself to be rocked while her mother holds her in her lap and feeds her rice milk from a bottle.\nAfter eating, Eli goes for a walk at night. Passing out, she hallucinates that she is in a tree where she kisses Luke, who is able to get her to see how sick she is. He gives her a piece of coal that represents her courage, and she swallows it.\nWaking up from her dream, Eli decides to return home. She embraces her stepmother and her half sister before continuing on in Beckham's patient program.",
    "genres": [
     "Drama"
    ],
@@ -58330,7 +58330,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -60881,7 +60881,7 @@
    "video": false,
    "tagline": "Based on true events.",
    "overview": "Austrian farmer Franz Jägerstätter faces the threat of execution for refusing to fight for the Nazis during World War II.",
-   "plot": "Austrian farmer Franz Jägerstätter faces the threat of execution for refusing to fight for the Nazis during World War II.",
+   "plot": "Austrian peasant farmer Franz Jägerstätter, born and brought up in the small village of St. Radegund, is working his land when war breaks out. Married to Franziska, colloquially Fani, the couple are important members of the tight-knit rural community. They live a simple life with the passing years marked by the arrival of the couple's three girls.\nFranz is called up for basic training in the German army and is away from his beloved wife and children for months. Eventually, when France surrenders and it seems the war might end soon, he is sent back from training.\nWith his mother and sister-in-law Resie, he and his wife farm the land and raise their children amid the mountains and valleys of upper Austria, cutting hay and gathering. As the war goes on, Jägerstätter and the other able-bodied men in the village are called up to fight. Their first requirement is to swear an oath of allegiance to Adolf Hitler and the Third Reich.\nDespite pressure from the mayor and his neighbors, who increasingly ostracize him and his family, and from the Bishop of Linz, Jägerstätter refuses. Wrestling with the knowledge that his decision will mean arrest and even death, he finds strength in his faith in God, his prayers, and Fani's love and support.\nFranz is taken to prison, first in Enns, then in Berlin and waits months for his trial. During his time in prison, he and Fani write letters to each other and give each other strength. Fani and their daughters are victims of growing hostility in the village over her husband's decision not to fight. Fani is eventually able to visit her husband in Berlin.\nAfter months of brutal incarceration, Jägerstätter's case goes to trial. He is found guilty and sentenced to death. Despite many opportunities to sign the oath of allegiance, and the promise of non-combatant work, he continues to refuse and is executed by the Third Reich on August 9, 1943, while his wife and daughters survive.",
    "genres": [
     "Drama",
     "War",
@@ -60997,7 +60997,7 @@
     "Deutsch"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -61670,7 +61670,7 @@
    "video": false,
    "tagline": "Think fast. Drive faster.",
    "overview": "Master car thieves square off against French gangsters in the South of France with money, women and lives all on the line.",
-   "plot": "Master car thieves square off against French gangsters in the South of France with money, women and lives all on the line.",
+   "plot": "Half-brothers Andrew and Garret Foster operate as international car thieves, targeting high-end of the market vehicles. They steal a rare Bugatti in transit after it is purchased at auction in France, unaware that the car was bought by Marseille crime boss Jacomo Morier.\nMorier's men capture the Fosters when they try to sell the car and take them to his house, where he shows them his garage full of cars. He then means to shoot them but, to escape their punishment, the brothers offer to help Morier complete his collection by stealing a rare 1962 Ferrari 250 GTO (worth $38,000,000) owned by ruthless tycoon and rival, Max Klemp. He agrees but sets the condition that the theft must be carried out within one week.\nThe brothers hurriedly recruit a team in Marseille to carry out the job, including Andrew's girlfriend Stephanie and her pickpocket friend Devin. Andrew tells Garret that this will be his last job. They also have to cope with Morier's cousin Laurent overseeing their operation, as well as a pair of Interpol agents. Garret, who had recently been conned by a woman who pretended to fall in love with him, begins a relationship with Devin.\nFor insurance, Morier's men kidnap Stephanie in the Marseille marketplace. Andrew and Garret arrive in their flat and Devin tells them Stephanie has been taken. They head to Morier's house to find Stephanie bound and gagged under a spinning car wheel, which Laurent threatens to lower onto her face. Andrew and Garret promise to finish the job in order to save Stephanie.\nWhen the day of the robbery comes, the brothers put their plan into effect. Stephanie, locked in a room in Morier's house, attempts to seduce Laurent and fails, although she manages to steal his key to the door and escape. She sets off the house alarms and leaves with a rifle to meet Andrew, Garret and their team at the door.\nMorier realises that the events that led up to this point have been part of an elaborate diversion to allow them to steal his own car collection. Morier only understands what is happening as the gang are making their escape and he chases them to the docks.\nDuring the pursuit, Andrew proposes to Stephanie and she agrees to marry him. In a final confrontation, Morier is killed when his Maserati Quattroporte is rammed into the water by a large motor coach driven by Devin. Devin leaves, promising to call Garret.\nAndrew and Garret give all of Morier's cars to Klemp, revealing that this had been the plan all along, and that they had partnered with him to get back at Morier. In a further plot twist, the two Interpol agents were also partnered with Klemp. But as Devin leaves, she has in her hand the code to the garage where Klemp keeps his prized Ferrari.\nGarret, Stephanie and Andrew are later seen together in Paris. Garrett fears he has been stood up again when Devin shows up in Klemp's Ferrari and gives the keys to Andrew. When Andrew then gives the car to Garret, Garret thinks this means Andrew is leaving the business.",
    "genres": [
     "Thriller",
     "Action",
@@ -61723,7 +61723,7 @@
     "Deutsch"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -70477,7 +70477,7 @@
    "video": false,
    "tagline": "Chip Happens",
    "overview": "The adventures of two California Highway Patrol motorcycle officers as they make their rounds on the freeways of Los Angeles.",
-   "plot": "The adventures of two California Highway Patrol motorcycle officers as they make their rounds on the freeways of Los Angeles.",
+   "plot": "In Miami, FBI Agent Castillo takes down a crew of bank robbers. At the same time, former motocross racer Jon Baker enrolls in the California Highway Patrol Academy. Despite his low aptitude scores, Sgt. Gail notes that he can ride a motorcycle better than the majority of cadets and grants him a probationary graduation.\nOn a California highway, a crew of bikers attacks an armored van. One member, \"LT\", accuses the guard and his CHP closet boyfriend TJ of stealing from him. As punishment, LT informs TJ over the police frequency that he must choose who lives; he or his boyfriend. TJ ultimately kills himself.\nIn Miami, Castillo is informed that the CHP have requested the FBI's help in the armored van heist, believing that a corrupt police ring is involved. Given the alias Francis Llewellyn \"Ponch\" Poncherello, he is partnered with Baker before visiting TJ's widow at home. Baker notes that there is not a single item a helicopter pilot would have in the house and identifies the bikes used in the heist as the Ducati Hypermotard 939.\nThe bike gang makes another attempt on an armored van. The crew evade Ponch and Baker on the faster Ducatis after a lengthy chase through Elysian Park. LT, wary of Ponch's extensive investigations into the heists, finds out from his FBI contacts that he is undercover.\nPonch obtains a lead on an apartment TJ tenanted, concluding that TJ must have been corrupt as it would not have been affordable on his salary. Ponch and Baker re-visit TJ's home. Though getting involved in a fight with Parish, Ponch recognizes that he is not in on the corrupt circle, after he suggests that \"LT\" could stand for Lieutenant. They later arrive on the profile of Lieutenant Ray Kurtz but have no evidence to pin him to the heists.\nThe FBI pick up on a lead to a drug house in Venice, prompting Ponch and Baker to respond. During a lengthy pursuit with one of the crew members, Officer Brian Grieves secretly informs LT that the suspect involved is his son. While crossing a bridge, the suspect is decapitated by a recovery vehicle's extended industrial wire. LT arrives and crashes into Baker, who was in pursuit. Parish arrives in his police helicopter and airlifts an unconscious Baker to the hospital.\nPeterson fires Ponch for disobeying his orders to stay far from the FBI's lead. Baker also discovers that his ex-wife Karen, who he had been living with, has sold the house while he was in the hospital without telling him. At Ponch's, Baker identifies the decapitated biker as former motocross racer Raymond Reed Kurtz Jr., who is Ray's son, confirming their suspicions.\nRay kidnaps Karen, holding her hostage at his safe house. Ponch and Baker rescue her as Officer Ava Perez arrives with back up but are attacked by Ray's associates. Ray shoots off three of Ponch's fingers, leaving him unable to return fire, so he must rely on Baker's poor aim to retaliate.",
    "genres": [
     "Action",
     "Comedy",
@@ -70566,7 +70566,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -70584,7 +70584,7 @@
    "video": false,
    "tagline": "Risk everything... for love.",
    "overview": "A teenager who's lived a sheltered life because she's allergic to everything, falls for the boy who moves in next door.",
-   "plot": "A teenager who's lived a sheltered life because she's allergic to everything, falls for the boy who moves in next door.",
+   "plot": "In suburban Los Angeles, 18-year-old Maddy Whittier is being treated for the immune disorder SCID by her mother, Pauline. Her nurse, Carla, has helped take care of Maddy for 15 years. Pauline constantly monitors her daughter's health status and provides daily medication. Only she, Carla, and Carla's daughter, Rosa, are allowed in the home. Maddy is not allowed to leave the house or interact with anyone or anything that has not been \"sanitized.\" She yearns to see the world, especially the ocean.\nOne day, a new family moves next door, and their son, who is Maddy's age, catches her eye. Later that night, while she and Pauline are watching a movie, the boy and his sister appear on their doorstep, offering a bundt cake. Pauline politely rejects it, and as she is closing the door, the boy asks where her daughter is. She lies, telling him Maddy is not home. As Pauline sees Maddy's desire to get to know the boy, she tries to block off all opportunities for her to contact him. It is also revealed that his father is violent and their relationship is strained.\nLater, the boy writes his phone number on his window for Maddy and soon they begin communicating through text messages. He introduces himself as Olly, and they email for a while, getting to know each other and eventually growing very fond of each other. Knowing her mother would disapprove, Maddy convinces Carla to secretly let Olly visit her inside the house, though Carla makes them promise to stay on different sides of the room from each other. She later invites Olly over on the Fourth of July, as her mother is working that day. Maddy and Olly share a passionate kiss as fireworks go off outside.\nThe next day, Maddy sees Olly fighting with his father outside. When his father shoves him to the ground, she, to Pauline's shock, rushes outside to comfort Olly. Deducing that Maddy and Olly have been seeing each other behind her back, she forbids their relationship and later fires Carla for betraying her trust. Maddy decides it is time she took matters into her own hands, and using a credit card she had previously opened online, she buys tickets to Hawaii, and convinces Olly to go there with her. On the way to the airport, Olly calls his sister, Kara, telling her that he is going to Hawaii with Maddy for a couple of days and to take care of their mother.\nIn Hawaii, they share a romantic and life-changing experience. Pauline sends a police car to find Maddy, and when she spots Kara walking by the house, she asks if she knows where Maddy and her brother are but denies it. During the trip, Maddy passes out and Olly rushes her to the hospital and she wakes up back in bed at home. She breaks off contact with Olly as she does not want to make another mistake over love again; therefore, she is unable to say goodbye when his mother finally decides to leave his father, taking Olly and his sister back to New York with her.",
    "genres": [
     "Drama",
     "Romance"
@@ -70680,7 +70680,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -78726,7 +78726,7 @@
    "video": false,
    "tagline": "Starting over is not for beginners.",
    "overview": "Life for a single mom in Los Angeles takes an unexpected turn when she allows three young guys to move in with her.",
-   "plot": "Life for a single mom in Los Angeles takes an unexpected turn when she allows three young guys to move in with her.",
+   "plot": "Alice Kinney is the daughter of film director John Kinney, who made several prominent personal-focused films in his life but died some years ago. As she hits her 40th birthday, she is currently separated from her husband Austen, who has stayed in New York in his role as a music producer. Alice has moved back into her father's Los Angeles home with her daughters, Isabel and Rosie, to be closer to her mother, Lillian. She is also attempting to start her own interior design business.\nWhile out for a drink with her friends, Alice encounters Harry, George, and Teddy, three aspiring filmmakers. They have come to LA to make a pitch to possible producers, after a short film they presented at a film festival received positive acclaim. Despite the three being in their late twenties, they hit it off with Alice and her friends, with Alice nearly sleeping with Harry before he passes out from intoxication.\nThe next morning, George discovers a room containing John Kinney's old scripts and awards and realizes Alice's family history just as Lillian, Isabel, and Rosie return from the girls' night with their grandmother. Alice takes the girls to school while Lillian offers the young men breakfast. She is so won over by their compliments of John's old films that she offers them the guest house while they make their pitch.\nAs the three stay in the house, they all become an important part of Alice's routine, as she develops a potential romantic interest in Harry while Teddy helps her set up a website for her business. George encourages Isabel to enter a script-writing contest at school as part of an effort to pursue her own literary aspirations, with Isabel coming to rely on George for emotional support to deal with anxiety issues when it comes to her writing.\nThe three young men also meet with Justin Miller, a director potentially interested in funding their project, despite his past work focusing on horror movies. As Alice and Harry grow closer, she invites him to join her for dinner with a couple of her friends. He has a meeting with Miller about further funding opportunities that runs over, prompting Alice to call off their potential romantic relationship the following morning.\nAlice is depressed when she realises her first potential client has basically been treating her more like general hired help without taking any of her design suggestions seriously. She is further thrown when Austen unexpectedly arrives in Los Angeles, claiming that he is uncomfortable about having three strangers living with his family. When Harry learns that Teddy and George have been pursuing independent projects, he becomes bitter at the belief that they have no faith in his own work, prompting him to leave the house.\nTeddy's dislike of Austen's subtle manipulations culminates in a fistfight between them just as Alice returns from picking up her daughters from school.",
    "genres": [
     "Comedy",
     "Drama",
@@ -78818,7 +78818,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -80434,7 +80434,7 @@
    "video": false,
    "tagline": "We all pay for our crimes in the end.",
    "overview": "The 47-year old Al Capone, after 10 years in prison, starts suffering from dementia and comes to be haunted by his violent past.",
-   "plot": "The 47-year old Al Capone, after 10 years in prison, starts suffering from dementia and comes to be haunted by his violent past.",
+   "plot": "On Thanksgiving 1945, Alphonse Capone, the notorious mob boss of Prohibition-era Chicago, lives at his Florida estate with his wife Mae after being paroled from prison due to the effects of neurosyphilis and a stroke. He continues to decline physically and mentally, and is troubled by thoughts of an illegitimate son who rarely calls.\nMae struggles to pay the family's expenses by selling luxury items from the estate, as federal investigators monitor them constantly. Capone's physician, Dr. Karlock, advises Mae to keep his surroundings familiar by finding a way not to have to move. Johnny, an acquaintance from Chicago, visits and takes Capone fishing. During the outing Capone tells Johnny that he hid $10 million and can't remember where. Later, as Capone is talking to Johnny on his terrace, he tells Mae to bring Johnny a drink. Mae tells him that no one is there, leading to a brief fight and a check-in from Gino, who heads Capone's security detail.\nLater that night Capone does not recognize Mae and tells the police that he has been kidnapped. He sees a young boy with a newsie cap and gold balloon walk past and follows the boy through a series of dreams about his Chicago years. These include singing a duet with Louis Armstrong, watching Gino stab a traitor to death, being seduced by a woman who offers clues about the treasure, and finally crawling over the bodies of shootout victims. Mae finds him on the floor paralyzed from another stroke.\nKarlock meets with his federal contacts and asks for more time to get information. At the estate, he explains Capone's condition to Mae, Capone's brother Ralph and his son Alphonse Junior. During motor rehabilitation therapy Karlock asks Capone to draw a picture of a bag of money. Junior examines Capone's drawings and finds one of the boy with the balloon, which Capone says is his son Tony. As Capone continues drawing later, Ralph urges him to share any secrets he's keeping before he dies. At dinner Capone is upset by the sight of Gino cutting meat, which reminds him of his earlier dream. As Capone lies in bed afterward, Johnny appears and forgives Capone for killing him years ago, then cuts out his own eyes and offers them to help Capone find the treasure.\nDesperate for a breakthrough, the federal agent overseeing the surveillance questions Capone. Capone stirs when asked about the money but says nothing. Angered, the agent threatens to monitor his family for the rest of their lives. Capone goes missing on the estate; a groundskeeper finds him with a gold-plated tommy gun. Gunfire sounds across the estate, and Capone is seen walking around with the gun, shooting Gino and anyone else in sight. Remembering the dream woman's clues, he dives into his lily pond, which swells into a wave and washes him into a picturesque Italian farm scene. He sees the gold balloon rise into the sky and the boy smiles down at him. Gino and the family find him lying on the floor and the groundskeeper nearby with a shot-out knee.",
    "genres": [
     "Crime",
     "Drama"
@@ -80513,7 +80513,7 @@
     "Italiano"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -81501,7 +81501,7 @@
    "video": false,
    "tagline": "The storm of the century... the heist of a lifetime.",
    "overview": "Thieves attempt a massive heist against the U.S. Treasury as a Category 5 hurricane approaches one of its Mint facilities.",
-   "plot": "Thieves attempt a massive heist against the U.S. Treasury as a Category 5 hurricane approaches one of its Mint facilities.",
+   "plot": "In 1992, a category 5 hurricane named \"Andrew\" hits the town of Gulfport, Alabama. Will and Breeze Rutledge are evacuating from the destructive hurricane with their dad. However, their truck becomes stuck after avoiding the toppling tree in front of them, and they are forced to take refuge in a nearby house. While trying to save the truck from blowing away, strong winds blow a water tank and it crushes their father.\nIn 2018, another destructive category 5 hurricane named \"Tammy\" approaches Gulfport. Federal Reserve Treasury agent Casey Corbyn is ordered by fellow employee Randy Moreno to summon Breeze, who now works in maintenance and whose brother Will is a National Weather Service meteorologist, to fix the generator at a cash storage facility.\nWhile she is out of the facility, rogue Treasury agents led by Connor Perkins infiltrate the facility and hold Moreno hostage. Their plan is to steal $600 million, and Perkins enlists computer hackers Sasha and Frears to crack the code of the vault. Failing to decrypt it, Perkins realizes that Corbyn may have changed it, so he has his men find her. Sasha and Frears have to use a brute-force attack using the town's transmission tower.\nAs Corbyn and Breeze drive back to the facility, they encounter the mercenaries, and Corbyn engages in a shootout with them. Will helps her escape with his Storm Research Vehicle called the Dominator, but Breeze is left behind and is captured and taken hostage, forced to repair the generator.\nWill is upset when he learns that his brother is in danger. Determined to save him, he and Corbyn meet Sheriff Jimmy Dixon at his station. Unfortunately, Dixon reveals himself to be one of Perkins' cohorts and tries to take Will and Corbyn hostage. Corbyn shoots the sheriff, and they escape. When Dixon and one of his deputies chase them, Will manages to knock their car with his Dominator. Realizing that the tower is being used to crack the vault's code, Will and Corbyn manage to topple it moments before the decryption is completed. Perkins' men spot them and engage in a gunfight with them, but they escape. Dixon turns on Perkins, confronting him over a botched heist in the previous hurricane. When Dixon wants to claim all the money, Perkins shoots him dead and convinces Dixon's men to work together and find Corbyn.\nWhile looting a mall, Corbyn calls Perkins and makes a deal for the release of Moreno and Breeze as long as she opens the vault and takes the money. When Perkins asks where the trade will be conducted, Corbyn tells him to meet them at the Gulfport mall. Meanwhile, Will and Corbyn make a plan to shoot the roof glass, causing Perkins's men to be sucked out through the roof. After Will talks to Breeze, who has arrived with the defecting Officers, Corbyn shoots the glass roof, sucking them out into the storm as planned. Corbyn, Will, and Breeze manage to hold on. After the storm surge, Corbyn gives herself up while Breeze rescues the stranded Will.",
    "genres": [
     "Action",
     "Crime",
@@ -81579,7 +81579,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85162,7 +85162,7 @@
    "video": false,
    "tagline": null,
    "overview": "A headstrong young girl in Afghanistan, ruled by the Taliban, disguises herself as a boy in order to provide for her family.",
-   "plot": "A headstrong young girl in Afghanistan, ruled by the Taliban, disguises herself as a boy in order to provide for her family.",
+   "plot": "In 2001, Parvana is an eleven-year-old girl who lives in Kabul under the Taliban's Islamic Emirate of Afghanistan just as the war on terror is beginning. Her father, Nurullah, is a former school teacher who became a hawker after losing his left leg in the Soviet–Afghan War. One day, during supper, he is unjustly arrested after Idrees, a young and volatile Taliban man who was a former student of his, thinks he insulted him earlier while the two were selling goods in the market. Because the Taliban forbids women from going out without a male relative, Parvana's family is left without someone to support them, as her elder brother Sulayman died years ago, leaving her, her mother Fattema, her elder sister Soraya, and her youngest infant brother Zaki. When Parvana and Fattema try to go to the prison to appeal Nurullah's arrest, a man beats Fattema, while other men watch, after she shows him a photograph of Nurullah and threatens to arrest them if they go outside again. Parvana comforts Zaki by telling the story of a boy on a quest to retrieve his village's seeds from an evil elephant named the Elephant King.\nLater, Parvana tries to buy food for her family, but the hawkers cannot sell her any due to fear of the Taliban. A few men spot Parvana and chase her, and she drops the bag Fattema gave her while running. Parvana eventually makes it back home. To support her family, she decides to cut her hair and dress as a boy. She starts calling herself \"Atesh\", claiming to be Nurullah's nephew. The plan works, and Parvana is able to get both food and money. On the advice of a friend named Shauzia, who is another young girl disguised as a boy called Delowar, Parvana tries to bribe a prison guard so she can see Nurullah, but the guard sends her away, and so she works to save up more money for a larger bribe, taking on hard labor jobs with Shauzia, who is trying to save enough money to escape her abusive father. Meanwhile, Fattema is forced to write to a relative in Mazar, arranging marriage for Soraya in exchange for shelter and protection. Parvana also meets Razaq, the former patrol partner of Idrees; the illiterate Razaq pays her to read him a letter informing him that his wife was killed by a land mine. He befriends her and continues to meet with her so that she can teach him how to read and write.\nParvana and Shauzia take a hard labor job where Idrees was also present. He makes fun of them for their weakness when Shauzia rests, and shoves Parvana onto the ground. Looking into her eyes, he recognizes her, and after being hit abruptly by Parvana with a brick, tries to kill her as she flees with Shauzia. Parvana and Shauzia manage to hide, and Idrees is abruptly called away to fight in the United States invasion of Afghanistan. When Parvana returns home, Fattema pleads with her to stop the dangerous plot, telling her that her relatives accepted Soraya and that they will be collected the day after next.",
    "genres": [
     "Animation",
     "War",
@@ -85283,7 +85283,7 @@
     "Italiano"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -97067,7 +97067,7 @@
    "video": false,
    "tagline": "In search of salvation, he'll make the city rain blood.",
    "overview": "After sparing a girl's life during a massacre, an elite Triad assassin is targeted by an onslaught of murderous gangsters.",
-   "plot": "After sparing a girl's life during a massacre, an elite Triad assassin is targeted by an onslaught of murderous gangsters.",
+   "plot": "Ito is one of six elite enforcers for the South East Asian Triad, known as the Six Seas (Indonesian: enam laut). After massacring a village due to few villagers having stolen Triad drugs, Ito discovers a young survivor named Reina. Ito feels remorseful and kills all the Triad soldiers present. Ito later returns to his childhood home of Jakarta and hides Reina in his ex-girlfriend Shinta's apartment. Shinta treats his wounds and calls in Fatih, a former friend and member of Ito's old gang. Fatih relocates them to his own apartment and brings in his cousin Wisnu and another member of the old gang named \"White Boy\" Bobby, a drug addict who has lost his leg. He also arranges for Ito and Reina to get new passports and escape the country.\nThe last member of Ito's old gang whom Ito was closest to, Arian, has moved to Macau where he is running a club for the Triad. Arian brutally slaughters random crooks when they beat up one of his waitresses and take her hostage at the club. A member of the Six Seas named Chien Wu, calls him in to help kill Ito and take his place as a new member of the Six Seas enforcers. Enticed at the idea, Arian accepts the offer. Ito goes to meet an old acquaintance named Yohan. After Ito left Jakarta to join the Six Seas, Yohan took off with the gang's money and began running his own drug business out of his butcher shop. Ito tracks him down to retrieve the money Yohan stole from his old gang; However, Yohan is also revealed to be connected with the Triad and a resulting fight ensues in the meat locker of Yohan's butcher shop. Ito brutally kills Yohan's men, but not before Yohan makes a phone call that brings in corrupt cops, who shoot down Yohan and take Ito away.\nBobby discovers Yohan's thugs infiltrating Fatih's building, where he gets Shinta to safety before killing some thugs on an elevator and returning to help Wisnu and Fatih fight. They are initially successful despite being outnumbered and heavily injured, until two Six Sea members Elena and Alma arrive. Elena kills the last of Yohan's men and Bobby sacrifices his life in order to help Fatih and Reina escape by distracting Elena, who kills Bobby with her kukri. Alma kills Wisnu with a razor-sharp string, but Arian intervenes before she can kill Reina and a heavily injured Fatih, knocking her unconscious. Fatih deduces that Arian told Yohan and the Triad where he lived due to Arian being one of the only members to know where Fatih was located. He refuses further help from Arian and fires a warning shot at him, but is unable to bring himself to kill him. More Triad attempt to ambush Fatih and Reina in the garage. Fatih gets Reina to hide before sacrificing his life by distracting the Triad members. The ambushers are all killed by a mysterious woman nicknamed The Operator.\nIto frees himself and returns to Fatih's, where he discovers his former colleagues dead. Reina finds him and they relocate to Shinta's apartment. The Operator then arrives and attempts to kill Ito.",
    "genres": [
     "Action",
     "Thriller",
@@ -97163,7 +97163,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -107965,7 +107965,7 @@
    "video": false,
    "tagline": "Crash the spookiest party of the year.",
    "overview": "Mystery, Inc. heads to Blowout Beach for a real swinging beach party when the Ghost Pirates threaten to harsh the good vibes.",
-   "plot": "Mystery, Inc. heads to Blowout Beach for a real swinging beach party when the Ghost Pirates threaten to harsh the good vibes.",
+   "plot": "After solving a mystery that involves Dr. Najib posing as a mummy, Scooby-Doo, Shaggy, Fred, Daphne, and Velma feel like taking a break and having some fun. The museum guard suggests that they go to the Blowout Beach Bash. The gang agrees, and they take off in the Mystery Machine towards the Bash. During the trip, Shaggy, Scooby and Daphne make fun of Fred and Velma, saying they are obsessed with mysteries and are no fun. Fred and Velma decide to prove that they are fun by being crowned this year's 'Captains of the Bash'.\nHowever, when they arrive, they find the beach and boardwalk deserted. They go to the Holdout Inn, and find out from the inn's owners - Rob and Laura Holdout - that during the morning, two ghost pirates arrived at the beach and scared away all of the teenagers partying there. They also stole the pirate hats off of the 'Bash Captains' - Chad and Krissy Holdout, Rob and Laura's children. Rob Holdout tells the gang the story of the ghost pirates, describing the first ever Blowout Beach Bash, what happened with Captain Brutamore Bash and Pirate Queen Bingo Bell, and the missing treasure. Right after that, a greedy businessman named Dwight Monkfish arrives at the inn with the sheriff, the deputy, and his assistant, Mitzi Capaletto. He accuses the Holdouts of the pirate attack earlier that day, but they deny it. Chad and Krissy appear, and are mean to the gang, making fun of Fred's ascot and insulting Scooby-Doo. The gang tells the police that they're mystery solvers, and that they can help them with their investigation.\nFred decides the gang should split up and gather clues to solve the case; Daphne will investigate the pier to find out what she can from Monkfish, while Shaggy and Scooby will check out the ghost pirates' ship, the Salty Brick. Velma convinces Shaggy and Scooby to investigate by telling them that there is a snack bar on the ship, although this is not true. Instead, there is a boring tour of the ship, led by the Tour Guide. They decided to go to the ship's galley to see if they can find anything to eat.\nMeanwhile, Fred and Velma go check out the Octo Rock Lounge. They encounter Chad and Krissy, but they are once again mean to them and tell Fred and Velma go away. At the pier, Daphne talks with Dwight Monkfish, and he tells her about his plan to transform the town by turning the beach and boardwalk into piers. After he goes to a photo shoot, Daphne asks Mitzi some questions about the pirate attack, Rob Holdout, the pirates themselves, and a poem about the missing treasure. Back at the Octo Rock Lounge, Velma accidentally invents a new dance move called the 'Jinky'. Fred and Velma teach the 'Jinky' dance to their new friends Tommy and Brenda, and soon the other teens join in on the dancing. Chad and Krissy are annoyed by this and attempt to convince the other teens to leave, but are unsuccessful and storm off.\nAt the Salty Brick, Shaggy and Scooby encounter the ghost pirates, which leads into a chase around the ship.",
    "genres": [
     "Animation",
     "Comedy",
@@ -108043,7 +108043,7 @@
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "homepage": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
