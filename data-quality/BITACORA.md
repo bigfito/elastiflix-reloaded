@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 20:26 UTC · Cursor (Grok 4.7) · ejecutor (turno 19)
+**Última actualización:** 2026-11-13 20:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-19)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -37,7 +37,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 16 | Cursor | WP-08 (D-07) | REVISADO | 2026-11-13 | `dq-t16` | [R-16](bitacora/R-16.md) |
 | 17 | Google Antigravity | WP-09 (P-20) | REVISADO | 2026-11-13 | `dq-t17` | [R-17](bitacora/R-17.md) |
 | 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
-| 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | EN REVISIÓN | 2026-11-13 | `dq-t19` | — |
+| 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
 | 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
 
@@ -56,7 +56,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
-| C-01 | Cierre: medición, publicación y documentación | EN REVISIÓN · turno 19, T-01 a T-03 | 19, 20, 21 | 2026-11-13 |
+| C-01 | Cierre: medición, publicación y documentación | EN CURSO · T-01 a T-03 hechas y revisadas (M3); T-04 y T-05 en el turno 20; T-06 a T-08 en el 21 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
 
@@ -82,16 +82,16 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-16 | 16 · Cursor | APROBADO | Nada que corregir en los datos (comprobado contra TMDB); horas del diario de WP-08 ajustadas | — | [R-16](bitacora/R-16.md) |
 | R-17 | 17 · Google Antigravity | APROBADO CON CORRECCIONES | `wikipedia_infobox` documentada en `data/README.md`; motivos con el `$` perdido, anotados | ver R-17 | [R-17](bitacora/R-17.md) |
 | R-18 | 18 · Claude Code | APROBADO CON CORRECCIONES | Revisión independiente (P-21): migración del paso 9, prueba de nombres de `Movie`, precisión del README, texto en inglés; sobre de `data/*.json` a C-01 | `777cc1f` | [R-18](bitacora/R-18.md) |
+| R-19 | 19 · Cursor | APROBADO CON CORRECCIONES | 41 pruebas de integración en verde contra staging estricto (repetidas); informe v2 con origen de sinopsis y estado de las 10 recomendaciones | ver R-19 | [R-19](bitacora/R-19.md) |
 
 ## 2. Próximo paso
 
-> **Revisión R-19 · Claude Code.** Revisa el turno 19, etiqueta `dq-t19`: C-01 T-01 a T-03.
-> - **T-01:** índice `elastiflix-dq-staging-20261113-195801`, 6 899 películas, mapping `dynamic: strict`, commit
->   `bf5e446`. M3 está en la tabla. `knn_*` y `rrf_title_knn*` no bajan frente a M1. `bm25_plot` y `rrf_plot_*` se informan.
-> - **T-02:** `informe/informe-calidad-v2.html` y `salidas/m3/`. La columna M3 de los indicadores está llena.
-> - **T-03:** `eval/thresholds.json` con mínimo = medición − 0.05 hacia abajo a 2 decimales. Conteos y posiciones
->   medidos de nuevo. `./mvnw verify -Pit` sobre staging, sin las unitarias de AGENTS.md §9, en 0. `./mvnw verify`
->   sin alias, en 0. La instancia de staging está apagada.
+> **Turno 20 · Cursor.** C-01:
+> - **T-04:** la documentación con las cifras de M3, incluido el `mapping` del sobre de `data/*.json`.
+> - **T-05:** el borrador del resumen del hito C.
+>
+> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-19](bitacora/R-19.md), en especial su observación
+> sobre cuándo desplegar. El punto de partida es la etiqueta `dq-r19`. La revisión R-20 cierra el hito C.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -443,3 +443,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   `bitacora/R-18.md`.
 - Evidencia: `./mvnw -q verify` con código 0.
 - Para el siguiente: turno 19, Cursor (C-01 T-01 a T-03).
+
+### 2026-11-13 20:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-19)
+- Hice: revisión del turno 19 de Cursor. APROBADO CON CORRECCIONES. Repetí las 41 pruebas de integración contra
+  staging (verde) y comprobé que el índice es estricto. Sumé al informe v2 el origen de las sinopsis y el estado de
+  las 10 recomendaciones. Detalle en `bitacora/R-19.md`.
+- Evidencia: `es.py` (staging con `dynamic: strict`, 6 899 películas); `./mvnw verify -Pit` sobre staging con 41
+  pruebas y 0 fallos.
+- Para el siguiente: turno 20, Cursor (C-01 T-04 y T-05; hito C en R-20).
