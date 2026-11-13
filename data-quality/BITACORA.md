@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 18:05 UTC · Cursor (Grok 4.7) · ejecutor (turno 14)
+**Última actualización:** 2026-11-13 18:15 UTC · Claude Code (Claude Opus 5.5) · revisor (R-14)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -32,7 +32,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 12 | Gemma 4 E4B | WP-05: lotes `029`–`040` (10 de Wikipedia y 2 de limpieza) y T-03; sin cerrar, lo cerró R-12 | REVISADO | 2026-11-13 | `dq-t12` | [R-12](bitacora/R-12.md) |
 | 13a | Gemma 4 E4B | Cierre de WP-05: evaluó las 462 restantes (lotes `042`–`047`) sin commits; R-13a terminó WP-05 (D-07) | REVISADO | 2026-11-13 | `dq-t13a` | [R-13a](bitacora/R-13a.md) |
 | 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | REVISADO | 2026-11-13 | `dq-t13b` | [R-13b](bitacora/R-13b.md) |
-| 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | INCOMPLETO · B-06; WP-07 no empezó | 2026-11-13 | `dq-t14` | — |
+| 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | REVISADO · INCOMPLETO por B-06 (criterio de parada); WP-07 parte A sin empezar | 2026-11-13 | `dq-t14` | [R-14](bitacora/R-14.md) |
 | 15 | Cursor | WP-07 parte B (P-14) | PENDIENTE | — | — | — |
 | 16 | Cursor | WP-08 (D-07) | PENDIENTE | — | — | — |
 | 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
@@ -77,13 +77,13 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-12 | 12 · Gemma 4 E4B | APROBADO CON CORRECCIONES | Turno sin cerrar: commit de recuperación y 8 lotes aplicados; 3 tramas de otra obra («two-part», búsqueda por título); `--d06` para T-06; falso bloqueo B-05 | `1042632` `3f4c422` `afb20ad`…`e16b441` `a6d3a23` `62a1e39` | [R-12](bitacora/R-12.md) |
 | R-13a | 13a · Gemma 4 E4B | APROBADO CON CORRECCIONES | Turno sin un commit: recuperación y 5 lotes aplicados; *Prancer* corregida; guarda nueva; con D-07, cierre de WP-05 (`lote-049` y `050`, T-05 y T-03) |  `3595bdd` `501a192` `4a06a94`…`17c4b44` `10f735d` | [R-13a](bitacora/R-13a.md) |
 | R-13b | 13b · Cursor | APROBADO | Nada que corregir; WP-03 HECHA; lista `wp06-cortos-r13b.tsv` (17) para el turno 14 y meta de «< 200 caracteres» ajustada (P-18) | — | [R-13b](bitacora/R-13b.md) |
+| R-14 | 14 · Cursor | PENDIENTE DE DECISIÓN | Nada que corregir; B-06 investigado: la caída de `bm25_plot` y `rrf_plot_*` viene del vocabulario de las consultas de evaluación, no de un daño (los vectores y la búsqueda por defecto mejoran); D-08 abierta | — | [R-14](bitacora/R-14.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-14** del turno 14 (Cursor), que quedó **INCOMPLETO**. Alcance: `git diff dq-r13b..dq-t14`.
-> T-02b (`lote-008`) dejó las 17 sin fuente. M2 está en la tabla. **B-06:** `rrf_plot_knn256` baja 0.063 y
-> `rrf_plot_knn1024` baja 0.117 de nDCG@10 frente a M1 (umbral 0.05). WP-07 parte A no se empezó. La instancia de
-> staging está apagada. El hito B no se cierra mientras el bloqueo siga abierto.
+> **En espera de D-08** (dueña del proyecto). M2 cumplió el criterio de parada (B-06) en `bm25_plot` y `rrf_plot_*`;
+> los vectores y la búsqueda por defecto mejoraron. La causa y la recomendación están en [R-14](bitacora/R-14.md).
+> Cuando D-08 esté contestada, Claude Code escribe aquí el turno siguiente.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -101,6 +101,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-05 | ¿Qué contacto va en el `User-Agent` para Wikipedia y Wikidata (NS-7)? Sin contacto, Wikimedia limita a 10 peticiones por minuto y las unas 5 950 descargas de los turnos 4 a 13 tardan 11 h o más en total; con contacto, menos de 2 h. El valor va en `.env` como `DQ_WIKI_CONTACTO=` y no se commitea | URL pública del repo · un correo · sin contacto | Lo que prefiera la dueña del proyecto: es un dato suyo que se envía a Wikimedia | APROBADA 2026-11-12 · «La URL del repo» · `DQ_WIKI_CONTACTO=https://github.com/bigfito/elastiflix-reloaded` en el `.env` del worktree |
 | D-06 | En WP-05, una sinopsis sin trama de Wikipedia que es **texto generado**, y que la limpieza no arregla, ¿toma el overview de TMDB que ya trae el documento (NS-1 b, etiqueta `tmdb_overview`)? Hoy son 5: `213927` *Born to Race: Fast Track* (la respuesta de un asistente que no encontró la película), `298016` *It's a SpongeBob Christmas!* (corrige el año e inventa la trama) y las 3 de T-03b (`150015`, `198436`, `364708`, ensayos «At its core»). Sin esto, esas 3 bloquean la integración de WP-03 (turno 13) | Sí, en el turno 13 · No, quedan `unverified` | Sí: el overview es corto pero es de la película, y nadie redacta (NS-2) | APROBADA 2026-11-13 · «Apruebo D-06» · WP-05 T-06 en el turno 13a |
 | D-07 | Gemma 4 E4B dejó los turnos 12 y 13a sin commitear (lotes propuestos sin aplicar, sin diario ni cierre); los cerró la revisión. ¿Quién termina lo que falta de WP-05 (la limpieza de 70 omitidas, T-06, T-05 y T-03: comandos deterministas ya escritos) y quién toma los turnos 13b, 16, 19a, 19b y 21? | A · Claude Code termina WP-05 en R-13a y Cursor toma los turnos de Gemma · B · Gemma repite un turno 13a corto con lo que falta y conserva sus turnos · C · Claude Code termina WP-05 y Gemma conserva sus turnos | A: los turnos que quedan incluyen integrar Java (13b), recargar staging (19a) y publicar en producción (21), y Gemma no cerró ninguno de sus dos turnos | APROBADA 2026-11-13 · «WP-05 tú, resto a Cursor» · opción A |
+| D-08 | M2 cumplió el criterio de parada (B-06): `bm25_plot` bajó 0.112 y `rrf_plot_knn1024` 0.117 frente a M1. Los vectores (`knn_*`, +0.019 a +0.082) y la búsqueda por defecto (`rrf_title_knn256`, +0.019) mejoraron. La caída viene de que las consultas de evaluación usan el vocabulario de las sinopsis generadas que el plan quitó (R-14). ¿Sigue el plan? | A · Sigue: M2 aceptada, B-06 cerrado; el criterio de parada aplica en adelante a `knn_*` y `rrf_title_knn*`; `bm25_plot` y `rrf_plot_*` se informan; umbrales nuevos en C-01 T-03 · B · Se detiene el plan aquí · C · Sigue, pero antes se califican las 592 películas sin juicio del harness | A: lo que mide el criterio (los vectores) mejoró, y la caída no es un daño al catálogo | ABIERTA · R-14 |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
 
 ## 4. Decisiones tomadas
@@ -390,3 +391,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   con T-02b nueva para 17 sinopsis cortas que quedaron fuera de su lista (P-18). Detalle en `bitacora/R-13b.md`.
 - Evidencia: `./mvnw -q verify` con código 0; `hallazgos/salidas/r13b/` (0 plots con dos o más firmas).
 - Para el siguiente: turno 14, Cursor (WP-06 T-02b y M2, WP-07 parte A, hito B).
+
+### 2026-11-13 18:15 UTC · Claude Code (Claude Opus 5.5) · revisor (R-14)
+- Hice: revisión del turno 14 de Cursor, que se detuvo bien por B-06. Investigué la caída: `bm25_plot` y `rrf_plot_*`
+  bajan porque las consultas de evaluación usan el vocabulario de las sinopsis generadas que se quitaron (*Inception*:
+  6 de 7 palabras en la vieja, 2 de 7 en la de Wikipedia), y `plot` no tiene raíces. Los vectores y la búsqueda por
+  defecto mejoran. Abrí D-08. El hito B espera a D-08. Detalle en `bitacora/R-14.md`.
+- Evidencia: `target/eval/report.md` (M2), `hallazgos/salidas/m2/`, `./mvnw -q verify` con código 0.
+- Para el siguiente: en espera de D-08.
