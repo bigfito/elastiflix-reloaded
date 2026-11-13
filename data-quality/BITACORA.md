@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 18:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-15)
+**Última actualización:** 2026-11-13 18:52 UTC · Cursor (Grok 4.7) · ejecutor (turno 16)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -34,7 +34,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | REVISADO | 2026-11-13 | `dq-t13b` | [R-13b](bitacora/R-13b.md) |
 | 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | REVISADO · INCOMPLETO por B-06 (criterio de parada); WP-07 parte A sin empezar | 2026-11-13 | `dq-t14` | [R-14](bitacora/R-14.md) |
 | 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | REVISADO | 2026-11-13 | `dq-t15` | [R-15](bitacora/R-15.md) |
-| 16 | Cursor | WP-08 (D-07) | PENDIENTE | — | — | — |
+| 16 | Cursor | WP-08 (D-07) | EN CURSO | 2026-11-13 | — | — |
 | 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
 | 18 | Cursor | WP-10 (P-14) | PENDIENTE | — | — | — |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | PENDIENTE | — | — | — |
@@ -53,7 +53,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-05 | Limpiar el plot enciclopédico | HECHA · 3 862/3 862: 3 425 Wikipedia, 7 overview de TMDB (D-06), 13 corregidas, 372 limpias, 45 sin fuente; ficha inicial 8 y taquilla o crítica 5 | 10, 11, 12, 13a | 2026-11-13 |
 | WP-06 | Completar las sinopsis cortas | HECHA · 616 tramas más largas, 82 sin fuente, 5 no más largas; M2 aceptada (D-08) | 13b, 14 | 2026-11-13 |
 | WP-07 | Normalizar al cargar | HECHA · `lote-001` (309 películas) y `EFX-ING-029`; kannada corregido en `lote-002` (R-15) | 14, 15 | 2026-11-13 |
-| WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
+| WP-08 | Corregir palabras clave y colecciones | EN CURSO · turno 16 | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | PENDIENTE | 17 | — |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | PENDIENTE | 18 | — |
 | C-01 | Cierre: medición, publicación y documentación | PENDIENTE | 19, 20, 21 | — |
