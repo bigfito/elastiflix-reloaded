@@ -18,8 +18,15 @@ import tools.jackson.databind.JsonNode;
  *
  * <p>Un error rechaza el archivo completo. Una frase de asistente, markdown, una aclaración de ficha
  * o un ensayo de temas se avisan: rechazarlos tiraría el archivo entero. La aclaración «, not Nombre»
- * solo cuenta justo después de «directed by» o «produced by»; «unable to find work» y un «, not» de la
- * historia no. El ensayo es «main themes», «the main theme of» o una lista de temas cerrada con dos puntos.</p>
+ * solo cuenta justo después de «directed by» o «produced by»; «unable to find work», «is not a real
+ * princess» y un «, not» de la historia no. El ensayo es «main themes», «the main theme of», «at its
+ * core», «explores the theme of», «delves into the complexities», «one of the primary themes» o una
+ * lista de temas cerrada con dos puntos. «the complexities of their relationships» y «delves into the
+ * struggle» no entran: Wikipedia las usa en tramas reales.</p>
+ *
+ * <p>También rechazan, anclados al inicio y después de quitar los espacios de los extremos: «no match
+ * found», «I don't have information» y «please provide». Un personaje puede decir «I don't have
+ * information» dentro de la trama.</p>
  *
  * <p>Una disculpa («I'm sorry», «I apologize») entre comillas es diálogo de la película, no un resto de
  * asistente: se busca en el texto sin las citas. Así pasan las tramas de Wikipedia que la citan, como el globo
@@ -32,13 +39,28 @@ final class PlotChecks {
 
     private static final Pattern PLACEHOLDER = Pattern.compile(
             "(?i)^\\[?\\s*no information found\\s*\\]?$");
+    /** «no match found» al inicio, con corchetes opcionales. El resto del texto no lo salva. */
+    private static final Pattern NO_MATCH = Pattern.compile("(?i)^\\[?\\s*no match found\\s*\\]?");
+    /** Negativa del asistente. Solo al inicio: más adelante puede ser diálogo. Apóstrofo recto o tipográfico. */
+    private static final Pattern LACKS_INFORMATION = Pattern.compile(
+            "(?i)^(?:i don['’]?t|i do not) have (?:any )?information\\b");
+    /** El asistente pide datos. Solo al inicio; «please provide more information» en medio se avisa. */
+    private static final Pattern PLEASE_PROVIDE = Pattern.compile("(?i)^please provide\\b");
     private static final Pattern ASSISTANT = Pattern.compile(
             "(?i)\\bI (?:couldn't|could not|was unable to) find\\b"
                     + "|find any information"
                     + "|knowledge cutoff"
                     + "|as of my (?:last )?(?:knowledge|update|training)");
     /** Disculpa de asistente. Se busca fuera de las citas: entre comillas es diálogo. */
-    private static final Pattern APOLOGY = Pattern.compile("(?i)\\bi'?m sorry\\b|\\bi apologi[sz]e\\b");
+    private static final Pattern APOLOGY = Pattern.compile("(?i)\\bi['’]?m sorry\\b|\\bi apologi[sz]e\\b");
+    /** «is a 2003 film, not 2004». Un «, not» de la historia no trae los dos años. */
+    private static final Pattern YEAR_CORRECTION = Pattern.compile(
+            "(?i)\\b(?:is|was) an? \\d{4} film, not \\d{4}\\b");
+    /** Pide más datos en cualquier parte del texto. */
+    private static final Pattern PLEASE_MORE = Pattern.compile("(?i)\\bplease provide more information\\b");
+    /** Encabezado generado: «here's a summary», «here's a plot» o «here's a detailed». */
+    private static final Pattern GENERATED_HEADING = Pattern.compile(
+            "(?i)\\bhere['’]?s a (?:summary|plot|detailed)\\b");
     /** Una cita entre comillas rectas o tipográficas, dentro de una misma línea. */
     private static final Pattern QUOTED = Pattern.compile("\"[^\"\\n]*\"|\u201c[^\u201d\\n]*\u201d");
     private static final Pattern MARKDOWN_BOLD = Pattern.compile("\\*\\*");
@@ -55,6 +77,19 @@ final class PlotChecks {
     /** Encabezado «Themes:», «Key themes:» o «Major themes:». */
     private static final Pattern THEMES_HEADING = Pattern.compile(
             "(?im)^\\s*(?:themes|key themes|major themes)\\s*:");
+    /** «at its core», en cualquier parte. */
+    private static final Pattern AT_ITS_CORE = Pattern.compile("(?i)\\bat its core\\b");
+    /** «explores the theme of» o «explore the themes of». Sin «the», no cuenta. */
+    private static final Pattern EXPLORES_THEMES = Pattern.compile("(?i)\\bexplores? the themes? of\\b");
+    /**
+     * «delves into the complexity» o «delve into the complexities».
+     * No alcanza «delves into» ni «the complexities of» sueltos.
+     */
+    private static final Pattern DELVES_COMPLEXITY = Pattern.compile(
+            "(?i)\\bdelves? into the complexit(?:y|ies)\\b");
+    /** «one of the primary/central/main themes». */
+    private static final Pattern ONE_OF_THEMES = Pattern.compile(
+            "(?i)\\bone of the (?:primary|central|main) themes\\b");
 
     /**
      * Caracteres entre «directed by» o «produced by» y «, not Nombre».
@@ -108,7 +143,7 @@ final class PlotChecks {
     }
 
     private static boolean rejected(String stripped, CheckScope scope) {
-        if (!placeholder(stripped) && stripped.length() >= MIN_PLOT_LENGTH) {
+        if (!unusable(stripped)) {
             return false;
         }
         scope.error(ErrorCode.PLACEHOLDER_PLOT, FieldNames.PLOT, IssueTexts.clip(stripped),
@@ -116,14 +151,28 @@ final class PlotChecks {
         return true;
     }
 
+    /** Marcador de todo el texto, negativa anclada al inicio, o sinopsis por debajo del mínimo. */
+    private static boolean unusable(String stripped) {
+        return placeholder(stripped) || anchoredRefusal(stripped) || stripped.length() < MIN_PLOT_LENGTH;
+    }
+
     private static boolean placeholder(String stripped) {
         return PLACEHOLDER.matcher(stripped).matches();
+    }
+
+    private static boolean anchoredRefusal(String stripped) {
+        return NO_MATCH.matcher(stripped).lookingAt()
+                || LACKS_INFORMATION.matcher(stripped).lookingAt()
+                || PLEASE_PROVIDE.matcher(stripped).lookingAt();
     }
 
     private static String artifact(String plot) {
         String found = first(ASSISTANT, plot);
         if (found == null) {
             found = first(APOLOGY, QUOTED.matcher(plot).replaceAll("\"\""));
+        }
+        if (found == null) {
+            found = firstMatching(plot, YEAR_CORRECTION, PLEASE_MORE, GENERATED_HEADING);
         }
         if (found == null) {
             found = markdown(plot);
@@ -136,20 +185,11 @@ final class PlotChecks {
 
     /**
      * Devuelve el primer fragmento que delata un ensayo de temas.
-     * No rechaza: la carga sigue.
+     * No rechaza: la carga sigue. Los patrones viejos van primero, para no cambiar el fragmento que ya avisaban.
      */
     private static String essay(String plot) {
-        String found = first(MAIN_THEMES, plot);
-        if (found == null) {
-            found = first(THEME_LIST, plot);
-        }
-        if (found == null) {
-            found = first(SINGLE_THEME, plot);
-        }
-        if (found == null) {
-            found = first(THEMES_HEADING, plot);
-        }
-        return found;
+        return firstMatching(plot, MAIN_THEMES, THEME_LIST, SINGLE_THEME, THEMES_HEADING,
+                AT_ITS_CORE, EXPLORES_THEMES, DELVES_COMPLEXITY, ONE_OF_THEMES);
     }
 
     /**
@@ -174,6 +214,16 @@ final class PlotChecks {
             return bold;
         }
         return first(MARKDOWN_HEADING, plot);
+    }
+
+    private static String firstMatching(String plot, Pattern... patterns) {
+        for (Pattern pattern : patterns) {
+            String found = first(pattern, plot);
+            if (found != null) {
+                return found;
+            }
+        }
+        return null;
     }
 
     private static String first(Pattern pattern, String plot) {

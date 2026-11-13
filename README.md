@@ -400,14 +400,19 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   valor (`EFX-ING-022`) y un hueco en una lista se omite (`EFX-ING-021`). Un texto repetido en `genres`, `cast`,
   `production_companies`, `production_countries` o `spoken_languages`, o una palabra clave con el mismo `id`, se
   omite y se conserva la primera aparición (`EFX-ING-024`).
-- **Sinopsis:** un `plot` que es un marcador (por ejemplo `[No information found]`) o que tiene menos de 40
-  caracteres rechaza el archivo, o el registro individual (`EFX-ING-025`). Restos de un modelo de lenguaje (por ejemplo «I couldn't find»,
-  «find any information» o «knowledge cutoff»), markdown y una aclaración «, not Nombre» justo después de
-  «directed by» o «produced by» se avisan y no detienen la carga (`EFX-ING-026`). Una sinopsis repetida dentro
-  del mismo archivo también se avisa (`EFX-ING-027`). Un ensayo de temas (por ejemplo «main themes», «the main
-  theme of» o un encabezado «Themes:») también se avisa (`EFX-ING-028`). Son advertencias porque un error
-  rechazaría el archivo entero. El catálogo de [`data/`](data/README.md) ya no las trae: no comparte sinopsis
-  y no conserva esas fórmulas ni esos ensayos.
+- **Sinopsis:** un `plot` que es un marcador (por ejemplo `[No information found]` o `[No match found]`), que abre
+  con una negativa del asistente («I don't have information», «Please provide») o que tiene menos de 40
+  caracteres rechaza el archivo, o el registro individual (`EFX-ING-025`). Esas negativas solo cuentan al inicio:
+  un personaje puede decirlas dentro de la trama. Restos de un modelo de lenguaje (por ejemplo «I couldn't find»,
+  «find any information», «knowledge cutoff», «is a 2004 film, not 2005», «please provide more information» o
+  «here's a summary»), markdown y una aclaración «, not Nombre» justo después de «directed by» o «produced by»
+  se avisan y no detienen la carga (`EFX-ING-026`). Una disculpa entre comillas («I'm sorry») es diálogo y no se
+  avisa. Una sinopsis repetida dentro del mismo archivo también se avisa (`EFX-ING-027`). Un ensayo de temas (por
+  ejemplo «main themes», «the main theme of», «at its core», «explores the theme of», «delves into the
+  complexities», «one of the primary themes» o un encabezado «Themes:») también se avisa (`EFX-ING-028`). «the
+  complexities of their relationships» y «delves into the struggle» no entran: son prosa de una trama. Son
+  advertencias porque un error rechazaría el archivo entero. El catálogo de [`data/`](data/README.md) no trae las
+  fórmulas que rechazan la carga, no conserva esas frases de ensayo y no comparte sinopsis.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan desde `plot` con el servicio de
   inferencia. Si el archivo los trae, se ignoran con una advertencia; el formulario no los pide.
 - **Procedencia:** `enrichment` es opcional (`null` o ausente también vale). Si viene, es un objeto cuyas claves

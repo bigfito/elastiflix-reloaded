@@ -395,14 +395,19 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   (`EFX-ING-022`) and a gap in a list is skipped (`EFX-ING-021`). A repeated text in `genres`, `cast`,
   `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
   and the first occurrence is kept (`EFX-ING-024`).
-- **Plot:** a `plot` that is a placeholder (for example `[No information found]`) or shorter than 40 characters
-  rejects the file, or the single record (`EFX-ING-025`). Language-model leftovers (for example "I couldn't find", "find any information",
-  or "knowledge cutoff"), markdown, and a ", not Name" clarification right after "directed by" or "produced by"
-  are warnings and do not stop the load (`EFX-ING-026`). A plot repeated inside the same file is also a warning
-  (`EFX-ING-027`). A themes essay (for example "main themes", "the main theme of", or a "Themes:" heading) is
-  also a warning (`EFX-ING-028`). They are warnings because an error would reject the whole file. The catalog in
-  [`data/`](data/README.md#english) no longer has them: it does not share plots and it does not keep that phrasing
-  or those essays.
+- **Plot:** a `plot` that is a placeholder (for example `[No information found]` or `[No match found]`), that opens
+  with an assistant refusal ("I don't have information", "Please provide"), or that is shorter than 40 characters
+  rejects the file, or the single record (`EFX-ING-025`). Those refusals only count at the start: a character can
+  say them inside the plot. Language-model leftovers (for example "I couldn't find", "find any information",
+  "knowledge cutoff", "is a 2004 film, not 2005", "please provide more information", or "here's a summary"),
+  markdown, and a ", not Name" clarification right after "directed by" or "produced by" are warnings and do not
+  stop the load (`EFX-ING-026`). A quoted apology ("I'm sorry") is dialogue and is not warned. A plot repeated
+  inside the same file is also a warning (`EFX-ING-027`). A themes essay (for example "main themes", "the main
+  theme of", "at its core", "explores the theme of", "delves into the complexities", "one of the primary themes",
+  or a "Themes:" heading) is also a warning (`EFX-ING-028`). "the complexities of their relationships" and "delves
+  into the struggle" do not count: they are plot prose. They are warnings because an error would reject the whole
+  file. The catalog in [`data/`](data/README.md#english) does not contain the phrases that reject a load, does not
+  keep those essay phrases, and does not share plots.
 - **Vectors:** `plot_256`, `plot_512`, and `plot_1024` are **always** generated from `plot` with the inference
   service. If the file includes them, they are ignored with a warning; the form doesn't ask for them.
 - **Provenance:** `enrichment` is optional (`null` or absent is fine too). When present, it is an object whose keys
