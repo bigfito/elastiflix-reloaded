@@ -482,3 +482,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   verde (R-19); `informe/informe-calidad-v2.html`.
 - Para el siguiente: turno 21, Cursor (H-2 y publicación). La dueña del proyecto puede integrar `dq/ronda-4` en
   `main` y conviene que despliegue después de C-01 T-07.
+
+### 2026-11-13 21:05 UTC · Claude Code (Claude Opus 5.5) · revisor (R-21, en espera)
+- Hice: miré el turno 21. Cursor tomó el turno, pidió H-2 en su chat y se detuvo sin publicar, como pide C-01 T-06.
+  En el clúster, `elastiflix-reloaded` sigue en `elastiflix-reloaded-20261112-144129` (producción intacta) y
+  `elastiflix-dq-staging` en `elastiflix-dq-staging-20261113-195801`. Las comprobaciones previas de `publicar.py`
+  (`comprobar_staging`, de solo lectura) están en verde: 6 899 películas, mapping fiel y los tres vectores.
+- Evidencia: `es.py GET /_alias/…`; `publicar.comprobar_staging("elastiflix-dq-staging")`.
+- Para el siguiente: H-2 sigue ABIERTA. R-21 se escribe cuando el turno 21 publique (T-07) o pase a EN ESPERA.
