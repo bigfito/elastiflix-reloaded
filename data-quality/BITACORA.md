@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 19:55 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 18, P-21)
+**Última actualización:** 2026-11-13 19:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-18)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -36,7 +36,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | REVISADO | 2026-11-13 | `dq-t15` | [R-15](bitacora/R-15.md) |
 | 16 | Cursor | WP-08 (D-07) | REVISADO | 2026-11-13 | `dq-t16` | [R-16](bitacora/R-16.md) |
 | 17 | Google Antigravity | WP-09 (P-20) | REVISADO | 2026-11-13 | `dq-t17` | [R-17](bitacora/R-17.md) |
-| 18 | Claude Code | WP-10 (P-21) | EN REVISIÓN | 2026-11-13 | `dq-t18` | — |
+| 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | PENDIENTE | — | — | — |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
 | 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
@@ -55,7 +55,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-07 | Normalizar al cargar | HECHA · `lote-001` (309 películas) y `EFX-ING-029`; kannada corregido en `lote-002` (R-15) | 14, 15 | 2026-11-13 |
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
-| WP-10 | Opcional: `dynamic: strict` y filtro `adult` | EN REVISIÓN · T-01 y T-02 hechas (turno 18) | 18 | 2026-11-13 |
+| WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
 | C-01 | Cierre: medición, publicación y documentación | PENDIENTE | 19, 20, 21 | — |
 
 ### 1.3 Revisiones de Claude Code
@@ -81,11 +81,17 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-15 | 15 · Cursor | APROBADO CON CORRECCIONES | «ಕನ್ನಡ» sin virama en 2 películas (`lote-002`); prueba de signos combinantes | `34b9a4b` `16e59f7` | [R-15](bitacora/R-15.md) |
 | R-16 | 16 · Cursor | APROBADO | Nada que corregir en los datos (comprobado contra TMDB); horas del diario de WP-08 ajustadas | — | [R-16](bitacora/R-16.md) |
 | R-17 | 17 · Google Antigravity | APROBADO CON CORRECCIONES | `wikipedia_infobox` documentada en `data/README.md`; motivos con el `$` perdido, anotados | ver R-17 | [R-17](bitacora/R-17.md) |
+| R-18 | 18 · Claude Code | APROBADO CON CORRECCIONES | Revisión independiente (P-21): migración del paso 9, prueba de nombres de `Movie`, precisión del README, texto en inglés; sobre de `data/*.json` a C-01 | `777cc1f` | [R-18](bitacora/R-18.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-18** del turno 18 (Claude Code, P-21), con una revisión independiente del diff
-> `dq-r17..dq-t18`.
+> **Turno 19 · Cursor.** C-01:
+> - **T-01:** M3, con staging recargado completo desde `dq/ronda-4`. Es el primer índice con el mapping estricto.
+> - **T-02:** el informe v2.
+> - **T-03:** `./mvnw verify -Pit` contra staging y los umbrales nuevos.
+>
+> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-18](bitacora/R-18.md). El punto de partida es la
+> etiqueta `dq-r18`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -429,3 +435,10 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   montos contra Wikipedia. Documenté `wikipedia_infobox` en `data/README.md`. Detalle en `bitacora/R-17.md`.
 - Evidencia: `./mvnw -q verify` con código 0.
 - Para el siguiente: turno 18, Cursor (WP-10).
+
+### 2026-11-13 19:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-18)
+- Hice: revisión del turno 18, que ejecuté yo por P-21, con un agente independiente. APROBADO CON CORRECCIONES. WP-10
+  queda HECHA. Con esto terminan los paquetes de trabajo WP-00 a WP-10; queda el cierre C-01. Detalle en
+  `bitacora/R-18.md`.
+- Evidencia: `./mvnw -q verify` con código 0.
+- Para el siguiente: turno 19, Cursor (C-01 T-01 a T-03).
