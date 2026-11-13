@@ -173,7 +173,8 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 
 ## 5. Bloqueos abiertos
 
-Ninguno.
+**Bloqueo de Validación (Step E)**: La ejecución de `./mvnw -q verify` falló en múltiples tests críticos, impidiendo la finalización exitosa del turno T-12 y el commit de cierre. Los errores principales detectados incluyen `IllegalStateException: sin hilos` (en `IngestJobJsonErrorsTest`) y problemas de codificación (`DecodeException`). Esto detiene el proceso hasta que se resuelvan estos bugs unitarios en los módulos de ingestión web/servicio.
+**Acción requerida**: Revisar los módulos de ingestión para solucionar errores de estado o manejo de parámetros antes de reintentar este paso.
 
 Resueltos: **B-04** (turno 12: `lote-029` no existía porque OpenCode cortó `proponer_trama.py` a los 2 minutos, su timeout por defecto, antes de que escribiera el lote; `aplicar_cambios.py` falló después por eso). No se aplicó nada ni cambió `data/`. «Próximo paso» y `AGENTS.md` §5.1 piden ahora 600000 ms para todo comando del turno. **B-01** (turno 06, `EFX-ING-026` sobre una cita de Wikipedia), cerrado en R-06 con `73cd5d0`. **B-02**
 (turno 08, `ShippedCatalogValidationTest` en rojo en la rama de WP-03), cerrado en R-08 con la decisión P-09. **B-03**
