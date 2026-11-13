@@ -36,7 +36,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | REVISADO | 2026-11-13 | `dq-t15` | [R-15](bitacora/R-15.md) |
 | 16 | Cursor | WP-08 (D-07) | REVISADO | 2026-11-13 | `dq-t16` | [R-16](bitacora/R-16.md) |
 | 17 | Google Antigravity | WP-09 (P-20) | REVISADO | 2026-11-13 | `dq-t17` | [R-17](bitacora/R-17.md) |
-| 18 | Claude Code | WP-10 (P-21) | EN CURSO | 2026-11-13 | — | — |
+| 18 | Claude Code | WP-10 (P-21) | EN REVISIÓN | 2026-11-13 | `dq-t18` | — |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | PENDIENTE | — | — | — |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
 | 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
@@ -55,7 +55,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-07 | Normalizar al cargar | HECHA · `lote-001` (309 películas) y `EFX-ING-029`; kannada corregido en `lote-002` (R-15) | 14, 15 | 2026-11-13 |
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
-| WP-10 | Opcional: `dynamic: strict` y filtro `adult` | EN CURSO · turno 18, Claude Code (P-21) | 18 | 2026-11-13 |
+| WP-10 | Opcional: `dynamic: strict` y filtro `adult` | EN REVISIÓN · T-01 y T-02 hechas (turno 18) | 18 | 2026-11-13 |
 | C-01 | Cierre: medición, publicación y documentación | PENDIENTE | 19, 20, 21 | — |
 
 ### 1.3 Revisiones de Claude Code
@@ -84,12 +84,8 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 18 · Cursor.** WP-10, con D-03 y D-04 ya aprobadas:
-> - **T-01:** `"dynamic": "strict"` en el mapping, con sus pruebas y el README.
-> - **T-02:** el filtro `adult` se queda; se documenta que `data/` no tiene contenido adulto.
->
-> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-17](bitacora/R-17.md). El punto de partida es la
-> etiqueta `dq-r17`.
+> **Claude Code: revisión R-18** del turno 18 (Claude Code, P-21), con una revisión independiente del diff
+> `dq-r17..dq-t18`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
