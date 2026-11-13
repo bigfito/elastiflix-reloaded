@@ -82,6 +82,17 @@ class TextNormalizationTest {
     }
 
     @Test
+    @DisplayName("los signos combinantes de otras escrituras se conservan: el virama de ಕನ್ನಡ y de हिन्दी no avisa")
+    void shouldKeepCombiningMarksOfOtherScripts() {
+        String kannada = "ಕನ್ನಡ";
+        String hindi = "हिन्दी";
+        ValidatedMovies result = validate(movie("spoken_languages", "[" + json(hindi) + "," + json(kannada) + "]"));
+
+        assertThat(result.report().warnings()).isEmpty();
+        assertThat(result.movies().getFirst().spokenLanguages()).containsExactly(hindi, kannada);
+    }
+
+    @Test
     @DisplayName("un texto que solo es espacio duro sigue la regla de vacío y no avisa de normalizar")
     void shouldUseTheEmptyWarningWhenOnlyAHardSpaceRemains() {
         ValidatedMovies result = validate(movie("tagline", json(HARD)));
