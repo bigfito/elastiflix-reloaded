@@ -334,7 +334,7 @@ mejores películas quedaron arriba.
 - **La vectorial sube y es la más pareja.** `knn_plot_1024` pasa de 0.742 a 0.745 y encuentra la película en los dos
   idiomas (0.734 en español y 0.784 en inglés). `rrf_plot_knn256` y `rrf_plot_knn1024` bajan con el BM25 de la
   sinopsis (0.581 → 0.511 y 0.662 → 0.557): arrastran esa lista. La híbrida por defecto, que mezcla el título, sube
-  (`rrf_title_knn256` de 0.348 a 0.425). Esas dos de `plot` se informan y no detienen el plan.
+  (`rrf_title_knn256` de 0.348 a 0.425). Sus mínimos en `eval/thresholds.json` se recalcularon con esta medición.
 - **BM25 sobre el título sirve para buscar por título en inglés** (0.904) y para nada más.
 
 ## 🎛️ Resultados, filtros y paginación

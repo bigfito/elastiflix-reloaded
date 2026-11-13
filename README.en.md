@@ -330,7 +330,7 @@ means the best movies ended up at the top.
 - **Vector search goes up and is the most even option.** `knn_plot_1024` moves from 0.742 to 0.745 and finds the movie
   in both languages (0.734 in Spanish and 0.784 in English). `rrf_plot_knn256` and `rrf_plot_knn1024` drop with the
   plot BM25 list (0.581 → 0.511 and 0.662 → 0.557). The default hybrid, which mixes the title, goes up
-  (`rrf_title_knn256` from 0.348 to 0.425). Those two plot configs are reported and do not stop the plan.
+  (`rrf_title_knn256` from 0.348 to 0.425). Their minimums in `eval/thresholds.json` were recalculated with this measurement.
 - **BM25 on the title is useful for searching by title in English** (0.904), and for nothing else.
 
 ## 🎛️ Results, filters, and pagination
