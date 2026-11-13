@@ -51,6 +51,17 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
 - Los campos son los del mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «Acerca de» › «El catálogo»
   describe cada uno.
 
+## Palabras clave con dos ids
+
+«horror», «thriller» y «comedy» tienen dos ids en el catálogo. No es un id que pertenezca a otra palabra: los dos
+ids nombraban la misma palabra en TMDB, así que se dejan los dos.
+
+| Nombre | Ids en el catálogo | Ficha pública el 2026-11-13 |
+|---|---|---|
+| horror | `8087` (69 películas) y `315058` (1) | [`315058`](https://www.themoviedb.org/keyword/315058); `8087` ya no tiene página |
+| thriller | `9950` (26) y `316362` (2) | [`316362`](https://www.themoviedb.org/keyword/316362); `9950` ya no tiene página |
+| comedy | `289153` (1) y `322268` (3) | [`322268`](https://www.themoviedb.org/keyword/322268); `289153` ya no tiene página |
+
 ## Créditos y aviso de uso
 
 Estos datos se publican con fines exclusivamente académicos y demostrativos, sin ningún lucro comercial. Los créditos
@@ -100,6 +111,17 @@ you prefer.
   | `unverified` | Unknown origin; the text stays until a verifiable source exists |
 - The fields are those of the mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «About the demo» › «The
   catalog» describes each one.
+
+### Keywords with two ids
+
+`horror`, `thriller`, and `comedy` each have two ids in the catalog. This is not an id that belongs to a different
+word: both ids named the same word on TMDB, so both stay.
+
+| Name | Ids in the catalog | Public page on 2026-11-13 |
+|---|---|---|
+| horror | `8087` (69 movies) and `315058` (1) | [`315058`](https://www.themoviedb.org/keyword/315058); `8087` no longer has a page |
+| thriller | `9950` (26) and `316362` (2) | [`316362`](https://www.themoviedb.org/keyword/316362); `9950` no longer has a page |
+| comedy | `289153` (1) and `322268` (3) | [`322268`](https://www.themoviedb.org/keyword/322268); `289153` no longer has a page |
 
 ### Credits and terms of use
 
