@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 00:30 UTC · Claude Code (Claude Opus 5.5) · revisor (R-11)
+**Última actualización:** 2026-11-13 00:05 UTC · Claude Code (Claude Opus 5.5) · revisor (R-11)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -30,7 +30,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`009` (se detuvo por B-03) | REVISADO | 2026-11-12 | `dq-t10` | [R-10](bitacora/R-10.md) |
 | 11 | Cursor | WP-05: lotes `011`–`025` y limpieza de todas las omitidas (`026`–`027`; P-11) | REVISADO | 2026-11-12 | `dq-t11` | [R-11](bitacora/R-11.md) |
 | 12 | GitHub Copilot | WP-05: 14 lotes de 100 desde el `029`, limpieza de sus omitidas y T-03 (P-11) | PENDIENTE | — | — | — |
-| 13 | Google Antigravity | Cierre de WP-05 (lo que quede, T-03b, D-06 y T-05; P-11), WP-03 T-03 y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
+| 13 | Google Antigravity | Cierre de WP-05 (lo que quede, T-03b, T-06 por D-06 y T-05; P-11), WP-03 T-03 y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
 | 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
 | 15 | GitHub Copilot | WP-07 parte B | PENDIENTE | — | — | — |
 | 16 | Google Antigravity | WP-08 | PENDIENTE | — | — | — |
@@ -95,7 +95,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-03 | ¿`"dynamic": "strict"` en el mapping? (WP-10) | Sí · No | Sí | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · sí, `dynamic: strict` |
 | D-04 | ¿Quitar el filtro `adult`? (WP-10) | Sí · No | No; documentar | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · no se quita; se documenta |
 | D-05 | ¿Qué contacto va en el `User-Agent` para Wikipedia y Wikidata (NS-7)? Sin contacto, Wikimedia limita a 10 peticiones por minuto y las unas 5 950 descargas de los turnos 4 a 13 tardan 11 h o más en total; con contacto, menos de 2 h. El valor va en `.env` como `DQ_WIKI_CONTACTO=` y no se commitea | URL pública del repo · un correo · sin contacto | Lo que prefiera la dueña del proyecto: es un dato suyo que se envía a Wikimedia | APROBADA 2026-11-12 · «La URL del repo» · `DQ_WIKI_CONTACTO=https://github.com/bigfito/elastiflix-reloaded` en el `.env` del worktree |
-| D-06 | En WP-05, una sinopsis sin trama de Wikipedia que es **texto generado**, y que la limpieza no arregla, ¿toma el overview de TMDB que ya trae el documento (NS-1 b, etiqueta `tmdb_overview`)? Hoy son 5: `213927` *Born to Race: Fast Track* (la respuesta de un asistente que no encontró la película), `298016` *It's a SpongeBob Christmas!* (corrige el año e inventa la trama) y las 3 de T-03b (`150015`, `198436`, `364708`, ensayos «At its core»). Sin esto, esas 3 bloquean la integración de WP-03 (turno 13) | Sí, en el turno 13 · No, quedan `unverified` | Sí: el overview es corto pero es de la película, y nadie redacta (NS-2) | ABIERTA · R-11 |
+| D-06 | En WP-05, una sinopsis sin trama de Wikipedia que es **texto generado**, y que la limpieza no arregla, ¿toma el overview de TMDB que ya trae el documento (NS-1 b, etiqueta `tmdb_overview`)? Hoy son 5: `213927` *Born to Race: Fast Track* (la respuesta de un asistente que no encontró la película), `298016` *It's a SpongeBob Christmas!* (corrige el año e inventa la trama) y las 3 de T-03b (`150015`, `198436`, `364708`, ensayos «At its core»). Sin esto, esas 3 bloquean la integración de WP-03 (turno 13) | Sí, en el turno 13 · No, quedan `unverified` | Sí: el overview es corto pero es de la película, y nadie redacta (NS-2) | APROBADA 2026-11-13 · «Apruebo D-06» · WP-05 T-06 en el turno 13 |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
 
 ## 4. Decisiones tomadas
@@ -118,6 +118,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-09 | En la rama de WP-03, el criterio es `verify` en verde salvo `ShippedCatalogValidationTest`, que solo puede avisar sobre películas de `hallazgos/listas/wp05-avisos-wp03.tsv` (81). WP-05 suma T-03b: esas 81 quedan con trama de Wikipedia o limpias de la frase. Todo en verde se exige en WP-03 T-03 (turno 13) | Claude Code (R-08) |
 | 2026-11-12 | P-10 | El hito A (`dq-r07`) se integró en `main` local con el merge `739a118`, sin push | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
+| 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13 | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-12 | `wiki_plot.py` rechaza tres fuentes más: artículos de trilogías o sagas, redirecciones a una sección de otro artículo y, en la búsqueda por título, un artículo cuyo título no contiene el de la película ni al revés. La corrección `lote-028` ocupa ese número: el turno 12 empieza en el `029` | Claude Code (R-11) |
 
 ## 5. Bloqueos abiertos
@@ -295,10 +296,10 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: `./mvnw -q verify` en verde; `hallazgos/salidas/r10/`.
 - Para el siguiente: turno 11, Cursor.
 
-### 2026-11-13 00:30 UTC · Claude Code (Claude Opus 5.5) · revisor (R-11)
+### 2026-11-13 00:05 UTC · Claude Code (Claude Opus 5.5) · revisor (R-11)
 - Hice: revisión del turno 11 de Cursor. APROBADO CON CORRECCIONES. 7 de las 1 390 tramas eran de otra obra: dos de
   trilogías, cuatro por redirecciones a una sección de otro artículo y una por la búsqueda por título. Tres guardas
   nuevas en `wiki_plot.py` (P-12), y las 7 vuelven a su sinopsis propia, limpiada, en `lote-028`. Abrí D-06 para las
   5 sinopsis generadas que no tienen fuente. Detalle en `bitacora/R-11.md`.
 - Evidencia: `./mvnw -q verify` en verde; `hallazgos/salidas/r11/`.
-- Para el siguiente: turno 12, GitHub Copilot (empieza en el `lote-029`). D-06 espera a la dueña del proyecto.
+- Para el siguiente: turno 12, GitHub Copilot (empieza en el `lote-029`). D-06 aprobada por la dueña del proyecto («Apruebo D-06»), la aplica el turno 13 (WP-05 T-06).

@@ -52,8 +52,8 @@ medición y documentación.
 | 9 | GitHub Copilot | WP-04 completo | Mediano | — |
 | 10 | Google Antigravity | WP-05 T-01 (`limpiar_enciclopedico.py`) y lotes `001` a `010` | Mediano | — |
 | 11 | Cursor | WP-05 lotes `011` a `025` y la limpieza de las omitidas (`026` y `027`; P-11) | Mediano | — |
-| 12 | GitHub Copilot | WP-05: 14 lotes desde el `029` (`028` es la corrección de R-11), su limpieza y T-03 (P-11, P-12) | Mediano | — |
-| 13 | Google Antigravity | Cierre de WP-05 (lo que quede, T-03b, D-06 y T-05; P-11), WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
+| 12 | GitHub Copilot | WP-05: 14 lotes desde el `029` (`028` es la corrección de R-11), su limpieza y T-03 (P-11, P-12); anota en `wp05-d06-generadas.tsv` las sinopsis generadas sin fuente | Mediano | — |
+| 13 | Google Antigravity | Cierre de WP-05 (lo que quede, T-03b, T-06 por D-06 y T-05; P-11), WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
 | 14 | Cursor | WP-06 T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
 | 15 | GitHub Copilot | WP-07 parte B (`EFX-ING-029` en Java) | Grande | — |
 | 16 | Google Antigravity | WP-08 completo | Mediano | — |
@@ -124,7 +124,7 @@ modelo, así que ningún agente escribe sinopsis.**
 
 | Regla | Contenido |
 |---|---|
-| **NS-1 · Fuente** | **(a)** La sección de trama del artículo de Wikipedia en inglés (`Plot`, `Synopsis`, `Plot summary`, `Story`, `Premise` y, desde R-06, `Summary`; el encabezado se compara sin paréntesis, así que vale «Synopsis (extended version)»), de un artículo que sea de la película y no de una serie, un videojuego o un manga (R-05). **(b)** Solo en WP-01 y WP-02, donde el texto actual no sirve: si no hay (a), el `overview` de TMDB que ya trae el documento, con 40 caracteres o más, y etiqueta `tmdb_overview`. **(c)** Si no hay ninguna, el `plot` se queda como está y la película queda «sin fuente» en `cambios/WP-XX/estado.tsv` |
+| **NS-1 · Fuente** | **(a)** La sección de trama del artículo de Wikipedia en inglés (`Plot`, `Synopsis`, `Plot summary`, `Story`, `Premise` y, desde R-06, `Summary`; el encabezado se compara sin paréntesis, así que vale «Synopsis (extended version)»), de un artículo que sea de la película y no de una serie, un videojuego o un manga (R-05). **(b)** Solo en WP-01 y WP-02, donde el texto actual no sirve, y en WP-05 T-06 para las de `wp05-d06-generadas.tsv` (D-06): si no hay (a), el `overview` de TMDB que ya trae el documento, con 40 caracteres o más, y etiqueta `tmdb_overview`. **(c)** Si no hay ninguna, el `plot` se queda como está y la película queda «sin fuente» en `cambios/WP-XX/estado.tsv` |
 | **NS-2 · Sin redacción** | Prohibido redactar, resumir, traducir, parafrasear o «mejorar» una sinopsis, con un modelo o a mano. El agente escribe **código** que copia texto. Transformaciones permitidas: quitar referencias (`[1]`, `[a]`, `[citation needed]`), notas y marcado; unir espacios; recortar según NS-3; y, solo en WP-05, quitar párrafos completos con `limpiar_enciclopedico.py` |
 | **NS-3 · Largo** | De 40 a **3 000** caracteres (decisión D-01, valor por defecto). Si la fuente es más larga, se corta en el último fin de oración (`.`, `!`, `?`) antes del límite |
 | **NS-4 · Identidad** | El artículo se encuentra por `imdb_id` → Wikidata (propiedad P345) → enlace `enwiki`. Sin `imdb_id` o sin resultado: búsqueda por título, aceptada solo si el año coincide ±1 **y** aparecen en el artículo al menos 2 nombres de `cast` |
@@ -323,7 +323,7 @@ EFX-ING-028 · advertencia · en cualquier parte:
 **Con más cuidado:** [`wp05-una-firma.tsv`](hallazgos/listas/wp05-una-firma.tsv) (799)
 
 **Orden por película:** (1) trama de Wikipedia según NS, si existe; (2) si no, `limpiar_enciclopedico.py`; (3) si
-la limpieza deja menos de 400 caracteres, no se cambia nada y queda «sin fuente». WP-05 no usa el overview de TMDB.
+la limpieza deja menos de 400 caracteres, no se cambia nada y queda «sin fuente». WP-05 no usa el overview de TMDB, salvo en T-06 (D-06).
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|
@@ -332,6 +332,7 @@ la limpieza deja menos de 400 caracteres, no se cambia nada y queda «sin fuente
 | T-03 | Cerrar lo que quede de `wp02-revisar-reparto.tsv` | Lista cerrada en la bitácora |
 | T-03b | Las 81 de [`wp05-avisos-wp03.tsv`](hallazgos/listas/wp05-avisos-wp03.tsv) (R-08, P-09): cada una debe quedar con trama de Wikipedia o limpia de la frase que avisa WP-03, porque el turno 13 integra esas reglas y `ShippedCatalogValidationTest` no admite avisos. Si la limpieza de párrafos no la quita, se anota para el turno 13 | Ninguna de las 81 conserva la frase |
 | T-04 | Revisión, aplicación y validación por lote, como en WP-02 | `ShippedCatalogValidationTest` en verde |
+| T-06 · D-06 | Las de [`wp05-d06-generadas.tsv`](hallazgos/listas/wp05-d06-generadas.tsv) (texto generado sin trama de Wikipedia, que la limpieza no arregla) toman el `overview` de TMDB del documento, con 40 caracteres o más y etiqueta `tmdb_overview`, en un lote propio de WP-05 con `fuente` `tmdb_overview` y motivo «D-06». Si `proponer_trama.py` no lo permite, se le agrega una opción `--d06` limitada a esa lista. Va antes de WP-03 T-03 | Ninguna de la lista conserva su texto; `ShippedCatalogValidationTest` en verde |
 | T-05 · indicador | `analizar.py --etiqueta wp-05 --desde-data`, en `plots.txt` | «producción/recepción» < 300 (hoy 1 549) y «ficha inicial» < 500 (hoy 3 734) |
 
 Al revisar el turno 12, Claude Code deja en «Próximo paso» la integración de WP-03 (WP-03 T-03) como primera tarea del turno 13.
