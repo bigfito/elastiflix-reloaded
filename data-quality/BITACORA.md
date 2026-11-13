@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 22:35 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 22, WP-11)
+**Última actualización:** 2026-11-13 22:35 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 22, WP-11 T-06)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -40,7 +40,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
 | 21 | Cursor → Claude Code (P-23) | C-01 T-06 a T-08 (H-2) | EN ESPERA · T-06 y T-07 hechos; T-08 desde el 2026-11-20 | 2026-11-13 | `dq-t21` | [R-21](bitacora/R-21.md) |
-| 22 | Claude Code | WP-11 (P-25) | REVISADO · T-00 a T-05 hechos y publicados (H-3); falta el push (T-06) | 2026-11-13 | `dq-t22` | [R-22](bitacora/R-22.md) |
+| 22 | Claude Code | WP-11 (P-25) | REVISADO · T-00 a T-06 hechos: publicado (H-3), en `main` y en origin (P-26) | 2026-11-13 | `dq-t22` | [R-22](bitacora/R-22.md) |
 
 ### 1.2 Paquetes de trabajo
 
@@ -57,7 +57,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
-| WP-11 | Pendientes después de la publicación | EN CURSO · T-00 a T-05 hechos; producción = M4 (H-3); T-06 (push y recompilar) | 22 | 2026-11-13 |
+| WP-11 | Pendientes después de la publicación | HECHA · producción = M4 (H-3); `main` integrado y publicado en origin; app local recompilada (P-26) | 22 | 2026-11-13 |
 | C-01 | Cierre: medición, publicación y documentación | EN ESPERA · T-01 a T-07 hechos; publicado el 2026-11-13; T-08 (borrar el índice anterior) desde el 2026-11-20 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
@@ -95,7 +95,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 >    anotados.
 > 2. `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-dq-staging-20261113-195801` y
 >    `python data-quality/scripts/publicar.py --borrar-anterior elastiflix-reloaded-20261112-144129`.
-> 3. Turno 21, C-01 y WP-11 a `HECHA`, y Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
+> 3. Turno 21 y C-01 a `HECHA`, y Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
 >
 > Hasta esa fecha no hagas una carga bulk en producción ni en staging: la limpieza de huérfanos borraría el índice
 > anterior de ese alias y, con él, la vuelta atrás. Si algo falla, la vuelta atrás es
@@ -147,6 +147,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-13 | D-10 | Las 429 `unverified` y las 146 cortas se vuelven a buscar en Wikipedia; solo cambian las que encuentren trama | Dueña del proyecto: «Reintentar Wikipedia (Recommended)» |
 | 2026-11-13 | D-11 | Analizador `english` (con raíces) en `plot` y `overview` | Dueña del proyecto: «Raíces en plot» |
 | 2026-11-13 | D-12 | Un solo push de `main` al final de WP-11 | Dueña del proyecto: «Uno solo al final (Recommended)» |
+| 2026-11-13 | P-26 | WP-11 T-06: `dq-r22` integrado en `main` con el merge `84ba046` y el push único de D-12 (`9a1b864..84ba046`), que despliega la demo. La app local se recompiló con `./mvnw -q compile`, sin `clean` | Dueña del proyecto: «Ejecuta los pendientes 3, 4, 6, 8, 9, 10 y 11.» y D-12 |
 | 2026-11-13 | P-25 | WP-11 (pendientes 8 a 11 de R-21) lo ejecuta Claude Code en el turno 22. Se quitó el worktree de WP-03 (pendiente 6), ya integrado | Dueña del proyecto: «Ejecuta los pendientes 3, 4, 6, 8, 9, 10 y 11.» |
 | 2026-11-13 | P-24 | La publicación (`dq-r21`) se integró en `main` local con el merge `91d4c9a`, sin push. La dueña del proyecto ya puede desplegar | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | P-23 | Claude Code termina el turno 21: T-07 (publicar y medir producción) y lo que se pueda de T-08. Cursor hizo T-06 (pedir H-2) | Dueña del proyecto: «Toma el siguiente turno y termina las actividades restantes.» |
@@ -550,3 +551,10 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   paso» dicen qué índices se guardan hasta el 2026-11-20 y cuáles se borran entonces.
 - Evidencia: `es.py GET /_alias/elastiflix-reloaded`; `target/eval/report.md` sobre producción.
 - Para el siguiente: integrar en `main`, el push (D-12) y recompilar la app local.
+
+### 2026-11-13 22:35 UTC · Claude Code (Claude Opus 5.5) · ejecutor (turno 22, WP-11 T-06)
+- Hice: merge `--no-ff` de `dq-r22` en `main` (`84ba046`) y el push único de D-12 (`9a1b864..84ba046`); `main` y
+  `origin/main` quedaron iguales. Recompilé la app local con `./mvnw -q compile`, sin `clean`: `target/classes` ya
+  trae el mapping estricto con el analizador `english` y el `TextNormalizer` nuevo. WP-11 queda `HECHA` (P-26).
+- Evidencia: `git rev-list --left-right --count origin/main...main` → `0 0`.
+- Para el siguiente: C-01 T-08 desde el 2026-11-20 (ver «Próximo paso»).
