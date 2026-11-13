@@ -114,7 +114,7 @@ Qwen es un modelo pequeño: estas reglas le ahorran contexto y le evitan improvi
    «Para el siguiente ejecutor» de la revisión anterior (`bitacora/R-NN.md`); la tarjeta de tu WP en `PLAN.md`; y el
    «Punto de reanudación» de `bitacora/WP-XX.md`. No hace falta leer los diarios completos ni los informes viejos.
 2. **Copia los comandos tal cual** de «Próximo paso». No los reescribas, no cambies rutas ni opciones, no inventes
-   comandos nuevos. La terminal es PowerShell salvo que «Próximo paso» diga otra cosa.
+   comandos nuevos. Están escritos para funcionar igual en PowerShell y en Git Bash, desde la raíz del worktree.
 3. **Un lote a la vez y en este orden:** proponer, aplicar, probar, commit y una línea en el diario. No empieces el
    lote siguiente hasta que el anterior esté commiteado.
 4. **Si te pierdes**, `git log --oneline -5`, `git status` y el «Punto de reanudación» te dicen dónde vas. Nunca
@@ -127,6 +127,12 @@ Qwen es un modelo pequeño: estas reglas le ahorran contexto y le evitan improvi
 8. **Si el contexto se te llena**, cierra el turno limpio (`INCOMPLETO`, todo commiteado, punto de reanudación al día)
    en vez de seguir a medias. El turno siguiente retoma desde ahí.
 9. Firma tus commits con `Agente: Qwen (Qwen 3.5 9B)` y pasa `--agente "Qwen (Qwen 3.5 9B)"` a los scripts.
+10. **En OpenCode:**
+    - Trabaja con el agente **Build**: el agente Plan no puede editar archivos.
+    - A cada `./mvnw` dale un timeout de 600000 ms en la herramienta de shell, porque una prueba tarda de 1 a 3
+      minutos. Si un comando se corta por tiempo, córrelo otra vez una sola vez; si vuelve a cortarse, es un bloqueo.
+    - No leas `.env`: OpenCode pide permiso para leerlo, y la respuesta es no (regla 4 del §3).
+    - No delegues pasos del turno en subagentes (`general`, `explore`): cada lote lo haces tú, en orden.
 
 ### Al terminar (aunque no hayas acabado)
 
@@ -191,7 +197,7 @@ como carpeta, y envía el mensaje de la tabla.
 
 | Herramienta | Notas | Mensaje |
 |---|---|---|
-| **Qwen 3.5 9B** | La herramienta de agente con la que la dueña del proyecto corra el modelo (por ejemplo Qwen Code), con el worktree como carpeta y acceso a la terminal. Firma sus commits como `Agente: Qwen (Qwen 3.5 9B)`. Lee el §5.1 | `Eres Qwen, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md (§3, §5 y §5.1) y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
+| **Qwen 3.5 9B** | OpenCode (versión de escritorio), con el worktree como proyecto, el agente **Build** y Qwen 3.5 9B como modelo. OpenCode carga `data-quality/AGENTS.md` cuando el agente lee archivos de esa carpeta; el mensaje pide leerlo igual. Firma sus commits como `Agente: Qwen (Qwen 3.5 9B)`. Lee el §5.1 | `Eres Qwen, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md (§3, §5 y §5.1) y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Cursor** | Chat en modo Agent. Agrega `data-quality/` al contexto | `Eres Cursor, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Claude Code** | `data-quality/CLAUDE.md` importa este archivo | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
 

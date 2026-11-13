@@ -78,8 +78,9 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 12 · Qwen 3.5 9B** (WP-05, P-11 y P-13). Terminal: PowerShell, en el worktree. Copia cada comando tal cual
-> (`AGENTS.md` §5.1). Firma: `--agente "Qwen (Qwen 3.5 9B)"` y `Agente: Qwen (Qwen 3.5 9B)`.
+> **Turno 12 · Qwen 3.5 9B en OpenCode** (WP-05, P-11 y P-13). Los comandos funcionan igual en PowerShell y en Git
+> Bash; corre cada uno desde la raíz del worktree y cópialo tal cual (`AGENTS.md` §5.1). A los `./mvnw` dales un
+> timeout de 600000 ms. Firma: `--agente "Qwen (Qwen 3.5 9B)"` y `Agente: Qwen (Qwen 3.5 9B)`.
 >
 > **A. Al empezar.**
 > 1. `git status` (debe estar limpio), `git log --oneline -5` y `git tag --list "dq-r11"`.
@@ -98,10 +99,12 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 >    Después `git add data data-quality/cambios/WP-05 data-quality/fuentes` y
 >    `git commit -m "Reemplaza <propuestas> plots enciclopédicos (WP-05 lote-NNN) con la trama de Wikipedia" -m "Plan: turno 12 · WP-05 · T-02 · lote-NNN" -m "Rol: DATOS" -m "Agente: Qwen (Qwen 3.5 9B)"`.
 >
-> **C. Limpieza de las omitidas.** Repite hasta que
-> `Select-String -Path data-quality/cambios/WP-05/estado.tsv -Pattern "	omitido	"` no devuelva nada:
+> **C. Limpieza de las omitidas.** Repite hasta que el script imprima «No quedan películas pendientes de
+> limpiar_enciclopedico.py.»:
 > 1. `python data-quality/scripts/limpiar_enciclopedico.py --wp WP-05 --agente "Qwen (Qwen 3.5 9B)"`.
 > 2. Los mismos pasos 2, 3 y 4 de B, con el commit `"Limpia <propuestas> plots enciclopédicos (WP-05 lote-NNN)"` y `T-02` en la línea `Plan:`.
+>    Si imprimió «sin líneas de cambio; no se escribe un jsonl vacío», no hay lote que aplicar ni prueba que correr:
+>    `git add data-quality/cambios/WP-05` y commit `"Registra sin fuente en WP-05 (lote-NNN)"`.
 >
 > **D. T-03.** Corre `python data-quality/scripts/analizar.py --etiqueta t12 --desde-data` y después
 > `python data-quality/scripts/revisar_reparto.py --etiqueta t12`. Copia lo que imprime el segundo al diario.
