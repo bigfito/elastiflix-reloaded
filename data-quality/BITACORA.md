@@ -87,9 +87,9 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 21 · Cursor, en espera de H-2.** La petición está en el chat. H-2 sigue ABIERTA. No se publica hasta copiar
-> en §3 la respuesta literal de la dueña del proyecto. Si la respuesta es sí, sigue T-07 (`publicar.py` y el harness
-> sobre producción, sin `ELASTIFLIX_INDEX_ALIAS`). Si es no, el turno pasa a EN ESPERA sin publicar.
+> **Turno 21 · Cursor, sigue con T-07.** H-2 está APROBADA (2026-11-13, «Apruebo H-2»). Corre
+> `python data-quality/scripts/publicar.py` y después el harness sobre producción, sin `ELASTIFLIX_INDEX_ALIAS`.
+> Producción debe quedar en M3 ±0.02; si no, `publicar.py --revertir <índice anterior>` y un bloqueo.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -108,7 +108,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-06 | En WP-05, una sinopsis sin trama de Wikipedia que es **texto generado**, y que la limpieza no arregla, ¿toma el overview de TMDB que ya trae el documento (NS-1 b, etiqueta `tmdb_overview`)? Hoy son 5: `213927` *Born to Race: Fast Track* (la respuesta de un asistente que no encontró la película), `298016` *It's a SpongeBob Christmas!* (corrige el año e inventa la trama) y las 3 de T-03b (`150015`, `198436`, `364708`, ensayos «At its core»). Sin esto, esas 3 bloquean la integración de WP-03 (turno 13) | Sí, en el turno 13 · No, quedan `unverified` | Sí: el overview es corto pero es de la película, y nadie redacta (NS-2) | APROBADA 2026-11-13 · «Apruebo D-06» · WP-05 T-06 en el turno 13a |
 | D-07 | Gemma 4 E4B dejó los turnos 12 y 13a sin commitear (lotes propuestos sin aplicar, sin diario ni cierre); los cerró la revisión. ¿Quién termina lo que falta de WP-05 (la limpieza de 70 omitidas, T-06, T-05 y T-03: comandos deterministas ya escritos) y quién toma los turnos 13b, 16, 19a, 19b y 21? | A · Claude Code termina WP-05 en R-13a y Cursor toma los turnos de Gemma · B · Gemma repite un turno 13a corto con lo que falta y conserva sus turnos · C · Claude Code termina WP-05 y Gemma conserva sus turnos | A: los turnos que quedan incluyen integrar Java (13b), recargar staging (19a) y publicar en producción (21), y Gemma no cerró ninguno de sus dos turnos | APROBADA 2026-11-13 · «WP-05 tú, resto a Cursor» · opción A |
 | D-08 | M2 cumplió el criterio de parada (B-06): `bm25_plot` bajó 0.112 y `rrf_plot_knn1024` 0.117 frente a M1. Los vectores (`knn_*`, +0.019 a +0.082) y la búsqueda por defecto (`rrf_title_knn256`, +0.019) mejoraron. La caída viene de que las consultas de evaluación usan el vocabulario de las sinopsis generadas que el plan quitó (R-14). ¿Sigue el plan? | A · Sigue: M2 aceptada, B-06 cerrado; el criterio de parada aplica en adelante a `knn_*` y `rrf_title_knn*`; `bm25_plot` y `rrf_plot_*` se informan; umbrales nuevos en C-01 T-03 · B · Se detiene el plan aquí · C · Sigue, pero antes se califican las 592 películas sin juicio del harness | A: lo que mide el criterio (los vectores) mejoró, y la caída no es un daño al catálogo | APROBADA 2026-11-13 · «Sí, opción A» · opción A |
-| H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
+| H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | APROBADA 2026-11-13 · «Apruebo H-2» · publicación con `publicar.py` (C-01 T-07); el índice anterior se borra a los 7 días sin incidentes (T-08) |
 
 ## 4. Decisiones tomadas
 
