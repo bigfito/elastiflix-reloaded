@@ -48,6 +48,9 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
   | `tmdb_overview_translated:<idioma>` | Overview de TMDB traducido (una película, `zh-CN`) |
   | `tmdb_metadata_summary` | Resumen armado con metadatos de TMDB (una película) |
   | `unverified` | Origen desconocido; el texto se mantiene mientras no haya fuente verificable |
+  En los demás campos la etiqueta suele ser `tmdb_api_AAAA-MM-DD` (la fecha de la descarga de TMDB).
+  `wikipedia_infobox` marca un monto (`budget` o `revenue`) tomado de la ficha del artículo de Wikipedia (WP-09).
+  `revenue` 618 de *Money Plane* no es un error: la ficha y Box Office Mojo dan $618.
 - Los campos son los del mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «Acerca de» › «El catálogo»
   describe cada uno.
 
@@ -109,6 +112,9 @@ you prefer.
   | `tmdb_overview_translated:<lang>` | Translated TMDB overview (one movie, `zh-CN`) |
   | `tmdb_metadata_summary` | Summary built from TMDB metadata (one movie) |
   | `unverified` | Unknown origin; the text stays until a verifiable source exists |
+  In the other fields the tag is usually `tmdb_api_YYYY-MM-DD` (the date of the TMDB download).
+  `wikipedia_infobox` marks an amount (`budget` or `revenue`) taken from the Wikipedia article's infobox (WP-09).
+  The `revenue` of 618 for *Money Plane* is not an error: the infobox and Box Office Mojo give $618.
 - The fields are those of the mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «About the demo» › «The
   catalog» describes each one.
 
