@@ -87,6 +87,48 @@ footer { color: var(--muted); font-size: 13px; }
 </section>
 
 <section>
+  <h2>De dónde viene cada sinopsis</h2>
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr><th>Etiqueta <code>enrichment.plot</code></th><th>M0</th><th>M3</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sin etiqueta (origen desconocido)</td><td class="n">5 275</td><td class="n ok">0</td></tr>
+        <tr><td><code>wikipedia_plot_…</code>: sección de trama del artículo de la película, con su revisión en <code>fuentes/plot-fuentes.tsv</code></td><td class="n">0</td><td class="n ok">5 403</td></tr>
+        <tr><td><code>tmdb_overview</code></td><td class="n">1 622</td><td class="n">1 065</td></tr>
+        <tr><td><code>unverified</code>: sin fuente verificable, ya limpias de ficha, taquilla y crítica</td><td class="n">—</td><td class="n">429</td></tr>
+        <tr><td><code>tmdb_metadata_summary</code> y <code>tmdb_overview_translated:zh-CN</code></td><td class="n">1 + 1</td><td class="n">1 + 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Ninguna sinopsis la redactó un agente: cada una es la trama de Wikipedia, el overview de TMDB o el texto anterior, recortado por párrafos completos (norma NS-2 del plan).</p>
+</section>
+
+<section>
+  <h2>Las 10 recomendaciones del informe original</h2>
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Recomendación</th><th>Estado</th><th>Resultado</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="n">1</td><td>Reemplazar respuestas de asistente y datos inventados (WP-01)</td><td class="ok">Hecha</td><td>Las 13 películas, con trama de Wikipedia u overview de TMDB</td></tr>
+        <tr><td class="n">2</td><td>Reescribir los ensayos generados (WP-02)</td><td class="ok">Hecha</td><td>1 402 películas; plot con dos o más firmas: 1 408 → 0</td></tr>
+        <tr><td class="n">3</td><td>Ampliar las reglas de advertencia (WP-03)</td><td class="ok">Hecha</td><td><code>EFX-ING-025</code>, <code>026</code> y <code>028</code> con los patrones nuevos; cero avisos en <code>data/</code></td></tr>
+        <tr><td class="n">4</td><td>Etiquetar el origen de las sinopsis (WP-04)</td><td class="ok">Hecha</td><td>6 899 de 6 899 con <code>enrichment.plot</code></td></tr>
+        <tr><td class="n">5</td><td>Limpiar el plot enciclopédico (WP-05)</td><td class="ok">Hecha</td><td>3 862 películas: ficha inicial 3 734 → 9; taquilla o crítica 1 549 → 5</td></tr>
+        <tr><td class="n">6</td><td>Completar las sinopsis cortas (WP-06)</td><td class="ok">Hecha</td><td>616 con una trama de Wikipedia más larga; menos de 200 caracteres: 686 → 146, todas sin una fuente más larga</td></tr>
+        <tr><td class="n">7</td><td>Normalizar al cargar (WP-07)</td><td class="ok">Hecha</td><td>Lote de higiene sobre 309 películas y <code>EFX-ING-029</code> al validar</td></tr>
+        <tr><td class="n">8</td><td>Corregir palabras clave y colecciones (WP-08)</td><td class="ok">Hecha</td><td>Los tres ids ajenos con un solo nombre; <em>Death Note Relight 2</em> en su colección</td></tr>
+        <tr><td class="n">9</td><td>Una sola puntuación y montos imposibles (WP-09)</td><td class="ok">Hecha</td><td><code>user_score</code> rotulado «TMDB, octubre de 2026»; presupuesto de <em>Inuyasha</em> de la ficha de Wikipedia; el 618 de <em>Money Plane</em> confirmado</td></tr>
+        <tr><td class="n">10</td><td><code>dynamic: strict</code> y filtro <code>adult</code> (WP-10)</td><td class="ok">Hecha</td><td>Mapping estricto, ya en staging; el filtro se queda y está documentado</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
   <h2>Relevancia, nDCG@10</h2>
   <div class="tbl">
     <table>
