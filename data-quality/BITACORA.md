@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 20:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-20, hito C)
+**Última actualización:** 2026-11-13 20:56 UTC · Cursor (Grok 4.7) · ejecutor (turno 21)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -39,7 +39,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
-| 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
+| 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | EN CURSO · esperando la respuesta de H-2 | 2026-11-13 | — | — |
 
 ### 1.2 Paquetes de trabajo
 
@@ -56,7 +56,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
-| C-01 | Cierre: medición, publicación y documentación | EN CURSO · T-01 a T-05 hechos (hito C); T-06 a T-08 (H-2 y publicación) en el turno 21 | 19, 20, 21 | 2026-11-13 |
+| C-01 | Cierre: medición, publicación y documentación | EN CURSO · turno 21, T-06 pide H-2; sin publicar | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
 
@@ -87,13 +87,9 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 21 · Cursor.** C-01:
-> - **T-06:** pedir H-2 a la dueña del proyecto, con el resumen M0 → M3, el método, la vuelta atrás y los 7 días.
-> - **T-07:** solo con H-2 aprobada, `publicar.py` y el harness sobre producción.
-> - **T-08:** a los 7 días, borrar el índice anterior.
->
-> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-20](bitacora/R-20.md). El punto de partida es la
-> etiqueta `dq-r20`.
+> **Turno 21 · Cursor, en espera de H-2.** La petición está en el chat. H-2 sigue ABIERTA. No se publica hasta copiar
+> en §3 la respuesta literal de la dueña del proyecto. Si la respuesta es sí, sigue T-07 (`publicar.py` y el harness
+> sobre producción, sin `ELASTIFLIX_INDEX_ALIAS`). Si es no, el turno pasa a EN ESPERA sin publicar.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
