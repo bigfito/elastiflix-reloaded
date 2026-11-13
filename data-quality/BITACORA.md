@@ -40,6 +40,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
 | 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
 | 21 | Cursor → Claude Code (P-23) | C-01 T-06 a T-08 (H-2) | EN ESPERA · T-06 y T-07 hechos; T-08 desde el 2026-11-20 | 2026-11-13 | `dq-t21` | [R-21](bitacora/R-21.md) |
+| 22 | Claude Code | WP-11 (P-25) | EN CURSO | 2026-11-13 | — | — |
 
 ### 1.2 Paquetes de trabajo
 
@@ -56,6 +57,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
+| WP-11 | Pendientes después de la publicación | EN CURSO · turno 22 | 22 | 2026-11-13 |
 | C-01 | Cierre: medición, publicación y documentación | EN ESPERA · T-01 a T-07 hechos; publicado el 2026-11-13; T-08 (borrar el índice anterior) desde el 2026-11-20 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
@@ -116,6 +118,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-07 | Gemma 4 E4B dejó los turnos 12 y 13a sin commitear (lotes propuestos sin aplicar, sin diario ni cierre); los cerró la revisión. ¿Quién termina lo que falta de WP-05 (la limpieza de 70 omitidas, T-06, T-05 y T-03: comandos deterministas ya escritos) y quién toma los turnos 13b, 16, 19a, 19b y 21? | A · Claude Code termina WP-05 en R-13a y Cursor toma los turnos de Gemma · B · Gemma repite un turno 13a corto con lo que falta y conserva sus turnos · C · Claude Code termina WP-05 y Gemma conserva sus turnos | A: los turnos que quedan incluyen integrar Java (13b), recargar staging (19a) y publicar en producción (21), y Gemma no cerró ninguno de sus dos turnos | APROBADA 2026-11-13 · «WP-05 tú, resto a Cursor» · opción A |
 | D-08 | M2 cumplió el criterio de parada (B-06): `bm25_plot` bajó 0.112 y `rrf_plot_knn1024` 0.117 frente a M1. Los vectores (`knn_*`, +0.019 a +0.082) y la búsqueda por defecto (`rrf_title_knn256`, +0.019) mejoraron. La caída viene de que las consultas de evaluación usan el vocabulario de las sinopsis generadas que el plan quitó (R-14). ¿Sigue el plan? | A · Sigue: M2 aceptada, B-06 cerrado; el criterio de parada aplica en adelante a `knn_*` y `rrf_title_knn*`; `bm25_plot` y `rrf_plot_*` se informan; umbrales nuevos en C-01 T-03 · B · Se detiene el plan aquí · C · Sigue, pero antes se califican las 592 películas sin juicio del harness | A: lo que mide el criterio (los vectores) mejoró, y la caída no es un daño al catálogo | APROBADA 2026-11-13 · «Sí, opción A» · opción A |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | APROBADA 2026-11-13 · «Apruebo H-2» · publicación con `publicar.py` (C-01 T-07); el índice anterior se borra a los 7 días sin incidentes (T-08) |
+| H-3 | ¿Se republica el catálogo con WP-11 (M4), cambiando `elastiflix-reloaded` al índice nuevo de staging, con la misma vuelta atrás? | Sí · No | Se decide con M4 | ABIERTA · se pregunta en WP-11 T-05 |
 
 ## 4. Decisiones tomadas
 
@@ -139,6 +142,11 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | D-09 | Los cambios de WP-11 llegan a producción con una recarga completa de staging (índice nuevo), medición M4 y una nueva aprobación (H-3) | Dueña del proyecto: «Republicar completo (Recommended)» |
+| 2026-11-13 | D-10 | Las 429 `unverified` y las 146 cortas se vuelven a buscar en Wikipedia; solo cambian las que encuentren trama | Dueña del proyecto: «Reintentar Wikipedia (Recommended)» |
+| 2026-11-13 | D-11 | Analizador `english` (con raíces) en `plot` y `overview` | Dueña del proyecto: «Raíces en plot» |
+| 2026-11-13 | D-12 | Un solo push de `main` al final de WP-11 | Dueña del proyecto: «Uno solo al final (Recommended)» |
+| 2026-11-13 | P-25 | WP-11 (pendientes 8 a 11 de R-21) lo ejecuta Claude Code en el turno 22. Se quitó el worktree de WP-03 (pendiente 6), ya integrado | Dueña del proyecto: «Ejecuta los pendientes 3, 4, 6, 8, 9, 10 y 11.» |
 | 2026-11-13 | P-24 | La publicación (`dq-r21`) se integró en `main` local con el merge `91d4c9a`, sin push. La dueña del proyecto ya puede desplegar | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | P-23 | Claude Code termina el turno 21: T-07 (publicar y medir producción) y lo que se pueda de T-08. Cursor hizo T-06 (pedir H-2) | Dueña del proyecto: «Toma el siguiente turno y termina las actividades restantes.» |
 | 2026-11-13 | P-22 | El hito C (`dq-r20`) se integró en `main` local con el merge `9bcd565`, sin push. Conviene desplegar después de C-01 T-07 (R-19) | Dueña del proyecto: «Sí, integra en local» |

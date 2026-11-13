@@ -137,6 +137,21 @@ class CatalogIndexIT {
     }
 
     @Test
+    @DisplayName("listOwnedIndexes deja fuera un índice del alias que otro alias usa")
+    void shouldLeaveOutAnIndexThatAnotherAliasUses() throws Exception {
+        // given: el índice publicado en otro alias conserva el nombre de este (staging publicado en producción)
+        String published = alias + "-20261018-030405";
+        String orphan = alias + "-20261019-030405";
+        String otherAlias = alias + "-prod";
+        create(published);
+        create(orphan);
+        client.indices().updateAliases(request -> request.actions(CatalogRequests.add(otherAlias, published)));
+
+        // when / then
+        assertThat(catalog.listOwnedIndexes(alias)).containsExactly(orphan);
+    }
+
+    @Test
     @DisplayName("appendAll escribe por el alias y rechaza cada ítem si el nombre es un índice concreto")
     void shouldAppendThroughTheAliasOnly() throws Exception {
         // given

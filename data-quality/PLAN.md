@@ -27,6 +27,7 @@ que repartían el trabajo por igual; los turnos 12 y 13a, Gemma 4 E4B.
 | [WP-08](#wp-08--corregir-palabras-clave-y-colecciones) | 8 · Corregir palabras clave y colecciones | DATOS | WP-07 | 16 |
 | [WP-09](#wp-09--una-sola-puntuación-y-montos-imposibles) | 9 · Una sola puntuación y montos imposibles | DATOS · DOCS | WP-08 · decisión D-02 | 17 |
 | [WP-10](#wp-10--opcional-dynamic-strict-y-filtro-adult) | 10 · Opcional: `dynamic: strict` y filtro `adult` | JAVA · DOCS | Decisiones D-03 y D-04 | 18 |
+| [WP-11](#wp-11--pendientes-después-de-la-publicación) | (después de publicar, D-09 a D-12) Montos, dobles espacios, nueva búsqueda en Wikipedia y raíces en `plot` | DATOS · JAVA · EVAL | C-01 T-07 | 22 |
 | [C-01](#c-01--cierre-medición-publicación-y-documentación) | (cierre: medición, publicación y documentación) | EVAL · DOCS | WP-01…WP-10 | 19, 20, 21 |
 
 Los turnos van **en serie**, en el orden fijo del equipo, así que nunca hay dos agentes cambiando `data/` a la vez.
@@ -436,6 +437,23 @@ valores «por defecto» de la tabla son solo la recomendación para la dueña de
 |---|---|
 | T-01 · D-03 | Mapping actualizado; `FieldRulesMappingTest`, `IndexMapping` y la prueba de `web/about/CatalogFields` en verde; README es/en al día |
 | T-02 · D-04 | Documentación (o el cambio de filtro, según la decisión) con `./mvnw verify` en verde |
+
+---
+
+## WP-11 · Pendientes después de la publicación
+
+**Origen.** La dueña del proyecto pidió ejecutar los pendientes 8 a 11 de R-21 y decidió D-09 a D-12. **Rol:** DATOS,
+JAVA y EVAL · **Turno:** 22 (Claude Code) · **Aprobación humana:** H-3 antes de publicar
+
+| Tarea | Qué hacer | Hecho cuando |
+|---|---|---|
+| T-00 · Seguridad | `listOwnedIndexes` deja fuera un índice con un alias ajeno: sin esto, recargar staging borraría el índice que hoy sirve producción (`OrphanCleaner`) | `CatalogIndexIT` en verde |
+| T-01 · Monto | `budget` de *Money Plane* (`694919`) según la ficha de Wikipedia ($586,443), con `enrichment.budget = wikipedia_infobox` | Lote aplicado |
+| T-02 · Dobles espacios | Lote que junta los espacios repetidos dentro de los textos (no los saltos de línea), y la normalización al cargar hace lo mismo con `EFX-ING-029` | `analizar.py` sin «doble espacio»; `./mvnw verify` en verde |
+| T-03 · Raíces (D-11) | Analizador `english` en `plot` y `overview` | Mapping y pruebas al día |
+| T-04 · Wikipedia otra vez (D-10) | Nueva búsqueda, sin caché, para las 429 `unverified` y las 146 de menos de 200 caracteres; solo cambian las que encuentren trama (las cortas, solo si es más larga) | Lotes aplicados; nadie redacta (NS-2) |
+| T-05 · M4 y H-3 (D-09) | Recarga completa de staging (índice nuevo), harness, umbrales, documentación de cifras y H-3; con H-3, `publicar.py` y el harness sobre producción | Producción = M4 ±0.02 |
+| T-06 · Push (D-12) | Integrar en `main` y un solo push al final; recompilar la app local | `origin/main` al día |
 
 ---
 

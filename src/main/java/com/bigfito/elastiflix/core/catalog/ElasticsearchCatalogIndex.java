@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
@@ -133,8 +134,10 @@ public class ElasticsearchCatalogIndex implements CatalogIndex {
     public List<String> listOwnedIndexes(String alias) {
         try {
             String pattern = alias + "-*";
-            return client.indices().get(request -> request.index(pattern)).indices().keySet().stream()
-                    .filter(index -> names.isOwnedBy(alias, index))
+            return client.indices().get(request -> request.index(pattern)).indices().entrySet().stream()
+                    .filter(entry -> names.isOwnedBy(alias, entry.getKey()))
+                    .filter(entry -> entry.getValue().aliases().keySet().stream().allMatch(alias::equals))
+                    .map(Map.Entry::getKey)
                     .sorted()
                     .toList();
         } catch (ElasticsearchException exception) {
