@@ -263,6 +263,8 @@ class MovieDetailControllerTest {
                 .andExpect(content().string(containsString("#r-27205")))
                 .andExpect(content().string(containsString("160 000 000 USD")))
                 .andExpect(content().string(containsString("825 532 764 USD")))
+                .andExpect(content().string(containsString(
+                        "<span>Puntuación de usuarios (TMDB, octubre de 2026)</span><code>user_score</code>")))
                 .andExpect(content().string(containsString("Colección")))
                 .andExpect(content().string(containsString("Inception Collection")))
                 .andExpect(content().string(containsString("Leonardo DiCaprio")))
@@ -288,6 +290,8 @@ class MovieDetailControllerTest {
                 .andExpect(content().string(containsString("Figures")))
                 .andExpect(content().string(containsString("160,000,000 USD")))
                 .andExpect(content().string(containsString("825,532,764 USD")))
+                .andExpect(content().string(containsString(
+                        "<span>User score (TMDB, October 2026)</span><code>user_score</code>")))
                 .andExpect(content().string(containsString("Collection")))
                 .andExpect(content().string(containsString("Inception Collection")))
                 .andExpect(content().string(containsString("Cast")))

@@ -141,7 +141,8 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("<tr class=\"subfield\">")))
                 .andExpect(content().string(containsString("<td>keywords.<wbr>name</td><td>text</td>")))
                 .andExpect(content().string(containsString("<td>belongs_to_collection.<wbr>backdrop_path</td><td>text</td>")))
-                .andExpect(content().string(containsString("<td>user_score</td><td>float</td>")))
+                .andExpect(content().string(containsString(
+                        "<td>user_score</td><td>float</td><td>Puntuación de los usuarios (TMDB, octubre de 2026)</td>")))
                 .andExpect(content().string(containsString("agrupadas como en el formulario de «Cargar datos»")))
                 .andExpect(content().string(containsString("<th>Obligatorio en .json</th><th>Obligatorio en .csv</th>")))
                 .andExpect(content().string(containsString("<td>Detalle</td><td class=\"req-yes\">Sí</td>"
@@ -157,6 +158,8 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("Index only")))
                 .andExpect(content().string(containsString("<td>runtime</td><td>integer</td><td>Runtime in minutes</td>"
                         + "<td>Card and detail</td>")))
+                .andExpect(content().string(containsString(
+                        "<td>user_score</td><td>float</td><td>User score (TMDB, October 2026)</td>")))
                 .andExpect(content().string(containsString("grouped as in the «Load data» form")))
                 .andExpect(content().string(containsString("<th>Required in .json</th><th>Required in .csv</th>")))
                 .andExpect(content().string(containsString("in append or bulk mode (the rules are the same)")));
