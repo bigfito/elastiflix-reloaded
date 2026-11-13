@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 01:20 UTC · Claude Code (Claude Opus 5.5) · revisor (R-12)
+**Última actualización:** 2026-11-13 03:50 UTC · Claude Code (Claude Opus 5.5) · revisor (R-13a)
 **Equipo (desde el turno 12, P-13):** ejecutan Cursor y Gemma 4 E4B; revisa y corrige Claude Code; decide la dueña del proyecto. Hasta el turno 11 ejecutaron también Google Antigravity y GitHub Copilot
 **Orden de turnos:** Gemma 12 → Claude Code → Gemma 13a → Claude Code → Gemma 13b → Claude Code → Cursor 14 → … (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -30,7 +30,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`009` (se detuvo por B-03) | REVISADO | 2026-11-12 | `dq-t10` | [R-10](bitacora/R-10.md) |
 | 11 | Cursor | WP-05: lotes `011`–`025` y limpieza de todas las omitidas (`026`–`027`; P-11) | REVISADO | 2026-11-12 | `dq-t11` | [R-11](bitacora/R-11.md) |
 | 12 | Gemma 4 E4B | WP-05: lotes `029`–`040` (10 de Wikipedia y 2 de limpieza) y T-03; sin cerrar, lo cerró R-12 | REVISADO | 2026-11-13 | `dq-t12` | [R-12](bitacora/R-12.md) |
-| 13a | Gemma 4 E4B | Cierre de WP-05: lo que quede, T-03b, T-06 (D-06) y T-05 | PENDIENTE | — | — | — |
+| 13a | Gemma 4 E4B | Cierre de WP-05: evaluó las 462 restantes (lotes `042`–`047`) sin commits; faltan la limpieza de 70, T-06, T-05 y T-03 (D-07) | REVISADO | 2026-11-13 | `dq-t13a` | [R-13a](bitacora/R-13a.md) |
 | 13b | Gemma 4 E4B | WP-03 T-03 (integración) y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
 | 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
 | 15 | Cursor | WP-07 parte B (P-14) | PENDIENTE | — | — | — |
@@ -51,7 +51,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-02 | Reescribir los ensayos generados | HECHA | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-01, T-02 y T-04 hechas y revisadas en la rama; T-03 (integración) en el turno 13b | 8, 13b | 2026-11-12 |
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
-| WP-05 | Limpiar el plot enciclopédico | EN CURSO · 3 400/3 862 evaluadas (3 134 Wikipedia, 13 corregidas, 225 limpias, 28 sin fuente); ficha inicial 245 y taquilla o crítica 182, ya bajo la meta | 10, 11, 12, 13a | 2026-11-13 |
+| WP-05 | Limpiar el plot enciclopédico | EN CURSO · 3 862/3 862 con fila; faltan la limpieza de 70 omitidas, T-06 (D-06), T-05 y T-03 (D-07) | 10, 11, 12, 13a | 2026-11-13 |
 | WP-06 | Completar las sinopsis cortas | PENDIENTE | 13b, 14 | — |
 | WP-07 | Normalizar al cargar | PENDIENTE | 14, 15 | — |
 | WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
@@ -76,69 +76,14 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-10 | 10 · Google Antigravity | APROBADO CON CORRECCIONES | B-03 (artículos de obras en dos partes) resuelto; prueba de `limpiar_enciclopedico.py`; guardas nuevas | `df0ce61` `7f0ff43` `0a67893` | [R-10](bitacora/R-10.md) |
 | R-11 | 11 · Cursor | APROBADO CON CORRECCIONES | 7 tramas de otra obra (trilogías, redirecciones a secciones, búsqueda por título) y tres guardas nuevas en `wiki_plot.py`; D-06 abierta | `9a28321` `be73b85` `fdae033` | [R-11](bitacora/R-11.md) |
 | R-12 | 12 · Gemma 4 E4B | APROBADO CON CORRECCIONES | Turno sin cerrar: commit de recuperación y 8 lotes aplicados; 3 tramas de otra obra («two-part», búsqueda por título); `--d06` para T-06; falso bloqueo B-05 | `1042632` `3f4c422` `afb20ad`…`e16b441` `a6d3a23` `62a1e39` | [R-12](bitacora/R-12.md) |
+| R-13a | 13a · Gemma 4 E4B | APROBADO CON CORRECCIONES · PENDIENTE DE DECISIÓN | Turno sin un commit: recuperación y 5 lotes aplicados; *Prancer: A Christmas Tale* (redirección a la película de 1989) corregida; guarda nueva; D-07 abierta | `3595bdd` `501a192` `4a06a94`…`17c4b44` `10f735d` | [R-13a](bitacora/R-13a.md) |
 
 ## 2. Próximo paso
 
-> **Turno 13a · Gemma 4 E4B en OpenCode** (cierre de WP-05: T-02, T-06, T-05 y T-03; P-11, P-13, P-16). Los
-> comandos funcionan igual en PowerShell y en Git Bash. Corre cada uno desde la raíz del worktree y cópialo tal cual
-> (`AGENTS.md` §5.1). **A todos (`python` y `./mvnw`) dales un timeout de 600000 ms.** Firma con
-> `--agente "Gemma (Gemma 4 E4B)"` y `Agente: Gemma (Gemma 4 E4B)`.
->
-> **Regla de oro:** después de cada lote, commit. Antes de proponer el lote siguiente, `git status` debe decir que no
-> hay nada por commitear.
->
-> **Cómo leer `./mvnw`:**
-> - Pasó si termina con código de salida 0. Las líneas `ERROR`, `APPLICATION FAILED TO START`, `DecodeException` o
->   «sin hilos» de la salida son pruebas que comprueban errores a propósito: no son fallos.
-> - Falló solo si dice `BUILD FAILURE`, o `Tests run: … Failures:` o `Errors:` con un número mayor que 0.
->
-> **A. Al empezar.**
-> 1. `git status` (limpio), `git log --oneline -5` y `git tag --list "dq-r12"`.
-> 2. Lee la sección «Para el siguiente ejecutor» de [R-12](bitacora/R-12.md).
-> 3. En §1.1, fila 13a: `EN CURSO` y la fecha. `git add data-quality/BITACORA.md` y
->    `git commit -m "Bitácora: toma el turno 13a" -m "Plan: turno 13a · WP-05" -m "Rol: DATOS" -m "Agente: Gemma (Gemma 4 E4B)"`.
->
-> **B. Lotes de Wikipedia (T-02)**, uno a la vez, hasta que `proponer_trama.py` imprima «No quedan películas del
-> alcance sin fila en estado.tsv.» (unos 5 lotes):
-> 1. `python data-quality/scripts/proponer_trama.py --wp WP-05 --lista data-quality/hallazgos/listas/wp05-enciclopedicos.tsv --tam 100 --agente "Gemma (Gemma 4 E4B)"`.
->    Aplica solo si la salida termina con `lote-NNN: … propuestas …` y `data/ no se modificó.`. Si no, córrelo una
->    vez más.
-> 2. `python data-quality/scripts/aplicar_cambios.py data-quality/cambios/WP-05/lote-NNN.jsonl`, con el número de
->    ese lote.
-> 3. `./mvnw -q test "-Dtest=ShippedCatalogValidationTest"`. Si falla de verdad (ver arriba), detente: bloqueo en §5
->    con el error exacto, cierra como `INCOMPLETO` (paso F) y no apliques más.
-> 4. `git add data data-quality/cambios/WP-05 data-quality/fuentes` y
->    `git commit -m "Reemplaza <propuestas> plots enciclopédicos (WP-05 lote-NNN) con la trama de Wikipedia" -m "Plan: turno 13a · WP-05 · T-02 · lote-NNN" -m "Rol: DATOS" -m "Agente: Gemma (Gemma 4 E4B)"`.
->
-> **C. Limpieza (T-02)**, hasta que imprima «No quedan películas pendientes de limpiar_enciclopedico.py.»:
-> 1. `python data-quality/scripts/limpiar_enciclopedico.py --wp WP-05 --agente "Gemma (Gemma 4 E4B)"`.
-> 2. Los pasos 2, 3 y 4 de B, con el commit `"Limpia <propuestas> plots enciclopédicos (WP-05 lote-NNN)"`.
-> 3. Si imprimió «sin líneas de cambio; no se escribe un jsonl vacío», no hay que aplicar ni probar:
->    `git add data-quality/cambios/WP-05` y commit `"Registra sin fuente en WP-05 (lote-NNN)"`.
->
-> **D. D-06 (T-06)**, una sola vez:
-> 1. `python data-quality/scripts/proponer_trama.py --wp WP-05 --lista data-quality/hallazgos/listas/wp05-d06-generadas.tsv --d06 --agente "Gemma (Gemma 4 E4B)"`.
-> 2. Los pasos 2, 3 y 4 de B, con el commit
->    `"Pone el overview de TMDB en las sinopsis generadas sin fuente (WP-05 lote-NNN, D-06)"` y `T-06` en la línea
->    `Plan:`.
->
-> **E. T-05 y T-03.** `python data-quality/scripts/analizar.py --etiqueta wp-05 --desde-data` y después
-> `python data-quality/scripts/revisar_reparto.py --etiqueta wp-05`. Copia al diario lo que imprime el segundo y las
-> dos líneas de `data-quality/hallazgos/salidas/wp-05/plots.txt` que empiezan con `## plot · ficha inicial` y
-> `## plot · producción/recepción`.
->
-> **F. Al terminar**, aunque falte algo:
-> 1. `./mvnw -q verify`.
-> 2. Con la herramienta de edición (nunca con la terminal), en `data-quality/bitacora/WP-05.md`:
->    - Una fila por lote en «Lotes».
->    - El «Punto de reanudación».
->    - Tu entrada de diario, con las cuentas que imprimió cada script.
-> 3. En esta bitácora:
->    - Fila 13a en `EN REVISIÓN` (o `INCOMPLETO`).
->    - «Próximo paso»: «Claude Code: revisión R-13a».
-> 4. Para el commit de cierre:
->    - `git add data-quality` y `git commit -m "Turno 13a: <resumen>" -m "Plan: turno 13a · WP-05" -m "Rol: DATOS" -m "Agente: Gemma (Gemma 4 E4B)"`.
->    - Luego `git tag dq-t13a`.
+> **En espera de D-07** (dueña del proyecto). Gemma 4 E4B dejó los turnos 12 y 13a sin commitear. Antes de seguir hay
+> que decidir quién termina lo que falta de WP-05 (la limpieza de 70 omitidas, T-06 con `--d06`, T-05 y T-03; comandos
+> en [R-13a](bitacora/R-13a.md)) y quién toma los turnos que quedan de Gemma (13b, 16, 19a, 19b y 21). Cuando D-07
+> esté contestada, Claude Code escribe aquí el turno siguiente.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -155,6 +100,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-04 | ¿Quitar el filtro `adult`? (WP-10) | Sí · No | No; documentar | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · no se quita; se documenta |
 | D-05 | ¿Qué contacto va en el `User-Agent` para Wikipedia y Wikidata (NS-7)? Sin contacto, Wikimedia limita a 10 peticiones por minuto y las unas 5 950 descargas de los turnos 4 a 13 tardan 11 h o más en total; con contacto, menos de 2 h. El valor va en `.env` como `DQ_WIKI_CONTACTO=` y no se commitea | URL pública del repo · un correo · sin contacto | Lo que prefiera la dueña del proyecto: es un dato suyo que se envía a Wikimedia | APROBADA 2026-11-12 · «La URL del repo» · `DQ_WIKI_CONTACTO=https://github.com/bigfito/elastiflix-reloaded` en el `.env` del worktree |
 | D-06 | En WP-05, una sinopsis sin trama de Wikipedia que es **texto generado**, y que la limpieza no arregla, ¿toma el overview de TMDB que ya trae el documento (NS-1 b, etiqueta `tmdb_overview`)? Hoy son 5: `213927` *Born to Race: Fast Track* (la respuesta de un asistente que no encontró la película), `298016` *It's a SpongeBob Christmas!* (corrige el año e inventa la trama) y las 3 de T-03b (`150015`, `198436`, `364708`, ensayos «At its core»). Sin esto, esas 3 bloquean la integración de WP-03 (turno 13) | Sí, en el turno 13 · No, quedan `unverified` | Sí: el overview es corto pero es de la película, y nadie redacta (NS-2) | APROBADA 2026-11-13 · «Apruebo D-06» · WP-05 T-06 en el turno 13a |
+| D-07 | Gemma 4 E4B dejó los turnos 12 y 13a sin commitear (lotes propuestos sin aplicar, sin diario ni cierre); los cerró la revisión. ¿Quién termina lo que falta de WP-05 (la limpieza de 70 omitidas, T-06, T-05 y T-03: comandos deterministas ya escritos) y quién toma los turnos 13b, 16, 19a, 19b y 21? | A · Claude Code termina WP-05 en R-13a y Cursor toma los turnos de Gemma · B · Gemma repite un turno 13a corto con lo que falta y conserva sus turnos · C · Claude Code termina WP-05 y Gemma conserva sus turnos | A: los turnos que quedan incluyen integrar Java (13b), recargar staging (19a) y publicar en producción (21), y Gemma no cerró ninguno de sus dos turnos | ABIERTA · R-13a |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
 
 ## 4. Decisiones tomadas
@@ -405,3 +351,10 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   B-05 fue un falso bloqueo. Detalle en `bitacora/R-12.md`.
 - Evidencia: `./mvnw -q verify` con código 0; `hallazgos/salidas/r12/`.
 - Para el siguiente: turno 13a, Gemma 4 E4B (cierre de WP-05).
+
+### 2026-11-13 03:50 UTC · Claude Code (Claude Opus 5.5) · revisor (R-13a)
+- Hice: revisión del turno 13a de Gemma 4 E4B, que no hizo ningún commit. Commit de recuperación (`dq-t13a`), los 5
+  lotes que dejó propuestos aplicados uno por uno, y *Prancer: A Christmas Tale* corregida con `lote-048` y una
+  guarda nueva para redirecciones a otra película. Abrí D-07. Detalle en `bitacora/R-13a.md`.
+- Evidencia: `./mvnw -q verify` con código 0.
+- Para el siguiente: en espera de D-07.
