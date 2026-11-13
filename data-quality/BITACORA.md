@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 18:38 UTC · Cursor (Grok 4.7) · ejecutor (turno 15)
+**Última actualización:** 2026-11-13 18:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-15)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -33,7 +33,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 13a | Gemma 4 E4B | Cierre de WP-05: evaluó las 462 restantes (lotes `042`–`047`) sin commits; R-13a terminó WP-05 (D-07) | REVISADO | 2026-11-13 | `dq-t13a` | [R-13a](bitacora/R-13a.md) |
 | 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | REVISADO | 2026-11-13 | `dq-t13b` | [R-13b](bitacora/R-13b.md) |
 | 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | REVISADO · INCOMPLETO por B-06 (criterio de parada); WP-07 parte A sin empezar | 2026-11-13 | `dq-t14` | [R-14](bitacora/R-14.md) |
-| 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | EN REVISIÓN | 2026-11-13 | `dq-t15` | — |
+| 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | REVISADO | 2026-11-13 | `dq-t15` | [R-15](bitacora/R-15.md) |
 | 16 | Cursor | WP-08 (D-07) | PENDIENTE | — | — | — |
 | 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
 | 18 | Cursor | WP-10 (P-14) | PENDIENTE | — | — | — |
@@ -52,7 +52,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
 | WP-05 | Limpiar el plot enciclopédico | HECHA · 3 862/3 862: 3 425 Wikipedia, 7 overview de TMDB (D-06), 13 corregidas, 372 limpias, 45 sin fuente; ficha inicial 8 y taquilla o crítica 5 | 10, 11, 12, 13a | 2026-11-13 |
 | WP-06 | Completar las sinopsis cortas | HECHA · 616 tramas más largas, 82 sin fuente, 5 no más largas; M2 aceptada (D-08) | 13b, 14 | 2026-11-13 |
-| WP-07 | Normalizar al cargar | EN REVISIÓN · turno 15, partes A y B (D-08) | 14, 15 | 2026-11-13 |
+| WP-07 | Normalizar al cargar | HECHA · `lote-001` (309 películas) y `EFX-ING-029`; kannada corregido en `lote-002` (R-15) | 14, 15 | 2026-11-13 |
 | WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
 | WP-09 | Una sola puntuación y montos imposibles | PENDIENTE | 17 | — |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | PENDIENTE | 18 | — |
@@ -78,14 +78,18 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-13a | 13a · Gemma 4 E4B | APROBADO CON CORRECCIONES | Turno sin un commit: recuperación y 5 lotes aplicados; *Prancer* corregida; guarda nueva; con D-07, cierre de WP-05 (`lote-049` y `050`, T-05 y T-03) |  `3595bdd` `501a192` `4a06a94`…`17c4b44` `10f735d` | [R-13a](bitacora/R-13a.md) |
 | R-13b | 13b · Cursor | APROBADO | Nada que corregir; WP-03 HECHA; lista `wp06-cortos-r13b.tsv` (17) para el turno 14 y meta de «< 200 caracteres» ajustada (P-18) | — | [R-13b](bitacora/R-13b.md) |
 | R-14 | 14 · Cursor | APROBADO (D-08: opción A) | Nada que corregir; B-06 investigado y cerrado: la caída de `bm25_plot` y `rrf_plot_*` viene del vocabulario de las consultas de evaluación, no de un daño (los vectores y la búsqueda por defecto mejoran); D-08 abierta | — | [R-14](bitacora/R-14.md) |
+| R-15 | 15 · Cursor | APROBADO CON CORRECCIONES | «ಕನ್ನಡ» sin virama en 2 películas (`lote-002`); prueba de signos combinantes | `34b9a4b` `16e59f7` | [R-15](bitacora/R-15.md) |
 
 ## 2. Próximo paso
 
-> **Revisión R-15 · Claude Code.** Revisa el turno 15, etiqueta `dq-t15`: WP-07 parte A (lote mecánico `001`, 309
-> películas; en `salidas/wp-07/deep.txt` no aparecen «espacio en extremos», «nbsp/zwsp», «no NFC» ni «entidad HTML»)
-> y parte B (`EFX-ING-029`). `./mvnw verify` sin `ELASTIFLIX_INDEX_ALIAS` quedó en 0, incluida
-> `ShippedCatalogValidationTest` sin advertencias. `RelevanceIT` sobre staging sigue fallando en `bm25_plot` y
-> `rrf_plot_*` hasta C-01: es lo esperado y no es un defecto de este turno.
+> **Turno 16 · Cursor.** WP-08 completo:
+> - **T-01:** las 17 palabras clave de `wp08-palabras-clave.tsv` con la política de la tarjeta, y la comprobación
+>   extra en `603` y `196`.
+> - **T-02:** las dos colecciones.
+> - **T-03:** la nota en `data/README.md`.
+>
+> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-15](bitacora/R-15.md). El punto de partida es la
+> etiqueta `dq-r15`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -408,3 +412,10 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   - **Producción:** intacta.
 - Evidencia: R-08 a R-14; `hallazgos/salidas/m2/`; `./mvnw -q verify` con código 0.
 - Para el siguiente: turno 15, Cursor (WP-07 partes A y B). La dueña del proyecto puede integrar `dq/ronda-4` en `main`.
+
+### 2026-11-13 18:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-15)
+- Hice: revisión del turno 15 de Cursor. APROBADO CON CORRECCIONES. WP-07 queda HECHA. «ಕನ್ನಡ» había quedado sin el
+  virama en 2 películas: lo corregí con `lote-002` y agregué una prueba de signos combinantes. Detalle en
+  `bitacora/R-15.md`.
+- Evidencia: `./mvnw -q verify` con código 0; `hallazgos/salidas/r15/`.
+- Para el siguiente: turno 16, Cursor (WP-08).
