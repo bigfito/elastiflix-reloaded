@@ -69,7 +69,7 @@ class HomePageTest {
                 .andExpect(content().string(containsString(
                         "/buscar?q=ogre%20donkey%20princess&amp;modo=fulltext&amp;tipo=match&amp;operador=or"
                                 + "&amp;campo=plot")))
-                .andExpect(content().string(containsString("OR: 190 resultados")))
+                .andExpect(content().string(containsString("OR: 197 resultados")))
                 .andExpect(content().string(containsString("data-value=\"plot\"")))
                 .andExpect(content().string(containsString("modo=vectorial")))
                 .andExpect(content().string(containsString("vector=plot_1024")))

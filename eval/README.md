@@ -33,13 +33,20 @@ nDCG usa la calificación completa. Una película sin calificar cuenta como no r
 | `recall@10` | ¿Qué fracción de las películas relevantes aparece en los 10 primeros? |
 | `ndcg@10` | ¿Están las mejores calificaciones arriba? |
 
+## Medición M4
+
+Sobre el índice de staging `elastiflix-dq-staging-20261113-220031` (6 899 películas, 13 nov 2026), con `plot` y
+`overview` analizados en inglés, con raíces (D-11). `bm25_plot` sube de 0.296 (M3) a 0.305 y `rrf_plot_knn1024` de
+0.557 a 0.564; las configuraciones vectoriales no cambian. Los mínimos de `thresholds.json` son M4 menos 0.05, hacia
+abajo a 2 decimales.
+
 ## Medición M3
 
 Sobre el índice de staging `elastiflix-dq-staging-20261113-195801` (6 899 películas, 13 nov 2026). `bm25_plot` baja de
 0.423 en M0 a 0.296, y `rrf_plot_knn256` / `rrf_plot_knn1024` de 0.581 / 0.662 a 0.511 / 0.557. Las consultas de trama
-están escritas como un resumen y las sinopsis de Wikipedia narran con los nombres de los personajes; `plot` no aplica
-raíces (D-08, R-14). Los vectores suben (`knn_plot_1024` 0.742 → 0.745). Los mínimos de `thresholds.json` son esa
-medición menos 0.05, hacia abajo a 2 decimales.
+están escritas como un resumen y las sinopsis de Wikipedia narran con los nombres de los personajes; `plot` todavía no
+aplicaba raíces (D-08, R-14). Los vectores suben (`knn_plot_1024` 0.742 → 0.745). Los mínimos de esa medición
+se reemplazaron con M4.
 
 ## Archivos
 
@@ -124,13 +131,19 @@ full rating. An unrated movie counts as not relevant.
 | `recall@10` | What fraction of the relevant movies appears in the top 10? |
 | `ndcg@10` | Are the best ratings at the top? |
 
+## M4 measurement
+
+On the staging index `elastiflix-dq-staging-20261113-220031` (6,899 movies, 13 Nov 2026), with `plot` and `overview`
+analyzed in English, with stemming (D-11). `bm25_plot` goes up from 0.296 (M3) to 0.305 and `rrf_plot_knn1024` from
+0.557 to 0.564; the vector configurations do not change. The minimums in `thresholds.json` are M4 minus 0.05, rounded
+down to 2 decimals.
+
 ## M3 measurement
 
 On the staging index `elastiflix-dq-staging-20261113-195801` (6,899 movies, 13 Nov 2026). `bm25_plot` drops from 0.423
 in M0 to 0.296, and `rrf_plot_knn256` / `rrf_plot_knn1024` from 0.581 / 0.662 to 0.511 / 0.557. The plot queries are
-written as a summary and the Wikipedia plots narrate with the characters' names; `plot` does not stem (D-08, R-14).
-The vectors go up (`knn_plot_1024` 0.742 to 0.745). The minimums in `thresholds.json` are that measurement minus 0.05,
-rounded down to 2 decimals.
+written as a summary and the Wikipedia plots narrate with the characters' names; `plot` did not stem then (D-08,
+R-14). The vectors go up (`knn_plot_1024` 0.742 to 0.745). Its minimums were replaced with M4.
 
 ## Files
 

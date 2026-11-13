@@ -322,19 +322,21 @@ mejores películas quedaron arriba.
 | Configuración | Total | es · trama | en · trama | es · título | en · título |
 |---|---|---|---|---|---|
 | `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
-| `bm25_plot` | 0.296 | 0.000 | 0.577 | 0.000 | 0.638 |
-| `knn_plot_1024` | **0.745** | **0.734** | **0.784** | 0.602 | 0.803 |
-| `rrf_title_knn1024` | 0.488 | 0.466 | 0.377 | 0.453 | **0.925** |
-| `rrf_plot_knn1024` | 0.557 | 0.414 | 0.699 | 0.373 | 0.751 |
+| `bm25_plot` | 0.305 | 0.002 | 0.601 | 0.000 | 0.630 |
+| `knn_plot_1024` | **0.745** | **0.734** | **0.784** | 0.602 | 0.804 |
+| `rrf_title_knn1024` | 0.486 | 0.459 | 0.377 | 0.453 | **0.925** |
+| `rrf_plot_knn1024` | 0.564 | 0.401 | 0.738 | 0.345 | 0.747 |
+
+Medición M4 (13 nov 2026), sobre el catálogo actual de `data/`.
 
 - **Las sinopsis están en inglés, pero ya no son un resumen.** Las consultas de trama describen la película en
-  abstracto y las tramas de Wikipedia narran con los nombres de los personajes. Por eso `bm25_plot` baja de 0.423 en
-  M0 a 0.296 en M3: en inglés queda en 0.577 (antes 0.805) y en español en 0.000. `plot` usa el analizador estándar,
-  sin raíces, así que «dreams» no encuentra «dream» (D-08, R-14).
-- **La vectorial sube y es la más pareja.** `knn_plot_1024` pasa de 0.742 a 0.745 y encuentra la película en los dos
-  idiomas (0.734 en español y 0.784 en inglés). `rrf_plot_knn256` y `rrf_plot_knn1024` bajan con el BM25 de la
-  sinopsis (0.581 → 0.511 y 0.662 → 0.557): arrastran esa lista. La híbrida por defecto, que mezcla el título, sube
-  (`rrf_title_knn256` de 0.348 a 0.425). Sus mínimos en `eval/thresholds.json` se recalcularon con esta medición.
+  abstracto y las tramas de Wikipedia narran con los nombres de los personajes. Por eso `bm25_plot` bajó de 0.423
+  (sinopsis anteriores, en buena parte generadas) a 0.296. `plot` y `overview` usan ahora el analizador `english`, con
+  raíces («dreams» encuentra «dream»), y `bm25_plot` sube a 0.305: 0.601 con consultas en inglés.
+- **La vectorial es la más pareja.** `knn_plot_1024` encuentra la película en los dos idiomas (0.734 en español y 0.784
+  en inglés). `rrf_plot_knn1024` arrastra la lista de BM25 sobre la sinopsis (0.564). La híbrida por defecto, que
+  mezcla el título, queda en 0.425 (`rrf_title_knn256`). Los mínimos de `eval/thresholds.json` son esta medición menos
+  0.05.
 - **BM25 sobre el título sirve para buscar por título en inglés** (0.904) y para nada más.
 
 ## 🎛️ Resultados, filtros y paginación
