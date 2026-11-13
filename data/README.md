@@ -51,6 +51,8 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
   En los demás campos la etiqueta suele ser `tmdb_api_AAAA-MM-DD` (la fecha de la descarga de TMDB).
   `wikipedia_infobox` marca un monto (`budget` o `revenue`) tomado de la ficha del artículo de Wikipedia (WP-09).
   `revenue` 618 de *Money Plane* no es un error: la ficha y Box Office Mojo dan $618.
+- **Contenido para adultos:** ninguna de las 6 899 películas tiene `adult = true`. La búsqueda mantiene el filtro
+  `adult` para los catálogos que cargue un usuario (D-04).
 - Los campos son los del mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «Acerca de» › «El catálogo»
   describe cada uno.
 
@@ -115,6 +117,8 @@ you prefer.
   In the other fields the tag is usually `tmdb_api_YYYY-MM-DD` (the date of the TMDB download).
   `wikipedia_infobox` marks an amount (`budget` or `revenue`) taken from the Wikipedia article's infobox (WP-09).
   The `revenue` of 618 for *Money Plane* is not an error: the infobox and Box Office Mojo give $618.
+- **Adult content:** none of the 6,899 movies has `adult = true`. The search keeps the `adult` filter for catalogs a
+  user loads (D-04).
 - The fields are those of the mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «About the demo» › «The
   catalog» describes each one.
 

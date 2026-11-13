@@ -199,7 +199,9 @@ java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar      # el mismo resultad
 ### 7. Crea el catálogo con la primera carga
 
 El catálogo es el alias `elastiflix-reloaded` (configurable), que apunta a un índice
-`elastiflix-reloaded-<AAAAMMDD-HHMMSS>`. **La primera carga lo crea**, con el mapping del repositorio.
+`elastiflix-reloaded-<AAAAMMDD-HHMMSS>`. **La primera carga lo crea**, con el mapping del repositorio. El mapping es
+estricto (`"dynamic": "strict"`): Elasticsearch rechaza un documento con un campo que no declara, y la validación de
+la carga ya lo avisa antes de escribir.
 
 1. Ve a **Cargar datos** (http://localhost:8080/cargar) y abre la pestaña **Importar .json**.
 2. La tarjeta «Modo de carga» ya trae **bulk** marcado; append está deshabilitado mientras no haya catálogo.
@@ -344,7 +346,8 @@ mejores películas quedaron arriba.
 | **Conteos de filtros** | agregaciones `terms` | calculados en la aplicación | calculados en la aplicación |
 
 - **Filtros:** `adult`, `genres`, `release_date` (desde–hasta), `spoken_languages`, `rating`. Entre
-  filtros distintos se cumplen todos; dentro de uno basta con un valor. Se aplican con **APLICAR**.
+  filtros distintos se cumplen todos; dentro de uno basta con un valor. Se aplican con **APLICAR**. Ninguna película
+  del catálogo de `data/` es para adultos; el filtro `adult` se mantiene para los catálogos que cargue un usuario.
 - **Valores dinámicos:** cada filtro muestra solo los valores presentes en los resultados, con su conteo.
 - **Sin resultados:** la página sugiere ajustes según el modo, o quitar filtros si estos vaciaron la
   lista.

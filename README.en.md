@@ -198,7 +198,9 @@ java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar      # same result, from
 ### 7. Create the catalog with the first load
 
 The catalog is the `elastiflix-reloaded` alias (configurable), which points to an
-`elastiflix-reloaded-<YYYYMMDD-HHMMSS>` index. **The first load creates it**, with the repository's mapping.
+`elastiflix-reloaded-<YYYYMMDD-HHMMSS>` index. **The first load creates it**, with the repository's mapping. The
+mapping is strict (`"dynamic": "strict"`): Elasticsearch rejects a document with a field it does not declare, and
+the load validation already reports it before writing.
 
 1. Go to **Load data** (http://localhost:8080/cargar?lang=en) and open the **Import .json** tab.
 2. The «Load mode» card already has **bulk** selected; append is disabled while there is no catalog.
@@ -340,7 +342,8 @@ means the best movies ended up at the top.
 | **Filter counts** | `terms` aggregations | computed in the app | computed in the app |
 
 - **Filters:** `adult`, `genres`, `release_date` (from–to), `spoken_languages`, `rating`. Different filters must all
-  match; within one filter, one value is enough. They apply with **APPLY**.
+  match; within one filter, one value is enough. They apply with **APPLY**. No movie in the `data/` catalog is adult
+  content; the `adult` filter stays for catalogs a user loads.
 - **Dynamic values:** each filter only shows the values present in the results, with their count.
 - **No results:** the page suggests adjustments for the mode, or removing filters if they emptied the list.
 - **Posters:** loaded from the TMDB image CDN using `poster_path`.

@@ -59,7 +59,9 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("El catálogo")))
                 .andExpect(content().string(containsString(
                         "Medido con el harness de relevancia sobre el catálogo de 6 899 películas")))
-                .andExpect(content().string(containsString("ninguna película del catálogo lo es")))
+                .andExpect(content().string(containsString("Ninguna de las 6 899 películas del catálogo de")))
+                .andExpect(content().string(containsString(
+                        "el filtro se mantiene para los catálogos que cargue un usuario")))
                 .andExpect(content().string(containsString("de 1902 a 2023")))
                 .andExpect(content().string(containsString("13 de 40 (33 %)")))
                 .andExpect(content().string(containsString("0.536")))
