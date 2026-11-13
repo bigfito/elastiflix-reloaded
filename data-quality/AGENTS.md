@@ -3,28 +3,28 @@
 Instrucciones para los agentes que ejecutan [`PLAN.md`](PLAN.md). Son obligatorias. Si tu herramienta no carga este
 archivo sola, léelo completo antes de la primera acción.
 
-El trabajo es de un **equipo de tres agentes y una persona**. Desde el turno 12 (P-13), dos agentes ejecutan
-(Cursor y Gemma 4 E4B), uno revisa, y avanzan por **turnos** en un orden fijo. Nadie depende de la memoria de otro: lo que el siguiente necesita saber queda escrito en
+El trabajo es de un **equipo de dos agentes y una persona**. Desde el turno 13b (D-07), Cursor ejecuta y Claude Code
+revisa, y avanzan por **turnos** en un orden fijo. Nadie depende de la memoria de otro: lo que el siguiente necesita saber queda escrito en
 la bitácora y en git, en la rama local `dq/ronda-4`.
 
 ## 1. El equipo
 
 | Integrante | Papel | Qué hace en su turno |
 |---|---|---|
-| **Gemma 4 E4B** | Ejecutor (desde el turno 12) | Ejecuta las tareas de su turno (roles DATOS, JAVA, EVAL o DOCS, según la tarea), con las reglas extra del §5.1 |
-| **Cursor** | Ejecutor | Igual que Gemma, sin el §5.1 |
+| **Cursor** | Ejecutor | Ejecuta las tareas de su turno (roles DATOS, JAVA, EVAL o DOCS, según la tarea) |
+| *(antes)* Google Antigravity, GitHub Copilot (Kimi K3) y Gemma 4 E4B | Ejecutores hasta el turno 13a | Salieron del equipo (P-13, D-07); su trabajo está en la bitácora |
 | **Claude Code** | Revisor y coordinador | Después de **cada** turno de ejecución: revisa todo lo que hizo el ejecutor, **corrige** lo que quedó mal, deja el tablero listo y da paso al siguiente. No toma tareas del plan |
 | **Dueña del proyecto** (humana) | Decide y aprueba | Contesta P-0, H-1, H-2 y D-xx; integra los hitos en `main`; da la orden de arrancar cada turno |
 
-Google Antigravity y GitHub Copilot (con Kimi K3) ejecutaron turnos del 1 al 10 y salieron del equipo; sus turnos
-pendientes los toma Gemma 4 E4B (P-13). Desde el turno 12, cada turno de ejecución va seguido de su revisión:
+Google Antigravity y GitHub Copilot ejecutaron turnos del 1 al 10, y Gemma 4 E4B los turnos 12 y 13a. Desde el 13b
+(D-07), cada turno de Cursor va seguido de su revisión:
 
 ```text
-Gemma 12 → Claude Code → Gemma 13a → Claude Code → Gemma 13b → Claude Code → Cursor 14 → Claude Code → Cursor 15 → Claude Code → Gemma 16 → …
+Cursor 13b → Claude Code → Cursor 14 → Claude Code → Cursor 15 → … → Cursor 21 → Claude Code
 ```
 
 El reparto exacto está en [`PLAN.md` · Reparto y turnos](PLAN.md#reparto-y-turnos). Los turnos 13 y 19 se parten en
-dos (13a/13b y 19a/19b); sus etiquetas son `dq-t13a`, `dq-r13a`, etc. Ningún ejecutor toma un turno que no es suyo, aunque esté
+dos (13a y 13b), con etiquetas `dq-t13a`, `dq-r13a`, `dq-t13b` y `dq-r13b`; el 19 es uno solo (D-07). Ningún ejecutor toma un turno que no es suyo, aunque esté
 libre: si el que sigue no está disponible, la dueña del proyecto decide quién lo cubre y se anota como decisión.
 
 ## 2. Archivos que mandan
@@ -106,7 +106,7 @@ Si hubiera que recrear el worktree principal, desde el checkout principal:
 - Si algo del plan no funciona como dice, anótalo como desviación en el diario; si cambia el alcance, ábrelo como
   decisión en el tablero.
 
-### 5.1 Reglas extra para Gemma 4 E4B
+### 5.1 Reglas extra para un modelo pequeño (se usaron con Gemma 4 E4B en los turnos 12 y 13a)
 
 Gemma 4 E4B es un modelo pequeño (unos 4 000 millones de parámetros efectivos): estas reglas le ahorran contexto y le
 evitan improvisar. Valen además de todo lo anterior.
@@ -206,7 +206,7 @@ como carpeta, y envía el mensaje de la tabla.
 
 | Herramienta | Notas | Mensaje |
 |---|---|---|
-| **Gemma 4 E4B** | OpenCode (versión de escritorio), con el worktree como proyecto, el agente **Build** y Gemma 4 E4B como modelo. OpenCode carga `data-quality/AGENTS.md` cuando el agente lee archivos de esa carpeta; el mensaje pide leerlo igual. Firma sus commits como `Agente: Gemma (Gemma 4 E4B)`. Lee el §5.1 | `Eres Gemma, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md (§3, §5 y §5.1) y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
+| *(antes)* **Gemma 4 E4B** | OpenCode (versión de escritorio), agente Build. Salió del equipo con D-07 | — |
 | **Cursor** | Chat en modo Agent. Agrega `data-quality/` al contexto | `Eres Cursor, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Claude Code** | `data-quality/CLAUDE.md` importa este archivo | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
 

@@ -1,0 +1,34 @@
+N=6899
+field                    present missing  types
+adult                       6899       0  {'bool': 6899}
+backdrop_path               6899       0  {'str': 6884, 'null': 15}
+belongs_to_collection       6899       0  {'dict': 1934, 'null': 4965}
+budget                      6899       0  {'float': 4463, 'null': 2436}
+cast                        6899       0  {'list': 6883, 'list-empty': 16}
+enrichment                  6899       0  {'dict': 6899}
+genres                      6899       0  {'list': 6893, 'list-empty': 6}
+homepage                    6899       0  {'str': 5095, 'null': 1804}
+id                          6899       0  {'str': 6899}
+imdb_id                     6899       0  {'str': 6889, 'null': 10}
+keywords                    6899       0  {'list': 6592, 'list-empty': 307}
+original_language           6899       0  {'str': 6899}
+original_title              6899       0  {'str': 6899}
+overview                    6899       0  {'str': 6897, 'null': 2}
+plot                        6899       0  {'str': 6899}
+popularity                  6899       0  {'float': 6899}
+poster_path                 6899       0  {'str': 6898, 'null': 1}
+production_companies        6899       0  {'list': 6838, 'list-empty': 61}
+production_countries        6899       0  {'list': 6878, 'list-empty': 21}
+rating                      6899       0  {'str': 6184, 'null': 715}
+release_date                6899       0  {'str': 6899}
+revenue                     6899       0  {'float': 4965, 'null': 1934}
+runtime                     6899       0  {'int': 6893, 'null': 6}
+spoken_languages            6899       0  {'list': 6887, 'list-empty': 12}
+status                      6899       0  {'str': 6899}
+tagline                     6899       0  {'str': 5711, 'null': 1188}
+title                       6899       0  {'str': 6899}
+user_score                  6899       0  {'float': 6894, 'null': 5}
+video                       6899       0  {'bool': 6899}
+vote_average                6899       0  {'float': 6894, 'null': 5}
+vote_count                  6899       0  {'int': 6894, 'null': 5}
+unmapped keys: {}

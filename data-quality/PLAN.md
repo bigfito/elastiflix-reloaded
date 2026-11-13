@@ -2,9 +2,9 @@
 
 Plan de ejecución de las 10 recomendaciones del [informe de calidad](informe/informe-calidad.html) del índice
 `elastiflix-reloaded`, en el mismo orden del informe. Lo ejecuta un equipo de agentes bajo la supervisión de una
-persona, la **dueña del proyecto**. Desde el turno 12 (P-13) **ejecutan Cursor y Gemma 4 E4B** por turnos, y
-**Claude Code revisa y corrige** después de cada uno. Los turnos 1 a 11 los ejecutaron Google Antigravity, Cursor y
-GitHub Copilot, que repartían el trabajo por igual.
+persona, la **dueña del proyecto**. Desde el turno 13b (D-07) **ejecuta Cursor** todos los turnos, y **Claude Code
+revisa y corrige** después de cada uno. Los turnos 1 a 11 los ejecutaron Google Antigravity, Cursor y GitHub Copilot,
+que repartían el trabajo por igual; los turnos 12 y 13a, Gemma 4 E4B.
 
 - **Antes de tocar nada**, lee [`AGENTS.md`](AGENTS.md): equipo, reglas de seguridad, worktree y protocolo de turno.
 - **El estado vive en [`BITACORA.md`](BITACORA.md)**, en la rama de integración `dq/ronda-4`. Este plan es la
@@ -27,7 +27,7 @@ GitHub Copilot, que repartían el trabajo por igual.
 | [WP-08](#wp-08--corregir-palabras-clave-y-colecciones) | 8 · Corregir palabras clave y colecciones | DATOS | WP-07 | 16 |
 | [WP-09](#wp-09--una-sola-puntuación-y-montos-imposibles) | 9 · Una sola puntuación y montos imposibles | DATOS · DOCS | WP-08 · decisión D-02 | 17 |
 | [WP-10](#wp-10--opcional-dynamic-strict-y-filtro-adult) | 10 · Opcional: `dynamic: strict` y filtro `adult` | JAVA · DOCS | Decisiones D-03 y D-04 | 18 |
-| [C-01](#c-01--cierre-medición-publicación-y-documentación) | (cierre: medición, publicación y documentación) | EVAL · DOCS | WP-01…WP-10 | 19a, 19b, 20, 21 |
+| [C-01](#c-01--cierre-medición-publicación-y-documentación) | (cierre: medición, publicación y documentación) | EVAL · DOCS | WP-01…WP-10 | 19, 20, 21 |
 
 Los turnos van **en serie**, en el orden fijo del equipo, así que nunca hay dos agentes cambiando `data/` a la vez.
 WP-03 es el único que vive en su propia rama (`dq/wp-03-reglas-plot`): se escribe en el turno 8 y se integra en
@@ -38,54 +38,40 @@ WP-03 es el único que vive en su propia rama (`dq/wp-03-reglas-plot`): se escri
 Cada fila es un **turno de ejecución**, seguido siempre de su **revisión** por Claude Code (R-NN). Ningún turno se
 salta ni se adelanta.
 
-**Equipo desde el turno 12 (P-13).** Google Antigravity y GitHub Copilot salieron del equipo, y sus turnos los toma
-**Gemma 4 E4B**. Cursor conserva los suyos (14, 17 y 20) y suma los dos de Java, 15 y 18 (P-14). Como Gemma 4 E4B es un modelo pequeño (unos 4 000 millones de parámetros efectivos), con menos contexto y menos
-margen en tareas largas, el reparto se ajustó así:
-- **Turnos más cortos:** los dos turnos más cargados se parten en dos, cada uno con su revisión. El 13 pasa a 13a
-  (cierre de WP-05) y 13b (integración de WP-03 y WP-06 T-01/T-02). El 19 pasa a 19a (M3) y 19b (informe v2 y
-  pruebas).
-- **Pasos literales:** cada turno de Gemma trae en «Próximo paso» los comandos exactos, en el orden en que se corren.
-  `AGENTS.md` §5.1 tiene sus reglas extra.
-- **Plan de respaldo:** si un turno de Gemma se cierra `INCOMPLETO` dos veces seguidas por la misma tarea, Claude Code
-  la propone a la dueña del proyecto para el siguiente turno de Cursor, como decisión.
+**Equipo desde el turno 13b (D-07).** Google Antigravity y GitHub Copilot salieron después del turno 11 (P-13). Gemma
+4 E4B, que tomó sus turnos, dejó el 12 y el 13a sin commitear, y los cerraron las revisiones R-12 y R-13a. Por
+decisión de la dueña del proyecto, Claude Code terminó WP-05 en R-13a y **Cursor hace todos los turnos que quedan**.
+El turno 19 vuelve a ser uno solo: se había partido en 19a y 19b solo para un modelo pequeño.
 
 | Turno | Ejecutor | Tareas | Peso | Necesita de la dueña |
 |---|---|---|---|---|
 | 1–11 | Antigravity, Cursor, Copilot | WP-00 a WP-04 y WP-05 hasta el `lote-028` (historial en `BITACORA.md` §1.1) | — | — |
-| 12 | Gemma 4 E4B | WP-05: 14 lotes desde el `029`, su limpieza y T-03 (P-11, P-12, P-13); nombra en su diario las sinopsis sin fuente que parezcan generadas (R-12 decide si entran en D-06) | Mediano | — |
-| 13a | Gemma 4 E4B | Cierre de WP-05: lo que quede, T-03b, T-06 (D-06) y T-05 | Mediano | — |
-| 13b | Gemma 4 E4B | WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
+| 12 · 13a | Gemma 4 E4B | WP-05, lotes `029`–`047`; los cerraron R-12 y R-13a, que terminó WP-05 (`lote-049` y `050`; D-07) | — | — |
+| 13b | Cursor | WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
 | 14 | Cursor | WP-06 T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
-| 15 | Cursor | WP-07 parte B (`EFX-ING-029` en Java; P-14) | Grande | — |
-| 16 | Gemma 4 E4B | WP-08 completo | Mediano | — |
+| 15 | Cursor | WP-07 parte B (`EFX-ING-029` en Java) | Grande | — |
+| 16 | Cursor | WP-08 completo | Mediano | — |
 | 17 | Cursor | WP-09 completo | Mediano | **D-02** (aprobada) |
-| 18 | Cursor | WP-10 completo (P-14) | Mediano | **D-03** y **D-04** (aprobadas) |
-| 19a | Gemma 4 E4B | C-01 T-01: M3 (recarga completa de staging y harness) | Mediano | — |
-| 19b | Gemma 4 E4B | C-01 T-02 y T-03: informe v2, pruebas de integración y umbrales | Mediano | — |
+| 18 | Cursor | WP-10 completo | Mediano | **D-03** y **D-04** (aprobadas) |
+| 19 | Cursor | C-01 T-01 a T-03: M3, informe v2, pruebas de integración y umbrales | Grande | — |
 | 20 | Cursor | C-01 T-04 y T-05: documentación y hito C | Mediano | — · **hito C** en su revisión |
-| 21 | Gemma 4 E4B | C-01 T-06 a T-08: H-2, publicación, medición en producción y limpieza a los 7 días | Mediano | **H-2** |
-
-| Ejecutor | Turnos desde el 12 | Qué le toca, en resumen |
-|---|---|---|
-| Gemma 4 E4B | 12, 13a, 13b, 16, 19a, 19b, 21 | Cierre de WP-05, integración de WP-03, WP-06 sin M2, palabras clave, M3 y publicación |
-| Cursor | 14, 15, 17, 18, 20 | M2 e hito B, normalización de datos y en Java, puntuación, mapping, documentación final e hito C |
+| 21 | Cursor | C-01 T-06 a T-08: H-2, publicación, medición en producción y limpieza a los 7 días | Mediano | **H-2** |
 
 **Reglas del reparto.**
 
 - Un turno no se adelanta ni se salta. Si un turno se cierra `INCOMPLETO`, Claude Code termina lo que sea corrección
-  en su revisión; el resto pasa como primera tarea del siguiente turno del **mismo** ejecutor, anotado como decisión
-  (salvo el plan de respaldo de arriba).
+  en su revisión; el resto pasa como primera tarea del siguiente turno, anotado como decisión.
 - Si un ejecutor termina un WP de varios turnos antes de lo previsto (por ejemplo, porque `proponer_trama.py` deja
   muchas películas «sin fuente» y sobran lotes), el turno siguiente empieza con la tarea siguiente del plan, sin
   cambiar de ejecutor.
 - El turno 21 hace T-06 y T-07 y queda `EN ESPERA` hasta cumplir los 7 días de T-08. R-21 revisa la publicación;
-  cuando Gemma cierra T-08, Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
+  cuando Cursor cierra T-08, Claude Code hace la revisión final R-21b, con la retrospectiva del equipo.
 - Las decisiones D-02, D-03 y D-04 ya están aprobadas, así que los turnos 17 y 18 no esperan.
 
 ```mermaid
 flowchart LR
-  Q12["T12 Gemma"] --> R12["R12 Claude Code"] --> Q13a["T13a Gemma"] --> R13a["R13a"] --> Q13b["T13b Gemma"] --> R13b["R13b"] --> C14["T14 Cursor"] --> R14["R14 · hito B"]
-  R14 --> C15["T15 Cursor"] --> R15["R15"] --> Q16["T16 Gemma"] --> R16["R16 · …"] --> F["… T21 Gemma"] --> R21["R21 Claude Code<br/>cierre"]
+  C13b["T13b Cursor"] --> R13b["R13b Claude Code"] --> C14["T14 Cursor"] --> R14["R14 · hito B"] --> C15["T15 Cursor"]
+  C15 --> R15["R15 · …"] --> F["… T21 Cursor"] --> R21["R21 Claude Code<br/>cierre"]
 ```
 
 ```mermaid
@@ -254,7 +240,7 @@ se detiene el plan y se abre un bloqueo para la dueña del proyecto. Una subida 
 
 **Recomendación 3.** Que una carga detecte lo que encontró el informe.
 
-**Rol:** JAVA · **Turnos:** 8 (Cursor: T-01, T-02 y T-04) y 13b (Gemma 4 E4B: T-03) · **Rama:** `dq/wp-03-reglas-plot`, en su propio worktree (`AGENTS.md` §4) ·
+**Rol:** JAVA · **Turnos:** 8 (Cursor: T-01, T-02 y T-04) y 13b (Cursor: T-03) · **Rama:** `dq/wp-03-reglas-plot`, en su propio worktree (`AGENTS.md` §4) ·
 **Se integra en `dq/ronda-4`:** después de WP-05, porque las reglas nuevas también avisan sobre plots del alcance de
 WP-05 («At its core» en 60, «explores the theme(s) of» en 25, «Here's a…» en 3)
 
@@ -317,7 +303,7 @@ EFX-ING-028 · advertencia · en cualquier parte:
 
 **Recomendación 5.** Que el vector represente la trama, no la ficha, la taquilla ni la crítica.
 
-**Rol:** DATOS · **Turnos:** 10 (Antigravity: T-01 y lotes `001`–`009`), 11 (Cursor: lotes `011`–`025` y limpieza `026`–`027`), 12 (Gemma 4 E4B: 14 lotes desde el `029` y T-03) y 13a (Gemma 4 E4B: lo que quede, T-03b, T-06 y T-05); `010` y `028` son correcciones de R-10 y R-11 (P-11, P-12) · **Alcance:** [`wp05-enciclopedicos.tsv`](hallazgos/listas/wp05-enciclopedicos.tsv) (3 862) ·
+**Rol:** DATOS · **Turnos:** 10 (Antigravity: T-01 y lotes `001`–`009`), 11 (Cursor: lotes `011`–`025` y limpieza `026`–`027`), 12 y 13a (Gemma 4 E4B: lotes `029`–`047`) y R-13a (Claude Code, D-07: limpieza `049`, T-06 `050`, T-05 y T-03); `010` y `028` son correcciones de R-10 y R-11 (P-11, P-12) · **Alcance:** [`wp05-enciclopedicos.tsv`](hallazgos/listas/wp05-enciclopedicos.tsv) (3 862) ·
 **Con más cuidado:** [`wp05-una-firma.tsv`](hallazgos/listas/wp05-una-firma.tsv) (799)
 
 **Orden por película:** (1) trama de Wikipedia según NS, si existe; (2) si no, `limpiar_enciclopedico.py`; (3) si
@@ -341,7 +327,7 @@ Al revisar el turno 13a, Claude Code deja en «Próximo paso» la integración d
 
 **Recomendación 6.** Más contexto para los vectores, empezando por las de menos de 100 caracteres.
 
-**Rol:** DATOS y EVAL · **Turnos:** 13b (Gemma 4 E4B: T-01 y T-02) y 14 (Cursor: T-03) · **Alcance:** [`wp06-cortos.tsv`](hallazgos/listas/wp06-cortos.tsv) (686, de la más corta a la más larga)
+**Rol:** DATOS y EVAL · **Turnos:** 13b (Cursor: T-01 y T-02) y 14 (Cursor: T-03) · **Alcance:** [`wp06-cortos.tsv`](hallazgos/listas/wp06-cortos.tsv) (686, de la más corta a la más larga)
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|
@@ -386,7 +372,7 @@ pruebas, la viñeta correspondiente de «Carga de datos» en `README.md` y `READ
 
 **Recomendación 8.** Ids de palabras clave que pertenecen a otra palabra, y colecciones partidas.
 
-**Rol:** DATOS · **Turno:** 16 (Gemma 4 E4B) · **Alcance:** [`wp08-palabras-clave.tsv`](hallazgos/listas/wp08-palabras-clave.tsv) (17) y [`wp08-colecciones.tsv`](hallazgos/listas/wp08-colecciones.tsv) (2)
+**Rol:** DATOS · **Turno:** 16 (Cursor) · **Alcance:** [`wp08-palabras-clave.tsv`](hallazgos/listas/wp08-palabras-clave.tsv) (17) y [`wp08-colecciones.tsv`](hallazgos/listas/wp08-colecciones.tsv) (2)
 
 **Política para cada palabra clave en conflicto**, en este orden:
 
@@ -451,7 +437,7 @@ valores «por defecto» de la tabla son solo la recomendación para la dueña de
 
 **Objetivo.** Medir, dejar el repo coherente con el catálogo nuevo y publicarlo con aprobación y vuelta atrás.
 
-**Rol:** EVAL y DOCS · **Turnos:** 19a (Gemma 4 E4B: T-01), 19b (Gemma 4 E4B: T-02 y T-03), 20 (Cursor: T-04 y T-05) y 21 (Gemma 4 E4B: T-06 a T-08) · **Aprobación humana:** H-2
+**Rol:** EVAL y DOCS · **Turnos:** 19 (Cursor: T-01 a T-03), 20 (Cursor: T-04 y T-05) y 21 (Cursor: T-06 a T-08) · **Aprobación humana:** H-2
 
 | Tarea | Qué hacer | Hecho cuando |
 |---|---|---|

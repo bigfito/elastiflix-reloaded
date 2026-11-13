@@ -9,14 +9,14 @@ Calidad del catálogo `elastiflix-reloaded`: el análisis del índice vivo, sus 
 | La dueña del proyecto | [`informe/informe-calidad.html`](informe/informe-calidad.html) (ábrelo en el navegador) y las aprobaciones de [`BITACORA.md` §3](BITACORA.md#3-aprobaciones-y-decisiones-de-la-dueña-del-proyecto). La precondición P-0 es tuya |
 | Un agente que va a trabajar | [`AGENTS.md`](AGENTS.md) completo, después [`BITACORA.md`](BITACORA.md) y la tarjeta de tu WP en [`PLAN.md`](PLAN.md) |
 
-El equipo trabaja por turnos (`AGENTS.md` §1). Desde el turno 12 ejecutan **Cursor y Gemma 4 E4B**, y **Claude
-Code** revisa después de cada turno (P-13; el orden exacto está en `PLAN.md` · Reparto y turnos). Abre la herramienta que indica «Próximo paso» de la bitácora con el
+El equipo trabaja por turnos (`AGENTS.md` §1). Desde el turno 13b ejecuta **Cursor** y **Claude Code** revisa
+después de cada turno (D-07; el orden exacto está en `PLAN.md` · Reparto y turnos). Abre la herramienta que indica «Próximo paso» de la bitácora con el
 worktree `E:\02 - programming\03 - elastiflix-reloaded-dq` como carpeta, y envíale su mensaje:
 
 | Herramienta | Mensaje |
 |---|---|
 | Cursor | `Eres Cursor, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
-| Gemma 4 E4B | `Eres Gemma, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md (§3, §5 y §5.1) y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
+| *(antes)* Gemma 4 E4B | Salió del equipo con D-07 |
 | Claude Code | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
 
 ## Qué hay aquí
