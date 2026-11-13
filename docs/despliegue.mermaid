@@ -13,9 +13,12 @@ flowchart LR
       pushw["2 push-west1"]
       depe["3 deploy-east1<br/>gcloud run deploy"]
       depw["3 deploy-west1<br/>gcloud run deploy"]
+      cleanup["4 cleanup-revisions<br/>borra las revisiones sin tráfico<br/>de los dos servicios · mejor esfuerzo"]
       trigger --> build
       build --> pushe --> depe
       build --> pushw --> depw
+      depe --> cleanup
+      depw --> cleanup
     end
 
     subgraph registry["Artifact Registry"]

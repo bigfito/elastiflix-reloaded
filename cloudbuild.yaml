@@ -72,6 +72,33 @@ steps:
       - --quiet
     waitFor: ['push-west1']
 
+  # Cloud Run no tiene una política para conservar solo las últimas revisiones: después de desplegar,
+  # borra las que no reciben tráfico. Es de mejor esfuerzo: si no puede leer el tráfico de un servicio no
+  # borra nada en él, y un borrado que falla deja un aviso sin marcar el build como fallido.
+  - id: cleanup-revisions
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        for pair in prod-elastiflix-east1:us-east1 prod-elastiflix-west1:us-west1; do
+          service=$${pair%%:*}
+          region=$${pair##*:}
+          serving=$$(gcloud run services describe "$$service" --region="$$region" \
+            --format='value(status.traffic[].revisionName)' | tr ';,' '  ')
+          if [ -z "$${serving// /}" ]; then
+            echo "Aviso: no se leyó el tráfico de $$service; no se borra ninguna revisión"
+            continue
+          fi
+          for revision in $$(gcloud run revisions list --service="$$service" --region="$$region" \
+            --format='value(metadata.name)'); do
+            case " $$serving " in *" $$revision "*) continue ;; esac
+            gcloud run revisions delete "$$revision" --region="$$region" --quiet \
+              || echo "Aviso: no se pudo borrar $$revision"
+          done
+        done
+    waitFor: ['deploy-east1', 'deploy-west1']
+
 options:
   logging: CLOUD_LOGGING_ONLY
   dynamicSubstitutions: true
