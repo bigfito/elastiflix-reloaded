@@ -26,9 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Las tres filas vectoriales de la tabla de verificación, contra el catálogo real.
  *
  * <p>Solo lee. No crea ni borra índices. No escribe el vector. Afirma la posición medida sobre
- * 6 899 películas, con {@code k = 100} y {@code num_candidates = 200}. La medición vigente es del 2026-11-12,
- * después de la ronda de calidad del catálogo que cambió 1 641 sinopsis de {@code data/}: varias películas pasaron
- * a tener el overview corto de TMDB y ahora compiten con las buscadas. Los vectores los genera de nuevo el servicio
+ * 6 899 películas, con {@code k = 100} y {@code num_candidates = 200}. La medición vigente es del 2026-11-13,
+ * sobre el índice de staging con mapping estricto. Los vectores los genera de nuevo el servicio
  * de inferencia en cada carga y el k-NN es aproximado, así que una película al borde puede moverse un lugar tras
  * reconstruir el índice. No se afloja el criterio en el código. Si el conteo cambió, la prueba se omite.</p>
  */
@@ -114,10 +113,10 @@ class VectorSearchIT {
     private static Stream<Arguments> rows() {
         return Stream.of(
                 Arguments.of(
-                        "un barco de lujo choca con un iceberg en su viaje inaugural", "597", 60, 19, 10),
+                        "un barco de lujo choca con un iceberg en su viaje inaugural", "597", 4, 4, 3),
                 Arguments.of(
                         "un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano",
-                        "87827", 52, 13, 7),
-                Arguments.of("un robot solitario que limpia la Tierra", "10681", 1, 2, 2));
+                        "87827", 0, 10, 4),
+                Arguments.of("un robot solitario que limpia la Tierra", "10681", 1, 1, 1));
     }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Sugerencias de full-text. Los conteos OR y AND se midieron sobre 6 899 películas: los de los títulos el
- * 2026-10-21 y los de {@code plot} el 2026-11-12. Son los mismos en los dos idiomas, igual que las consultas: las
+ * 2026-10-21 y los de {@code plot} el 2026-11-13. Son los mismos en los dos idiomas, igual que las consultas: las
  * sinopsis están en inglés. Las etiquetas salen del catálogo de mensajes.
  */
 final class LexicalSuggestions {
@@ -50,9 +50,9 @@ final class LexicalSuggestions {
 
     private static SuggestionSet plot(String operator, SuggestionTags tags) {
         return new SuggestionSet("fulltext-match-plot-" + operator, false, List.of(
-                matchPlot("ogre donkey princess", tags.count(operator, "162", "3"), "🧅", operator),
-                matchPlot("bathhouse spirits", tags.count(operator, "87", "1"), "♨️", operator),
-                matchPlot("clownfish ocean son", tags.count(operator, "864", "1"), "🐠", operator)));
+                matchPlot("ogre donkey princess", tags.count(operator, "190", "4"), "🧅", operator),
+                matchPlot("bathhouse spirits", tags.count(operator, "102", "1"), "♨️", operator),
+                matchPlot("clownfish ocean son", tags.count(operator, "1422", "1"), "🐠", operator)));
     }
 
     private static SuggestionSet multi(String operator, SuggestionTags tags) {
