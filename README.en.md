@@ -287,14 +287,12 @@ quantization): the only difference is the number of dimensions. **Measured preci
 
 | Field | 🥇 Correct in 1st place | Top 5 | Top 10 | MRR@10 | nDCG@10 |
 |---|---|---|---|---|---|
-| `plot_256` | 13 of 40 (33%) | 24 | 28 | 0.536 | 0.549 |
-| `plot_512` | 17 of 40 (43%) | 29 | 32 | 0.653 | 0.651 |
-| `plot_1024` | 23 of 40 (58%) | 33 | 37 | 0.755 | 0.742 |
+| `plot_256` | 20 of 40 (50%) | 32 | 34 | 0.671 | 0.622 |
+| `plot_512` | 23 of 40 (58%) | 35 | 39 | 0.744 | 0.708 |
+| `plot_1024` | 25 of 40 (63%) | 37 | 39 | 0.784 | 0.745 |
 
-> 1024 dimensions puts the correct movie in the top 5 for 33 of 40 queries; 512 sits in between at half the size, and
-> 256 clearly loses precision. This is measured on the current catalog in `data/`: after 1,641 plots were switched to the
-> shorter TMDB overview, those movies compete with the ones sought and precision dropped (`plot_1024` nDCG@10 was 0.817
-> with the previous plots).
+> M3 measurement (13 Nov 2026) on the current catalog in `data/`. 1024 dimensions puts the correct movie in the top 5
+> for 37 of 40 queries; 512 does it for 35 and 256 for 32.
 
 Queries are embedded with `input_type: search` and the `Query: ` prefix; plots, with `input_type: ingest` and no
 prefix.
@@ -320,19 +318,20 @@ means the best movies ended up at the top.
 | Configuration | Total | es · plot | en · plot | es · title | en · title |
 |---|---|---|---|---|---|
 | `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
-| `bm25_plot` | 0.423 | 0.077 | 0.805 | 0.000 | 0.737 |
-| `knn_plot_1024` | **0.742** | **0.762** | 0.615 | **0.975** | 0.830 |
-| `rrf_title_knn1024` | 0.464 | 0.485 | 0.228 | 0.745 | 0.823 |
-| `rrf_plot_knn1024` | 0.662 | 0.480 | **0.834** | 0.573 | 0.781 |
+| `bm25_plot` | 0.296 | 0.000 | 0.577 | 0.000 | 0.638 |
+| `knn_plot_1024` | **0.745** | **0.734** | **0.784** | 0.602 | 0.803 |
+| `rrf_title_knn1024` | 0.488 | 0.466 | 0.377 | 0.453 | **0.925** |
+| `rrf_plot_knn1024` | 0.557 | 0.414 | 0.699 | 0.373 | 0.751 |
 
-- **Plots are in English.** BM25 on `plot` does very well with English descriptions (0.805, more than vector search)
-  and finds almost nothing in Spanish (0.077). Vector search is multilingual: it finds the movie in both languages
-  (0.762 in Spanish and 0.615 in English).
-- **BM25 on the title is useful for searching by title in English**, and for nothing else: with plot descriptions it
-  doesn't find the movie, and in hybrid search its list pushes the vector list down.
-- **Hybrid with `plot`** is the best with English descriptions (0.834) and clearly beats hybrid with `title` (0.662
-  versus 0.464), but with Spanish queries it falls below vector search alone.
-- Overall, vector search with `plot_1024` is the most even option.
+- **Plots are in English, and they are no longer a summary.** The plot queries describe the movie in the abstract, and
+  the Wikipedia plots narrate it with the characters' names. That is why `bm25_plot` drops from 0.423 in M0 to 0.296
+  in M3: English falls to 0.577 (it was 0.805) and Spanish to 0.000. `plot` uses the standard analyzer, without
+  stemming, so "dreams" does not find "dream" (D-08, R-14).
+- **Vector search goes up and is the most even option.** `knn_plot_1024` moves from 0.742 to 0.745 and finds the movie
+  in both languages (0.734 in Spanish and 0.784 in English). `rrf_plot_knn256` and `rrf_plot_knn1024` drop with the
+  plot BM25 list (0.581 → 0.511 and 0.662 → 0.557). The default hybrid, which mixes the title, goes up
+  (`rrf_title_knn256` from 0.348 to 0.425). Those two plot configs are reported and do not stop the plan.
+- **BM25 on the title is useful for searching by title in English** (0.904), and for nothing else.
 
 ## 🎛️ Results, filters, and pagination
 

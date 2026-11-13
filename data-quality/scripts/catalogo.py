@@ -3,7 +3,8 @@
 Garantiza round-trip byte a byte entre data/ y las estructuras en memoria:
 - `cargar() -> dict[id, doc]` lee las 7 partes .json en orden.
 - `guardar(docs, destino=...)` reescribe las 7 partes .json (sangría de 1 espacio, LF, mismas claves de cabecera,
-  `document_count` recalculado, `exported_at` intacto) y sus 7 .csv (UTF-8 con BOM, CRLF entre filas, coma, mismo
+  `document_count` recalculado, `exported_at` intacto, `mapping` copiado de
+  `elasticsearch/elastiflix-reloaded-mapping.json`) y sus 7 .csv (UTF-8 con BOM, CRLF entre filas, coma, mismo
   orden de columnas, listas y objetos como JSON compacto y `enrichment` con las claves en el orden del mapping).
 - `sha(valor) -> str` calcula el SHA-256 hexadecimal de `json.dumps(valor, ensure_ascii=False, separators=(',', ':'), sort_keys=True)`,
   donde un campo ausente vale `None` (`null` en JSON).
@@ -220,6 +221,11 @@ def _escribir_csv(ruta_csv: pathlib.Path, part_docs: list[dict[str, Any]]) -> No
     ruta_csv.write_bytes(b"\xef\xbb\xbf" + buf.getvalue().encode("utf-8"))
 
 
+def mapping_del_repo() -> dict[str, Any]:
+    """El mapping del sobre de cada parte: el archivo del repo, con `dynamic: strict`."""
+    return json.loads(MAPPING_PATH.read_text(encoding="utf-8"))
+
+
 def guardar(
     docs: dict[str, dict[str, Any]] | Iterable[dict[str, Any]],
     destino: pathlib.Path | str = DATA_DIR,
@@ -249,6 +255,7 @@ def guardar(
         )
 
     escritos: list[tuple[pathlib.Path, pathlib.Path]] = []
+    mapping = mapping_del_repo()
     for base in PARTES:
         orig = plantillas[base]
         ids_parte = [str(d["id"]) for d in orig["documents"]]
@@ -260,7 +267,7 @@ def guardar(
             "document_count": len(part_docs),
             "csv_file": orig["csv_file"],
             "load_notes": orig["load_notes"],
-            "mapping": orig["mapping"],
+            "mapping": mapping,
             "documents": part_docs,
         }
         texto_json = json.dumps(out_obj, indent=1, ensure_ascii=False) + "\n"

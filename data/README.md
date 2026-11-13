@@ -7,13 +7,13 @@ Exportación completa del catálogo `elastiflix-reloaded`: **6 899 películas** 
 
 | Parte | Películas | `id` desde – hasta | `.json` | `.csv` |
 |---|---|---|---|---|
-| `elastiflix-reloaded_01` | 986 | 11 – 9965 | 4,3 MB | 3,4 MB |
-| `elastiflix-reloaded_02` | 986 | 9966 – 24238 | 3,9 MB | 3,1 MB |
-| `elastiflix-reloaded_03` | 986 | 24271 – 103332 | 4,0 MB | 3,2 MB |
-| `elastiflix-reloaded_04` | 986 | 103370 – 324849 | 4,0 MB | 3,2 MB |
-| `elastiflix-reloaded_05` | 985 | 324852 – 470035 | 4,0 MB | 3,2 MB |
-| `elastiflix-reloaded_06` | 985 | 470044 – 649520 | 4,0 MB | 3,2 MB |
-| `elastiflix-reloaded_07` | 985 | 649918 – 1059999 | 3,8 MB | 3,0 MB |
+| `elastiflix-reloaded_01` | 986 | 11 – 9965 | 5,0 MB | 4,1 MB |
+| `elastiflix-reloaded_02` | 986 | 9966 – 24238 | 4,6 MB | 3,8 MB |
+| `elastiflix-reloaded_03` | 986 | 24271 – 103332 | 4,5 MB | 3,7 MB |
+| `elastiflix-reloaded_04` | 986 | 103370 – 324849 | 4,6 MB | 3,8 MB |
+| `elastiflix-reloaded_05` | 985 | 324852 – 470035 | 4,6 MB | 3,7 MB |
+| `elastiflix-reloaded_06` | 985 | 470044 – 649520 | 4,4 MB | 3,6 MB |
+| `elastiflix-reloaded_07` | 985 | 649918 – 1059999 | 3,7 MB | 3,0 MB |
 
 ## Cómo usarlos
 
@@ -32,7 +32,9 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
 - **Sin vectores:** `plot_256`, `plot_512` y `plot_1024` no vienen en los archivos. La carga siempre los genera a
   partir de `plot` con el servicio de inferencia de Elasticsearch.
 - **`.json`:** el mismo formato que `elasticsearch/fixtures/movies-sample.json`: un objeto con `documents` (las
-  películas), `document_count` (cuántas trae esa parte), `mapping` y notas. Cada película lleva `_id` igual a `id`.
+  películas), `document_count` (cuántas trae esa parte), `mapping` y notas. El `mapping` del sobre es el de
+  [`elasticsearch/elastiflix-reloaded-mapping.json`](../elasticsearch/elastiflix-reloaded-mapping.json), con
+  `dynamic: strict`. Cada película lleva `_id` igual a `id`.
 - **`.csv`:** UTF-8 con BOM, separador coma, encabezado en la primera fila y `\r\n` entre filas. Las listas y los
   objetos anidados van como JSON dentro de la celda; un valor vacío es una celda vacía. Al cargarlo, deja el separador
   en «Coma» y marca «La primera fila contiene los nombres de columna».
@@ -98,7 +100,9 @@ you prefer.
 - **No vectors:** `plot_256`, `plot_512`, and `plot_1024` are not in the files. The import always generates them from
   `plot` with the Elasticsearch inference service.
 - **`.json`:** the same format as `elasticsearch/fixtures/movies-sample.json`: an object with `documents` (the movies),
-  `document_count` (how many the part holds), `mapping`, and notes. Every movie has `_id` equal to `id`.
+  `document_count` (how many the part holds), `mapping`, and notes. The envelope `mapping` is
+  [`elasticsearch/elastiflix-reloaded-mapping.json`](../elasticsearch/elastiflix-reloaded-mapping.json), with
+  `dynamic: strict`. Every movie has `_id` equal to `id`.
 - **`.csv`:** UTF-8 with BOM, comma separator, a header in the first row, and `\r\n` between rows. Lists and nested
   objects are JSON inside the cell; an empty value is an empty cell. When loading it, keep the separator on «Comma»
   and check «The first row contains the column names».

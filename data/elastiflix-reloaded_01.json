@@ -12,6 +12,7 @@
  },
  "mapping": {
   "mappings": {
+   "dynamic": "strict",
    "properties": {
     "adult": {
      "type": "boolean"
@@ -59,6 +60,74 @@
     },
     "cast": {
      "type": "keyword"
+    },
+    "enrichment": {
+     "type": "object",
+     "properties": {
+      "backdrop_path": {
+       "type": "keyword"
+      },
+      "belongs_to_collection": {
+       "type": "keyword"
+      },
+      "budget": {
+       "type": "keyword"
+      },
+      "cast": {
+       "type": "keyword"
+      },
+      "genres": {
+       "type": "keyword"
+      },
+      "homepage": {
+       "type": "keyword"
+      },
+      "imdb_id": {
+       "type": "keyword"
+      },
+      "keywords": {
+       "type": "keyword"
+      },
+      "overview": {
+       "type": "keyword"
+      },
+      "plot": {
+       "type": "keyword"
+      },
+      "poster_path": {
+       "type": "keyword"
+      },
+      "production_companies": {
+       "type": "keyword"
+      },
+      "production_countries": {
+       "type": "keyword"
+      },
+      "rating": {
+       "type": "keyword"
+      },
+      "revenue": {
+       "type": "keyword"
+      },
+      "runtime": {
+       "type": "keyword"
+      },
+      "spoken_languages": {
+       "type": "keyword"
+      },
+      "tagline": {
+       "type": "keyword"
+      },
+      "user_score": {
+       "type": "keyword"
+      },
+      "vote_average": {
+       "type": "keyword"
+      },
+      "vote_count": {
+       "type": "keyword"
+      }
+     }
     },
     "genres": {
      "type": "keyword"
@@ -138,7 +207,7 @@
      "type": "float"
     },
     "poster_path": {
-     "type": "text"
+     "type": "keyword"
     },
     "production_companies": {
      "type": "keyword"
