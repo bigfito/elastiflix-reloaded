@@ -3700,38 +3700,38 @@ id	lote	resultado	motivo
 934957	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 936061	lote-044	aplicado	plot enciclopédico
 936625	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
-936960	lote-045	propuesto	plot enciclopédico
-937278	lote-045	propuesto	plot enciclopédico
-938008	lote-045	propuesto	plot enciclopédico
-938567	lote-045	propuesto	plot enciclopédico
+936960	lote-045	aplicado	plot enciclopédico
+937278	lote-045	aplicado	plot enciclopédico
+938008	lote-045	aplicado	plot enciclopédico
+938567	lote-045	aplicado	plot enciclopédico
 938596	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
-939210	lote-045	propuesto	plot enciclopédico
+939210	lote-045	aplicado	plot enciclopédico
 939336	lote-047	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
-939979	lote-045	propuesto	plot enciclopédico
+939979	lote-045	aplicado	plot enciclopédico
 943533	lote-047	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 944664	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 944864	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
-945657	lote-045	propuesto	plot enciclopédico
-945897	lote-045	propuesto	plot enciclopédico
-948037	lote-045	propuesto	plot enciclopédico
-948276	lote-045	propuesto	plot enciclopédico
+945657	lote-045	aplicado	plot enciclopédico
+945897	lote-045	aplicado	plot enciclopédico
+948037	lote-045	aplicado	plot enciclopédico
+948276	lote-045	aplicado	plot enciclopédico
 948333	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 950511	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 950618	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
-951470	lote-045	propuesto	plot enciclopédico
-952217	lote-045	propuesto	plot enciclopédico
-952374	lote-045	propuesto	plot enciclopédico
-953300	lote-045	propuesto	plot enciclopédico
-960170	lote-045	propuesto	plot enciclopédico
+951470	lote-045	aplicado	plot enciclopédico
+952217	lote-045	aplicado	plot enciclopédico
+952374	lote-045	aplicado	plot enciclopédico
+953300	lote-045	aplicado	plot enciclopédico
+960170	lote-045	aplicado	plot enciclopédico
 960258	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 960700	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 960704	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
-960875	lote-045	propuesto	plot enciclopédico
-961427	lote-045	propuesto	plot enciclopédico
-961484	lote-045	propuesto	plot enciclopédico
-961707	lote-045	propuesto	plot enciclopédico
+960875	lote-045	aplicado	plot enciclopédico
+961427	lote-045	aplicado	plot enciclopédico
+961484	lote-045	aplicado	plot enciclopédico
+961707	lote-045	aplicado	plot enciclopédico
 962192	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
-962232	lote-045	propuesto	plot enciclopédico
+962232	lote-045	aplicado	plot enciclopédico
 962367	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 968580	lote-047	sin fuente	sin trama de Wikipedia; sin párrafos de ficha, taquilla o crítica que limpiar
 968739	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
@@ -3739,66 +3739,66 @@ id	lote	resultado	motivo
 971511	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 972313	lote-047	propuesto	limpieza de plot enciclopédico (ficha/taquilla/crítica)
 974691	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt15783698 → South Park: The Streaming Wars
-975407	lote-045	propuesto	plot enciclopédico
-975490	lote-045	propuesto	plot enciclopédico
+975407	lote-045	aplicado	plot enciclopédico
+975490	lote-045	aplicado	plot enciclopédico
 975714	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt10809742 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Collision 2022 film» sin artículo válido (Ice Age: Collision Course: el año no coincide ±1; Collision Course (2021 film): no nombra 2 integrantes del reparto; 2022 Dallas air show mid-air collision: no nombra 2 integrantes del reparto; Ice Age: Boiling Point: el año n
-976573	lote-045	propuesto	plot enciclopédico
-976720	lote-045	propuesto	plot enciclopédico
+976573	lote-045	aplicado	plot enciclopédico
+976720	lote-045	aplicado	plot enciclopédico
 978723	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt18225736 no tiene artículo en en.wikipedia.org vía P345; sin imdb_id en Wikidata y con menos de 2 nombres de reparto: NS-4 no permite la búsqueda
 979163	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt16026684 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Beyond Infinity: Buzz and the Journey to Lightyear 2022 film» sin artículo válido (Buzz Lightyear: el año no coincide ±1; Lightyear (film): el título no es el de la película; List of Toy Story characters: el año no coincide ±1; Buzz Lightyear's Space Ranger Spin: el a
 979296	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt20518526 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Sonic Drone Home 2022 film» sin artículo válido (Sonic the Hedgehog 2 (film): el título no es el de la película; Sonic the Hedgehog (film): el año no coincide ±1; Sonic the Hedgehog (film series): el año no coincide ±1; Sonic the Hedgehog 3 (film): el año no coincide 
-979924	lote-045	propuesto	plot enciclopédico
-980078	lote-045	propuesto	plot enciclopédico
-980804	lote-045	propuesto	plot enciclopédico
+979924	lote-045	aplicado	plot enciclopédico
+980078	lote-045	aplicado	plot enciclopédico
+980804	lote-045	aplicado	plot enciclopédico
 982543	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt15745084 no tiene artículo en en.wikipedia.org vía P345; búsqueda «V for Vengeance 2022 film» sin artículo válido (Wallace & Gromit: Vengeance Most Fowl: el año no coincide ±1; V for Vendetta (film): el año no coincide ±1; Exorcist Vengeance: no nombra 2 integrantes del reparto; Screaming for Vengeance: el año no coincide ±1; Kickbox
-982620	lote-045	propuesto	plot enciclopédico
+982620	lote-045	aplicado	plot enciclopédico
 982752	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt20672490 → American Carnage
 982939	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt20597408 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Heart Parade 2022 film» sin artículo válido (The Parade (film): el año no coincide ±1; 2022 Highland Park parade shooting: no nombra 2 integrantes del reparto; Pride parade: el año no coincide ±1; In the Heart of the Beast Puppet and Mask Theatre: el año no coincide ±
-985335	lote-045	propuesto	plot enciclopédico
+985335	lote-045	aplicado	plot enciclopédico
 985932	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt21078728 → Virgin Forest (2022 film)
-985939	lote-045	propuesto	plot enciclopédico
+985939	lote-045	aplicado	plot enciclopédico
 987337	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21098298 no tiene artículo en en.wikipedia.org vía P345; búsqueda «The Wonderful Summer of Mickey Mouse 2022 film» sin artículo válido (The Wonderful World of Mickey Mouse: el año no coincide ±1; Mickey Mouse: el año no coincide ±1; Goofy (film series): el año no coincide ±1; List of Mickey Mouse universe media: el año no coincide ±1
 987919	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt22207152 no tiene artículo en en.wikipedia.org vía P345; búsqueda «A Christmas Mystery 2022 film» sin artículo válido (Hallmark Mystery: el año no coincide ±1; Black Christmas (1974 film): el año no coincide ±1; List of Hallmark Channel Original Movies: el año no coincide ±1; Merry Christmas (2024 film): el año no coincide ±1; Black 
-988046	lote-045	propuesto	plot enciclopédico
+988046	lote-045	aplicado	plot enciclopédico
 988233	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt6969338 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Hex 2022 film» sin artículo válido (Jonah Hex (film): el año no coincide ±1; Hexed (2026 film): el año no coincide ±1; The Hex Girls: el año no coincide ±1; John Wick Hex: el año no coincide ±1; 2022 in film: no nombra 2 integrantes del reparto)
 989937	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt17677744 → The Seven Deadly Sins: Grudge of Edinburgh
-990691	lote-045	propuesto	plot enciclopédico
+990691	lote-045	aplicado	plot enciclopédico
 993145	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt10198564 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Bullet Proof 2022 film» sin artículo válido (The Bullet Train: el año no coincide ±1; Pradhama Drishtiya Kuttakkar: el año no coincide ±1; Grindhouse (film): el año no coincide ±1; Texas Chainsaw Massacre (2022 film): no nombra 2 integrantes del reparto; Brooke D'Orsa
 993729	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt21198156 → South Park: The Streaming Wars Part 2
-994143	lote-045	propuesto	plot enciclopédico
+994143	lote-045	aplicado	plot enciclopédico
 996518	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt15022184 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Royalteen 2022 film» sin artículo válido (List of Netflix original films (2022): no nombra 2 integrantes del reparto; Tarjei Sandvik Moe: el año no coincide ±1; Rena Hasegawa: el año no coincide ±1)
-999127	lote-045	propuesto	plot enciclopédico
-999205	lote-045	propuesto	plot enciclopédico
-1001835	lote-045	propuesto	plot enciclopédico
-1001865	lote-045	propuesto	plot enciclopédico
-1002310	lote-045	propuesto	plot enciclopédico
+999127	lote-045	aplicado	plot enciclopédico
+999205	lote-045	aplicado	plot enciclopédico
+1001835	lote-045	aplicado	plot enciclopédico
+1001865	lote-045	aplicado	plot enciclopédico
+1002310	lote-045	aplicado	plot enciclopédico
 1003180	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21340412 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Inside the Mind of a Cat 2022 film» sin artículo válido (The Cat in the Hat (2003 film): el año no coincide ±1; Cat Person (film): no nombra 2 integrantes del reparto; Inside Out: el año no coincide ±1; List of cat documentaries, television series and cartoons: el año
 1003485	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21334846 no tiene artículo en en.wikipedia.org vía P345; búsqueda «The Christmas Retreat 2022 film» sin artículo válido (Merry Christmas (2024 film): el año no coincide ±1; List of Christmas films: el año no coincide ±1; Christmas on Mistletoe Farm: no nombra 2 integrantes del reparto; Christmas Bloody Christmas: no nombra 2 integran
 1003487	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt18298074 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Single and Ready to Jingle 2022 film» sin artículo válido (...Ready for It?: el año no coincide ±1; Lucy Punch: el año no coincide ±1; Mulan (2009 film): el año no coincide ±1; Lacey Chabert: el año no coincide ±1; Ilaiyaraaja discography: el año no coincide ±1)
 1005031	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt21929356 → A Trip to Infinity
-1005776	lote-045	propuesto	plot enciclopédico
+1005776	lote-045	aplicado	plot enciclopédico
 1005835	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21388556 no tiene artículo en en.wikipedia.org vía P345; búsqueda «That's Amor 2022 film» sin artículo válido (Almudena Amor: el año no coincide ±1; Amal Neerad: el año no coincide ±1; Farewell Amor: el año no coincide ±1; Mo Amer: el año no coincide ±1; Anjali Ameer: el año no coincide ±1)
 1008366	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21440964 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Six Degrees of Santa 2022 film» sin artículo válido (Yolki: el año no coincide ±1; Tim Allen: el año no coincide ±1; Steve Lund: el año no coincide ±1; Santa Clara University: el año no coincide ±1; Peter Horton: el año no coincide ±1)
 1009921	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. sin imdb_id; sin imdb_id en Wikidata y con menos de 2 nombres de reparto: NS-4 no permite la búsqueda
 1011480	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21654704 no tiene artículo en en.wikipedia.org vía P345; sin imdb_id en Wikidata y con menos de 2 nombres de reparto: NS-4 no permite la búsqueda
 1012659	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt19037878 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Sappy Holiday 2022 film» sin artículo válido (The Holiday: el año no coincide ±1; Elemental (2023 film): no nombra 2 integrantes del reparto; Casper (film): el año no coincide ±1; Jon McLaren: el año no coincide ±1; P.S. I Love You (film): el año no coincide ±1)
-1012801	lote-045	propuesto	plot enciclopédico
-1013228	lote-045	propuesto	plot enciclopédico
-1013577	lote-045	propuesto	plot enciclopédico
-1013860	lote-045	propuesto	plot enciclopédico
+1012801	lote-045	aplicado	plot enciclopédico
+1013228	lote-045	aplicado	plot enciclopédico
+1013577	lote-045	aplicado	plot enciclopédico
+1013860	lote-045	aplicado	plot enciclopédico
 1014530	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21836576 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Ivy + Bean: Doomed to Dance 2022 film» sin artículo válido (Ivy + Bean: el año no coincide ±1; Sasha Pieterse: el año no coincide ±1; List of films produced back-to-back: el año no coincide ±1; Halloween: el año no coincide ±1; List of Netflix original films (2022): n
 1014676	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21836592 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Ivy + Bean: The Ghost That Had to Go 2022 film» sin artículo válido (Ivy + Bean: el año no coincide ±1; List of films produced back-to-back: el año no coincide ±1; Tom Skerritt: el año no coincide ±1; Sasha Pieterse: el año no coincide ±1; Fortnite seasonal events: el
 1014779	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21836538 no tiene artículo en en.wikipedia.org vía P345; búsqueda «The Figo Affair: The Transfer That Changed Football 2022 film» sin artículo válido (Transfer (association football): el año no coincide ±1; FC Barcelona: el año no coincide ±1; Real Madrid CF: el año no coincide ±1; Steve McManaman: el año no coincide ±1; Gordon Ramsa
-1015602	lote-045	propuesto	plot enciclopédico
+1015602	lote-045	aplicado	plot enciclopédico
 1015606	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21860836 no tiene artículo en en.wikipedia.org vía P345; búsqueda «Obi-Wan Kenobi: A Jedi's Return 2022 film» sin artículo válido (Obi-Wan Kenobi (miniseries): el año no coincide ±1; Obi-Wan Kenobi: el año no coincide ±1; Part III (Obi-Wan Kenobi): el año no coincide ±1; Star Wars: Obi-Wan: el año no coincide ±1; Part VI (Obi-Wan Ken
-1015724	lote-045	propuesto	plot enciclopédico
-1015963	lote-045	propuesto	plot enciclopédico
+1015724	lote-045	aplicado	plot enciclopédico
+1015963	lote-045	aplicado	plot enciclopédico
 1016446	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21916206 no tiene artículo en en.wikipedia.org vía P345; búsqueda «The Perfumier 2022 film» sin artículo válido (List of Netflix original films (2022): no nombra 2 integrantes del reparto; The Serpent Queen: el año no coincide ±1; August Diehl: el año no coincide ±1; Show Dogs: el año no coincide ±1; Perfume (novel): el año no coinci
 1017494	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt21072238 no tiene artículo en en.wikipedia.org vía P345; búsqueda «A Christmas to Treasure 2022 film» sin artículo válido (A Christmas Treasure: el año no coincide ±1; Muppet Treasure Island: el año no coincide ±1; A Christmas Story: el año no coincide ±1; A Ghost Story for Christmas: el año no coincide ±1; The Nightmare Before Chris
 1017619	lote-045	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. tt16292538 no tiene artículo en en.wikipedia.org vía P345; búsqueda «13:14: The Challenge of Helping 2022 film» sin artículo válido (Fall (2022 film): no nombra 2 integrantes del reparto; Adam Pearson (actor): el año no coincide ±1; David (2025 film): el año no coincide ±1; Bruce Willis: el año no coincide ±1; Maaran (2022 film): no no
-1018403	lote-045	propuesto	plot enciclopédico
-1018648	lote-045	propuesto	plot enciclopédico
-1019446	lote-045	propuesto	plot enciclopédico
+1018403	lote-045	aplicado	plot enciclopédico
+1018648	lote-045	aplicado	plot enciclopédico
+1019446	lote-045	aplicado	plot enciclopédico
 1020696	lote-046	propuesto	plot enciclopédico
 1022102	lote-046	omitido	sin trama de Wikipedia; pendiente de limpiar_enciclopedico.py. P345 tt22010428 → Permission to Dance on stage
 1022256	lote-046	propuesto	plot enciclopédico
