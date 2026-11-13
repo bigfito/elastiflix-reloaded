@@ -2977,7 +2977,7 @@
    "video": false,
    "tagline": null,
    "overview": "A young elf mistakes a tiny alien for a Christmas gift, not knowing her new plaything has plans to destroy Earth's gravity — and steal all the presents.",
-   "plot": "A young elf mistakes a tiny alien for a Christmas gift, not knowing her new plaything has plans to destroy Earth's gravity — and steal all the presents.",
+   "plot": "Long ago, a race of colorful extraterrestrials known as Klepts became greedy and plundered their home planet of its resources. Their color faded away, and they set off into outer space, moving from galaxy to galaxy and stealing whatever they could. The leader of the Klepts, known as Supreme Leader Z, decides to steal all of the \"stuff\" on the planet Earth. Her plan involves building a device dubbed \"the Gyrotron,\" which will eliminate Earth's gravity on the North Magnetic Pole; objects on the planet will be sent into orbit, where the Klepts' spaceships can collect them. Z sends X, a small Klept, to carry out the mission with a helper robot known as a Semi-Automatic Multi-Tasking Unit (or SAMTU).\nX and SAMTU arrive on Earth shortly before Christmas Eve. They land in Christmas Town, where Santa Claus and his elves live. That night, Santa unveils a technologically advanced sleigh meant to help him deliver Christmas presents all around the world more quickly. However, the sleigh malfunctions, and Santa instructs Obie, his lead elf mechanic, to fix it. Obie's time spent working on the sleigh has kept him from spending time with his daughter Holly and her mother Noelle, much to Holly's disappointment.\nIn an ice cave, X directs SAMTU to build the Gyrotron. Driven by an urge to steal, X ventures into Christmas Town, where he encounters Obie. X plays dead, leading Obie to believe him to be an inanimate doll. Obie gives X to Holly as a gift. The next day, Holly keeps X with her as she decorates with her mother, goes caroling, and attends a Christmas dinner, causing X to witness the elves' kindness and generosity towards one another. At night, X tries to escape Holly's home with a bag of stolen items, but Holly sees him attempting to do so. She gives X a puppy as a companion; the act of being given something fills X with feelings of compassion and warmth and causes him to regain his blue color.\nX decides not to follow through with Supreme Leader Z's plan and instead reprograms SAMTU to fix Santa's sleigh. However, Z orders the other Klepts to invade Christmas Town. The Klepts activate the Gyrotron, but SAMTU manages to destroy the machine, electrocuting itself in the process. Nonetheless, the Klepts triumph over the residents of Christmas Town. Z, believing that X gained the Earthlings' trust in order to lead the Klepts to their \"stuff,\" promotes him to Vice Supreme Leader. Feeling distraught, X hands the puppy to Z as a gift, causing her to regain her pink color. The residents of Christmas Town give presents to the other Klepts, restoring them to their colorful selves.\nAt the break of dawn on Christmas morning, Santa laments that there is not enough time left to deliver Christmas gifts to all the children of the world. X takes to the sky with a number of other Klepts in spaceships, traveling around the planet and delivering the presents as Santa wished.",
    "genres": [
     "Animation",
     "Family",
@@ -3034,7 +3034,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -6963,7 +6963,7 @@
    "video": false,
    "tagline": "Face your demons.",
    "overview": "Escaping from poverty to become a witcher, Vesemir slays monsters for coin and glory, but when a new menace rises, he must face the demons of his past.",
-   "plot": "Escaping from poverty to become a witcher, Vesemir slays monsters for coin and glory, but when a new menace rises, he must face the demons of his past.",
+   "plot": "In 1165, the witcher Vesemir saves a child from a leshen in the forests of Kaedwen. Before dying, the creature says something in an archaic elven dialect to Vesemir, leading him to suspect that it was under someone's control. Vesemir is visited by the elf Filavandrel, who thinks the leshen was controlled by Kitsu, one of many elven girls who have gone missing. Meanwhile, the sorceress Tetra Gilcrest, an advisor to the Kaedwen king, argues that witchers should be outlawed and hunted down, but the elderly courtier Lady Zerbst is sympathetic to the witchers and speaks in their favor.\nVesemir reminisces about his youth when he, along with his best friend Illyana, were servants for a noble whose mistress was saved from a mahr by a witcher named Deglan with Vesemir's help. Enticed by promises of fortune and desiring to make a name for himself, Vesemir traveled to Kaer Morhen and underwent the training and mutations to become a witcher.\nIn the present day, Vesemir and his fellow witcher, Luka, are arrested for killing two Kaedwani knights in a bar fight. Lady Zerbst persuades the king to send Vesemir, accompanied by Tetra to rid the forest of Kitsu. She personally delivers the mission order to Vesemir, who recognizes her as Illyana. Vesemir and Tetra set out and she tells him the story of a young sorceress wrongfully killed by a witcher as part of a con, an act which convinced her that witchers are too powerful and cannot be trusted. They find Kitsu, mutated and now able to cast powerful illusions, and fight her basilisk. They kill the monster, but Kitsu escapes.\nFollowing Kitsu, the pair come across an old and abandoned elven school where they find the bodies of the other missing female elves. They rescue the captured Filavandrel, who explains that Kitsu tried to replicate the experiments that were done on her, and they come to the conclusion that corrupt witchers are responsible, wanting to terrorize the locals into hiring them. Vesemir surmises that the monsters he encountered were probably created in Kaer Morhen and leaves to confront Deglan, who has risen to a high position of leadership. As he departs, Tetra destroys Kitsu's den, finds Kitsu later surveying the destruction, and blames the witchers. Back at court, she reveals the witchers' culpability, and is granted use of the Kaedwani army to lay siege to Kaer Morhen. Illyana sees a captured Luka being put to death and flees to warn Vesemir.\nDeglan admits to Vesemir to creating the monsters, including Kitsu, to protect their way of life and are alerted by Illyana of Tetra's assault, which is assisted by Kitsu's monsters. Illyana helps the witcher recruits flee into the mountains. Vesemir confronts Tetra, who has captured the order's mages and is holding them hostage. Kitsu arrives and traps him in an illusion where he never became a witcher, instead having a family with Illyana. However, Vesemir is able to break out of the illusion and engages in a fierce battle with Tetra and her forces.",
    "genres": [
     "Animation",
     "Action",
@@ -7043,7 +7043,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -9103,7 +9103,7 @@
    "video": false,
    "tagline": "Some dreams become destiny.",
    "overview": "The true story of Kurt Warner, who went from a stockboy at a grocery store to a two-time NFL MVP, Super Bowl champion, and Hall of Fame quarterback.",
-   "plot": "The true story of Kurt Warner, who went from a stockboy at a grocery store to a two-time NFL MVP, Super Bowl champion, and Hall of Fame quarterback.",
+   "plot": "A young Kurt Warner watches Super Bowl XIX. He then makes a commitment to become a Super Bowl and MVP quarterback.\nSeveral years later, Kurt is playing his fifth year for the University of Northern Iowa (UNI) Panthers with coach Terry Allen, and nothing is going Warner's way. Allen threatens to bench him after repeatedly not heeding his coaching, which would effectively end Warner's NFL dream. After a brutal practice following the coach's orders, Kurt continues to be the starter and his numbers climb to where he could have a chance at the Draft.\nMeanwhile, Kurt becomes interested in a woman he sees dancing at a country bar, so decides to learn how to dance to impress her. Brenda is a single mom with two kids, Zack & Jesse, and is a nursing student who is struggling financially. Even though she doesn't think it will work out, Kurt is persistent, walking three miles to her house to get her number. He finds out she was a Marine corporal. Kurt instantly bonds with her disabled son, convincing her they should be together.\nWith his last season of college football over, Kurt anxiously awaits the draft. He doesn't get picked and wonders why God gave him a dream that he would never obtain. Later, the Green Bay Packers give him the chance to try out, but it goes badly and Kurt goes home dejected. Becoming homeless, he moves into Brenda's basement. He takes a job at a Hy-Vee grocery store, working nights stocking shelves. He discovers success is not found on the football field, but how one acts when confronted with disappointment.\nBrenda's parents sell the house and move to another state, putting them in a tough situation, and the couple continue to struggle. At one point, their car runs out of gas and Kurt walks several miles in the snow to get gas.\nKurt gets approached by Jim Foster, who offers him the quarterback position for the Arena Football League's Iowa Barnstormers. Kurt agrees after discovering no one in the NFL is interested in him.\nArena football is different. The field is smaller and the play is much more fast-paced. He loses his first game but wins the next. Kurt and Brenda's relationship is strained from the long commute, and they briefly break up. Brenda's parents are killed in a tornado and she and Kurt decide to get back together. They marry and Kurt finishes the 1996 Arena Football League season with the Iowa Barnstormers in ArenaBowl X, a heartbreaking loss when his completed pass on the last play of the game comes up one yard short of the end zone.\nKurt is invited to another tryout for the St. Louis Rams. He doesn't think he will make it; he is having to re-adjust to normal football. Offensive coordinator Mike Martz berates him relentlessly for every mistake. Head Coach, Dick Vermeil, believes in him and tells Kurt he made the team. When starting quarterback Trent Green goes down with an injury in the 1999 NFL preseason, Kurt eventually takes his place.",
    "genres": [
     "Drama"
    ],
@@ -9175,7 +9175,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -15244,7 +15244,7 @@
    "video": false,
    "tagline": "Take your chance. Make your move.",
    "overview": "After failing to make it on Broadway, April returns to her hometown and reluctantly begins training a misfit group of young dancers for a competition.",
-   "plot": "After failing to make it on Broadway, April returns to her hometown and reluctantly begins training a misfit group of young dancers for a competition.",
+   "plot": "April Dibrina, a young dancer seeking success on Broadway, steals a cab from an older woman during a rainstorm to get to an audition. She performs well, but sponsor Ruth Zimmer meets the potential dancers. When she recognizes April (from the taxi incident), she vows that no one on Broadway will hire her. While trying to explain, she accidentally knocks Ruth off stage, inflicting serious injury. It is posted on social media, publicly embarrassing April.\nEvicted from her apartment, April returns to her hometown in Wisconsin. While at the grocery store, she bumps into the New Hope dance teacher Miss Barb, who invites her to come to the dance studio. April also sees her ex Nick, whom she left to pursue a career in NYC.\nIn the dance studio, April visits the class of dancers: Lucia, a forgetful girl with glasses; Oona, a nervous girl; Kari, who secretly earns her own classes; Ruby, with no self-confidence; Zuzu, a deaf girl; June, Miss Barb's daughter; Sarah and Michelle, Nick's little sisters. Zuzu's little brother, Dicky, also watches.\nBarb asks April to coach the town's dance team for a competition. At first, she declines, but later realizes it can give her a chance to perform in front of Welly Wong, saving her career. April accepts, beginning a harsh training regimen that alienates the young dancers, including causing Ruby to quit.\nThe New Hope dance team advances through several rounds of the competition; they improve as April bonds with them, becoming a better teacher, including learning some sign language to communicate with Zuzu. One day, the dance studio ceiling collapses after April tells the dancers they \"don't suck,\" so they know they are improving. Unable to afford repairs to the studio, the team moves practice to the football field and eventually move to April's father's barn, which Nick has helped repair.\nApril and Nick begin to rekindle their relationship as the dance team advances to state. Dancers from another troupe taunt her about her failure in New York, causing her to lose focus during one dance, though she recovers.\nIn the mini’s 6-and-under category, the two youngest dancers, June and Michelle, are struck with stage fright. Dicky, who has memorized all the girl's choreography while they practiced, runs out and starts to dance. June and Michelle recover, and they all dance together. Dicky now trains with the dance troupe.\nAfter passing state finals, April calls her NYC friend Deco to help make costumes. One day, as the small dancers are rehearsing a lift in the barn, April calls on Sarah and R.J., the football player whom Sarah has a crush and she wants to impress, to demonstrate. When he lifts her, her silicone bra cup falls on the floor, and she runs off, embarrassed and crying. April finds her in the field and comforts her.\nThe dancers' families raise the money to send the team to Atlantic City for the finals.",
    "genres": [
     "Comedy",
     "Music",
@@ -15321,7 +15321,7 @@
     "Türkçe"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -16358,7 +16358,7 @@
    "video": false,
    "tagline": "There is no escape from who you really are.",
    "overview": "After losing his wife and his memory in a car accident, a single father undergoes an experimental treatment that causes him to question who he really is.",
-   "plot": "After losing his wife and his memory in a car accident, a single father undergoes an experimental treatment that causes him to question who he really is.",
+   "plot": "Nolan Wright survives a car crash physically intact but suffering from amnesia. Having lost his wife in the accident, he is now a single father to his 10-year-old daughter, Ava. Nolan has a hard time remembering his past and doing basic tasks, including cooking and picking up his daughter from school. Ava is very mature and highly precocious, and aids him in many of these tasks, even making excuses for him when he falls short in social settings. After receiving three warnings from Ava's teacher regarding his forgetful behavior (which she sees as neglect), and failing to get a photography contract at work, Nolan reconsiders his options.\nAfter talking with his friend, Dr. Gary Yeboah, Nolan ultimately decides to opt for an experimental procedure that might help him get his memory back by enlisting the help of Dr. Brooks, a neurologist at the hospital he was first brought to after the accident. After using hypnosis, Dr. Brooks explores Nolan's mind and deems him a suitable subject for her \"black box\" treatment, saying that together they can try to regain his memory.\nUnfortunately, this is not an easy process; Nolan sees figures, but not faces, and is frequently confronted by some sort of monster that causes him to panic and leave the memories. However, outside Dr. Brooks' office, he begins to catch glimpses of other memories, which help him work towards a more normal and healthy relationship with Ava.\nNone of this lasts long, though; as Dr. Brooks pushes Nolan further and further, he begins to suspect that there is a dark truth in his past, and although Dr. Yeboah assures him this is not the case, Nolan is frantic with worry. Eventually, in a session with Dr. Brooks, Nolan defeats the monster in his memories and looks into a mirror, only to realize he is not Nolan at all. When he comes to, he is aware of his true identity: Thomas Brooks, Dr. Brooks' own son.\nDr. Brooks reveals that Thomas died some time previously, but before he died she had mapped out his consciousness and uploaded it to the black box, so she could download his consciousness into the suitable host when one arrived. Thomas leaves, pretending to still be Nolan, but is struggling with this new knowledge. Eventually, he leaves Ava with Dr. Yeboah, as he says he no longer trusts himself. Thomas seeks out his wife, and tries to explain to her that he is back, but finds that she has erased all traces of him, and does not want him in her life.\nAt the same time, Dr. Yeboah is looking into Nolan's file and realizes there are some irregularities. He grows suspicious of Dr. Brooks. Ultimately, he and Ava break into Dr. Brooks' office, where they find her trying to replace what is left of Nolan's consciousness with Thomas's.",
    "genres": [
     "Horror",
     "Science Fiction",
@@ -16432,7 +16432,7 @@
    "enrichment": {
     "budget": "wikipedia_infobox",
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -16544,7 +16544,7 @@
    "video": false,
    "tagline": "Every fairy tale ends.",
    "overview": "During her Christmas holidays with the royal family at the Sandringham estate in Norfolk, England, Diana decides to leave her marriage to Prince Charles.",
-   "plot": "During her Christmas holidays with the royal family at the Sandringham estate in Norfolk, England, Diana decides to leave her marriage to Prince Charles.",
+   "plot": "On Christmas Eve 1991, the British royal family prepares to spend Christmas at Sandringham House in Norfolk. Among the attendees is Diana, Princess of Wales, whose marriage to Charles, Prince of Wales has become strained due to his affair with Camilla Parker Bowles. The staff of Sandringham prepare for the royals' arrivals. Instead of driving with her security detail, Diana has decided to drive herself and has become lost, until she runs into Royal Head Chef, Darren McGrady. She notes that the long-abandoned neighbouring estate, Park House, was her childhood home. She then notices a scarecrow in the distance and eagerly runs towards it. Diana takes off its jacket, which once belonged to her father John Spencer, 8th Earl Spencer, and goes back to her car.\nWhen Diana arrives at Sandringham, her sons William and Harry are excited to see her, but she does not attempt to socialise with the rest of the royal family. Diana's only friend at Sandringham is royal dresser Maggie, who encourages her to both combat the royal family and fulfil the obligations expected of her. Diana finds a book on Anne Boleyn in her bedroom. She begins to have dreams about Boleyn (including a hallucination of her at a Christmas Eve dinner where she imagines herself destroying a pearl necklace given to her by Charles and eating the pearls in her soup), eventually coming to believe that Boleyn's ghost is haunting her as a fellow abandoned royal wife. Diana tries to visit her childhood home, but is stopped by royal guards who initially mistake her for an intruder.\nOn Christmas Day, Diana attends a service at St Mary Magdalene Church, Sandringham, where she notices Camilla among the gathered crowd and is photographed by numerous intrusive journalists. She holds a difficult conversation with Charles, who rebuffs her concerns over William and Harry's participation in a pheasant shoot the next day, and advises her to develop a stronger sense of separation between her public and private lives. Charles privately arranges for Maggie to be sent to London and spreads rumours that she had planted the Boleyn book in Diana's room and made critical comments about her mental health; McGrady denies that she had done so when Diana questions him.\nMajor Gregory attempts to encourage Diana to conform to the pressures of royal life by reminding her that the soldiers of the British Army die trying to protect the interests of the Crown (and by extension her interests). Diana responds by stating that she never asked anyone to die for her and accuses him of planting the Boleyn book in her room as a warning, which he denies.\nAfter imagining wounding herself with a pair of wire cutters given to her by McGrady, Diana avoids the formal Christmas Day dinner, and instead runs to her childhood home and gains access with the wire cutters. Memories of her happier childhood overtake her, and she dances from room to room while imagining her younger self.",
    "genres": [
     "Drama"
    ],
@@ -16658,7 +16658,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -19394,7 +19394,7 @@
    "video": false,
    "tagline": "Don't listen to them.",
    "overview": "After the strange death of his young son at their new home, Daniel hears a ghostly plea for help, spurring him to seek out a renowned paranormal expert.",
-   "plot": "After a tragic turn of events at the new home he's fixing up, Daniel hears a ghostly plea for help, spurring him to seek out a famous paranormal expert.",
+   "plot": "Daniel and Sara, who renovate and resell houses, move into a new home with their 8-year-old son Eric. He is troubled by insomnia and hearing voices which tell him to make creepy crayon drawings, so they bring in a psychologist. The doctor tells them that these disturbances are attributable to lack of stability, but that he will settle down. However, Eric draws a bloody branch, and while the psychologist drives home, a supernatural fly harasses her until she drives into a tree and is killed by a branch.\nThe house is so large, and Eric's bedroom so distant from his parents', that they frequently communicate via walkie-talkie. Daniel discovers that their new house is infested by flies and tries unsuccessfully to eliminate them. Unexplained events start to happen: they develop inexplicable stigmata-like scratches on their skin; a locked gate unlocks itself; Eric's toy robot starts up by itself and talks; and he thinks his father is expressing hatred for him over the walkie-talkie. One night, Daniel finds Eric drowned in the swimming pool.\nSara leaves for a few days. The hauntings focus then on Daniel: he leaves a phone message for her, then hears Eric crying for help when he replays it, and the walkie-talkie crackles with static when he goes near it. He purchases a book, Sounds from the Great Beyond (Sonidos de Más Allá), during a book signing by parapsychologist Germán Domingo and demands his help. Germán and his daughter, audio engineer Ruth, come over. Ruth's ghost hunting gear includes half a dozen computer monitors, cameras with infrared-viewing capability for the rooms used by the family, EMF meters, headphones, and thermal imagers. Almost at once she orders Daniel out of the house as he is interfering, but in fact he is outside, and her kit is detecting someone invisible in Eric's bedroom. Germán investigates in there, and Ruth begs him to leave the room, because there is a specter right in front of him; a burst of noise in his headphones convinces him to join the others.\nThat night, Germán is awakened by the apparition of his dead wife, Sofia; in the vision, she knifes his arm, saying he will join her. Ruth wakes him and he finds he has sleepwalked and cut himself. Meanwhile, Sara receives a phone call from Eric, who says he is hiding under his bed and begs her to help him against Germán, who wants to hurt him. She drives to the house and sees the men burying the corpses of cats which they had found hanged in a tree. She goes to Eric's bedroom, where she sees his ghost playing with his toy robot; he vanishes, and she encounters a corpse-like witch (bruja). Ruth comes in and tells them that the house is on the grounds of a courthouse used for Spanish Inquisition trials. Sara's body crashes through the window; she has hanged herself. Ruth tells Germán that they are leaving and begins to pack her equipment, but he wants to stay and learn the historical truth of the estate.",
    "genres": [
     "Drama",
     "Horror",
@@ -19454,7 +19454,7 @@
     "Español"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -23644,7 +23644,7 @@
    "video": false,
    "tagline": "The rise of a global phenomena.",
    "overview": "Record-shattering Korean girl band BLACKPINK tell their story —  and detail the hard fought journey of the dreams and trials behind their meteoric rise.",
-   "plot": "Record-shattering Korean girl band BLACKPINK tell their story —  and detail the hard fought journey of the dreams and trials behind their meteoric rise.",
+   "plot": "The all-access documentary covers the four years since Blackpink's debut in 2016 with video footages from their training days, a look into their day-to-day life, behind-the-scenes stories, and interviews with the members. It follows the trials and tribulations of being a K-pop star, the recording process of the group's debut album The Album and member Rosé's then-upcoming solo debut, and culminates with their 2019 Coachella performance.",
    "genres": [
     "Documentary",
     "Music"
@@ -23697,7 +23697,7 @@
     "한국어/조선말"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -38302,7 +38302,7 @@
    "video": false,
    "tagline": "An exquisite ghost story.",
    "overview": "An artist and her elderly mother confront long-buried secrets when they return to a former family home, now a hotel haunted by its mysterious past.",
-   "plot": "An artist and her elderly mother confront long-buried secrets when they return to a former family home, now a hotel haunted by its mysterious past.",
+   "plot": "Middle-aged filmmaker Julie is riding with her elderly mother Rosalind and Rosalind's dog Louis in a taxi, whose driver recounts a ghost story. He drops them off at a large, secluded and seemingly empty hotel. Julie's father died a couple of years earlier and Julie wants to spend time with her mother in hopes of making a film about her. Shrouded in an eerie fog and echoing with creaks, thumps and moaning wind that keep Julie from sleeping well, the hotel is Rosalind's former family estate. She recounts painful memories that occurred there, including the death of a family member during World War II. Julie starts to cry with regret at dredging up these memories, but Rosalind assures her that it's not her fault and that she has happy memories of her childhood home as well.\nOne night, Julie walks into her room to find Louis missing. She searches the grounds frantically, enlisting the help of Bill, a hotel employee. Julie returns to the room and finds the dog sitting on the bed. She thanks Bill for his help and they share a drink as they bond over their shared grief—Julie's father and Bill's wife, who has also died recently. The following day, Rosalind's birthday, Julie overhears Rosalind talking with Bill. Rosalind says she feels sorry for Julie because she has no children of her own and dotes on her mother instead. Later, Rosalind recounts the circumstances of a miscarriage she had, after which Julie's cousin Alistair drops off flowers for her.\nJulie arranges a special birthday supper with presents for her mother, but when Rosalind says that she is not hungry, Julie breaks down. She feels she cannot be happy when her mother is not happy and that she fears for the future as she has no children to take care of her when she is older. While bringing her mother a birthday cake, Julie begins sobbing and it is revealed that she is alone at the table and that her mother is dead. Bill visits Julie's room and comforts her, and later she dreams of Rosalind on her death bed.\nThe following day, the sun is shining and birds are singing as Julie works on her screenplay, which opens with the same scene that began this film. As she departs the hotel it is revealed to be full of guests and staff. The receptionist seems visibly concerned for Julie, who thanks her for her concern. Bill helps Julie get into a taxi, which carries her away.",
    "genres": [
     "Drama",
     "Mystery"
@@ -38418,7 +38418,7 @@
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -47495,7 +47495,7 @@
    "video": false,
    "tagline": "An examination of power, its impact, and durability in our modern world.",
    "overview": "Renowned musician Lydia Tár is days away from recording the symphony that will elevate her career. When all elements seem to conspire against her, Lydia's adopted daughter Petra becomes an integral emotional support for her struggling mother.",
-   "plot": "As celebrated conductor Lydia Tár starts rehearsals for a career-defining symphony, the consequences of her past choices begin to echo in the present.",
+   "plot": "Lydia Tár, chief conductor of a Berlin orchestra, heavily relies on Francesca, her personal assistant and confidante. While being interviewed by Adam Gopnik at The New Yorker Festival, Lydia promotes her upcoming live recording of Mahler's Fifth Symphony and memoir Tár on Tár. She meets with Eliot Kaplan, an investment banker and amateur conductor who co-founded the Accordion Foundation with Lydia to support aspiring female conductors. They discuss technique, replacing Lydia's assistant conductor Sebastian with Francesca, and filling a vacant cello position in Berlin.\nAs a guest lecturer, Lydia holds a masterclass at Juilliard. When a student expresses reluctance to study Bach due to his social views, she encourages him to focus on composers' music rather than their personal lives. The student leaves in frustration. That night, Lydia anonymously receives a first edition of Vita Sackville-West's novel Challenge with the title page embellished with a hand-drawn kené pattern, a personal reminder of her trip to Peru. She tears up the page and throws it away.\nLydia flies back to Berlin, where she lives with her wife Sharon, the concertmaster of the orchestra, and their daughter Petra. Before a blind audition for the cello position, Lydia spots a young Russian candidate, Olga Metkina, in the bathroom. Lydia changes her scorecard to ensure Olga a spot in the orchestra and proposes to the orchestra that Elgar's Cello Concerto be the companion piece to the Mahler symphony, virtually guaranteeing Olga the soloist position. Lydia's attraction to Olga strains her relationships with Francesca and Sharon.\nKrista Taylor, a promising young musician whom Lydia once mentored, has been blacklisted after a dispute with Lydia. After sending disturbing emails to Francesca, Krista ends her own life. Lydia instructs Francesca to delete the emails and hire a lawyer after learning of Krista's parents' plan to sue her. Lydia informs Sebastian of his imminent replacement. Incensed, he calls her out on her inappropriate favoritism, leading Lydia to decide against promoting Francesca.\nLydia is haunted by an increasing sensitivity to sound, surreal nightmares, daytime hallucinations, chronic pain, and enigmatic patterned scribbles resembling those Krista once made. While trying to complete a composition dedicated to Petra, she is disturbed by the sound of a medical device next door, where her neighbor is caring for her dying mother. One day, Lydia falls and hurts herself while attempting to follow Olga home, but tells Sharon she was injured in a mugging.\nA manipulatively edited video of Lydia's Juilliard class goes viral, and an article accusing her of sexual predation appears in the New York Post. Lydia's Wikipedia page is also edited by an unseen person to include the controversial new information about her. Lydia tries to contact Francesca, who resigned after being denied the promotion.",
    "genres": [
     "Drama",
     "Music"
@@ -47641,7 +47641,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -65351,7 +65351,7 @@
    "video": false,
    "tagline": null,
    "overview": "After an accidental text message turns into a digital friendship, Vale and Alex start crushing on each other without realizing they've met in real life.",
-   "plot": "After an accidental text message turns into a digital friendship, Vale and Alex start crushing on each other without realizing they've met in real life.",
+   "plot": "Anonymously Yours focuses on a high school romance, how long could someone realistically go before they realize that the person they’re texting is right beside them? The film is about two high schoolers who start a digital friendship. The twist is, they have no idea that they’re speaking to an individual who they are annoyed by in real life. The two leading characters, Alex (Ralf) and Vale (Annie), both have their own issues, a fact only made worse as they attempt to navigate through high school and towards the end of year prom. To help them through their issues, they strike up a friendship with an “anonymous” contact, which soon develops into romantic feelings.",
    "genres": [
     "Drama",
     "Romance"
@@ -65398,7 +65398,7 @@
     "Español"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -73545,7 +73545,7 @@
    "video": false,
    "tagline": null,
    "overview": "In this romantic comedy, several friends, each dealing with unhappy love lives, turn to each other for help - but not always with the best results.",
-   "plot": "In this romantic comedy, several friends, each dealing with unhappy love lives, turn to each other for help - but not always with the best results.",
+   "plot": "After a breakup, Lisa returns to the Netherlands, only to find out that her friend Kiki is getting married. The girls travel to Ibiza for Kiki's bachelorette and find themselves navigating romantic flings among an ensemble cast.",
    "genres": [
     "Comedy",
     "Romance"
@@ -73596,7 +73596,7 @@
     "Nederlands"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -77938,7 +77938,7 @@
    "video": false,
    "tagline": "Love with no expiration.",
    "overview": "Ayef meets Manny. It is at a time where she focuses on her dreams while Manny being a flighty young shop owner, goes with the flow. They both believe love is inconvenient and agree to a contractual fling expiring on the date Ayef leaves for Singapore, but they start falling for one another.",
-   "plot": "Two young lovers agree to a casual relationship, but this convenient arrangement grows complicated as their romance reaches an expiration date.",
+   "plot": "Manny, a company heir working undercover as a trade union activist, pretends to be in a relationship with Ayef, a passerby, to hide from police hunting for participants during a rally against his father Wilfredo's company. Caught in a rainstorm, Manny lends his umbrella to Ayef, who is heading to the 24-Ever convenience store, before parting ways. Ayef is then shown to be working part-time at 24-Ever to support her ambition to become a professional animator in Singapore, while Manny seeks to prove himself to Wilfredo, who disapproves of Manny's plant boutique shop business. Manny and Ayef track each other down on social media and discover that their workplaces are located near each other. Manny becomes a frequent customer at 24-Ever and slowly gains Ayef's heart, while Ayef learns more about Manny's family from him and becomes friends with his autistic half-brother Dobs.\nAfter Ayef discovers that her domineering mother Terry has been deliberately sabotaging her internship application in Singapore to force her to stay in the Philippines, she goes for a ride with Manny to 24-Ever. After both release their frustrations about their respective families and their happiness with each other, Ayef and Manny agree to be in a romantic albeit conditional relationship for 100 days, subject to whether it is convenient for them to continue. Over the succeeding weeks, Ayef and Manny enjoy being a couple, despite Manny being found out by his father as a labor activist, while Ayef passes her internship interview for Singapore. Falling drunk at a date, both express that they have fallen in love with each other.\nManny invites Ayef to his house for a birthday dinner with his family. However, Wilfredo is incensed when Ayef inadvertently reveals that she met Manny at the rally, while things escalate when Manny's estranged mother Meryl arrives and chastises Wilfredo for his infidelity with Dobs' mother Agnes, who is also Manny's stepmother. As Manny's parents storm off, Wilfredo angrily demands that he close down his plant business and leave Ayef. Outside, Ayef asks for a break-up with Manny, citing his failure to stand up for her over the dinner, but Manny chastises her for loving him only in a less stressful time. Arriving at her home, Ayef encounters her father Filemon standing up to Terry and comforts him. The next day, Terry apologizes to Ayef for sabotaging her dreams and gives her blessing to pursue the internship in Singapore. Manny sees Wilfredo abusing Dobs and decides to stand up to his father before moving out, accompanied by Agnes and Dobs.\nOn the end date of their supposed relationship, Dobs reminds Manny of Ayef's promise to join him in a drawing session, prompting Manny to seek Ayef one last time. Arriving at her residence, Manny is told by a surprised Terry that she is on her way to the airport for her flight to Singapore. Terry contacts Ayef and tells her of Manny's request.",
    "genres": [
     "Romance",
     "Comedy"
@@ -77987,7 +77987,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "wikipedia_infobox_fx:PHP:2022",
     "spoken_languages": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -78152,7 +78152,7 @@
    "video": false,
    "tagline": null,
    "overview": "Days after 9/11, letters containing fatal anthrax spores spark panic and tragedy in the US. This documentary follows the subsequent FBI investigation.",
-   "plot": "Days after 9/11, letters containing fatal anthrax spores spark panic and tragedy in the US. This documentary follows the subsequent FBI investigation.",
+   "plot": "The Anthrax Attacks is about the 2001 anthrax attacks and the ensuing FBI investigations into it.\nIn a biological attack that started one week after the September 11 attacks, five people were killed and at least 17 people were injured.",
    "genres": [
     "Documentary"
    ],
@@ -78204,7 +78204,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -84481,7 +84481,7 @@
    "video": false,
    "tagline": null,
    "overview": "A curse is placed on grinchy Chuy, who wakes up to find he's lived a full year, but is doomed to remember only Christmas Day. Every year. From now on.",
-   "plot": "A curse is placed on grinchy Chuy, who wakes up to find he's lived a full year, but is doomed to remember only Christmas Day. Every year. From now on.",
+   "plot": "Chuy, a very grumpy man, one day life offers him a great lesson: he receives a spell at Christmas and wakes up a year later. He soon realizes that he is condemned to repeat Christmas Eve over and over again, to deal with the consequences of what his other self has done in the remaining 364 days of the year.",
    "genres": [
     "Comedy"
    ],
@@ -84534,7 +84534,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
