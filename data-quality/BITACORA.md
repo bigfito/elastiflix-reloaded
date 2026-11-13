@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 20:45 UTC · Cursor (Grok 4.7) · ejecutor (turno 20)
+**Última actualización:** 2026-11-13 20:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-20, hito C)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -38,7 +38,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 17 | Google Antigravity | WP-09 (P-20) | REVISADO | 2026-11-13 | `dq-t17` | [R-17](bitacora/R-17.md) |
 | 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
 | 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
-| 20 | Cursor | C-01 T-04 y T-05 · hito C | EN REVISIÓN | 2026-11-13 | `dq-t20` | — |
+| 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
 | 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
 
 ### 1.2 Paquetes de trabajo
@@ -56,7 +56,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
 | WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
-| C-01 | Cierre: medición, publicación y documentación | EN REVISIÓN · turno 20, T-04 y T-05; el borrador del hito C espera a R-20 | 19, 20, 21 | 2026-11-13 |
+| C-01 | Cierre: medición, publicación y documentación | EN CURSO · T-01 a T-05 hechos (hito C); T-06 a T-08 (H-2 y publicación) en el turno 21 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
 
@@ -83,14 +83,17 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-17 | 17 · Google Antigravity | APROBADO CON CORRECCIONES | `wikipedia_infobox` documentada en `data/README.md`; motivos con el `$` perdido, anotados | ver R-17 | [R-17](bitacora/R-17.md) |
 | R-18 | 18 · Claude Code | APROBADO CON CORRECCIONES | Revisión independiente (P-21): migración del paso 9, prueba de nombres de `Movie`, precisión del README, texto en inglés; sobre de `data/*.json` a C-01 | `777cc1f` | [R-18](bitacora/R-18.md) |
 | R-19 | 19 · Cursor | APROBADO CON CORRECCIONES | 41 pruebas de integración en verde contra staging estricto (repetidas); informe v2 con origen de sinopsis y estado de las 10 recomendaciones | ver R-19 | [R-19](bitacora/R-19.md) |
+| R-20 | 20 · Cursor | APROBADO CON CORRECCIONES | Cifras de la documentación contra M3; sobre de `data/*.json` con el mapping del repo; frase del README; cierre del hito C | `b3ec13f` | [R-20](bitacora/R-20.md) |
 
 ## 2. Próximo paso
 
-> **Revisión R-20 · Claude Code.** Revisa el turno 20, etiqueta `dq-t20`, y cierra el hito C.
-> - **T-04:** tablas de precisión y nota de `bm25_plot` / `rrf_plot_*` en los dos README, «Acerca de», `eval/README.md`
->   y tamaños de `data/README.md`. El sobre de `data/*.json` trae el mapping del repo, con `dynamic: strict`.
->   `catalogo.py --verificar` 14/14 y `./mvnw verify` sin alias en 0.
-> - **T-05:** el borrador del hito C está en el diario del plan (§8, 20:43 UTC). Pide desplegar después de T-07.
+> **Turno 21 · Cursor.** C-01:
+> - **T-06:** pedir H-2 a la dueña del proyecto, con el resumen M0 → M3, el método, la vuelta atrás y los 7 días.
+> - **T-07:** solo con H-2 aprobada, `publicar.py` y el harness sobre producción.
+> - **T-08:** a los 7 días, borrar el índice anterior.
+>
+> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-20](bitacora/R-20.md). El punto de partida es la
+> etiqueta `dq-r20`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -470,3 +473,15 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - **Despliegue:** conviene desplegar la demo después de la publicación (C-01 T-07). La página de Inicio y «Acerca de» ya muestran cifras del catálogo nuevo, y producción sigue con el índice viejo hasta ese paso (R-19). Publicar el alias sin desplegar deja la demo midiendo el índice viejo; desplegar antes de publicar muestra posiciones que no son las del índice vigente.
 - Evidencia: `BITACORA.md` §6 y §7; `target/eval/report.md`; `informe/informe-calidad-v2.html`.
 - Para el siguiente: R-20 cierra este borrador. La integración en `main` la hace la dueña del proyecto.
+
+### 2026-11-13 20:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-20) · cierre del hito C
+- Hice: revisión del turno 20 de Cursor. APROBADO CON CORRECCIONES (una frase del README). Confirmo el borrador del
+  hito C de Cursor (20:43 UTC, arriba) como su resumen. Cierra el **hito C**:
+  - **Paquetes de trabajo:** WP-00 a WP-10 en HECHA.
+  - **Catálogo:** el de `data/` está medido en staging (M3).
+  - **Documentación:** las cifras coinciden con M3.
+  - **Producción:** intacta.
+- Evidencia: R-19 y R-20; `./mvnw -q verify` con código 0; `./mvnw verify -Pit` sobre staging con 41 pruebas en
+  verde (R-19); `informe/informe-calidad-v2.html`.
+- Para el siguiente: turno 21, Cursor (H-2 y publicación). La dueña del proyecto puede integrar `dq/ronda-4` en
+  `main` y conviene que despliegue después de C-01 T-07.
