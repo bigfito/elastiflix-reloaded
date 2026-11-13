@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 04:55 UTC · Cursor (Grok 4.7) · ejecutor (turno 13b)
+**Última actualización:** 2026-11-13 17:35 UTC · Claude Code (Claude Opus 5.5) · revisor (R-13b)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -31,8 +31,8 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 11 | Cursor | WP-05: lotes `011`–`025` y limpieza de todas las omitidas (`026`–`027`; P-11) | REVISADO | 2026-11-12 | `dq-t11` | [R-11](bitacora/R-11.md) |
 | 12 | Gemma 4 E4B | WP-05: lotes `029`–`040` (10 de Wikipedia y 2 de limpieza) y T-03; sin cerrar, lo cerró R-12 | REVISADO | 2026-11-13 | `dq-t12` | [R-12](bitacora/R-12.md) |
 | 13a | Gemma 4 E4B | Cierre de WP-05: evaluó las 462 restantes (lotes `042`–`047`) sin commits; R-13a terminó WP-05 (D-07) | REVISADO | 2026-11-13 | `dq-t13a` | [R-13a](bitacora/R-13a.md) |
-| 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | EN REVISIÓN | 2026-11-13 | `dq-t13b` | — |
-| 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
+| 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | REVISADO | 2026-11-13 | `dq-t13b` | [R-13b](bitacora/R-13b.md) |
+| 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
 | 15 | Cursor | WP-07 parte B (P-14) | PENDIENTE | — | — | — |
 | 16 | Cursor | WP-08 (D-07) | PENDIENTE | — | — | — |
 | 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
@@ -48,10 +48,10 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-00 | Preparación del equipo | HECHA | 1, 2, 3 | 2026-11-12 |
 | WP-01 | Respuestas de asistente y datos inventados | HECHA | 4 | 2026-11-12 |
 | WP-02 | Reescribir los ensayos generados | HECHA | 4, 5, 6, 7 | 2026-11-12 |
-| WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-03 integrada en el turno 13b (`4f14c65`, `lote-051`); pendiente de R-13b | 8, 13b | 2026-11-13 |
+| WP-03 | Ampliar las reglas de advertencia | HECHA · integrada en `dq/ronda-4` (`4f14c65`); cero avisos en `data/` | 8, 13b | 2026-11-13 |
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
 | WP-05 | Limpiar el plot enciclopédico | HECHA · 3 862/3 862: 3 425 Wikipedia, 7 overview de TMDB (D-06), 13 corregidas, 372 limpias, 45 sin fuente; ficha inicial 8 y taquilla o crítica 5 | 10, 11, 12, 13a | 2026-11-13 |
-| WP-06 | Completar las sinopsis cortas | EN CURSO · T-01 y T-02 hechas (616 Wikipedia, 65 sin fuente, 5 no más largas); T-03 en el turno 14 | 13b, 14 | 2026-11-13 |
+| WP-06 | Completar las sinopsis cortas | EN CURSO · T-01 y T-02 hechas (616 Wikipedia, 65 sin fuente, 5 no más largas); T-02b (17, P-18) y T-03 (M2) en el turno 14 | 13b, 14 | 2026-11-13 |
 | WP-07 | Normalizar al cargar | PENDIENTE | 14, 15 | — |
 | WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
 | WP-09 | Una sola puntuación y montos imposibles | PENDIENTE | 17 | — |
@@ -76,13 +76,18 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-11 | 11 · Cursor | APROBADO CON CORRECCIONES | 7 tramas de otra obra (trilogías, redirecciones a secciones, búsqueda por título) y tres guardas nuevas en `wiki_plot.py`; D-06 abierta | `9a28321` `be73b85` `fdae033` | [R-11](bitacora/R-11.md) |
 | R-12 | 12 · Gemma 4 E4B | APROBADO CON CORRECCIONES | Turno sin cerrar: commit de recuperación y 8 lotes aplicados; 3 tramas de otra obra («two-part», búsqueda por título); `--d06` para T-06; falso bloqueo B-05 | `1042632` `3f4c422` `afb20ad`…`e16b441` `a6d3a23` `62a1e39` | [R-12](bitacora/R-12.md) |
 | R-13a | 13a · Gemma 4 E4B | APROBADO CON CORRECCIONES | Turno sin un commit: recuperación y 5 lotes aplicados; *Prancer* corregida; guarda nueva; con D-07, cierre de WP-05 (`lote-049` y `050`, T-05 y T-03) |  `3595bdd` `501a192` `4a06a94`…`17c4b44` `10f735d` | [R-13a](bitacora/R-13a.md) |
+| R-13b | 13b · Cursor | APROBADO | Nada que corregir; WP-03 HECHA; lista `wp06-cortos-r13b.tsv` (17) para el turno 14 y meta de «< 200 caracteres» ajustada (P-18) | — | [R-13b](bitacora/R-13b.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-13b** del turno 13b (Cursor). Alcance: `git diff dq-r13a..dq-t13b`. WP-03 quedó integrada
-> (`4f14c65`); el único aviso fue `616803` *Breaking Surface*, corregido con `lote-051`, y
-> `ShippedCatalogValidationTest` quedó en verde. WP-06 T-01 y T-02: lotes `001`–`007` (616 tramas más largas, 65 sin
-> fuente, 5 que no se reemplazan porque la trama de Wikipedia no es más larga). T-03 (M2) es el turno 14.
+> **Turno 14 · Cursor.**
+> 1. **WP-06 T-02b** (P-18): un lote con `proponer_trama.py --wp WP-06 --lista
+>    data-quality/hallazgos/listas/wp06-cortos-r13b.tsv --solo-si-mas-largo` (17 sinopsis cortas con overview de TMDB).
+> 2. **WP-06 T-03 (M2):** recarga staging desde este `data/`, harness y `analizar.py --etiqueta m2`; compáralo con M1.
+> 3. **WP-07 parte A.**
+>
+> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-13b](bitacora/R-13b.md). El punto de partida es la
+> etiqueta `dq-r13b`. La revisión R-14 cierra el hito B.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -124,6 +129,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | P-18 | La lista de WP-06 se congeló con 686 y dejó fuera 17 sinopsis de menos de 200 caracteres con overview de TMDB (de WP-01/02 y D-06): WP-06 T-02b las intenta en el turno 14 (`hallazgos/listas/wp06-cortos-r13b.tsv`). La meta de «Plot de menos de 200 caracteres» pasa a «solo las sin fuente y las secciones de Wikipedia que ya son cortas» | Claude Code (R-13b) |
 | 2026-11-13 | P-17 | D-07, opción A: Claude Code terminó WP-05 en R-13a (limpieza `lote-049`, D-06 `lote-050`, T-05 y T-03) y Cursor hace todos los turnos que quedan (13b a 21). El turno 19 vuelve a ser uno solo. WP-05 pasa a HECHA | Dueña del proyecto: «WP-05 tú, resto a Cursor» |
 | 2026-11-13 | P-16 | R-12 cerró el turno 12, que Gemma dejó sin commitear: commit de lo que dejó tal cual (`dq-t12`) y los 8 lotes propuestos aplicados por la revisión, uno por uno, tras simularlos y muestrearlos. Para el turno 13a, `proponer_trama.py --d06` hace WP-05 T-06 sin programar. WP-05 T-03 queda juzgado en R-12 salvo 10 películas que el turno 13a todavía evalúa | Claude Code (R-12) |
 | 2026-11-13 | P-15 | Corrección de P-13 y P-14: el ejecutor que toma los turnos de Google Antigravity y GitHub Copilot es **Gemma 4 E4B** en OpenCode (versión de escritorio), no Qwen 3.5 9B. Todo lo de P-13 y P-14 vale igual para Gemma; firma `Gemma (Gemma 4 E4B)`. Como es aún más pequeño, `AGENTS.md` §5.1 le permite cerrar el turno después de cualquier lote commiteado | Dueña del proyecto: «Cometí un error, te dije que era un agente de Qwen 3.5 9B corriendo desde el harness de OpenCode quien iba a realizar algunas tareas cuando en realidad es un agente de Gemma-4-e4b también corriendo desde OpenCode.» |
@@ -172,7 +178,7 @@ La columna «Inicial» sale de `hallazgos/salidas/m0/`.
 | Respuestas de asistente y correcciones de año | `llm.txt` | 2 + 6 | 0 | |
 | Plot con taquilla o crítica | `plots.txt` («producción/recepción») | 1 549 | < 300 | |
 | Plot que abre con la ficha | `plots.txt` («ficha inicial») | 3 734 | < 500 | |
-| Plot de menos de 200 caracteres | `plots.txt` («< 200 chars») | 686 | solo las «sin fuente» | |
+| Plot de menos de 200 caracteres | `plots.txt` («< 200 chars») | 686 | solo las «sin fuente» y las secciones de Wikipedia que ya son cortas (P-18) | |
 | Plot sin `enrichment.plot` (6 899 menos la cuenta de `plot` en «enrichment: claves») | `deep.txt` | 5 275 | 0 | |
 | Textos con espacios, NBSP, sin NFC o con `&amp;` | `deep.txt` | 124 | 0 | |
 | Ids de palabra clave con varios nombres | `deep.txt` | 14 | solo los legítimos de TMDB | |
@@ -367,3 +373,9 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   inicial 8, taquilla o crítica 5); T-03b, 0 de 81 con la frase; `plot-fuentes.tsv` cuadra con las 4 788 etiquetas
   `wikipedia_plot_…`.
 - Para el siguiente: turno 13b, Cursor (WP-03 T-03 y WP-06 T-01 y T-02).
+
+### 2026-11-13 17:35 UTC · Claude Code (Claude Opus 5.5) · revisor (R-13b)
+- Hice: revisión del turno 13b de Cursor. APROBADO, sin correcciones. WP-03 queda HECHA. WP-06 sigue en el turno 14,
+  con T-02b nueva para 17 sinopsis cortas que quedaron fuera de su lista (P-18). Detalle en `bitacora/R-13b.md`.
+- Evidencia: `./mvnw -q verify` con código 0; `hallazgos/salidas/r13b/` (0 plots con dos o más firmas).
+- Para el siguiente: turno 14, Cursor (WP-06 T-02b y M2, WP-07 parte A, hito B).

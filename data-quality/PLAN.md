@@ -48,7 +48,7 @@ El turno 19 vuelve a ser uno solo: se había partido en 19a y 19b solo para un m
 | 1–11 | Antigravity, Cursor, Copilot | WP-00 a WP-04 y WP-05 hasta el `lote-028` (historial en `BITACORA.md` §1.1) | — | — |
 | 12 · 13a | Gemma 4 E4B | WP-05, lotes `029`–`047`; los cerraron R-12 y R-13a, que terminó WP-05 (`lote-049` y `050`; D-07) | — | — |
 | 13b | Cursor | WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
-| 14 | Cursor | WP-06 T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
+| 14 | Cursor | WP-06 T-02b y T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
 | 15 | Cursor | WP-07 parte B (`EFX-ING-029` en Java) | Grande | — |
 | 16 | Cursor | WP-08 completo | Mediano | — |
 | 17 | Cursor | WP-09 completo | Mediano | **D-02** (aprobada) |
@@ -333,6 +333,7 @@ Al revisar el turno 13a, Claude Code deja en «Próximo paso» la integración d
 |---|---|---|
 | T-01 | `proponer_trama.py --wp WP-06 --lista data-quality/hallazgos/listas/wp06-cortos.tsv --solo-si-mas-largo`: solo NS-1(a); se reemplaza si la trama nueva es más larga | Lotes propuestos, revisados y aplicados |
 | T-02 | Las que no tengan trama siguen con el overview de TMDB: quedan «sin fuente» en `estado.tsv` | Lista «sin fuente» en `bitacora/WP-06.md` |
+| T-02b | (P-18) Lo mismo para [`wp06-cortos-r13b.tsv`](hallazgos/listas/wp06-cortos-r13b.tsv): 17 sinopsis de menos de 200 caracteres con overview de TMDB que no estaban en la lista congelada | Lote aplicado; las que queden, «sin fuente» |
 | T-03 · **M2** | Integrar WP-03 si está listo; recargar staging; harness y `analizar.py --etiqueta m2` sobre staging. Criterio de parada de M1, frente a M1 | Tabla M2; resumen del **hito B** |
 
 ---
