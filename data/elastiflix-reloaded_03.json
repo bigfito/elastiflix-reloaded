@@ -34770,7 +34770,7 @@
     "backdrop_path": "/ktLw5wt80bQG35R8LmVF6ZxC6QW.jpg",
     "poster_path": "/cOmBAYp8AOxen0vrbhGBDTO7ZNw.jpg"
    },
-   "budget": 10540.0,
+   "budget": 2900000.0,
    "revenue": 10539779.0,
    "popularity": 20.096,
    "vote_average": 7.624,
@@ -34791,6 +34791,7 @@
     "日本語"
    ],
    "enrichment": {
+    "budget": "wikipedia_infobox",
     "plot": "wikipedia_plot_2026-11-12",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
