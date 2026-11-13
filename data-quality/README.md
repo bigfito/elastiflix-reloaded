@@ -1,36 +1,51 @@
 # 🔬 data-quality
 
-Calidad del catálogo `elastiflix-reloaded`: el análisis del índice vivo, sus hallazgos y el plan para corregirlos.
+Calidad del catálogo `elastiflix-reloaded`: el análisis del índice vivo, sus hallazgos y la ronda 4 que los corrigió.
+
+## Estado: ronda 4 cerrada
+
+La ronda 4 se hizo del 12 al 13 de noviembre de 2026 y ya está en producción:
+- El alias `elastiflix-reloaded` apunta a `elastiflix-dq-staging-20261113-220031` (medición M4, publicada con H-3).
+- La rama `dq/ronda-4` está integrada en `main` y publicada en origin.
+- El equipo de agentes ya no trabaja por turnos: no hay un turno que ejecutar.
+
+Queda una tarea de mantenimiento, **C-01 T-08, desde el 2026-11-20**:
+- Borrar los dos índices que se guardan para volver atrás: `elastiflix-dq-staging-20261113-195801` y
+  `elastiflix-reloaded-20261112-144129`.
+- Hacerlo solo con la confirmación de la dueña del proyecto. Los comandos están en «Próximo paso» de
+  [`BITACORA.md`](BITACORA.md#2-próximo-paso).
+- Después viene la revisión final R-21b, con la retrospectiva del equipo.
+
+Hasta esa fecha, nada de cargas bulk en producción ni en staging: la limpieza de huérfanos borraría la vuelta atrás.
 
 ## Empezar
 
-| Si eres… | Lee |
+| Si quieres… | Lee |
 |---|---|
-| La dueña del proyecto | [`informe/informe-calidad.html`](informe/informe-calidad.html) (ábrelo en el navegador) y las aprobaciones de [`BITACORA.md` §3](BITACORA.md#3-aprobaciones-y-decisiones-de-la-dueña-del-proyecto). La precondición P-0 es tuya |
-| Un agente que va a trabajar | [`AGENTS.md`](AGENTS.md) completo, después [`BITACORA.md`](BITACORA.md) y la tarjeta de tu WP en [`PLAN.md`](PLAN.md) |
+| Entender qué se hizo, qué se aprendió y qué queda abierto | [`APRENDIZAJES.md`](APRENDIZAJES.md) |
+| Ver el antes y el después de cada hallazgo | [`informe/informe-calidad-v2.html`](informe/informe-calidad-v2.html) (ábrelo en el navegador) |
+| Saber qué se decidió, quién lo decidió y con qué palabras | [`BITACORA.md` §3 y §4](BITACORA.md#3-aprobaciones-y-decisiones-de-la-dueña-del-proyecto) |
+| Las métricas de relevancia M0 a M4 | [`BITACORA.md` §6](BITACORA.md#6-métricas-de-relevancia) |
+| Preparar una ronda 5 | [`APRENDIZAJES.md` §10](APRENDIZAJES.md#10-lo-que-queda-abierto-para-una-ronda-5), y después [`PLAN.md`](PLAN.md) y [`AGENTS.md`](AGENTS.md) como modelo de plan y de protocolo del equipo |
 
-El equipo trabaja por turnos (`AGENTS.md` §1). Desde el turno 13b ejecuta **Cursor** y **Claude Code** revisa
-después de cada turno (D-07; el orden exacto está en `PLAN.md` · Reparto y turnos). Abre la herramienta que indica «Próximo paso» de la bitácora con el
-worktree `E:\02 - programming\03 - elastiflix-reloaded-dq` como carpeta, y envíale su mensaje:
-
-| Herramienta | Mensaje |
-|---|---|
-| Cursor | `Eres Cursor, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
-| *(antes)* Gemma 4 E4B | Salió del equipo con D-07 |
-| Claude Code | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
+Para la ronda 4 trabajaron, por turnos, Google Antigravity, Cursor, GitHub Copilot y Gemma 4 E4B como ejecutores, y
+Claude Code como revisor después de cada turno. El reparto completo está en `BITACORA.md` §1.1.
 
 ## Qué hay aquí
 
 | Ruta | Contenido |
 |---|---|
+| `APRENDIZAJES.md` | Memoria de la ronda: qué se hizo, resultados, lecciones, lo que queda abierto y la documentación que toca |
 | `informe/informe-calidad.html` | Informe del análisis del 12-nov-2026 (índice `elastiflix-reloaded-20261112-144129`, 6 899 películas) |
+| `informe/informe-calidad-v2.html` | Informe v2: el estado de cada hallazgo y de las 10 recomendaciones después de la ronda |
 | `hallazgos/hallazgos.csv` | Un hallazgo por fila: `id`, título, año, severidad, categoría, campo y detalle (2 514 filas, 2 401 películas) |
 | `hallazgos/listas/` | Alcance congelado de cada WP (`.tsv` con `id` y título) |
 | `hallazgos/salidas/m0/` | Línea base: salida de cada script del análisis, mapping vivo y listas de ids. No se sobrescribe |
-| `hallazgos/salidas/<etiqueta>/` | Mediciones posteriores (`wp-05`, `m1`, `m3`…), una carpeta por corrida |
+| `hallazgos/salidas/<etiqueta>/` | Mediciones posteriores (`wp-05`, `m1` a `m4`…), una carpeta por corrida |
 | `scripts/` | Análisis en Python y herramientas del plan |
-| `PLAN.md` · `AGENTS.md` · `BITACORA.md` · `bitacora/` | Plan, protocolo del equipo, tablero y diarios por WP |
-| `cambios/` · `fuentes/` | Se crean durante la ejecución: lotes de cambios a `data/` con su estado, y atribución de cada sinopsis de Wikipedia |
+| `PLAN.md` · `AGENTS.md` · `BITACORA.md` · `bitacora/` | Plan, protocolo del equipo, tablero, diarios por WP e informes de revisión (R-00 a R-22) |
+| `cambios/` | Los 85 lotes de cambios a `data/`, cada WP con su `estado.tsv`: el resultado y el motivo por película |
+| `fuentes/plot-fuentes.tsv` | Atribución de las 5 403 sinopsis de Wikipedia (artículo, `revid` y fecha), como pide CC BY-SA |
 | `work/` | Caché local fuera de git (`docs.json`, vectores, descargas) |
 
 ## Volver a correr el análisis
@@ -66,6 +81,15 @@ antepón `ELASTIFLIX_INDEX_ALIAS=elastiflix-dq-staging`. Ningún script de anál
 | `listas.py` | Congeló `hallazgos/listas/` al crear el plan; no se vuelve a correr |
 | `es.py` · `paths.py` | Cliente de Elasticsearch con las reglas de escritura y `aprobada()`, y rutas comunes |
 
-Las herramientas del plan (`catalogo.py`, `aplicar_cambios.py`, `wiki_plot.py`, `proponer_trama.py`,
-`limpiar_enciclopedico.py`, `cargar.py`, `publicar.py`) se escriben en WP-00 y WP-05; `revisar_reparto.py` (WP-05 T-03,
-solo lectura) se agregó con P-13.
+Las herramientas que cambiaron el catálogo se escribieron en WP-00 y WP-05, y siguen sirviendo para una ronda nueva:
+
+| Herramienta | Qué hace |
+|---|---|
+| `catalogo.py` | Lee y escribe las 7 partes de `data/` en JSON y CSV a la vez, con el mapping del repo en el sobre |
+| `aplicar_cambios.py` | Aplica un lote a `data/`; es idempotente y rechaza el lote entero si un valor «antes» ya no coincide |
+| `wiki_plot.py` | Busca la trama de una película en Wikipedia (por `imdb_id` → Wikidata) con las guardas contra tramas de otra obra |
+| `proponer_trama.py` | Escribe los lotes de sinopsis de Wikipedia o de TMDB y su `estado.tsv` |
+| `limpiar_enciclopedico.py` | Quita párrafos completos de ficha, producción o recepción, sin reescribir nada |
+| `revisar_reparto.py` | Solo lectura: el estado de las películas cuya sinopsis nombra a protagonistas que no están en `cast` (se agregó con P-13) |
+| `cargar.py` | Carga `data/` en staging con la app; se niega a cargar producción |
+| `publicar.py` | Publica un índice de staging cambiando el alias de producción (`--revertir` vuelve atrás y `--borrar-anterior` borra un índice viejo); exige la aprobación de la dueña del proyecto |
