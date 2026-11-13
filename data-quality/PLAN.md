@@ -51,9 +51,9 @@ medición y documentación.
 | 8 | Cursor | WP-03 T-01, T-02 y T-04, en `dq/wp-03-reglas-plot` | Grande | — |
 | 9 | GitHub Copilot | WP-04 completo | Mediano | — |
 | 10 | Google Antigravity | WP-05 T-01 (`limpiar_enciclopedico.py`) y lotes `001` a `010` | Mediano | — |
-| 11 | Cursor | WP-05 lotes `011` a `025` | Mediano | — |
-| 12 | GitHub Copilot | WP-05 lotes `026` a `039`, T-03 y T-05 | Mediano | — |
-| 13 | Google Antigravity | WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
+| 11 | Cursor | WP-05 lotes `011` a `025` y la limpieza de las omitidas (`026` y `027`; P-11) | Mediano | — |
+| 12 | GitHub Copilot | WP-05: 14 lotes desde el `029` (`028` es la corrección de R-11), su limpieza y T-03 (P-11, P-12) | Mediano | — |
+| 13 | Google Antigravity | Cierre de WP-05 (lo que quede, T-03b, D-06 y T-05; P-11), WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
 | 14 | Cursor | WP-06 T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
 | 15 | GitHub Copilot | WP-07 parte B (`EFX-ING-029` en Java) | Grande | — |
 | 16 | Google Antigravity | WP-08 completo | Mediano | — |
@@ -319,7 +319,7 @@ EFX-ING-028 · advertencia · en cualquier parte:
 
 **Recomendación 5.** Que el vector represente la trama, no la ficha, la taquilla ni la crítica.
 
-**Rol:** DATOS · **Turnos:** 10 (Antigravity: T-01 y lotes `001`–`010`), 11 (Cursor: lotes `011`–`025`) y 12 (Copilot: lotes `026`–`039`, T-03 y T-05) · **Alcance:** [`wp05-enciclopedicos.tsv`](hallazgos/listas/wp05-enciclopedicos.tsv) (3 862) ·
+**Rol:** DATOS · **Turnos:** 10 (Antigravity: T-01 y lotes `001`–`009`), 11 (Cursor: lotes `011`–`025` y limpieza `026`–`027`), 12 (Copilot: 14 lotes desde el `029` y T-03) y 13 (Antigravity: lo que quede, T-03b y T-05); `010` y `028` son correcciones de R-10 y R-11 (P-11, P-12) · **Alcance:** [`wp05-enciclopedicos.tsv`](hallazgos/listas/wp05-enciclopedicos.tsv) (3 862) ·
 **Con más cuidado:** [`wp05-una-firma.tsv`](hallazgos/listas/wp05-una-firma.tsv) (799)
 
 **Orden por película:** (1) trama de Wikipedia según NS, si existe; (2) si no, `limpiar_enciclopedico.py`; (3) si

@@ -3,7 +3,7 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-12 23:50 UTC · Cursor (Grok 4.7) · ejecutor (turno 11)
+**Última actualización:** 2026-11-13 00:30 UTC · Claude Code (Claude Opus 5.5) · revisor (R-11)
 **Equipo:** ejecutan Google Antigravity, Cursor y GitHub Copilot; revisa y corrige Claude Code; decide la dueña del proyecto
 **Orden de turnos:** Antigravity → Claude Code → Cursor → Claude Code → GitHub Copilot → Claude Code → …
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
@@ -28,9 +28,9 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 08 | Cursor | WP-03 T-01, T-02 y T-04 | REVISADO | 2026-11-12 | `dq-t08` | [R-08](bitacora/R-08.md) |
 | 09 | GitHub Copilot | WP-04 | REVISADO | 2026-11-12 | `dq-t09` | [R-09](bitacora/R-09.md) |
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`009` (se detuvo por B-03) | REVISADO | 2026-11-12 | `dq-t10` | [R-10](bitacora/R-10.md) |
-| 11 | Cursor | WP-05: 15 lotes de 100 desde el `011` y limpieza de todas las omitidas (P-11) | EN REVISIÓN | 2026-11-12 | `dq-t11` | — |
-| 12 | GitHub Copilot | WP-05: 14 lotes de 100, limpieza de sus omitidas y T-03 (P-11) | PENDIENTE | — | — | — |
-| 13 | Google Antigravity | Cierre de WP-05 (lo que quede, T-03b y T-05; P-11), WP-03 T-03 y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
+| 11 | Cursor | WP-05: lotes `011`–`025` y limpieza de todas las omitidas (`026`–`027`; P-11) | REVISADO | 2026-11-12 | `dq-t11` | [R-11](bitacora/R-11.md) |
+| 12 | GitHub Copilot | WP-05: 14 lotes de 100 desde el `029`, limpieza de sus omitidas y T-03 (P-11) | PENDIENTE | — | — | — |
+| 13 | Google Antigravity | Cierre de WP-05 (lo que quede, T-03b, D-06 y T-05; P-11), WP-03 T-03 y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
 | 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
 | 15 | GitHub Copilot | WP-07 parte B | PENDIENTE | — | — | — |
 | 16 | Google Antigravity | WP-08 | PENDIENTE | — | — | — |
@@ -49,7 +49,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-02 | Reescribir los ensayos generados | HECHA | 4, 5, 6, 7 | 2026-11-12 |
 | WP-03 | Ampliar las reglas de advertencia (rama `dq/wp-03-reglas-plot`) | EN CURSO · T-01, T-02 y T-04 hechas y revisadas en la rama; T-03 (integración) en el turno 13 | 8, 13 | 2026-11-12 |
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
-| WP-05 | Limpiar el plot enciclopédico | EN CURSO · 2 400/3 862 evaluadas (2 279 Wikipedia, 3 corregidas, 100 limpias, 18 sin fuente) | 10, 11, 12, 13 | 2026-11-12 |
+| WP-05 | Limpiar el plot enciclopédico | EN CURSO · 2 400/3 862 evaluadas (2 272 Wikipedia, 10 corregidas, 100 limpias, 18 sin fuente) | 10, 11, 12, 13 | 2026-11-13 |
 | WP-06 | Completar las sinopsis cortas | PENDIENTE | 13, 14 | — |
 | WP-07 | Normalizar al cargar | PENDIENTE | 14, 15 | — |
 | WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
@@ -72,13 +72,14 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-08 | 08 · Cursor | APROBADO CON CORRECCIONES | B-02 era del plan (P-09); lista `wp05-avisos-wp03.tsv` y WP-05 T-03b; apóstrofo tipográfico en tres patrones | `df935f1` (rama WP-03) y `dq/ronda-4` | [R-08](bitacora/R-08.md) |
 | R-09 | 09 · GitHub Copilot | APROBADO CON CORRECCIONES | Créditos de Wikipedia coherentes en los README; la prueba vigila `enrichment.plot` | `738511a` | [R-09](bitacora/R-09.md) |
 | R-10 | 10 · Google Antigravity | APROBADO CON CORRECCIONES | B-03 (artículos de obras en dos partes) resuelto; prueba de `limpiar_enciclopedico.py`; guardas nuevas | `df0ce61` `7f0ff43` `0a67893` | [R-10](bitacora/R-10.md) |
+| R-11 | 11 · Cursor | APROBADO CON CORRECCIONES | 7 tramas de otra obra (trilogías, redirecciones a secciones, búsqueda por título) y tres guardas nuevas en `wiki_plot.py`; D-06 abierta | `9a28321` `be73b85` `fdae033` | [R-11](bitacora/R-11.md) |
 
 ## 2. Próximo paso
 
-> **Claude Code: revisión R-11** del turno 11 (Cursor). Alcance: `git diff dq-r10..dq-t11`. WP-05, lotes `011`–`025`
-> (1 390 tramas de Wikipedia y 110 omitidas) y la limpieza `lote-026` y `lote-027` (P-11). `ShippedCatalogValidationTest`
-> en verde en cada lote. T-03b: 40 películas de `wp05-avisos-wp03.tsv`; tres siguen con «At its core» tras la limpieza
-> (`150015`, `198436`, `364708`) y quedan para el turno 13. El siguiente lote es el `028`.
+> **Turno 12 · GitHub Copilot:** WP-05, 14 lotes de 100 con `proponer_trama.py` (empieza en el `029`), la limpieza de
+> las omitidas de tus lotes con `limpiar_enciclopedico.py`, y T-03 (P-11). Empieza con el protocolo de `AGENTS.md` §5:
+> lee primero [R-11](bitacora/R-11.md), revisa sus commits `9a28321`, `be73b85` y `fdae033`, y anota en tu diario que
+> los leíste. El punto de partida es la etiqueta `dq-r11`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -94,6 +95,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | D-03 | ¿`"dynamic": "strict"` en el mapping? (WP-10) | Sí · No | Sí | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · sí, `dynamic: strict` |
 | D-04 | ¿Quitar el filtro `adult`? (WP-10) | Sí · No | No; documentar | APROBADA 2026-11-12 · «Autorizo H-1 y acepto las recomendaciones de D-01 a D-04» · no se quita; se documenta |
 | D-05 | ¿Qué contacto va en el `User-Agent` para Wikipedia y Wikidata (NS-7)? Sin contacto, Wikimedia limita a 10 peticiones por minuto y las unas 5 950 descargas de los turnos 4 a 13 tardan 11 h o más en total; con contacto, menos de 2 h. El valor va en `.env` como `DQ_WIKI_CONTACTO=` y no se commitea | URL pública del repo · un correo · sin contacto | Lo que prefiera la dueña del proyecto: es un dato suyo que se envía a Wikimedia | APROBADA 2026-11-12 · «La URL del repo» · `DQ_WIKI_CONTACTO=https://github.com/bigfito/elastiflix-reloaded` en el `.env` del worktree |
+| D-06 | En WP-05, una sinopsis sin trama de Wikipedia que es **texto generado**, y que la limpieza no arregla, ¿toma el overview de TMDB que ya trae el documento (NS-1 b, etiqueta `tmdb_overview`)? Hoy son 5: `213927` *Born to Race: Fast Track* (la respuesta de un asistente que no encontró la película), `298016` *It's a SpongeBob Christmas!* (corrige el año e inventa la trama) y las 3 de T-03b (`150015`, `198436`, `364708`, ensayos «At its core»). Sin esto, esas 3 bloquean la integración de WP-03 (turno 13) | Sí, en el turno 13 · No, quedan `unverified` | Sí: el overview es corto pero es de la película, y nadie redacta (NS-2) | ABIERTA · R-11 |
 | H-2 | ¿Se publica el catálogo nuevo cambiando `elastiflix-reloaded` al índice de staging (cambio atómico, con vuelta atrás), y se borra el índice anterior a los 7 días? (C-01) | Sí · No | Se decide con M3 | ABIERTA · se pregunta en C-01 T-06 |
 
 ## 4. Decisiones tomadas
@@ -116,6 +118,7 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-09 | En la rama de WP-03, el criterio es `verify` en verde salvo `ShippedCatalogValidationTest`, que solo puede avisar sobre películas de `hallazgos/listas/wp05-avisos-wp03.tsv` (81). WP-05 suma T-03b: esas 81 quedan con trama de Wikipedia o limpias de la frase. Todo en verde se exige en WP-03 T-03 (turno 13) | Claude Code (R-08) |
 | 2026-11-12 | P-10 | El hito A (`dq-r07`) se integró en `main` local con el merge `739a118`, sin push | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
+| 2026-11-13 | P-12 | `wiki_plot.py` rechaza tres fuentes más: artículos de trilogías o sagas, redirecciones a una sección de otro artículo y, en la búsqueda por título, un artículo cuyo título no contiene el de la película ni al revés. La corrección `lote-028` ocupa ese número: el turno 12 empieza en el `029` | Claude Code (R-11) |
 
 ## 5. Bloqueos abiertos
 
@@ -291,3 +294,11 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   Decisión P-11 sobre el reparto de WP-05. Detalle en `bitacora/R-10.md`.
 - Evidencia: `./mvnw -q verify` en verde; `hallazgos/salidas/r10/`.
 - Para el siguiente: turno 11, Cursor.
+
+### 2026-11-13 00:30 UTC · Claude Code (Claude Opus 5.5) · revisor (R-11)
+- Hice: revisión del turno 11 de Cursor. APROBADO CON CORRECCIONES. 7 de las 1 390 tramas eran de otra obra: dos de
+  trilogías, cuatro por redirecciones a una sección de otro artículo y una por la búsqueda por título. Tres guardas
+  nuevas en `wiki_plot.py` (P-12), y las 7 vuelven a su sinopsis propia, limpiada, en `lote-028`. Abrí D-06 para las
+  5 sinopsis generadas que no tienen fuente. Detalle en `bitacora/R-11.md`.
+- Evidencia: `./mvnw -q verify` en verde; `hallazgos/salidas/r11/`.
+- Para el siguiente: turno 12, GitHub Copilot (empieza en el `lote-029`). D-06 espera a la dueña del proyecto.
