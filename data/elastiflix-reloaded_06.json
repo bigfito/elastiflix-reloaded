@@ -1158,7 +1158,7 @@
    "video": false,
    "tagline": "Everyone needs a friend.",
    "overview": "A young woman befriends a lonely widow who's harboring a dark and deadly agenda toward her.",
-   "plot": "A young woman returns a lonely widow’s lost purse, leading to an unlikely relationship between the two — until the young woman discovers the widow might not be all that she seems.",
+   "plot": "Frances McCullen, a young waitress living in New York City, finds a handbag on a subway train; the ID inside the bag reveals the owner to be a Greta Hideg. Frances visits Greta the next day to return the bag, and Greta invites her in for coffee. Greta tells Frances she is a widow from France, and her daughter Nicola is still there, studying in Paris. Frances and Greta become friends.\nOne night while having dinner at Greta's, Frances finds a closet full of handbags identical to the one she found on the train. Attached to the bags are names and phone numbers, including Frances' own. Disturbed by the discovery, Frances cuts ties with Greta, who then begins to stalk Frances, seeing herself as a replacement for Frances' late mother. After Greta turns up at Frances' work, Frances contacts the police and pursues a protection order, but is told the process will take months.\nFrances meets a former lover of Nicola's, and discovers that Greta is Hungarian and not French, and that her sadistic behavior led to her daughter's suicide four years ago. Meanwhile, Greta has also taken up stalking Frances' best friend and roommate, Erica. Greta shows up at the restaurant to cause a scene, insisting Frances' mother had to die for them to meet. Greta suffers a nervous breakdown and is hospitalised.\nErica suggests Frances lie to Greta about leaving town to spend time with her father, and instead secretly hide in their apartment for a while. The following morning, Frances is drugged and kidnapped by Greta. After locking Frances in a wooden chest in a secret room at her house, Greta uses Frances' cell phone to separately text her father, Chris, and Erica, telling each that Frances is with the other. When Frances is released from the chest, she finds clothing and IDs of other young women Greta had previously kidnapped, implying that she has killed all of them. Greta also kills the dog Frances had helped her to adopt.\nErica and Chris eventually get together and realize that Frances is not with either of them. Greta forces Frances to learn Hungarian and to play the piano, trying to make her her new \"daughter\". While Greta is distracted during a cooking lesson, Frances severs Greta's little finger and then knocks her unconscious. Frances tries to escape, but finds all the doors and windows sealed off. Running into the basement to search for an exit, she finds one of Greta's previous victims under a plastic sheet. Greta sneaks up behind Frances and suffocates her until she passes out.\nChris hires a private investigator, Cody, to investigate Greta. Cody learns she was dismissed from her work as a nurse for misusing anaesthetics. When he meets with Greta in her home, Frances, gagged and bound, attempts to get his attention by shaking the bed; Greta blocks out the noise with music. Cody begins to realize there's a secret room nearby, but his discovery is cut short when Greta plunges a syringe into his neck, then shoots him with his own gun.",
    "genres": [
     "Mystery",
     "Thriller",
@@ -1260,7 +1260,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -15544,7 +15544,7 @@
    "video": false,
    "tagline": "A magical adventure in treasure island.",
    "overview": "Doraemon, Nobita, Shizuka, Gian, and Suneo set out on an adventure in the Caribbean Sea. Nobita is the captain of a ship and fights his enemies on board. Shizuka gets kidnapped, and a storm impedes their journey. Mini-Dora help Nobita and friends on their journey. When the adventurers finally find the mysterious Treasure Island, they discover it is more than just an ordinary island.",
-   "plot": "Upon hearing about the story of Treasure Island, Nobita dreams of discovering and exploring his own treasure island, despite the fact all of the Earth has been mapped already.",
+   "plot": "Upon hearing about the story of Treasure Island, Nobita dreams of discovering and exploring his own treasure island, despite the fact all of the Earth has been mapped already. Doraemon provides Nobita a special treasure map that shows him the location of a treasure island. At the same time, the media announces the discovery of a completely unknown island. Believing the new island is the treasure island, Nobita and Doraemon recruits Shizuka to accompany them, with Doraemon providing a ship. Gian and Suneo also tag along.\nHowever, as they get near the island, they are suddenly attacked by a gang of pirates. At that moment, the island begins to move, revealing that it is a part of a massive advanced technological ship. The pirates retreat, but abduct Shizuka in the process. Nobita and his friends are unable to rescue her, but save an unconscious boy named Flock. Flock explains that the pirates that attacked them are actually time travelers, who travels to different eras and steal treasures off the sea floor. Flock reveals that he was also part of the ship's crew, but decided to desert since he couldn't accept taking orders from Captain Silver. Doraemon uses the treasure map to track the pirate ship's location.\nMeanwhile on the pirate ship, Shizuka encounters Flock's sister Sarah, who looks exactly like Shizuka. Sarah agrees to help Shizuka. Flock and Sarah reveal that Silver is actually their father, who went mad when their mother died and has become obsessed with gathering as much treasure as possible. Nobita and his friends attempt a rescue operation, but end up rescuing picking up Sarah instead of Shizuka, who is taken directly to Silver. Silver moves on the final stage of his plan. Having seen humanity's destruction in the future, Silver is determined to launch his pirate ship into space and colonize a new planet with all of the treasure he has acquired. However, this requires him to drain the Earth's energy to get the power he needs to reach space.\nDoraemon warns that taking Earth's energy will result in its destruction. Due to which, Nobita and his friends, along with Flock and Sarah attack the pirate ship again. Gian and Suneo stay behind to occupy the pirates while Nobita, Doraemon, Flock and Sarah confront Silver directly. While Nobita and Doraemon delay the activation of the pirate ship's engine, Flock is able to seize control of the ship and eject the energy back into Earth. Silver realizes his mistakes about neglecting his children and abandons his plans, where he promises to be a better father to them.\nAfterwards, Flock, Sarah, Silver and the rest of the crew return to their own timeline while Nobita and his friends return home with Nobita gaining a new appreciation for his own father Nobisuke.",
    "genres": [
     "Animation"
    ],
@@ -15624,7 +15624,7 @@
     "日本語"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "tmdb_api_2026-10-22",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -16986,7 +16986,7 @@
    "video": false,
    "tagline": null,
    "overview": "Dissatisfied with the dishonesty they see in dating, strangers Naima and Sergio make a pact to spend 24 straight hours together in an attempt to fast forward their relationship.",
-   "plot": "Dissatisfied with the dishonesty they see in dating, strangers Naima and Sergio make a pact to spend 24 straight hours together in an attempt to fast forward their relationship.",
+   "plot": "Naima is an actor beginning work on her first major film, directed by Mark and Jay. She struggles to connect with the material, and has a conversation about it with Mark and Jay, who imply that it is due to a lack of vulnerability on her part. After taking a friend to a date at a gay bar, Naima meets Sergio, an esoteric girl who performs a song at the bar. After going home with Sergio and her friends, the two have sex. While discussing relationships, Sergio proposes the idea of spending 24 hours with a person - including having sex once per hour - in order to 'fast forward' a relationship and get to know a person as quickly as possible. Naima is uncomfortable and declines, but continues to be intrigued by the idea the next day after the freedom she felt with Sergio.\nNaima receives a call that she has been replaced on the movie. That evening, she spontaneously decides to return to Sergio's house and take her up on her offer. Sergio is reticent, but decides to go through with it after Naima promises not to leave. Over the course of the evening, the two create art, have sex, and discuss their feelings on life, sex, and previous relationships with both men and women. Sergio is more adventurous and unburdened by societal pressures, while Naima struggles with her insecurities. At different points throughout the night she feels excited by Sergio's free spiritedness, but frustrated by her aggressive frankness, both conversationally and sexually.\nThe two share about their difficult relationships with their mothers. Sergio's mother Susana comes to see her perform in a musical showcase. Naima suggests that they eat breakfast at Naima's house, which was purchased for her by her father. Naima begins to feel friction in the relationship, briefly suffering a panic attack and dealing with Sergio's anxiety about her mother's arrival. While eating, Sergio and Susana have an argument, with Susana criticizing Sergio's artistic integrity. Susana shares her opinions on sex with Naima, claiming that it is more impersonal than love. Sergio is upset after Susana leaves; after Susana returns to retrieve her forgotten iPad, Naima comforts and kisses Sergio while looking at Susana, who silently leaves. Despite this, the relationship between the two remains strained.\nNaima suggests that they have group sex with Kathy and Glow, a couple Sergio is friends with. Sergio is upset by the idea but agrees to it. As the four begin kissing, however, Naima becomes overwhelmed by the situation. Despite her asking Kathy and Glow to stay to discuss the situation, they decide to leave. The tension between the two reaches its peak as Naima retreats to the bathroom to be alone. In retaliation, Sergio defecates in a pan, something she used to do to her mother as a child. The two argue, with Sergio criticizing Naima for failing to be honest during their time together. Sergio leaves the house.",
    "genres": [
     "Drama",
     "Romance",
@@ -17085,7 +17085,7 @@
     "Español"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -18195,7 +18195,7 @@
    "video": false,
    "tagline": "Who would you become to save your family?",
    "overview": "Gloria finds a power she never knew she had when she is drawn into a dangerous world of cross-border crime. Surviving will require all of her cunning, inventiveness, and strength.",
-   "plot": "Gloria finds a power she never knew she had when she is drawn into a dangerous world of cross-border crime. Surviving will require all of her cunning, inventiveness, and strength.",
+   "plot": "In Tijuana, makeup artist Gloria Fuentes visits her best friend Suzu Ramós. Gloria and Suzu plan to enter the upcoming \"Miss Baja California\" beauty pageant, and hope to improve their chances by impressing the influential municipal police chief Rafael Saucedo at a nightclub. While Gloria is in the bathroom, the nightclub is attacked by gunmen and Gloria is separated from Suzu, who disappears in the chaos. Gloria reports Suzu's disappearance to the police and accompanies an officer to search for her, but the officer abandons Gloria in a remote area, where she is kidnapped by Las Estrellas, the cartel behind the nightclub attack.\nGloria is brought before Las Estrellas's leader, Lino Esparza, who offers to help Gloria find Suzu if she agrees to work for them, as her American citizenship makes her useful; she reluctantly agrees. After committing a car bombing as an initiation, Gloria is entered into the Miss Baja pageant. However, she is later captured by the Drug Enforcement Administration officer Brian Reich, who threatens Gloria with a lengthy prison sentence unless she agrees to help him and become an informant in exchange for not being prosecuted for the crime.\nGloria accompanies Lino to an exchange of money and drugs for weapons with Jimmy, an American illegal arms dealer. Gloria informs Reich, who leads a police tactical unit to intervene in the transaction, resulting in a shootout that jeopardizes Gloria's safety; Reich reveals he never intended to help her, as the car bombing she helped commit killed DEA agents. Lino tries to save Gloria but is shot in the leg; Gloria decides to save him, and they flee in a car while Lino's men hold off the police and kill Reich. Lino and Gloria begin to bond.\nLater, Lino tasks Gloria with assassinating Saucedo, and presents video evidence that Suzu was kidnapped at the nightclub and auctioned off into forced prostitution under Saucedo's corrupt watch. Gloria agrees and, as part of the plan, wins the Miss Baja pageant when Lino bribes the judges, securing her an invitation to an after-party hosted by Saucedo. Gloria agrees to spend the night with Saucedo, making sure Lino knows where to find him. However, she runs into Suzu at the party and realizes it was Lino, not Saucedo, who sold Suzu into prostitution. Gloria warns Saucedo of the assassination plot just before Las Estrellas attacks the party. Retrieving a rifle from a dying corrupt officer, Gloria searches for Suzu in the chaos and finds her outside, just as Saucedo tries using her as a human shield; Gloria shoots Saucedo in the leg, forcing him to release Suzu and allowing Lino to kill him. Gloria then holds Lino at gunpoint, telling him she knows the truth about Suzu and the prostitution racket, and shoots him dead when he tries to pull a gun on her.\nPolice reinforcements arrive and Gloria and Suzu are arrested.",
    "genres": [
     "Action"
    ],
@@ -18286,7 +18286,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -22112,7 +22112,7 @@
    "video": false,
    "tagline": "All hail",
    "overview": "England, 15th century. Hal, a capricious prince who lives among the populace far from court, is forced by circumstances to reluctantly accept the throne and become Henry V.",
-   "plot": "England, 15th century. Hal, a capricious prince who lives among the populace far from court, is forced by circumstances to reluctantly accept the throne and become Henry V.",
+   "plot": "After a battle with the Scots, King Henry IV meets with those who fought. Hotspur is angry and insulting towards the king.\nEngland's Prince Henry (\"Hal\") spends his days drinking, whoring, and jesting with his companion Falstaff in Eastcheap.\nHis father King Henry IV grows tired of Hal's debauchery and announces that Hal's younger brother Prince Thomas will inherit the throne. King Henry IV sends Thomas to subdue Hotspur's rebellion. However, Hal arrives and challenges Hotspur to single combat, which Hal wins, ending the battle without further conflict.\nThomas dies shortly after while campaigning against the rebels in Wales. When King Henry IV dies, Hal is anointed as King Henry V. He opts for peace and conciliation with his father's many adversaries, despite his actions being seen as weakness.\nAt King Henry V's coronation feast, envoys from the Dauphin of France present Hal with a tennis ball as an insulting coronation gift. However, King Henry V frames this as a positive reflection of his boyhood. His sister Philippa, now the Queen of Denmark, cautions her brother that nobles in any royal court have their own interests in mind and will never fully reveal their true intentions.\nKing Henry V interrogates a captured assassin who claims to have been sent to kill him by King Charles VI of France. French agents approach the English nobles Cambridge and Grey. The traitors plot against Hal and unsuccessfully attempt to win over the Chief Justice, Gascoigne. Gascoigne advises Hal that a show of strength is necessary to unite England, so Hal declares war on France and has Cambridge and Grey beheaded. He approaches Falstaff and appoints him as his chief military strategist, saying that Falstaff is the only man he truly trusts.\nThe English army sets sail for France. After completing the Siege of Harfleur, they receive taunting messages from the Dauphin. The English advance parties stumble upon a vast French army gathering to face them. Dorset advises Hal to retreat, but Falstaff proposes using infantry without armor to attack the armored French cavalry, who would get weighed down and stuck in the mud.\nHal challenges the Dauphin to single combat to minimize bloodshed, but the Dauphin refuses. Falstaff's plan succeeds, and the outnumbered English army defeats the French, although Falstaff is killed. The Dauphin, witnessing his men's retreat, restates Hal's challenge, but slips in the mud until Hal orders his soldiers to kill him. Hal commands the execution of all French prisoners to prevent regrouping, despite Falstaff's warning against this unchivalrous act unworthy of a king.\nHal meets King Charles VI, who agrees to adopt him as his heir and offers him his daughter, Catherine of Valois. Hal returns to England with his new wife for a triumphant celebration. In private, she challenges his reasons for invading France and denies the alleged French actions against him, suggesting that the assassin was a plot from within his own court.",
    "genres": [
     "Drama",
     "History",
@@ -22234,7 +22234,7 @@
     "Latin"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -31624,7 +31624,7 @@
    "video": false,
    "tagline": null,
    "overview": "Looking for an escape from her recurring nightmares, 18-year-old Sarah submits to a university sleep study, but soon realizes she's become the conduit to a frightening new discovery.",
-   "plot": "Looking for an escape from her recurring nightmares, 18-year-old Sarah submits to a university sleep study, but soon realizes she's become the conduit to a frightening new discovery.",
+   "plot": "High schooler Sara Dunn has a troubled relationship with her mother, whom she constantly avoids. Essentially homeless, she steals food from her mother's house and sleeps in a sleeping bag outdoors or at friends' homes. Her sleep environment affects her ability to stay awake in class and throughout the day. She is also plagued by surreal nightmares of a dark maze and a shadowy figure with glowing eyes.\nNeeding money, Sara agrees to be a test subject in a sleep study, the intent and goal of which are classified. At first, Sara sleeps well but, after two sessions, her nightmares begin to worsen. She learns that one of the scientists, a young man nicknamed Riff, has been following her outside of the study. The only other woman in the study, Emily, seemingly drops out. Sara has a panic attack when a scientist shows her a picture of the same shadowy figure from the nightmares, and she becomes fed up with the fact none of them will divulge the purpose of the study. The head scientist, Dr. Meyer, disallows the younger scientists using unapproved study methods because of what happened to Sara.\nSara eventually passes out from seeing a shadowy figure in a laundromat and is robbed of her phone. Sara confronts Riff, insisting that the study has had a negative impact on her and that she will only continue with it if he reveals the study's purpose. He says that the experiment involves monitoring subjects' dreams using a brain scanning device that converts brainwaves into images.\nDuring the next session, Sara and the rest of the experiment volunteers all dream of the same shadowy figure. Riff states that, across the world and throughout history, people have dreamed of a similar figure, which has also haunted him since childhood. As their vitals spike, Sara wakes up in a panic, bleeding from her left eye, and runs away after saying that she knows what the other scientists are doing. Riff pursues her as she runs to a club in search of her friend Zoe but passes out, forcing him to carry her unconscious body.\nAt the lab, the two remaining volunteers continue dreaming of the figure. Becoming semiconscious from sleep paralysis, they see the figure standing at the foot of their beds. It moves around in the waking world. After a scientist goes into the volunteers' room, the figure reaches for him and the volunteers sit up awake with white eyes, causing the monitoring system to shut down.\nSara wakes up from a nightmare involving the figure and finds herself in Riff's apartment, where he straps himself to his bed and monitors his own dreams. She sees his dream in which the two of them grow fangs and kiss. Then he has the same dream of the figure while entering sleep paralysis. Sara wakes him before the figure reaches him. Traumatized and exhausted, they have sex, during which Sara sees two shadow figures and passes out again. Riff takes her to a hospital.",
    "genres": [
     "Science Fiction",
     "Horror"
@@ -31726,7 +31726,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -31744,7 +31744,7 @@
    "video": false,
    "tagline": "The greatest superheroes ever unleashed!",
    "overview": "When vigilante cat, Felix, and loyal canine, Buddy, set out to find Buddy’s lost owner, they discover not only the power of friendship, but their inner superpowers along the way.",
-   "plot": "When vigilante cat, Felix, and loyal canine, Buddy, set out to find Buddy’s lost owner, they discover not only the power of friendship, but their inner superpowers along the way.",
+   "plot": "In 1969, a Golden Retriever named Buddy is launched into space with a backpack in a space capsule by his owner, David. However, soon after leaving Earth, the capsule malfunctions and shocks Buddy, mutating his DNA and giving him superpowers before flying out of orbit, leaving Buddy frozen and floating in space.\n50 years later, the capsule reenters Earth's atmosphere, causing Buddy to crash land back on Earth in the fictional town of Glenfield, where he awakes in a dumpster. After Buddy attempts to speak with a human, he is met with frightened and angry reactions from the townspeople, to the confusion of Buddy. He discovers that the capsule has gone missing. He sees a police truck and chases it for several blocks until it stops at the police station. Buddy finds a caged dog called Victor in the trunk of the truck, who asks Buddy to help free him. Officer Peck then exits the vehicle and takes Victor into the station, which is connected to the local animal pound.\nBuddy runs into a nearby alley, where he is introduced to a tuxedo cat named Felix (known by his superhero alias TurboCat) who lassoes and electrocutes Buddy, who he believes is a stray dog, dragging him into a Batmobile-like vehicle. TurboCat then drives away into his gadget-filled secret hideout in the Glenfield Museum, where his robot butler, Sinclair, awaits him. Once there, TurboCat reveals to Buddy that humans hate animals in Glenfield, and that Officer Peck is responsible for putting stray animals in the pound, where they are never seen again. Buddy explains his situation to TurboCat, which he does not believe, and tells him that he wants to find the space capsule so that David might find him, to which TurboCat replies that he might be willing to assist Buddy if he brings him milk. Buddy finds milk in the lunch packed by David and brings it to him, but is turned down. Buddy also hands Felix the carrot he found, and it is revealed that the carrot belonged to Cassidy, a former magician's rabbit who Felix has a crush on.\nFelix goes off to find Cassidy, but is stopped by Officer Peck. As Felix runs away, he is followed closely by Buddy. Eventually, Felix hops on Buddy's back, and Buddy suddenly starts to run with superhuman speed. After escaping Officer Peck, Buddy and Felix arrive at a grocery store called the Mega Store, where Cassidy's carrot came from. The two break into the store and Buddy becomes distracted by items in the store.\nBuddy's distractive almost got him and Felix caught by a human but by using a cute eye trick, (which Buddy tried on Felix early in the film) causes the human to leave.",
    "genres": [
     "Animation",
     "Comedy",
@@ -31810,7 +31810,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -41104,7 +41104,7 @@
    "video": false,
    "tagline": "The world of beauty is about to get ugly.",
    "overview": "Two female friends with very different ideals decide to start a beauty company together. One is more practical, while the other wants to earn her fortune and live a lavish lifestyle.",
-   "plot": "Two female friends with very different ideals decide to start a beauty company together. One is more practical, while the other wants to earn her fortune and live a lavish lifestyle.",
+   "plot": "Lifelong best friends Mia and Mel, who have very different personalities, share a house and run their own beauty company, Mia&Mel. Mia is creative, while Mel is the organised one who keeps the books and tries to keep everything running smoothly, while keeping secret their massive debt.\nGoing together to an old classmate's baby shower, the pair are awestruck by everyone else's wealth. As most everyone there are starting families and having babies, the pair are asked when they are going to join in, they say the company is their baby. Frustrated after a woman brags about her daughter's particularly lucrative business deal, Mia and Mel sneak off to smoke a joint, inadvertently exposing an infant to the smoke.\nMia has a casual, purely physical regular hookup with a much younger man. Mel, on the other hand, has a hookup she turns away as soon as he gets up. On their way to work, Mel contemplates their continued single lifestyles, wondering if they should be concerned, which Mia brushes aside.\nWhen Claire Luna, Head of major cosmetics empire Oviedo, contacts Mia&Mel after seeing their 'One Night Stand', single use makeup kit to invest in them, Mia is not interested. However, Mel reveals they are in debt almost half a million dollars, so they meet. Mia is suspicious of Claire's motives, and rightly so, as she intends to steal the business out from under them.\nThe two must address their differences to save their business, as they are faced with the challenge of proving themselves to Luna even as she steals their 'one-night-stand' bag idea and has it marketed through one of her other companies, as well as forcing them to fire one of their workers, Barrett, leaving fellow staffer Sydney as their sole employee.\nMia and Mel briefly 'split up' through their different approaches to Luna's offer, but they reconcile when their friends help them face how they need each other. Faced with the possible loss of their business, Mia and Mel approach Shay, Luna's former business partner, to start a new company, Proud Cosmetics, marketing their new 'Ride or Die' product, make-up intended to be used by best friends together to face their nights out.\nWith this loophole, Mia and Mel can produce and market 'Ride or Die' under the 'Proud' banner while Luna takes ownership of Mia&Mel while still being required to pay them 49% of all subsequent earnings. Mia and Mel also bring along Sydney and Barrett to the new company.",
    "genres": [
     "Comedy"
    ],
@@ -41188,7 +41188,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -49923,7 +49923,7 @@
    "video": false,
    "tagline": "Everything Decays.",
    "overview": "When Edna—the elderly and widowed matriarch of the family—goes missing, her daughter and granddaughter travel to their remote family home to find her. Soon after her return, they start to discover a sinister presence haunting the house and taking control of Edna.",
-   "plot": "When elderly mother Edna inexplicably vanishes, her daughter rushes to the family's decaying home, finding clues of her increasing dementia scattered around the house in her absence.",
+   "plot": "When Edna, an elderly widow who is suffering from dementia, goes missing, her daughter Kay and granddaughter Sam travel to their remote family home to look for her. They discover the house locked from the inside, and a strange black mould-like substance on an upstairs wall. Much of the furniture is adorned with reminders for Edna written on post-it notes.\nThat night, Edna's neighbour Jamie visits them. Jamie says he had not visited Edna for a while because his father would not let him. Sam and Kay grow increasingly disturbed by a loud creaking from inside the walls and the appearance of more black mould throughout the house. Kay experiences nightmares of a withered rotting corpse in an old shack in the woodlands.\nThe next morning, Kay finds Edna has returned, barefoot and muddied, and unaware of her own disappearance. Following a visit from a doctor, Edna is found to be mostly of sound mind and without injury with the exception of a large black bruise on her chest (resembling the mould). Kay tells Sam she plans to move Edna into a retirement home. That night, Kay finds Edna sleepwalking toward the front door, whispering, \"It's nothing.\" After being brought back to bed, Edna is convinced there is something hiding in the room and urges Kay to check under the bed; Kay sees something breathing but is distracted before she can investigate further.\nThe next day, Sam and her grandmother share a tender moment until Edna suddenly grows cold and accuses Sam of stealing from her. She snatches a ring off Sam's finger, not remembering she gifted it to Sam. Following another violent event involving Edna, Sam visits Jamie's father Alex to ask why he stopped letting Jamie visit. Alex reveals that the last time Jamie visited, the pair played hide-and-seek. Edna locked Jamie in his hiding space and left him there for hours, forgetting she had even seen him that day. Back at the house, Kay follows Edna into the garden, where she finds her tearing pages from the family photo album and frantically eating them. When Kay tries to intervene, Edna bites her and storms off, attempting to bury the album in the soil, claiming it will \"be safer there\". Fearing that something may come to get her, Edna softens and agrees to let Kay take care of her.\nSam investigates Jamie's hiding place and discovers a hidden hallway to another part of the house. She enters but becomes lost and disorientated as the mould covered corridors begin to loop in on themselves. Disorientated and afraid, she resorts to screaming and banging on the walls. Edna's condition seems to have worsened again; she now glares at Kay mistrustfully, refusing to eat and wetting herself. Kay notices that her mother's urine is stained with mould. As Edna bathes, she scratches what was once her bruise but is now rotting black flesh. The bathwater overflows and shorts out an electric heater, causing the house's power to go out, as Edna runs off. Sam travels deeper into the corridors.",
    "genres": [
     "Horror",
     "Drama",
@@ -50020,7 +50020,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -66480,7 +66480,7 @@
    "video": false,
    "tagline": "You protect the world. I'll protect you.",
    "overview": "A bullied teenage girl forms an unlikely friendship with a mysterious young man who protects her from her assailants, while she copes with the pressures of her final examinations.",
-   "plot": "A bullied teenage girl forms an unlikely friendship with a mysterious young man who protects her from her assailants, while she copes with the pressures of her final examinations.",
+   "plot": "After her classmate, Hu Xiaodie, commits suicide because of school bullying, Chen Nian finds herself as the new victim of the \"queen bee\" and vicious school bully, Wei Lai, along with her friends. When Chen Nian witnesses teenage thug Liu Beishan, also known as \"Xiao Bei,\" being assaulted by rival thugs, she attempts to call the police but is attacked by the thugs as well. They force her to kiss Xiao Bei as a way to humiliate them.\nChen Nian’s school bullies grow fiercer, physically attacking her and spreading rumors about her family. Police detectives Zheng Ye and Lao Yang investigate Hu Xiaodie’s death and reveal that Chen Nian has reported being bullied. As a consequence, Wei Lai and her friends are suspended from school. Enraged, the three expelled bullies chase Chen Nian one day with boxcutters and a cage of rats. With nowhere else to turn, she seeks refuge at Xiao Bei’s house and asks him to protect her while she studies for the college entrance exam. He agrees and accompanies her to and from school each day, and during this time, the two grow close.\nXiao Bei is picked to be in a lineup and ends up stuck at the police station. Without his protection, Chen Nian is caught by the bullies; they cut her hair, beat her, and strip her, all while filming. When Xiao Bei is finally released, he rushes home to find a bleeding Chen Nian in tatters. He assists her in shaving her head and shaves his own in solidarity.\nOn the day of the exam, heavy rain causes a landslide. While clearing the landslide, Wei Lai's body is discovered. After the first day of the two-day exam, the detectives question Chen Nian as the main suspect in Wei Lai’s murder. They ask her why she didn’t come to them after the video of her was filmed; she states that she simply wants to take her exam and move away to Beijing for college.\nAs she's being escorted home by police, Xiao Bei grabs Chen Nian, and they run. He explains that the only way for her to go to college is if he takes the blame for Wei Lai's death. Reluctantly, Chen Nian agrees, and he acts as though he's assaulting her, leading to his arrest.\nA flashback reveals Wei Lai begging Chen Nian not to report the video to the police. When Chen Nian pushes her in anger after she persists, Wei Lai falls down the stairs, hitting her head and dying. In the present, Chen Nian and Xiao Bei are interrogated but maintain that the only time they had met was when Xiao Bei attacked Chen Nian.\nAfter Chen Nian receives her exam score, the detective informs her that Xiao Bei has been sentenced to death. Distraught, Chen Nian admits her involvement in the crime. The detective reveals that he lied to her to get her to confess, as the sentence would be lighter for both of them. He takes her to see Xiao Bei, and they agree to accept the lighter sentences; both end up in jail.\nA few years later, Chen Nian is a teacher. She notices a distressed child, and they walk home together, closely followed by Xiao Bei.",
    "genres": [
     "Drama"
    ],
@@ -66542,7 +66542,7 @@
    ],
    "enrichment": {
     "budget": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -73758,7 +73758,7 @@
    "video": false,
    "tagline": null,
    "overview": "Years after the original Backdraft, Sean, son of the late Steve \"Bull\" McCaffrey, is assigned to investigate a deadly fire only to realize it is something much more sinister.",
-   "plot": "Years after the original Backdraft, Sean, son of the late Steve \"Bull\" McCaffrey, is assigned to investigate a deadly fire only to realize it is something much more sinister.",
+   "plot": "Arson investigator Sean McCaffrey, son of the late Lieutenant Stephen \"Bull\" McCaffrey, works out of Station 17 of the Chicago Fire Department, one of the units in the division run by his uncle, Deputy District Chief of the Chicago Office of Fire Investigation (OFI) Brian McCaffrey. Sean prefers working alone and is initially rude when Station 17's Captain White tells him he must follow protocol and work with a partner, Maggie Rening.\nThe new team is assigned a fire which killed five youngsters on Halloween. After they confirm the fire is arson, they later catch an arsonist who tells them that he had turned down a massive fee to set the Halloween fire. Sean talks with Ronald Bartel, a murderous arsonist who has been in prison for decades. Bartel provides insight that includes the involvement of terrorists led by Albert \"Tall Albert\" Smith, using fires to distract from the theft of missiles. Albert plants a bomb in Sean's home to murder him. Sean calls Brian and tells him about what happened. Brian arrives and sees if he can defuse it but dies in the process. A funeral is held for Brian, and Sean bids farewell to him just as he bid farewell to his father decades earlier. Ronald expresses condolences to Sean and explains where Tall Albert and his henchmen possibly hang out. Sean and Maggie go after Albert and his gang, who are subsequently caught and defeated.",
    "genres": [
     "Action",
     "Crime",
@@ -73832,7 +73832,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -87117,7 +87117,7 @@
    "video": false,
    "tagline": null,
    "overview": "1930s Hollywood is reevaluated through the eyes of scathing social critic and alcoholic screenwriter Herman J. Mankiewicz as he races to finish the screenplay of Citizen Kane.",
-   "plot": "1930s Hollywood is reevaluated through the eyes of scathing social critic and alcoholic screenwriter Herman J. Mankiewicz as he races to finish the screenplay of Citizen Kane.",
+   "plot": "In 1940, Orson Welles is given complete creative freedom for his next project by RKO. For the screenplay, Welles recruits Herman J. Mankiewicz, who is in Victorville, California, recovering from a broken leg he sustained in a car crash. Herman dictates the script to his secretary, Rita Alexander, who notices similarities between the main character (Charles Foster Kane) and William Randolph Hearst. Producer John Houseman is concerned about Herman's dense, nonlinear screenplay, while Herman's brother Joseph worries that it may anger the powerful Hearst.\nIn 1930, Herman visits an MGM location where he and the female lead, Marion Davies, recognize each other. She introduces him to Hearst, her benefactor and lover, who takes a liking to Herman. In 1933, Herman and his wife Sara attend Louis B. Mayer's birthday party at Hearst Castle with many Hollywood bigwigs. They discuss the rise of Nazi Germany and the upcoming gubernatorial election, in particular the Democratic candidate Upton Sinclair. Herman and Marion go for a stroll, where they bond over discussions on politics and the film industry.\nIn 1940, Houseman grows impatient over Herman's lack of progress. Rita is also concerned with the timing of the writing and Herman's alcoholism. He finishes the screenplay in time. Houseman is impressed but reminds Herman that he will receive no credit for his work.\nIn 1934, Herman and Joseph begin working at MGM under Mayer. Studio executives, including Irving Thalberg, actively work against Sinclair's gubernatorial campaign. The studio produces propaganda films for a smear campaign, funded by Hearst, against Sinclair (the films were an ironic suggestion by Herman after a discussion on why he wouldn't publicly endorse Frank Merriam, Sinclair's Republican opponent in unity with Mayer and the studio's brass). Herman approaches Marion to pull the films but is unsuccessful as she has already left the studio for Warner Bros. Herman and Sara later attend an election night watch party at the Trocadero Nightclub, where Mayer announces the winner, Frank Merriam. Herman's colleague, director Shelly Metcalf, shoots and kills himself after being diagnosed with Parkinson's disease and guilt-ridden about the role he played in the smear campaign (he personally supported Sinclair).\nIn 1940, Charles Lederer picks up the screenplay from Herman to deliver to the studio. Joseph visits Herman after reading it, warning him of Hearst's reaction and how it might affect Marion. He does, however, believe that it is the finest thing Herman has ever written. Marion also visits and does her best to persuade Herman to change the screenplay but to no avail. She tells Herman she will try to stop the picture from getting made.\nIn 1937, Herman crashes a party at Hearst Castle, where he drunkenly attacks Hearst for not supporting Sinclair as Sinclair supported Hearst as a champion of Socialism in his youth as a budding newspaper magnate.",
    "genres": [
     "Drama",
     "History"
@@ -87252,7 +87252,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -90861,7 +90861,7 @@
    "video": false,
    "tagline": null,
    "overview": "The extraordinary true story of eccentric British artist Louis Wain, whose playful, sometimes even psychedelic pictures helped to transform the public's perception of cats forever.",
-   "plot": "The extraordinary true story of eccentric British artist Louis Wain, whose playful, sometimes even psychedelic pictures helped to transform the public's perception of cats forever.",
+   "plot": "In 1881, after his father's death, Louis Wain, the only male member and eldest of the Wain family, supports his five sisters and his mother as a part-time illustrator for The Illustrated London News under editor Sir William Ingram. Wain declines a full-time job to try composing music and playwriting; neither venture is successful.\nLouis hires Emily Richardson as governess for his sisters and they are attracted to each other, to the dismay of eldest sister Caroline. Louis takes the full-time position to keep Emily as governess. He takes the family and Emily to the theatre to see The Tempest, during which he has a recurring nightmare of drowning. Emily comforts him in the men's toilets, causing a scandal when a neighbour gossips about the incident. Caroline fires Emily that night but before she can leave, Louis professes his love and they begin a courtship.\nThey marry in 1884, causing another scandal due to her being ten years his senior and of a lower class. Louis takes freelance artist work to continue supporting his mother and sisters. Emily is diagnosed with breast cancer. They take in a stray kitten - unusual for the time - which they name Peter. Louis' initially realistic paintings of Peter become more anthropomorphic as Emily's condition worsens.\nFinancial pressure causes Sir William to cut Louis' workload, and he advises Louis spend the time with Emily. She encourages Louis to show his cat pictures to Sir William, who prints them to acclaim in the Christmas edition. Emily dies. Louis draws more cat pictures, creating whole cat societies.\nBy 1891, Wain's cat pictures are enormously popular, featured on postcards and greeting cards, and changing the perception of cats as acceptable house pets. He hosts cat-themed events and is chairman of The National Cat Society. Unaware of the need to copyright his work, Wain does not profit from reproductions and the family remains in debt. Sister Marie becomes mentally unwell and the family is evicted.\nSir William provides a property at a reduced rate. Marie is institutionalised and Peter dies, causing Wain's own mental health to deteriorate. Newspaper magnate William Randolph Hearst sponsors Wain on a trip to New York in 1907, where Max Kase tells him people love his pictures. After some success in New York, in 1914 Caroline asks him to return to England.\nMarie and their mother die from influenza. Sir William dies of gout, and the family is evicted and moves into a smaller London flat. As Britain enters the First World War, Louis hits his head jumping off a bus and falls into coma, in which he sees a vision of 1999. He designs futuristic-themed cat toys. The toys are manufactured, but a German U-boat sinks the ship carrying the toys.\nCaroline dies in 1917, and Louis suffers a series of mental breakdowns. In 1924, his sisters commit him to the Springfield Mental Hospital. Mental institution inspector Dan Rider recognises Louis; he had drawn his dog's portrait.",
    "genres": [
     "Drama",
     "History",
@@ -91030,7 +91030,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },

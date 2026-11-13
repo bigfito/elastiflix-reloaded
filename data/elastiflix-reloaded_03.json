@@ -842,7 +842,7 @@
    "video": false,
    "tagline": "If you want to take him down, you better bring backup.",
    "overview": "When things go bad in Beantown, top assassin Killer Bean is called to clean-up the mess. Detective Cromwell finds himself in the middle between Killer Bean and mob boss Cappuccino.",
-   "plot": "When things go bad in Beantown, top assassin Killer Bean is called to clean-up the mess. Detective Cromwell finds himself in the middle between Killer Bean and mob boss Cappuccino.",
+   "plot": "One night in Beantown, Shadow Agency agent Killer Bean calls a DJ at a nearby warehouse party to lower the music's volume as it's disturbing his sleep. The DJ ignores his request, prompting Killer Bean to kill everyone at the warehouse. The DJ reveals he's a nephew of Cappuccino, a notorious crime boss and drug lord, before Killer Bean shoots him. After the shooting, Detective Cromwell and a police officer investigate the crime scene. Vagan, a henchman of Cappuccino, arrives near the warehouse and is informed by Cromwell about Killer Bean's involvement in the shooting.\nLater that morning, Killer Bean watches the police investigate the scene further, identifying Cromwell before being interrupted by his superior. Killer Bean's superior chastises him for attracting unwanted attention, reminding him to focus on killing his target. Meanwhile, Jet Bean, another Shadow Agency agent is assigned a mission in Beantown. At the same time, Cappuccino learns of his nephew's death and orders Vagan to kill Killer Bean. Detective Cromwell, with his colleague Harry assisting him, identifies Killer Bean, who's already at his reported location—an abandoned warehouse owned by Cappuccino.\nAt the warehouse, Vagan armed with an anti-materiel rifle ambushes Killer Bean, but it ends in both leaving unscathed. Inside a bar, Killer Bean confirms his identity to Cromwell, but declines his request to kill Cappuccino. Outside, Cromwell confronts Killer Bean about the identity of \"Shadow Bean\", but Killer Bean refuses to provide information. Cromwell learns from Harry that a Shadow Bean refers to a Shadow Agency member, an organization that formerly worked with the government in secret.\nKiller Bean attacks another warehouse owned by Cappuccino. He kills the gangsters and mercenaries defending it, but is ultimately knocked out by an explosion from Vagan's motorcycle. Cappuccino interrogates Killer Bean about his target, with Killer Bean revealing that his target is Vagan. Cappuccino, who fires Vagan, gets killed in retaliation. Killer Bean and Vagan have a standoff, with the latter revealing that he is a former agent of the Shadow Agency who stole their databases after realizing the agency went from vigilantes to mercenaries who will serve anyone, and assassinating those who question it. Killer Bean, refusing to believe Vagan, kills him. Before dying, Vagan warns Killer Bean that the agency will go after him next. Jet Bean arrives at Beantown, revealing that his target is Killer Bean. Cromwell, who witnessed the attack from afar, arrives with the entire police force, prompting Killer Bean to surrender as it could protect him from the agency.\nLearning of Killer Bean's arrest, Jet Bean intentionally gets himself arrested in order to see Killer Bean. At the police station, he kills every police officer there, and confronts Killer Bean in his jail cell. Jet Bean tells Killer Bean that Vagan was a threat to the Shadow Agency, confirming Killer Bean's suspicion about them.",
    "genres": [
     "Action",
     "Adventure",
@@ -889,7 +889,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -1293,7 +1293,7 @@
    "video": false,
    "tagline": "It's the big kahuna of Scooby-Doo movies!",
    "overview": "The Mystery Gang goes to Hawaii for the Big Kahuna of Hanahuna Surfing Contest. However, the gang and the locals find the island invaded by the vengeful Wiki Tiki spirit and his demons.",
-   "plot": "The Mystery Gang goes to Hawaii for the Big Kahuna of Hanahuna Surfing Contest. However, the gang and the locals find the island invaded by the vengeful Wiki Tiki spirit and his demons.",
+   "plot": "Mystery Inc. receive a free trip to Hawaii from a surf-and-beachwear company called \"Goha Aloha\", who wants Daphne Blake to design new swimwear for them. Upon their arrival, the gang meet with Jared Moon, a representative of Goha Aloha and learn of the Big Kahuna of Hanahuna surfing contest, which was originally exclusive to native islanders before the mayor opened it to mainlanders over several islanders' protests, such as local surfer Manu Tuiama and his best friend, Little Jim. The former is especially upset over this because he claims that the ancient Wiki-Tiki spirit sent demons to attack his village and kidnap his girlfriend Snookie in retaliation for the mayor's actions and because local real estate agent Ruben Laluna built a residential complex on sacred ground.\nWhile investigating the attacks, the gang and Manu visit Auntie Mahina, a local shaman who lives deep in the jungle, but Manu is seemingly kidnapped by the Wiki-Tiki along the way. Mahina tells the gang that the Wiki-Tiki is angry because the surfing contest is a Hawaiian ritual and that the winner must be of Hawaiian descent before telling them to head to a nearby volcano or else Manu and Snookie will be sacrificed to the monster. Before they leave, Mahina gives Fred Jones a necklace containing bola gawana root extract, which she says will ward off the Wiki-Tiki. Eventually reaching the volcano, the gang find Snookie, but she is recaptured by the Wiki-Tiki, who proves immune to the necklace.\nAfter making their escape, the gang discover the Wiki-Tiki's demons are remote-controlled robots and a picture of the Wiki-Tiki itself using a Goha Aloha brand surfboard. The next day, Daphne enters the surfing contest to lure out the monster. With Shaggy Rogers and Scooby-Doo's help, she eventually defeats it, allowing the others to unmask it as Manu, who they reveal worked with Snookie to scare off locals and tourists so they can buy their homes and sell them back at higher prices. Additionally, Snookie is a rocket science and robotics expert who created and operated the robots to further their scheme. As the criminals are arrested, Scooby is named the new Big Kahuna of Hanahuna for his work in stopping Manu before the gang celebrate at a luau.",
    "genres": [
     "Mystery",
     "Family",
@@ -1343,7 +1343,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "rating": "tmdb_api_2026-10-22",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
@@ -16697,7 +16697,7 @@
    "video": false,
    "tagline": null,
    "overview": "Ray and Sal, two orphaned sisters, adopt and hide a Great Dane puppy from their two adopted parents living in a luxury downtown New York apartment that expressely forbids dogs.",
-   "plot": "Ray and Sal, two orphaned sisters, adopt and hide a Great Dane puppy from their two adopted parents living in a luxury downtown New York apartment that expressely forbids dogs.",
+   "plot": "Soon after being taken in by a loving new mother and father (Mr. Matt Tomley and Mrs. Laura Tomley), two young former orphans (Sal and Ray) do their best to keep their furry, four-legged friend — a lovable Great Dane named Chestnut — a secret from their adoptive parents and save him from a grim fate at the city pound, where he would certainly be euthanized.",
    "genres": [
     "Family",
     "Comedy"
@@ -16773,7 +16773,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -33459,7 +33459,7 @@
    "video": false,
    "tagline": "Innocence dies. Abby doesn't.",
    "overview": "A bullied young boy befriends a young female vampire who lives in secrecy with her guardian.  A remake of the movie “Let The Right One In” which was an adaptation of a book.",
-   "plot": "A bullied young boy befriends a young female vampire who lives in secrecy with her guardian.  A remake of the movie “Let The Right One In” which was an adaptation of a book.",
+   "plot": "In March 1983, in Los Alamos, New Mexico, a disfigured man is taken to the hospital. An unnamed police detective tries to question him about a recent murder. While the detective answers a call outside the room, the disfigured man jumps out of the window, leaving behind a note that reads: \"I'M SORY ABBY\".\nTwo weeks earlier, Owen, a lonely and unhappy 12-year-old boy who is neglected by his divorcing parents, sees a barefoot little girl named Abby and an older man moving in next door. At school, a teenage bully named Kenny and two of his friends constantly terrorize Owen, who lies to his mother about it but tells Abby the truth. Abby encourages him to retaliate, and pledges to protect him. Owen and Abby become close friends and start communicating by Morse code through the walls of their apartments.\nAbby's companion Thomas abducts a local teenager and drains the boy's blood into a jug, only to accidentally spill all of its contents. Starving, Abby attacks a neighbor and drinks his blood, killing him and forcing Thomas to dispose of the body.\nOn a later night, Thomas hides in the back of another car, but is discovered. In the ensuing struggle, the car falls into a ditch and flips over. Trapped, Thomas pours concentrated sulfuric acid on his face, leading to his hospitalization.\nAbby learns what happened and visits Thomas in the hospital, who lets her drink his blood before falling to his death. That night, Owen is awakened by Abby, who insists he verbally invite her in. After removing her clothes, she spends the night in his bed and agrees to be his girlfriend.\nThe next day, Owen's class goes ice skating on a frozen river. Cornered by the bullies, Owen smashes the side of Kenny’s head with a metal pole, splitting his left ear. At the same time, the students find the neighbor's body encased in the ice.\nLater, Owen tries to make a blood pact with Abby. Seeing blood, Abby reveals her vampire form and flees, feeding on another neighbor, but fails to kill her before she has to escape. The next night, when Owen comes to see her, she admits that she is a vampire and Thomas was not her father. Owen discovers an aged photo of her with Thomas as a young boy. Scared, Owen wants to leave but is stopped by Abby, who will not answer when he asks what she will do to him; she finally lets him leave.\nThe neighbor Abby left alive is turned into a vampire and burns to death in the hospital when a nurse opens the curtain to reveal sunlight. That night, Abby visits Owen's apartment and asks if she can come in; when he asks what will happen without his permission, she steps inside and starts bleeding all over. Horrified, he invites her in and hugs her, then helps her to wash off the blood and don one of his mother's old dresses. When his mother nearly catches them, Abby flees out the window; Owen later sneaks out to spend the night at her apartment.\nIn the morning, the detective forces his way into Abby's apartment and finds her asleep, only to be distracted by Owen.",
    "genres": [
     "Drama",
     "Horror",
@@ -33551,7 +33551,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -41737,7 +41737,7 @@
    "video": false,
    "tagline": "Shut up, crime!",
    "overview": "After his wife falls under the influence of a drug dealer, an everyday guy transforms himself into Crimson Bolt, a superhero with the best intentions, though he lacks for heroic skills.",
-   "plot": "After his wife falls under the influence of a drug dealer, an everyday guy transforms himself into Crimson Bolt, a superhero with the best intentions, though he lacks for heroic skills.",
+   "plot": "Frank Darbo, a devoutly religious short-order cook, recalls his only two good memories from an otherwise disappointing life: marrying his wife Sarah and pointing a police officer in the direction of a man who snatched a woman's purse. He immortalizes these events in two crayon drawings hung on his wall for inspiration. Sarah, a recovering drug addict, has left him for Jacques, a charismatic strip club owner and drug lord who gets her hooked on drugs again. Frank sinks into depression and has a vision wherein he is touched by the finger of God and meets the Holy Avenger, a superhero from a Christian network TV show who tells Frank that God has chosen him for a very special purpose.\nFrank believes that God has chosen him to become a superhero and goes to a local comic book store for inspiration. His claim that he is designing a new superhero is met with enthusiastic appreciation from the young store clerk, Libby, and he creates a superhero costume before assuming the identity of the \"Crimson Bolt\". Lacking superhuman abilities, he deals with injustice in his own way, using a pipe wrench to savagely beat people such as thieves, drug dealers, child molesters, and a man who simply cuts in line at the movies. The Crimson Bolt soon becomes a media sensation, initially viewed as a violent psychopath, but he begins to gain public appreciation after the criminal backgrounds of many of his victims come to light.\nFrank later attempts to rescue Sarah at Jacques' house, but Jacques' thugs recognize him under the costume and shoot him in the leg as he flees while climbing over a fence. A wounded Frank goes to Libby for help. Libby persuades Frank to let her become the Crimson Bolt's \"kid sidekick\", calling herself \"Boltie\" and designing a costume of her own. She proves to be more unhinged than Frank, using her superhero guise to nearly kill a man who possibly vandalized her friend's car, and Frank decides to let her go but changes his mind when she rescues him from some of Jacques' thugs at a gas station. Libby soon becomes enamored with Frank, but he turns down her advances, insisting he is still married. Arguing that the rules are different when they are using their superhero identities, Libby rapes Frank while the two are in costume and later claims to have been suffering from sexsomnia. Frank runs to the bathroom and vomits, encountering a vision of Sarah in the toilet. He decides to rescue her from Jacques once and for all.\nArmed with guns, pipe bombs, and bulletproof vests, Frank and Libby sneak into Jacques' ranch and kill the first few guards they encounter. Frank is shot in the chest and saved by his bulletproof vest, but Libby is shot in the head and killed. Devastated, Frank furiously slaughters all of Jacques' thugs. Inside, Jacques shoots Frank, but Frank gains the upper hand and stabs Jacques to death as a horrified Sarah watches.",
    "genres": [
     "Comedy",
     "Action",
@@ -41874,7 +41874,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -53325,7 +53325,7 @@
    "video": false,
    "tagline": "Leave your baggage behind",
    "overview": "Rattled by sudden unemployment, a Manhattan couple surveys alternative living options, ultimately deciding to experiment with living on a rural commune where free love rules.",
-   "plot": "Rattled by sudden unemployment, a Manhattan couple surveys alternative living options, ultimately deciding to experiment with living on a rural commune where free love rules.",
+   "plot": "George and Linda Gergenblatt are an urban married couple who purchase a micro-loft in New York after much hesitation. George is expecting a promotion while Linda is trying to sell a documentary to HBO. Soon after purchasing their home, George learns that his company has folded, overnight, while HBO rejects Linda's documentary. With both out of work, they are forced to sell their apartment and drive to Atlanta to live with George's arrogant brother Rick and his wife Marisa after Rick offers George a job.\nAfter many hours on the highway, Linda demands they stop to rest. The closest place to stop appears to be a bed and breakfast hotel named Elysium. After exiting the highway, as they approach, they are surprised to see a naked man walking ahead of them. He approaches them. Startled and apprehensive, George tries to back up to the highway, but accidentally flips the car over. The nude man, Wayne Davidson, helps them out of the car, and they are forced to stay at the hotel. They meet several colorful guests and then go to bed. While trying to sleep, they are distracted by noises downstairs. When they investigate, they learn that Elysium is a hippie commune. They meet various eccentric residents of Elysium, including Seth, Eva, and Elysium's owner Carvin. George and Linda spend the night feeling more alive than before. In the morning, everyone helps flip the car back upright so they can leave, as Seth urges them to stay, but they continue on to Atlanta.\nGeorge and Linda arrive at Rick's house and find the atmosphere chaotic. George quickly reaches a breaking point with Rick and takes Linda back to Elysium, where they are welcomed back. George is excited about the simpler lifestyle while Linda is hesitant. They decide to stay and give the place a two-week trial run. After a few days, Linda starts feeling enlightened after drinking some drug-laced tea in the truth circle, while George begins having second thoughts. George and Linda soon learn that 'free love' is strongly encouraged as Seth and Eva want to seduce Linda and George, respectively. Both George and Linda rebuff the notion of free love, and several crazy situations arise during that period, bizarre and otherwise.\nAt the same time, Elysium is being targeted by property developers to build a casino on the property, as title to the property is disputed, and Carvin has misplaced the deed to the land. After the developers arrive with a bulldozer, to make a television reporting crew take more interest, Linda scares them off by flashing them her breasts, and many of the other residents join her, which gets sensationalized coverage, and halts the proceeding. Linda is lauded as a hero by the commune. The two weeks are up, and George demands that they leave, saying that if they stay, they would have to give in to 'free love'. Linda wants to stay and has sex with Seth. George is pressured to have sex with Eva, but he becomes uncomfortable and drives her away with his awkward and bizarre behavior.",
    "genres": [
     "Comedy",
     "Romance"
@@ -53417,7 +53417,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -57948,7 +57948,7 @@
    "video": false,
    "tagline": null,
    "overview": "On the night of the discovery of a duplicate Earth in the Solar system, an ambitious young student and an accomplished composer cross paths in a tragic accident.",
-   "plot": "On the night a duplicate Earth is discovered in the solar system, the lives of a young woman and an accomplished composer become tragically connected after a fatal accident.",
+   "plot": "Rhoda Williams, a brilliant 17-year-old girl who has spent her young life fascinated by astronomy, is delighted to learn that she has been accepted into MIT. She celebrates, drinking with friends, and in a reckless moment, drives home intoxicated. Listening to a story on the radio about a recently discovered Earth-like planet, she gazes out her car window at the stars and inadvertently hits a stopped car at an intersection, putting John Burroughs in a coma and killing his pregnant wife and young son. After serving her four-year prison sentence, Rhoda becomes a janitor at her former high school and struggles with guilt and regret.\nHearing more news stories about Earth 2, Rhoda enters an essay contest sponsored by a millionaire entrepreneur who is offering a civilian space flight to Earth 2.\nOne day Rhoda sees John laying a toy at the accident site. She visits his house, intending to apologize. He answers the door and she loses her nerve. Instead, she pretends to be a maid offering a free day of cleaning as a marketing tool for a cleaning service. John, who has dropped out of his Yale music faculty position, has been letting his home and himself go, and accepts Rhoda's offer. He has no idea who she is, and when she finishes asks her to come back the next week. In time, a caring relationship develops and they have sex.\nFirst contact is made with Earth 2, and humanity discovers that it is an exact copy of Earth, with the same people who have lived broadly the same lives. Rhoda wins the essay contest and is chosen to be one of the first to travel to Earth 2. John asks her not to go, believing they might have a future together. She finally decides to tell him the truth about who she is. He is upset and throws her out of the house.\nRhoda hears an astrophysicist talking on television, describing a \"broken mirror\" hypothesis which states that upon the sighting of Earth 2 the synchronicity of events happening in both the Earths was broken. Rhoda rushes back to John's house, but he refuses to let her in. She breaks into his house, and he begins to strangle her. He stops, and when she recovers she tells him about the theory and that there might be a possibility for his family to still be alive on Earth 2 and leaves him the ticket. In time, she learns that John accepted the gift and becomes one of the first civilian space travelers to Earth 2.\nFour months later, on a foggy day, Rhoda approaches her house, discovering her other self from Earth 2 standing in front of her.",
    "genres": [
     "Drama",
     "Science Fiction"
@@ -58040,7 +58040,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -77885,7 +77885,7 @@
    "video": false,
    "tagline": "This conversation is long overdue.",
    "overview": "After her son Kevin commits a horrific act, troubled mother Eva reflects on her complicated relationship with her disturbed son as he grew from a toddler into a teenager.",
-   "plot": "After her son Kevin commits a horrific act, troubled mother Eva reflects on her complicated relationship with her disturbed son as he grew from a toddler into a teenager.",
+   "plot": "Armenian mother Eva Khatchadourian, once a successful travel writer, lives alone in a rundown house and works in a travel agency near a prison, where she visits her son, Kevin, who has been convicted of mass-murdering students at his high school. As she copes with the hostility of her neighbors, she reflects upon her memories of raising him.\nDespite being a reluctant mother, Eva decides to start a family with her husband, Franklin, giving birth to Kevin. From childhood, Eva views Kevin as detached and difficult. He appears to loathe and deliberately antagonize Eva, who struggles to bond with him. As a baby, he cries incessantly, but only around her; as a child, he resists toilet training, rebuffs Eva's attempts at affection, and shows no interest in anything. He behaves like a happy, loving son in front of his father, Franklin, who dismisses Eva's concerns and makes excuses for Kevin's behavior. One day, Eva cannot handle her frustration with Kevin and throws him against the wall, breaking his arm. Kevin tells Franklin he fell. When he touches his scar on his arm, Eva believes he is using the incident to manipulate her.\nWhen Kevin is confined to bed with a fever, he shows affection towards Eva for the first time as she reads Robin Hood, though his spiteful behavior returns as soon as he recovers. Franklin gives Kevin a bow and arrow and teaches him archery.\nSometime later, Eva gives birth to their second child, Celia, a lively and cheerful girl towards whom Kevin is instantly disdainful. A few years later, Celia's pet guinea pig mysteriously goes missing. Eva finds its remains in the garbage disposal the next day, which she unclogs with drain cleaner. Celia is blinded in one eye after being exposed to the cleaner while Kevin was tasked with watching her, requiring her to wear a glass eye in its place. Eva suspects Kevin injured his sister on purpose, but Franklin defends him. Tired of Eva's distrust of their son, Franklin discusses divorce with her, and Kevin overhears their conversation.\nThree days before his 16th birthday, Kevin uses bicycle locks to trap several students in the school gymnasium and murders them with his bow and arrows. After witnessing Kevin's arrest and the bodies of his victims being carried away, Eva returns home to discover that Kevin has murdered Franklin and Celia as well.\nOn the second anniversary of the massacre, Eva visits Kevin in prison. His demeanor has changed to demure and frightened in anticipation of turning 18 and being transferred to an adult prison. Eva asks him why he committed the murders. Kevin responds that he used to think he knew but is no longer sure. An officer informs them that the visit time is over. Eva embraces Kevin and leaves.",
    "genres": [
     "Drama",
     "Thriller"
@@ -78014,7 +78014,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -93369,7 +93369,7 @@
    "video": false,
    "tagline": "Cold body. Warm heart.",
    "overview": "After a zombie becomes involved with the girlfriend of one of his victims, their romance sets in motion a sequence of events that might transform the entire lifeless world.",
-   "plot": "After a zombie becomes involved with the girlfriend of one of his victims, their romance sets in motion a sequence of events that might transform the entire lifeless world.",
+   "plot": "About eight years after a zombie apocalypse, R, a zombie who cannot recall his name but believes it began with an \"R\", spends his days wandering around an airport which is now filled with his fellow undead, including M, who is his best friend. R and M achieve rudimentary communication with grunts and moans and occasional near-words. As a zombie, R does not have a heartbeat and constantly craves human flesh, especially brains, because he is able to \"feel alive\" through experiencing the victims' memories when he eats them.\nWhile R and a pack of zombies are hunting for food, they encounter Julie Grigio and a group of her friends, who were sent by Julie's father from a walled-off human enclave to recover medical supplies. R sees Julie and is drawn to her; his heart beats for the first time. After being shot in the chest by Julie's boyfriend, Perry, R kills him and eats his brain while Julie is distracted. Perry's memories increase R's attraction to Julie. He rescues her from the rest of the pack by wiping some zombie blood on her face, masking her scent, and takes her to an airplane he resides in to keep her safe.\nJulie is terrified of R and suspicious of his intentions. She starts trusting him after he rescues her during a failed escape attempt and finds food for her. R insists that Julie stay with him for a few days, until he deems it safe enough for her to leave. The two bond, listening to LP records and playing games to kill time, causing R to begin to come to life; his heart starts beating, and he is slowly able to communicate with more words. After a few days, Julie gets restless, and tries to return home, yet attracts swarms of zombies. After fending off a group including M, who is confused by R's actions, R decides to return her to the human enclave.\nOn the way, R reveals to Julie that he killed Perry, prompting her to abandon him and return home alone. R begins making his way back to the airport, heartbroken. He discovers that M and other zombies are also showing signs of life, making them targets for the Boneys – skeletal zombies who, having lost their humanity, have shed their flesh and prey on anything with a heartbeat. R and M lead a group to the human enclave, where R sneaks inside the wall.\nR finds Julie and meets her friend Nora, who is shocked to see R in the territory and notices R's growing humanity. When R reveals that the other corpses are also coming back to life, the three of them attempt to tell Colonel Grigio, Julie's father and the leader of the survivors. Colonel Grigio dismisses them and threatens to kill R, stopping only when Nora pulls a gun on him. Julie and R escape to a baseball stadium where the rest of R's group is waiting but find themselves under attack by Boneys.\nWhile M and his gang of zombies square off against the Boneys, Julie and R run but find themselves trapped. Taking the only escape route, R jumps with Julie into a pool far below, shielding her from the impact.",
    "genres": [
     "Horror",
     "Comedy",
@@ -93466,7 +93466,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -96851,7 +96851,7 @@
    "video": false,
    "tagline": "This collection is killer.",
    "overview": "When a group of misfits is hired by an unknown third party to burglarize a desolate house and acquire one rare VHS tape, they discover more found footage than they had bargained for.",
-   "plot": "When a group of misfits is hired by an unknown third party to burglarize a desolate house and acquire one rare VHS tape, they discover more found footage than they had bargained for.",
+   "plot": "The film is presented as an anthology of five short horror films, built into a frame narrative which acts as its own sixth short horror film.\n\nWritten by Adam Wingard and Simon Barrett\nDirected by Adam Wingard\nThe frame narrative focuses on Brad, Rox, Zak, and Gary, a criminal gang who film their acts, which range from vandalizing an empty house, to sexually assaulting a woman in a parking garage. An anonymous source hires them to break into the house of an old man and steal a VHS tape. The quartet accepts, eager to expand their criminal enterprises.\nInside the house, they find the corpse of the old man sitting in front of several televisions broadcasting white noise. While his friends roam the house, Brad stays with the old man's corpse to watch a tape left in the VCR.\n\nWritten by David Bruckner and Nicholas Tecosky\nDirected by David Bruckner\nThree friends, Shane, Patrick, and Clint, rent a hotel room with the intention of inviting women for sexual intercourse. Clint wears glasses that have been outfitted with a hidden camera and microphone to allow the trio to turn their planned encounter into an amateur porn video.\nWhile he and his friends are bar-hopping, Clint meets Lily, a mysterious young woman who appears unusually shy and only says \"I like you\" to him. In addition to Lily, the friends also convince another young woman, Lisa, to go to their room. Back at the motel, Shane attempts to initiate sex with Lisa, but she passes out in a drunken stupor, prompting Patrick to discourage him. Lily awkwardly seduces Clint until Shane comes on to her instead.\nWhile Lily's clothes get forcefully taken off of her, Clint notices that her feet are clawed and scaly, but Shane and Patrick are oblivious. Lily pushes Shane onto his back and begins to undress Clint to apparently initiate a threesome. Overwhelmed, Clint goes to the bathroom. Patrick attempts to take Clint's place, but Lily makes it clear that she dislikes him. Moments later, Patrick bursts into the bathroom with a large wound on his hand, claiming that Lily bit him.\nWhen Clint and Patrick confront her, Lily suddenly sprouts fangs and screams at them, attacking and killing Shane while Clint and Patrick retreat to the bathroom. Patrick, armed with a shower curtain rod, returns to the bedroom. Clint tries to wake Lisa while Patrick confronts Lily, but she easily kills him and tears off his genitalia. Clint runs out of the room, but falls down a staircase and breaks his wrist. Lily, her face now monstrous, catches up to Clint. She attempts to perform fellatio on Clint, but starts to cry and growl angrily when he remains unresponsive.\nClint flees the building and begs bystanders for help, until he is suddenly lifted into the sky by Lily - who has now transformed into a demonic winged creature. The video glasses fall off Clint's face and hit the ground as the footage ends.",
    "genres": [
     "Thriller",
     "Horror"
@@ -96955,7 +96955,7 @@
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -96973,7 +96973,7 @@
    "video": false,
    "tagline": "God loves ME",
    "overview": "Daniela, raised in the bosom of a strict Evangelical family and recently unmasked as a fornicator by her shocked parents, struggles to find her own path to spiritual harmony.",
-   "plot": "Daniela, raised in the bosom of a strict Evangelical family and recently unmasked as a fornicator by her shocked parents, struggles to find her own path to spiritual harmony.",
+   "plot": "Daniela is a 17-year-old girl who resides in Santiago, Chile. Despite her family's devout Protestant beliefs, she eagerly explores her sexuality through both casual sex and a blog titled \"Young and Wild\". The blog serves as a platform where she questions her church's teachings and documents her sexual adventures, including her first experiences with masturbation, oral sex, and anal sex. As her blog gains popularity, it attracts comments from people ranging from supportive to gossipy, and even some who outright proposition her for sex.\nFollowing an incident where she is caught having sex with another student, Daniela is expelled from her conservative Christian school. Her mother initially does not react to the news. Daniela later learns that her beloved aunt, a bohemian and a role model for her, has been hospitalized due to cancer. While at the hospital, Daniela's aunt pleads with her mother not to send Daniela to perform grueling missionary work. As a result, Daniela takes a job as a gofer at a local Christian television station, where she meets her coworkers Tomás and Antonia.\nDaniela finds herself immediately drawn to Tomás and begins to fantasize about him. The two start dating, but Tomás refuses to engage in premarital sexual activity. Sexually frustrated, Daniela tries to seduce him and has some degree of success. After complaining to Antonia, she is invited to a party where she briefly performs oral sex on Tomás until he stops her. As she leaves the party, Daniela whispers to Antonia that she had intended to have sex with both Tomás and her. Soon afterwards, Daniela begins a bisexual affair with Antonia that Daniela documents on her blog.\nDaniela's parents come to trust Tomás, allowing him to spend unsupervised time with her. However, Tomás' reservations finally break down when Daniela questions his level of interest in her. The two eventually have sex, and Daniela writes on her blog about feeling torn between Antonia and Tomás, both of whom she is regularly sexually involved with. Antonia expresses displeasure with their clandestine relationship, but Daniela is unwilling to commit to only one partner. During a family dinner at a restaurant, thieves suddenly storm in, but the family's prayers cause the robbers to pass them by. This incident causes Daniela to begin questioning both her spirituality and morals.\nDaniela stuns both her blog readers and family when she declares her desire to be baptized. Her family is overjoyed, and her aunt arranges a baptism at a lake, the same location where her aunt had been baptized. However, Tomás discovers Daniela's blog and learns about her infidelity. Furious, he ends their relationship, while Antonia does too. Her mother angrily rebukes Daniela and hits her for her behavior. Shortly thereafter, her aunt dies, leaving Daniela with many unanswered questions, ranging from spirituality to relationships. She is not permitted to attend the funeral by her family, watching it off from the side.",
    "genres": [
     "Comedy",
     "Drama"
@@ -97066,7 +97066,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "wikidata",
     "user_score": "tmdb_api_2026-10-22"
    }
