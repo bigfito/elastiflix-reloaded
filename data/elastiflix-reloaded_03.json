@@ -5957,7 +5957,7 @@
    "video": false,
    "tagline": null,
    "overview": "Arthur answers a distress call from Princess Selenia, who is menaced by the nefarious Maltazard.",
-   "plot": "Arthur answers a distress call from Princess Selenia, who is menaced by the nefarious Maltazard.",
+   "plot": "It is 1962, two years after Arthur Montgomery saved his grandparents’ home and saved the Minimoys from the evil Maltazard. Arthur stays with his grandparents for the holidays, during which the Bogo Matassalai (a fictitious African society) assign Arthur a series of tests, including camouflage and environmental nonviolence. Having passed these tests, Arthur prepares to see the Minimoys to celebrate, until his father decides to take him and his mother back to the metropolis.\nWhen a spider gives Arthur a grain of rice containing a distress call, which he believes has come from the Minimoys, he returns to his grandparents' house, where the Bogo Matassalai's attempt to give him Minimoy stature through a telescope fails, and they instead wrap him in ropes of increasing tightness until he falls as a drop of sap into the Minimoy Max's bar.\nEn route to investigate the Minimoys' condition, Arthur and Max rescue Betameche, who leads Arthur to the King. He then learns that Selenia is held captive by Maltazard, who is inspired to invade the human world by increasing his own size. Maltazard tricks the Minimoys into completing his design. The telescope itself is destroyed in the process, leaving Arthur trapped at his Minimoy size, while Maltazard is free to roam the world.",
    "genres": [
     "Adventure",
     "Fantasy",
@@ -6021,7 +6021,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -15254,7 +15254,7 @@
    "video": false,
    "tagline": "Meet the mysterious Deoxys!",
    "overview": "Deoxys, a Pokémon from outer space, terrorizes the high-tech city Ash Ketchum and his friends are visiting.",
-   "plot": "Deoxys, a Pokémon from outer space, terrorizes the high-tech city Ash Ketchum and his friends are visiting.",
+   "plot": "A mysterious meteorite is hurtling towards the earth, and during its entry into the atmosphere, it nearly wounds Legendary Pokémon Rayquaza, a sky guardian living in the ozone layer. The meteorite crashes into a polar zone, revealing two egg-shaped objects. The purple egg regenerates into a Deoxys and picks up the green egg. Rayquaza descends from the ozone layer to fight the invader, believing it to be an enemy. A battle ensues, destroying a nearby research site and traumatizing a young boy Tory (Tou'i), scared by a stampede of Spheal, Sealeo, and Walrein. Deoxys engages Rayquaza and the two take turns delivering devastating blows to each other, but the fight draws to a conclusion when Rayquaza surprises the alien Pokémon and fires a point blank Hyper Beam at it. Deoxys' body is destroyed, leaving only the purple crystal in its chest that falls into the sea, while some researchers take a similar green crystal that it found with them to Hoenn. Beneath the sea, the injured Deoxys regenerates and waits.\nFour years later, Ash, May, Brock, and Max travel to LaRousse City, where block robots patrol the area. There they meet Tory, who has since become afraid of Pokémon and a loner. Deoxys, which has fully healed, leaves to find the green crystal which Tory's father and Yuko are testing in a lab. In the Battle Tower, Ash mistakes Tory for a Pokémon Trainer and they battle against Rafe and Sid, with Tory using Ash's Torkoal. However, Tory does not know how to handle Ash's Torkoal and they lose. Tory runs away, reluctantly stopping to save a Minun which was trapped in a trash can. Later, Ash meets Tory's father and Yuko, and they have fun until they see a mysterious purple aurora, signalling the return of Deoxys.\nWhen Deoxys begins to remove the city's inhabitants to search for the green crystal using copies of itself, it is up to Ash, Pikachu, and Tory to help it find the crystal. This is complicated by the return of Rayquaza and the security robots malfunctioning, which forces Deoxys to create a force field that disables the city's power. Later, Rayquaza manages to break through the force field, resuming its battle with Deoxys that wreaks havoc in the city. The green crystal is regenerated when Pikachu, Minun, and Plusle charge the power generator in the lab. As the fight continues, Deoxys tackles Rayquaza into the floor. It prepares to finish off Rayquaza, but the green Deoxys arrives, fully regenerated, and quickly transforms into its Defense Forme, saving Rayquaza from the attack. The city is soon filled with blocks of robots when the chief robot becomes hostile, which overwhelm Rayquaza. The twin Deoxys form shields that protect Rayquaza. Seeing that the two Pokémon are willing to protect it in face of this new threat, Rayquaza begins firing Hyper Beams upon the thousands of robots.\nAsh and Tory work together and ultimately manage to shut off the malfunctioning robots by disabling the chief robot, freeing the twin Deoxys and Rayquaza.",
    "genres": [
     "Family",
     "Adventure",
@@ -15327,7 +15327,7 @@
     "日本語"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "tagline": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -17451,7 +17451,7 @@
    "video": false,
    "tagline": null,
    "overview": "Fearless gunslinger, Lucky Luke, is ordered by the President to bring peace to Daisy Town.",
-   "plot": "Fearless gunslinger, Lucky Luke, is ordered by the President to bring peace to Daisy Town.",
+   "plot": "Delegated by US President Winston H. Jameson to secure Daisy Town in order to make the junction of the East-West railway in time, \"Lucky\" John Luke returns to his hometown, now dominated by the crook Pat Poker. Haunted by old demons, Lucky Luke sees his ambitions to start a new life and \"make it clean\" soon thwarted by the arrival of old enemies.",
    "genres": [
     "Comedy",
     "Western",
@@ -17535,7 +17535,7 @@
     "Français"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -46792,7 +46792,7 @@
    "video": false,
    "tagline": null,
    "overview": "After his father's death, a young man is introduced to a world of hedonism and depravity by his amoral mother.",
-   "plot": "After his father's death, a young man is introduced to a world of hedonism and depravity by his amoral mother.",
+   "plot": "Seventeen-year-old Pierre has recently left a Catholic boarding school to live with his wealthy parents at their villa on the island of Gran Canaria. Pierre's father dies, leaving his mother Hélène to care for him. While in a restaurant, his mother reveals to him that she had been unfaithful to her husband many times with his knowledge and feels no shame about it. She then insists that her son accept her promiscuous ways. Soon after this, Pierre finds a closet full of his father's pornography. His reaction is to furiously masturbate and then to urinate on the magazine pages.\nHélène encourages her uninhibited sex partner Réa to have sex with Pierre. She does so in public at Gran Canaria's Yumbo Centrum, a popular shopping and nightlife complex. Hélène looks on longingly as the partially clothed couple copulates with passersby raising no objections.\nAfterwards, Hélène includes her son in an orgy with her friends, including Hansi. After the orgy, Hélène decides that she must leave her son to travel. While saying goodbye to Pierre, she implies that something taboo has happened between them and that she must leave to prevent it from happening again.\nUpon Hélène's departure, Hansi enters Pierre's life as a friend. She admits befriending Pierre at Hélène's encouragement but denies receiving a fee from her. Their friendship blossoms into a tender romance and they both fall in love. During their relationship, Hansi reveals that she has participated in sado-masochistic sex many times as a dominatrix with her friend Loulou as the willing masochist. She adds Hélène arranged these encounters as sexual exhibitions for tourists.\nHélène returns home with Réa. Upon arriving, she finds her son and Hansi socializing at a bar near the villa. Hélène and Pierre greet each other and chat while gazing into each other's eyes, with Hansi looking on jealously. Hélène invites her son to sleep with her. He agrees.\nHélène and Pierre enter the house's wine cellar. Hélène asks her son to cut her abdomen with a razor while he masturbates, and as he climaxes, she slits her own throat. Paramedics take away her body. Pierre says goodbye to his mother before the cremation. He enters the room where she lies in state and masturbates, exclaiming that he does not want to die as she is carried out.",
    "genres": [
     "Drama"
    ],
@@ -46888,7 +46888,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox_fx:EUR:2004",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "revenue": "wikipedia_infobox",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -67751,7 +67751,7 @@
    "video": false,
    "tagline": "The one night anything is possible.",
    "overview": "The lives of several couples and singles in New York intertwine over the course of New Year's Eve.",
-   "plot": "The lives of several couples and singles in New York intertwine over the course of New Year's Eve.",
+   "plot": "The film follows several interconnected people on New Year's Eve in New York City.\nVice-president of the Times Square Alliance Claire Morgan is finishing arrangements for the ball drop. Meanwhile, after being nearly hit by a car and denied a vacation, Ahern Records secretary Ingrid Withers quits and offers deliveryman Paul Doyle tickets for the Ahern Records Masquerade Ball for help in completing her New Year's resolutions before midnight, and he accepts.\nPaul's older sister Kim is struggling with teenage daughter Hailey who prefers spending New Year's Eve with her friends and her boyfriend Seth Anderson in Times Square over her, a lonely, recently divorced mom. Paul's best friend, comic book illustrator Randy, hates New Year's Eve as his girlfriend left him on the date. He gets stuck in an elevator with Elise, an aspiring backup singer for musician Daniel Jensen at his Times Square show. Jensen is also preparing to perform at the Ahern Records ball while attempting to rekindle his relationship with former fiancée, Laura.\nAt a nearby hospital, Claire's father Stan Harris is close to succumbing to cancer. Refusing chemotherapy, he wishes only to see the ball drop one last time. He is kept company by Nurses Aimee and Mindy after his doctor confirms he will soon pass. In the same hospital, young Griffin and Tess Byrne are about to have their first child and compete with James and Grace Schwab for the New Year's Day baby bonus.\nElsewhere businessman Sam Ahern Jr., the son of the late founder Sam Ahern Sr. of Ahern Records, is on his way to the company ball to deliver an important speech when his car crashes in Connecticut. All the while he wonders if he should reunite with a mysterious woman he met and fell in love with on the previous New Year's Eve. Unable to find a mechanic or tow truck, he accepts a lift from a family in an RV.\nLater that evening, one of the LED panels on the Times Square Ball malfunctions, jamming it and forcing Claire to call Kominsky, a disgruntled electrician whom the company had fired a few weeks prior. He repairs the ball before midnight, and, in gratitude, she leaves him in charge as she rushes to see the ball drop with her father, Stan.\nMeanwhile, Nurse Aimee video conferences with her husband Chino, an Afghanistan-deployed soldier. Stan passes away shortly after he and Claire watch the ball drop from the hospital's roof, amid a chorus of \"Auld Lang Syne\", with Claire weeping and holding his hand.\nPaul helps Ingrid complete her resolutions, so she gives him the tickets. They say goodbye, but he later takes her to the Ahern Records ball as his date. Meanwhile, Randy and Elise bond in the elevator. Just as they are about to kiss, the elevator is repaired by the building superintendent, so Elise hurries to Jensen's show.\nRandy notices Elise forgot her rubber bracelet so rushes to give it to her, still in pajamas.",
    "genres": [
     "Comedy",
     "Romance"
@@ -67849,7 +67849,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -73982,7 +73982,7 @@
    "video": false,
    "tagline": "Loving husband. Devoted father. Ruthless killer.",
    "overview": "The true story of Richard Kuklinski, the notorious contract killer and family man.",
-   "plot": "The true story of Richard Kuklinski, the notorious contract killer and family man.",
+   "plot": "When a man insults Richard Kuklinski's girlfriend during a game of pool, he follows the man to his car and murders him by slashing his throat. Kuklinski marries Deborah in 1964 and the couple have two daughters. Kuklinski presents himself to everyone as a normal and successful working man, but he has a dark, violent side that he hides. As a boy he and his younger brother were the subject of brutal beatings from their immigrant Polish father, shaping the boys into emotionally disturbed, sadistic young men. His brother is serving a life sentence in prison for raping and murdering a 12-year old girl.\nKuklinski works dubbing pornographic films, but tells his wife he dubs cartoons. The mob-backed company he works for is shut down by Roy DeMeo, a powerful New York City gangster. DeMeo tests Kuklinski by having him kill a homeless man, then hires him as an enforcer and contract killer. In 1975, Kuklinski moves his family into a nice suburban home and starts telling people he works at a currency trading company. He is ordered to kill a man who betrayed DeMeo, but finds a teenage girl in the closet afterwards. Freezy, a freelance hitman also hired by DeMeo, almost kills her, but is stopped by Kuklinski. DeMeo, already involved in a dispute with the Cali Cartel, is furious when he learns what happened and decommissions Kuklinski indefinitely. Needing money, he makes a deal to carry out murders contracted to Freezy in return for half the bounties.\nKuklinski's home life is beginning to unravel. He starts becoming incapable of hiding his inner rage and shows bursts of anger towards his wife and strangers. DeMeo's boss Leo Merks hires Freezy to kill one of DeMeo's associates, which Kuklinski does by poisoning him with cyanide. DeMeo finds out about the hits Kuklinski has been doing behind his back and threatens to kill his family if they ever cross paths again. Kuklinski then goes to Leo Merks to collect the bounty money, but Leo is furious that the job was not untraceable. He refuses to pay anything, prompting Kuklinski to shoot him dead. Kuklinski's daughter is hospitalized after a hit-and-run by DeMeo. Both Kuklinski and Freezy have to go on the run to escape DeMeo, but Freezy insists they kill each others' families to prevent them from talking to the police. When Freezy reveals that he already knows Kuklinski's address, Kuklinski kills him.\nFollowing an undercover sting operation, Kuklinski is arrested in 1986. His wife and kids had never suspected him of being a killer. Kuklinski admits to having committed over 100 murders, both for personal reasons and for profit, in his 22-year career. After being sentenced to two life terms in prison, he never sees his wife and daughters again. As the movie ends, Kuklinski's only regret is hurting his family through the crimes he committed.",
    "genres": [
     "Thriller",
     "Crime",
@@ -74122,7 +74122,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -75167,7 +75167,7 @@
    "video": false,
    "tagline": "They left her no choice",
    "overview": "A black ops soldier seeks payback after she is betrayed and left for dead.",
-   "plot": "A black ops soldier seeks payback after she is betrayed and left for dead.",
+   "plot": "At an Upstate New York diner, Mallory Kane meets her associate Aaron. He demands she get in a car outside. She refuses and he pulls a gun, but she disarms and pistol whips him. A customer, Scott, had intervened to help Mallory. She demands his car keys and that he get in his car to get away with her. As they flee, she explains who she is and what has happened to her.\nMallory and Aaron are operatives of a private intelligence firm that handles covert black operations so their clients can maintain plausible deniability. One week earlier, the firm's director (and Mallory's ex-boyfriend) Kenneth gave her an assignment offered by CIA agent Coblenz: to rescue Chinese national Jiang being held hostage in Barcelona. Mallory, Aaron, and her team successfully deliver Jiang to local contact Rodrigo.\nBack in the United States, Kenneth gives Mallory an apparently simple assignment: pose as the wife of purportedly MI6 agent Paul during a mission in Dublin. Mallory accompanies Paul to a party at Russborough House, where they meet his contact, Studer. Mallory watches Paul go into a barn. Upon entering, she finds Jiang dead, clutching Mallory's brooch. Mallory realizes she is being set up.\nIn their hotel room, Paul attempts to kill his \"wife\", but to his shock ends up physically overpowered in a brutal brawl, put nearly to sleep with a triangle choke, and eventually shot dead by Mallory. After collecting herself, she searches through Paul's stuff and redials a missed call on his phone. Kenneth picks up, asking if \"the divorce is final\". Kenneth realizes he's been discovered, and sends his agents after her. She avoids them and the police, escaping on a ferry to England.\nMallory asks Rodrigo if it was he or Kenneth who set her up. Rodrigo calls Coblenz, who then calls Mallory saying he had suspicions about Kenneth, before claiming to arrange a meeting between the two. Coblenz then contacts Kenneth and tells him to inform Mallory's father, John, of her purported crimes.\nIn the present, Mallory and Scott are detained by police, but the police are ambushed and killed by Kenneth's men. Mallory kills one of them and flees with Scott in a police car. She releases Scott and leaves for her father's house in New Mexico, arriving before Kenneth, Aaron and two other men arrive to interrogate him about his daughter's whereabouts. Aaron receives a photograph on his phone of Jiang lying dead, and realizes that Mallory has been set up. He presses Kenneth for the truth, but Kenneth shoots him and escapes, as Mallory takes out Kenneth's other men. Aaron apologizes to Mallory before dying in her arms.\nMallory meets Coblenz, who reveals that he told Kenneth to go to Mallory's father's house, expecting that she would kill him there. Coblenz gives her Kenneth's present location, and offers her a job with the CIA, all charges wiped. She says she will let him know after she has found Kenneth.",
    "genres": [
     "Action",
     "Drama",
@@ -75231,7 +75231,7 @@
     "Español"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "rating": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -76794,7 +76794,7 @@
    "video": false,
    "tagline": "Survive The Holidays",
    "overview": "In Moscow, five young people lead the charge against an alien race which has attacked Earth via our power supply.",
-   "plot": "In Moscow, five young people lead the charge against an alien race which has attacked Earth via our power supply.",
+   "plot": "Two Americans, Ben and Sean, travel to Moscow to sell a software application. After arriving, they find their business partner, Skyler, has betrayed them by already selling a knockoff. Disappointed, the pair goes to a nightclub, where they meet tourists Natalie and Anne. Suddenly, the electricity cuts off around the world and everyone heads outside. They witness balls of light fall from the sky and fade away. Invisible entities begin hunting and disintegrating people, plunging the entire world into chaos.\nBen, Sean, Natalie, Anne, and Skyler hide in the club's storeroom. After a few days, they emerge to find the city full of scorched cars and ruined buildings, but devoid of people. While they search for supplies in a Militsiya police car, an alien appears as an invisible, shifting spherical object. They hide as it moves closer, causing the car's lights and siren to turn on. Sean realizes that light bulbs and other electronics give the aliens away. The group takes shelter in a shopping mall. Looking for clothes, Sean and Natalie almost run into an alien, which cannot \"see\" them through a glass wall. Sean theorizes that the aliens can only sense their bodies' electrical charge, but not through glass or other insulators.\nThe group finds the US embassy gutted and lifeless. A logbook there reveals that the invasion is worldwide. They also discover a radio broadcasting a message in Russian. During their search, Skyler is killed by the aliens. Seeing a light in a nearby apartment tower, the survivors go to investigate. They find a young woman named Vika and a man named Sergei, an electrical engineer. Sergei has turned his apartment into a giant Faraday cage that hides everyone. He has also developed a microwave gun that weakens an alien's force field, rendering them visible and vulnerable. Vika and Sergei translate the radio message, which says that a nuclear submarine is waiting in the Moscow River to take survivors to safety, but will leave soon.\nVika, Natalie, and Anne gather supplies from other apartments. An alien senses them and gives chase. When they get to the apartment, the alien gets inside with them. Sergei shoots the alien with his gun, to no avail. The alien kills him while the others escape. Anne is also killed in the ensuing chase. To fight back, Natalie sets the apartment on fire and meets up with Vika.\nThe group later meets with Russian policemen who manage to wound an alien with conventional weapons. Sean collects a piece of the alien's body while the small police band agrees to help the group get to the submarine. As they move through the subway, an alien discovers them and kills Ben.\nThe survivors make it to a powerless patrol boat on the river and drift downstream to the waiting submarine. The boat nears the submarine, but runs aground. As they attempt to push free, an alien light beam causes the boat to capsize. Sean and the policemen swim towards the submarine, but upon reaching it, they discover Natalie is missing.",
    "genres": [
     "Horror",
     "Action",
@@ -76875,7 +76875,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -85929,7 +85929,7 @@
    "video": false,
    "tagline": "No Rules. No Mercy. Pure Fighting.",
    "overview": "In Beijing, a young martial artist's skill places him in position to experience opportunities and sacrifices.",
-   "plot": "In Beijing, a young martial artist's skill places him in position to experience opportunities and sacrifices.",
+   "plot": "Hong Kong police officer Sun-Jing is investigating Donaka Mark, who is hosting an illegal fighting operation. Donaka attempts to recruit Tiger, a young working-class disciple of Tai Chi, at a Wu Lin Wang Competition. Donaka offers large sums of money to fight for him but Tiger refuses, as fighting for money would compromise his honor.\nSoon after, land inspectors declare Tiger's Tai Chi temple structurally unsafe, intending to demolish the temple. To preserve the temple, Tiger applies for historic protection status, arguing it is a place for cultivating peace and wellbeing; however, he requires a large sum of money to repair the temple and accepts Donaka's offer.\nDonaka's illegal fights take the form of modern gladiatorial combat, for the entertainment of wealthy individuals. Tiger earns enough money to repair the temple and improve his quality of life, but develops a more brutal style. In the Wu Lin Competition, Tiger viciously injures his opponent; the authorities reject his temple petition for historical protection, as his actions at the competition clearly do not represent peace and wellbeing. Tiger nearly kills his next opponent, but relents at the end. Realizing how much he has changed for the worse, Tiger declares his intention to stop fighting for Donaka and contacts officer Sun-Jing. They plan to track the location of the next fight and arrest Donaka; Sun-Jing is hindered by her boss, Superintendent Wong, who secretly works for Donaka.\nDonaka prepares a fight to the death for Tiger. Donaka reveals how he engineered the temple's crisis to manipulate Tiger; he wished to transform him from innocent martial arts practitioner to ruthless killer. In the ring, Tiger refuses to fight his assigned opponent, continuously evading him. Sun-Jing's officers storm the compound, but Donaka escapes. Later, Donaka arrives at the temple and begins a fight with Tiger. Donaka initially has the upper hand, but Tiger re-embraces his Tai Chi training and manages to palm-strike Donaka despite getting stabbed. A dying Donaka expresses his pleasure for having pushed Tiger to become a killer.\nIn the aftermath, Sun-Jing is promoted to Superintendent and Tiger's temple petition succeeds. Tiger intends to open his own Tai Chi school in the city to continue the legacy of the Ling Kong Tai Chi.",
    "genres": [
     "Action",
     "Drama"
@@ -86007,7 +86007,7 @@
     "普通话"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -88180,7 +88180,7 @@
    "video": false,
    "tagline": null,
    "overview": "The toys throw Ken and Barbie a Hawaiian vacation in Bonnie's room.",
-   "plot": "The toys throw Ken and Barbie a Hawaiian vacation in Bonnie's room.",
+   "plot": "Three months after the events of Toy Story 3, it is Bonnie's winter break from school, and she is celebrating by going on vacation to Hawaii. While the toys begin to enjoy having her bedroom to themselves, she leaves her school backpack in her room, and Ken and Barbie reveal themselves to have stowed away, hoping to join her in Hawaii.\nThey initially believe that they are in Hawaii, but Woody reveals to them that they are actually in Bonnie's room. After Mr. Potato Head questions his logic for thinking that Bonnie would take her backpack on vacation, he tries to convince her backpack's airplane pilot keychain, Captain Zip to fly him and Barbie to Hawaii. However, Captain Zip tells Ken that he does not actually fly an airplane.\nAfter Ken goes back in Bonnie's backpack to cry about their misfortune, Barbie reveals to Woody that Ken planned to have their first kiss on a beach at sunset, basing it off of an image on a Hawaii travel brochure. This inspires Bonnie's toys to recreate their own version of Hawaii.\nAfter various adventures, Ken and Barbie share their first kiss outside of Bonnie's house at sunset, recreating the scene from the brochure. However, they step off of the edge of the porch, causing them to be buried in snow. Bonnie's toys dig them out and attempt to free them from a block of ice by using a hair dryer and screw driver.",
    "genres": [
     "Animation",
     "Family",
@@ -88238,7 +88238,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -108019,7 +108019,7 @@
    "video": false,
    "tagline": "Blood demands blood",
    "overview": "In New York City, a crime lord's right-hand man is seduced by a woman seeking retribution.",
-   "plot": "In New York City, a crime lord's right-hand man is seduced by a woman seeking retribution.",
+   "plot": "Victor has infiltrated a criminal empire run by ruthless kingpin Alphonse Hoyt. His objective is to make Alphonse pay for the murder of his wife and young daughter two years earlier. Victor intends to exact revenge on Alphonse through physical and psychological torture before finally killing him.\nVictor watches and is watched by Beatrice, a mysterious young woman who lives in the apartment across from his. Beatrice begins to contact Victor and show interest in him. On their first date, Beatrice reveals her true motivation: she has a video of Victor killing a man, and will go to the police unless Victor kills the drunk driver who disfigured her face.\nMeanwhile, Alphonse is receiving threats against his life from Victor. During a shoot-out with Jamaicans, whom he believes are responsible for the threats, Victor saves his life and thus gains his trust. As the threats intensify, a man within Alphonse's crew and a friend of Victor's, Darcy, investigates their source. Victor has also kidnapped the brother of Albanian kingpin Ilir Brozi, who was involved in helping Alphonse dispose of Victor's family. Victor plans to pool the Albanians and Alphonse's men together so he can eliminate them all at once.\nVictor stages a deliberately failed sniper attack on Alphonse from a rooftop in continuing his plans of torture. However, he is nearly caught in the process and manages to escape thanks to Beatrice, who has been following Victor. Ilir's brother, who was kidnapped by Victor, has been held tied up and blindfolded in an abandoned ship. Victor makes a video in which Ilir's brother claims that he is being held in the basement of Alphonse's warehouse, in an effort to frame Alphonse, which would lure the Albanians to the warehouse in retaliation, thereby having them all gathered in one place. He then kills Ilir's brother. Beatrice is given the memory card with the video to mail to Ilir in order to make it seem like Alphonse's crew was responsible for his brother's kidnapping.\nAlphonse, now knowing the threats are coming from someone within his crew, becomes suspicious but reluctant to believe that Victor is the traitor due to him previously saving his life. Victor later notifies Beatrice that he didn't kill the drunk driver so that they can spend more time together, knowing the psychological effect that the murder would have had on her. Victor sets up a trap for the Albanians and Alphonse, but Beatrice reveals through a call that she didn't mail the memory card because she didn't want to see Victor die. At that moment, Darcy, who has found Victor's true intentions while investigating his apartment, subdues Beatrice and informs Victor she is being held captive at Alphonse's house.\nAs Alphonse and the Albanians gather in the house, Victor crashes into the house with his truck. Victor spares Darcy's life in the ensuing gunfight and makes his way to the top floor where Beatrice is held by Alphonse and Ilir.",
    "genres": [
     "Thriller",
     "Action",
@@ -108111,7 +108111,7 @@
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
