@@ -3,11 +3,11 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 19:55 UTC · Cursor (Grok 4.7) · ejecutor (turno 19)
+**Última actualización:** 2026-11-13 20:09 UTC · Cursor (Grok 4.7) · ejecutor (turno 19)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
-**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-174106` (6 899 películas) · `data/` cargado en el commit `03b0b2e` · app compilada en el commit `03b0b2e` · instancia apagada (puerto 8081)
+**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-195801` (6 899 películas) · `data/` cargado en el commit `bf5e446` · app compilada en el commit `bf5e446` · instancia en marcha (puerto 8081)
 
 ## 1. Tablero
 
@@ -161,21 +161,22 @@ staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-gener
 
 | Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | Producción final |
 |---|---|---|---|---|---|---|
-| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | | |
-| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | | |
-| `bm25_plot` | 0.37 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | | |
-| `knn_plot_256` | 0.49 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | | |
-| `knn_plot_512` | 0.60 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | | |
-| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | | |
-| `rrf_title_knn256` | 0.29 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | | |
-| `rrf_title_knn1024` | 0.41 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | | |
-| `rrf_plot_knn256` | 0.53 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | | |
-| `rrf_plot_knn1024` | 0.61 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | | |
+| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | |
+| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | |
+| `bm25_plot` | 0.37 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | |
+| `knn_plot_256` | 0.49 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | |
+| `knn_plot_512` | 0.60 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | |
+| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | |
+| `rrf_title_knn256` | 0.29 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | |
+| `rrf_title_knn1024` | 0.41 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | |
+| `rrf_plot_knn256` | 0.53 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | |
+| `rrf_plot_knn1024` | 0.61 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | |
 
 M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
 M1 medida el 2026-11-12 20:20 UTC (turno 07) sobre el índice de staging `elastiflix-dq-staging-20261112-201036` (6 899 películas, commit `220a8ea`);
 M2 medida el 2026-11-13 18:02 UTC (turno 14) sobre el índice de staging `elastiflix-dq-staging-20261113-174106` (6 899 películas, commit `03b0b2e`);
-`target/eval/report.md` lleva la hora de la última corrida (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas) y el índice de staging en su segunda línea.
+M3 medida el 2026-11-13 20:09 UTC (turno 19) sobre el índice de staging `elastiflix-dq-staging-20261113-195801` (6 899 películas, commit `bf5e446`, mapping `dynamic: strict`);
+`target/eval/report.md` lleva el índice de esta corrida en su segunda línea (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas: `bm25_plot` y `rrf_plot_*` siguen bajo los umbrales viejos, como prevé D-08). El log de la prueba es 2026-11-13T14:09:06-06:00.
 
 ## 7. Indicadores de calidad del catálogo
 
