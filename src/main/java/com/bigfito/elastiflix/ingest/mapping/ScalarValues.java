@@ -52,14 +52,9 @@ final class ScalarValues {
     }
 
     private static void keepText(String name, JsonNode value, CheckScope scope, boolean required) {
-        if (value.asString().isBlank()) {
+        if (TextNormalizer.apply(name, value, scope) == TextNormalizer.Outcome.BLANK) {
             blankText(name, scope, required);
-            return;
         }
-        if (FieldNames.PLOT.equals(name) && !PlotChecks.keep(value.asString(), scope)) {
-            return;
-        }
-        scope.target().set(name, value);
     }
 
     private static void blankText(String name, CheckScope scope, boolean required) {

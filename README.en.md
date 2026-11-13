@@ -395,6 +395,11 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   (`EFX-ING-022`) and a gap in a list is skipped (`EFX-ING-021`). A repeated text in `genres`, `cast`,
   `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
   and the first occurrence is kept (`EFX-ING-024`).
+- **Text:** on validation, a text, an item of a text list, a keyword or collection name, and an `enrichment`
+  label are stripped, a hard space (U+00A0) becomes a normal space, and the result is stored in NFC. If the
+  value changes, the load warns (`EFX-ING-029`) and keeps the normalized text. If stripping leaves it empty,
+  the empty-value rule applies and this warning is not added. `id` is left as it arrived: a space in it is part
+  of the identifier.
 - **Plot:** a `plot` that is a placeholder (for example `[No information found]` or `[No match found]`), that opens
   with an assistant refusal ("I don't have information", "Please provide"), or that is shorter than 40 characters
   rejects the file, or the single record (`EFX-ING-025`). Those refusals only count at the start: a character can

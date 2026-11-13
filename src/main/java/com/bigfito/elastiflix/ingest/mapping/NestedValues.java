@@ -131,11 +131,12 @@ final class NestedValues {
     }
 
     private static void keepOptional(NestedObject target, String name, JsonNode value, CheckScope scope) {
-        if (value.asString().isBlank()) {
+        String text = TextNormalizer.keep(target.path(name), value.asString(), scope);
+        if (text.isBlank()) {
             scope.warning(ErrorCode.EMPTY_TEXT, target.path(name), FieldNames.BLANK, IngestPhrase.NO_VALUE.text());
             return;
         }
-        target.clean().set(name, value);
+        target.clean().set(name, TextNormalizer.node(text));
     }
 
     /**

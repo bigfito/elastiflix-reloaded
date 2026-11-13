@@ -262,7 +262,10 @@ class IngestChecksTest {
         assertThat(result.movies()).extracting(Movie::id).containsExactly("441663", "11313");
         assertThat(result.report().warnings())
                 .extracting(ValidationIssue::code, ValidationIssue::id, ValidationIssue::received)
-                .containsExactly(tuple(ErrorCode.DUPLICATE_PLOT.code(), "11313", "441663"));
+                .containsExactly(
+                        tuple(ErrorCode.TEXT_NORMALIZED.code(), "11313", repeated),
+                        tuple(ErrorCode.DUPLICATE_PLOT.code(), "11313", "441663"));
+        assertThat(result.movies().get(1).plot()).isEqualTo(repeated.strip());
     }
 
     @Test

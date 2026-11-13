@@ -48,12 +48,21 @@ final class EnrichmentValues {
     private static void keep(String path, String key, JsonNode child, ObjectNode clean, CheckScope scope) {
         if (!child.isString()) {
             scope.error(ErrorCode.TYPE_MISMATCH, path, IssueTexts.show(child), IngestPhrase.TEXT.text());
-        } else if (KeywordBytes.exceeds(path, child)) {
-            KeywordBytes.reject(path, child, scope);
-        } else if (child.asString().isBlank()) {
-            scope.warning(ErrorCode.EMPTY_TEXT, path, FieldNames.BLANK, IngestPhrase.NO_VALUE.text());
-        } else {
-            clean.set(key, child);
+            return;
         }
+        storeText(path, key, child, clean, scope);
+    }
+
+    private static void storeText(String path, String key, JsonNode child, ObjectNode clean, CheckScope scope) {
+        String text = TextNormalizer.keep(path, child.asString(), scope);
+        if (text.isBlank()) {
+            scope.warning(ErrorCode.EMPTY_TEXT, path, FieldNames.BLANK, IngestPhrase.NO_VALUE.text());
+            return;
+        }
+        if (KeywordBytes.exceeds(path, text)) {
+            KeywordBytes.reject(path, child, scope);
+            return;
+        }
+        clean.set(key, TextNormalizer.node(text));
     }
 }

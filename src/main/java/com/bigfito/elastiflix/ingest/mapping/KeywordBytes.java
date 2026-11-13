@@ -36,7 +36,11 @@ final class KeywordBytes {
      * @return {@code true} si hay que rechazarlo
      */
     static boolean exceeds(String name, JsonNode value) {
-        String text = IdTexts.of(value);
+        return exceeds(name, IdTexts.of(value));
+    }
+
+    /** Igual que {@link #exceeds(String, JsonNode)}, para un texto que ya se normalizó. */
+    static boolean exceeds(String name, String text) {
         if (text == null || text.length() * MAX_BYTES_PER_CHAR <= limit(name)) {
             return false;
         }
