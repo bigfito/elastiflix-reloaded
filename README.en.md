@@ -406,8 +406,8 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   theme of", "at its core", "explores the theme of", "delves into the complexities", "one of the primary themes",
   or a "Themes:" heading) is also a warning (`EFX-ING-028`). "the complexities of their relationships" and "delves
   into the struggle" do not count: they are plot prose. They are warnings because an error would reject the whole
-  file. The catalog in [`data/`](data/README.md#english) does not contain the phrases that reject a load, and it
-  does not share plots. Some plots still say "at its core" or "explores the theme of".
+  file. The catalog in [`data/`](data/README.md#english) does not contain the phrases that reject a load, does not
+  keep those essay phrases, and does not share plots.
 - **Vectors:** `plot_256`, `plot_512`, and `plot_1024` are **always** generated from `plot` with the inference
   service. If the file includes them, they are ignored with a warning; the form doesn't ask for them.
 - **Provenance:** `enrichment` is optional (`null` or absent is fine too). When present, it is an object whose keys

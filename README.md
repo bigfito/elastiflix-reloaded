@@ -412,8 +412,7 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   complexities», «one of the primary themes» o un encabezado «Themes:») también se avisa (`EFX-ING-028`). «the
   complexities of their relationships» y «delves into the struggle» no entran: son prosa de una trama. Son
   advertencias porque un error rechazaría el archivo entero. El catálogo de [`data/`](data/README.md) no trae las
-  fórmulas que rechazan la carga y no comparte sinopsis. Algunas sinopsis todavía dicen «at its core» o «explores
-  the theme of».
+  fórmulas que rechazan la carga, no conserva esas frases de ensayo y no comparte sinopsis.
 - **Vectores:** `plot_256`, `plot_512` y `plot_1024` **siempre** se generan desde `plot` con el servicio de
   inferencia. Si el archivo los trae, se ignoran con una advertencia; el formulario no los pide.
 - **Procedencia:** `enrichment` es opcional (`null` o ausente también vale). Si viene, es un objeto cuyas claves
