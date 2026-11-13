@@ -265,7 +265,7 @@ class IngestChecksTest {
                 .containsExactly(
                         tuple(ErrorCode.TEXT_NORMALIZED.code(), "11313", repeated),
                         tuple(ErrorCode.DUPLICATE_PLOT.code(), "11313", "441663"));
-        assertThat(result.movies().get(1).plot()).isEqualTo(repeated.strip());
+        assertThat(result.movies().get(1).plot()).isEqualTo(PLOT.toLowerCase(Locale.ROOT));
     }
 
     @Test

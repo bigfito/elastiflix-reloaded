@@ -273,9 +273,9 @@ public enum ErrorCode {
     ESSAY_PLOT("EFX-ING-028", "La sinopsis parece un ensayo de temas de un modelo",
             "«main themes», «at its core», «explores the theme of», «delves into the complexities» o una lista",
             "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
-    /** El texto traía espacios de más, un espacio duro o no estaba en NFC. No rechaza el archivo. */
+    /** El texto traía espacios en los extremos o repetidos, un espacio duro o no era NFC. No rechaza el archivo. */
     TEXT_NORMALIZED("EFX-ING-029", "El texto se normalizó al validar",
-            "Tenía espacios en los extremos, un espacio duro (U+00A0) o no estaba en NFC",
+            "Tenía espacios en los extremos o repetidos, un espacio duro (U+00A0) o no estaba en NFC",
             "No hay que hacer nada: la carga guarda el texto ya normalizado"),
     /** {@code document_count} no coincide con la lista {@code documents}. */
     DOCUMENT_COUNT_MISMATCH("EFX-ING-008", "document_count no coincide con los documentos",

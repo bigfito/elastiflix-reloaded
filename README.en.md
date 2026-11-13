@@ -400,7 +400,8 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
   and the first occurrence is kept (`EFX-ING-024`).
 - **Text:** on validation, a text, an item of a text list, a keyword or collection name, and an `enrichment`
-  label are stripped, a hard space (U+00A0) becomes a normal space, and the result is stored in NFC. If the
+  label are stripped, a hard space (U+00A0) becomes a normal space, repeated spaces become one (line breaks
+  are kept), and the result is stored in NFC. If the
   value changes, the load warns (`EFX-ING-029`) and keeps the normalized text. If stripping leaves it empty,
   the empty-value rule applies and this warning is not added. `id` is left as it arrived: a space in it is part
   of the identifier.

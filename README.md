@@ -405,8 +405,8 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   `production_companies`, `production_countries` o `spoken_languages`, o una palabra clave con el mismo `id`, se
   omite y se conserva la primera aparición (`EFX-ING-024`).
 - **Texto:** al validar, un texto, un ítem de una lista de textos, el nombre de una palabra clave o de una
-  colección y una etiqueta de `enrichment` se recortan, el espacio duro (U+00A0) pasa a espacio y el resultado
-  se guarda en NFC. Si el valor cambia, se avisa (`EFX-ING-029`) y se conserva el texto ya normalizado. Si al
+  colección y una etiqueta de `enrichment` se recortan, el espacio duro (U+00A0) pasa a espacio, los espacios
+  repetidos quedan en uno (los saltos de línea no se tocan) y el resultado se guarda en NFC. Si el valor cambia, se avisa (`EFX-ING-029`) y se conserva el texto ya normalizado. Si al
   recortar queda vacío, sigue la regla de vacíos y esta advertencia no se suma. El `id` no se toca: un espacio
   en él forma parte del identificador.
 - **Sinopsis:** un `plot` que es un marcador (por ejemplo `[No information found]` o `[No match found]`), que abre
