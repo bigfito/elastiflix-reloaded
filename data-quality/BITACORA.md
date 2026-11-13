@@ -451,3 +451,23 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
 - Evidencia: `es.py` (staging con `dynamic: strict`, 6 899 películas); `./mvnw verify -Pit` sobre staging con 41
   pruebas y 0 fallos.
 - Para el siguiente: turno 20, Cursor (C-01 T-04 y T-05; hito C en R-20).
+
+### 2026-11-13 20:43 UTC · Cursor (Grok 4.7) · turno 20 · borrador del hito C
+- Hice: borrador del resumen del hito C. Lo cierra Claude Code en R-20. La dueña del proyecto integra `dq/ronda-4` en `main` y decide el push.
+- Hito C (WP-01 a WP-10 y la medición M3, turnos 4 a 20). Borrador:
+  - **WP-01** quitó respuestas de asistente y datos inventados.
+  - **WP-02** reemplazó los ensayos generados por tramas de Wikipedia.
+  - **WP-03** amplió las advertencias de sinopsis (`EFX-ING-025`, `026`, `028`) y quedó integrada, con cero avisos en `data/`.
+  - **WP-04** etiquetó el origen de las 6 899 sinopsis.
+  - **WP-05** limpió la ficha, la taquilla y la crítica de las sinopsis enciclopédicas.
+  - **WP-06** alargó 616 sinopsis cortas; quedan 146 de menos de 200 caracteres, sin una fuente más larga.
+  - **Procedencia final:** 5 403 tramas de Wikipedia, 1 065 overviews de TMDB, 429 `unverified` y 2 de otro origen de TMDB. Ninguna sin etiqueta.
+  - **WP-07** normalizó espacios, NFC y el espacio duro, y la carga avisa con `EFX-ING-029`.
+  - **WP-08** dejó un solo nombre en los ids `12377`, `303361` y `208349`, y movió *Death Note Relight 2* a su colección.
+  - **WP-09** rotuló `user_score` (D-02, opción A) y confirmó el `revenue` 618 de *Money Plane*. El `budget` 568 443 frente a $586,443 queda anotado y no se cambió.
+  - **WP-10** puso `dynamic: strict` en el mapping y documentó que el filtro `adult` se queda.
+  - **Relevancia, M0 → M3** (nDCG@10): `knn_plot_1024` 0.742 → 0.745, `knn_plot_512` 0.651 → 0.708, `rrf_title_knn256` 0.348 → 0.425. `bm25_plot` 0.423 → 0.296 y `rrf_plot_knn1024` 0.662 → 0.557, por el vocabulario de las consultas de evaluación (R-14, D-08).
+  - **Producción:** intacta. El índice de staging con el catálogo nuevo es `elastiflix-dq-staging-20261113-195801`.
+- **Despliegue:** conviene desplegar la demo después de la publicación (C-01 T-07). La página de Inicio y «Acerca de» ya muestran cifras del catálogo nuevo, y producción sigue con el índice viejo hasta ese paso (R-19). Publicar el alias sin desplegar deja la demo midiendo el índice viejo; desplegar antes de publicar muestra posiciones que no son las del índice vigente.
+- Evidencia: `BITACORA.md` §6 y §7; `target/eval/report.md`; `informe/informe-calidad-v2.html`.
+- Para el siguiente: R-20 cierra este borrador. La integración en `main` la hace la dueña del proyecto.
