@@ -200,7 +200,8 @@ java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar      # same result, from
 The catalog is the `elastiflix-reloaded` alias (configurable), which points to an
 `elastiflix-reloaded-<YYYYMMDD-HHMMSS>` index. **The first load creates it**, with the repository's mapping. The
 mapping is strict (`"dynamic": "strict"`): Elasticsearch rejects a document with a field it does not declare, and
-the load validation already reports it before writing.
+the load validation already rejects that file before writing (`EFX-ING-007`). It applies to indices created from this
+version on.
 
 1. Go to **Load data** (http://localhost:8080/cargar?lang=en) and open the **Import .json** tab.
 2. The «Load mode» card already has **bulk** selected; append is disabled while there is no catalog.
@@ -234,7 +235,8 @@ four movies, any vector search returns all four in some order: what matters is t
 
 If your project already has a **concrete index** named `elastiflix-reloaded` (not an alias), the app won't load
 data into it. This command copies it to `elastiflix-reloaded-<YYYYMMDD-HHMMSS>` and, in a single call, deletes the
-concrete index and creates the alias. It exits on its own:
+concrete index and creates the alias. The new index uses the strict mapping: if the concrete index has fields the
+mapping does not declare, the copy fails with `EFX-ES-006` and the concrete index stays as it was. It exits on its own:
 
 ```bash
 ./mvnw spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"

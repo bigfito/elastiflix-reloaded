@@ -201,7 +201,8 @@ java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar      # el mismo resultad
 El catálogo es el alias `elastiflix-reloaded` (configurable), que apunta a un índice
 `elastiflix-reloaded-<AAAAMMDD-HHMMSS>`. **La primera carga lo crea**, con el mapping del repositorio. El mapping es
 estricto (`"dynamic": "strict"`): Elasticsearch rechaza un documento con un campo que no declara, y la validación de
-la carga ya lo avisa antes de escribir.
+la carga ya rechaza ese archivo antes de escribir (`EFX-ING-007`). Rige para los índices que se crean desde esta
+versión.
 
 1. Ve a **Cargar datos** (http://localhost:8080/cargar) y abre la pestaña **Importar .json**.
 2. La tarjeta «Modo de carga» ya trae **bulk** marcado; append está deshabilitado mientras no haya catálogo.
@@ -237,7 +238,8 @@ el orden y en las puntuaciones.
 
 Si tu proyecto ya tiene un **índice concreto** llamado `elastiflix-reloaded` (no un alias), la aplicación no lo
 usa para cargar. Este comando lo copia a `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` y, en una sola llamada, borra el
-índice concreto y crea el alias. Termina solo:
+índice concreto y crea el alias. El índice nuevo usa el mapping estricto: si el índice concreto tiene campos que el
+mapping no declara, la copia falla con `EFX-ES-006` y el índice concreto queda igual. Termina solo:
 
 ```bash
 ./mvnw spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
