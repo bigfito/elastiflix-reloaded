@@ -2600,7 +2600,7 @@
    "video": false,
    "tagline": "She's having the time of his life",
    "overview": "When a mild-mannered businessman learns his identity has been stolen, he hits the road in an attempt to foil the thief -- a trip that puts him in the path of a deceptively harmless-looking woman.",
-   "plot": "When a mild-mannered businessman learns his identity has been stolen, he hits the road in an attempt to foil the thief -- a trip that puts him in the path of a deceptively harmless-looking woman.",
+   "plot": "In Denver, a man named Sandy Patterson is tricked into buying phony identity theft protection from con artist Diana over the phone and he reveals all of his personal information. At work, after clashing with his boss Harold Cornish, Sandy receives a call mentioning that he has an appointment at a salon in Florida. Confused, he ignores it when co-worker Daniel Casey suggests that they and others quit and start their own firm. Sandy agrees to join them.\nWhen paying for gas, Sandy's credit card is declined, and the clerk cuts it in half. The card company says that Sandy spent thousands of dollars in Florida, and he is arrested for missing a court date there. At the Denver police station, detective Reilly eventually determines that Diana stole Sandy's identity.\nThe police ask Daniel, now Sandy's boss, about his alleged possession of drugs. Sandy's name was used to buy drugs from someone named Paolo. When the cops say that they can only do something if the identity thief is in Denver, Sandy offers to retrieve her and convince her to clear his name.\nAt the salon in Winter Park, Florida, Sandy confronts the other 'Sandy' aka Diana, who steals his rental car. Finding her address in her abandoned car, he investigates her house, which is full of merchandise and stolen credit cards. The pair scuffle; before Sandy can handcuff her, criminals Marisol and Julian burst in, angry that Diana gave Paolo bad credit cards.\nAfter Sandy and Diana escape, he mentions his plan to restore his reputation, and she agrees to help. Meanwhile, a skiptracer is dispatched to track down Diana for a bounty. Because their IDs are identical, airline flight is impossible, so they travel by car.\nThe skiptracer eventually catches up to the pair, capturing Diana. A chase ensues; she knocks him unconscious, and Sandy rams his van off the road. They take the skiptracer's van, then tie him up in back. When it overheats, they continue on foot through the woods.\nSandy discards his pants after finding a snake in them, then Diana accidentally knocks him unconscious when another bites his neck. Sandy wakes at a bus station; Diana carried him until she flagged down a truck. As the next bus to Denver leaves in three days, Sandy uses money hidden in his socks to buy a $200 car. Meanwhile, Marisol shoots the skiptracer, and the criminals continue their pursuit of Sandy and Diana. For gas money, the pair con an accounts processor in a bank and steal Cornish's identity to create new credit cards.\nIn St. Louis, the two share dinner, and Diana admits that she does not know her real name. The accounts processor enters with cops, who arrest them both. Diana uncuffs herself in the back of the police car, breaks the back windshield, and escapes with Sandy. The skiptracer shoots Marisol and Julian, finds Diana and Sandy on the highway mid-escape, and hits Diana with his car. Sandy comes to her aid, but Diana revives and defensively strikes him in the throat.",
    "genres": [
     "Comedy",
     "Crime"
@@ -2719,7 +2719,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -4095,7 +4095,7 @@
    "video": false,
    "tagline": "This time the fight goes beyond.",
    "overview": "Kham is the last in long line of guards who once watched over the King of Thailand's war elephants. Traditionally, only the perfect elephants could successfully help defend the throne, after his harrowing quest to retrieve the elephants, Kham returns to his village to live in peace. But for someone as good in martial arts as him, peace is but a wishful thought.",
-   "plot": "Kham finds himself in trouble when he is accused of killing a trader. While on the run from the trader's nieces who are martial artists, Kham meets a friend who warns him of a terrorist plot.",
+   "plot": "Kham (Tony Jaa) has resumed a quiet village life with his \"brother\"/elephant, Khon, back in Thailand. Job, an oddball who loves playing with electrical devices, has lived in the village for some time and has earned the trust of the locals. Unknown to Kham, he's an agent of an arms dealer known as Mr. LC (RZA). A fan of Kham's exploits, LC had Job keep tabs on Kham without his knowledge. Things change for Kham when a merchant, Suchart Vilawandei (Adinan Buntanaporn), wants to buy Khon, but Kham refuses to sell Khon. Suchart gives his business card to Kham in case he changes his mind.\nWhile eating with the local villagers, Kham feels something is wrong and returns home to find that Job has been beaten and Khon has been taken by Suchart. Using the business card that Suchart gave him, Kham goes to Suchart's home to get answers but only finds that Suchart has been killed moments earlier. Suchart's two nieces, martial artists Ping-ping (Yanin \"Jeeja\" Vismitananda) and Sue-sue (Theerada Kittiseriprasert) arrive and believe that Kham must be responsible. The two attack him, but he evades and escapes; the authorities are alerted and the police give chase.\nWhile running from the law, Kham encounters Mark, who fakes being assaulted and allows Kham to escape. Later on, they secretly meet to learn more about the situation. Mark himself is in Thailand on a job for Interpol investigating a recent terrorist plot involving the peace talks between East Katana and West Katana in Bangkok.\nKham is attacked by Suchart's nieces as well as a biker gang. Kham fights through them and faces a small group of LC's fighters. LC himself is a great admirer of martial arts and has gathered his own personal group of fighters ranked according to their strength. LC has his second-strongest fighter, No. 2, take on Kham, while the girls are also interfering. No. 2 kills Sue-sue, leaving Ping-ping to grieve. Kham loses the fight to No. 2 due to a needle stuck to his neck from the fight with Ping-ping. No. 2 realizes that he only won the fight because Kham was handicapped, and takes him to LC.\nAt LC's base, Kham finds his elephant and also discovers that Job is a traitor. Kham's enemies tie a specially made remote-controlled electrical device to shock Kham as well as Khon at the same time every time Kham disobeys. LC wants Kham to join him and uses the device to force Kham to help him assassinate a political figure related to the peace talks. LC also brands Kham on his chest as his fighter No. 1.\nMark is suspected of foul play by other Interpol agents. After he fails to capture Kham, he is told to go home. However, Mark finds Kham and helps him remove the electrical device. Mark also encounters Ping-ping and takes her to examine her uncle's body at the coroner's office, where it is explained to her that Suchart was killed by three powerful combo punches, the same method of killing that happened to Sue-sue. Ping-ping realizes that Kham was not the killer but rather No. 2.",
    "genres": [
     "Action"
    ],
@@ -4154,7 +4154,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox_range_midpoint",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -21387,7 +21387,7 @@
    "video": false,
    "tagline": "A tragedy of lust, love and revenge…",
    "overview": "Set in the 1930s, the story recounts the growing pains of Jan, whose mother dies while giving birth to him and who’s intensely hated by his sadistic and debauched father. Jan grows up with his stepmother, and he struggles to reconcile his guilt and longing with different women in his life.",
-   "plot": "Jan, a young boy, grows up without a mother and is often insulted by his father. He struggles with his life as he longs to be with several women, even Madame Boonleung, his father's lover.",
+   "plot": "Based on a famous Thai erotic novel, the film tells the story of Jan, a boy who grows up in a house lorded over by his sadistic and debauched father, Luang Wisnan. Set in the 1930s the story recounts the growing pains of Jan, whose mother dies while giving birth to him and who's intensely hated by his father. Jan grows up with Aunt Wad, his stepmother, and he struggles to reconcile his guilt and longing with different women in his life, including a girl called Hyacinth, whom he adores, and later Madame Boonleung, his father's lover who becomes a key to Jan's sexual awakening.",
    "genres": [
     "Drama",
     "Romance"
@@ -21449,7 +21449,7 @@
     "ภาษาไทย"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -27306,7 +27306,7 @@
    "video": false,
    "tagline": "Sometimes your battles choose you.",
    "overview": "Two brothers live in the economically-depressed Rust Belt, when a cruel twist of fate lands one in prison. His brother is then lured into one of the most violent crime rings in the Northeast.",
-   "plot": "Two brothers live in the economically-depressed Rust Belt, when a cruel twist of fate lands one in prison. His brother is then lured into one of the most violent crime rings in the Northeast.",
+   "plot": "Steel mill worker Russell Baze lives with his brother, Rodney, a United States Army veteran who served four tours in the Iraq War, in North Braddock, Pennsylvania. Russell finds Rodney at a horse racing simulcast. Rodney reveals that the money he bet with - and lost - was lent by John Petty, who owns a bar and runs several illegal games. Russell visits Petty, pays part of Rodney's debt, and promises to pay the rest. Driving home intoxicated, Russell hits a car, killing its occupants, and is incarcerated for vehicular manslaughter. While he is in prison, his girlfriend Lena leaves him for North Braddock police chief Wesley Barnes.\nAfter serving his sentence, Russell returns home and resumes his job at the steel mill despite its impending closure due to cheaper production costs in China. The same day, Rodney participates in an illegal prize fight. He was supposed to take a \"dive\" to repay some of the debt but becomes enraged when beaten up and defeats his opponent instead. The next morning, Russell finds Rodney's bloodied knuckle tapes and confronts him. Russell urges Rodney to work in the mill with him, but Rodney is too mentally scarred for a regular job.\nTired of small money fights to chip at his debt, Rodney convinces Petty to organize a more lucrative fight. Reluctantly, Petty arranges one with Harlan DeGroat, a sociopathic meth dealer from rural New Jersey to whom Petty owes money. Meanwhile, Russell wants his girlfriend back, but she is pregnant with Wesley's baby. They part knowing that her pregnancy makes it impossible to get back together.\nPetty and Rodney meet DeGroat in his stronghold in the Ramapo Mountains. Rodney is instructed to intentionally lose. During the fight, he nearly knocks out his opponent but then takes a dive. After the fight, DeGroat asks for the rest of his loan, but Petty reminds him they had agreed that this fight made them even. However, DeGroat and his men ambush Petty and Rodney on the drive home. Claiming he does not consider his debt paid, DeGroat kills Petty and has Rodney dragged into the woods and killed as well. Unbeknownst to anyone, Petty's cell phone had fallen onto the car seat, accidentally connecting to his bartender Dan's voicemail and recording DeGroat murdering Petty.\nThat night, Russell finds a letter from Rodney, stating that this will be his last fight and he wants to work with Russell at the mill. Wesley informs Russell about Rodney's disappearance, and Russell and his uncle, Red, set off to find him. In DeGroat's town, Russell and Red are stopped by a Bergen County deputy sheriff, who informs them that DeGroat's men would kill them if they knew why the two were in town, and, as a favor to Wesley, he will escort them to the state line rather than arresting them for illegally carrying concealed weapons.\nUpon returning to the mill, Wesley visits Russell and confirms Rodney's death.",
    "genres": [
     "Thriller",
     "Drama",
@@ -27446,7 +27446,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -29816,7 +29816,7 @@
    "video": false,
    "tagline": null,
    "overview": "In order to wipe out the Gaulish village by any means necessary, Caesar plans to absorb the villagers into Roman culture by having an estate built next to the village to start a new Roman colony.",
-   "plot": "In order to wipe out the Gaulish village by any means necessary, Caesar plans to absorb the villagers into Roman culture by having an estate built next to the village to start a new Roman colony.",
+   "plot": "Frustrated with the Gauls' ongoing rebellion, Julius Caesar devises a new scheme to conquer them: the construction of a city of luxury apartments dubbed “The Mansions Of The Gods” in the forest near the Gauls' village as a means to absorb them into Roman civilization.\nDuring a boar hunt, Asterix and Obelix discover the Mansions’ construction site. Project leader and architect Squaronthehypotenus and a Roman legion garrison commanded by Centurion Somniferus order the slaves to deforest the surrounding area. Asterix and Obelix attempt to counteract the Romans’ efforts by using magic acorns from Getafix the druid, which instantly sprout into full trees upon planting.\nUpon hearing the frustrated Squaronthehypotunus threatening to work the slaves to death, Asterix and Obelix invade the Roman camp to free the slaves and provide them with the Gauls' magic potion as a means to escape. However this backfires when the slaves instead use the potions powers to rapidly speedup construction progress, as well as barter for the same pay as the legionaries, along with their freedom and apartments for each of them upon completion. The legionaries also go on strike for similar reasons upon hearing about it.\nThe Gauls prepare to attack and demolish the Mansions, but discover it to already be populated by Roman civilians. Realizing that they can't harm civilians, they return to the village to plan how to make them leave. Meanwhile, Anonymus, Dulcia and Mischiefus, a family from Rome, are denied their apartments given to them in a lottery due to lacking documents. Upon encountering and befriending Obelix and Dogmatix in the forest, the Gauls reluctantly agree to temporarily accommodate the Roman family into their village, while Obelix and Mischiefus become friends.\nAsterix, Obelix and Getafix try numerous methods to make the civilians leave, from causing heavy rain and noise pollution, to trying to create a noxious stench, only for these plans to fail by the civilians embracing these as a natural part of life in Brittany. The Roman civilians also begin shopping in the Gauls' village, causing an escalating price war over fish and 'antique' weaponry. Asterix, appalled with what the village has become, leaves with Obelix, Getafix, Dogmatix and Cacofonix to get their own apartment at the Mansions. While Squaronthehypotenus is reluctant to allow their stay, Senator Prospectus allows them to stay as part of Caesar's plan.\nCaesar then enacts the next phase of the plan by offering free apartments to the Gauls. In another attempt to make the Roman civilians leave, Asterix has Cacofonix to cause noise pollution by singing deafeningly loud outside the mansions. This almost works until the rest of the Gauls shows up to silence Cacofonix and move into their new apartments.\nWith the village abandoned, Caesar enacts the final stage of his plan, ordering the village's destruction. The legion, however refuses to cooperate with Getafix and Obelix still at large.",
    "genres": [
     "Animation",
     "Comedy",
@@ -29895,7 +29895,7 @@
    ],
    "enrichment": {
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -31544,7 +31544,7 @@
    "video": false,
    "tagline": "Hang On To Your Nuggets",
    "overview": "Two turkeys from opposite sides of the tracks must put aside their differences and team up to travel back in time to change the course of history—and get turkey off the holiday menu for good.",
-   "plot": "Two turkeys from opposite sides of the tracks must put aside their differences and team up to travel back in time to change the course of history—and get turkey off the holiday menu for good.",
+   "plot": "In the present day, a turkey named Reggie, who lives on a free-range farm, always worries about Thanksgiving because turkeys are the main dish, and his attempts to warn his ignorant flock have made him an outcast. When the President of the United States arrives at the farm for the National Thanksgiving Turkey Presentation, which the flock mistakes for the farmer taking them all to kill, they throw Reggie outside of the coop in order to save themselves. The president's daughter finds him and decides that he should be dubbed the pardoned turkey, going as far as to pretend to cry in order to get the press to agree with her.\nWhen Reggie is taken to Camp David, he eases into a life of pizza and watching Spanish telenovelas. One night, however, he is abducted by a turkey named Jake who claims to have been instructed by a being called the “Great Turkey\" with the “Sacred Time Knob” to take Reggie and go back in time to the first Thanksgiving to get turkeys off the menu. They steal a time machine controlled by an AI called S.T.E.V.E. (Space Time Exploration Vehicle Envoy) from a government facility and time-travel to three days before the first Thanksgiving in 1621.\nWhen they arrive, they are ambushed by Pilgrims but rescued by a flock of turkeys who are led by Broadbeak. The flock used to live in trees but were forced to move underground when the Pilgrims arrived in Plymouth. Broadbeak assigns Reggie and his daughter Jenny to spring the Pilgrims' turkey traps while Jake and her brother Ranger spy on the Pilgrims.\nJake and Ranger discover that the Pilgrims setting up preparations for Thanksgiving with their weapons shack. Meanwhile, Jenny does not believe Reggie is actually from the future, although is impressed with his accidental way of springing traps. They are intercepted by Myles Standish but Reggie sends Jenny into orbit aboard S.T.E.V.E., validating his story. He suggests going to the future with him but she refuses to leave the flock.\nJake tells Reggie about his backstory and assigned mission. Growing up inside a factory farm, every member of his family fattened up on formula as chicks, except for him, because his mother kept him hidden from worker scientists. One night, she tasked him with escaping with a clutch of eggs in order to start his own flock. He managed to escape, but the eggs were taken by the scientists. Shortly afterward, the Great Turkey appeared and gave him his mission. Jake believes that stopping turkeys from becoming Thanksgiving dinners will make up for his failure to his family.\nReggie reluctantly goes along with Jake's plan to attack the Pilgrims. They destroy the weapons shack and rescue Ranger's friends who did not escape, Amos and Furley. However, Jake accidentally leaves a trail of gunpowder to the flock's home with a stolen powder horn from Standish. The Pilgrims capture enough of the flock for Thanksgiving, then set fire to the tree in an attempt to flush the rest out.",
    "genres": [
     "Animation",
     "Comedy",
@@ -31610,7 +31610,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -43489,7 +43489,7 @@
    "video": false,
    "tagline": "Right target. Wrong woman.",
    "overview": "Two common criminals get more than they bargained for after kidnapping the wife of a corrupt real-estate developer who shows no interest in paying the $1 million dollar ransom for her safe return.",
-   "plot": "Two common criminals get more than they bargained for after kidnapping the wife of a corrupt real-estate developer who shows no interest in paying the $1 million dollar ransom for her safe return.",
+   "plot": "As the movie opens in late-1970's Detroit, Louis and his friend Ordell lure the man who just robbed Louis of 27 dollars into the street to run him over and recover the cash. The two plan to kidnap Mickey, wife of corrupt real estate developer Frank Dawson, and ransom her for $1 million, knowing Frank must avoid police involvement or risk exposure of his real estate crimes. Louis recognizes Mickey from a distance as she takes her son Bo to play tennis at the country club, and accidentally encounters her face-to-face. Mickey rebuffs the adulterous advances of Marshall Taylor, a married man who does some work for Frank.\nWith Frank and Bo both out-of-town, Ordell and Louis arrive masked at the Dawson house and take Mickey by surprise in the kitchen. Marshall turns up unexpectedly and Ordell and Louis subdue him and lock him in a closet, before departing with Mickey. They take her to the house of Nazi admirer Richard, where she is locked in a room and kept blindfolded to protect her captors' identities. Louis bandages her foot caringly and conscientiously from a cut sustained during the kidnapping.\nMeanwhile, Frank and his mistress Melanie enjoy themselves at the Dawsons' apartment in Freeport, Bahamas. Ordell calls Frank, establishes the credibility of the kidnapping with Mickey's voice, and demands the ransom. The kidnappers are surprised by Frank's lack of concern, unaware (as is Mickey) that he has already sent Mickey divorce papers and is planning to marry Melanie, and Mickey's murder would thus save him both ransom and years of spousal support. Louis exposes Frank's lack of concern, history of embezzlement, and adultery to Mickey who sees his face and remembers him from the country club. Melanie screens Frank's calls to prevent Ordell and Louis' attempts to reach him, and the men discuss their options as Mickey eavesdrops through vents and doors.\nMarshall returns to the Dawsons' to clean up after himself and encounters Richard who he believes is a police officer, triggering an altercation that ends with Richard shooting at Marshall's car. Ordell and his friend Cedric go to Freeport and find Melanie at the pool while Frank is away. Melanie clues Ordell in on the impending divorce and proposes a deal that the kidnappers get $0.1 million or more if Mickey dies. Ordell and Melanie have a romantic encounter. Intending to kill Mickey but sensing Louis' tenderness towards her, Ordell calls and instructs Richard and Louis to return Mickey to her home, secretly telling Richard to go back in and kill her afterwards.\nRichard tries to rape Mickey while Louis is out stealing a car, but is interrupted by Louis' return. Louis assaults Richard and then he and Mickey flee. As Richard chases the pair, shooting at their departing car, he is hit by a police car. Richard subsequently is killed in a shootout with the police.\nLater Mickey and Louis talk over marijuana and beers at his apartment before he returns her home.",
    "genres": [
     "Comedy",
     "Crime"
@@ -43556,7 +43556,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -49847,7 +49847,7 @@
    "video": false,
    "tagline": "Search for truth. Find freedom.",
    "overview": "In a seemingly perfect community, without war, pain, suffering, differences or choice, a young boy is chosen to learn from an elderly man about the true pain and pleasure of the \"real\" world.",
-   "plot": "In a seemingly perfect community, without war, pain, suffering, differences or choice, a young boy is chosen to learn from an elderly man about the true pain and pleasure of the \"real\" world.",
+   "plot": "Following a calamity referred to as \"the Ruin,\" society has been reorganized, taking away any sense of emotion, good or bad. Babies are conceived through genetic engineering, and neuroleptic-like medications suppress strong emotions and sexual desire. All memories of old are held by one person, the Receiver of Memory, to shield the rest of the community. The Receiver and his protégé are the only people able to see in color, which is otherwise eliminated from the community to prevent envy. The community is ruled by elders, including the Chief Elder.\nJonas, who lives in the community, is a 16-year-old boy whose best friends are Asher and Fiona.\nOn graduation day, Jonas is told that he will become the next Receiver of Memory and will progressively receive memories of history from his predecessor, the Giver. During his training with the Giver, Jonas gradually learns about the past and about joy, pain, death, and love. He stops taking his daily injections (which had stopped him from dreaming and thinking about Fiona, for whom he has feelings) and begins to experience emotion.\nJonas learns the memories received from the Giver and accidentally shares his memories with a baby, Gabriel, who was brought home by his father. He develops a close relationship with Gabriel upon discovering that they share a birthmark, the mark of a potential Receiver of Memory, and both can see in color.\nThose who leave the community are said to have been \"Released to Elsewhere\", but Jonas learns that to be a euphemism for euthanasia by injection (via a video of his father Releasing a twin). Jonas also learns the Giver's daughter, Rosemary, had preceded Jonas as Receiver of Memory. When she began her training, however, Rosemary became so distraught from the memories that she received that she asked to be Released.\nAppalled by the deception of his community and the Elders' disregard for human life, Jonas comes to believe that everyone should have memories of the past. Eventually, the Giver and Jonas decide that the only way to help the community is for Jonas to travel past the border of their land to \"Elsewhere\". Doing so would release memories and color back into the community. When Jonas tries to leave his neighborhood, he encounters Asher, who tries to stop him, but Jonas punches him. Jonas, with Fiona's help, retrieves Gabriel, who is to be Released for having failed to meet a developmental milestone at the Nurturing Center.\nMeanwhile, Jonas's mother and Asher go to the Chief Elder to say that Jonas is missing. Jonas steals a motorcycle and drives away with Gabriel. Asher is assigned by the Chief Elder to use a drone to find Jonas and \"take\" him (another euphemism for murder). When Asher finds Jonas and Gabriel in the desert, Jonas beseeches Asher to trust him and to let them go. Instead, Asher captures them with the drone but, having a change of heart, sets them free by dropping them into a river.",
    "genres": [
     "Drama",
     "Science Fiction"
@@ -49940,7 +49940,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -52844,7 +52844,7 @@
    "video": false,
    "tagline": "Come out and play.",
    "overview": "While watching two children on Halloween night, a babysitter finds an old VHS tape in the kids' trick or treat bag. The tape features three tales of terror, all linked together by a murderous clown.",
-   "plot": "While watching two children on Halloween night, a babysitter finds an old VHS tape in the kids' trick or treat bag. The tape features three tales of terror, all linked together by a murderous clown.",
+   "plot": "On Halloween, after a night out trick-or-treating, children Tia and Timmy are surprised to find an unmarked VHS tape in their candy bag. Together with their babysitter Sarah, they watch the tape, which contains three stories featuring a homicidal clown named Art.\n\nThe first segment features a young woman named Casey, who is drugged and kidnapped by Art while waiting for a train. She awakens to find herself chained in a room with two other women, Kristen and Sara. When Sara is dragged away by her chain, Casey and Kristen follow her to see where their chains lead. Upon reaching the end of the chains, Casey attempts to break the chains with a large rock. A deformed humanoid appears and dismembers Kristen with a cleaver, unwittingly freeing Casey by severing her chains. She runs away and encounters a man with a shopping cart who she begs for help but the man recaptures her and she is soon tied down and surrounded by a hooded coven of witches. After watching the witches cut the fetus from the womb of a restrained pregnant woman, Casey is taken over by Satan.\nSarah sends Tia and Timmy to bed and continues watching the tape by herself.\n\nThe second segment features Caroline, who has just moved into a countryside home. At night, a bright object crashes near the house and a power outage occurs. Caroline's phone and car malfunctions and she suspects that someone else is in the house. She suddenly receives a call from her husband, John, a painter, but the connection soon breaks. She discovers that she is being stalked by an alien, and after managing to disorient it, she hides in a small room under a staircase. There, her phone rings again, alerting the alien to her location. As the alien drags her off, she pulls a sheet off of one of John's paintings, revealing an image of Art the Clown.\n\nThe third segment features a costume designer driving down an isolated road. Stopping at a gas station, she finds the attendant furiously kicking out Art, who had apparently smeared feces on the gas station's bathroom walls. While the attendant fills her tank and gives her directions, he hears a noise from inside the gas station. He goes inside to investigate, and when he does not return, the costume designer enters the building and sees Art chopping up his body with a hacksaw. She drives off and calls the police, but Art appears behind her seat and attempts to suffocate her with cellophane. She slams on the brakes and escapes, barricading herself inside a large shed. Art digs his way into the shed and slashes her with a makeshift whip. She stabs Art in the eye with a scalpel and in the back with a knife. She escapes again and is picked up by a man who tries to drive her to a nearby police station. Art pursues them in a car and kills the man with a handgun, causing their car to crash. After some time, the costume designer regains consciousness on a crude operating table and finds that Art has amputated her limbs and breasts and carved obscenities into her body.",
    "genres": [
     "Horror"
    ],
@@ -52921,7 +52921,7 @@
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -52939,7 +52939,7 @@
    "video": false,
    "tagline": "When you push yourself to the edge, the real fun begins.",
    "overview": "After spending two decades in England, Bill Bryson returns to the U.S., where he decides the best way to connect with his homeland is to hike the Appalachian Trail with one of his oldest friends.",
-   "plot": "After spending two decades in England, Bill Bryson returns to the U.S., where he decides the best way to connect with his homeland is to hike the Appalachian Trail with one of his oldest friends.",
+   "plot": "In a television interview a condescending reporter grills travel guide author Bill Bryson about his published, but dated, popular travel guides and asks if he will be writing more. Bryson, now in his 60s, has not published much since moving back to the US for twenty years. He is unable to give the reporter a satisfactory justification for his reluctance to write a guide for North America and was dissatisfied with this interview.\nBryson and his wife Catherine attend the funeral of a friend. Afterwards, Bryson – now in an apparent internal conflict about his age – takes a stroll and comes across a nearby Appalachian Trail marker that catches his interest. After some research, he decides that he wants to hike the length of the trail. Catherine strongly objects, pointing to accounts of accidents and murders on the trail. She only relents when Bryson promises not to hike the trail alone.\nBryson searches for a friend willing to join him. Everyone declines his invitation with some declaring him insane for undertaking such a risky journey at his age. Finally, Bryson is contacted by Stephen Katz, an old friend (and recovering alcoholic) who offers to be a hiking companion. He is out of shape and addicted to junk food but claims to be fit enough for the challenge. Bryson's wife is unhappy with his choice, but relents when it becomes clear that nobody else is willing to accompany her husband.\nWithin less than a mile of their departure point, as groups of younger hikers easily overtake them, they begin to grasp the difficulty of their ambition; they are on the verge of turning back when a group of young children effortlessly runs by them up the trail. Seeing others pass by so easily motivates them to carry on. Weeks pass; during an argument over a bottle of alcohol Bill found in Katz's pack, Katz bitterly reveals that he does not drink from it – he carries it as tangible reminder of his past battles with alcoholism and the losses it caused (specifically, his relationships with his family).\nThree months into their journey, having hiked miserably through pouring rain, they reach a safety shelter in the mountains; carved into the log wall is an Appalachian Trail map showing their present location on the trail. Dismayed, they note that after three grueling months, they have only hiked approximately half of the trail's total length.\nDisheartened, the two ultimately decide to continue on and trek into a restricted section, not noticing a sign that warns them of particularly difficult terrain ahead. While maneuvering their heavy and awkward backpacks alongside a precipitous drop, Bill trips and pulls Stephen with him down a steep, rocky cliff. They fall about fifteen feet onto a ledge from where they are unable to climb back up the slope. They spend a cold night there, and wake in the morning to a group of hikers that help them back up to the trail.",
    "genres": [
     "Adventure",
     "Comedy",
@@ -53034,7 +53034,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -56983,7 +56983,7 @@
    "video": false,
    "tagline": "R U Agitated?",
    "overview": "On a road trip, Nic and two friends are drawn to an isolated area by a computer genius. When everything suddenly goes dark, Nic regains consciousness - only to find himself in a waking nightmare.",
-   "plot": "On a road trip, Nic and two friends are drawn to an isolated area by a computer genius. When everything suddenly goes dark, Nic regains consciousness – only to find himself in a waking nightmare.",
+   "plot": "Three MIT students Jonah, Nic, and Haley are on a road trip to take Haley to California. This decision has been adding stress to Nic and Haley's romantic relationship. Nic has limited mobility and uses forearm crutches to walk around. Haley feels Nic is distancing himself from her but Nic explains that he doesn't want his muscular dystrophy to hold her back. Haley is in tears listening to Nic and breaks up with him.\nDuring their stay in a hotel, Nic and Jonah discover that a hacker named NOMAD (who nearly got Jonah and Nic expelled for breaking into MIT servers), has found their location and is taunting them with strange and ominous emails. NOMAD also hacks one of their laptops and activates their camera feed remotely. Nic and Jonah are livid and immediately start tracking NOMAD. They identify the IP from which NOMAD hacked their laptop and translate that into a physical address.\nOn the way, they receive emails with real-time photos of Haley's car from a traffic camera. They track NOMAD to an abandoned house in the middle of Nevada near their path and decide to investigate, reaching the house in the middle of the night. After finding nothing in the house, Nic and Jonah rush outside when they hear Haley screaming. The two black out as Haley is pulled into the air by an unseen force.\nNic wakes up in a strange and sterile underground research facility, with the number 2.3.5.41 tattooed on his arm. He is questioned by Dr. Wallace Damon, who is wearing a hazmat suit. Nic is not able to move his limbs, even though he is conscious. He is limited to moving around in a wheelchair. Dr. Damon tells Nic what they encountered near the house was an extraterrestrial biological entity. Damon shows footage from Nic's own video camera and pauses once an alien face can be seen.\nNic is taken to his room where he hears Jonah talking to him through a small vent in the wall, saying his \"body feels weird\". Nic also notices that his legs, previously weak but functional, are now completely numb. When Dr. Damon questions Nic again, Nic unsuccessfully tries to get answers about Haley's condition (whom he saw in a coma in one of the rooms at the facility). Following an unexplained experiment on a cow in another part of the facility, a security alarm goes off and Nic, along with other personnel, finds large dents with scorch marks on the walls of the facility and no sign of Jonah.\nNic asks Damon where Jonah went, but Damon says Jonah was \"never recovered\" from the house. Nic tries to break Haley out but is intercepted. After Nic is restrained, he's shocked to discover that his legs have been amputated and replaced by advanced prosthetic legs. Nic then uses these high-powered limbs to break himself and Haley out of the facility and discovers they're in the middle of a vast barren desert.\nAfter hitching a ride with an old woman, Nic and Haley hijack an 18-wheeler truck to find a way around the seemingly endless canyon that extends around the facility and surrounding area.",
    "genres": [
     "Thriller",
     "Science Fiction"
@@ -57044,7 +57044,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -61578,7 +61578,7 @@
    "video": false,
    "tagline": "Shark happens!",
    "overview": "A freak weather system turns its deadly fury on New York City, unleashing a Sharknado on the population and its most cherished, iconic sites - and only Fin and April can save the Big Apple.",
-   "plot": "A freak weather system turns its deadly fury on New York City, unleashing a Sharknado on the population and its most cherished, iconic sites - and only Fin and April can save the Big Apple.",
+   "plot": "Fin Shepard and his former wife, April Wexler, are traveling to New York City to promote How to Survive a Sharknado and Other Unnatural Disasters, a book April has written about the Los Angeles sharknado. As the plane comes in for a landing through a storm, it is battered by airborne sharks, losing an engine. Sharks enter the plane, killing passengers and the crew, including both pilots. While Fin lands the plane, April's hand is severed while she attempts to shoot a shark with an air marshal's handgun.\nFin's sister, Ellen Brody, is sightseeing in New York with her family. Her husband, Martin, a childhood friend of Fin's, takes their son, Vaughn, to a Mets game at Citi Field along with Martin's and Fin's friends Skye and Brian. Ellen takes their daughter, Mora, to the Statue of Liberty, where she meets with her friends, Polly and Chrissie, who tell her about Fin's recent appearance.\nAt the airport, Fin tries to warn the crowd of the impending storm, only for no one to take him seriously. After leaving April to the hospital for surgery, Fin is able to contact Ellen, and tells her to get to the Bales Tower Hotel on Manhattan as soon as possible. He agrees to retrieve Martin and Vaughn from the ball game, hiring a cabbie, Ben, in the process. At Citi Field, Skye surprises Fin with a kiss, but Fin explains that he and April are back together. The game is cancelled because of the storm, but when sharks start falling from the sky and killing people, Fin and his group improvise weapons to fight them and go to the subway.\nOn the ferry ride back to Manhattan, a shark kills Chrissie. The remaining three women flee from the severed head of the Statue of Liberty. Meanwhile, the subway tunnels flood, sending sharks to break into the train's rear cabin and kill Brian. Ben, who anticipated Fin's escape, takes Fin and the others to shops in search of weapons and items to make explosives. When the taxi is caught in a flood, Fin forms a rope swing to take Skye, Vaughn, and Martin to safety. When Ben is killed in his attempt and the rope falls away, Fin uses the top of the sharks as stepping stones to reach the others.\nTwo sharknadoes are converging into a more powerful storm directly above the hotel. Fin and Skye head to the roof to try to bomb the sharknadoes. Polly is flattened by a whale shark, but Ellen and Mora reach the hotel, and reunite with Martin and Vaughn. Fin and Skye sling bombs into the tornadoes, but as the storm system is too cold; only a few sharks are knocked down, and they are forced to flee down a fire exit stairwell. They meet the Brodys, who were fleeing up the stairwell that is flooding with sharks. They break down a door to escape the stairwell and leave the building.\nApril flees the hospital, taking a fire truck to meet Fin and the others. At the Empire State Building, a third tornado is expected to merge with the other two.",
    "genres": [
     "Thriller",
     "Science Fiction"
@@ -61668,7 +61668,7 @@
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -69545,7 +69545,7 @@
    "video": false,
    "tagline": "The Little Rascals Are Back",
    "overview": "When the Little Rascals are unable to raise enough money to save their grandma's bakery from shutting down, their only hope is to win a local talent show and use the prize money to save the shop.",
-   "plot": "When the Little Rascals are unable to raise enough money to save their grandma's bakery from shutting down, their only hope is to win a local talent show and use the prize money to save the shop.",
+   "plot": "On the last day of school before summer vacation, Spanky, Alfalfa, Mary Ann, and Stymie try to leave early by having Buckwheat and Porky tell Miss Crabtree that they need to go home. Miss Crabtree agrees to let the four kids go, forcing them out of her surprise ice cream cake party for the class. The Rascals head over to Grandma Larson's bakery, and bump into Officer Kennedy along the way. Kennedy is dating Miss Crabtree, and the kids ask him why he has not proposed to her. They form The International Silver String Submarine Band as there is a big talent show. The band plans on playing Sonny & Cher's \"I Got You Babe\" for the talent show but wind up sounding terrible. Alfalfa suggests making the performance better by getting Darla to sing the song with him. During band practice, Grandma is asked to visit the local bank and leaves the kids in charge of her bakery. The gang is asked to prepare a red velvet cake, but they put too much yeast in, causing the inflating dessert to explode in the kitchen. Meanwhile, a bank officer informs Grandma that she owes the bank $10,000. If she is unable to pay the money in two weeks, she will lose her bakery. To make matters worse, Waldo Kaye's father wants to buy the bakery and replace it with a shopping mall. Waldo wants the kids' tree house for himself and ends up setting off the burglar alarm.\nSpanky suggests the gang get jobs in order to help save Grandma's bakery. Porky, Buckwheat, Mary Ann and Stymie all offer their services in professional working environments but are turned away at each one. Spanky and Alfalfa get jobs as Mr. Kaye's caddies at the local country club, but the two are quickly kicked out of the club and fired after Spanky interrupts Officer Kennedy's date with Miss Crabtree by accidentally hitting a golf ball at the policeman's forehead. This does not stop Spanky. He suggests a pet washing business, which quickly goes haywire after he mistakenly replaces a bottle of shampoo with one containing green dye. The fur of several pets turns green, including Darla's cat. Alfalfa tries to make up for it by offering Darla a ride to the library on his bicycle, but she instead decides to go with Waldo in his toy car. This gives Spanky the idea for the Rascals to build their own taxi cab. This business also ends poorly after Waldo cuts the car's brake wires, sending them down a steep hill and into a gazebo.\nDarla, who was riding in the taxi, once again leaves Alfalfa for Waldo. Officer Kennedy, who has constantly had his dates with Miss Crabtree interrupted by the Rascals, yells at the kids for ruining yet another attempt at proposing marriage to the schoolteacher. Angered that Kennedy does not like children, Miss Crabtree breaks up with him. Spanky next decides to have Alfalfa get into the wrestling ring against the mysterious Masked Marvel. Porky is to play Alfalfa's opponent, which he accidentally says to Waldo. Waldo then hires Butch and Woim to stop Alfalfa from winning the wrestling match.",
    "genres": [
     "Comedy"
    ],
@@ -69618,7 +69618,7 @@
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
     "keywords": "tmdb_api_2026-10-22",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -93210,7 +93210,7 @@
    "video": false,
    "tagline": "Let love take you by storm.",
    "overview": "In a small town on Christmas Eve, a snowstorm brings together a group of young people. They soon find their friendships and love lives colliding, and come Christmas morning, nothing will be the same.",
-   "plot": "In a small town on Christmas Eve, a snowstorm brings together a group of young people. They soon find their friendships and love lives colliding, and come Christmas morning, nothing will be the same.",
+   "plot": "On Christmas Eve in Laurel, Illinois, Julie Reyes runs into rising pop star Stuart Bale on her train home. He mistakes her for a fan when she tries to return his phone to him, to which she takes offense, despite his apologies. After the train is stopped by snowed-over tracks, Julie gets off to walk home.\nStuart joins Julie, offering lunch at a local diner called Waffle Town. She reluctantly agrees and later has to save him from a group of fangirl cheerleaders. Stuart opens up about how his fame has isolated him during the holidays. Julie reveals she got accepted to Columbia but her mom is also sick from cancer. If she delays leaving, she will lose the scholarship.\nThey go sledding and meet Julie's mother, Debbie. Going to their house, Stuart is introduced to her grandpa and they bond over Mick Jagger. Everyone dances to one of his songs. While dancing, Debbie has a coughing fit, causing Julie concern.\nStuart offers to get a nurse for her mom, offending Julie. He dismisses her concerns, stating he offered it because he cares about her. They almost kiss before Stuart's publicist shows up to take him back to his hotel. He asks Julie to come with him, but she declines, feeling a need to stay with her mother.\nAcross town, Waffle Town employee Dorrie tries to juggle her best friend Addie, who is convinced her boyfriend is going to break up with her, and Kerry, a cheerleader Dorrie hooked up with. Kerry visits the diner with her friends and pretends not to know Dorrie; Addie makes a scene with her boyfriend in the diner. Dorrie tries to calm her down, but she storms off.\nLater, Dorrie and Kerry meet in the bathroom, kissing passionately. Dorrie tells her coworker Keon that Kerry will probably be at his party. Meanwhile, Tobin plans to tell his best friend, Angie aka 'The Duke', he likes her. They are invited to a party by Duke's friend, JP, whom Tobin sees as competition.\nThe three steal the keg from the party, ending up in a ditch. Waiting for the tow truck in a nearby church, Duke has Tobin play \"Whole of the Moon\", but when JP and Duke start dancing together, Tobin leaves. She attempts to talk to him about it, but he brushes her off, angering her.\nTobin's friend Keon attempts to throw a party at his house to impress a big time DJ, but his parents shut down the party attempt and he gets called into work at Waffle Town. His friend and co-worker Billy offers the restaurant as a party spot, provided Keon gets the necessary supplies. Back at home, Julie's mom convinces her to go to Columbia, stating, \"When life offers you something special, you take it.\" Everyone ends up at Keon's party after Tobin arrives with the stolen keg. Duke comes and Tobin confesses his love for her, to which she admits the same.\nAddie returns to Waffle Town and apologizes to Dorrie for her rude behavior. Kerry also apologizes to her for being hot and cold, explaining she has not come out yet, then kisses Dorrie in the open, so they begin a relationship.",
    "genres": [
     "Romance",
     "Comedy"
@@ -93322,7 +93322,7 @@
     "English"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
@@ -97684,7 +97684,7 @@
    "video": false,
    "tagline": null,
    "overview": "With Christmas approaching, a handsome fireman afraid of commitment adopts a stray cat and meets a beautiful veterinary student who challenges his decision to remain a confirmed bachelor.",
-   "plot": "With Christmas approaching, a handsome fireman afraid of commitment adopts a stray cat and meets a beautiful veterinary student who challenges his decision to remain a confirmed bachelor.",
+   "plot": "Zachary Stone is a firefighter who lives in the houses that he renovates on the side, avoiding making any of them his home. He and his current girlfriend, a superficial model named Blair, agree that neither wants a long term commitment like a family or pets. Zachary saves a cat outside his house from harassed by a dog, and grudgingly accepts as the cat decides to live with him, slowly accepting the cat as a welcome pet.\nMeanwhile, Marilee White is a hardworking young veterinarian student who works at a pet supply store. Her only family is her cat (who is technically not allowed in her apartment building) and her bubbly, successful sister, who pushes her to date and have a social life. Marilee insists that she will find time for both after she finishes vet school.\nMarilee and Zachary meet and strike up a conversation at the grocery store over cat food. Zachary is impressed by Marilee’s veterinary knowledge, and Marilee finds she has a slight crush on the good looking firefighter, nicknaming him Brown Eyes to herself. At her birthday dinner with her sister and brother in law, Marilee attempts to dissuade them from setting her up on another bad date and tells them that she is dating a firefighter she nicknamed Brown Eyes. To her surprise, she runs into Zachary at the restaurant, who is hiding from his girlfriend and her friends who he considers snobby. Zachary tells Marilee that he doesn’t believe in true love.\nZachary’s girlfriend Blair becomes increasing unfond of his new cat, Ambrose, and even attempts to find it a new owner at her father’s pet supply store, where Marilee happens to work. Marilee and Blair get into a minor disagreement over Blair’s treatment of the cat. Blair overreacts and responds by having Marilee fired. Zachary, upon finding out that Blair has gotten rid of his cat and had Marilee fired, breaks up with Blair and tries find both Ambrose and Marilee, to no luck.\nMarilee’s sister treats her to a new dress and makeup for her birthday and drops her off at the fire station so she can surprise “Brown Eyes”. Marilee tries to get out of it, only to discover Ambrose on the street. She takes Ambrose to Zachary, who is grateful to have the cat back and insists on buying Marilee dinner.\nMarilee is evicted from her apartment for having a cat. Zachary offers to let her live temporarily in the guest apartment of the house he is renovating while she looks for a job and a new place to live. The two find they get along great as roommates, to the point that even their cats are best friends. Zachary’s friends and coworkers encourage him to act on his growing attraction to Marilee, but he is hesitant because he knows that Marilee believes in true love and marriage. Marilee’s best friend encourages her to find out Zachary’s feelings by hanging up mistletoe. Marilee does, and is shocked when Zachary kisses her. Zachary is shocked himself, his conflicting feelings about commitment and Marilee causing him to spiral.",
    "genres": [
     "TV Movie",
     "Romance",
@@ -97758,7 +97758,7 @@
    ],
    "enrichment": {
     "homepage": "wikidata",
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "production_countries": "tmdb_api_2026-10-22",
     "user_score": "tmdb_api_2026-10-22"
    }
@@ -99103,7 +99103,7 @@
    "video": false,
    "tagline": "We are meant for something bigger.",
    "overview": "A kindly occupational therapist undergoes a new procedure to be shrunken to four inches tall so that he and his wife can help save the planet and afford a nice lifestyle at the same time.",
-   "plot": "A kindly occupational therapist undergoes a new procedure to be shrunken to four inches tall so that he and his wife can help save the planet and afford a nice lifestyle at the same time.",
+   "plot": "Searching for a way to address overpopulation and global warming, Norwegian scientist Dr. Jørgen Asbjørnsen develops \"downsizing\", an irreversible process that shrinks organic material. He becomes part of the first group of human test subjects and is encouraged that the process reduces people to a height of approximately 5 inches (13 cm), drastically decreasing their consumption and waste. When the findings are revealed at a conference five years later, there is a global sensation.\nTen years later, Paul and Audrey Safranek, a financially struggling married couple in Omaha, see Dave and Carol Johnson, who have downsized, at Paul's high school reunion. Rather than the touted environmental benefits, Dave argues the real reason to downsize is that one's money goes much further when one is small. Paul and Audrey decide to undergo the procedure and move to Leisureland, New Mexico, one of the fancier communities for small individuals. In a Leisureland recovery room after the procedure, Paul receives a call from Audrey, who says she backed out at the last minute and, because they are now different sizes, is leaving him.\nBecause of his reduced size, Paul is forced to solitary occupancy of a sprawling and luxurious mansion, previously selected by the couple using their greatly enhanced capital. Leisureland is presented as an attractive but bland consumerist enclave for the newly rich and downsized, protected by high walls and a dome.\nA year later, Paul signs his divorce papers. Unwilling to live in the mansion Audrey chose, he relocates to an apartment and takes a job as a customer service representative at Lands' End. He had let his occupational therapy license lapse, not anticipating the need to work after being shrunk. He has started dating someone, but they break up, and Paul finds himself at a wild party thrown by his shady yet charming neighbor, Dusan.\nThe next morning, Paul recognizes one of Dusan's house cleaners as Ngoc Lan Tran, a Vietnamese political activist who was jailed and downsized against her will, escaped in a television box, barely survived being shipped to the United States, and was brought to Leisureland a year ago to have her leg amputated. Wanting to assist Ngoc Lan with her prosthetic leg, Paul goes to her apartment in the slums just outside the walls of Leisureland where those who had no money when they downsized or downsized illegally who now work as the service workers of the community live. Paul had not thought about this part of the small economy, and is shocked by conditions in the slum.\nAt her apartment, Ngoc Lan has Paul try to help her dying friend. When she finally lets him work on her prosthetic leg, he breaks it, so, until she can get a new one, he agrees to work for her cleaning service and also help her gather food from around the city to distribute throughout the slums.",
    "genres": [
     "Comedy",
     "Drama",
@@ -99304,7 +99304,7 @@
     "Íslenska"
    ],
    "enrichment": {
-    "plot": "tmdb_overview",
+    "plot": "wikipedia_plot_2026-11-13",
     "user_score": "tmdb_api_2026-10-22"
    }
   },
