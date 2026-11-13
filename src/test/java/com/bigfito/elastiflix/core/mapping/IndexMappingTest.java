@@ -38,6 +38,7 @@ class IndexMappingTest {
                 "rating", "revenue", "runtime", "spoken_languages", "tagline", "user_score", "vote_average",
                 "vote_count");
         assertThat(mapping.mappings()).contains("\"plot_512\"");
+        assertThat(mapping.mappings()).contains("\"dynamic\":\"strict\"");
         assertThat(IndexMapping.class.getResource("/META-INF/spring.factories")).isNotNull();
     }
 
