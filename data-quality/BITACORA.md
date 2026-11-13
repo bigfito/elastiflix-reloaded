@@ -3,11 +3,11 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 17:36 UTC · Cursor (Grok 4.7) · ejecutor (turno 14)
+**Última actualización:** 2026-11-13 18:05 UTC · Cursor (Grok 4.7) · ejecutor (turno 14)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
-**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261112-201036` (6 899 películas) · `data/` cargado en el commit `220a8ea` · app compilada en el commit `220a8ea` · instancia apagada (puerto 8081)
+**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-174106` (6 899 películas) · `data/` cargado en el commit `03b0b2e` · app compilada en el commit `03b0b2e` · instancia apagada (puerto 8081)
 
 ## 1. Tablero
 
@@ -32,7 +32,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 12 | Gemma 4 E4B | WP-05: lotes `029`–`040` (10 de Wikipedia y 2 de limpieza) y T-03; sin cerrar, lo cerró R-12 | REVISADO | 2026-11-13 | `dq-t12` | [R-12](bitacora/R-12.md) |
 | 13a | Gemma 4 E4B | Cierre de WP-05: evaluó las 462 restantes (lotes `042`–`047`) sin commits; R-13a terminó WP-05 (D-07) | REVISADO | 2026-11-13 | `dq-t13a` | [R-13a](bitacora/R-13a.md) |
 | 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | REVISADO | 2026-11-13 | `dq-t13b` | [R-13b](bitacora/R-13b.md) |
-| 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | EN CURSO | 2026-11-13 | — | — |
+| 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | INCOMPLETO · B-06; WP-07 no empezó | 2026-11-13 | `dq-t14` | — |
 | 15 | Cursor | WP-07 parte B (P-14) | PENDIENTE | — | — | — |
 | 16 | Cursor | WP-08 (D-07) | PENDIENTE | — | — | — |
 | 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
@@ -51,8 +51,8 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-03 | Ampliar las reglas de advertencia | HECHA · integrada en `dq/ronda-4` (`4f14c65`); cero avisos en `data/` | 8, 13b | 2026-11-13 |
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
 | WP-05 | Limpiar el plot enciclopédico | HECHA · 3 862/3 862: 3 425 Wikipedia, 7 overview de TMDB (D-06), 13 corregidas, 372 limpias, 45 sin fuente; ficha inicial 8 y taquilla o crítica 5 | 10, 11, 12, 13a | 2026-11-13 |
-| WP-06 | Completar las sinopsis cortas | EN CURSO · turno 14 (T-02b, T-03 M2) | 13b, 14 | 2026-11-13 |
-| WP-07 | Normalizar al cargar | EN CURSO · turno 14, parte A | 14, 15 | 2026-11-13 |
+| WP-06 | Completar las sinopsis cortas | EN CURSO · T-02b: 17 sin fuente; T-03 M2 medida; criterio de parada frente a M1 (B-06) | 13b, 14 | 2026-11-13 |
+| WP-07 | Normalizar al cargar | PENDIENTE · no empezada: el criterio de parada de M2 detiene el plan (B-06) | 14, 15 | 2026-11-13 |
 | WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
 | WP-09 | Una sola puntuación y montos imposibles | PENDIENTE | 17 | — |
 | WP-10 | Opcional: `dynamic: strict` y filtro `adult` | PENDIENTE | 18 | — |
@@ -80,14 +80,10 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 
 ## 2. Próximo paso
 
-> **Turno 14 · Cursor.**
-> 1. **WP-06 T-02b** (P-18): un lote con `proponer_trama.py --wp WP-06 --lista
->    data-quality/hallazgos/listas/wp06-cortos-r13b.tsv --solo-si-mas-largo` (17 sinopsis cortas con overview de TMDB).
-> 2. **WP-06 T-03 (M2):** recarga staging desde este `data/`, harness y `analizar.py --etiqueta m2`; compáralo con M1.
-> 3. **WP-07 parte A.**
->
-> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-13b](bitacora/R-13b.md). El punto de partida es la
-> etiqueta `dq-r13b`. La revisión R-14 cierra el hito B.
+> **Claude Code: revisión R-14** del turno 14 (Cursor), que quedó **INCOMPLETO**. Alcance: `git diff dq-r13b..dq-t14`.
+> T-02b (`lote-008`) dejó las 17 sin fuente. M2 está en la tabla. **B-06:** `rrf_plot_knn256` baja 0.063 y
+> `rrf_plot_knn1024` baja 0.117 de nDCG@10 frente a M1 (umbral 0.05). WP-07 parte A no se empezó. La instancia de
+> staging está apagada. El hito B no se cierra mientras el bloqueo siga abierto.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -138,7 +134,21 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 
 ## 5. Bloqueos abiertos
 
-Ninguno.
+**B-06** (turno 14, M2 frente a M1). El criterio de parada de WP-02, aplicado frente a M1 como pide WP-06 T-03: si
+alguna `knn_*` o `rrf_plot_*` baja más de 0.05 de nDCG@10, se detiene el plan. Medición del 2026-11-13 18:02 UTC
+sobre `elastiflix-dq-staging-20261113-174106` (`target/eval/report.md`):
+
+| Configuración | M1 | M2 | Cambio |
+|---|---|---|---|
+| `knn_plot_256` | 0.573 | 0.622 | +0.049 |
+| `knn_plot_512` | 0.626 | 0.708 | +0.082 |
+| `knn_plot_1024` | 0.726 | 0.745 | +0.019 |
+| `rrf_plot_knn256` | 0.574 | 0.511 | **−0.063** |
+| `rrf_plot_knn1024` | 0.675 | 0.558 | **−0.117** |
+
+`RelevanceIT` también quedó por debajo de `eval/thresholds.json` en `bm25_plot` (nDCG 0.296, mínimo 0.370),
+`rrf_plot_knn256` (0.511, mínimo 0.530) y `rrf_plot_knn1024` (0.558, mínimo 0.610). WP-07 parte A no se empezó.
+La dueña del proyecto decide si el plan sigue.
 
 Resueltos: **B-05** (turno 12: Gemma informó que `./mvnw verify` fallaba; no fallaba, leyó como fallos los `ERROR` que escriben a propósito las pruebas de errores. Código de salida 0; R-12). **B-04** (turno 12: `lote-029` no existía porque OpenCode cortó `proponer_trama.py` a los 2 minutos, su timeout por defecto, antes de que escribiera el lote; `aplicar_cambios.py` falló después por eso). No se aplicó nada ni cambió `data/`. «Próximo paso» y `AGENTS.md` §5.1 piden ahora 600000 ms para todo comando del turno. **B-01** (turno 06, `EFX-ING-026` sobre una cita de Wikipedia), cerrado en R-06 con `73cd5d0`. **B-02**
 (turno 08, `ShippedCatalogValidationTest` en rojo en la rama de WP-03), cerrado en R-08 con la decisión P-09. **B-03**
@@ -152,20 +162,21 @@ staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-gener
 
 | Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | Producción final |
 |---|---|---|---|---|---|---|
-| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | | | |
-| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | | | |
-| `bm25_plot` | 0.37 | 0.423 · 0.444 | 0.408 · 0.443 | | | |
-| `knn_plot_256` | 0.49 | 0.549 · 0.536 | 0.573 · 0.580 | | | |
-| `knn_plot_512` | 0.60 | 0.651 · 0.653 | 0.626 · 0.636 | | | |
-| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | | | |
-| `rrf_title_knn256` | 0.29 | 0.348 · 0.316 | 0.407 · 0.385 | | | |
-| `rrf_title_knn1024` | 0.41 | 0.464 · 0.422 | 0.475 · 0.439 | | | |
-| `rrf_plot_knn256` | 0.53 | 0.581 · 0.612 | 0.574 · 0.589 | | | |
-| `rrf_plot_knn1024` | 0.61 | 0.662 · 0.677 | 0.675 · 0.691 | | | |
+| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | | |
+| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | | |
+| `bm25_plot` | 0.37 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | | |
+| `knn_plot_256` | 0.49 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | | |
+| `knn_plot_512` | 0.60 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | | |
+| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | | |
+| `rrf_title_knn256` | 0.29 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | | |
+| `rrf_title_knn1024` | 0.41 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | | |
+| `rrf_plot_knn256` | 0.53 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | | |
+| `rrf_plot_knn1024` | 0.61 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | | |
 
 M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
 M1 medida el 2026-11-12 20:20 UTC (turno 07) sobre el índice de staging `elastiflix-dq-staging-20261112-201036` (6 899 películas, commit `220a8ea`);
-`target/eval/report.md` lleva la hora de la última corrida (`RelevanceIT`, 1 prueba, 0 fallos, 0 omitidas).
+M2 medida el 2026-11-13 18:02 UTC (turno 14) sobre el índice de staging `elastiflix-dq-staging-20261113-174106` (6 899 películas, commit `03b0b2e`);
+`target/eval/report.md` lleva la hora de la última corrida (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas) y el índice de staging en su segunda línea.
 
 ## 7. Indicadores de calidad del catálogo
 
