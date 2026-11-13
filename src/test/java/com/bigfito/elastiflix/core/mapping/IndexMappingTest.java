@@ -5,6 +5,7 @@ import com.bigfito.elastiflix.core.error.ErrorCode;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -16,6 +17,16 @@ class IndexMappingTest {
 
     private static final int FIELD_COUNT = 34;
     private static final int PLOT_512_DIMENSIONS = 512;
+
+    @Test
+    @DisplayName("el mapping rechaza campos no declarados: dynamic es strict en la raíz")
+    void shouldBeStrictAtTheRootOfTheMapping() {
+        IndexMapping mapping = new IndexMapping();
+
+        String dynamic = JsonMapper.builder().build().readTree(mapping.mappings()).path("dynamic").asString();
+
+        assertThat(dynamic).isEqualTo("strict");
+    }
 
     @Test
     @DisplayName("expone 34 campos, la fecha yyyy-MM-dd y plot_512 de 512 dimensiones")

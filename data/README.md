@@ -7,13 +7,13 @@ Exportación completa del catálogo `elastiflix-reloaded`: **6 899 películas** 
 
 | Parte | Películas | `id` desde – hasta | `.json` | `.csv` |
 |---|---|---|---|---|
-| `elastiflix-reloaded_01` | 986 | 11 – 9965 | 4,3 MB | 3,4 MB |
-| `elastiflix-reloaded_02` | 986 | 9966 – 24238 | 3,9 MB | 3,1 MB |
-| `elastiflix-reloaded_03` | 986 | 24271 – 103332 | 4,0 MB | 3,2 MB |
-| `elastiflix-reloaded_04` | 986 | 103370 – 324849 | 4,0 MB | 3,2 MB |
-| `elastiflix-reloaded_05` | 985 | 324852 – 470035 | 4,0 MB | 3,2 MB |
-| `elastiflix-reloaded_06` | 985 | 470044 – 649520 | 4,0 MB | 3,2 MB |
-| `elastiflix-reloaded_07` | 985 | 649918 – 1059999 | 3,8 MB | 3,0 MB |
+| `elastiflix-reloaded_01` | 986 | 11 – 9965 | 5,0 MB | 4,1 MB |
+| `elastiflix-reloaded_02` | 986 | 9966 – 24238 | 4,6 MB | 3,8 MB |
+| `elastiflix-reloaded_03` | 986 | 24271 – 103332 | 4,5 MB | 3,7 MB |
+| `elastiflix-reloaded_04` | 986 | 103370 – 324849 | 4,6 MB | 3,8 MB |
+| `elastiflix-reloaded_05` | 985 | 324852 – 470035 | 4,6 MB | 3,7 MB |
+| `elastiflix-reloaded_06` | 985 | 470044 – 649520 | 4,4 MB | 3,6 MB |
+| `elastiflix-reloaded_07` | 985 | 649918 – 1059999 | 3,7 MB | 3,0 MB |
 
 ## Cómo usarlos
 
@@ -32,7 +32,9 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
 - **Sin vectores:** `plot_256`, `plot_512` y `plot_1024` no vienen en los archivos. La carga siempre los genera a
   partir de `plot` con el servicio de inferencia de Elasticsearch.
 - **`.json`:** el mismo formato que `elasticsearch/fixtures/movies-sample.json`: un objeto con `documents` (las
-  películas), `document_count` (cuántas trae esa parte), `mapping` y notas. Cada película lleva `_id` igual a `id`.
+  películas), `document_count` (cuántas trae esa parte), `mapping` y notas. El `mapping` del sobre es el de
+  [`elasticsearch/elastiflix-reloaded-mapping.json`](../elasticsearch/elastiflix-reloaded-mapping.json), con
+  `dynamic: strict`. Cada película lleva `_id` igual a `id`.
 - **`.csv`:** UTF-8 con BOM, separador coma, encabezado en la primera fila y `\r\n` entre filas. Las listas y los
   objetos anidados van como JSON dentro de la celda; un valor vacío es una celda vacía. Al cargarlo, deja el separador
   en «Coma» y marca «La primera fila contiene los nombres de columna».
@@ -48,8 +50,24 @@ Para tener el **catálogo completo de 6 899 películas**, carga `_01` en **bulk*
   | `tmdb_overview_translated:<idioma>` | Overview de TMDB traducido (una película, `zh-CN`) |
   | `tmdb_metadata_summary` | Resumen armado con metadatos de TMDB (una película) |
   | `unverified` | Origen desconocido; el texto se mantiene mientras no haya fuente verificable |
+  En los demás campos la etiqueta suele ser `tmdb_api_AAAA-MM-DD` (la fecha de la descarga de TMDB).
+  `wikipedia_infobox` marca un monto (`budget` o `revenue`) tomado de la ficha del artículo de Wikipedia (WP-09).
+  `revenue` 618 de *Money Plane* no es un error: la ficha y Box Office Mojo dan $618.
+- **Contenido para adultos:** ninguna de las 6 899 películas tiene `adult = true`. La búsqueda mantiene el filtro
+  `adult` para los catálogos que cargue un usuario (D-04).
 - Los campos son los del mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «Acerca de» › «El catálogo»
   describe cada uno.
+
+## Palabras clave con dos ids
+
+«horror», «thriller» y «comedy» tienen dos ids en el catálogo. No es un id que pertenezca a otra palabra: los dos
+ids nombraban la misma palabra en TMDB, así que se dejan los dos.
+
+| Nombre | Ids en el catálogo | Ficha pública el 2026-11-13 |
+|---|---|---|
+| horror | `8087` (69 películas) y `315058` (1) | [`315058`](https://www.themoviedb.org/keyword/315058); `8087` ya no tiene página |
+| thriller | `9950` (26) y `316362` (2) | [`316362`](https://www.themoviedb.org/keyword/316362); `9950` ya no tiene página |
+| comedy | `289153` (1) y `322268` (3) | [`322268`](https://www.themoviedb.org/keyword/322268); `289153` ya no tiene página |
 
 ## Créditos y aviso de uso
 
@@ -82,7 +100,9 @@ you prefer.
 - **No vectors:** `plot_256`, `plot_512`, and `plot_1024` are not in the files. The import always generates them from
   `plot` with the Elasticsearch inference service.
 - **`.json`:** the same format as `elasticsearch/fixtures/movies-sample.json`: an object with `documents` (the movies),
-  `document_count` (how many the part holds), `mapping`, and notes. Every movie has `_id` equal to `id`.
+  `document_count` (how many the part holds), `mapping`, and notes. The envelope `mapping` is
+  [`elasticsearch/elastiflix-reloaded-mapping.json`](../elasticsearch/elastiflix-reloaded-mapping.json), with
+  `dynamic: strict`. Every movie has `_id` equal to `id`.
 - **`.csv`:** UTF-8 with BOM, comma separator, a header in the first row, and `\r\n` between rows. Lists and nested
   objects are JSON inside the cell; an empty value is an empty cell. When loading it, keep the separator on «Comma»
   and check «The first row contains the column names».
@@ -98,8 +118,24 @@ you prefer.
   | `tmdb_overview_translated:<lang>` | Translated TMDB overview (one movie, `zh-CN`) |
   | `tmdb_metadata_summary` | Summary built from TMDB metadata (one movie) |
   | `unverified` | Unknown origin; the text stays until a verifiable source exists |
+  In the other fields the tag is usually `tmdb_api_YYYY-MM-DD` (the date of the TMDB download).
+  `wikipedia_infobox` marks an amount (`budget` or `revenue`) taken from the Wikipedia article's infobox (WP-09).
+  The `revenue` of 618 for *Money Plane* is not an error: the infobox and Box Office Mojo give $618.
+- **Adult content:** none of the 6,899 movies has `adult = true`. The search keeps the `adult` filter for catalogs a
+  user loads (D-04).
 - The fields are those of the mapping (`elasticsearch/elastiflix-reloaded-mapping.json`); «About the demo» › «The
   catalog» describes each one.
+
+### Keywords with two ids
+
+`horror`, `thriller`, and `comedy` each have two ids in the catalog. This is not an id that belongs to a different
+word: both ids named the same word on TMDB, so both stay.
+
+| Name | Ids in the catalog | Public page on 2026-11-13 |
+|---|---|---|
+| horror | `8087` (69 movies) and `315058` (1) | [`315058`](https://www.themoviedb.org/keyword/315058); `8087` no longer has a page |
+| thriller | `9950` (26) and `316362` (2) | [`316362`](https://www.themoviedb.org/keyword/316362); `9950` no longer has a page |
+| comedy | `289153` (1) and `322268` (3) | [`322268`](https://www.themoviedb.org/keyword/322268); `289153` no longer has a page |
 
 ### Credits and terms of use
 

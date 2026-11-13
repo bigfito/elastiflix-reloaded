@@ -198,7 +198,10 @@ java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar      # same result, from
 ### 7. Create the catalog with the first load
 
 The catalog is the `elastiflix-reloaded` alias (configurable), which points to an
-`elastiflix-reloaded-<YYYYMMDD-HHMMSS>` index. **The first load creates it**, with the repository's mapping.
+`elastiflix-reloaded-<YYYYMMDD-HHMMSS>` index. **The first load creates it**, with the repository's mapping. The
+mapping is strict (`"dynamic": "strict"`): Elasticsearch rejects a document with a field it does not declare, and
+the load validation already rejects that file before writing (`EFX-ING-007`). It applies to indices created from this
+version on.
 
 1. Go to **Load data** (http://localhost:8080/cargar?lang=en) and open the **Import .json** tab.
 2. The «Load mode» card already has **bulk** selected; append is disabled while there is no catalog.
@@ -232,7 +235,8 @@ four movies, any vector search returns all four in some order: what matters is t
 
 If your project already has a **concrete index** named `elastiflix-reloaded` (not an alias), the app won't load
 data into it. This command copies it to `elastiflix-reloaded-<YYYYMMDD-HHMMSS>` and, in a single call, deletes the
-concrete index and creates the alias. It exits on its own:
+concrete index and creates the alias. The new index uses the strict mapping: if the concrete index has fields the
+mapping does not declare, the copy fails with `EFX-ES-006` and the concrete index stays as it was. It exits on its own:
 
 ```bash
 ./mvnw spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
@@ -283,14 +287,12 @@ quantization): the only difference is the number of dimensions. **Measured preci
 
 | Field | 🥇 Correct in 1st place | Top 5 | Top 10 | MRR@10 | nDCG@10 |
 |---|---|---|---|---|---|
-| `plot_256` | 13 of 40 (33%) | 24 | 28 | 0.536 | 0.549 |
-| `plot_512` | 17 of 40 (43%) | 29 | 32 | 0.653 | 0.651 |
-| `plot_1024` | 23 of 40 (58%) | 33 | 37 | 0.755 | 0.742 |
+| `plot_256` | 20 of 40 (50%) | 32 | 34 | 0.671 | 0.622 |
+| `plot_512` | 23 of 40 (58%) | 35 | 39 | 0.744 | 0.708 |
+| `plot_1024` | 25 of 40 (63%) | 37 | 39 | 0.784 | 0.745 |
 
-> 1024 dimensions puts the correct movie in the top 5 for 33 of 40 queries; 512 sits in between at half the size, and
-> 256 clearly loses precision. This is measured on the current catalog in `data/`: after 1,641 plots were switched to the
-> shorter TMDB overview, those movies compete with the ones sought and precision dropped (`plot_1024` nDCG@10 was 0.817
-> with the previous plots).
+> M3 measurement (13 Nov 2026) on the current catalog in `data/`. 1024 dimensions puts the correct movie in the top 5
+> for 37 of 40 queries; 512 does it for 35 and 256 for 32.
 
 Queries are embedded with `input_type: search` and the `Query: ` prefix; plots, with `input_type: ingest` and no
 prefix.
@@ -316,19 +318,20 @@ means the best movies ended up at the top.
 | Configuration | Total | es · plot | en · plot | es · title | en · title |
 |---|---|---|---|---|---|
 | `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
-| `bm25_plot` | 0.423 | 0.077 | 0.805 | 0.000 | 0.737 |
-| `knn_plot_1024` | **0.742** | **0.762** | 0.615 | **0.975** | 0.830 |
-| `rrf_title_knn1024` | 0.464 | 0.485 | 0.228 | 0.745 | 0.823 |
-| `rrf_plot_knn1024` | 0.662 | 0.480 | **0.834** | 0.573 | 0.781 |
+| `bm25_plot` | 0.296 | 0.000 | 0.577 | 0.000 | 0.638 |
+| `knn_plot_1024` | **0.745** | **0.734** | **0.784** | 0.602 | 0.803 |
+| `rrf_title_knn1024` | 0.488 | 0.466 | 0.377 | 0.453 | **0.925** |
+| `rrf_plot_knn1024` | 0.557 | 0.414 | 0.699 | 0.373 | 0.751 |
 
-- **Plots are in English.** BM25 on `plot` does very well with English descriptions (0.805, more than vector search)
-  and finds almost nothing in Spanish (0.077). Vector search is multilingual: it finds the movie in both languages
-  (0.762 in Spanish and 0.615 in English).
-- **BM25 on the title is useful for searching by title in English**, and for nothing else: with plot descriptions it
-  doesn't find the movie, and in hybrid search its list pushes the vector list down.
-- **Hybrid with `plot`** is the best with English descriptions (0.834) and clearly beats hybrid with `title` (0.662
-  versus 0.464), but with Spanish queries it falls below vector search alone.
-- Overall, vector search with `plot_1024` is the most even option.
+- **Plots are in English, and they are no longer a summary.** The plot queries describe the movie in the abstract, and
+  the Wikipedia plots narrate it with the characters' names. That is why `bm25_plot` drops from 0.423 in M0 to 0.296
+  in M3: English falls to 0.577 (it was 0.805) and Spanish to 0.000. `plot` uses the standard analyzer, without
+  stemming, so "dreams" does not find "dream" (D-08, R-14).
+- **Vector search goes up and is the most even option.** `knn_plot_1024` moves from 0.742 to 0.745 and finds the movie
+  in both languages (0.734 in Spanish and 0.784 in English). `rrf_plot_knn256` and `rrf_plot_knn1024` drop with the
+  plot BM25 list (0.581 → 0.511 and 0.662 → 0.557). The default hybrid, which mixes the title, goes up
+  (`rrf_title_knn256` from 0.348 to 0.425). Their minimums in `eval/thresholds.json` were recalculated with this measurement.
+- **BM25 on the title is useful for searching by title in English** (0.904), and for nothing else.
 
 ## 🎛️ Results, filters, and pagination
 
@@ -340,7 +343,8 @@ means the best movies ended up at the top.
 | **Filter counts** | `terms` aggregations | computed in the app | computed in the app |
 
 - **Filters:** `adult`, `genres`, `release_date` (from–to), `spoken_languages`, `rating`. Different filters must all
-  match; within one filter, one value is enough. They apply with **APPLY**.
+  match; within one filter, one value is enough. They apply with **APPLY**. No movie in the `data/` catalog is adult
+  content; the `adult` filter stays for catalogs a user loads.
 - **Dynamic values:** each filter only shows the values present in the results, with their count.
 - **No results:** the page suggests adjustments for the mode, or removing filters if they emptied the list.
 - **Posters:** loaded from the TMDB image CDN using `poster_path`.
@@ -395,6 +399,11 @@ catalog in [`data/`](data/README.md#english), split into 7 parts, is loaded.
   (`EFX-ING-022`) and a gap in a list is skipped (`EFX-ING-021`). A repeated text in `genres`, `cast`,
   `production_companies`, `production_countries`, or `spoken_languages`, or a keyword with the same `id`, is skipped
   and the first occurrence is kept (`EFX-ING-024`).
+- **Text:** on validation, a text, an item of a text list, a keyword or collection name, and an `enrichment`
+  label are stripped, a hard space (U+00A0) becomes a normal space, and the result is stored in NFC. If the
+  value changes, the load warns (`EFX-ING-029`) and keeps the normalized text. If stripping leaves it empty,
+  the empty-value rule applies and this warning is not added. `id` is left as it arrived: a space in it is part
+  of the identifier.
 - **Plot:** a `plot` that is a placeholder (for example `[No information found]` or `[No match found]`), that opens
   with an assistant refusal ("I don't have information", "Please provide"), or that is shorter than 40 characters
   rejects the file, or the single record (`EFX-ING-025`). Those refusals only count at the start: a character can

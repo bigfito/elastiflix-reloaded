@@ -51,11 +51,11 @@ final class TextListValues {
 
     /** Las listas de textos son {@code keyword} sin {@code ignore_above}: cada texto tiene tope de bytes. */
     private static void keepText(String name, JsonNode item, ArrayNode clean, Set<String> seen, CheckScope scope) {
-        if (KeywordBytes.exceeds(name, item)) {
+        String text = TextNormalizer.keep(name, item.asString(), scope);
+        if (KeywordBytes.exceeds(name, text)) {
             KeywordBytes.reject(name, item, scope);
             return;
         }
-        String text = item.asString();
         if (!seen.add(text)) {
             scope.warning(ErrorCode.DUPLICATE_LIST_VALUE, name, IssueTexts.clip(text), IngestPhrase.SKIPPED.text());
             return;

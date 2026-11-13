@@ -8,7 +8,7 @@ import com.bigfito.elastiflix.web.locale.SupportedLocale;
 /**
  * Sugerencias vectoriales en español e inglés. La posición de cada película cambia con el campo.
  *
- * <p>Posiciones medidas el 2026-10-21 sobre 6 899 películas, con {@code k = 100} y 200 candidatos, en el orden
+ * <p>Posiciones medidas el 2026-11-13 sobre 6 899 películas, con {@code k = 100} y 200 candidatos, en el orden
  * {@code plot_256 plot_512 plot_1024}; {@code 0} es fuera de los 100. Las consultas son datos de cada idioma;
  * las etiquetas salen del catálogo de mensajes.</p>
  */
@@ -19,36 +19,36 @@ final class VectorSuggestions {
     private static final String ROBOT_ES = "un robot solitario que limpia la Tierra";
     private static final String ROBOT_EN = "a lonely robot cleaning up Earth";
     private static final String ROBOT = "🤖";
-    private static final String ROBOT_RANKS = "1 2 2";
+    private static final String ROBOT_RANKS = "1 1 1";
 
     private static final List<Example> SPANISH = List.of(
             new Example("Titanic", "🚢", "un barco de lujo choca con un iceberg en su viaje inaugural",
-                    "60 19 10", false),
+                    "4 4 3", false),
             new Example("Inception", "🌀", "un ladrón roba secretos entrando en los sueños de las personas",
-                    "0 35 23", false),
+                    "10 3 6", false),
             new Example(WALL_E, ROBOT, ROBOT_ES, ROBOT_RANKS, false),
             new Example(WALL_E, ROBOT, ROBOT_EN, ROBOT_RANKS, true),
             new Example("Life of Pi", "🐅",
                     "un joven náufrago comparte un bote salvavidas con un tigre de Bengala en medio del océano",
-                    "52 13 7", false),
+                    "0 10 4", false),
             new Example("Spirited Away", "🏮", "una niña queda atrapada en un mundo de espíritus y trabaja en una "
-                    + "casa de baños para salvar a sus padres convertidos en cerdos", "17 5 1", false),
+                    + "casa de baños para salvar a sus padres convertidos en cerdos", "12 8 2", false),
             new Example("E.T.", "🚲",
                     "un niño esconde a un pequeño extraterrestre perdido y lo ayuda a volver a su planeta",
-                    "5 1 1", false));
+                    "2 1 1", false));
 
     private static final List<Example> ENGLISH = List.of(
-            new Example("Titanic", "🚢", "a luxury liner hits an iceberg on its maiden voyage", "90 14 11", false),
-            new Example("Inception", "🌀", "a thief steals secrets by entering people's dreams", "0 48 24", false),
+            new Example("Titanic", "🚢", "a luxury liner hits an iceberg on its maiden voyage", "5 2 3", false),
+            new Example("Inception", "🌀", "a thief steals secrets by entering people's dreams", "4 3 1", false),
             new Example(WALL_E, ROBOT, ROBOT_EN, ROBOT_RANKS, false),
             new Example(WALL_E, ROBOT, ROBOT_ES, ROBOT_RANKS, true),
             new Example("Life of Pi", "🐅",
                     "a shipwrecked boy shares a lifeboat with a Bengal tiger in the middle of the ocean",
-                    "5 1 1", false),
+                    "38 4 2", false),
             new Example("Spirited Away", "🏮", "a girl is trapped in a spirit world and works in a bathhouse "
-                    + "to save her parents, who were turned into pigs", "6 2 1", false),
+                    + "to save her parents, who were turned into pigs", "1 1 1", false),
             new Example("E.T.", "🚲", "a boy hides a small lost alien and helps him get back to his planet",
-                    "8 3 2", false));
+                    "3 3 2", false));
 
     private VectorSuggestions() {
     }

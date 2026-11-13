@@ -199,7 +199,10 @@ java -jar target/elastiflix-reloaded-0.1.0-SNAPSHOT.jar      # el mismo resultad
 ### 7. Crea el catálogo con la primera carga
 
 El catálogo es el alias `elastiflix-reloaded` (configurable), que apunta a un índice
-`elastiflix-reloaded-<AAAAMMDD-HHMMSS>`. **La primera carga lo crea**, con el mapping del repositorio.
+`elastiflix-reloaded-<AAAAMMDD-HHMMSS>`. **La primera carga lo crea**, con el mapping del repositorio. El mapping es
+estricto (`"dynamic": "strict"`): Elasticsearch rechaza un documento con un campo que no declara, y la validación de
+la carga ya rechaza ese archivo antes de escribir (`EFX-ING-007`). Rige para los índices que se crean desde esta
+versión.
 
 1. Ve a **Cargar datos** (http://localhost:8080/cargar) y abre la pestaña **Importar .json**.
 2. La tarjeta «Modo de carga» ya trae **bulk** marcado; append está deshabilitado mientras no haya catálogo.
@@ -235,7 +238,8 @@ el orden y en las puntuaciones.
 
 Si tu proyecto ya tiene un **índice concreto** llamado `elastiflix-reloaded` (no un alias), la aplicación no lo
 usa para cargar. Este comando lo copia a `elastiflix-reloaded-<AAAAMMDD-HHMMSS>` y, en una sola llamada, borra el
-índice concreto y crea el alias. Termina solo:
+índice concreto y crea el alias. El índice nuevo usa el mapping estricto: si el índice concreto tiene campos que el
+mapping no declara, la copia falla con `EFX-ES-006` y el índice concreto queda igual. Termina solo:
 
 ```bash
 ./mvnw spring-boot:run "-Dspring-boot.run.arguments=--elastiflix.bootstrap.enabled=true --spring.main.web-application-type=none"
@@ -286,14 +290,12 @@ sin cuantización): la única diferencia es el número de dimensiones. **Precisi
 
 | Campo | 🥇 Correcta en 1.er lugar | Top 5 | Top 10 | MRR@10 | nDCG@10 |
 |---|---|---|---|---|---|
-| `plot_256` | 13 de 40 (33 %) | 24 | 28 | 0.536 | 0.549 |
-| `plot_512` | 17 de 40 (43 %) | 29 | 32 | 0.653 | 0.651 |
-| `plot_1024` | 23 de 40 (58 %) | 33 | 37 | 0.755 | 0.742 |
+| `plot_256` | 20 de 40 (50 %) | 32 | 34 | 0.671 | 0.622 |
+| `plot_512` | 23 de 40 (58 %) | 35 | 39 | 0.744 | 0.708 |
+| `plot_1024` | 25 de 40 (63 %) | 37 | 39 | 0.784 | 0.745 |
 
-> 1024 dimensiones pone la película correcta entre las 5 primeras en 33 de 40 consultas; 512 queda en medio con la
-> mitad del tamaño y 256 pierde precisión de forma clara. La medición es del catálogo actual de `data/`: al pasar 1 641
-> sinopsis al overview de TMDB, más corto, esas películas compiten con las buscadas y la precisión bajó (el nDCG@10 de
-> `plot_1024` era 0.817 con las sinopsis anteriores).
+> Medición M3 (13 nov 2026) sobre el catálogo actual de `data/`. 1024 dimensiones pone la película correcta entre las
+> 5 primeras en 37 de 40 consultas; 512 lo hace en 35 y 256 en 32.
 
 Las consultas se vectorizan con `input_type: search` y el prefijo `Query: `; las sinopsis, con `input_type: ingest`
 y sin prefijo.
@@ -320,19 +322,20 @@ mejores películas quedaron arriba.
 | Configuración | Total | es · trama | en · trama | es · título | en · título |
 |---|---|---|---|---|---|
 | `bm25_title` | 0.113 | 0.000 | 0.000 | 0.000 | **0.904** |
-| `bm25_plot` | 0.423 | 0.077 | 0.805 | 0.000 | 0.737 |
-| `knn_plot_1024` | **0.742** | **0.762** | 0.615 | **0.975** | 0.830 |
-| `rrf_title_knn1024` | 0.464 | 0.485 | 0.228 | 0.745 | 0.823 |
-| `rrf_plot_knn1024` | 0.662 | 0.480 | **0.834** | 0.573 | 0.781 |
+| `bm25_plot` | 0.296 | 0.000 | 0.577 | 0.000 | 0.638 |
+| `knn_plot_1024` | **0.745** | **0.734** | **0.784** | 0.602 | 0.803 |
+| `rrf_title_knn1024` | 0.488 | 0.466 | 0.377 | 0.453 | **0.925** |
+| `rrf_plot_knn1024` | 0.557 | 0.414 | 0.699 | 0.373 | 0.751 |
 
-- **Las sinopsis están en inglés.** BM25 sobre `plot` es muy bueno con descripciones en inglés (0.805, más que la
-  vectorial) y casi no encuentra nada en español (0.077). La vectorial es multilingüe: encuentra la película en los
-  dos idiomas (0.762 en español y 0.615 en inglés).
-- **BM25 sobre el título sirve para buscar por título en inglés**, y para nada más: con descripciones de la trama no
-  encuentra la película, y en la híbrida su lista desplaza a la vectorial.
-- **La híbrida con `plot`** es la mejor con descripciones en inglés (0.834) y supera con claridad a la híbrida con
-  `title` (0.662 contra 0.464), pero con consultas en español queda por debajo de la vectorial sola.
-- En conjunto, la vectorial con `plot_1024` es la opción más pareja.
+- **Las sinopsis están en inglés, pero ya no son un resumen.** Las consultas de trama describen la película en
+  abstracto y las tramas de Wikipedia narran con los nombres de los personajes. Por eso `bm25_plot` baja de 0.423 en
+  M0 a 0.296 en M3: en inglés queda en 0.577 (antes 0.805) y en español en 0.000. `plot` usa el analizador estándar,
+  sin raíces, así que «dreams» no encuentra «dream» (D-08, R-14).
+- **La vectorial sube y es la más pareja.** `knn_plot_1024` pasa de 0.742 a 0.745 y encuentra la película en los dos
+  idiomas (0.734 en español y 0.784 en inglés). `rrf_plot_knn256` y `rrf_plot_knn1024` bajan con el BM25 de la
+  sinopsis (0.581 → 0.511 y 0.662 → 0.557): arrastran esa lista. La híbrida por defecto, que mezcla el título, sube
+  (`rrf_title_knn256` de 0.348 a 0.425). Sus mínimos en `eval/thresholds.json` se recalcularon con esta medición.
+- **BM25 sobre el título sirve para buscar por título en inglés** (0.904) y para nada más.
 
 ## 🎛️ Resultados, filtros y paginación
 
@@ -344,7 +347,8 @@ mejores películas quedaron arriba.
 | **Conteos de filtros** | agregaciones `terms` | calculados en la aplicación | calculados en la aplicación |
 
 - **Filtros:** `adult`, `genres`, `release_date` (desde–hasta), `spoken_languages`, `rating`. Entre
-  filtros distintos se cumplen todos; dentro de uno basta con un valor. Se aplican con **APLICAR**.
+  filtros distintos se cumplen todos; dentro de uno basta con un valor. Se aplican con **APLICAR**. Ninguna película
+  del catálogo de `data/` es para adultos; el filtro `adult` se mantiene para los catálogos que cargue un usuario.
 - **Valores dinámicos:** cada filtro muestra solo los valores presentes en los resultados, con su conteo.
 - **Sin resultados:** la página sugiere ajustes según el modo, o quitar filtros si estos vaciaron la
   lista.
@@ -400,6 +404,11 @@ completo que trae [`data/`](data/README.md), repartido en 7 partes.
   valor (`EFX-ING-022`) y un hueco en una lista se omite (`EFX-ING-021`). Un texto repetido en `genres`, `cast`,
   `production_companies`, `production_countries` o `spoken_languages`, o una palabra clave con el mismo `id`, se
   omite y se conserva la primera aparición (`EFX-ING-024`).
+- **Texto:** al validar, un texto, un ítem de una lista de textos, el nombre de una palabra clave o de una
+  colección y una etiqueta de `enrichment` se recortan, el espacio duro (U+00A0) pasa a espacio y el resultado
+  se guarda en NFC. Si el valor cambia, se avisa (`EFX-ING-029`) y se conserva el texto ya normalizado. Si al
+  recortar queda vacío, sigue la regla de vacíos y esta advertencia no se suma. El `id` no se toca: un espacio
+  en él forma parte del identificador.
 - **Sinopsis:** un `plot` que es un marcador (por ejemplo `[No information found]` o `[No match found]`), que abre
   con una negativa del asistente («I don't have information», «Please provide») o que tiene menos de 40
   caracteres rechaza el archivo, o el registro individual (`EFX-ING-025`). Esas negativas solo cuentan al inicio:

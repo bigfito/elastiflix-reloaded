@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Calidad de elastiflix-reloaded · informe v2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #FBF7F1; --surface: #FFFFFF; --muted-bg: #F3ECE2; --border: #E2D8CA;
+  --ink: #2E2A3B; --ink-3: #4F4A5E; --muted: #6B6578; --accent: #A9502A;
+  --ok: #1E7A5C; --ok-bg: #D3F0E4; --mid: #8A6A00; --mid-bg: #FBEDBF;
+  --font: "IBM Plex Sans", system-ui, sans-serif;
+  --display: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1C1A24; --surface: #252230; --muted-bg: #2D2939; --border: #3D3849;
+  --ink: #EEEAF5; --ink-3: #C9C3D6; --muted: #A39CB2; --accent: #E58A5E;
+  --ok: #6FD1A8; --ok-bg: #1C3A30; --mid: #E8C55A; --mid-bg: #413716; color-scheme: dark } }
+body { background: var(--bg); color: var(--ink); font: 15px/1.6 var(--font); margin: 0; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 40px 16px 72px; display: grid; gap: 36px; }
+h1, h2 { font-family: var(--display); line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 44px); }
+h2 { font-size: 26px; }
+p { margin: 0; }
+section { display: grid; gap: 14px; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--muted); font-size: 13px; }
+.lede { font-size: 18px; line-height: 1.55; color: var(--ink-3); max-width: 72ch; }
+code { font-family: var(--mono); font-size: 0.88em; background: var(--muted-bg); padding: 1px 5px; border-radius: 4px; }
+.tbl { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: 0; }
+th { font: 500 11px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--muted-bg); }
+td.n { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; font-family: var(--mono); }
+.ok { color: var(--ok); font-weight: 600; }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+footer { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="eyebrow">C-01 · informe v2</span>
+  <h1>Antes y después del catálogo</h1>
+  <div class="meta">
+    <span><b>Antes</b> <code>salidas/m0/</code> · producción <code>elastiflix-reloaded-20261112-144129</code> · 12 nov 2026</span>
+    <span><b>Después</b> <code>salidas/m3/</code> · staging <code>elastiflix-dq-staging-20261113-195801</code> · 13 nov 2026, 20:09 UTC</span>
+    <span><b>Películas</b> 6 899 · commit <code>bf5e446</code> · mapping <code>dynamic: strict</code></span>
+  </div>
+  <p class="lede">M3 es la primera carga con el mapping estricto. Los vectores siguen completos y al día con el texto. Lo que cambió es el contenido: las sinopsis generadas salieron, y con ellas bajó la búsqueda por palabras sobre <code>plot</code>.</p>
+</header>
+
+<section>
+  <h2>Hallazgos, uno por uno</h2>
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr><th>Hallazgo</th><th>Salida</th><th>M0</th><th>M3</th><th>Meta</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Plot con 2 o más firmas de texto generado</td><td><code>llm.txt</code></td><td class="n">1 408</td><td class="n ok">0</td><td>≤ 50</td></tr>
+        <tr><td>Respuestas de asistente y correcciones de año</td><td><code>llm.txt</code></td><td class="n">2 + 6</td><td class="n ok">0 + 0</td><td>0</td></tr>
+        <tr><td>Plot con taquilla o crítica</td><td><code>plots.txt</code></td><td class="n">1 549</td><td class="n ok">5</td><td>&lt; 300</td></tr>
+        <tr><td>Plot que abre con la ficha</td><td><code>plots.txt</code></td><td class="n">3 734</td><td class="n ok">9</td><td>&lt; 500</td></tr>
+        <tr><td>Plot de menos de 200 caracteres</td><td><code>plots.txt</code></td><td class="n">686</td><td class="n">146</td><td>solo sin fuente y secciones ya cortas</td></tr>
+        <tr><td>Plot sin <code>enrichment.plot</code></td><td><code>deep.txt</code></td><td class="n">5 275</td><td class="n ok">0</td><td>0</td></tr>
+        <tr><td>Espacios en extremos, NBSP, no NFC o <code>&amp;amp;</code></td><td><code>deep.txt</code></td><td class="n">124</td><td class="n ok">0</td><td>0</td></tr>
+        <tr><td>Ids de palabra clave con varios nombres</td><td><code>deep.txt</code></td><td class="n">14</td><td class="n">11</td><td>solo los que TMDB usa así</td></tr>
+        <tr><td>Doble espacio en el medio del texto</td><td><code>deep.txt</code></td><td class="n">216</td><td class="n">207</td><td>no estaba en el plan</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Los 11 ids que siguen con dos nombres son variantes de la misma palabra que TMDB guarda en un solo id (<code>animal</code>/<code>animals</code>, <code>romcom</code>/<code>romantic comedy</code> y las demás de <code>deep.txt</code>). Salieron los tres ids ajenos: <code>12377</code> queda solo como «zombie», <code>303361</code> solo como «terminator» y <code>208349</code> solo como «kids».</p>
+</section>
+
+<section>
+  <h2>Lo que las revisiones dejaron para este informe</h2>
+  <ul>
+    <li><strong>207 dobles espacios (R-15).</strong> <code>deep.txt</code> de M3 cuenta 207 textos con dos espacios seguidos en el medio: 156 en <code>overview</code>, 18 en <code>cast</code>, 13 en <code>tagline</code> y el resto en nombres. En M0 eran 216. WP-07 normaliza los extremos, el espacio duro y NFC, y no toca el doble espacio. Sigue fuera del plan.</li>
+    <li><strong>Presupuesto de <em>Money Plane</em> (R-17).</strong> El <code>revenue</code> se quedó en 618 porque la ficha de Wikipedia dice «Box office $618». El <code>budget</code> del catálogo es 568 443 y la misma ficha dice $586,443, con dos dígitos invertidos. WP-09 solo pedía el <code>revenue</code>, así que el presupuesto no se cambió.</li>
+    <li><strong>Por qué bajan <code>bm25_plot</code> y <code>rrf_plot_*</code> (R-14).</strong> Las 15 consultas de trama en inglés describen la película en abstracto («a thief steals secrets by entering people's dreams»). Las sinopsis viejas, en buena parte generadas, usaban ese vocabulario. Las tramas de Wikipedia narran con los nombres de los personajes, y <code>plot</code> usa el analizador estándar, sin raíces. M3 repite la caída de M2: <code>bm25_plot</code> nDCG@10 0.423 → 0.296, <code>rrf_plot_knn256</code> 0.581 → 0.511 y <code>rrf_plot_knn1024</code> 0.662 → 0.557. No es un daño: <code>knn_plot_512</code> pasa de 0.651 a 0.708 y la búsqueda por defecto <code>rrf_title_knn256</code> de 0.348 a 0.425. D-08 pide informarlas y recalcular sus umbrales en T-03.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>De dónde viene cada sinopsis</h2>
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr><th>Etiqueta <code>enrichment.plot</code></th><th>M0</th><th>M3</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sin etiqueta (origen desconocido)</td><td class="n">5 275</td><td class="n ok">0</td></tr>
+        <tr><td><code>wikipedia_plot_…</code>: sección de trama del artículo de la película, con su revisión en <code>fuentes/plot-fuentes.tsv</code></td><td class="n">0</td><td class="n ok">5 403</td></tr>
+        <tr><td><code>tmdb_overview</code></td><td class="n">1 622</td><td class="n">1 065</td></tr>
+        <tr><td><code>unverified</code>: sin fuente verificable, ya limpias de ficha, taquilla y crítica</td><td class="n">—</td><td class="n">429</td></tr>
+        <tr><td><code>tmdb_metadata_summary</code> y <code>tmdb_overview_translated:zh-CN</code></td><td class="n">1 + 1</td><td class="n">1 + 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Ninguna sinopsis la redactó un agente: cada una es la trama de Wikipedia, el overview de TMDB o el texto anterior, recortado por párrafos completos (norma NS-2 del plan).</p>
+</section>
+
+<section>
+  <h2>Las 10 recomendaciones del informe original</h2>
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Recomendación</th><th>Estado</th><th>Resultado</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="n">1</td><td>Reemplazar respuestas de asistente y datos inventados (WP-01)</td><td class="ok">Hecha</td><td>Las 13 películas, con trama de Wikipedia u overview de TMDB</td></tr>
+        <tr><td class="n">2</td><td>Reescribir los ensayos generados (WP-02)</td><td class="ok">Hecha</td><td>1 402 películas; plot con dos o más firmas: 1 408 → 0</td></tr>
+        <tr><td class="n">3</td><td>Ampliar las reglas de advertencia (WP-03)</td><td class="ok">Hecha</td><td><code>EFX-ING-025</code>, <code>026</code> y <code>028</code> con los patrones nuevos; cero avisos en <code>data/</code></td></tr>
+        <tr><td class="n">4</td><td>Etiquetar el origen de las sinopsis (WP-04)</td><td class="ok">Hecha</td><td>6 899 de 6 899 con <code>enrichment.plot</code></td></tr>
+        <tr><td class="n">5</td><td>Limpiar el plot enciclopédico (WP-05)</td><td class="ok">Hecha</td><td>3 862 películas: ficha inicial 3 734 → 9; taquilla o crítica 1 549 → 5</td></tr>
+        <tr><td class="n">6</td><td>Completar las sinopsis cortas (WP-06)</td><td class="ok">Hecha</td><td>616 con una trama de Wikipedia más larga; menos de 200 caracteres: 686 → 146, todas sin una fuente más larga</td></tr>
+        <tr><td class="n">7</td><td>Normalizar al cargar (WP-07)</td><td class="ok">Hecha</td><td>Lote de higiene sobre 309 películas y <code>EFX-ING-029</code> al validar</td></tr>
+        <tr><td class="n">8</td><td>Corregir palabras clave y colecciones (WP-08)</td><td class="ok">Hecha</td><td>Los tres ids ajenos con un solo nombre; <em>Death Note Relight 2</em> en su colección</td></tr>
+        <tr><td class="n">9</td><td>Una sola puntuación y montos imposibles (WP-09)</td><td class="ok">Hecha</td><td><code>user_score</code> rotulado «TMDB, octubre de 2026»; presupuesto de <em>Inuyasha</em> de la ficha de Wikipedia; el 618 de <em>Money Plane</em> confirmado</td></tr>
+        <tr><td class="n">10</td><td><code>dynamic: strict</code> y filtro <code>adult</code> (WP-10)</td><td class="ok">Hecha</td><td>Mapping estricto, ya en staging; el filtro se queda y está documentado</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Relevancia, nDCG@10</h2>
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr><th>Configuración</th><th>M0</th><th>M3</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>bm25_title</code></td><td class="n">0.113</td><td class="n">0.113</td></tr>
+        <tr><td><code>bm25_multi_match</code></td><td class="n">0.115</td><td class="n">0.115</td></tr>
+        <tr><td><code>bm25_plot</code></td><td class="n">0.423</td><td class="n">0.296</td></tr>
+        <tr><td><code>knn_plot_256</code></td><td class="n">0.549</td><td class="n">0.622</td></tr>
+        <tr><td><code>knn_plot_512</code></td><td class="n">0.651</td><td class="n">0.708</td></tr>
+        <tr><td><code>knn_plot_1024</code></td><td class="n">0.742</td><td class="n">0.745</td></tr>
+        <tr><td><code>rrf_title_knn256</code></td><td class="n">0.348</td><td class="n">0.425</td></tr>
+        <tr><td><code>rrf_title_knn1024</code></td><td class="n">0.464</td><td class="n">0.488</td></tr>
+        <tr><td><code>rrf_plot_knn256</code></td><td class="n">0.581</td><td class="n">0.511</td></tr>
+        <tr><td><code>rrf_plot_knn1024</code></td><td class="n">0.662</td><td class="n">0.557</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Los tres vectores están en las 6 899 películas, con normas entre 0.998 y 1.002. Un re-embedding de 52 sinopsis actuales contra <code>plot_1024</code> da coseno mínimo 1.0000.</p>
+</section>
+
+<footer>
+  Fuentes: <code>data-quality/hallazgos/salidas/m0/</code>, <code>data-quality/hallazgos/salidas/m3/</code> y <code>target/eval/report.md</code> de la corrida del 2026-11-13 20:09 UTC. R-14, R-15 y R-17.
+</footer>
+</div>
+</body>
+</html>

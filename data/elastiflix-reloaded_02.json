@@ -12,6 +12,7 @@
  },
  "mapping": {
   "mappings": {
+   "dynamic": "strict",
    "properties": {
     "adult": {
      "type": "boolean"
@@ -59,6 +60,74 @@
     },
     "cast": {
      "type": "keyword"
+    },
+    "enrichment": {
+     "type": "object",
+     "properties": {
+      "backdrop_path": {
+       "type": "keyword"
+      },
+      "belongs_to_collection": {
+       "type": "keyword"
+      },
+      "budget": {
+       "type": "keyword"
+      },
+      "cast": {
+       "type": "keyword"
+      },
+      "genres": {
+       "type": "keyword"
+      },
+      "homepage": {
+       "type": "keyword"
+      },
+      "imdb_id": {
+       "type": "keyword"
+      },
+      "keywords": {
+       "type": "keyword"
+      },
+      "overview": {
+       "type": "keyword"
+      },
+      "plot": {
+       "type": "keyword"
+      },
+      "poster_path": {
+       "type": "keyword"
+      },
+      "production_companies": {
+       "type": "keyword"
+      },
+      "production_countries": {
+       "type": "keyword"
+      },
+      "rating": {
+       "type": "keyword"
+      },
+      "revenue": {
+       "type": "keyword"
+      },
+      "runtime": {
+       "type": "keyword"
+      },
+      "spoken_languages": {
+       "type": "keyword"
+      },
+      "tagline": {
+       "type": "keyword"
+      },
+      "user_score": {
+       "type": "keyword"
+      },
+      "vote_average": {
+       "type": "keyword"
+      },
+      "vote_count": {
+       "type": "keyword"
+      }
+     }
     },
     "genres": {
      "type": "keyword"
@@ -138,7 +207,7 @@
      "type": "float"
     },
     "poster_path": {
-     "type": "text"
+     "type": "keyword"
     },
     "production_companies": {
      "type": "keyword"
@@ -2655,7 +2724,7 @@
     },
     {
      "id": 7443,
-     "name": "kidney transplant "
+     "name": "kidney transplant"
     }
    ],
    "cast": [
@@ -3502,7 +3571,7 @@
    "spoken_languages": [
     "English",
     "한국어/조선말",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -5754,7 +5823,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Français"
    ],
    "enrichment": {
@@ -9283,7 +9352,7 @@
     "Yuriy Sardarov",
     "Bella Ivory",
     "Maya Sayre",
-    "Danny Mooney ",
+    "Danny Mooney",
     "John Manfredi",
     "Robert Mervak",
     "Fabio Polanco",
@@ -15466,7 +15535,7 @@
    "spoken_languages": [
     "English",
     "한국어/조선말",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -18675,7 +18744,7 @@
    ],
    "spoken_languages": [
     "Français",
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -20090,7 +20159,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -23638,8 +23707,8 @@
     "The Naked Cowboy",
     "Sebastien Lefebvre",
     "David Desrosiers",
-    "Pierre Bouvier ",
-    "Chuck Comeau ",
+    "Pierre Bouvier",
+    "Chuck Comeau",
     "Jeff Stinco"
    ],
    "belongs_to_collection": null,
@@ -29676,7 +29745,7 @@
     },
     {
      "id": 41616,
-     "name": "cops and robbers "
+     "name": "cops and robbers"
     },
     {
      "id": 173594,
@@ -29766,7 +29835,7 @@
     "Bill Camp",
     "John Ortiz",
     "Richard Short",
-    "Randy Ryan ",
+    "Randy Ryan",
     "Shawn Hatosy",
     "Kurt Naebig",
     "John Hoogenakker",
@@ -38661,7 +38730,7 @@
     },
     {
      "id": 176253,
-     "name": "oil rig "
+     "name": "oil rig"
     },
     {
      "id": 221118,
@@ -40141,7 +40210,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-13",
@@ -50149,7 +50218,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -50358,7 +50427,7 @@
     "United States of America"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -52143,7 +52212,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
@@ -55038,7 +55107,7 @@
     "English",
     "Український",
     "Français",
-    "Pусский",
+    "Русский",
     "Magyar"
    ],
    "enrichment": {
@@ -56526,7 +56595,7 @@
     "Grace Lynn Kung",
     "Philip Williams",
     "Arnold Pinnock",
-    "Bathsheba Garnett ",
+    "Bathsheba Garnett",
     "Franck Khalfoun",
     "Stephanie Moore"
    ],
@@ -58217,7 +58286,7 @@
    ],
    "spoken_languages": [
     "Français",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -61720,7 +61789,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "tmdb_overview",
@@ -62496,7 +62565,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -66289,7 +66358,7 @@
     "Italiano",
     "Latin",
     "Português",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -68947,7 +69016,7 @@
     },
     {
      "id": 185477,
-     "name": "trapped underwater "
+     "name": "trapped underwater"
     }
    ],
    "cast": [
@@ -71240,7 +71309,7 @@
    "spoken_languages": [
     "Français",
     "Italiano",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "tmdb_overview",
@@ -72426,7 +72495,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -72869,7 +72938,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -74384,7 +74453,7 @@
    "spoken_languages": [
     "English",
     "Nederlands",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-13",
@@ -76604,7 +76673,7 @@
     "普通话",
     "English",
     "日本語",
-    "Pусский",
+    "Русский",
     "ภาษาไทย"
    ],
    "enrichment": {
@@ -79700,8 +79769,8 @@
     "Adél Stanczel",
     "Mária Bodor",
     "Albert Oláh",
-    "Sándor Hamar ",
-    "János Gyuriska ",
+    "Sándor Hamar",
+    "János Gyuriska",
     "Gina Moreno",
     "Julia Papp"
    ],
@@ -79737,7 +79806,7 @@
    "spoken_languages": [
     "English",
     "Magyar",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "budget": "tmdb_api_2026-10-22",
@@ -82560,7 +82629,7 @@
    "spoken_languages": [
     "English",
     "Magyar",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -83807,7 +83876,7 @@
    "spoken_languages": [
     "English",
     "Deutsch",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -89148,7 +89217,7 @@
     },
     {
      "id": 157481,
-     "name": "ice cream man  "
+     "name": "ice cream man"
     },
     {
      "id": 160798,
@@ -91918,7 +91987,7 @@
     },
     {
      "id": 5683,
-     "name": "family business "
+     "name": "family business"
     },
     {
      "id": 10194,
@@ -92794,7 +92863,7 @@
     "Australia"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -94253,7 +94322,7 @@
     },
     {
      "id": 15175,
-     "name": "subliminal "
+     "name": "subliminal"
     },
     {
      "id": 18001,
@@ -100054,7 +100123,7 @@
     "Andrés Márquez",
     "Alejandro Felipe",
     "Ana Paulina Caceres",
-    "Paulina Gaitán",
+    "Paulina Gaitán",
     "Alan Chávez",
     "Gustavo Sánchez Parra",
     "Héctor Jiménez",
@@ -100523,7 +100592,7 @@
     }
    ],
    "cast": [
-    "Paulina Gaitán",
+    "Paulina Gaitán",
     "Edgar Flores",
     "Kristyan Ferrer",
     "Diana García",
@@ -104078,7 +104147,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -105366,7 +105435,7 @@
     },
     {
      "id": 41616,
-     "name": "cops and robbers "
+     "name": "cops and robbers"
     },
     {
      "id": 159913,
@@ -106080,7 +106149,7 @@
     },
     {
      "id": 41179,
-     "name": "iraqi "
+     "name": "iraqi"
     },
     {
      "id": 240583,

@@ -59,12 +59,14 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("El catálogo")))
                 .andExpect(content().string(containsString(
                         "Medido con el harness de relevancia sobre el catálogo de 6 899 películas")))
-                .andExpect(content().string(containsString("ninguna película del catálogo lo es")))
+                .andExpect(content().string(containsString("Ninguna de las 6 899 películas del catálogo de")))
+                .andExpect(content().string(containsString(
+                        "el filtro se mantiene para los catálogos que cargue un usuario")))
                 .andExpect(content().string(containsString("de 1902 a 2023")))
-                .andExpect(content().string(containsString("13 de 40 (33 %)")))
-                .andExpect(content().string(containsString("0.536")))
-                .andExpect(content().string(containsString("0.653")))
-                .andExpect(content().string(containsString("0.755")))
+                .andExpect(content().string(containsString("20 de 40 (50 %)")))
+                .andExpect(content().string(containsString("0.671")))
+                .andExpect(content().string(containsString("0.744")))
+                .andExpect(content().string(containsString("0.784")))
                 .andExpect(content().string(containsString("Créditos")))
                 .andExpect(content().string(containsString(CatalogTexts.TMDB)))
                 .andExpect(content().string(containsString(CatalogTexts.TMDB_ES)))
@@ -141,7 +143,8 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("<tr class=\"subfield\">")))
                 .andExpect(content().string(containsString("<td>keywords.<wbr>name</td><td>text</td>")))
                 .andExpect(content().string(containsString("<td>belongs_to_collection.<wbr>backdrop_path</td><td>text</td>")))
-                .andExpect(content().string(containsString("<td>user_score</td><td>float</td>")))
+                .andExpect(content().string(containsString(
+                        "<td>user_score</td><td>float</td><td>Puntuación de los usuarios (TMDB, octubre de 2026)</td>")))
                 .andExpect(content().string(containsString("agrupadas como en el formulario de «Cargar datos»")))
                 .andExpect(content().string(containsString("<th>Obligatorio en .json</th><th>Obligatorio en .csv</th>")))
                 .andExpect(content().string(containsString("<td>Detalle</td><td class=\"req-yes\">Sí</td>"
@@ -157,6 +160,8 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("Index only")))
                 .andExpect(content().string(containsString("<td>runtime</td><td>integer</td><td>Runtime in minutes</td>"
                         + "<td>Card and detail</td>")))
+                .andExpect(content().string(containsString(
+                        "<td>user_score</td><td>float</td><td>User score (TMDB, October 2026)</td>")))
                 .andExpect(content().string(containsString("grouped as in the «Load data» form")))
                 .andExpect(content().string(containsString("<th>Required in .json</th><th>Required in .csv</th>")))
                 .andExpect(content().string(containsString("in append or bulk mode (the rules are the same)")));
@@ -172,7 +177,7 @@ class AboutPageTest {
                 .andExpect(content().string(containsString("Full-text (lexical)")))
                 .andExpect(content().string(containsString("How relevance is scored: BM25")))
                 .andExpect(content().string(containsString("Measured precision by dimension")))
-                .andExpect(content().string(containsString("13 of 40 (33%)")))
+                .andExpect(content().string(containsString("20 of 40 (50%)")))
                 .andExpect(content().string(containsString("Results and filters")))
                 .andExpect(content().string(containsString("When there are no results")))
                 .andExpect(content().string(containsString("Loading data")))

@@ -12,6 +12,7 @@
  },
  "mapping": {
   "mappings": {
+   "dynamic": "strict",
    "properties": {
     "adult": {
      "type": "boolean"
@@ -59,6 +60,74 @@
     },
     "cast": {
      "type": "keyword"
+    },
+    "enrichment": {
+     "type": "object",
+     "properties": {
+      "backdrop_path": {
+       "type": "keyword"
+      },
+      "belongs_to_collection": {
+       "type": "keyword"
+      },
+      "budget": {
+       "type": "keyword"
+      },
+      "cast": {
+       "type": "keyword"
+      },
+      "genres": {
+       "type": "keyword"
+      },
+      "homepage": {
+       "type": "keyword"
+      },
+      "imdb_id": {
+       "type": "keyword"
+      },
+      "keywords": {
+       "type": "keyword"
+      },
+      "overview": {
+       "type": "keyword"
+      },
+      "plot": {
+       "type": "keyword"
+      },
+      "poster_path": {
+       "type": "keyword"
+      },
+      "production_companies": {
+       "type": "keyword"
+      },
+      "production_countries": {
+       "type": "keyword"
+      },
+      "rating": {
+       "type": "keyword"
+      },
+      "revenue": {
+       "type": "keyword"
+      },
+      "runtime": {
+       "type": "keyword"
+      },
+      "spoken_languages": {
+       "type": "keyword"
+      },
+      "tagline": {
+       "type": "keyword"
+      },
+      "user_score": {
+       "type": "keyword"
+      },
+      "vote_average": {
+       "type": "keyword"
+      },
+      "vote_count": {
+       "type": "keyword"
+      }
+     }
     },
     "genres": {
      "type": "keyword"
@@ -138,7 +207,7 @@
      "type": "float"
     },
     "poster_path": {
-     "type": "text"
+     "type": "keyword"
     },
     "production_companies": {
      "type": "keyword"
@@ -838,7 +907,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "tmdb_overview",
@@ -2933,7 +3002,7 @@
    "spoken_languages": [
     "普通话",
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -10033,7 +10102,7 @@
     "suomi",
     "Magyar",
     "日本語",
-    "Pусский",
+    "Русский",
     "Somali",
     "Español"
    ],
@@ -15085,7 +15154,7 @@
     },
     {
      "id": 41282,
-     "name": "political intrigue "
+     "name": "political intrigue"
     },
     {
      "id": 41364,
@@ -20953,7 +21022,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     },
     {
      "id": 241827,
@@ -21156,7 +21225,7 @@
    "spoken_languages": [
     "English",
     "한국어/조선말",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "belongs_to_collection": "tmdb_api_2026-10-22",
@@ -22781,7 +22850,7 @@
    "spoken_languages": [
     "Bahasa indonesia",
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -25167,7 +25236,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -27495,7 +27564,7 @@
     "Russia"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -27746,7 +27815,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     },
     {
      "id": 209789,
@@ -31176,7 +31245,7 @@
     "Russia"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
@@ -32481,7 +32550,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     }
    ],
    "cast": [
@@ -35237,7 +35306,7 @@
     "English",
     "Français",
     "Italiano",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -35744,7 +35813,7 @@
     "Russia"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -40236,7 +40305,7 @@
     "United States of America"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -42369,7 +42438,7 @@
     "Russia"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -43858,7 +43927,7 @@
    ],
    "spoken_languages": [
     "日本語",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -44718,7 +44787,7 @@
    "spoken_languages": [
     "广州话 / 廣州話",
     "English",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -45144,7 +45213,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -45632,7 +45701,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -47069,7 +47138,7 @@
     "Dustin Tucker",
     "Lucas Thor Kelley",
     "Martine Assaf",
-    "Cara Leroy O'Connell\t",
+    "Cara Leroy O'Connell",
     "Pamela Amicy",
     "Brandon Wahlberg",
     "Kelby Turner Akin",
@@ -47642,7 +47711,7 @@
    "spoken_languages": [
     "Français",
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -50121,7 +50190,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     },
     {
      "id": 209265,
@@ -50652,7 +50721,7 @@
     "Russia"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
@@ -54760,7 +54829,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -55982,7 +56051,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -57323,7 +57392,7 @@
     "Jason Maybaum",
     "Presley Williams",
     "Dee Bradley Baker",
-    "Robert Ambrose ",
+    "Robert Ambrose",
     "Veronica Alicino",
     "Camryn Jones",
     "Nedim Jahić"
@@ -60814,7 +60883,7 @@
     },
     {
      "id": 185477,
-     "name": "trapped underwater "
+     "name": "trapped underwater"
     }
    ],
    "cast": [
@@ -69227,7 +69296,7 @@
     "English",
     "ਪੰਜਾਬੀ",
     "فارسی",
-    "Pусский",
+    "Русский",
     "اردو"
    ],
    "enrichment": {
@@ -74125,7 +74194,7 @@
    "spoken_languages": [
     "English",
     "日本語",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -78936,7 +79005,7 @@
    "spoken_languages": [
     "English",
     "普通话",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -79249,7 +79318,7 @@
     },
     {
      "id": 8729,
-     "name": "lighthouse keeper   "
+     "name": "lighthouse keeper"
     },
     {
      "id": 13031,
@@ -82183,7 +82252,7 @@
    "adult": false,
    "video": false,
    "tagline": "Rock Out with Your Glock Out",
-   "overview": "A mega-platinum, aging rock star's supermodel wife is abducted by pirates while vacationing in Chile.",
+   "overview": "A mega-platinum, aging rock star's supermodel wife is abducted by pirates while vacationing in Chile.",
    "plot": "Aging rock star Turk Enry's supermodel wife is kidnapped while they are vacationing in Chile and he undertakes to rescue her equipped with skills better suited to playing bass, playing the field, and partying.",
    "genres": [
     "Action",
@@ -88281,7 +88350,7 @@
     "Afrikaans",
     "Deutsch",
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "tmdb_overview",
@@ -88521,7 +88590,7 @@
     "Russia"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -89427,7 +89496,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "tmdb_overview",
@@ -89965,7 +90034,7 @@
     "Russia"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -91690,7 +91759,7 @@
     },
     {
      "id": 185477,
-     "name": "trapped underwater "
+     "name": "trapped underwater"
     },
     {
      "id": 298603,
@@ -96058,7 +96127,7 @@
     },
     {
      "id": 8729,
-     "name": "lighthouse keeper   "
+     "name": "lighthouse keeper"
     },
     {
      "id": 9672,
@@ -96786,7 +96855,7 @@
     "English",
     "suomi",
     "Deutsch",
-    "Pусский",
+    "Русский",
     "svenska"
    ],
    "enrichment": {
@@ -97986,7 +98055,7 @@
    "spoken_languages": [
     "English",
     "Italiano",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -102300,7 +102369,7 @@
    "spoken_languages": [
     "Deutsch",
     "English",
-    "Pусский",
+    "Русский",
     "Türkçe"
    ],
    "enrichment": {
@@ -103914,7 +103983,7 @@
     "Italiano",
     "日本語",
     "Latin",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-13",
@@ -109246,7 +109315,7 @@
    "adult": false,
    "video": false,
    "tagline": "All Art Is Dangerous",
-   "overview": "Big money artists and mega-collectors pay a high price when art collides with commerce. After a series of paintings by an unknown artist are discovered, a supernatural force enacts revenge on those who have allowed their greed to get in the way of art.",
+   "overview": "Big money artists and mega-collectors pay a high price when art collides with commerce. After a series of paintings by an unknown artist are discovered, a supernatural force enacts revenge on those who have allowed their greed to get in the way of art.",
    "plot": "In Miami, art critic Morf Vandewalt attends an art exhibition alongside his friend Josephina, who works for Rhodora Haze, owner of the Haze Gallery and formerly a member of the punk rock band Velvet Buzzsaw. Unfulfilled in his love life with his boyfriend Ed, Morf starts a sexual relationship with Josephina.\nReturning to Los Angeles, Josephina finds a dead man named Vetril Dease in her apartment building and enters his home to discover a myriad of paintings, some of which are partially destroyed. Josephina steals the paintings to show Morf and Rhodora, who become fascinated with Dease. Rhodora decides to exhibit several of Dease's pieces in her gallery, which proves to be a great success. The artworks also enchant Gretchen, Morf's art curator friend; Piers, a former artist for the Haze Gallery; and Damrish, an up-and-coming artist.\nTo ensure the rarity of the paintings, Rhodora orders gallery worker Bryson to transport half of them to storage. En route, a painting catches fire from his cigarette ash and burns him, causing him to crash into a seemingly abandoned gas station. After he heads inside to clean the burns, Bryson is dragged into a painting by a group of monkey mechanics. Outside, his truck catches fire and burns the remaining Dease paintings.\nResearching Dease, Morf discovers he suffered from an abusive childhood that culminated in the murder of his father, after which he was sent to a psychiatric hospital for human experimentation, adding to his mental illness. Jon Dondon, a rival art gallery owner, hires a private investigator to uncover the same story. He attempts to reveal Dease's story to the press but is murdered when a mysterious hand hangs him by his scarf. Coco, Rhodora's former assistant who had just begun working for Jon, discovers his body.\nMorf sees a hand in a Dease painting suddenly move; his vision is cleared by his optometrist but he continues to hallucinate. That night, he visits the gallery archivist and learns Dease used blood to make his red-black paints. Rhodora, disappointed with Piers' most recent work, sends him to live at her beach house, instructing him not to return until he has created art solely for himself.\nGretchen negotiates the display of some Dease paintings in the city's museum alongside an interactive piece titled Sphere, which is owned by Gretchen's primary client. Meanwhile, Gretchen also sabotages Josephina's relationship with Morf by telling her he still has feelings for Ed. The night before the exhibit's debut, Gretchen sticks her arm in one of the holes in Sphere which malfunctions and severs her arm, leaving her to bleed out. Coco, who had recently become Gretchen's assistant, finds her body the next morning. Despite, or perhaps because of, Gretchen's death, there is a spike in interest and demand for the Dease exhibit. Morf and Josephina break up after he finds out she is dating Damrish.\nMorf's visions worsen, and he urges Rhodora to stop selling Dease's artwork.",
    "genres": [
     "Thriller",

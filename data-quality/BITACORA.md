@@ -3,11 +3,11 @@
 Tablero del plan. Vive en la rama `dq/ronda-4`; reglas de uso en [`AGENTS.md` §5 y §6](AGENTS.md#5-turno-de-un-ejecutor).
 Fechas en UTC, ISO 8601. Los diarios de cada WP y los informes de revisión están en [`bitacora/`](bitacora/).
 
-**Última actualización:** 2026-11-13 18:25 UTC · Claude Code (Claude Opus 5.5) · revisor (R-14, D-08, hito B)
+**Última actualización:** 2026-11-13 20:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-20, hito C)
 **Equipo (desde el turno 13b, D-07):** ejecuta Cursor; revisa y corrige Claude Code; decide la dueña del proyecto. Antes ejecutaron Google Antigravity y GitHub Copilot (turnos 1–11) y Gemma 4 E4B (12 y 13a)
 **Orden de turnos:** Cursor 13b → Claude Code → Cursor 14 → Claude Code → … → Cursor 21 → Claude Code (`PLAN.md` · Reparto y turnos)
 **Dónde se trabaja:** worktree `E:\02 - programming\03 - elastiflix-reloaded-dq`, rama `dq/ronda-4`, solo en local (P-04)
-**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-174106` (6 899 películas) · `data/` cargado en el commit `03b0b2e` · app compilada en el commit `03b0b2e` · instancia apagada (puerto 8081)
+**Staging:** alias `elastiflix-dq-staging` · índice `elastiflix-dq-staging-20261113-195801` (6 899 películas) · `data/` cargado en el commit `bf5e446` · app compilada en el commit `bf5e446` · instancia apagada (puerto 8081)
 
 ## 1. Tablero
 
@@ -33,12 +33,12 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 13a | Gemma 4 E4B | Cierre de WP-05: evaluó las 462 restantes (lotes `042`–`047`) sin commits; R-13a terminó WP-05 (D-07) | REVISADO | 2026-11-13 | `dq-t13a` | [R-13a](bitacora/R-13a.md) |
 | 13b | Cursor | WP-03 T-03 (integración) y WP-06 T-01 y T-02 (D-07) | REVISADO | 2026-11-13 | `dq-t13b` | [R-13b](bitacora/R-13b.md) |
 | 14 | Cursor | WP-06 T-02b y T-03 (M2) y WP-07 parte A · hito B | REVISADO · INCOMPLETO por B-06 (criterio de parada); WP-07 parte A sin empezar | 2026-11-13 | `dq-t14` | [R-14](bitacora/R-14.md) |
-| 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | PENDIENTE | — | — | — |
-| 16 | Cursor | WP-08 (D-07) | PENDIENTE | — | — | — |
-| 17 | Cursor | WP-09 | PENDIENTE | — | — | — |
-| 18 | Cursor | WP-10 (P-14) | PENDIENTE | — | — | — |
-| 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | PENDIENTE | — | — | — |
-| 20 | Cursor | C-01 T-04 y T-05 · hito C | PENDIENTE | — | — | — |
+| 15 | Cursor | WP-07 parte A (pendiente del 14) y parte B | REVISADO | 2026-11-13 | `dq-t15` | [R-15](bitacora/R-15.md) |
+| 16 | Cursor | WP-08 (D-07) | REVISADO | 2026-11-13 | `dq-t16` | [R-16](bitacora/R-16.md) |
+| 17 | Google Antigravity | WP-09 (P-20) | REVISADO | 2026-11-13 | `dq-t17` | [R-17](bitacora/R-17.md) |
+| 18 | Claude Code | WP-10 (P-21) | REVISADO | 2026-11-13 | `dq-t18` | [R-18](bitacora/R-18.md) |
+| 19 | Cursor | C-01 T-01 a T-03 (M3, informe v2, pruebas y umbrales; D-07) | REVISADO | 2026-11-13 | `dq-t19` | [R-19](bitacora/R-19.md) |
+| 20 | Cursor | C-01 T-04 y T-05 · hito C | REVISADO | 2026-11-13 | `dq-t20` | [R-20](bitacora/R-20.md) |
 | 21 | Cursor | C-01 T-06 a T-08 (H-2; D-07) | PENDIENTE | — | — | — |
 
 ### 1.2 Paquetes de trabajo
@@ -52,11 +52,11 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | WP-04 | Etiquetar el origen de todas las sinopsis | HECHA | 9 | 2026-11-12 |
 | WP-05 | Limpiar el plot enciclopédico | HECHA · 3 862/3 862: 3 425 Wikipedia, 7 overview de TMDB (D-06), 13 corregidas, 372 limpias, 45 sin fuente; ficha inicial 8 y taquilla o crítica 5 | 10, 11, 12, 13a | 2026-11-13 |
 | WP-06 | Completar las sinopsis cortas | HECHA · 616 tramas más largas, 82 sin fuente, 5 no más largas; M2 aceptada (D-08) | 13b, 14 | 2026-11-13 |
-| WP-07 | Normalizar al cargar | PENDIENTE · parte A y B en el turno 15 (D-08) | 14, 15 | 2026-11-13 |
-| WP-08 | Corregir palabras clave y colecciones | PENDIENTE | 16 | — |
-| WP-09 | Una sola puntuación y montos imposibles | PENDIENTE | 17 | — |
-| WP-10 | Opcional: `dynamic: strict` y filtro `adult` | PENDIENTE | 18 | — |
-| C-01 | Cierre: medición, publicación y documentación | PENDIENTE | 19, 20, 21 | — |
+| WP-07 | Normalizar al cargar | HECHA · `lote-001` (309 películas) y `EFX-ING-029`; kannada corregido en `lote-002` (R-15) | 14, 15 | 2026-11-13 |
+| WP-08 | Corregir palabras clave y colecciones | HECHA · `12377`, `303361` y `208349` con un solo nombre; *Death Note Relight 2* en su colección; nota de ids duplicados | 16 | 2026-11-13 |
+| WP-09 | Una sola puntuación y montos imposibles | HECHA · `user_score` rotulado (D-02, opción A); *Inuyasha* `budget` de la ficha de Wikipedia; el 618 de *Money Plane* confirmado | 17 | 2026-11-13 |
+| WP-10 | Opcional: `dynamic: strict` y filtro `adult` | HECHA · mapping estricto; `adult` documentado (D-03, D-04) | 18 | 2026-11-13 |
+| C-01 | Cierre: medición, publicación y documentación | EN CURSO · T-01 a T-05 hechos (hito C); T-06 a T-08 (H-2 y publicación) en el turno 21 | 19, 20, 21 | 2026-11-13 |
 
 ### 1.3 Revisiones de Claude Code
 
@@ -78,14 +78,22 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | R-13a | 13a · Gemma 4 E4B | APROBADO CON CORRECCIONES | Turno sin un commit: recuperación y 5 lotes aplicados; *Prancer* corregida; guarda nueva; con D-07, cierre de WP-05 (`lote-049` y `050`, T-05 y T-03) |  `3595bdd` `501a192` `4a06a94`…`17c4b44` `10f735d` | [R-13a](bitacora/R-13a.md) |
 | R-13b | 13b · Cursor | APROBADO | Nada que corregir; WP-03 HECHA; lista `wp06-cortos-r13b.tsv` (17) para el turno 14 y meta de «< 200 caracteres» ajustada (P-18) | — | [R-13b](bitacora/R-13b.md) |
 | R-14 | 14 · Cursor | APROBADO (D-08: opción A) | Nada que corregir; B-06 investigado y cerrado: la caída de `bm25_plot` y `rrf_plot_*` viene del vocabulario de las consultas de evaluación, no de un daño (los vectores y la búsqueda por defecto mejoran); D-08 abierta | — | [R-14](bitacora/R-14.md) |
+| R-15 | 15 · Cursor | APROBADO CON CORRECCIONES | «ಕನ್ನಡ» sin virama en 2 películas (`lote-002`); prueba de signos combinantes | `34b9a4b` `16e59f7` | [R-15](bitacora/R-15.md) |
+| R-16 | 16 · Cursor | APROBADO | Nada que corregir en los datos (comprobado contra TMDB); horas del diario de WP-08 ajustadas | — | [R-16](bitacora/R-16.md) |
+| R-17 | 17 · Google Antigravity | APROBADO CON CORRECCIONES | `wikipedia_infobox` documentada en `data/README.md`; motivos con el `$` perdido, anotados | ver R-17 | [R-17](bitacora/R-17.md) |
+| R-18 | 18 · Claude Code | APROBADO CON CORRECCIONES | Revisión independiente (P-21): migración del paso 9, prueba de nombres de `Movie`, precisión del README, texto en inglés; sobre de `data/*.json` a C-01 | `777cc1f` | [R-18](bitacora/R-18.md) |
+| R-19 | 19 · Cursor | APROBADO CON CORRECCIONES | 41 pruebas de integración en verde contra staging estricto (repetidas); informe v2 con origen de sinopsis y estado de las 10 recomendaciones | ver R-19 | [R-19](bitacora/R-19.md) |
+| R-20 | 20 · Cursor | APROBADO CON CORRECCIONES | Cifras de la documentación contra M3; sobre de `data/*.json` con el mapping del repo; frase del README; cierre del hito C | `b3ec13f` | [R-20](bitacora/R-20.md) |
 
 ## 2. Próximo paso
 
-> **Turno 15 · Cursor** (D-08). Primero **WP-07 parte A**, que no llegó a hacerse en el turno 14: el lote mecánico de
-> su tarjeta en `PLAN.md`, con `analizar.py --etiqueta wp-07 --desde-data` en 0 para «espacio en extremos», «nbsp/zwsp»,
-> «no NFC» y «entidad HTML». Después **WP-07 parte B**: la normalización en Java con la advertencia nueva
-> `EFX-ING-029`. Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-14](bitacora/R-14.md), incluida su sección
-> sobre D-08. El punto de partida es la etiqueta `dq-r14`.
+> **Turno 21 · Cursor.** C-01:
+> - **T-06:** pedir H-2 a la dueña del proyecto, con el resumen M0 → M3, el método, la vuelta atrás y los 7 días.
+> - **T-07:** solo con H-2 aprobada, `publicar.py` y el harness sobre producción.
+> - **T-08:** a los 7 días, borrar el índice anterior.
+>
+> Empieza con el protocolo de `AGENTS.md` §5: lee primero [R-20](bitacora/R-20.md). El punto de partida es la
+> etiqueta `dq-r20`.
 
 ## 3. Aprobaciones y decisiones de la dueña del proyecto
 
@@ -128,6 +136,9 @@ Solo la dueña del proyecto, o un agente copiando su respuesta literal, cambia e
 | 2026-11-12 | P-11 | WP-05 se reparte por cantidad de lotes, no por número: turno 11, 15 lotes de 100 y la limpieza de todas las omitidas pendientes; turno 12, 14 lotes, su limpieza y T-03; turno 13, lo que quede (unas 60 películas), T-03b y T-05 antes de WP-03 T-03 | Claude Code (R-10) |
 | 2026-11-13 | D-06 | En WP-05, la sinopsis sin trama de Wikipedia que es texto generado y que la limpieza no arregla toma el overview de TMDB del documento (NS-1 b, `tmdb_overview`). Lista en `hallazgos/listas/wp05-d06-generadas.tsv` (5 hoy; el turno 12 suma las suyas); la aplica WP-05 T-06 en el turno 13a | Dueña del proyecto: «Apruebo D-06» |
 | 2026-11-13 | P-14 | Los turnos de Java, 15 (WP-07 parte B) y 18 (WP-10), pasan de Gemma 4 E4B a Cursor. Gemma queda con 12, 13a, 13b, 16, 19a, 19b y 21; Cursor, con 14, 15, 17, 18 y 20 | Dueña del proyecto: «Sí, pásalos a Cursor» |
+| 2026-11-13 | P-21 | El turno 18 (WP-10) lo ejecuta Claude Code, el revisor. Para mantener los cuatro ojos, R-18 se apoya en una revisión independiente: un agente nuevo, sin el contexto del turno, lee el diff contra la tarjeta | Dueña del proyecto: «Toma tu este turno.» |
+| 2026-11-13 | P-20 | El turno 17 (WP-09) lo hace Google Antigravity con Gemini 4 Argon, en lugar de Cursor. Los turnos 18 a 21 siguen con Cursor | Dueña del proyecto: «Este turno se lo podemos dar a un agente de Google Antigravity que ejecuta el modelo Gemini 4 Argon.» |
+| 2026-11-13 | P-19 | El hito B (`dq-r14`) se integró en `main` local con el merge `617042f`, sin push | Dueña del proyecto: «Sí, integra en local» |
 | 2026-11-13 | D-08 | El plan sigue después de M2 y B-06 se cierra. Desde M2, el criterio de parada aplica a `knn_*` y `rrf_title_knn*`; `bm25_plot` y `rrf_plot_*` se miden y se informan. Sus umbrales se recalculan con M3 en C-01 T-03, y C-01 T-04 documenta la caída. WP-07 parte A pasa al turno 15 | Dueña del proyecto: «Sí, opción A» |
 | 2026-11-13 | P-18 | La lista de WP-06 se congeló con 686 y dejó fuera 17 sinopsis de menos de 200 caracteres con overview de TMDB (de WP-01/02 y D-06): WP-06 T-02b las intenta en el turno 14 (`hallazgos/listas/wp06-cortos-r13b.tsv`). La meta de «Plot de menos de 200 caracteres» pasa a «solo las sin fuente y las secciones de Wikipedia que ya son cortas» | Claude Code (R-13b) |
 | 2026-11-13 | P-17 | D-07, opción A: Claude Code terminó WP-05 en R-13a (limpieza `lote-049`, D-06 `lote-050`, T-05 y T-03) y Cursor hace todos los turnos que quedan (13b a 21). El turno 19 vuelve a ser uno solo. WP-05 pasa a HECHA | Dueña del proyecto: «WP-05 tú, resto a Cursor» |
@@ -152,21 +163,22 @@ staging. Criterio de parada: [WP-02](PLAN.md#wp-02--reescribir-los-ensayos-gener
 
 | Configuración | Mínimo nDCG actual | M0 | M1 | M2 | M3 | Producción final |
 |---|---|---|---|---|---|---|
-| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | | |
-| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | | |
-| `bm25_plot` | 0.37 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | | |
-| `knn_plot_256` | 0.49 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | | |
-| `knn_plot_512` | 0.60 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | | |
-| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | | |
-| `rrf_title_knn256` | 0.29 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | | |
-| `rrf_title_knn1024` | 0.41 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | | |
-| `rrf_plot_knn256` | 0.53 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | | |
-| `rrf_plot_knn1024` | 0.61 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | | |
+| `bm25_title` | 0.06 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | 0.113 · 0.125 | |
+| `bm25_multi_match` | 0.06 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | 0.115 · 0.125 | |
+| `bm25_plot` | 0.24 | 0.423 · 0.444 | 0.408 · 0.443 | 0.296 · 0.328 | 0.296 · 0.328 | |
+| `knn_plot_256` | 0.57 | 0.549 · 0.536 | 0.573 · 0.580 | 0.622 · 0.671 | 0.622 · 0.671 | |
+| `knn_plot_512` | 0.65 | 0.651 · 0.653 | 0.626 · 0.636 | 0.708 · 0.745 | 0.708 · 0.744 | |
+| `knn_plot_1024` | 0.69 | 0.742 · 0.755 | 0.726 · 0.755 | 0.745 · 0.784 | 0.745 · 0.784 | |
+| `rrf_title_knn256` | 0.37 | 0.348 · 0.316 | 0.407 · 0.385 | 0.426 · 0.390 | 0.425 · 0.390 | |
+| `rrf_title_knn1024` | 0.43 | 0.464 · 0.422 | 0.475 · 0.439 | 0.488 · 0.439 | 0.488 · 0.439 | |
+| `rrf_plot_knn256` | 0.46 | 0.581 · 0.612 | 0.574 · 0.589 | 0.511 · 0.548 | 0.511 · 0.548 | |
+| `rrf_plot_knn1024` | 0.50 | 0.662 · 0.677 | 0.675 · 0.691 | 0.558 · 0.596 | 0.557 · 0.591 | |
 
 M0 medida el 2026-11-12 17:48 UTC (turno 03) sobre el índice de producción `elastiflix-reloaded-20261112-144129`;
 M1 medida el 2026-11-12 20:20 UTC (turno 07) sobre el índice de staging `elastiflix-dq-staging-20261112-201036` (6 899 películas, commit `220a8ea`);
 M2 medida el 2026-11-13 18:02 UTC (turno 14) sobre el índice de staging `elastiflix-dq-staging-20261113-174106` (6 899 películas, commit `03b0b2e`);
-`target/eval/report.md` lleva la hora de la última corrida (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas) y el índice de staging en su segunda línea.
+M3 medida el 2026-11-13 20:09 UTC (turno 19) sobre el índice de staging `elastiflix-dq-staging-20261113-195801` (6 899 películas, commit `bf5e446`, mapping `dynamic: strict`);
+`target/eval/report.md` lleva el índice de esta corrida en su segunda línea (`RelevanceIT`, 1 prueba, 1 fallo, 0 omitidas: `bm25_plot` y `rrf_plot_*` siguen bajo los umbrales viejos, como prevé D-08). El log de la prueba es 2026-11-13T14:09:06-06:00.
 
 ## 7. Indicadores de calidad del catálogo
 
@@ -175,14 +187,14 @@ La columna «Inicial» sale de `hallazgos/salidas/m0/`.
 
 | Indicador | Salida | Inicial | Meta | M3 |
 |---|---|---|---|---|
-| Plot con 2 o más firmas de texto generado | `llm.txt` («con >=2») | 1 408 | ≤ 50 | |
-| Respuestas de asistente y correcciones de año | `llm.txt` | 2 + 6 | 0 | |
-| Plot con taquilla o crítica | `plots.txt` («producción/recepción») | 1 549 | < 300 | |
-| Plot que abre con la ficha | `plots.txt` («ficha inicial») | 3 734 | < 500 | |
-| Plot de menos de 200 caracteres | `plots.txt` («< 200 chars») | 686 | solo las «sin fuente» y las secciones de Wikipedia que ya son cortas (P-18) | |
-| Plot sin `enrichment.plot` (6 899 menos la cuenta de `plot` en «enrichment: claves») | `deep.txt` | 5 275 | 0 | |
-| Textos con espacios, NBSP, sin NFC o con `&amp;` | `deep.txt` | 124 | 0 | |
-| Ids de palabra clave con varios nombres | `deep.txt` | 14 | solo los legítimos de TMDB | |
+| Plot con 2 o más firmas de texto generado | `llm.txt` («con >=2») | 1 408 | ≤ 50 | 0 |
+| Respuestas de asistente y correcciones de año | `llm.txt` | 2 + 6 | 0 | 0 + 0 |
+| Plot con taquilla o crítica | `plots.txt` («producción/recepción») | 1 549 | < 300 | 5 |
+| Plot que abre con la ficha | `plots.txt` («ficha inicial») | 3 734 | < 500 | 9 |
+| Plot de menos de 200 caracteres | `plots.txt` («< 200 chars») | 686 | solo las «sin fuente» y las secciones de Wikipedia que ya son cortas (P-18) | 146 |
+| Plot sin `enrichment.plot` (6 899 menos la cuenta de `plot` en «enrichment: claves») | `deep.txt` | 5 275 | 0 | 0 |
+| Textos con espacios, NBSP, sin NFC o con `&amp;` | `deep.txt` | 124 | 0 | 0 |
+| Ids de palabra clave con varios nombres | `deep.txt` | 14 | solo los legítimos de TMDB | 11 |
 
 ## 8. Diario del plan
 
@@ -407,3 +419,69 @@ Las entradas de cada WP van en su diario. Aquí solo se anotan hitos del plan co
   - **Producción:** intacta.
 - Evidencia: R-08 a R-14; `hallazgos/salidas/m2/`; `./mvnw -q verify` con código 0.
 - Para el siguiente: turno 15, Cursor (WP-07 partes A y B). La dueña del proyecto puede integrar `dq/ronda-4` en `main`.
+
+### 2026-11-13 18:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-15)
+- Hice: revisión del turno 15 de Cursor. APROBADO CON CORRECCIONES. WP-07 queda HECHA. «ಕನ್ನಡ» había quedado sin el
+  virama en 2 películas: lo corregí con `lote-002` y agregué una prueba de signos combinantes. Detalle en
+  `bitacora/R-15.md`.
+- Evidencia: `./mvnw -q verify` con código 0; `hallazgos/salidas/r15/`.
+- Para el siguiente: turno 16, Cursor (WP-08).
+
+### 2026-11-13 19:05 UTC · Claude Code (Claude Opus 5.5) · revisor (R-16)
+- Hice: revisión del turno 16 de Cursor. APROBADO. WP-08 queda HECHA; comprobé los cambios contra las fichas de
+  TMDB. Ajusté las horas del diario de WP-08. Detalle en `bitacora/R-16.md`.
+- Evidencia: `./mvnw -q verify` con código 0; `hallazgos/salidas/r16/`.
+- Para el siguiente: turno 17, Cursor (WP-09).
+
+### 2026-11-13 19:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-17)
+- Hice: revisión del turno 17 de Google Antigravity. APROBADO CON CORRECCIONES. WP-09 queda HECHA; comprobé los
+  montos contra Wikipedia. Documenté `wikipedia_infobox` en `data/README.md`. Detalle en `bitacora/R-17.md`.
+- Evidencia: `./mvnw -q verify` con código 0.
+- Para el siguiente: turno 18, Cursor (WP-10).
+
+### 2026-11-13 19:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-18)
+- Hice: revisión del turno 18, que ejecuté yo por P-21, con un agente independiente. APROBADO CON CORRECCIONES. WP-10
+  queda HECHA. Con esto terminan los paquetes de trabajo WP-00 a WP-10; queda el cierre C-01. Detalle en
+  `bitacora/R-18.md`.
+- Evidencia: `./mvnw -q verify` con código 0.
+- Para el siguiente: turno 19, Cursor (C-01 T-01 a T-03).
+
+### 2026-11-13 20:45 UTC · Claude Code (Claude Opus 5.5) · revisor (R-19)
+- Hice: revisión del turno 19 de Cursor. APROBADO CON CORRECCIONES. Repetí las 41 pruebas de integración contra
+  staging (verde) y comprobé que el índice es estricto. Sumé al informe v2 el origen de las sinopsis y el estado de
+  las 10 recomendaciones. Detalle en `bitacora/R-19.md`.
+- Evidencia: `es.py` (staging con `dynamic: strict`, 6 899 películas); `./mvnw verify -Pit` sobre staging con 41
+  pruebas y 0 fallos.
+- Para el siguiente: turno 20, Cursor (C-01 T-04 y T-05; hito C en R-20).
+
+### 2026-11-13 20:43 UTC · Cursor (Grok 4.7) · turno 20 · borrador del hito C
+- Hice: borrador del resumen del hito C. Lo cierra Claude Code en R-20. La dueña del proyecto integra `dq/ronda-4` en `main` y decide el push.
+- Hito C (WP-01 a WP-10 y la medición M3, turnos 4 a 20). Borrador:
+  - **WP-01** quitó respuestas de asistente y datos inventados.
+  - **WP-02** reemplazó los ensayos generados por tramas de Wikipedia.
+  - **WP-03** amplió las advertencias de sinopsis (`EFX-ING-025`, `026`, `028`) y quedó integrada, con cero avisos en `data/`.
+  - **WP-04** etiquetó el origen de las 6 899 sinopsis.
+  - **WP-05** limpió la ficha, la taquilla y la crítica de las sinopsis enciclopédicas.
+  - **WP-06** alargó 616 sinopsis cortas; quedan 146 de menos de 200 caracteres, sin una fuente más larga.
+  - **Procedencia final:** 5 403 tramas de Wikipedia, 1 065 overviews de TMDB, 429 `unverified` y 2 de otro origen de TMDB. Ninguna sin etiqueta.
+  - **WP-07** normalizó espacios, NFC y el espacio duro, y la carga avisa con `EFX-ING-029`.
+  - **WP-08** dejó un solo nombre en los ids `12377`, `303361` y `208349`, y movió *Death Note Relight 2* a su colección.
+  - **WP-09** rotuló `user_score` (D-02, opción A) y confirmó el `revenue` 618 de *Money Plane*. El `budget` 568 443 frente a $586,443 queda anotado y no se cambió.
+  - **WP-10** puso `dynamic: strict` en el mapping y documentó que el filtro `adult` se queda.
+  - **Relevancia, M0 → M3** (nDCG@10): `knn_plot_1024` 0.742 → 0.745, `knn_plot_512` 0.651 → 0.708, `rrf_title_knn256` 0.348 → 0.425. `bm25_plot` 0.423 → 0.296 y `rrf_plot_knn1024` 0.662 → 0.557, por el vocabulario de las consultas de evaluación (R-14, D-08).
+  - **Producción:** intacta. El índice de staging con el catálogo nuevo es `elastiflix-dq-staging-20261113-195801`.
+- **Despliegue:** conviene desplegar la demo después de la publicación (C-01 T-07). La página de Inicio y «Acerca de» ya muestran cifras del catálogo nuevo, y producción sigue con el índice viejo hasta ese paso (R-19). Publicar el alias sin desplegar deja la demo midiendo el índice viejo; desplegar antes de publicar muestra posiciones que no son las del índice vigente.
+- Evidencia: `BITACORA.md` §6 y §7; `target/eval/report.md`; `informe/informe-calidad-v2.html`.
+- Para el siguiente: R-20 cierra este borrador. La integración en `main` la hace la dueña del proyecto.
+
+### 2026-11-13 20:55 UTC · Claude Code (Claude Opus 5.5) · revisor (R-20) · cierre del hito C
+- Hice: revisión del turno 20 de Cursor. APROBADO CON CORRECCIONES (una frase del README). Confirmo el borrador del
+  hito C de Cursor (20:43 UTC, arriba) como su resumen. Cierra el **hito C**:
+  - **Paquetes de trabajo:** WP-00 a WP-10 en HECHA.
+  - **Catálogo:** el de `data/` está medido en staging (M3).
+  - **Documentación:** las cifras coinciden con M3.
+  - **Producción:** intacta.
+- Evidencia: R-19 y R-20; `./mvnw -q verify` con código 0; `./mvnw verify -Pit` sobre staging con 41 pruebas en
+  verde (R-19); `informe/informe-calidad-v2.html`.
+- Para el siguiente: turno 21, Cursor (H-2 y publicación). La dueña del proyecto puede integrar `dq/ronda-4` en
+  `main` y conviene que despliegue después de C-01 T-07.

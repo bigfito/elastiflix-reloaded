@@ -12,6 +12,7 @@
  },
  "mapping": {
   "mappings": {
+   "dynamic": "strict",
    "properties": {
     "adult": {
      "type": "boolean"
@@ -59,6 +60,74 @@
     },
     "cast": {
      "type": "keyword"
+    },
+    "enrichment": {
+     "type": "object",
+     "properties": {
+      "backdrop_path": {
+       "type": "keyword"
+      },
+      "belongs_to_collection": {
+       "type": "keyword"
+      },
+      "budget": {
+       "type": "keyword"
+      },
+      "cast": {
+       "type": "keyword"
+      },
+      "genres": {
+       "type": "keyword"
+      },
+      "homepage": {
+       "type": "keyword"
+      },
+      "imdb_id": {
+       "type": "keyword"
+      },
+      "keywords": {
+       "type": "keyword"
+      },
+      "overview": {
+       "type": "keyword"
+      },
+      "plot": {
+       "type": "keyword"
+      },
+      "poster_path": {
+       "type": "keyword"
+      },
+      "production_companies": {
+       "type": "keyword"
+      },
+      "production_countries": {
+       "type": "keyword"
+      },
+      "rating": {
+       "type": "keyword"
+      },
+      "revenue": {
+       "type": "keyword"
+      },
+      "runtime": {
+       "type": "keyword"
+      },
+      "spoken_languages": {
+       "type": "keyword"
+      },
+      "tagline": {
+       "type": "keyword"
+      },
+      "user_score": {
+       "type": "keyword"
+      },
+      "vote_average": {
+       "type": "keyword"
+      },
+      "vote_count": {
+       "type": "keyword"
+      }
+     }
     },
     "genres": {
      "type": "keyword"
@@ -138,7 +207,7 @@
      "type": "float"
     },
     "poster_path": {
-     "type": "text"
+     "type": "keyword"
     },
     "production_companies": {
      "type": "keyword"
@@ -3031,7 +3100,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -3543,7 +3612,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -4383,7 +4452,7 @@
     },
     {
      "id": 2765,
-     "name": "fungus spores   "
+     "name": "fungus spores"
     },
     {
      "id": 2964,
@@ -5122,7 +5191,7 @@
     },
     {
      "id": 3972,
-     "name": "simulated reality "
+     "name": "simulated reality"
     },
     {
      "id": 4563,
@@ -5618,7 +5687,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -9190,7 +9259,7 @@
    ],
    "spoken_languages": [
     "Français",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -9219,24 +9288,100 @@
    ],
    "keywords": [
     {
+     "id": 387,
+     "name": "california"
+    },
+    {
+     "id": 957,
+     "name": "indian territory"
+    },
+    {
+     "id": 999,
+     "name": "sports car"
+    },
+    {
+     "id": 1436,
+     "name": "inventor"
+    },
+    {
+     "id": 1544,
+     "name": "locomotive"
+    },
+    {
+     "id": 1582,
+     "name": "saloon"
+    },
+    {
+     "id": 2284,
+     "name": "horseback riding"
+    },
+    {
      "id": 4379,
      "name": "time travel"
     },
     {
-     "id": 12377,
+     "id": 9503,
+     "name": "outlaw"
+    },
+    {
+     "id": 9663,
+     "name": "sequel"
+    },
+    {
+     "id": 10028,
+     "name": "steampunk"
+    },
+    {
+     "id": 10125,
+     "name": "mad scientist"
+    },
+    {
+     "id": 10322,
+     "name": "native american"
+    },
+    {
+     "id": 10950,
+     "name": "shootout"
+    },
+    {
+     "id": 12371,
+     "name": "gunfight"
+    },
+    {
+     "id": 13008,
+     "name": "train"
+    },
+    {
+     "id": 155573,
      "name": "wild west"
     },
     {
-     "id": 303361,
-     "name": "delorean"
+     "id": 156234,
+     "name": "cavalry"
     },
     {
-     "id": 14946,
-     "name": "fictional war"
+     "id": 208349,
+     "name": "kids"
     },
     {
-     "id": 4565,
-     "name": "dystopia"
+     "id": 208611,
+     "name": "1950s"
+    },
+    {
+     "id": 209792,
+     "name": "candid"
+    },
+    {
+     "id": 226370,
+     "name": "hoverboard"
+    },
+    {
+     "id": 288816,
+     "name": "lighthearted"
+    },
+    {
+     "id": 325840,
+     "name": "optimistic"
     }
    ],
    "cast": [
@@ -9906,7 +10051,7 @@
    "spoken_languages": [
     "English",
     "Deutsch",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -9995,7 +10140,7 @@
     "Euro Film Funding"
    ],
    "production_countries": [
-    "United States"
+    "United States of America"
    ],
    "spoken_languages": [
     "English"
@@ -12720,7 +12865,7 @@
     },
     {
      "id": 4230,
-     "name": "carousel "
+     "name": "carousel"
     },
     {
      "id": 5340,
@@ -20480,7 +20625,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "普通话"
    ],
    "enrichment": {
@@ -22372,7 +22517,7 @@
     "български език",
     "English",
     "Français",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -22675,7 +22820,7 @@
     "Deutsch",
     "svenska",
     "Italiano",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
@@ -23366,24 +23511,80 @@
    ],
    "keywords": [
     {
+     "id": 83,
+     "name": "saving the world"
+    },
+    {
+     "id": 310,
+     "name": "artificial intelligence (a.i.)"
+    },
+    {
+     "id": 312,
+     "name": "man vs machine"
+    },
+    {
+     "id": 490,
+     "name": "philosophy"
+    },
+    {
+     "id": 530,
+     "name": "prophecy"
+    },
+    {
+     "id": 663,
+     "name": "fortune teller"
+    },
+    {
+     "id": 779,
+     "name": "martial arts"
+    },
+    {
+     "id": 1501,
+     "name": "allegory"
+    },
+    {
+     "id": 3074,
+     "name": "insurgence"
+    },
+    {
+     "id": 3972,
+     "name": "simulated reality"
+    },
+    {
+     "id": 4238,
+     "name": "chosen one"
+    },
+    {
      "id": 4565,
      "name": "dystopia"
     },
     {
-     "id": 4379,
-     "name": "time travel"
+     "id": 12190,
+     "name": "cyberpunk"
     },
     {
-     "id": 12377,
-     "name": "virtual reality"
+     "id": 163540,
+     "name": "christ allegory"
     },
     {
-     "id": 14946,
-     "name": "fictional war"
+     "id": 194063,
+     "name": "messiah"
     },
     {
-     "id": 303361,
-     "name": "matrix"
+     "id": 221385,
+     "name": "gnosticism"
+    },
+    {
+     "id": 238160,
+     "name": "christ figure"
+    },
+    {
+     "id": 282217,
+     "name": "christian allegory"
+    },
+    {
+     "id": 325778,
+     "name": "bold"
     }
    ],
    "cast": [
@@ -24308,7 +24509,7 @@
     "Français",
     "עִבְרִית",
     "Italiano",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -24372,7 +24573,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     },
     {
      "id": 208873,
@@ -25212,7 +25413,7 @@
     "Mathieu Gaudreault",
     "Guy-Daniel Tremblay",
     "Alexander Bisping",
-    "Patrice Dussault ",
+    "Patrice Dussault",
     "Paul Todd",
     "Jake Wagner",
     "Ashley Cohen",
@@ -26357,7 +26558,7 @@
    "spoken_languages": [
     "English",
     "日本語",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -28078,7 +28279,7 @@
     "Laura Elena Surillo",
     "Michael Chaban",
     "Larry King",
-    "Thomas Garner ",
+    "Thomas Garner",
     "Conroy Chino",
     "Dan Gifford",
     "Vance Valencia",
@@ -28184,7 +28385,7 @@
    ],
    "spoken_languages": [
     "Español",
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -29163,7 +29364,7 @@
    "spoken_languages": [
     "Deutsch",
     "English",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -29734,7 +29935,7 @@
     "العربية",
     "Français",
     "Deutsch",
-    "Pусский",
+    "Русский",
     "Český",
     "Slovenčina"
    ],
@@ -32792,7 +32993,7 @@
     "Tara Rice",
     "Nicole Sciacca",
     "Matt Sergott",
-    "Sonny Sison ",
+    "Sonny Sison",
     "Michael Sun Lee",
     "Chris Sung",
     "Andreanna Veith",
@@ -35180,7 +35381,7 @@
     },
     {
      "id": 4508,
-     "name": "principal witness "
+     "name": "principal witness"
     },
     {
      "id": 6083,
@@ -36298,7 +36499,7 @@
     "English",
     "Français",
     "日本語",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -38591,7 +38792,7 @@
     "Español",
     "Français",
     "日本語",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
@@ -39003,7 +39204,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     }
    ],
    "cast": [
@@ -39124,7 +39325,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Español",
     "Deutsch"
    ],
@@ -40428,7 +40629,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Français"
    ],
    "enrichment": {
@@ -41302,7 +41503,7 @@
    "spoken_languages": [
     "English",
     "Français",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-13",
@@ -41628,7 +41829,7 @@
     "Michael Sheen",
     "Marius Weyers",
     "Stephen Collins",
-    "Ntare Guma Mbaho Mwine ",
+    "Ntare Guma Mbaho Mwine",
     "Ato Essandoh",
     "David S. Lee",
     "Percy Matsemela",
@@ -41837,7 +42038,7 @@
    "spoken_languages": [
     "English",
     "ქართული",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -42059,7 +42260,7 @@
     "Soviet Union"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -43942,7 +44143,7 @@
     "United States of America"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -44186,7 +44387,7 @@
     "English",
     "Español",
     "Français",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -44617,7 +44818,7 @@
    ],
    "spoken_languages": [
     "Íslenska",
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -46961,7 +47162,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Srpski"
    ],
    "enrichment": {
@@ -47200,7 +47401,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -47638,7 +47839,7 @@
     },
     {
      "id": 4508,
-     "name": "principal witness "
+     "name": "principal witness"
     },
     {
      "id": 5565,
@@ -47859,7 +48060,7 @@
    "spoken_languages": [
     "English",
     "فارسی",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-13",
@@ -52588,7 +52789,7 @@
     "Deutsch",
     "English",
     "Français",
-    "Pусский",
+    "Русский",
     "Español",
     "Український",
     "Türkçe"
@@ -54780,7 +54981,7 @@
     "Andrea Occhipinti",
     "Federico Pérez Rey",
     "Nicolás Fernández Luna",
-    "Xosé Manuel Olveira ",
+    "Xosé Manuel Olveira",
     "César Cambeiro",
     "Xosé Manuel Esperante",
     "Adolfo Obregón",
@@ -57850,7 +58051,7 @@
    "adult": false,
    "video": false,
    "tagline": "The lady returns.",
-   "overview": "Lara Croft is tasked by MI6 to find the mythological Pandora's Box, an object from ancient legends which supposedly contains one of the deadliest plagues on Earth, before evil Nobel Prize-winning scientist turned bioterrorist Jonathan Reiss can get his hands on it. Lara ventures to an underwater temple in search of a magical luminous orb, the key to finding Pandora's Box, but after securing it, it is promptly stolen by the villainous leader of a Chinese crime syndicate who in turn plans to sell the orb to Reiss. Lara must recover the box before evil mastermind Reiss uses it to construct a weapon of catastrophic capabilities.",
+   "overview": "Lara Croft is tasked by MI6 to find the mythological Pandora's Box, an object from ancient legends which supposedly contains one of the deadliest plagues on Earth, before evil Nobel Prize-winning scientist turned bioterrorist Jonathan Reiss can get his hands on it. Lara ventures to an underwater temple in search of a magical luminous orb, the key to finding Pandora's Box, but after securing it, it is promptly stolen by the villainous leader of a Chinese crime syndicate who in turn plans to sell the orb to Reiss. Lara must recover the box before evil mastermind Reiss uses it to construct a weapon of catastrophic capabilities.",
    "plot": "On Santorini island, Greece, a strong earthquake uncovers the Luna Temple. The temple was built by Alexander the Great to house his most prized treasures. Among these treasures is a glowing orb with a pattern resembling a code etched into it. Treasure-hunting archaeologist Lara Croft and her group find this orb but are ambushed by the Lo brothers; Chen and Xien, both of whom are crime lords and leaders of Chinese syndicate Shay Ling. The duo kill the group and take the orb, but Lara escapes with a strange medallion.\nMI6 approaches Lara with information about Pandora's box, an object from ancient legends that supposedly contains a deadly plague (the companion to the origin of life itself). The box, hidden in the mysterious Cradle of Life, can only be found with a magical sphere that serves as a map. The sphere is the same orb that was stolen by Chen Lo, who plans to sell it to Dr. Jonathan Reiss, a Nobel Prize-winning scientist and business magnate turned misanthropic bioweapons dealer.\nRealising that the sphere must be kept away from Reiss, Lara agrees to help MI6, with the condition that they release her old flame Terry Sheridan, who is familiar with Chen Lo's criminal operation. Together, Lara and Terry infiltrate Chen Lo's lair, where he is smuggling the Terracotta Soldiers. Lara defeats him in a fight and learns that the orb is in Shanghai, China. In Shanghai, she discovers Chen's brother Xien is trying to give the orb to Reiss; however, once Xien hands the orb over, Reiss betrays and executes him, but not before Lara manages to put a tracker on the crate containing the orb.\nLara and Terry manage to find the orb in a lab housed in Hong Kong. However, Lara is captured by Reiss and his men. Reiss reveals his plans to unleash the plague, saving only those people he deems worthy. Helpless and condemned, Lara is saved by Terry and they destroy his computer take the orb before fleeing using wingsuits.\nThe next day, Lara decodes the orb and learns the location of the mysterious Cradle of Life near Mount Kilimanjaro in the African country of Tanzania. Back at Croft Manor, Lara's assistant Bryce and butler Hillary help Lara with the decoding. Afterwards, they are abducted by Reiss's henchmen who repaired their computer sooner than predicted as they make their way to Africa.\nLara travels to Tanzania where she meets up with her longtime friend Kosa. They question a local tribe about the Cradle of Life, wherein the chief states that the Cradle of Life is in a crater protected by the Shadow Guardians.\nAs they set out on an expedition the next day, Reiss' mercenary army ambush them and kill the tribesmen. Outnumbered and out of ammunition by the time Reiss' helicopter lands, Lara surrenders. Using Bryce and Hillary as hostages, Reiss forces Lara and Kosa to lead him to the Cradle of Life. At the crater, they encounter the Shadow Guardians that appear in and out of wet patches on dead trees.",
    "genres": [
     "Action",
@@ -58499,7 +58700,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -59489,7 +59690,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Español",
     "한국어/조선말"
    ],
@@ -59594,7 +59795,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -59616,7 +59817,7 @@
    "video": false,
    "tagline": "How do you hold on to someone you've never met?",
    "overview": "A lonely doctor who once occupied an unusual lakeside home begins exchanging love letters with its former resident, a frustrated architect. They must try to unravel the mystery behind their extraordinary romance before it's too late.",
-   "plot": "When architect Alex Wyler moves into an unusual glass house on stilts over a lake, he discovers a note from the previous tenant in the mailbox--but no one's lived in the house for years. He replies and soon discovers that he's corresponding with a doctor named Kate Forster. Their correspondence, only through the 'magical' mailbox, turns romantic and their paths cross in unexpected ways, but when they try to truly connect, danger looms. They must try to unravel the mystery behind their extraordinary romance before it's too late.",
+   "plot": "When architect Alex Wyler moves into an unusual glass house on stilts over a lake, he discovers a note from the previous tenant in the mailbox--but no one's lived in the house for years. He replies and soon discovers that he's corresponding with a doctor named Kate Forster. Their correspondence, only through the 'magical' mailbox, turns romantic and their paths cross in unexpected ways, but when they try to truly connect, danger looms. They must try to unravel the mystery behind their extraordinary romance before it's too late.",
    "genres": [
     "Drama",
     "Mystery",
@@ -61094,7 +61295,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "tmdb_overview",
@@ -63347,7 +63548,7 @@
    "spoken_languages": [
     "Íslenska",
     "English",
-    "Pусский",
+    "Русский",
     "Français"
    ],
    "enrichment": {
@@ -63480,7 +63681,7 @@
     "United States of America"
    ],
    "spoken_languages": [
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -66547,7 +66748,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Deutsch",
     "Italiano"
    ],
@@ -66767,7 +66968,7 @@
     "English",
     "Français",
     "العربية",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -68206,7 +68407,7 @@
    ],
    "spoken_languages": [
     "Français",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -70050,7 +70251,7 @@
    ],
    "spoken_languages": [
     "Deutsch",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "wikidata",
@@ -71176,7 +71377,7 @@
    "spoken_languages": [
     "English",
     "Français",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "homepage": "tmdb_api_2026-10-22",
@@ -76942,7 +77143,7 @@
     "Noelle Scaggs",
     "Will.i.am",
     "Fergie",
-    "Apl.de.Ap ",
+    "Apl.de.Ap",
     "Taboo",
     "Carmen Getit",
     "Steve Lucky",
@@ -76984,7 +77185,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-13",
@@ -79171,7 +79372,7 @@
     "Australia"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -79913,7 +80114,7 @@
     "Français",
     "English",
     "Italiano",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -86171,7 +86372,7 @@
    "spoken_languages": [
     "العربية",
     "English",
-    "Pусский",
+    "Русский",
     "اردو",
     "עִבְרִית"
    ],
@@ -86802,7 +87003,7 @@
     "English",
     "Italiano",
     "Polski",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "budget": "wikipedia_infobox",
@@ -88522,7 +88723,7 @@
     "United States of America"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -94367,7 +94568,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     }
    ],
    "cast": [
@@ -94420,7 +94621,7 @@
     "English",
     "Português",
     "پښتو",
-    "Pусский",
+    "Русский",
     "اردو"
    ],
    "enrichment": {
@@ -95401,7 +95602,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Français"
    ],
    "enrichment": {
@@ -96955,7 +97156,7 @@
     "Luciano Rauso",
     "Daniel Caruso",
     "Elyse Mirto",
-    "Kevin Quinn ",
+    "Kevin Quinn",
     "Suzanne Rico",
     "Kent Shocknek"
    ],
@@ -97430,7 +97631,7 @@
    ],
    "spoken_languages": [
     "Français",
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -98253,7 +98454,7 @@
     "United States of America"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -98986,7 +99187,7 @@
     "United States of America"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -104533,7 +104734,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     },
     {
      "id": 245597,
@@ -106210,7 +106411,7 @@
     "Griff Furst",
     "DeVere Jehl",
     "Michael Showers",
-    "Beth Burvant",
+    "Beth Burvant",
     "Ladson Deyne",
     "Kennon Kepper",
     "Andrew Sensenig",
@@ -106479,7 +106680,7 @@
    "adult": false,
    "video": false,
    "tagline": "Danger runs deep.",
-   "overview": "After the Cold War, a breakaway Russian republic with nuclear warheads becomes a possible worldwide threat. U.S. submarine Capt. Frank Ramsey signs on a relatively green but highly recommended Lt. Cmdr. Ron Hunter to the USS Alabama, which may be the only ship able to stop a possible Armageddon. When Ramsay insists that the Alabama must act aggressively, Hunter, fearing they will start rather than stop a disaster, leads a potential mutiny to stop him.",
+   "overview": "After the Cold War, a breakaway Russian republic with nuclear warheads becomes a possible worldwide threat. U.S. submarine Capt. Frank Ramsey signs on a relatively green but highly recommended Lt. Cmdr. Ron Hunter to the USS Alabama, which may be the only ship able to stop a possible Armageddon. When Ramsay insists that the Alabama must act aggressively, Hunter, fearing they will start rather than stop a disaster, leads a potential mutiny to stop him.",
    "plot": "In post-Soviet Russia, civil war erupts as a result of the ongoing conflict in Chechnya. Military units loyal to Vladimir Radchenko, a Russian ultra-nationalist rebel, take control of a nuclear missile installation in the Russian Far East near the Chinese and North Korean borders and threaten nuclear war if confronted.\nUSS Alabama, a U.S. Navy submarine, is dispatched on patrol with orders to launch a pre-emptive nuclear strike if Radchenko fuels his missiles. Combat-hardened veteran Captain Frank Ramsey chooses Lieutenant Commander Ron Hunter, who has an extensive education in military history and tactics but no combat experience, as his new XO.\nTensions arise between the headstrong Ramsey and the more analytical and cautious Hunter, exacerbated by Ramsey's decision to order a missile drill amidst the chaos caused by a galley fire that results in the death of the chief mess officer. Hunter helps fight the fire and discreetly questions the decision but is chastised by Ramsey for the appearance of discord.\nAlabama receives an Emergency Action Message ordering a missile launch against the Russian base. As Alabama prepares to fire, a second radio message is detected before a rebel Russian Akula-class submarine attacks, damaging the boat’s radio and leaving the message incomplete.\nWith the last confirmed order being to launch, Ramsey decides to proceed. Hunter disagrees, believing the partial second message may be a retraction. When Hunter refuses to consent as is required for a launch to be authorized, Ramsey tries to relieve him of duty. Hunter orders Ramsey arrested for attempting to circumvent two-man protocol. The Chief of the Boat sides with Hunter and has Ramsey relieved of command and confined to his stateroom, putting Hunter in charge.\nThe Russian submarine attacks Alabama again. Alabama emerges victorious but is damaged when a torpedo detonates next to her hull. The main propulsion system is disabled, and the bilge bay begins flooding. As the crew tries to restore propulsion, Hunter orders the sealing of the bilge with sailors trapped inside, saving Alabama at the expense of the men. Propulsion is restored before Alabama reaches hull-crush depth.\nOfficers and crew loyal to Ramsey unite and stage a mutiny. They retake the control room, confining Hunter, the Chief of the Boat, and some others to the officers' mess. Repairs to the radio continue, but Ramsey is determined to proceed without waiting for verification. Hunter escapes his arrest and prepares to retake the ship. He gains the support of weapons officer Peter Ince in the missile control room, further delaying the launch and leading Ramsey to go there. Hunter's party storms Alabama's command center, removing the captain's missile key. Ramsey and his men return, resulting in an armed Mexican standoff. With news that the radio will soon be repaired, Ramsey and Hunter agree to wait until the deadline for a preemptive missile launch to be effective.",
    "genres": [
     "Thriller",
@@ -111926,7 +112127,7 @@
     },
     {
      "id": 208349,
-     "name": "child"
+     "name": "kids"
     }
    ],
    "cast": [
@@ -113504,7 +113705,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -123525,7 +123726,7 @@
    "spoken_languages": [
     "English",
     "Français",
-    "Pусский"
+    "Русский"
    ],
    "enrichment": {
     "plot": "wikipedia_plot_2026-11-12",
@@ -124297,7 +124498,7 @@
    ],
    "spoken_languages": [
     "English",
-    "Pусский",
+    "Русский",
     "Español"
    ],
    "enrichment": {
@@ -124922,7 +125123,7 @@
     },
     {
      "id": 3396,
-     "name": "probation assistant "
+     "name": "probation assistant"
     },
     {
      "id": 6075,
@@ -125259,7 +125460,7 @@
     "United States of America"
    ],
    "spoken_languages": [
-    "Pусский",
+    "Русский",
     "English"
    ],
    "enrichment": {
@@ -125470,8 +125671,8 @@
    "adult": false,
    "video": false,
    "tagline": "Laugh. Cry. Share the pants.",
-   "overview": "Four best friends (Tibby, Lena, Carmen &amp; Bridget) who buy a mysterious pair of pants that fits each of them, despite their differing sizes, and makes whoever wears them feel fabulous. When faced with the prospect of spending their first summer apart, the pals decide they'll swap the pants so that each girl in turn can enjoy the magic.",
-   "plot": "Four best friends (Tibby, Lena, Carmen &amp; Bridget) who buy a mysterious pair of pants that fits each of them, despite their differing sizes, and makes whoever wears them feel fabulous. When faced with the prospect of spending their first summer apart, the pals decide they'll swap the pants so that each girl in turn can enjoy the magic.",
+   "overview": "Four best friends (Tibby, Lena, Carmen & Bridget) who buy a mysterious pair of pants that fits each of them, despite their differing sizes, and makes whoever wears them feel fabulous. When faced with the prospect of spending their first summer apart, the pals decide they'll swap the pants so that each girl in turn can enjoy the magic.",
+   "plot": "Four best friends (Tibby, Lena, Carmen & Bridget) who buy a mysterious pair of pants that fits each of them, despite their differing sizes, and makes whoever wears them feel fabulous. When faced with the prospect of spending their first summer apart, the pals decide they'll swap the pants so that each girl in turn can enjoy the magic.",
    "genres": [
     "Drama",
     "Comedy"
@@ -125788,7 +125989,7 @@
    "keywords": [
     {
      "id": 2882,
-     "name": "straitjacket "
+     "name": "straitjacket"
     },
     {
      "id": 171119,

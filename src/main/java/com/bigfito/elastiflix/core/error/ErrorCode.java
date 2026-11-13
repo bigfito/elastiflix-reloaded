@@ -273,27 +273,27 @@ public enum ErrorCode {
     ESSAY_PLOT("EFX-ING-028", "La sinopsis parece un ensayo de temas de un modelo",
             "«main themes», «at its core», «explores the theme of», «delves into the complexities» o una lista",
             "Revisa la sinopsis; la carga sigue porque esto no impide importar"),
+    /** El texto traía espacios de más, un espacio duro o no estaba en NFC. No rechaza el archivo. */
+    TEXT_NORMALIZED("EFX-ING-029", "El texto se normalizó al validar",
+            "Tenía espacios en los extremos, un espacio duro (U+00A0) o no estaba en NFC",
+            "No hay que hacer nada: la carga guarda el texto ya normalizado"),
     /** {@code document_count} no coincide con la lista {@code documents}. */
-    DOCUMENT_COUNT_MISMATCH("EFX-ING-008",
-            "document_count no coincide con los documentos",
+    DOCUMENT_COUNT_MISMATCH("EFX-ING-008", "document_count no coincide con los documentos",
             "El objeto de exportación trae un conteo distinto del largo de documents",
             "Corrige document_count o la lista de documentos y vuelve a subir el archivo"),
 
     /** El JSON del archivo no se puede leer. Una celda CSV mala no llega aquí: da {@code EFX-ING-012}. */
-    UNREADABLE_JSON("EFX-ING-013",
-            "El JSON no se puede leer",
+    UNREADABLE_JSON("EFX-ING-013", "El JSON no se puede leer",
             "El archivo JSON está mal formado",
             "Revisa el JSON y vuelve a subir el archivo"),
 
     /** El archivo CSV no se puede leer. */
-    UNREADABLE_CSV("EFX-ING-015",
-            "El CSV no se puede leer",
+    UNREADABLE_CSV("EFX-ING-015", "El CSV no se puede leer",
             "El archivo CSV está mal formado",
             "Revisa el CSV y vuelve a subir el archivo"),
 
     /** Una fila del CSV no trae una celda por cada columna del encabezado. */
-    COLUMN_COUNT("EFX-ING-014",
-            "Una fila no tiene las mismas celdas que el encabezado",
+    COLUMN_COUNT("EFX-ING-014", "Una fila no tiene las mismas celdas que el encabezado",
             "Faltan o sobran columnas en esa fila",
             "Corrige la fila para que tenga una celda por cada columna del encabezado"),
 

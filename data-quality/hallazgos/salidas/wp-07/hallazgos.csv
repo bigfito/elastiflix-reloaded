@@ -1,0 +1,280 @@
+﻿id,title,year,severidad,categoria,campo,detalle
+671,Harry Potter and the Philosopher's Stone,2001,crítica,plot_respuesta_de_asistente,plot,"Orphaned as a baby in 1981, Harry Potter is entrusted to his only living relatives, the Dursley family that is not related to the wizarding world, by Professor "
+799546,Luckiest Girl Alive,2022,crítica,plot_respuesta_de_asistente,plot,"In 2015, TifAni ""Ani"" FaNelli, a respected New York women's magazine columnist, appears to have a picture-perfect life. As she prepares to marry her fiancé Luke"
+1450,Blood: The Last Vampire,2009,alta,plot_dato_inventado_verificado,plot,La versión live-action de 2009 tiene el ensayo del anime de 2000
+9381,Babylon A.D.,2008,alta,plot_dato_inventado_verificado,plot,Gerard Butler y Moon Bloodgood; es Vin Diesel
+9896,Rat Race,2001,alta,plot_dato_inventado_verificado,plot,"Will Ferrell, Jon Heder, Steve Carell; no actúan"
+10066,House of Wax,2005,alta,plot_dato_inventado_verificado,plot,Ewan McGregor y Hayden Christensen; no actúan
+11208,Wicker Park,2004,alta,plot_dato_inventado_verificado,plot,Director Phedon Papamichael (fue el fotógrafo); dir. Paul McGuigan
+13971,Wild Child,2008,alta,plot_dato_inventado_verificado,plot,Atribuye el reparto a Emma Watson; es Emma Roberts
+38408,Life As We Know It,2010,alta,plot_dato_inventado_verificado,plot,"Jennifer Aniston y Paul Rudd, directores Ficarra/Requa; es Heigl/Duhamel, dir. Greg Berlanti"
+48340,Sanctum,2011,alta,plot_dato_inventado_verificado,plot,Rhys Ifans y Forest Whitaker; no actúan
+242828,When Marnie Was There,2014,alta,plot_dato_inventado_verificado,plot,Marnie «not a real person… alter ego»: interpretación errónea
+245698,Pawn Sacrifice,2015,alta,plot_dato_inventado_verificado,plot,«directed by Gambit»; dir. Edward Zwick
+621707,The Vigil,2020,alta,plot_dato_inventado_verificado,plot,Trama inventada (policía retirado); es horror sobre un shomer en Brooklyn
+105,Back to the Future,1985,media,keyword_id_con_otro_nombre,keywords,id 208349 «kids»; el id es «child» en 13 películas
+165,Back to the Future Part II,1989,media,keyword_id_con_otro_nombre,keywords,id 208349 «kids»; el id es «child» en 13 películas
+196,Back to the Future Part III,1990,media,keyword_id_con_otro_nombre,keywords,id 12377 «wild west»; el id es «zombie» en 84 películas
+196,Back to the Future Part III,1990,media,keyword_id_con_otro_nombre,keywords,id 303361 «delorean»; el id es «terminator» en 6 películas
+603,The Matrix,1999,media,keyword_id_con_otro_nombre,keywords,id 12377 «virtual reality»; el id es «zombie» en 84 películas
+603,The Matrix,1999,media,keyword_id_con_otro_nombre,keywords,id 303361 «matrix»; el id es «terminator» en 6 películas
+26662,Detective Conan: The Phantom of Baker Street,2002,media,keyword_id_con_otro_nombre,keywords,id 310 «artificial intelligence (a.i.)»; el id es «artificial intelligence» en 51 películas
+37964,Brown Sugar,2002,media,keyword_id_con_otro_nombre,keywords,id 9799 «romcom»; el id es «romantic comedy» en 59 películas
+51170,Open Season 3,2010,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+315064,Animal Crackers,2017,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+487297,What Men Want,2019,media,keyword_id_con_otro_nombre,keywords,id 169055 «national basketball association (nba)»; el id es «nba» en 3 películas
+529862,Brittany Runs a Marathon,2019,media,keyword_id_con_otro_nombre,keywords,id 1253 «roommates»; el id es «roommate» en 11 películas
+551271,Medieval,2022,media,keyword_id_con_otro_nombre,keywords,id 41406 «middle ages (476-1453)»; el id es «middle ages» en 13 películas
+604822,Vanguard,2020,media,keyword_id_con_otro_nombre,keywords,id 5265 «espionage»; el id es «spying» en 6 películas
+678287,Marmaduke,2022,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+780382,The Wolf and the Lion,2021,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+878962,Sharkdog’s Fintastic Halloween,2021,media,keyword_id_con_otro_nombre,keywords,id 208349 «kids»; el id es «child» en 13 películas
+904039,Madagascar: A Little Wild Holiday Goose Chase,2021,media,keyword_id_con_otro_nombre,keywords,id 18165 «animals»; el id es «animal» en 61 películas
+1019446,Wildcat,2022,media,keyword_id_con_otro_nombre,keywords,id 5968 «amazon rainforest»; el id es «amazon» en 6 películas
+42360,Inuyasha the Movie: Affections Touching Across Time,2001,media,numero_sospechoso,budget,budget 10540 con revenue 10539779 (×1000)
+694919,Money Plane,2020,media,numero_sospechoso,revenue,revenue 618 con budget 568443
+883,Coffee and Cigarettes,2003,media,plot_corto,plot,189 caracteres; origen tmdb_overview
+8881,Che: Part One,2008,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+13243,Meet Bill,2007,media,plot_corto,plot,117 caracteres; origen tmdb_overview
+13741,2 Alone in Paris,2008,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+14092,Ghost in the Shell 2.0,2008,media,plot_corto,plot,159 caracteres; origen tmdb_overview
+15302,The Pixar Story,2007,media,plot_corto,plot,64 caracteres; origen wikipedia_plot_2026-11-12
+15485,Disney Princess Enchanted Tales: Follow Your Dreams,2007,media,plot_corto,plot,86 caracteres; origen tmdb_overview
+21791,Drop Dead Sexy,2005,media,plot_corto,plot,124 caracteres; origen wikipedia_plot_2026-11-13
+33473,Stomp the Yard 2: Homecoming,2010,media,plot_corto,plot,196 caracteres; origen wikipedia_plot_2026-11-12
+43956,Tom and Jerry Meet Sherlock Holmes,2010,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+49948,Fantasia 2000,1999,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+63404,American Pie: Revealed,2004,media,plot_corto,plot,103 caracteres; origen tmdb_overview
+70608,LEGO Star Wars: The Padawan Menace,2011,media,plot_corto,plot,143 caracteres; origen tmdb_overview
+76180,Empire of Dreams: The Story of the Star Wars Trilogy,2004,media,plot_corto,plot,114 caracteres; origen tmdb_overview
+76535,Marvel One-Shot: A Funny Thing Happened on the Way to Thor's Hammer,2011,media,plot_corto,plot,98 caracteres; origen tmdb_overview
+77499,Barbie: A Perfect Christmas,2011,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+84334,Searching for Sugar Man,2012,media,plot_corto,plot,191 caracteres; origen tmdb_overview
+104859,Mac & Devin Go to High School,2012,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+180305,Mercy,2014,media,plot_corto,plot,189 caracteres; origen wikipedia_plot_2026-11-12
+214553,"Love, Chunibyo & Other Delusions! Rikka Version",2013,media,plot_corto,plot,92 caracteres; origen tmdb_overview
+219247,Zombie Night,2013,media,plot_corto,plot,84 caracteres; origen wikipedia_plot_2026-11-12
+226672,Legendary: Tomb of the Dragon,2013,media,plot_corto,plot,190 caracteres; origen wikipedia_plot_2026-11-12
+238302,Saving Santa,2013,media,plot_corto,plot,188 caracteres; origen wikipedia_plot_2026-11-12
+239459,No Half Measures: Creating the Final Season of Breaking Bad,2013,media,plot_corto,plot,87 caracteres; origen tmdb_overview
+245775,Yves Saint Laurent,2014,media,plot_corto,plot,106 caracteres; origen wikipedia_plot_2026-11-12
+246355,Saw,2003,media,plot_corto,plot,120 caracteres; origen tmdb_overview
+287003,Avatar: Scene Deconstruction,2009,media,plot_corto,plot,48 caracteres; origen tmdb_overview
+308403,Homesick,2015,media,plot_corto,plot,172 caracteres; origen wikipedia_plot_2026-11-12
+332356,Killing Jesus,2015,media,plot_corto,plot,186 caracteres; origen wikipedia_plot_2026-11-13
+348089,Grease Live,2016,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+352492,XOXO,2016,media,plot_corto,plot,147 caracteres; origen wikipedia_plot_2026-11-12
+363483,12 Gifts of Christmas,2015,media,plot_corto,plot,131 caracteres; origen wikipedia_plot_2026-11-12
+364708,All American Bikini Car Wash,2015,media,plot_corto,plot,199 caracteres; origen tmdb_overview
+390053,Crash Pad,2017,media,plot_corto,plot,187 caracteres; origen wikipedia_plot_2026-11-12
+394374,At the End of the Tunnel,2016,media,plot_corto,plot,132 caracteres; origen tmdb_overview
+396292,Ali Wong: Baby Cobra,2016,media,plot_corto,plot,177 caracteres; origen tmdb_overview
+425336,Loving Pablo,2017,media,plot_corto,plot,152 caracteres; origen wikipedia_plot_2026-11-12
+430161,The Lighthouse of the Orcas,2016,media,plot_corto,plot,145 caracteres; origen wikipedia_plot_2026-11-12
+431112,Awakening the Zodiac,2017,media,plot_corto,plot,93 caracteres; origen wikipedia_plot_2026-11-12
+436391,The Battleship Island,2017,media,plot_corto,plot,189 caracteres; origen wikipedia_plot_2026-11-12
+437081,The Fortress,2017,media,plot_corto,plot,149 caracteres; origen wikipedia_plot_2026-11-12
+441663,40 y 20,2016,media,plot_corto,plot,96 caracteres; origen tmdb_overview
+443700,Altitude,2017,media,plot_corto,plot,87 caracteres; origen tmdb_overview
+448432,The Convent,2018,media,plot_corto,plot,156 caracteres; origen wikipedia_plot_2026-11-13
+453362,Los perros,2017,media,plot_corto,plot,129 caracteres; origen tmdb_overview
+461992,Hostile,2018,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+466411,Speed Kills,2018,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+467433,A Question of Faith,2017,media,plot_corto,plot,191 caracteres; origen wikipedia_plot_2026-11-13
+470035,Spider-Man 2: Making the Amazing,2004,media,plot_corto,plot,121 caracteres; origen tmdb_overview
+470401,Abducted in Plain Sight,2018,media,plot_corto,plot,107 caracteres; origen tmdb_overview
+479240,The Robot Chicken Walking Dead Special: Look Who's Walking,2017,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+491599,Coffee House Chronicles: The Movie,2016,media,plot_corto,plot,128 caracteres; origen tmdb_overview
+494031,The Second Coming of Christ,2018,media,plot_corto,plot,104 caracteres; origen tmdb_overview
+508422,Penguin Highway,2018,media,plot_corto,plot,190 caracteres; origen tmdb_overview
+511243,The Wizard Hunter: The Hunt for Evangelion Crowley,2022,media,plot_corto,plot,181 caracteres; origen tmdb_overview
+513421,Discarnate,2019,media,plot_corto,plot,133 caracteres; origen tmdb_overview
+521647,Darc,2018,media,plot_corto,plot,140 caracteres; origen wikipedia_plot_2026-11-13
+526429,Made in Abyss: Wandering Twilight,2019,media,plot_corto,plot,170 caracteres; origen tmdb_overview
+533715,The Big Trip,2019,media,plot_corto,plot,199 caracteres; origen wikipedia_plot_2026-11-13
+543580,They Shall Not Grow Old,2018,media,plot_corto,plot,134 caracteres; origen tmdb_overview
+549559,Apollo 11,2019,media,plot_corto,plot,106 caracteres; origen tmdb_overview
+554596,No Manches Frida 2,2019,media,plot_corto,plot,122 caracteres; origen wikipedia_plot_2026-11-13
+586347,The Hard Way,2019,media,plot_corto,plot,154 caracteres; origen tmdb_overview
+586791,Little Fish,2021,media,plot_corto,plot,146 caracteres; origen wikipedia_plot_2026-11-13
+592656,Brothers by Blood,2021,media,plot_corto,plot,130 caracteres; origen wikipedia_plot_2026-11-13
+599399,After We Leave,2019,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+601434,Mayday Life,2019,media,plot_corto,plot,109 caracteres; origen tmdb_overview
+629277,What Happened to Mr Cha?,2021,media,plot_corto,plot,119 caracteres; origen wikipedia_plot_2026-11-13
+630709,If I Were a Rich Man,2019,media,plot_corto,plot,177 caracteres; origen wikipedia_plot_2026-11-13
+630894,Nostalgic Christmas,2019,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+631947,The Legend of La Llorona,2022,media,plot_corto,plot,106 caracteres; origen tmdb_overview
+634210,The Monkey King: The Legend Begins,2022,media,plot_corto,plot,180 caracteres; origen tmdb_overview
+662712,Flag Day,2021,media,plot_corto,plot,174 caracteres; origen wikipedia_plot_2026-11-12
+668297,The Last Avatar,2014,media,plot_corto,plot,94 caracteres; origen tmdb_overview
+673174,Offering to the Storm,2020,media,plot_corto,plot,120 caracteres; origen wikipedia_plot_2026-11-13
+680058,The Rescue,2021,media,plot_corto,plot,44 caracteres; origen wikipedia_plot_2026-11-13
+682344,All Hail,2022,media,plot_corto,plot,149 caracteres; origen wikipedia_plot_2026-11-13
+704264,Primal: Tales of Savagery,2019,media,plot_corto,plot,187 caracteres; origen tmdb_overview
+706972,Narco Sub,2021,media,plot_corto,plot,164 caracteres; origen tmdb_overview
+710871,Ghost Lab,2021,media,plot_corto,plot,137 caracteres; origen tmdb_overview
+717192,Ferry,2021,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+720026,Butchers,2020,media,plot_corto,plot,175 caracteres; origen wikipedia_plot_2026-11-13
+732472,The Amityville Harvest,2020,media,plot_corto,plot,72 caracteres; origen wikipedia_plot_2026-11-13
+734796,Don't Kill Me,2021,media,plot_corto,plot,146 caracteres; origen wikipedia_plot_2026-11-13
+735364,The Boss Baby: Get That Baby!,2020,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+740017,Avatar: Agni Kai,2020,media,plot_corto,plot,174 caracteres; origen tmdb_metadata_summary
+740952,Savage Salvation,2022,media,plot_corto,plot,156 caracteres; origen wikipedia_plot_2026-11-13
+741635,Stuck,2020,media,plot_corto,plot,97 caracteres; origen tmdb_overview
+741998,The Binding,2020,media,plot_corto,plot,141 caracteres; origen tmdb_overview
+746051,"A Godwink Christmas: Second Chance, First Love",2020,media,plot_corto,plot,194 caracteres; origen tmdb_overview
+747803,One Way,2022,media,plot_corto,plot,199 caracteres; origen wikipedia_plot_2026-11-13
+749618,Xico's Journey,2020,media,plot_corto,plot,168 caracteres; origen wikipedia_plot_2026-11-13
+766907,American Siege,2022,media,plot_corto,plot,100 caracteres; origen wikipedia_plot_2026-11-13
+766931,Born a Champion,2021,media,plot_corto,plot,184 caracteres; origen wikipedia_plot_2026-11-13
+767254,Blaze,2022,media,plot_corto,plot,198 caracteres; origen wikipedia_plot_2026-11-13
+772071,Cuando Sea Joven,2022,media,plot_corto,plot,102 caracteres; origen wikipedia_plot_2026-11-13
+783753,Wish You,2021,media,plot_corto,plot,131 caracteres; origen tmdb_overview
+792775,Cop Secret,2022,media,plot_corto,plot,192 caracteres; origen wikipedia_plot_2026-11-13
+793002,Dreamcatcher,2021,media,plot_corto,plot,188 caracteres; origen tmdb_overview
+796256,Offseason,2022,media,plot_corto,plot,135 caracteres; origen wikipedia_plot_2026-11-13
+799375,Stutz,2022,media,plot_corto,plot,187 caracteres; origen wikipedia_plot_2026-11-13
+800407,Dancing on Glass,2022,media,plot_corto,plot,155 caracteres; origen wikipedia_plot_2026-11-13
+805411,Descendants: The Royal Wedding,2021,media,plot_corto,plot,175 caracteres; origen tmdb_overview
+811592,One Shot,2021,media,plot_corto,plot,186 caracteres; origen wikipedia_plot_2026-11-13
+826113,Alone Together,2022,media,plot_corto,plot,111 caracteres; origen wikipedia_plot_2026-11-13
+844547,Taurus,2022,media,plot_corto,plot,68 caracteres; origen wikipedia_plot_2026-11-13
+847981,Black Island,2021,media,plot_corto,plot,139 caracteres; origen wikipedia_plot_2026-11-13
+862553,Bar Fight,2022,media,plot_corto,plot,127 caracteres; origen wikipedia_plot_2026-11-13
+864390,Mickey and Minnie Wish Upon a Christmas,2021,media,plot_corto,plot,174 caracteres; origen wikipedia_plot_2026-11-13
+876576,Go! Go! Cory Carson: Chrissy Takes the Wheel,2021,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+878962,Sharkdog’s Fintastic Halloween,2021,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+879957,Wyrmwood: Apocalypse,2022,media,plot_corto,plot,166 caracteres; origen tmdb_overview
+883987,Megan,2020,media,plot_corto,plot,73 caracteres; origen tmdb_overview
+889227,Railway Heroes,2021,media,plot_corto,plot,198 caracteres; origen tmdb_overview
+913868,The Princess,2022,media,plot_corto,plot,183 caracteres; origen wikipedia_plot_2026-11-13
+923632,The Tinder Swindler,2022,media,plot_corto,plot,165 caracteres; origen tmdb_overview
+926980,The Privilege,2022,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+928999,Desperate Riders,2022,media,plot_corto,plot,192 caracteres; origen wikipedia_plot_2026-11-13
+929449,"Mirror, Mirror",2022,media,plot_corto,plot,132 caracteres; origen wikipedia_plot_2026-11-13
+929472,Erax,2022,media,plot_corto,plot,149 caracteres; origen tmdb_overview
+949270,40 Years Young,2022,media,plot_corto,plot,169 caracteres; origen tmdb_overview
+968580,Gabriel's Inferno: Part IV,2022,media,plot_corto,plot,196 caracteres; origen tmdb_overview_translated:zh-CN
+985335,Girl at the Window,2022,media,plot_corto,plot,123 caracteres; origen wikipedia_plot_2026-11-13
+992187,Chip and Potato: Chip's Holiday,2022,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+992536,My Daughter's Killer,2022,media,plot_corto,plot,123 caracteres; origen tmdb_overview
+1000194,Bank Robbers: The Last Great Heist,2022,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+1000365,Cloudbusting,2022,media,plot_corto,plot,140 caracteres; origen tmdb_overview
+1005342,Running with the Devil: The Wild World of John McAfee,2022,media,plot_corto,plot,152 caracteres; origen tmdb_overview
+1006851,Office Invasion,2022,media,plot_corto,plot,111 caracteres; origen tmdb_overview
+1013577,"""Sr.""",2022,media,plot_corto,plot,78 caracteres; origen wikipedia_plot_2026-11-13
+1014550,Skandal! Bringing Down Wirecard,2022,media,plot_corto,plot,146 caracteres; origen tmdb_overview
+1017100,Saguaro,2022,media,plot_corto,plot,112 caracteres; origen tmdb_overview
+1024530,Grimcutty,2022,media,plot_corto,plot,196 caracteres; origen wikipedia_plot_2026-11-13
+1024535,Matriarch,2022,media,plot_corto,plot,118 caracteres; origen wikipedia_plot_2026-11-13
+1025169,The Trapped 13: How We Survived The Thai Cave,2022,media,plot_corto,plot,151 caracteres; origen tmdb_overview
+1026624,It's a Wonderful Binge,2022,media,plot_corto,plot,127 caracteres; origen wikipedia_plot_2026-11-13
+1028864,Fugitive: The Curious Case of Carlos Ghosn,2022,media,plot_corto,plot,150 caracteres; origen tmdb_overview
+1031353,Why We Vote,2022,media,plot_corto,plot,131 caracteres; origen tmdb_overview
+1032578,Aisle Be Home for Christmas,2022,media,plot_corto,plot,135 caracteres; origen tmdb_overview
+1034470,Barbie Epic Road Trip,2022,media,plot_corto,plot,131 caracteres; origen wikipedia_plot_2026-11-13
+1039026,Franco Escamilla: Eavesdropping,2022,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+1049702,Making 1899,2022,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+1050540,Tom Papa: What a Day!,2022,media,plot_corto,plot,134 caracteres; origen tmdb_overview
+1054513,Private Lesson,2022,media,plot_corto,plot,142 caracteres; origen tmdb_overview
+1056295,Dangerous Play,2022,media,plot_corto,plot,195 caracteres; origen tmdb_overview
+1059301,Guillermo del Toro's Pinocchio: Handcarved Cinema,2022,media,plot_corto,plot,153 caracteres; origen tmdb_overview
+69,Walk the Line,2005,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+11467,America's Sweethearts,2001,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+13051,Max Payne,2008,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+13576,This Is It,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+14771,The Onion Movie,2008,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+16907,Naruto: Ninja Clash in the Land of Snow,2004,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+20943,The Ugly Truth,2009,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+32823,Get Him to the Greek,2010,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+75900,My Week with Marilyn,2011,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+284296,Top Five,2014,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+297725,The Man Who Killed Don Quixote,2018,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+368304,LEGO Marvel Super Heroes: Avengers Reassembled!,2015,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+378674,DC Films Presents Dawn of the Justice League,2016,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+419680,Daddy's Home 2,2017,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+664168,Fat Ass Zombies,2020,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+773867,Seoul Vibe,2022,media,plot_reparto_no_coincide_revisar,plot,El plot nombra protagonistas que no están en cast (heurística)
+68555,Death Note Relight 2: L's Successors,2009,baja,coleccion_id_partido,belongs_to_collection,"Death Note Collection con id 1034193, distinto al resto de la saga"
+543583,Cinderella and the Secret Prince,2018,baja,coleccion_id_partido,belongs_to_collection,"Cinderella Collection con id 1308589, distinto al resto de la saga"
+22411,Shaolin Girl,2008,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.1 · user_score 5.6 · vote_count 13
+247849,Odnoklassniki.ru: The Magic Laptop,2013,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.474 · user_score 5.1 · vote_count 19
+287003,Avatar: Scene Deconstruction,2009,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.3 · user_score 6.5 · vote_count 10
+536628,Megan,2018,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.0 · user_score 2.0 · vote_count 4
+615777,Babylon,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.0 · user_score 7.3 · vote_count 1
+693853,Kinmoza the Movie: Thank You!!,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.5 · user_score 5.8 · vote_count 6
+696157,Whitney Houston: I Wanna Dance with Somebody,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 7.0 · vote_count 1
+737043,Swingers,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.5 · user_score 5.5 · vote_count 2
+740017,Avatar: Agni Kai,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.0 · user_score 5.8 · vote_count 1
+740952,Savage Salvation,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.4 · user_score 6.1 · vote_count 9
+744594,White Noise,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.75 · user_score 5.6 · vote_count 6
+747803,One Way,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.917 · user_score 5.7 · vote_count 42
+754452,The Last Manhunt,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.0 · user_score 5.8 · vote_count 12
+755433,The Monster at the End of This Story,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.0 · user_score 5.4 · vote_count 3
+796765,Bantú Mama,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 5.0 · vote_count 1
+798359,The Ravine,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.333 · user_score 5.2 · vote_count 3
+812025,The Silent Twins,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.327 · user_score 6.3 · vote_count 26
+813881,The Real Black Panther,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.0 · user_score 7.6 · vote_count 5
+814757,Empire of Light,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.3 · user_score 6.6 · vote_count 3
+822213,8 Years,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.0 · user_score 4.5 · vote_count 2
+843906,Straight Outta Nowhere: Scooby-Doo! Meets Courage the Cowardly Dog,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.004 · user_score 5.8 · vote_count 334
+844547,Taurus,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.0 · user_score 5.8 · vote_count 2
+845885,Dark Blood,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.5 · user_score 4.4 · vote_count 10
+848331,Honk for Jesus. Save Your Soul.,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.964 · user_score 4.6 · vote_count 14
+852485,She Will,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.821 · user_score 4.8 · vote_count 28
+852663,LEGO Monkie Kid: A Hero Is Born,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.8 · user_score 7.0 · vote_count 10
+861057,Swim,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.3 · user_score 5.0 · vote_count 41
+862553,Bar Fight,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.3 · user_score 6.2 · vote_count 18
+865686,Good Mourning,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.0 · user_score 4.5 · vote_count 20
+870518,Sanctuary,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 1.0 · user_score 6.1 · vote_count 1
+874705,Ash & Dust,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.0 · user_score 5.2 · vote_count 8
+877819,A Lot Like Christmas,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.25 · user_score 6.1 · vote_count 8
+878962,Sharkdog’s Fintastic Halloween,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.4 · user_score 5.2 · vote_count 5
+881487,The Visitor,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.3 · user_score 5.1 · vote_count 28
+883987,Megan,2020,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.5 · user_score 5.6 · vote_count 2
+888097,Slayers,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.031 · user_score 3.9 · vote_count 16
+888838,The Long Dark Trail,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.1 · user_score 3.8 · vote_count 7
+893712,Sword Art Online the Movie -Progressive- Scherzo of Deep Night,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.3 · user_score 7.7 · vote_count 11
+904039,Madagascar: A Little Wild Holiday Goose Chase,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.3 · user_score 6.5 · vote_count 6
+913740,Guardians of Time,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.85 · user_score 5.7 · vote_count 10
+918832,Curious George: Cape Ahoy,2021,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.3 · user_score 4.7 · vote_count 7
+926762,Living with Chucky,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.5 · user_score 6.6 · vote_count 4
+928358,Grand Jeté,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.5 · user_score 4.9 · vote_count 2
+933045,Russia's Wild Tiger,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.8 · user_score 7.0 · vote_count 5
+934957,The Darker the Lake,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.2 · user_score 5.6 · vote_count 5
+939336,The Wonderful Winter of Mickey Mouse,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.389 · user_score 6.7 · vote_count 9
+943533,Stalked by a Prince,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.0 · user_score 5.5 · vote_count 4
+961427,Spirit Halloween: The Movie,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.855 · user_score 5.6 · vote_count 31
+961707,Hawa,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.219 · user_score 6.1 · vote_count 16
+971511,Must Love Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.5 · user_score 5.8 · vote_count 2
+985932,Virgin Forest,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.0 · user_score 5.1 · vote_count 2
+987337,The Wonderful Summer of Mickey Mouse,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.1 · user_score 7.1 · vote_count 8
+989937,The Seven Deadly Sins: Grudge of Edinburgh Part 1,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 10.0 · user_score 7.7 · vote_count 1
+1003485,The Christmas Retreat,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.7 · user_score 6.3 · vote_count 3
+1003487,Single and Ready to Jingle,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.5 · user_score 6.2 · vote_count 2
+1008366,Six Degrees of Santa,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.071 · user_score 6.1 · vote_count 7
+1009921,Reclaim,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 7.0 · vote_count 1
+1014530,Ivy + Bean: Doomed to Dance,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.5 · user_score 6.5 · vote_count 4
+1018403,Tom and Jerry Snowman's Land,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.95 · user_score 6.8 · vote_count 20
+1023803,The Hip Hop Nutcracker,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.2 · user_score 5.2 · vote_count 10
+1025805,Burning Patience,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.2 · user_score 6.7 · vote_count 3
+1026624,It's a Wonderful Binge,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.8 · user_score 4.9 · vote_count 19
+1028248,As Good as Dead,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.214 · user_score 6.1 · vote_count 7
+1028544,Undercover Holiday,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.5 · user_score 6.2 · vote_count 5
+1028547,'Twas the Night Before Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 6.2 · vote_count 1
+1028851,Beauty and the Beast: A 30th Celebration,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.4 · user_score 6.9 · vote_count 10
+1029578,B&B Merry,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.5 · user_score 6.0 · vote_count 2
+1034337,The Lost Lotteries,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.5 · user_score 6.7 · vote_count 8
+1034470,Barbie Epic Road Trip,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.4 · user_score 6.4 · vote_count 7
+1035654,The Apology,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.889 · user_score 5.8 · vote_count 9
+1039571,I Heard the Bells,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 6.8 · vote_count 1
+1041580,The Elephant Whisperers,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 6.2 · user_score 7.3 · vote_count 5
+1043565,Mindcage,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 7.4 · user_score 5.9 · vote_count 19
+1047431,Prancer: A Christmas Tale,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.3 · user_score 6.5 · vote_count 3
+1049702,Making 1899,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 5.5 · user_score 6.9 · vote_count 9
+1050540,Tom Papa: What a Day!,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 7.0 · vote_count 1
+1051909,Reno 911!: It's a Wonderful Heist,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 4.25 · user_score 5.8 · vote_count 4
+1053419,A Not So Merry Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 6.7 · vote_count 1
+1054638,Pelosi in the House,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 3.8 · user_score 5.0 · vote_count 4
+1055206,The 12 Slays of Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 8.0 · user_score 4.8 · vote_count 1
+1057095,An Eclectic Christmas,2022,baja,puntuaciones_divergentes,user_score/vote_average,vote_average 2.0 · user_score 4.7 · vote_count 1

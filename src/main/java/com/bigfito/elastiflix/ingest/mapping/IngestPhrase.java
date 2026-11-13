@@ -143,7 +143,9 @@ public enum IngestPhrase {
     /** Advertencia: la sinopsis ya está en otra película del archivo. */
     DISTINCT_PLOT("una sinopsis distinta"),
     /** Advertencia: la sinopsis parece un ensayo de temas. */
-    NARRATIVE_PLOT("una sinopsis sin un ensayo de temas");
+    NARRATIVE_PLOT("una sinopsis sin un ensayo de temas"),
+    /** Advertencia: el texto se guardó sin espacios de más, sin espacio duro y en NFC. */
+    NORMALIZED_TEXT("el texto ya normalizado");
 
     private final String spanish;
     private final Pattern pattern;

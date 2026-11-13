@@ -44,6 +44,8 @@ class MovieDetailPageTest {
 
         assertThat(factValue(viewWithMoney.numbers(), "budget")).isEqualTo("160 000 000 USD");
         assertThat(factValue(viewWithMoney.numbers(), "revenue")).isEqualTo("825 532 764 USD");
+        assertThat(factLabel(viewWithMoney.numbers(), "user_score"))
+                .isEqualTo("Puntuación de usuarios (TMDB, octubre de 2026)");
 
         Movie movieZeroMoney = movieBuilder()
                 .budget(0.0)
@@ -284,6 +286,7 @@ class MovieDetailPageTest {
         assertThat(factLabel(view.facts(), "adult")).isEqualTo("Adult content");
         assertThat(factValue(view.facts(), "adult")).isEqualTo("No");
         assertThat(factLabel(view.numbers(), "budget")).isEqualTo("Budget");
+        assertThat(factLabel(view.numbers(), "user_score")).isEqualTo("User score (TMDB, October 2026)");
         assertThat(factLabel(view.production(), "production_companies")).isEqualTo("Production companies");
     }
 

@@ -12,7 +12,8 @@ la bitácora y en git, en la rama local `dq/ronda-4`.
 | Integrante | Papel | Qué hace en su turno |
 |---|---|---|
 | **Cursor** | Ejecutor | Ejecuta las tareas de su turno (roles DATOS, JAVA, EVAL o DOCS, según la tarea) |
-| *(antes)* Google Antigravity, GitHub Copilot (Kimi K3) y Gemma 4 E4B | Ejecutores hasta el turno 13a | Salieron del equipo (P-13, D-07); su trabajo está en la bitácora |
+| **Google Antigravity** (Gemini 4 Argon) | Ejecutor del turno 17 (P-20) | Igual que Cursor |
+| *(antes)* GitHub Copilot (Kimi K3) y Gemma 4 E4B | Ejecutores hasta el turno 13a | Salieron del equipo (P-13, D-07); su trabajo está en la bitácora |
 | **Claude Code** | Revisor y coordinador | Después de **cada** turno de ejecución: revisa todo lo que hizo el ejecutor, **corrige** lo que quedó mal, deja el tablero listo y da paso al siguiente. No toma tareas del plan |
 | **Dueña del proyecto** (humana) | Decide y aprueba | Contesta P-0, H-1, H-2 y D-xx; integra los hitos en `main`; da la orden de arrancar cada turno |
 
@@ -207,6 +208,7 @@ como carpeta, y envía el mensaje de la tabla.
 | Herramienta | Notas | Mensaje |
 |---|---|---|
 | *(antes)* **Gemma 4 E4B** | OpenCode (versión de escritorio), agente Build. Salió del equipo con D-07 | — |
+| **Google Antigravity** | Agent Manager con el worktree como workspace y Gemini 4 Argon como modelo. Si planea con sus propios artefactos, el plan oficial sigue siendo `PLAN.md` y el estado, `BITACORA.md`. Firma `Agente: Google Antigravity (Gemini 4 Argon)` | `Eres Google Antigravity, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Cursor** | Chat en modo Agent. Agrega `data-quality/` al contexto | `Eres Cursor, ejecutor del equipo de calidad. Lee data-quality/AGENTS.md y ejecuta tu turno según «Próximo paso» de data-quality/BITACORA.md.` |
 | **Claude Code** | `data-quality/CLAUDE.md` importa este archivo | `Eres Claude Code, revisor del equipo de calidad. Lee data-quality/AGENTS.md y haz la revisión del último turno según data-quality/BITACORA.md.` |
 

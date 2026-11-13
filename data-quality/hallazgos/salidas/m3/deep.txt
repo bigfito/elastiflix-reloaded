@@ -1,0 +1,433 @@
+
+## _id != id: 0
+
+## id no numérico: 0
+
+## id duplicado: 0
+
+## imdb_id con formato raro: 0
+
+## imdb_id compartido: 0
+
+## revenue vs colección
+   con colección y revenue null: 510 / 1934
+   sin colección y revenue null: 1424
+   con colección y revenue: 1424
+   enrichment.revenue values: [(None, 5895), ('tmdb_api_2026-10-22', 572), ('wikipedia_infobox', 346), ('wikidata', 64), ('wikipedia_infobox_fx:RUB:2020', 2), ('wikipedia_infobox_fx:INR:2018', 2), ('wikipedia_infobox_fx:EUR:2022', 2), ('wikipedia_infobox_fx:GBP:2000', 1)]
+
+## título+año duplicado: 3
+    (('the call', '2020'), ['575604', '746817'])
+    (('alone', '2020'), ['509635', '661950'])
+    (('the princess', '2022'), ['759175', '913868'])
+   títulos repetidos (cualquier año): 118
+
+## en: title != original_title: 26
+    ('1997 «Two Brothers» (2004)', 'Deux Frères')
+    ('9992 «Arthur and the Invisibles» (2006)', 'Arthur et les Minimoys')
+    ('10046 «Renegade» (2004)', 'Blueberry')
+    ('13002 «Barbie in The 12 Dancing Princesses» (2006)', 'Barbie in the 12 Dancing Princesses')
+    ('49852 «The Nutcracker: The Untold Story» (2010)', 'The Nutcracker in 3D')
+    ('42949 «Arthur 3: The War of the Two Worlds» (2010)', 'Arthur 3: la guerre des deux mondes')
+    ('32593 «Snow White: The Fairest of Them All» (2001)', 'Snow White')
+    ('133121 «Resident Evil: Damnation» (2012)', 'Biohazard: Damnation')
+    ('152742 «The Best Offer» (2013)', 'La migliore offerta')
+    ('475946 «Blade Runner: Black Out 2022» (2017)', 'ブレードランナー ブラックアウト 2022')
+    ('760873 «The Colony» (2021)', 'Tides')
+    ('780382 «The Wolf and the Lion» (2021)', 'Le Loup et le Lion')
+    ('631947 «The Legend of La Llorona» (2022)', 'La Llorona')
+    ('9503 «Pope Joan» (2009)', 'Die Päpstin')
+    ('13648 «Resident Evil: Degeneration» (2008)', 'Baiohazâdo: Dijenerêshon')
+    ('18767 «Island of Fire» (1990)', '火燒島')
+    ('17456 «BloodRayne 2: Deliverance» (2007)', 'BloodRayne II: Deliverance')
+    ('262543 «Automata» (2014)', 'Autómata')
+    ('270771 «The Last Survivors» (2014)', 'The Well')
+    ('368031 «Friend Request» (2016)', 'Unfriend')
+    ('573531 «Halo Legends» (2010)', 'Halo: Legends')
+    ('470114 «24 Hours to Live» (2017)', '24 Hours To Live')
+    ('505177 «10x10» (2018)', '10 x 10')
+    ('575322 «Project Gemini» (2022)', 'Звёздный разум')
+    ('854467 «Indemnity» (2022)', 'Bez winy')
+
+## doble espacio (por campo {'overview': 156, 'tagline': 13, 'cast': 18, 'keywords.name': 6, 'belongs_to_collection.name': 10, 'production_companies': 1, 'title': 2, 'original_title': 1}): 207
+    ('1246', 'overview', 'His Wife is dead and his Son hates him but this old man stil')
+    ('1833', 'overview', 'This rock opera tells the story of one year in the life of a')
+    ('435', 'overview', 'After years of increases in the greenhouse effect,  havoc is')
+    ('8285', 'overview', 'Down these mean streets a man must come.  A hero born, murde')
+    ('8681', 'tagline', "They took his daughter.  He'll take their lives.")
+    ('8836', 'overview', 'Six years after the events of The X-Files series finale, for')
+    ('4257', 'tagline', 'Bury the grudge. Burn the village.  See the saw.')
+    ('5559', 'cast', 'David  Moses Pimentel')
+
+## release_date: min 1902-04-17 max 2023-08-02
+   por década: [(1900, 1), (1920, 2), (1930, 2), (1940, 3), (1950, 9), (1960, 19), (1970, 42), (1980, 66), (1990, 128), (2000, 1926), (2010, 3176), (2020, 1525)]
+   status: Counter({'Released': 6899})
+
+## futuras: 0
+
+## Released con fecha futura: 0
+
+## no Released con fecha pasada: 0
+
+## fecha 01-01 (posible placeholder): 30
+    322 «Mystic River» (2003)
+    2269 «Day Watch» (2006)
+    13706 «Winnie the Pooh: A Very Merry Pooh Year» (2002)
+    14202 «The Painted Veil» (2006)
+    14784 «The Fall» (2006)
+
+## budget: n=4463 min=2000.0 p1=130178.0 p25=8000000.0 med=20000000.0 p75=48000000.0 p99=200000000.0 max=380000000.0
+   ceros: 0  negativos: 0  no enteros: 0
+
+## revenue: n=4965 min=618.0 p1=11563.0 p25=3769214.0 med=27365467.0 p75=97231420.0 p99=958400000.0 max=2920357254.0
+   ceros: 0  negativos: 0  no enteros: 2
+
+## runtime: n=6893 min=3 p1=19 p25=91 med=101 p75=114 p99=167 max=400
+   ceros: 0  negativos: 0  no enteros: 0
+
+## popularity: n=6899 min=6.466 p1=8.71 p25=14.609 med=19.94 p75=31.562 p99=332.949 max=5467.305
+   ceros: 0  negativos: 0  no enteros: 6888
+
+## vote_average: n=6894 min=1.0 p1=4.17 p25=5.972 med=6.539 p75=7.107 p99=8.3 max=10.0
+   ceros: 0  negativos: 0  no enteros: 6752
+
+## vote_count: n=6894 min=1 p1=5 p25=197 med=570 p75=1674 p99=15544 max=32774
+   ceros: 0  negativos: 0  no enteros: 0
+
+## user_score: n=6894 min=2.0 p1=4.3 p25=6.0 med=6.5 p75=7.1 p99=8.2 max=10.0
+   ceros: 0  negativos: 0  no enteros: 6214
+
+## budget < 1000 (¿en millones?): 0
+
+## revenue < 1000: 1
+    ('694919 «Money Plane» (2020)', 618.0)
+
+## budget >= 400M: 0
+
+## revenue >= 2.5B: 2
+    ('299534 «Avengers: Endgame» (2019)', 2797800564.0)
+    ('19995 «Avatar» (2009)', 2920357254.0)
+
+## revenue/budget > 500: 3
+    ('23827 «Paranormal Activity» (2007)', 215000.0, 194183034.0)
+    ('357940 «Mr. Six» (2015)', 250000.0, 139191345.0)
+    ('518764 «Animal World» (2018)', 125000.0, 69885700.0)
+
+## runtime < 40: 147
+    ('6418 «Hotel Chevalier» (2007)', 13)
+    ('7092 «Van Helsing: The London Assignment» (2004)', 30)
+    ('13934 «Mater and the Ghostlight» (2006)', 7)
+    ('10258 «The Madagascar Penguins in a Christmas Caper» (2005)', 11)
+    ('13061 «Your Friend the Rat» (2007)', 11)
+    ('13413 «BURN·E» (2008)', 8)
+    ('50393 «Kung Fu Panda Holiday» (2010)', 21)
+    ('15854 «Kung Fu Panda: Secrets of the Furious Five» (2008)', 25)
+    ('20722 «La Maison en Petits Cubes» (2008)', 12)
+    ('40170 «Mortal Kombat: Rebirth» (2010)', 8)
+    ("23998 «It's Christmastime Again, Charlie Brown» (1992)", 22)
+    ("24589 «Dug's Special Mission» (2009)", 5)
+    ('26809 «Prep & Landing» (2009)', 22)
+    ('28118 «The Gruffalo» (2009)', 27)
+    ('76122 «Marvel One-Shot: The Consultant» (2011)', 4)
+    ("79089 «Assassin's Creed: Embers» (2011)", 21)
+    ('81003 «Kung Fu Panda: Secrets of the Masters» (2011)', 24)
+    ('82424 «Small Fry» (2011)', 7)
+    ('86130 «Pixie Hollow Games» (2011)', 23)
+    ('53985 «Mutant Pumpkins from Outer Space» (2009)', 27)
+    ('57718 «Megamind: The Button of Doom» (2011)', 16)
+    ('64956 «Inception: The Cobol Job» (2010)', 15)
+    ('70608 «LEGO Star Wars: The Padawan Menace» (2011)', 22)
+    ('120475 «Dragon Ball: Episode of Bardock» (2011)', 20)
+    ('141528 «Time Travel Mater» (2012)', 7)
+    ('161143 «Madly Madagascar» (2013)', 22)
+    ('164052 «The Strange Thing About the Johnsons» (2011)', 30)
+    ('91417 «Dragons: Gift of the Night Fury» (2011)', 22)
+    ('286192 «Lava» (2014)', 7)
+    ('326359 «Frozen Fever» (2015)', 8)
+
+## runtime > 240: 2
+    ("791373 «Zack Snyder's Justice League» (2021)", 242)
+    ('222724 «Crystal Lake Memories: The Complete History of Friday the 13th» (2013)', 400)
+
+## vote_average fuera de 0-10: 0
+
+## user_score fuera de 0-100: 0
+
+## user_score - 10*vote_average (redondeado): [(-58, 374), (-56, 355), (-60, 347), (-62, 342), (-61, 341), (-57, 338), (-63, 331), (-55, 326), (-59, 312), (-64, 300)]
+
+## user_score vs vote_average incoherentes (>1 pt): 6894
+    ('791 «The Fog» (2005)', 4.487, 4.6)
+    ('806 «The Omen» (2006)', 5.557, 5.6)
+    ('808 «Shrek» (2001)', 7.705, 7.8)
+    ('823 «Jin-Roh: The Wolf Brigade» (1999)', 7.42, 7.4)
+    ('824 «Moulin Rouge!» (2001)', 7.598, 7.5)
+    ('830 «Forbidden Planet» (1956)', 7.29, 7.3)
+    ('834 «Underworld: Evolution» (2006)', 6.553, 6.6)
+    ('839 «Duel» (1971)', 7.404, 7.4)
+    ('844 «2046» (2004)', 7.204, 7.3)
+    ('846 «The X Files» (1998)', 6.833, 6.9)
+    ('847 «Willow» (1988)', 7.039, 7.0)
+    ('871 «Planet of the Apes» (1968)', 7.646, 7.7)
+    ('883 «Coffee and Cigarettes» (2003)', 7.005, 6.9)
+    ('887 «The Best Years of Our Lives» (1946)', 7.826, 7.7)
+    ('916 «Bullitt» (1968)', 7.155, 7.2)
+    ('920 «Cars» (2006)', 6.899, 7.1)
+    ('923 «Dawn of the Dead» (1978)', 7.49, 7.5)
+    ('924 «Dawn of the Dead» (2004)', 7.024, 7.1)
+    ('929 «Godzilla» (1998)', 5.6, 5.7)
+    ('953 «Madagascar» (2005)', 6.875, 6.9)
+
+## vote_count bajo (<10) con vote_average: 127
+    ('441663 «40 y 20» (2016)', 7, 9.333)
+    ('536628 «Megan» (2018)', 4, 6.0)
+    ('589759 «The Nutcracker and The Magic Flute» (2022)', 9, 6.7)
+    ('477449 «Overlord: The Dark Hero» (2017)', 8, 6.3)
+    ('507903 «Spoiler Alert» (2022)', 4, 6.25)
+    ('491599 «Coffee House Chronicles: The Movie» (2016)', 6, 4.75)
+    ('494031 «The Second Coming of Christ» (2018)', 4, 3.6)
+    ('391711 «Imagining Zootopia» (2016)', 9, 7.0)
+    ('740017 «Avatar: Agni Kai» (2020)', 1, 7.0)
+    ('740952 «Savage Salvation» (2022)', 9, 4.4)
+
+## nulls de votos: 5
+    ("751432 «Merlin's Apprentice» (2006)", None, None, None)
+    ('1000365 «Cloudbusting» (2022)', None, None, None)
+    ('1017100 «Saguaro» (2022)', None, None, None)
+    ('1031353 «Why We Vote» (2022)', None, None, None)
+    ('1059999 «Burnt by the Sun» (2022)', None, None, None)
+
+## adult: Counter({False: 6899})  video: Counter({False: 6899})
+
+## adult=true: 0
+
+## video=true: 0
+
+## rating: [('R', 2548), ('PG-13', 1772), ('PG', 938), (None, 715), ('NR', 455), ('G', 443), ('NC-17', 27), ('TV-PG', 1)]
+## original_language: 43 [('en', 5667), ('ja', 367), ('fr', 178), ('es', 167), ('ko', 89), ('zh', 73), ('it', 42), ('de', 41), ('ru', 38), ('hi', 30), ('cn', 27), ('da', 21), ('no', 19), ('sv', 18), ('th', 18), ('pt', 17), ('pl', 15), ('tr', 11), ('nl', 10), ('id', 8), ('fi', 6), ('ar', 5), ('fa', 4), ('te', 3), ('el', 2), ('uk', 2), ('kn', 2), ('is', 2), ('cs', 2), ('tl', 2), ('nb', 1), ('et', 1), ('vi', 1), ('gu', 1), ('mk', 1), ('bs', 1), ('hu', 1), ('km', 1), ('ka', 1), ('eu', 1)]
+
+## original_language no ISO-639-1: 0
+
+## genres: 19 valores
+    [('Drama', 2707), ('Comedy', 2114), ('Action', 1881), ('Thriller', 1855), ('Adventure', 1273), ('Animation', 1098), ('Family', 1086), ('Romance', 1038), ('Horror', 1028), ('Fantasy', 966), ('Science Fiction', 961), ('Crime', 850), ('Mystery', 616), ('History', 292), ('Music', 223), ('TV Movie', 221), ('War', 179), ('Documentary', 151), ('Western', 65)]
+    raros (<=2): []
+
+## spoken_languages: 68 valores
+    [('English', 5901), ('Español', 621), ('Français', 590), ('日本語', 516), ('Deutsch', 336), ('Italiano', 246), ('Русский', 214), ('普通话', 210), ('한국어/조선말', 125), ('Português', 112), ('العربية', 97), ('广州话 / 廣州話', 73), ('Latin', 64), ('svenska', 57), ('हिन्दी', 54), ('ภาษาไทย', 53), ('Polski', 50), ('Dansk', 41), ('Türkçe', 38), ('Norsk', 36), ('עִבְרִית', 33), ('Nederlands', 32), ('ελληνικά', 29), ('Magyar', 27), ('Český', 27), ('Tiếng Việt', 21), ('Bahasa indonesia', 19), ('Română', 18), ('فارسی', 17), ('suomi', 14), ('Gaeilge', 12), ('Srpski', 11), ('اردو', 11), ('Український', 11), ('Hrvatski', 11), ('Kiswahili', 11), ('No Language', 11), ('Íslenska', 10), ('Afrikaans', 7), ('ქართული', 6)]
+    raros (<=2): ['Slovenčina', 'Galego', 'Lietuvių', 'Wolof', 'isiZulu', 'বাংলা', 'Bahasa melayu', 'ಕನ್ನಡ', 'Gujarati', 'Macedonian', 'Malti', 'සිංහල', 'қазақ', 'Tagalog']
+
+## production_countries: 98 valores
+    [('United States of America', 5074), ('United Kingdom', 956), ('Canada', 559), ('France', 534), ('Japan', 459), ('Germany', 388), ('Spain', 191), ('China', 180), ('Australia', 155), ('Belgium', 128), ('Italy', 119), ('South Korea', 114), ('Hong Kong', 91), ('Mexico', 78), ('Ireland', 75), ('India', 73), ('Sweden', 73), ('Denmark', 62), ('Russia', 50), ('South Africa', 49), ('Netherlands', 45), ('Argentina', 37), ('Norway', 36), ('Switzerland', 35), ('New Zealand', 32), ('Brazil', 32), ('Thailand', 28), ('Poland', 28), ('Hungary', 27), ('Czech Republic', 26), ('Romania', 24), ('Luxembourg', 24), ('Finland', 20), ('Taiwan', 18), ('United Arab Emirates', 18), ('Chile', 18), ('Bulgaria', 16), ('Austria', 16), ('Turkey', 16), ('Greece', 13)]
+    raros (<=2): ['Algeria', 'Afghanistan', 'Vietnam', 'Namibia', 'Bahamas', 'Panama', 'Ghana', 'Myanmar', 'Cyprus', 'Guadaloupe', 'Iraq', 'Egypt', 'Albania', 'Guatemala', 'Paraguay', 'Dominican Republic', 'Kenya', 'Venezuela', 'Nigeria', 'Mauritius', 'Palestinian Territory', 'Slovenia', 'Bosnia and Herzegovina', 'Soviet Union', 'Macao', 'Jamaica', 'Czechoslovakia', 'Tunisia', 'Ethiopia', 'Jordan', 'Saudi Arabia', 'Uruguay', 'Kazakhstan', 'Malaysia', 'Malawi', 'Slovakia', 'Georgia', 'St. Kitts and Nevis']
+
+## production_companies: 8061 top [('Universal Pictures', 327), ('Warner Bros. Pictures', 308), ('Columbia Pictures', 232), ('Walt Disney Pictures', 201), ('Paramount', 199), ('20th Century Fox', 187), ('Lionsgate', 159), ('New Line Cinema', 139), ('Canal+', 133), ('Metro-Goldwyn-Mayer', 119)]
+
+## compañías casi iguales: 17
+    {'Parkes/MacDonald Productions', 'Parkes-MacDonald Productions'}
+    {'Apollo Media', 'ApolloMedia'}
+    {'LivePlanet', 'Liveplanet'}
+    {'CinéCinéma', 'Ciné Cinéma'}
+    {'Media Pro', 'Mediapro'}
+    {'Eclectic Pictures', 'Eclectic pictures'}
+    {'Rio Filme', 'Riofilme'}
+    {'Ciné@', 'Ciné+'}
+    {'Chinavision Media Group', 'China Vision Media Group'}
+    {'Le Vision Pictures', 'LeVision Pictures'}
+    {'Jorkwang Films', 'Jor Kwang Films'}
+    {'北京宝庆影业传媒有限公司', '星皓影业有限公司', '东阳坏猴子影视文化传播有限公司'}
+    {'Storyboard Media', 'StoryBoard Media'}
+    {'Hand Made Films', 'HandMade Films'}
+    {'Blue Light', 'BlueLight'}
+    {'Lazona Films', 'Lazonafilms'}
+    {'BUFO', 'Bufo'}
+
+## cast: personas 95050 top [('Frank Welker', 101), ('Fred Tatasciore', 87), ('Grey DeLisle', 84), ('Jeff Bennett', 72), ('Dee Bradley Baker', 69), ('Tara Strong', 68), ('Samuel L. Jackson', 65), ('Bruce Willis', 65)]
+   largo de cast: [(0, 16), (1, 31), (2, 21), (3, 25), (4, 42), (5, 80), (6, 106), (7, 137), (8, 136), (9, 183), (10, 231), (11, 233), (12, 243), (13, 241), (14, 262), (15, 332), (16, 301), (17, 269), (18, 238), (19, 234), (20, 245), (21, 204), (22, 202), (23, 177), (24, 176), (25, 126), (26, 137), (27, 104), (28, 131), (29, 109), (30, 96), (31, 105), (32, 92), (33, 96), (34, 61), (35, 78), (36, 68), (37, 60), (38, 61), (39, 60), (40, 47), (41, 53), (42, 42), (43, 55), (44, 48), (45, 44), (46, 44), (47, 41), (48, 29), (49, 32), (50, 35), (51, 29), (52, 27), (53, 33), (54, 32), (55, 26), (56, 25), (57, 29), (58, 21), (59, 23), (60, 18), (61, 16), (62, 25), (63, 17), (64, 17), (65, 17), (66, 17), (67, 13), (68, 12), (69, 7), (70, 11), (71, 10), (72, 8), (73, 9), (74, 12), (75, 6), (76, 7), (77, 8), (78, 8), (79, 9), (80, 7), (81, 10), (82, 6), (83, 11), (84, 6), (85, 8), (86, 7), (87, 6), (89, 5), (90, 4), (91, 2), (92, 2), (93, 6), (94, 1), (95, 3), (96, 7), (98, 5), (99, 5), (100, 4), (101, 2), (102, 4), (103, 1), (104, 2), (105, 3), (106, 3), (107, 2), (108, 1), (109, 1), (110, 1), (112, 2), (113, 4), (114, 3), (115, 3), (116, 1), (117, 1), (118, 1), (119, 1), (120, 1), (121, 1), (122, 2), (123, 3), (124, 1), (125, 1), (127, 1), (128, 4), (129, 1), (134, 1), (135, 1), (136, 3), (139, 1), (141, 1), (143, 2), (145, 1), (147, 2), (149, 1), (152, 1), (157, 1), (158, 1), (159, 1), (160, 1), (163, 1), (166, 1), (168, 1), (170, 1), (172, 1), (177, 1), (180, 1), (181, 1), (183, 1), (188, 1), (208, 2), (227, 1), (451, 1)]
+
+## nombres de reparto casi iguales: 130
+    {'Rade Serbedzija', 'Rade Šerbedžija'}
+    {'Tony Leung Chiu-wai', 'Tony Leung Chiu-Wai'}
+    {'Siu Ping-lam', 'Siu Ping-Lam'}
+    {'A.J. Benza', 'A. J. Benza'}
+    {'Mark Dealessandro', 'Mark De Alessandro'}
+    {'J. C. MacKenzie', 'J.C. MacKenzie'}
+    {'Ériq Ebouaney', 'Eriq Ebouaney'}
+    {'John MacDonald', 'John Macdonald'}
+    {'Clifton Collins Jr.', 'Clifton Collins Jr'}
+    {'Koji Yakusho', 'Kōji Yakusho'}
+    {'Zoe Saldana', 'Zoe Saldaña'}
+    {'Shiro Saito', 'Shirō Saitō'}
+    {'Cheng Pei-pei', 'Cheng Pei-Pei'}
+    {'Masaaki Ōkura', 'Masaaki Ôkura'}
+    {'J. LaRose', 'J. Larose'}
+    {'Yoji Tanaka', 'Yôji Tanaka'}
+    {'Émilie Gavois-Kahn', 'Emilie Gavois-Kahn'}
+    {'Héctor Elizondo', 'Hector Elizondo'}
+    {'Manuel Le Lièvre', 'Manuel Lelievre'}
+    {'Vlad Radescu', 'Vlad Rădescu'}
+
+## poster_path formato raro: 0
+
+## poster_path compartido: 0
+
+## backdrop_path formato raro: 0
+
+## backdrop_path compartido: 1
+    ('/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg', ['105 «Back to the Future» (1985)', '196 «Back to the Future Part III» (1990)', '165 «Back to the Future Part II» (1989)'])
+
+## poster == backdrop: 0
+
+## homepage no http(s): 0
+   homepage http:// (no https): 2905
+
+## homepage compartido: 45
+    ('http://www.naruto-movie.com/', 5)
+    ('http://www.paranormalmovie.com/', 4)
+    ('http://www.thehungergames.movie/', 4)
+    ('http://www.transformersmovie.com/', 3)
+    ('https://www.backtothefuture.com/', 3)
+    ('http://www.the-scorpion-king.com/', 3)
+    ('http://www.americanpiemovie.com/', 3)
+    ('http://www.kungfupanda.com', 3)
+    ('http://wwws.warnerbros.co.jp/rurouni-kenshin/index.html', 3)
+    ('https://www.halloweenmovie.com', 3)
+    ('http://kizumonogatari-usa.com/', 3)
+    ('http://miabyss.com', 3)
+    ('http://www.lordoftherings.net/', 2)
+    ('http://www.zoolander.com/', 2)
+    ('https://stepupmovie.com', 2)
+    ('http://www.takenmovie.com/', 2)
+    ('http://www.redclifffilm.com', 2)
+    ('http://www.thehobbit.com/', 2)
+    ('http://stepupmovie.com/', 2)
+    ('http://www.rugratsinparis.com/', 2)
+    ('http://www.neighbors-movie.com/', 2)
+    ('http://www.thelegomovie.com', 2)
+    ('http://www.kungfupanda.com/', 2)
+    ('http://disney.go.com/muppets/', 2)
+    ('http://www.riomovies.com/', 2)
+
+## tagline == title: 1
+    8922 «Jeepers Creepers» (2001)
+
+## tagline larga (>150): 7
+    ('1691 «Hostel: Part II» (2007)', 151)
+    ('1705 «Battle for the Planet of the Apes» (1973)', 167)
+    ('9966 «The Messengers» (2007)', 182)
+    ('480 «Monsoon Wedding» (2001)', 182)
+    ('4032 «My Girl» (1991)', 160)
+    ('9552 «The Exorcist» (1973)', 163)
+    ('31977 «Black» (2005)', 248)
+
+## tagline compartida: 40
+    ('Based on a true story.', 3)
+    ('Every second counts.', 3)
+    ('Everyone has a limit.', 2)
+    ('Inspired by a true story', 2)
+    ("You'll never know what bit you.", 2)
+    ('Inspect the unexpected.', 2)
+    ('You never forget your first love.', 2)
+    ('The most terrifying images are the ones that are real.', 2)
+    ('Show me the Monkey!', 2)
+    ('The hunt is on.', 2)
+    ('A hero must choose: the power of ideals... or the courage of truth?', 2)
+    ("It's time to face your demons.", 2)
+    ('A new game begins.', 2)
+    ('The end is near.', 2)
+    ('There are two sides to every story.', 2)
+    ('Escape is just the beginning.', 2)
+    ('Find your way home.', 2)
+    ('Be careful what you wish for', 2)
+    ('Fear will find you.', 2)
+    ('The legend begins', 2)
+    ('Be careful what you wish for.', 2)
+    ('Based on the inspirational true story.', 2)
+    ('Experience the magic.', 2)
+    ('No one survives alone.', 2)
+    ('Every adventure begins with a dream.', 2)
+
+## colecciones: 1039  películas con colección: 1934
+
+## colección id con varios nombres: 0
+
+## nombre de colección con varios id: 1
+    ('Cinderella Collection', {55419, 1308589})
+   claves de colección: Counter({('backdrop_path', 'id', 'name', 'poster_path'): 1934})
+   colecciones de 1 película: 503
+
+## colección sin "Collection" en el nombre: 45
+    Bad Cat Series
+    Baztan Trilogy
+    Bruna Surfistinha
+    Confession Executive Committee (Series)
+    Confidential Assignment
+    Crimes of the South
+    Dinosaur Hotel
+    Dreamworks' Pentateuch
+    Ely + Bea (Collezione)
+    F*ck De Liefde Collectie
+    Fallen
+    Fate/kaleid liner Prisma☆Illya
+    Final Fantasy Triple
+    Gates of Hell Trilogy
+    Goal!
+    Heaven's Lost Property
+    Jan Dara
+    John Singleton's Hood Trilogy
+    Kizumonogatari
+    L'ultimo bacio - Collezione
+
+## keywords: distintas 11762  asignaciones 53857  por película: [(0, 307), (1, 462), (2, 490), (3, 504), (4, 541)] ...max 67
+
+## keyword id con varios nombres: 11
+    (18165, {'animal', 'animals'})
+    (9799, {'romcom', 'romantic comedy'})
+    (310, {'artificial intelligence', 'artificial intelligence (a.i.)'})
+    (41406, {'middle ages', 'middle ages (476-1453)'})
+    (1253, {'roommate', 'roommates'})
+    (5968, {'amazon', 'amazon rainforest'})
+    (10789, {'prehistoric egg', 'prehistoric creature'})
+    (5265, {'spying', 'espionage'})
+    (169055, {'nba', 'national basketball association (nba)'})
+    (305459, {'christmastime', 'christmas time'})
+    (2299, {'violent father', 'abusive father'})
+
+## keyword nombre con varios id: 18
+    ('horror', {315058, 8087})
+    ('kids', {208349, 286758})
+    ('espionage', {5265, 11134})
+    ('prehistoric creature', {10789, 166958})
+    ('magical', {314893, 307222})
+    ('abusive father', {212642, 2299})
+    ('thriller', {316362, 9950})
+    ('amazon rainforest', {5968, 166103})
+    ('mystery', {316332, 10092})
+    ('3d', {286009, 314698})
+    ('comedy', {289153, 322268})
+    ('child detective', {252576, 380407})
+    ('teen romance', {265577, 368947})
+    ('archive footage', {154866, 298372})
+    ('crime', {323114, 295684})
+   claves keyword: Counter({('id', 'name'): 53857})
+
+## enrichment: claves [('plot', 6899), ('user_score', 6894), ('homepage', 1527), ('revenue', 1004), ('budget', 714), ('tagline', 433), ('keywords', 315), ('rating', 271), ('belongs_to_collection', 169), ('production_companies', 93), ('production_countries', 70), ('vote_average', 57), ('vote_count', 57), ('runtime', 29), ('backdrop_path', 27), ('imdb_id', 16), ('spoken_languages', 15), ('cast', 7), ('poster_path', 4), ('genres', 3), ('overview', 2)]
+   backdrop_path: [('tmdb_api_2026-10-22', 27)]
+   belongs_to_collection: [('tmdb_api_2026-10-22', 169)]
+   budget: [('tmdb_api_2026-10-22', 373), ('wikipedia_infobox', 198), ('wikidata', 63), ('wikipedia_infobox_range_midpoint', 15), ('wikipedia_infobox_fx:EUR:2021', 4), ('wikipedia_infobox_fx:GBP:2014', 3), ('wikipedia_infobox_fx:EUR:2022', 3), ('wikipedia_infobox_fx:EUR:2003', 2)]
+   cast: [('tmdb_api_2026-10-22', 7)]
+   genres: [('tmdb_api_2026-10-22', 3)]
+   homepage: [('wikidata', 1293), ('tmdb_api_2026-10-22', 234)]
+   imdb_id: [('tmdb_api_2026-10-22', 16)]
+   keywords: [('tmdb_api_2026-10-22', 315)]
+   overview: [('tmdb_api_2026-10-22', 2)]
+   plot: [('wikipedia_plot_2026-11-12', 3635), ('wikipedia_plot_2026-11-13', 1768), ('tmdb_overview', 1065), ('unverified', 429), ('tmdb_metadata_summary', 1), ('tmdb_overview_translated:zh-CN', 1)]
+   poster_path: [('tmdb_api_2026-10-22', 4)]
+   production_companies: [('tmdb_api_2026-10-22', 86), ('wikidata', 7)]
+   production_countries: [('tmdb_api_2026-10-22', 59), ('wikidata', 11)]
+   rating: [('tmdb_api_2026-10-22', 240), ('wikidata', 31)]
+   revenue: [('tmdb_api_2026-10-22', 572), ('wikipedia_infobox', 346), ('wikidata', 64), ('wikipedia_infobox_fx:RUB:2020', 2), ('wikipedia_infobox_fx:INR:2018', 2), ('wikipedia_infobox_fx:EUR:2022', 2), ('wikipedia_infobox_fx:GBP:2000', 1), ('wikipedia_infobox_fx:GBP:2009', 1)]
+   runtime: [('tmdb_api_2026-10-22', 29)]
+   spoken_languages: [('tmdb_api_2026-10-22', 15)]
+   tagline: [('tmdb_api_2026-10-22', 433)]
+   user_score: [('tmdb_api_2026-10-22', 6886), ('tmdb_api_fallback_doc_vote_average', 8)]
+   vote_average: [('tmdb_api_2026-10-22', 57)]
+   vote_count: [('tmdb_api_2026-10-22', 57)]
+   etiqueta de procedencia sobre un campo vacío: []
