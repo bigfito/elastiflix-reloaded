@@ -49,7 +49,7 @@ El turno 19 vuelve a ser uno solo: se había partido en 19a y 19b solo para un m
 | 12 · 13a | Gemma 4 E4B | WP-05, lotes `029`–`047`; los cerraron R-12 y R-13a, que terminó WP-05 (`lote-049` y `050`; D-07) | — | — |
 | 13b | Cursor | WP-03 T-03 (integración en `dq/ronda-4`) y WP-06 T-01 y T-02 | Mediano | — |
 | 14 | Cursor | WP-06 T-02b y T-03 (**M2**) y WP-07 parte A | Mediano | — · **hito B** en su revisión |
-| 15 | Cursor | WP-07 parte B (`EFX-ING-029` en Java) | Grande | — |
+| 15 | Cursor | WP-07 parte A (no llegó a hacerse en el 14; D-08) y parte B (`EFX-ING-029` en Java) | Grande | — |
 | 16 | Cursor | WP-08 completo | Mediano | — |
 | 17 | Cursor | WP-09 completo | Mediano | **D-02** (aprobada) |
 | 18 | Cursor | WP-10 completo | Mediano | **D-03** y **D-04** (aprobadas) |
@@ -233,6 +233,11 @@ leer la trama nueva completa.
 
 **Criterio de parada en M1.** Si alguna métrica `knn_*` o `rrf_plot_*` baja más de **0.05** de nDCG@10 frente a M0,
 se detiene el plan y se abre un bloqueo para la dueña del proyecto. Una subida no detiene nada.
+
+**Desde M2 (D-08).** El criterio aplica a `knn_*` y a la búsqueda por defecto, `rrf_title_knn*`, frente a la medición
+anterior. `bm25_plot` y `rrf_plot_*` se miden y se informan, pero no detienen el plan: sus consultas de evaluación
+usan el vocabulario de las sinopsis generadas que este plan quita, y bajan cuando se reemplazan por tramas de
+Wikipedia (R-14).
 
 ---
 
@@ -444,8 +449,8 @@ valores «por defecto» de la tabla son solo la recomendación para la dueña de
 |---|---|---|
 | T-01 · M3 | Integrar WP-03 y WP-10 en `dq/ronda-4`. Levantar staging **compilado desde `dq/ronda-4`** (para que la normalización de WP-07 y el mapping de WP-10 apliquen) y hacer una recarga completa: bulk `_01`, append `_02`…`_07`. Harness | Tabla M3; línea «Staging» con el commit de la app y de `data/` |
 | T-02 · Informe v2 | `ELASTIFLIX_INDEX_ALIAS=elastiflix-dq-staging python data-quality/scripts/analizar.py --etiqueta m3` e `informe/informe-calidad-v2.html` con antes (`salidas/m0/`) y después (`salidas/m3/`) por hallazgo | Informe v2 en el repo; indicadores de la bitácora completos |
-| T-03 · Pruebas | `./mvnw verify -Pit` contra staging; actualizar conteos y posiciones medidas (`FullTextSearchIT`, `VectorSearchIT`, `HomePageTest`, sugerencias de Inicio) y `eval/thresholds.json`: **mínimo = medición − 0.05, redondeado hacia abajo a 2 decimales**, como hoy (0.742 → 0.69) | `./mvnw verify -Pit` en verde contra staging |
-| T-04 · Documentación | Tablas de precisión de `README.md` y `README.en.md`, «Acerca de» (`messages_es/en.properties`), `eval/README.md` y tamaños de `data/README.md` | Claude Code confirma que toda cifra citada coincide con M3 |
+| T-03 · Pruebas | `./mvnw verify -Pit` contra staging (desde D-08 se espera que `bm25_plot` y `rrf_plot_*` fallen sus umbrales viejos hasta recalcularlos aquí); actualizar conteos y posiciones medidas (`FullTextSearchIT`, `VectorSearchIT`, `HomePageTest`, sugerencias de Inicio) y `eval/thresholds.json`: **mínimo = medición − 0.05, redondeado hacia abajo a 2 decimales**, como hoy (0.742 → 0.69) | `./mvnw verify -Pit` en verde contra staging |
+| T-04 · Documentación | Tablas de precisión de `README.md` y `README.en.md`, con una nota de por qué `bm25_plot` y `rrf_plot_*` bajan (D-08, R-14); «Acerca de» (`messages_es/en.properties`), `eval/README.md` y tamaños de `data/README.md` | Claude Code confirma que toda cifra citada coincide con M3 |
 | T-05 · Hito C | Borrador del resumen del hito C en el diario del plan; Claude Code lo cierra en R-20. La dueña del proyecto integra `dq/ronda-4` en `main` y decide cuándo hace push. El cambio de alias de T-07 no depende del despliegue, pero los cambios visibles (por ejemplo, el rótulo de WP-09) solo llegan a la demo cuando ella despliega | `dq/ronda-4` integrada en `main` |
 | T-06 · **H-2** | Pedir a la dueña del proyecto la aprobación con: resumen M0 → M3; el método (cambio atómico de alias, sin ventana con el catálogo a medias); la vuelta atrás (`publicar.py --revertir`); y que el índice anterior se guarda 7 días | Fila H-2 en APROBADA con fecha y el texto literal de la respuesta |
 | T-07 · Publicar | `python data-quality/scripts/publicar.py`; luego harness sobre producción (alias por defecto) | Producción = M3 (±0.02). Si no, `publicar.py --revertir` y bloqueo |
