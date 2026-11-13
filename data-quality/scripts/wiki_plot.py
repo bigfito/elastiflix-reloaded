@@ -111,6 +111,8 @@ class Pagina(NamedTuple):
     # Si el título pedido es una redirección a una sección de otro artículo («Jarhead 2: Field of Fire» →
     # «Jarhead (film)#Sequels»), el nombre de esa sección: la película no tiene artículo propio (R-11).
     seccion: str | None = None
+    # True si el título pedido redirige a otro artículo (R-13a).
+    redirigida: bool = False
 
 
 def _exigir(condicion: bool, mensaje: str) -> None:
@@ -297,7 +299,7 @@ def _pagina_desde_respuesta(cuerpo: dict[str, Any]) -> Pagina | None:
         raise RuntimeError(f"El artículo {pagina.get('title')!r} no trajo revid; no se puede atribuir (NS-5).")
     redirecciones = cuerpo.get("query", {}).get("redirects") or []
     seccion = next((str(r["tofragment"]) for r in redirecciones if r.get("tofragment")), None)
-    return Pagina(str(pagina["title"]), str(pagina.get("extract") or ""), int(revisiones[0]["revid"]), seccion)
+    return Pagina(str(pagina["title"]), str(pagina.get("extract") or ""), int(revisiones[0]["revid"]), seccion, bool(redirecciones))
 
 
 def pagina(titulo: str) -> Pagina | None:
@@ -576,13 +578,20 @@ def es_articulo_de_obra_no_filmica(extracto: str) -> bool:
     return bool(_NO_PELICULA.search(primera)) and not _PELICULA.search(primera)
 
 
-def trama(articulo: str) -> Trama | None:
-    """`(texto, revid, titulo)` de la sección de trama, o `None` si no hay una usable."""
+def trama(articulo: str, anio: int | None = None) -> Trama | None:
+    """`(texto, revid, titulo)` de la sección de trama, o `None` si no hay una usable.
+
+    Con `anio`, una redirección a otro artículo solo se acepta si el año de ese artículo cabe en ±1 (R-13a: *Prancer: A
+    Christmas Tale*, de 2022, redirige a «Prancer (film)», la película de 1989).
+    """
     pag = pagina(articulo)
     if pag is None:
         return None
     if pag.seccion:
         print(f"{articulo}: redirige a la sección «{pag.seccion}» de {pag.titulo}; la película no tiene artículo propio", file=sys.stderr)
+        return None
+    if anio is not None and pag.redirigida and not _anio_compatible(pag.titulo, pag.extracto, anio):
+        print(f"{articulo}: redirige a {pag.titulo}, cuyo año no coincide ±1 con {anio}; es otra obra", file=sys.stderr)
         return None
     if es_articulo_de_obra_no_filmica(pag.extracto):
         print(f"{pag.titulo}: el artículo es de una serie, un videojuego o un manga, no de la película", file=sys.stderr)
@@ -664,6 +673,7 @@ def comprobar_texto() -> None:
     _exigir(_pagina_desde_respuesta(redireccion).seccion == "Sequels", "Una redirección a una sección debe notarse")
     directa = {"query": {"pages": {"1": {"pageid": 1, "title": "Jarhead (film)", "extract": "", "revisions": [{"revid": 7}]}}}}
     _exigir(_pagina_desde_respuesta(directa).seccion is None, "Un artículo pedido por su nombre no es una redirección")
+    _exigir(not _pagina_desde_respuesta(directa).redirigida and _pagina_desde_respuesta(redireccion).redirigida, "redirigida marca las redirecciones")
     for articulo, pelicula, esperado in (
         ("Barbie Dolphin Magic", "Barbie & Her Sisters in a Puppy Chase", False),
         ("Joker (The Dark Knight)", "Batman Unmasked: The Psychology of the Dark Knight", False),

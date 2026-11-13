@@ -281,7 +281,7 @@ def proponer(
     for doc_id in elegidos:
         doc = docs[doc_id]
         titulo = articulos.get(doc_id)
-        resultado = wiki_plot.trama(titulo) if titulo else None
+        resultado = wiki_plot.trama(titulo, wiki_plot._anio(doc)) if titulo else None
         if resultado is not None and usados.get(resultado.titulo, doc_id) != doc_id:
             detalles[doc_id] = f"el artículo {resultado.titulo} ya es la fuente de {usados[resultado.titulo]}"
             print(f"{doc_id}: {detalles[doc_id]}; no se repite", file=sys.stderr)
