@@ -29,7 +29,7 @@ Etiquetas: `dq-t<NN>` al cerrar el turno y `dq-r<NN>` al cerrar su revisión. `d
 | 09 | GitHub Copilot | WP-04 | REVISADO | 2026-11-12 | `dq-t09` | [R-09](bitacora/R-09.md) |
 | 10 | Google Antigravity | WP-05 T-01 y lotes `001`–`009` (se detuvo por B-03) | REVISADO | 2026-11-12 | `dq-t10` | [R-10](bitacora/R-10.md) |
 | 11 | Cursor | WP-05: lotes `011`–`025` y limpieza de todas las omitidas (`026`–`027`; P-11) | REVISADO | 2026-11-12 | `dq-t11` | [R-11](bitacora/R-11.md) |
-| 12 | Gemma 4 E4B | WP-05: 14 lotes de 100 desde el `029`, limpieza de sus omitidas y T-03 (P-11, P-13) | PENDIENTE | — | — | — |
+| 12 | Gemma 4 E4B | WP-05: 14 lotes de 100 desde el `029`, limpieza de sus omitidas y T-03 (P-11, P-13) | EN CURSO · Gemma 4 E4B (Fecha actual) | — | — | — |
 | 13a | Gemma 4 E4B | Cierre de WP-05: lo que quede, T-03b, T-06 (D-06) y T-05 | PENDIENTE | — | — | — |
 | 13b | Gemma 4 E4B | WP-03 T-03 (integración) y WP-06 T-01 y T-02 | PENDIENTE | — | — | — |
 | 14 | Cursor | WP-06 T-03 (M2) y WP-07 parte A · hito B | PENDIENTE | — | — | — |
