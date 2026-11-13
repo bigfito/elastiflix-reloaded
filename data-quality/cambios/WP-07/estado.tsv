@@ -267,7 +267,7 @@ id	lote	resultado	motivo
 535167	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
 546121	001	aplicado	higiene mecánica: strip, NFC, U+00A0 y &amp;
 547016	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
-564147	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
+564147	001	corregido	corrección R-15: «ಕನ್ನಡ» había quedado sin el virama (U+0CCD) en lote-001 (lote-002)
 574060	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
 574982	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
 575322	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
@@ -277,7 +277,7 @@ id	lote	resultado	motivo
 579831	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
 581389	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
 585257	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
-587412	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
+587412	001	corregido	corrección R-15: «ಕನ್ನಡ» había quedado sin el virama (U+0CCD) en lote-001 (lote-002)
 589754	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
 589759	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
 589761	001	aplicado	higiene mecánica: idioma (Р, ಕನ್ನಡ o No Language)
