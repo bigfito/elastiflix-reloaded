@@ -13280,7 +13280,7 @@
     "Donald DeNoyer"
    ],
    "belongs_to_collection": null,
-   "budget": 568443.0,
+   "budget": 586443.0,
    "revenue": 618.0,
    "popularity": 13.896,
    "vote_average": 5.775,
@@ -13301,7 +13301,7 @@
     "English"
    ],
    "enrichment": {
-    "budget": "tmdb_api_2026-10-22",
+    "budget": "wikipedia_infobox",
     "keywords": "tmdb_api_2026-10-22",
     "plot": "wikipedia_plot_2026-11-13",
     "revenue": "wikipedia_infobox",
