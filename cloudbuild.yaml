@@ -99,6 +99,37 @@ steps:
         done
     waitFor: ['deploy-east1', 'deploy-west1']
 
+  # La política de limpieza de Artifact Registry solo corre una vez al día. Después de borrar las revisiones,
+  # este paso deja en cada repositorio solo la imagen de este commit y la de las revisiones con tráfico.
+  # También es de mejor esfuerzo: sin esas imágenes identificadas no borra nada.
+  - id: cleanup-images
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        for entry in "${_EAST}|prod-elastiflix-east1|us-east1" "${_WEST}|prod-elastiflix-west1|us-west1"; do
+          IFS='|' read -r image service region <<< "$$entry"
+          keep=$$(gcloud artifacts docker images describe "$$image:${SHORT_SHA}" \
+            --format='value(image_summary.digest)')
+          for revision in $$(gcloud run services describe "$$service" --region="$$region" \
+            --format='value(status.traffic[].revisionName)' | tr ';,' '  '); do
+            used=$$(gcloud run revisions describe "$$revision" --region="$$region" \
+              --format='value(spec.containers[0].image)')
+            keep="$$keep $${used##*@}"
+          done
+          case "$$keep" in *sha256:*) ;; *)
+            echo "Aviso: no se identificó la imagen en uso en $$image; no se borra ninguna"
+            continue ;;
+          esac
+          for digest in $$(gcloud artifacts docker images list "$$image" --format='value(version)'); do
+            case " $$keep " in *" $$digest "*) continue ;; esac
+            gcloud artifacts docker images delete "$$image@$$digest" --delete-tags --quiet \
+              || echo "Aviso: no se pudo borrar $$image@$$digest"
+          done
+        done
+    waitFor: ['cleanup-revisions']
+
 options:
   logging: CLOUD_LOGGING_ONLY
   dynamicSubstitutions: true
